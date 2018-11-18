@@ -9,6 +9,7 @@
         <link rel="stylesheet" type="text/css" href="${basePath}/css/pages.css"/>
         <script type="text/javascript" src="${basePath}/js/jquery-1.9.1.js"></script>
         <script type="text/javascript" src="${basePath}/js/register/newregister.js"></script>
+        <script type="text/javascript" src="${basePath}/js/default.js"></script>
         <style type="text/css">
              /*须加的样式*/
              .n_row .n_text {
@@ -194,7 +195,7 @@
                  <#--</ul>-->
              </div>
          </div>
-        <script type="text/javascript" src="../../js/default.js"></script>
+
         <script type="text/javascript">
 
             $(".n_text").each(function () {
