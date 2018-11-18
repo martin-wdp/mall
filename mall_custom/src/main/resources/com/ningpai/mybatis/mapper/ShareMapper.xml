@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ningpai.comment.dao.ShareMapper">
+	<resultMap id="BaseResultMap" type="com.ningpai.comment.bean.Share">
+		<id column="share_id" jdbcType="BIGINT" property="shareId" />
+		<result column="customer_id" jdbcType="BIGINT" property="customerId" />
+		<result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+		<result column="comment_id" jdbcType="BIGINT" property="commentId" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="is_display" jdbcType="CHAR" property="isDisplay" />
+		<result column="share_title" jdbcType="VARCHAR" property="shareTitle" />
+		<result column="share_content" jdbcType="VARCHAR" property="shareContent" />
+		<collection property="imageList" column="share_id" javaType="ArrayList" ofType="com.ningpai.comment.bean.ShareImg" select="com.ningpai.comment.dao.ShareImgMapper.queryImgsByShareId"></collection>
+	</resultMap>
+	<resultMap id="shareVo" type="com.ningpai.comment.vo.ShareVo" extends="BaseResultMap">
+		<result column="customer_nickname" jdbcType="VARCHAR" property="customerName" />
+		<result column="customer_img" jdbcType="VARCHAR" property="customerHead" />
+        <result column="goods_info_img_id" jdbcType="VARCHAR" property="goodsImg" />
+		<collection property="imageList" column="share_id" javaType="ArrayList" ofType="com.ningpai.comment.bean.ShareImg" select="com.ningpai.comment.dao.ShareImgMapper.queryImgsByShareId"></collection>
+	</resultMap>
+	<resultMap id="shareVonew" type="com.ningpai.comment.vo.ShareVo" extends="BaseResultMap">
+		<result column="customer_nickname" jdbcType="VARCHAR" property="customerName" />
+		<result column="customer_img" jdbcType="VARCHAR" property="customerHead" />
+		<association property="good" column="goods_id" select="selectGoodsInfoById"></association>
+		<collection property="imageList" column="share_id" javaType="ArrayList" ofType="com.ningpai.comment.bean.ShareImg" select="com.ningpai.comment.dao.ShareImgMapper.queryImgsByShareId"></collection>
+		<collection property="replies" column="share_id" javaType="ArrayList" ofType="com.ningpai.comment.vo.ShareReplyVo" select="com.ningpai.comment.dao.ShareReplyMapper.queryReplyByShareId"></collection>
+	</resultMap>
+	<resultMap id="shareVoboss" type="com.ningpai.comment.vo.ShareVo">
+		<id column="share_id" jdbcType="BIGINT" property="shareId" />
+		<result column="customer_id" jdbcType="BIGINT" property="customerId" />
+		<result column="customer_nickname" jdbcType="VARCHAR" property="customerName" />
+		<result column="goods_info_name" jdbcType="VARCHAR" property="goodsName" />
+		<result column="goods_info_img_id" jdbcType="VARCHAR" property="goodsImg" />
+		<result column="goods_score" jdbcType="VARCHAR" property="goodsScore" />
+		<result column="goods_info_id" jdbcType="BIGINT" property="goodsId" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="is_display" jdbcType="CHAR" property="isDisplay" />
+		<result column="share_title" jdbcType="VARCHAR" property="shareTitle" />
+		<result column="share_content" jdbcType="VARCHAR" property="shareContent" />
+		<!-- 
+		<collection property="imageList" column="share_id" javaType="ArrayList" ofType="com.ningpai.comment.bean.ShareImg" select="com.ningpai.comment.dao.ShareImgMapper.queryImgsByShareId"></collection>
+		<collection property="replies" column="share_id" javaType="ArrayList" ofType="com.ningpai.comment.vo.ShareReplyVo" select="com.ningpai.comment.dao.ShareReplyMapper.queryReplyByShareId"></collection>
+		 -->
+	</resultMap>
+	<resultMap id="shareVobossone" type="com.ningpai.comment.vo.ShareVo">
+		<id column="share_id" jdbcType="BIGINT" property="shareId" />
+		<result column="customer_id" jdbcType="BIGINT" property="customerId" />
+		<result column="customer_nickname" jdbcType="VARCHAR" property="customerName" />
+		<result column="goods_info_name" jdbcType="VARCHAR" property="goodsName" />
+		<result column="goods_info_img_id" jdbcType="VARCHAR" property="goodsImg" />
+		<result column="goods_score" jdbcType="VARCHAR" property="goodsScore" />
+		<result column="goods_info_id" jdbcType="BIGINT" property="goodsId" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="is_display" jdbcType="CHAR" property="isDisplay" />
+		<result column="share_title" jdbcType="VARCHAR" property="shareTitle" />
+		<result column="share_content" jdbcType="VARCHAR" property="shareContent" />
+		<collection property="imageList" column="share_id" javaType="ArrayList" ofType="com.ningpai.comment.bean.ShareImg" select="com.ningpai.comment.dao.ShareImgMapper.queryImgsByShareId"></collection>
+<!-- 		<collection property="replies" column="share_id" javaType="ArrayList" ofType="com.ningpai.comment.vo.ShareReplyVo" select="com.ningpai.comment.dao.ShareReplyMapper.queryReplyByShareId"></collection> -->
+	</resultMap>
+	
+	 <resultMap type="com.ningpai.other.bean.GoodsBean" id="goodsMap">
+	  	<result column="goods_info_name"  property="goodsName" jdbcType="VARCHAR"/>
+	 	<result column="goods_info_prefer_price"  property="goodsPrice" jdbcType="DECIMAL"/>
+	 	<result column="goods_score"  property="goodsScore" jdbcType="DECIMAL"/>
+	 	<result column="goods_info_img_id"  property="goodsImg" jdbcType="VARCHAR"/>
+	 	<result column="goods_info_stock"  property="goodStock" jdbcType="BIGINT"/>
+	 	<result column="comment_count"  property="commentCount" jdbcType="BIGINT"/>
+	 	<result column="consult_count"  property="consultCount" jdbcType="BIGINT"/>
+	 	<result column="cate_id"  property="cateId" jdbcType="BIGINT"/>
+	 	<result column="goods_info_market_price"  property="goodsMarketPrice" jdbcType="VARCHAR"/>
+	  </resultMap>
+	<sql id="Base_Column_List">
+		c.share_id, c.customer_id, c.comment_id, c.create_time,
+		c.is_display,
+		c.share_content ,share_title,c.goods_id
+	</sql>
+	
+	 <sql id="sGoodsSql">
+	  	g.goods_info_name,g.goods_info_prefer_price,g.goods_info_img_id,goods_info_market_price,g.goods_info_stock,
+		(SELECT count(c.del_flag)  from np_comment c where c.del_flag ='0' and c.is_consult = '0' and c.goods_id= g.goods_info_id and c.is_display = '1') as comment_count,
+		(SELECT count(c.del_flag) from np_comment c where c.del_flag = '0' and c.is_consult ='1' and c.goods_id= g.goods_info_id and c.is_display = '1') as consult_count,
+		(SELECT ROUND(AVG(c.comment_score)) from np_comment c where c.goods_id = g.goods_info_id and c.del_flag = '0' and c.is_consult ='0') as goods_score,
+		(SELECT cat_id from np_goods where goods_id = (select gi.goods_id from np_goods_info gi  where gi.goods_info_id = g.goods_info_id)) cate_id
+	  </sql>
+
+	<sql id="Max_Column_List">
+		<include refid="Base_Column_List" />
+		,
+		(select customer_nickname from np_customer where
+		customer_id=c.customer_id)
+		customer_nickname,
+		(select customer_img from
+		np_customer where customer_id=c.customer_id)
+		customer_img
+	</sql>
+	
+	 <select id="selectGoodsInfoById" resultMap="goodsMap" parameterType="java.lang.Long" >
+	  	select 
+	  	<include refid="sGoodsSql"/>
+	  	from np_goods_info g
+	  	where goods_info_id =#{goodsId,jdbcType=BIGINT}
+	   </select>
+
+	<!-- 添加晒单 -->
+	<insert id="insertShare" parameterType="com.ningpai.comment.bean.Share">
+		insert into np_share
+		(customer_id,create_time,share_content,share_title,goods_id,order_goods_id)
+		values
+		(#{customerId,jdbcType=BIGINT},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{shareContent,jdbcType=VARCHAR},
+		#{shareTitle,jdbcType=VARCHAR},
+		#{goodsId,jdbcType=BIGINT},
+        #{orderGoodsId,jdbcType=BIGINT})
+		<selectKey keyProperty="shareId" resultType="java.lang.Long">
+			select
+			LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	<!-- 添加晒单图片 -->
+	<insert id="insertShareImg" parameterType="com.ningpai.comment.bean.ShareImg">
+		insert into
+		np_share_img
+		(share_id,image_name)
+		values
+		(#{shareId,jdbcType=BIGINT},#{imageName,jdbcType=VARCHAR})
+	</insert>
+	<!-- 晒单完成后，把标记位改为“已晒单-1，把晒单Id塞进去” -->
+	<update id="updateShareIdByOrderGoodsId" parameterType="java.util.Map">
+		update
+		np_order_goods
+		set share_id=#{shareId,jdbcType=BIGINT},share_flag='1'
+		where order_goods_id=#{orderGoodsId,jdbcType=BIGINT}
+	</update>
+	<!-- 按评论个数查询前N个晒单 -->
+	<select id="selectTopShare" resultMap="shareVo" parameterType="java.lang.Integer">
+		select
+		<include refid="Max_Column_List" />,g.goods_info_img_id
+		from np_share c
+        LEFT JOIN np_goods_info g
+        on c.goods_id=g.goods_info_id
+		where c.is_display = '2'  and del_flag = '0'
+		ORDER BY c.create_time desc
+		limit 0,#{size}
+	</select>
+
+	<!-- 	根据主键查询晒单信息 -->
+	<select id="selectShareById" resultMap="shareVonew" parameterType="java.lang.Long">
+		select
+		<include refid="Max_Column_List" />
+		from np_share c
+		where c.share_id=#{shareId,jdbcType=BIGINT}
+	</select>
+	
+	
+	<!-- 查询晒单数量  -->
+	<select id="selectAllShareCount"  resultType="java.lang.Long" parameterType="com.ningpai.comment.vo.ShareVo" >
+		select 
+		count(1)
+		from np_share c
+		inner join np_goods_info i
+		inner join np_customer a
+		where c.del_flag = '0' and a.customer_id =
+		c.customer_id and i.goods_info_id = c.goods_id and
+		<if test="goodsName != null and goodsName !=''">
+			i.goods_info_name like CONCAT(CONCAT('%', #{goodsName}),'%') and
+		</if>
+		<if test="customerName != null and customerName !=''">
+			a.customer_nickname like CONCAT(CONCAT('%', #{customerName}),'%')
+			and
+		</if>
+		<if test="isDisplay != null and isDisplay !=''">
+			c.is_display = #{isDisplay} and
+		</if>
+		<if
+			test="createTime != null and createTime !='' and createTimeTo != null and createTimeTo !=''">
+			c.create_time between #{createTime} and #{createTimeTo} and
+		</if>
+		<if
+			test="createTime != null and createTime !='' and createTimeTo == null or createTimeTo == ''">
+			c.create_time &gt; #{createTime} and
+		</if>
+		<if
+			test="createTimeTo != null and createTimeTo !='' and createTime == null or createTime ==''">
+			c.create_time &lt; #{createTimeTo} and
+		</if>
+		1=1
+	</select>
+	
+	<!-- 查询晒单集合  -->
+	<select id="selectAllShare" resultMap="shareVoboss" parameterType="java.util.Map" >
+		select
+		c.share_id,
+		i.goods_info_name,
+		i.goods_info_id,
+		i.goods_info_img_id,
+		c.create_time,
+		c.is_display,
+		c.share_content,
+		c.share_title,
+		(SELECT ifnull(ROUND(AVG(c.comment_score)),0) from np_comment c where c.goods_id = i.goods_info_id and c.del_flag = '0') as goods_score,
+		a.customer_nickname
+		from np_share c
+		inner join np_goods_info i
+		inner join np_customer a
+		where c.del_flag = '0' and a.customer_id = c.customer_id and i.goods_info_id = c.goods_id and
+		<if test="share.goodsName != null and share.goodsName !=''">
+			i.goods_info_name like CONCAT(CONCAT('%', #{share.goodsName}),'%') and
+		</if>
+		<if test="share.customerName != null and share.customerName !=''">
+			a.customer_nickname like CONCAT(CONCAT('%', #{share.customerName}),'%')
+			and
+		</if>
+		<if test="share.isDisplay != null and share.isDisplay !=''">
+			c.is_display = #{share.isDisplay} and
+		</if>
+		<if
+			test="share.createTime != null and share.createTime !='' and share.createTimeTo != null and share.createTimeTo !=''">
+			c.create_time between #{share.createTime} and #{share.createTimeTo} and
+		</if>
+		<if
+			test="share.createTime != null and share.createTime !='' and share.createTimeTo == null or share.createTimeTo ==''">
+			c.create_time &gt; #{share.createTime} and
+		</if>
+		<if
+			test="share.createTimeTo != null and share.createTimeTo !='' and share.createTime == null or share.createTime ==''">
+			c.create_time &lt; #{share.createTimeTo} and
+		</if>
+		1=1
+		order by c.create_time desc
+		limit
+		#{startRowNum,jdbcType=BIGINT},#{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询晒单 boss  -->
+	<select id="selectShareByShareIdboss" resultMap="shareVobossone" parameterType="java.lang.Long" >
+		select
+		c.share_id,
+		i.goods_info_name,
+		i.goods_info_id,
+		i.goods_info_img_id,
+		c.create_time,
+		c.is_display,
+		c.share_content,
+		c.share_title,
+		c.customer_id,
+		(SELECT ifnull(ROUND(AVG(c.comment_score)),0) from np_comment c where c.goods_id = i.goods_info_id and c.del_flag = '0') as goods_score,
+		a.customer_nickname
+		from np_share c
+		inner join np_goods_info i
+		inner join np_customer a
+		where c.del_flag = '0' and a.customer_id = c.customer_id and i.goods_info_id = c.goods_id and c.share_id = #{shareId}
+	</select>
+	<!-- 更改显示状态 -->
+	<update id="updateShare" parameterType="com.ningpai.comment.bean.Share" >
+		update np_share
+		set is_display = #{isDisplay}
+		where share_id = #{shareId}
+	</update>
+	<!-- 显示到首页 -->
+	<update id="updateShareToIndex" parameterType="java.util.Map" >
+		update np_share
+		set is_display = #{isDisplay,jdbcType=CHAR}
+		where share_id in 
+		<foreach item="item" index="index" collection="parameterValues" open="(" separator="," close=")">
+	           #{item}
+	    </foreach>
+	</update>
+	
+	<!-- 按条件删除 -->
+   <update id="deleteShareByBids" parameterType="java.util.Map">
+		update np_share
+		set del_flag = '1'
+		where share_id in 
+		<foreach item="item" index="index" collection="parameterValues" open="(" separator="," close=")">
+	           #{item}
+	    </foreach>
+   </update>
+   <!-- 查询当前首页显示的条数 -->
+   <select id="queryIndexShareCount" resultType="java.lang.Long" >
+	  	select
+	  	count(1)
+	  	from np_share 
+	  	where is_display = '2' and del_flag = '0'
+   </select>
+  
+</mapper>

@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.CouponNoMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.coupon.bean.CouponNo" >
+    <id column="code_id" property="codeId" jdbcType="BIGINT" />
+    <result column="coupon_id" property="couponId" jdbcType="BIGINT" />
+    <result column="code_no" property="codeNo" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="code_status" property="codeStatus" jdbcType="CHAR" />
+    <result column="code_get_type" property="codeGetType" jdbcType="CHAR" />
+    <result column="code_get_time" property="codeGetTime" jdbcType="TIMESTAMP" />
+    <result column="code_use_order_id" property="codeUseOrderId" jdbcType="VARCHAR" />
+    <result column="customer_username" property="customerName" jdbcType="VARCHAR" />
+    <result column="is_coupon_get" property="isCouponGet" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    code_id, coupon_id, code_no, customer_id, code_status, code_get_type, code_get_time, 
+    code_use_order_id,is_coupon_get
+  </sql>
+  
+  
+  
+  
+    <select id="selectReadyGet" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select count(1)
+    from np_coupon_no
+    where coupon_id = #{couponId,jdbcType=BIGINT}  and customer_id = #{customerId,jdbcType=BIGINT}
+  	</select>
+  	
+  	<!-- 根据优惠券ID查询已经被领取过的优惠券个数 -->
+  	<select id="queryUsedCountByCouponId" resultType="java.lang.Long" parameterType="java.lang.Long">
+  		select count(1) from np_coupon_no where code_status='1' and coupon_id=#{couponId,jdbcType=BIGINT}  		
+  	</select>
+  	
+  <select id="selectNoByCouponId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+	code_id, coupon_id, code_no, couno.customer_id, code_status, code_get_type, code_get_time, 
+    code_use_order_id,cu.customer_username
+    from np_coupon_no couno left join  np_customer cu on  couno.customer_id=cu.customer_id
+    where coupon_id = #{couponId,jdbcType=BIGINT}
+  </select>
+  <!-- 分页查询劵码 -->
+  <select id="selectNoListByCouponId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+	code_id, coupon_id, code_no, couno.customer_id, code_status, code_get_type, code_get_time, 
+    code_use_order_id,cu.customer_username
+    from np_coupon_no couno left join  np_customer cu on  couno.customer_id=cu.customer_id
+    where coupon_id = #{couponId,jdbcType=BIGINT}
+    <if test="codeNo!=null and codeNo != '' ">
+     	and code_no=#{code_no}
+    </if>
+    <if test="codeStatus !=null and codeStatus != '' ">
+     	and code_status=#{codeStatus}
+    </if>
+     LIMIT #{start},#{end}
+  </select>
+  <!-- 分页查询总数-->
+  <select id="selectNoCountByCouponId" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select count(1) from np_coupon_no couno 
+    where coupon_id = #{couponId,jdbcType=BIGINT}
+    <if test="codeNo!=null and codeNo != '' ">
+     	and code_no=#{code_no}
+    </if>
+    <if test="codeStatus !=null and codeStatus != '' ">
+     	and code_status=#{codeStatus}
+    </if>
+  </select>
+  
+  <select id="selectNoByCouponIdByStatus" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+	select  code_id, coupon_id, code_no, customer_id, code_status, code_get_type, code_get_time, 
+	    code_use_order_id
+	from np_coupon_no
+	    where coupon_id = #{couponId,jdbcType=BIGINT}
+	     and code_status='0'
+	ORDER BY rand() LIMIT 1 
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_coupon_no
+    where code_id = #{codeId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_coupon_no
+    where code_id = #{codeId,jdbcType=BIGINT}
+  </delete>
+  
+ <!-- 批量添加优惠券码号 -->
+   <insert id="createCouponNo" parameterType="java.util.List" >
+    insert into np_coupon_no (code_id, coupon_id, code_no, 
+      customer_id, code_status, code_get_type, 
+      code_get_time, code_use_order_id)
+    values 
+    <foreach collection="list" separator="," item="couponNos" index="index" >  
+          (#{couponNos.codeId,jdbcType=BIGINT}, #{couponNos.couponId,jdbcType=BIGINT}, #{couponNos.codeNo,jdbcType=VARCHAR}, 
+      #{couponNos.customerId,jdbcType=BIGINT}, #{couponNos.codeStatus,jdbcType=CHAR}, #{couponNos.codeGetType,jdbcType=CHAR}, 
+      #{couponNos.codeGetTime,jdbcType=TIMESTAMP}, #{couponNos.codeUseOrderId,jdbcType=VARCHAR})
+     </foreach>  
+  </insert>
+  <insert id="insert" parameterType="com.ningpai.coupon.bean.CouponNo" >
+    insert into np_coupon_no (code_id, coupon_id, code_no, 
+      customer_id, code_status, code_get_type, 
+      code_get_time, code_use_order_id)
+    values (#{codeId,jdbcType=BIGINT}, #{couponId,jdbcType=BIGINT}, #{codeNo,jdbcType=VARCHAR}, 
+      #{customerId,jdbcType=BIGINT}, #{codeStatus,jdbcType=CHAR}, #{codeGetType,jdbcType=CHAR}, 
+      #{codeGetTime,jdbcType=TIMESTAMP}, #{codeUseOrderId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.coupon.bean.CouponNo" >
+    insert into np_coupon_no
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="codeId != null" >
+        code_id,
+      </if>
+      <if test="couponId != null" >
+        coupon_id,
+      </if>
+      <if test="codeNo != null" >
+        code_no,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="codeStatus != null" >
+        code_status,
+      </if>
+      <if test="codeGetType != null" >
+        code_get_type,
+      </if>
+      <if test="codeGetTime != null" >
+        code_get_time,
+      </if>
+      <if test="codeUseOrderId != null" >
+        code_use_order_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="codeId != null" >
+        #{codeId,jdbcType=BIGINT},
+      </if>
+      <if test="couponId != null" >
+        #{couponId,jdbcType=BIGINT},
+      </if>
+      <if test="codeNo != null" >
+        #{codeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="codeStatus != null" >
+        #{codeStatus,jdbcType=CHAR},
+      </if>
+      <if test="codeGetType != null" >
+        #{codeGetType,jdbcType=CHAR},
+      </if>
+      <if test="codeGetTime != null" >
+        #{codeGetTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="codeUseOrderId != null" >
+        #{codeUseOrderId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.coupon.bean.CouponNo" >
+    update np_coupon_no
+    <set >
+      <if test="couponId != null" >
+        coupon_id = #{couponId,jdbcType=BIGINT},
+      </if>
+      <if test="codeNo != null" >
+        code_no = #{codeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="codeStatus != null" >
+        code_status = #{codeStatus,jdbcType=CHAR},
+      </if>
+      <if test="codeGetType != null" >
+        code_get_type = #{codeGetType,jdbcType=CHAR},
+      </if>
+      <if test="codeGetTime != null" >
+        code_get_time = #{codeGetTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="codeUseOrderId != null" >
+        code_use_order_id = #{codeUseOrderId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where code_id = #{codeId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.coupon.bean.CouponNo" >
+    update np_coupon_no
+    set coupon_id = #{couponId,jdbcType=BIGINT},
+      code_no = #{codeNo,jdbcType=VARCHAR},
+      customer_id = #{customerId,jdbcType=BIGINT},
+      code_status = #{codeStatus,jdbcType=CHAR},
+      code_get_type = #{codeGetType,jdbcType=CHAR},
+      code_get_time = #{codeGetTime,jdbcType=TIMESTAMP},
+      code_use_order_id = #{codeUseOrderId,jdbcType=VARCHAR}
+    where code_id = #{codeId,jdbcType=BIGINT}
+  </update>
+  
+   <!-- 作废所有优惠券券码 --> <!-- 3 作废 -->
+    <update id="delCouponNo" parameterType="java.lang.Long" >
+    update np_coupon_no
+    set  code_status = '3' 
+    where coupon_id = #{couponId,jdbcType=BIGINT}
+  </update>
+  
+  
+  
+  
+     <!-- 2 已经使用-->
+    <update id="updateCodeIsUse" parameterType="java.lang.Long" >
+    update np_coupon_no
+    set  code_status = '2'
+    	,     code_use_order_id = #{codeUseOrderId,jdbcType=VARCHAR}
+    where code_no = #{codeNo,jdbcType=VARCHAR}
+  </update>
+
+  <update id="backCouponNo" parameterType="java.lang.String">
+     update np_coupon_no
+      set 
+      code_status = '1'  ,code_get_time=now()
+     where code_no =#{codeNo}
+  </update>
+   
+   
+   	<!-- 修改卷码为已经领取-->
+     <update id="updateNoIsGet" parameterType="com.ningpai.coupon.bean.CouponNo" >
+    update np_coupon_no
+    set 
+  	  customer_id = #{customerId,jdbcType=BIGINT},
+      code_status = '1'
+    
+    where code_id = #{codeId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 修改优惠劵状态 -->
+  <update id="modifyNoStatus" parameterType="com.ningpai.coupon.bean.CouponNo">
+  	 update np_coupon_no
+     set 
+    	  code_status = #{codeStatus}
+    where code_no = #{codeNo}
+  </update>
+  
+  <!-- 优惠劵赠送 -->
+  <update id="giveCusCoupon" parameterType="com.ningpai.coupon.bean.CouponNo">
+  	update np_coupon_no
+  	set
+  	 customer_id = #{customerId,jdbcType=BIGINT},code_get_time=NOW()
+  	 where code_no=#{codeNo}
+  </update>
+ 
+   
+   <!-- 作废所有优惠券券码 --> <!-- 3 作废 -->
+    <update id="delAllCouponNo" parameterType="java.util.List" >
+    update np_coupon_no
+    set  code_status = '3' 
+    where coupon_id in
+      <foreach collection="list" item="couponId" open="(" separator="," close=")">
+       #{couponId,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  
+  <update id="changeCouponGetAndStatus" parameterType="java.lang.Long">
+  	update np_coupon_no 
+  	set code_status = '1'
+  	where code_id = #{codeId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="getCouponGetNoByCouponId" parameterType="java.lang.Long" resultType="java.lang.Integer">
+  	select count(1) from np_coupon_no where code_status = '1' and coupon_id = #{couponId,jdbcType=BIGINT}
+  </select>
+  
+  <update id="updateCouponCustomer" parameterType="java.util.Map">
+  	update np_coupon_no set customer_id = #{customerId,jdbcType=BIGINT},code_status = '1',code_get_time=sysdate()  where   code_id = #{codeId,jdbcType=BIGINT}
+  
+  </update>
+  
+  <select id="selectCountAllByCouponId" parameterType="java.lang.Long" resultType="java.lang.Integer">
+  	select count(1) from np_coupon_no where coupon_id = #{couponId,jdbcType=BIGINT}
+  </select>
+
+    <select id="selectCouponNoByStatus" parameterType="java.lang.Long" resultType="java.lang.Integer">
+        select count(1) from np_coupon_no where code_status = '0' and coupon_id = #{couponId,jdbcType=BIGINT}
+    </select>
+    
+    <!-- 分页查询劵码 -->
+  <select id="newselectNoListByCouponId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+	code_id, coupon_id, code_no, couno.customer_id, code_status, code_get_type, code_get_time, 
+    code_use_order_id,cu.customer_username
+    from np_coupon_no couno left join  np_customer cu on  couno.customer_id=cu.customer_id
+    where coupon_id = #{couponId,jdbcType=BIGINT}
+    <if test="codeNo!=null and codeNo != '' ">
+     	and code_no=#{code_no}
+    </if>
+    <if test="codeStatus !=null and codeStatus != '' ">
+     	and code_status=#{codeStatus}
+    </if>
+  </select>
+</mapper>

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.goods.dao.GoodsTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsType" >
+    <id column="type_id" property="typeId" jdbcType="BIGINT" />
+    <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+    <result column="type_nickname" property="typeNickname" jdbcType="VARCHAR" />
+    <result column="type_isreal" property="typeIsreal" jdbcType="CHAR" />
+    <result column="type_img" property="typeImg" jdbcType="VARCHAR"/>
+    <result column="type_delflag" property="typeDelflag" jdbcType="CHAR" />
+    <result column="type_create_name" property="typeCreateName" jdbcType="VARCHAR" />
+    <result column="type_create_time" property="typeCreateTime" jdbcType="TIMESTAMP" />
+    <result column="type_modified_name" property="typeModifiedName" jdbcType="VARCHAR" />
+    <result column="type_modified_time" property="typeModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="type_del_name" property="typeDelName" jdbcType="VARCHAR" />
+    <result column="type_del_time" property="typeDelTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap type="com.ningpai.goods.vo.GoodsTypeVo" id="VoResultMap">
+  	<id column="type_id" property="typeId" jdbcType="BIGINT" />
+  	<result column="type_name" property="typeName" jdbcType="VARCHAR" />
+    <result column="type_nickname" property="typeNickname" jdbcType="VARCHAR" />
+    <result column="type_isreal" property="typeIsreal" jdbcType="CHAR" />
+    <result column="type_img" property="typeImg" jdbcType="VARCHAR"/>
+    <!-- 关联的品牌Vo的集合 -->
+    <collection property="brands" column="type_id" javaType="ArrayList" ofType="com.ningpai.goods.vo.GoodsTypeBrandVo"
+    select="com.ningpai.goods.dao.GoodsTypeBrandMapper.queryAllTypeBrand"></collection>
+    <!-- 关联的扩展参数Vo的集合 -->
+    <collection property="expandParams" column="type_id" javaType="ArrayList" ofType="com.ningpai.goods.vo.GoodsTypeExpandParamVo"
+    select="com.ningpai.goods.dao.GoodsTypeExpandParamMapper.queryAllExpandParam"></collection>
+    <!-- 关联的规格VO集合 -->
+    <collection property="specVos" column="type_id" javaType="ArrayList" ofType="com.ningpai.goods.vo.GoodsTypeSpecVo"
+    select="com.ningpai.goods.dao.GoodsTypeSpecMapper.queryTypeSpecBytypeId"></collection>
+   	<!-- 关联的详细参数的集合 -->
+    <collection property="params" column="type_id" javaType="ArrayList" ofType="GoodsTypeParam"
+    select="com.ningpai.goods.dao.GoodsTypeParamMapper.queryTypeParamByTypeId"></collection>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    type_id, type_name, type_nickname, type_isreal,type_img, type_delflag, type_create_name, type_create_time, type_modified_name, 
+    type_modified_time, type_del_name, type_del_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="VoResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_goods_type
+    where type_id = #{typeId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.util.Map" >
+    update np_goods_type set type_delflag='1',type_del_name=#{delName},type_del_time=NOW()
+    where type_id = #{typeId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective" parameterType="com.ningpai.goods.bean.GoodsType" >
+    insert into np_goods_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="typeId != null" >
+        type_id,
+      </if>
+      <if test="typeName != null" >
+        type_name,
+      </if>
+      <if test="typeNickname != null" >
+        type_nickname,
+      </if>
+      <if test="typeIsreal != null" >
+        type_isreal,
+      </if>
+      <if test="typeImg!=null">
+      		type_img,
+      </if>
+      <if test="typeDelflag != null" >
+        type_delflag,
+      </if>
+      <if test="typeCreateName != null" >
+        type_create_name,
+      </if>
+      <if test="typeCreateTime != null" >
+        type_create_time,
+      </if>
+      <if test="typeModifiedName != null" >
+        type_modified_name,
+      </if>
+      <if test="typeModifiedTime != null" >
+        type_modified_time,
+      </if>
+      <if test="typeDelName != null" >
+        type_del_name,
+      </if>
+      <if test="typeDelTime != null" >
+        type_del_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="typeId != null" >
+        #{typeId,jdbcType=BIGINT},
+      </if>
+      <if test="typeName != null" >
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeNickname != null" >
+        #{typeNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="typeIsreal != null" >
+        #{typeIsreal,jdbcType=CHAR},
+      </if>
+      <if test="typeImg!=null">
+      	#{typeImg,jdbcType=VARCHAR},
+      </if>
+      <if test="typeDelflag != null" >
+        #{typeDelflag,jdbcType=CHAR},
+      </if>
+      <if test="typeCreateName != null" >
+        #{typeCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeCreateTime != null" >
+        #{typeCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="typeModifiedName != null" >
+        #{typeModifiedName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeModifiedTime != null" >
+        #{typeModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="typeDelName != null" >
+        #{typeDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeDelTime != null" >
+        #{typeDelTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.goods.bean.GoodsType" >
+    update np_goods_type
+    <set >
+      <if test="typeName != null" >
+        type_name = #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeNickname != null" >
+        type_nickname = #{typeNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="typeIsreal != null" >
+        type_isreal = #{typeIsreal,jdbcType=CHAR},
+      </if>
+      <if test="typeImg != null" >
+        type_img = #{typeImg,jdbcType=VARCHAR},
+      </if>
+      <if test="typeDelflag != null" >
+        type_delflag = #{typeDelflag,jdbcType=CHAR},
+      </if>
+      <if test="typeCreateName != null" >
+        type_create_name = #{typeCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeCreateTime != null" >
+        type_create_time = #{typeCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="typeModifiedName != null" >
+        type_modified_name = #{typeModifiedName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeModifiedTime != null" >
+        type_modified_time = #{typeModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="typeDelName != null" >
+        type_del_name = #{typeDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeDelTime != null" >
+        type_del_time = #{typeDelTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where type_id = #{typeId,jdbcType=BIGINT}
+  </update>
+  <!-- 根据分页参数查询类型列表 -->
+  <select id="selectAllType" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select 
+  		<include refid="Base_Column_List"/>
+  	from np_goods_type where type_delflag='0'
+  	limit #{startRowNum},#{endRowNum}
+  </select>
+  <!-- 查询所有的条数 -->
+  <select id="queryTotalCount" resultType="java.lang.Integer">
+  	select count(1) from np_goods_type where type_delflag='0'
+  </select>
+  <!-- 查询最新插入的主键ID -->
+   <select id="selectLastId"  resultType="java.lang.Long">
+    	select LAST_INSERT_ID()
+   </select>
+   <!-- 根据商品分类ID查询商品类型VO -->
+   <select id="queryTypeVoByCatId" parameterType="java.lang.Long" resultMap="VoResultMap">
+   	 select 
+    <include refid="Base_Column_List" />
+    from np_goods_type
+    where type_id = (select type_id from np_goods_category where cat_id=#{catId})
+   </select>
+   
+   
+   <select id="searchTotalCount" resultType="java.lang.Integer"  parameterType="com.ningpai.goods.util.SelectBean">
+  	select count(1) from np_goods_type where 
+  		type_delflag='0'
+  		<if test="condition == 1">
+  			and type_name like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  		</if>
+  </select>
+  <!-- 查询所有的标签，已删除的也算 -->
+  <select id="searchAllType" resultMap="BaseResultMap">
+  		select 
+  		<include refid="Base_Column_List"/>
+  	from np_goods_type where  
+  		type_delflag='0'
+  		
+  		<if test="condition == 1">
+  			and type_name like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  		</if>
+      order by type_create_time desc
+  	 limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List"/>
+    from np_goods_type where  
+        type_delflag='0'
+  </select>
+  <!-- 根据类型名称查询行数 -->
+  <select id="queryCountByTypeName" parameterType="java.lang.String" resultType="java.lang.Integer">
+  	select count(1) from np_goods_type where type_name =#{typeName} and type_delflag='0'
+  </select>
+</mapper>

@@ -1,0 +1,775 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.channel.dao.ChannelStoreyGoodsMapper" >
+  <!--开启缓存-->
+  <cache/>
+
+  <resultMap id="BaseResultMap" type="com.ningpai.channel.bean.ChannelStoreyGoods" >
+    <id column="channel_storey_goodsproduct_id" property="channelStoreyGoodsproductId" jdbcType="BIGINT" />
+    <result column="storey_id" property="storeyId" jdbcType="BIGINT" />
+    <result column="storey_tag_id" property="storeyTagId" jdbcType="BIGINT" />
+    <result column="goodsproduct_name" property="goodsproductName" jdbcType="VARCHAR" />
+    <result column="goodsproduct_imgsrc" property="goodsproductImgsrc" jdbcType="VARCHAR" />
+    <result column="goodsproduct_no" property="goodsproductNo" jdbcType="VARCHAR" />
+    <result column="goodsproduct_price" property="goodsproductPrice" jdbcType="DECIMAL" />
+    <result column="goodsproduct_id" property="goodsproductId" jdbcType="BIGINT" />
+    <result column="is_hot" property="isHot" jdbcType="CHAR" />
+    <result column="sort" property="sort" jdbcType="BIGINT" />
+    <result column="user_status" property="userStatus" jdbcType="CHAR" />
+    <result column="delflag" property="delflag" jdbcType="CHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="temp1" property="temp1" jdbcType="VARCHAR" />
+    <result column="temp2" property="temp2" jdbcType="VARCHAR" />
+    <result column="temp3" property="temp3" jdbcType="VARCHAR" />
+    <result column="temp4" property="temp4" jdbcType="VARCHAR" />
+    <result column="temp5" property="temp5" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="BaseResultChannelMap" type="com.ningpai.channel.bean.ChannelStoreyGoods" >
+    <id column="channel_storey_goodsproduct_id" property="channelStoreyGoodsproductId" jdbcType="BIGINT" />
+    <result column="storey_id" property="storeyId" jdbcType="BIGINT" />
+    <result column="storey_tag_id" property="storeyTagId" jdbcType="BIGINT" />
+    <result column="goodsproduct_name" property="goodsproductName" jdbcType="VARCHAR" />
+    <result column="goodsproduct_imgsrc" property="goodsproductImgsrc" jdbcType="VARCHAR" />
+    <result column="goodsproduct_no" property="goodsproductNo" jdbcType="VARCHAR" />
+    <result column="goodsproduct_price" property="goodsproductPrice" jdbcType="DECIMAL" />
+    <result column="goodsproduct_id" property="goodsproductId" jdbcType="BIGINT" />
+    <result column="is_hot" property="isHot" jdbcType="CHAR" />
+    <result column="sort" property="sort" jdbcType="BIGINT" />
+    <result column="user_status" property="userStatus" jdbcType="CHAR" />
+    <result column="delflag" property="delflag" jdbcType="CHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="temp1" property="temp1" jdbcType="VARCHAR" />
+    <result column="temp2" property="temp2" jdbcType="VARCHAR" />
+    <result column="temp3" property="temp3" jdbcType="VARCHAR" />
+    <result column="temp4" property="temp4" jdbcType="VARCHAR" />
+    <result column="temp5" property="temp5" jdbcType="VARCHAR" />
+    <result column="ware_stock" property="goodsInfoStock" jdbcType="BIGINT" />
+    <result column="goods_info_prefer_price" property="goodsInfoPreferPrice" jdbcType="DECIMAL" />
+    <result column="ware_price" property="warePrice" jdbcType="DECIMAL" />
+      <!--2015.11.02 wuyanbo-->
+      <result column="goods_info_vip_price" property="goodsInfoVipPrice" jdbcType="DECIMAL" />
+      <result column="ware_vip_price" property="wareVipPrice" jdbcType="DECIMAL" />
+    <result column="goods_info_market_price" property="goodsInfoMarketPrice" jdbcType="DECIMAL" />
+    <result column="goods_info_stock" property="goodsInfoStockThird" jdbcType="BIGINT"/>
+    <result column="is_third" property="isThird" jdbcType="CHAR"/>
+  </resultMap>
+  <!-- 显示在列表页的ResultMap -->
+  <resultMap type="com.ningpai.goods.bean.GoodsShowListVo" id="showlistVo">
+    <id column="goods_info_id" property="goodsInfoId" jdbcType="BIGINT" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="goods_info_item_no" property="goodsInfoItemNo" jdbcType="VARCHAR" />
+    <result column="goods_info_name" property="productName" jdbcType="VARCHAR"/>
+    <result column="goods_info_subtitle" property="subtitle" jdbcType="VARCHAR"/>
+    <result column="goods_info_added" property="goodsInfoAdded" jdbcType="CHAR" />
+    <result column="ware_stock" property="goodsInfoStock" jdbcType="BIGINT" />
+    <result column="goods_info_prefer_price" property="goodsInfoPreferPrice" jdbcType="DECIMAL" />
+      <!-- 2015.11.02 wuyanbo -->
+      <result column="goods_info_vip_price" property="goodsInfoVipPrice" jdbcType="DECIMAL" />
+    <result column="goods_info_cost_price" property="goodsInfoCostPrice" jdbcType="DECIMAL" />
+    <result column="goods_info_market_price" property="goodsInfoMarketPrice" jdbcType="DECIMAL" />
+    <result column="ware_price" property="warePrice" jdbcType="DECIMAL" />
+      <!-- 2015.11.02 wuyanbo -->
+      <result column="ware_vip_price" property="wareVipPrice" jdbcType="DECIMAL" />
+    <result column="goods_info_weight" property="goodsInfoWeight" jdbcType="DECIMAL" />
+    <result column="goods_info_img_id" property="goodsInfoImgId" jdbcType="VARCHAR" />
+    <result column="goods_info_delflag" property="goodsInfoDelflag" jdbcType="CHAR" />
+    <result column="third_id" property="thirdId" jdbcType="CHAR"/>
+    <result column="third_name" property="thirdName" jdbcType="VARCHAR"/>
+    <result column="is_third" property="isThird" jdbcType="CHAR"/>
+    <result column="goods_info_stock" property="goodsInfoStockThird" jdbcType="BIGINT"/>
+
+
+    <!-- <association property="goods" column="goods_id"
+        select="com.ningpaihsite.goods.dao.GoodsMapper.selectGoodsByGoodsId"></association> -->
+    <!--  <collection property="specVo" column="goods_info_id" javaType="ArrayList" ofType="com.ningpai.site.goods.vo.GoodsProductReleSpecVo"
+           select="com.ningpaihsite.goods.dao.GoodsProductReleSpecMapper.queryAllByProductId"
+       ></collection> -->
+
+    <!--<collection property="imageList" column="goods_info_id" javaType="ArrayList" ofType="com.ningpai.site.goods.bean.GoodsImage"-->
+                <!--select="com.ningpaihsite.goods.dao.GoodsImageMapper.queryByProductId"-->
+            <!--></collection>-->
+  </resultMap><!-- 显示在列表页的ResultMap -->
+  <sql id="Base_Column_List" >
+    channel_storey_goodsproduct_id, storey_id, storey_tag_id, goodsproduct_name, goodsproduct_imgsrc, 
+    goodsproduct_no, goodsproduct_price, goodsproduct_id, is_hot, sort, user_status, delflag, create_user_id, 
+    create_date, update_user_id, update_date, temp1, temp2, temp3, temp4, temp5
+  </sql>
+  <sql id="Product_Base_Column_List" >
+    i.goods_info_id, i.goods_id,i.goods_info_name,i.goods_info_subtitle ,i.goods_info_item_no, i.goods_info_added, i.goods_info_added_time,
+    i.goods_info_prefer_price, i.goods_info_vip_price, i.goods_info_cost_price, i.goods_info_market_price,
+    i.goods_info_weight, i.goods_info_img_id, i.goods_info_create_name, i.goods_info_create_time,
+    i.goods_info_modified_name, i.goods_info_modified_time, i.goods_info_del_name, i.goods_info_del_time,
+    i.goods_info_delflag,i.third_id,i.third_name,i.is_third,i.goods_info_stock
+  </sql>
+  <sql id="Base_Column_ChannelList" >
+    i.channel_storey_goodsproduct_id, i.storey_id, i.storey_tag_id, i.goodsproduct_name, i.goodsproduct_imgsrc,
+    i.goodsproduct_no, i.goodsproduct_price, i.goodsproduct_id, i.is_hot, i.sort, i.user_status, i.delflag, i.create_user_id,
+    i.create_date, i.update_user_id, i.update_date, i.temp1, i.temp2, i.temp3, i.temp4, i.temp5,g.goods_info_prefer_price,g.goods_info_vip_price,
+    g.goods_info_market_price,g.goods_info_stock,g.is_third
+  </sql>
+  <!--根据商品Id查询商品列表-->
+  <select id="queryGoodsListByGoodsInfoId" parameterType="java.util.Map" resultMap="showlistVo">
+    select <include refid="Product_Base_Column_List"/>  from np_goods_info i
+    where i.goods_info_id=#{goodsproductId}
+  </select>
+  <!-- 根据主键查询频道楼层商品 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_channel_storey_goods
+    where channel_storey_goodsproduct_id = #{channelStoreyGoodsproductId,jdbcType=BIGINT}
+  </select>
+  <!-- 根据楼层ID、楼层标签ID、是否热销查询频道楼层商品-前台展示用 -->
+  <select id="selectchannelStoreyGoodsByParamForSite" resultMap="BaseResultMap" parameterType="java.util.Map" flushCache="true">
+    select <include refid="Base_Column_List" /> from np_channel_storey_goods
+    where delflag = '0' and user_status = '1'
+    <if test="storeyId != null" >
+		and storey_id = #{storeyId,jdbcType=BIGINT}
+	</if>
+    <if test="storeyTagId != null" >
+		and storey_tag_id = #{storeyTagId,jdbcType=BIGINT}
+	</if>
+    <if test="temp1 != null and temp1 != ''" >
+		and temp1 = #{temp1,jdbcType=VARCHAR}
+	</if>
+    <if test="temp2 != null and temp2 != ''" >
+		and temp2 = #{temp2,jdbcType=VARCHAR}
+	</if>
+    <if test="isHot != null" >
+      and is_hot = #{isHot,jdbcType=VARCHAR}
+    </if>
+      <if test="temp4 != null and temp4 != ''" >
+          and temp4 = #{temp4,jdbcType=VARCHAR}
+    </if>
+    ORDER BY sort ASC
+  </select>
+  <!-- 根据分页参数和楼层ID、楼层标签ID、是否热销查询频道楼层商品-前台展示用 -->
+  <select id="selectchannelStoreyGoodsByParamForChannelSite" resultMap="BaseResultChannelMap" parameterType="java.util.Map" >
+    select <include refid="Base_Column_ChannelList" />,IFNULL(w.ware_stock,0) AS ware_stock,
+    IFNULL(w.ware_price,g.goods_info_prefer_price) AS ware_price,IFNULL(w.ware_vip_price,g.goods_info_vip_price) AS ware_vip_price
+    from np_channel_storey_goods i
+    inner join np_goods_info g
+    on g.goods_info_id=i.goodsproduct_id
+    <!-- 如果是排序就拼接左链接 -->
+    <if test="searchBean.sort!=null and searchBean.sort!=''">
+      <!-- 如果是按照销量排序 -->
+      <if test="(searchBean.sort=='2D' or searchBean.sort=='22D')">
+        left join (select sum(goods_info_num) as count, og.goods_info_id from np_order_goods og
+        left join (select order_id from np_order where order_status='3') os on og.order_id = os.order_id
+        group by goods_info_id) o
+        on o.goods_info_id=i.goodsproduct_id
+      </if>
+      <!--如果是按照人气排序-->
+      <if test="(searchBean.sort=='44D' or searchBean.sort=='4D')">
+        left join (select count(1) as attecount,goods_id from np_customer_follow group by goods_id) a on a.goods_id=i.goodsproduct_id
+      </if>
+    </if>
+    left join (select ware_stock,product_id,ware_price,ware_vip_price
+    from np_product_ware p
+    where p.ware_id in (select c.ware_id
+    from np_ware_city c,np_warehouse h
+    where h.ware_id=c.ware_id and
+    c.city_id=#{distinctId} AND h.del_flag='0'
+    and c.del_flag='0') and p.del_flag='0'
+    GROUP BY p.product_id ) w on w.product_id = i.goodsproduct_id
+    where i.delflag = '0' and i.user_status = '1'
+    <if test="storeyId != null" >
+      and i.storey_id = #{storeyId,jdbcType=BIGINT}
+    </if>
+    <if test="storeyTagId != null" >
+      and i.storey_tag_id = #{storeyTagId,jdbcType=BIGINT}
+    </if>
+    <if test="temp1 != null and temp1 != ''" >
+      and i.temp1 = #{temp1,jdbcType=VARCHAR}
+    </if>
+    <if test="temp2 != null and temp2 != ''" >
+      and i.temp2 = #{temp2,jdbcType=VARCHAR}
+    </if>
+    <if test="isHot != null" >
+      and i.is_hot = #{isHot,jdbcType=VARCHAR}
+    </if>
+    <if test="temp4 != null and temp4 != ''" >
+      and i.temp4 = #{temp4,jdbcType=VARCHAR}
+    </if>
+    <!-- 判断是否显示无货商品 -->
+    <if test="searchBean.showStock!=null and searchBean.showStock!='' and searchBean.showStock==1">
+      and w.ware_stock>0
+    </if>
+    <!-- 按照价格排序 -->
+    <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='11D'">
+      order by i.goodsproduct_price
+    </if>
+    <!-- 按照价格排序 -->
+    <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='1D'">
+      order by i.goodsproduct_price desc
+    </if>
+    <!-- 按照销量排序 -->
+    <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='2D'">
+      order by o.count desc
+    </if>
+    <!-- 按照销量排序 -->
+    <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='22D'">
+      order by o.count
+    </if>
+    <!-- 按照创建时间排序-->
+    <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='33D'">
+      order by i.create_date
+    </if>
+    <!-- 按照创建时间排序-->
+    <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='3D'">
+      order by i.create_date desc
+    </if>
+    <!-- 按照关注(人气)排序 -->
+    <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='44D'">
+      order by a.attecount
+    </if>
+    <!-- 按照关注(人气)排序 -->
+    <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='4D'">
+      order by a.attecount desc
+    </if>
+    <if test="startRowNum!=null and endRowNum!=null">
+        LIMIT #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+    </if>
+  </select>
+  <!-- 根据分页参数和楼层ID、楼层标签ID、是否热销查询频道楼层商品总行数 -->
+  <select id="selectchannelStoreyGoodsNumberByParam" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select count(i.channel_storey_goodsproduct_id) from np_channel_storey_goods i
+    inner join np_goods_info g
+    on g.goods_info_id=i.goodsproduct_id
+    <!-- 如果是排序就拼接左链接 -->
+    <if test="searchBean.sort!=null and searchBean.sort!=''">
+      <!-- 如果是按照销量排序 -->
+      <if test="(searchBean.sort=='2D' or searchBean.sort=='22D')">
+        left join (select sum(goods_info_num) as count, og.goods_info_id from np_order_goods og
+        left join (select order_id from np_order where order_status='3') os on og.order_id = os.order_id
+        group by goods_info_id) o
+        on o.goods_info_id=i.goodsproduct_id
+      </if>
+      <!--如果是按照人气排序-->
+      <if test="(searchBean.sort=='44D' or searchBean.sort=='4D')">
+        left join (select count(1) as attecount,goods_id from np_customer_follow group by goods_id) a on a.goods_id=i.goodsproduct_id
+      </if>
+    </if>
+    where i.delflag = '0' and i.user_status = '1'
+    <if test="storeyId != null" >
+      and i.storey_id = #{storeyId,jdbcType=BIGINT}
+    </if>
+    <if test="isHot != null" >
+      and i.is_hot = #{isHot,jdbcType=VARCHAR}
+    </if>
+    <if test="storeyTagId != null" >
+      and i.storey_tag_id = #{storeyTagId,jdbcType=BIGINT}
+    </if>
+    <if test="temp1 != null and temp1 != ''" >
+      and i.temp1 = #{temp1,jdbcType=VARCHAR}
+    </if>
+    <if test="temp2 != null and temp2 != ''" >
+      and i.temp2 = #{temp2,jdbcType=VARCHAR}
+    </if>
+    <if test="temp4 != null and temp4 != ''" >
+      and i.temp4 = #{temp4,jdbcType=BIGINT}
+    </if>
+    <!-- 按照价格排序 -->
+    <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='11D'">
+      order by i.goodsproduct_price
+    </if>
+    <!-- 按照价格排序 -->
+    <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='1D'">
+      order by i.goodsproduct_price desc
+    </if>
+    <!-- 按照销量排序 -->
+    <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='2D'">
+      order by o.count desc
+    </if>
+    <!-- 按照销量排序 -->
+    <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='22D'">
+      order by o.count
+    </if>
+    <!-- 按照创建时间排序-->
+    <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='33D'">
+      order by i.create_date
+    </if>
+    <!-- 按照创建时间排序-->
+    <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='3D'">
+      order by i.create_date desc
+    </if>
+    <!-- 按照关注(人气)排序 -->
+    <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='44D'">
+      order by a.attecount
+    </if>
+    <!-- 按照关注(人气)排序 -->
+    <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='4D'">
+      order by a.attecount desc
+    </if>
+  </select>
+    <!-- 根据分页参数和楼层ID、楼层标签ID、是否热销查询频道楼层商品-前台展示用 -->
+  <select id="selectchannelStoreyGoodsByParamForSiteRandom" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select <include refid="Base_Column_List" /> from np_channel_storey_goods
+    where delflag = '0' and user_status = '1'
+    <if test="storeyId != null" >
+		and storey_id = #{storeyId,jdbcType=BIGINT}
+	</if>
+    <if test="storeyTagId != null" >
+		and storey_tag_id = #{storeyTagId,jdbcType=BIGINT}
+	</if>
+    <if test="temp1 != null and temp1 != ''" >
+		and temp1 = #{temp1,jdbcType=VARCHAR}
+	</if>
+    <if test="temp2 != null and temp2 != ''" >
+		and temp2 = #{temp2,jdbcType=VARCHAR}
+	</if>
+	order by  RAND()
+	limit 3
+	
+  </select>
+  
+  
+  <!-- 根据分页参数和楼层ID、楼层标签ID、是否热销查询频道楼层商品总行数 -->
+  <select id="selectchannelStoreyGoodsCountByParam" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select count(channel_storey_goodsproduct_id) from np_channel_storey_goods
+    where delflag = '0'
+	<if test="storeyId != null" >
+		and storey_id = #{storeyId,jdbcType=BIGINT}
+	</if>
+    <if test="isHot != null" >
+      and is_hot = #{isHot,jdbcType=VARCHAR}
+    </if>
+	<if test="storeyTagId != null" >
+		and storey_tag_id = #{storeyTagId,jdbcType=BIGINT}
+	</if>
+    <if test="temp1 != null and temp1 != ''" >
+		and temp1 = #{temp1,jdbcType=VARCHAR}
+	</if>
+    <if test="temp2 != null and temp2 != ''" >
+		and temp2 = #{temp2,jdbcType=VARCHAR}
+    </if>
+    <if test="temp4 != null and temp4 != ''" >
+        and temp4 = #{temp4,jdbcType=BIGINT}
+    </if>
+  </select>
+  <!-- 根据分页参数和楼层ID、楼层标签ID、是否热销查询频道楼层商品-->
+  <select id="selectchannelStoreyGoodsByParam" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_channel_storey_goods
+    where delflag = '0'
+    <if test="storeyId != null" >
+		and storey_id = #{storeyId,jdbcType=BIGINT}
+	</if>
+    <if test="isHot != null" >
+      and is_hot = #{isHot,jdbcType=VARCHAR}
+    </if>
+	<if test="storeyTagId != null" >
+		and storey_tag_id = #{storeyTagId,jdbcType=BIGINT}
+	</if>
+    <if test="temp1 != null and temp1 != ''" >
+		and temp1 = #{temp1,jdbcType=VARCHAR}
+	</if>
+    <if test="temp2 != null and temp2 != ''" >
+		and temp2 = #{temp2,jdbcType=VARCHAR}
+    </if>
+    <if test="temp4 != null and temp4 != ''" >
+        and temp4 = #{temp4,jdbcType=BIGINT}
+    </if>
+	order by sort
+	LIMIT #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_channel_storey_goods
+    where channel_storey_goodsproduct_id = #{channelStoreyGoodsproductId,jdbcType=BIGINT}
+  </delete>
+
+    <!--根据主键ID 和楼层ID删除 楼层商品-->
+  <delete id="deleteChannelStoreyGoodsnew" parameterType="java.util.Map" >
+      delete from np_channel_storey_goods
+      where channel_storey_goodsproduct_id = #{productId,jdbcType=BIGINT}
+      <if test="storeyId!=null">
+          and storey_id = #{storeyId,jdbcType=BIGINT}
+      </if>
+
+  </delete>
+
+
+  <insert id="insert" parameterType="com.ningpai.channel.bean.ChannelStoreyGoods" >
+    insert into np_channel_storey_goods (channel_storey_goodsproduct_id, storey_id, 
+      storey_tag_id, goodsproduct_name, goodsproduct_imgsrc, 
+      goodsproduct_no, goodsproduct_price, goodsproduct_id, 
+      is_hot, sort, user_status, delflag, create_user_id, 
+      create_date, update_user_id, update_date, 
+      temp1, temp2, temp3, 
+      temp4, temp5)
+    values (#{channelStoreyGoodsproductId,jdbcType=BIGINT}, #{storeyId,jdbcType=BIGINT}, 
+      #{storeyTagId,jdbcType=BIGINT}, #{goodsproductName,jdbcType=VARCHAR}, #{goodsproductImgsrc,jdbcType=VARCHAR}, 
+      #{goodsproductNo,jdbcType=VARCHAR}, #{goodsproductPrice,jdbcType=DECIMAL}, #{goodsproductId,jdbcType=BIGINT}, 
+      #{isHot,jdbcType=CHAR}, #{sort,jdbcType=BIGINT}, #{userStatus,jdbcType=CHAR}, #{delflag,jdbcType=CHAR}, #{createUserId,jdbcType=BIGINT}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{temp1,jdbcType=VARCHAR}, #{temp2,jdbcType=VARCHAR}, #{temp3,jdbcType=VARCHAR}, 
+      #{temp4,jdbcType=VARCHAR}, #{temp5,jdbcType=VARCHAR})
+  </insert>
+
+
+
+  <insert id="insertSelectiveNew" parameterType="com.ningpai.channel.bean.ChannelStoreyGoods" >
+    insert into np_channel_storey_goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="storeyId != null" >
+        storey_id,
+      </if>
+      <if test="storeyTagId != null" >
+        storey_tag_id,
+      </if>
+      <if test="goodsproductName != null" >
+        goodsproduct_name,
+      </if>
+      <if test="goodsproductImgsrc != null" >
+        goodsproduct_imgsrc,
+      </if>
+      <if test="goodsproductNo != null" >
+        goodsproduct_no,
+      </if>
+      <if test="goodsproductPrice != null" >
+        goodsproduct_price,
+      </if>
+      <if test="goodsproductId != null" >
+        goodsproduct_id,
+      </if>
+      <if test="isHot != null" >
+        is_hot,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="userStatus != null" >
+        user_status,
+      </if>
+      <if test="delflag != null" >
+        delflag,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="temp1 != null" >
+        temp1,
+      </if>
+      <if test="temp2 != null" >
+        temp2,
+      </if>
+      <if test="temp3 != null" >
+        temp3,
+      </if>
+      <if test="temp4 != null" >
+        temp4,
+      </if>
+      <if test="temp5 != null" >
+        temp5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="storeyId != null" >
+        #{storeyId,jdbcType=BIGINT},
+      </if>
+      <if test="storeyTagId != null" >
+        #{storeyTagId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsproductName != null" >
+        #{goodsproductName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsproductImgsrc != null" >
+        #{goodsproductImgsrc,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsproductNo != null" >
+        #{goodsproductNo,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsproductPrice != null" >
+        #{goodsproductPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsproductId != null" >
+        #{goodsproductId,jdbcType=BIGINT},
+      </if>
+      <if test="isHot != null" >
+        #{isHot,jdbcType=CHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=BIGINT},
+      </if>
+      <if test="userStatus != null" >
+        #{userStatus,jdbcType=CHAR},
+      </if>
+      <if test="delflag != null" >
+        #{delflag,jdbcType=CHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temp1 != null" >
+        #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null" >
+        #{temp2,jdbcType=VARCHAR},
+      </if>
+      <if test="temp3 != null" >
+        #{temp3,jdbcType=VARCHAR},
+      </if>
+      <if test="temp4 != null" >
+        #{temp4,jdbcType=VARCHAR},
+      </if>
+      <if test="temp5 != null" >
+        #{temp5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+
+
+
+
+
+
+  <insert id="insertSelective" parameterType="com.ningpai.channel.bean.ChannelStoreyGoods" >
+    insert into np_channel_storey_goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="channelStoreyGoodsproductId != null" >
+        channel_storey_goodsproduct_id,
+      </if>
+      <if test="storeyId != null" >
+        storey_id,
+      </if>
+      <if test="storeyTagId != null" >
+        storey_tag_id,
+      </if>
+      <if test="goodsproductName != null" >
+        goodsproduct_name,
+      </if>
+      <if test="goodsproductImgsrc != null" >
+        goodsproduct_imgsrc,
+      </if>
+      <if test="goodsproductNo != null" >
+        goodsproduct_no,
+      </if>
+      <if test="goodsproductPrice != null" >
+        goodsproduct_price,
+      </if>
+      <if test="goodsproductId != null" >
+        goodsproduct_id,
+      </if>
+      <if test="isHot != null" >
+        is_hot,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="userStatus != null" >
+        user_status,
+      </if>
+      <if test="delflag != null" >
+        delflag,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="temp1 != null" >
+        temp1,
+      </if>
+      <if test="temp2 != null" >
+        temp2,
+      </if>
+      <if test="temp3 != null" >
+        temp3,
+      </if>
+      <if test="temp4 != null" >
+        temp4,
+      </if>
+      <if test="temp5 != null" >
+        temp5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="channelStoreyGoodsproductId != null" >
+        #{channelStoreyGoodsproductId,jdbcType=BIGINT},
+      </if>
+      <if test="storeyId != null" >
+        #{storeyId,jdbcType=BIGINT},
+      </if>
+      <if test="storeyTagId != null" >
+        #{storeyTagId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsproductName != null" >
+        #{goodsproductName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsproductImgsrc != null" >
+        #{goodsproductImgsrc,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsproductNo != null" >
+        #{goodsproductNo,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsproductPrice != null" >
+        #{goodsproductPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsproductId != null" >
+        #{goodsproductId,jdbcType=BIGINT},
+      </if>
+      <if test="isHot != null" >
+        #{isHot,jdbcType=CHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=BIGINT},
+      </if>
+      <if test="userStatus != null" >
+        #{userStatus,jdbcType=CHAR},
+      </if>
+      <if test="delflag != null" >
+        #{delflag,jdbcType=CHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temp1 != null" >
+        #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null" >
+        #{temp2,jdbcType=VARCHAR},
+      </if>
+      <if test="temp3 != null" >
+        #{temp3,jdbcType=VARCHAR},
+      </if>
+      <if test="temp4 != null" >
+        #{temp4,jdbcType=VARCHAR},
+      </if>
+      <if test="temp5 != null" >
+        #{temp5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.channel.bean.ChannelStoreyGoods" >
+    update np_channel_storey_goods
+    <set >
+      <if test="storeyId != null" >
+        storey_id = #{storeyId,jdbcType=BIGINT},
+      </if>
+      <if test="storeyTagId != null" >
+        storey_tag_id = #{storeyTagId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsproductName != null" >
+        goodsproduct_name = #{goodsproductName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsproductImgsrc != null" >
+        goodsproduct_imgsrc = #{goodsproductImgsrc,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsproductNo != null" >
+        goodsproduct_no = #{goodsproductNo,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsproductPrice != null" >
+        goodsproduct_price = #{goodsproductPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsproductId != null" >
+        goodsproduct_id = #{goodsproductId,jdbcType=BIGINT},
+      </if>
+      <if test="isHot != null" >
+        is_hot = #{isHot,jdbcType=CHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=BIGINT},
+      </if>
+      <if test="userStatus != null" >
+        user_status = #{userStatus,jdbcType=CHAR},
+      </if>
+      <if test="delflag != null" >
+        delflag = #{delflag,jdbcType=CHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temp1 != null" >
+        temp1 = #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null" >
+        temp2 = #{temp2,jdbcType=VARCHAR},
+      </if>
+      <if test="temp3 != null" >
+        temp3 = #{temp3,jdbcType=VARCHAR},
+      </if>
+      <if test="temp4 != null" >
+        temp4 = #{temp4,jdbcType=VARCHAR},
+      </if>
+      <if test="temp5 != null" >
+        temp5 = #{temp5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where channel_storey_goodsproduct_id = #{channelStoreyGoodsproductId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.channel.bean.ChannelStoreyGoods" >
+    update np_channel_storey_goods
+    set storey_id = #{storeyId,jdbcType=BIGINT},
+      storey_tag_id = #{storeyTagId,jdbcType=BIGINT},
+      goodsproduct_name = #{goodsproductName,jdbcType=VARCHAR},
+      goodsproduct_imgsrc = #{goodsproductImgsrc,jdbcType=VARCHAR},
+      goodsproduct_no = #{goodsproductNo,jdbcType=VARCHAR},
+      goodsproduct_price = #{goodsproductPrice,jdbcType=DECIMAL},
+      goodsproduct_id = #{goodsproductId,jdbcType=BIGINT},
+      is_hot = #{isHot,jdbcType=CHAR},
+      sort = #{sort,jdbcType=BIGINT},
+      user_status = #{userStatus,jdbcType=CHAR},
+      delflag = #{delflag,jdbcType=CHAR},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      temp1 = #{temp1,jdbcType=VARCHAR},
+      temp2 = #{temp2,jdbcType=VARCHAR},
+      temp3 = #{temp3,jdbcType=VARCHAR},
+      temp4 = #{temp4,jdbcType=VARCHAR},
+      temp5 = #{temp5,jdbcType=VARCHAR}
+    where channel_storey_goodsproduct_id = #{channelStoreyGoodsproductId,jdbcType=BIGINT}
+  </update>
+</mapper>

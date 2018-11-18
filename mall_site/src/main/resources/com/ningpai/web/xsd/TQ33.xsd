@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ups="http://www.lianft.com/project/ups" xmlns:upsb="http://www.lianft.com/project/ups/base" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://www.lianft.com/project/ups" elementFormDefault="qualified" version="0.1">
+	<xs:import namespace="http://www.lianft.com/project/ups/base" schemaLocation="ups-base-datatype.xsd"/>
+	<xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="lianft-xmldsig-financial.xsd"/>
+	<xs:element name="UPS">
+		<xs:complexType>
+			<xs:choice>
+				<xs:group ref="ups:RequestGroup"/>
+				<xs:group ref="ups:ResponseGroup"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:group name="RequestGroup">
+		<xs:sequence>
+			<xs:element ref="ups:Request"/>
+			<xs:element ref="ds:Signature"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="ResponseGroup">
+		<xs:sequence>
+			<xs:element ref="ups:Response"/>
+			<xs:element ref="ds:Signature"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:element name="Request">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ups:Version"/>
+				<xs:element ref="ups:TxType"/>
+				<xs:element name="TxInfo" type="ups:T_TxInfoReq"/>
+				<xs:element ref="ups:Merchant"/>
+			</xs:sequence>
+			<xs:attribute name="id" type="upsb:T_ID" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Response">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ups:Version"/>
+				<xs:element ref="ups:TxType"/>
+				<xs:element ref="ups:ResponseInfo"/>
+				<xs:element name="TxInfo" type="ups:T_TxInfoRes" minOccurs="0"/>
+				<xs:element ref="ups:Merchant" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="id" type="upsb:T_ID" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Version" type="upsb:T_Version"/>
+	<xs:element name="TxType" type="upsb:T_TxType"/>
+	<xs:element name="Merchant" type="ups:T_Merchant"/>
+	<xs:element name="ResponseInfo" type="ups:T_ResponseInfo"/>
+	<xs:complexType name="T_TxInfoReq">
+		<xs:sequence>
+			<xs:element name="OrgTxTraceNo" type="upsb:T_TxTraceNo"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="T_TxInfoRes">
+		<xs:sequence>
+			<xs:element name="OrgTxTraceNo" type="upsb:T_TxTraceNo"/>
+			<xs:element name="TxStatus" type="upsb:T_Status" minOccurs="0"/>
+			<xs:element name="TxAmount" type="upsb:T_MoneyFen" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="T_Merchant">
+		<xs:sequence>
+			<xs:element name="MerchantID" type="upsb:T_MerchantID"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="T_ResponseInfo">
+		<xs:sequence>
+			<xs:element name="ResponseCode" type="upsb:T_ResponseCode"/>
+			<xs:element name="ResponseDesc" type="upsb:T_ResponseDesc" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

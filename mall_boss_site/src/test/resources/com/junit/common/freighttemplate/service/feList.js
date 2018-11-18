@@ -1,0 +1,1 @@
+[{"distributionId" : 1, "freightTemplateId" : "1", "logComId" : "1", "expressStart" : "1", "expressPostage" : "1", "expressPlusN1" : "1", "expressPostageplus" : "1", "expressDelflag" : "0"}]

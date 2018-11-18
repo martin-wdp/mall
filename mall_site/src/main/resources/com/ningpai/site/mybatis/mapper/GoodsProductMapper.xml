@@ -1,0 +1,726 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpaihsite.goods.dao.GoodsProductMapper">
+
+    <!--积分兑换-->
+    <resultMap type="com.ningpai.site.order.bean.ExchangeCusmomerPoint" id="pointMap">
+        <id column="exchange_point_id" property="exchangeId" jdbcType="BIGINT"/>
+        <result column="exchange_point_orderCode" property="orderCode" jdbcType="VARCHAR"/>
+        <result column="exchange_customer_id" property="customerId" jdbcType="BIGINT"/>
+        <result column="exchange_customer_point" property="exchangePoint" jdbcType="BIGINT"/>
+        <result column="exchange_time" property="exchangeTime" jdbcType="TIMESTAMP"/>
+        <result column="del_flag" property="flag" jdbcType="CHAR"/>
+        <result column="disparityPrice" property="disparityPrice" jdbcType="VARCHAR"/>
+        <result column="consumption" property="consumption" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsProduct">
+        <id column="goods_info_id" property="goodsInfoId" jdbcType="BIGINT"/>
+        <result column="goods_id" property="goodsId" jdbcType="BIGINT"/>
+        <result column="goods_info_item_no" property="goodsInfoItemNo" jdbcType="VARCHAR"/>
+        <result column="goods_info_name" property="goodsInfoName" jdbcType="VARCHAR"/>
+        <result column="goods_info_subtitle" property="goodsInfoSubtitle" jdbcType="VARCHAR"/>
+        <result column="goods_info_added" property="goodsInfoAdded" jdbcType="CHAR"/>
+        <result column="goods_info_added_time" property="goodsInfoAddedTime" jdbcType="TIMESTAMP"/>
+        <result column="goods_info_stock" property="goodsInfoStock" jdbcType="BIGINT"/>
+        <result column="goods_info_prefer_price" property="goodsInfoPreferPrice" jdbcType="DECIMAL"/>
+        <!--2015.10.22 wuyanbo 添加会员价-->
+        <result column="goods_info_vip_price" property="goodsInfoVipPrice" jdbcType="DECIMAL"/>
+
+        <!--汽车配件类型：“1”表示OEM件，“2”表示常用件          杨国栋 2015.10.31-->
+        <result column="goods_info_auto_parts_type" property="goodsInfoAutoPartsType" jdbcType="VARCHAR"/>
+        <!--OEM号     goodsInfoOem                                     杨国栋 2015.10.31-->
+        <result column="goods_info_oem" property="goodsInfoOem" jdbcType="VARCHAR"/>
+        <!--OEM件的适配车型：用空格隔开      goodsInfoAutoStyle                   杨国栋 2015.10.31-->
+        <result column="goods_info_auto_style" property="goodsInfoAutoStyle" jdbcType="VARCHAR"/>
+
+
+        <result column="goods_info_cost_price" property="goodsInfoCostPrice" jdbcType="DECIMAL"/>
+        <result column="goods_info_market_price" property="goodsInfoMarketPrice" jdbcType="DECIMAL"/>
+        <result column="goods_info_weight" property="goodsInfoWeight" jdbcType="DECIMAL"/>
+        <result column="goods_info_img_id" property="goodsInfoImgId" jdbcType="VARCHAR"/>
+        <result column="goods_info_create_name" property="goodsInfoCreateName" jdbcType="VARCHAR"/>
+        <result column="goods_info_create_time" property="goodsInfoCreateTime" jdbcType="TIMESTAMP"/>
+        <result column="goods_info_modified_name" property="goodsInfoModifiedName" jdbcType="VARCHAR"/>
+        <result column="goods_info_modified_time" property="goodsInfoModifiedTime" jdbcType="TIMESTAMP"/>
+        <result column="goods_info_del_name" property="goodsInfoDelName" jdbcType="VARCHAR"/>
+        <result column="goods_info_del_time" property="goodsInfoDelTime" jdbcType="TIMESTAMP"/>
+        <result column="goods_info_delflag" property="goodsInfoDelflag" jdbcType="CHAR"/>
+    </resultMap>
+    <!-- VoResultMap -->
+    <resultMap type="com.ningpai.site.goods.vo.GoodsProductVo" id="ListVoResultMap">
+        <id column="goods_info_id" property="goodsInfoId" jdbcType="BIGINT"/>
+        <result column="goods_id" property="goodsId" jdbcType="BIGINT"/>
+        <result column="goods_info_item_no" property="goodsInfoItemNo" jdbcType="VARCHAR"/>
+        <result column="goods_info_name" property="productName" jdbcType="VARCHAR"/>
+        <result column="goods_info_subtitle" property="subtitle" jdbcType="VARCHAR"/>
+        <result column="goods_info_added" property="goodsInfoAdded" jdbcType="CHAR"/>
+        <result column="show_mobile" property="showMobile" jdbcType="CHAR"/>
+        <result column="goods_info_stock" property="goodsInfoStock" jdbcType="BIGINT"/>
+        <result column="goods_info_prefer_price" property="goodsInfoPreferPrice" jdbcType="DECIMAL"/>
+        <!--2015.10.22 wuyanbo 添加会员价格-->
+        <result column="goods_info_vip_price" property="goodsInfoVipPrice" jdbcType="DECIMAL"/>
+
+        <!--汽车配件类型：“1”表示OEM件，“2”表示常用件          杨国栋 2015.10.31-->
+        <result column="goods_info_auto_parts_type" property="goodsInfoAutoPartsType" jdbcType="VARCHAR"/>
+        <!--OEM号     goodsInfoOem                                     杨国栋 2015.10.31-->
+        <result column="goods_info_oem" property="goodsInfoOem" jdbcType="VARCHAR"/>
+        <!--OEM件的适配车型：用空格隔开      goodsInfoAutoStyle                   杨国栋 2015.10.31-->
+        <result column="goods_info_auto_style" property="goodsInfoAutoStyle" jdbcType="VARCHAR"/>
+
+
+        <result column="goods_info_cost_price" property="goodsInfoCostPrice" jdbcType="DECIMAL"/>
+        <result column="goods_info_market_price" property="goodsInfoMarketPrice" jdbcType="DECIMAL"/>
+        <result column="goods_info_weight" property="goodsInfoWeight" jdbcType="DECIMAL"/>
+        <result column="goods_info_img_id" property="goodsInfoImgId" jdbcType="VARCHAR"/>
+        <result column="goods_info_delflag" property="goodsInfoDelflag" jdbcType="CHAR"/>
+        <result column="third_id" property="thirdId" jdbcType="BIGINT"/>
+        <result column="is_third" property="isThird" jdbcType="CHAR"/>
+        <result column="isMailBay" property="isMailBay" jdbcType="CHAR"/>
+        <result column="third_name" property="thirdName" jdbcType="VARCHAR"/>
+        <result column="is_customer_discount" property="isCustomerDiscount" jdbcType="VARCHAR"/>
+        <collection property="specVo" column="goods_info_id" javaType="ArrayList"
+                    ofType="com.ningpai.site.goods.vo.GoodsProductReleSpecVo"
+                    select="com.ningpaihsite.goods.dao.GoodsProductReleSpecMapper.queryAllByProductId"
+                ></collection>
+        <collection property="imageList" column="goods_info_id" javaType="ArrayList"
+                    ofType="com.ningpai.goods.bean.GoodsImage"
+                    select="com.ningpaihsite.goods.dao.GoodsImageMapper.queryByProductId"
+                ></collection>
+    </resultMap>
+    <!-- GrouponResultMap -->
+    <resultMap type="com.ningpai.site.goods.vo.GoodsProductVo" id="GrouponResultMap">
+        <id column="goods_info_id" property="goodsInfoId" jdbcType="BIGINT"/>
+        <result column="goods_info_item_no" property="goodsInfoItemNo" jdbcType="VARCHAR"/>
+        <result column="goods_info_name" property="productName" jdbcType="VARCHAR"/>
+        <result column="goods_info_subtitle" property="subtitle" jdbcType="VARCHAR"/>
+        <result column="goods_info_added" property="goodsInfoAdded" jdbcType="CHAR"/>
+        <result column="goods_info_stock" property="goodsInfoStock" jdbcType="BIGINT"/>
+        <result column="goods_info_prefer_price" property="goodsInfoPreferPrice" jdbcType="DECIMAL"/>
+        <!--2015.10.22  wuyanbo 添加会员价-->
+        <result column="goods_info_vip_price" property="goodsInfoVipPrice" jdbcType="DECIMAL"/>
+
+        <!--汽车配件类型：“1”表示OEM件，“2”表示常用件          杨国栋 2015.10.31-->
+        <result column="goods_info_auto_parts_type" property="goodsInfoAutoPartsType" jdbcType="VARCHAR"/>
+        <!--OEM号     goodsInfoOem                                     杨国栋 2015.10.31-->
+        <result column="goods_info_oem" property="goodsInfoOem" jdbcType="VARCHAR"/>
+        <!--OEM件的适配车型：用空格隔开      goodsInfoAutoStyle                   杨国栋 2015.10.31-->
+        <result column="goods_info_auto_style" property="goodsInfoAutoStyle" jdbcType="VARCHAR"/>
+
+
+        <result column="goods_info_cost_price" property="goodsInfoCostPrice" jdbcType="DECIMAL"/>
+        <result column="goods_info_market_price" property="goodsInfoMarketPrice" jdbcType="DECIMAL"/>
+        <result column="goods_info_weight" property="goodsInfoWeight" jdbcType="DECIMAL"/>
+        <result column="goods_info_img_id" property="goodsInfoImgId" jdbcType="VARCHAR"/>
+        <result column="goods_info_delflag" property="goodsInfoDelflag" jdbcType="CHAR"/>
+        <result column="third_id" property="thirdId" jdbcType="BIGINT"/>
+        <result column="is_third" property="isThird" jdbcType="CHAR"/>
+        <result column="third_name" property="thirdName" jdbcType="VARCHAR"/>
+        <result column="marketing_id" property="marketingId" jdbcType="BIGINT"/>
+        <result column="cat_id" property="catId" jdbcType="BIGINT"/>
+        <result column="brand_id" property="brandId" jdbcType="BIGINT"/>
+        <result column="groupon_discount" property="grouponDiscount" jdbcType="DECIMAL"/>
+        <result column="groupon_vip_discount" property="grouponVipDiscount" jdbcType="DECIMAL"/>
+        <result column="groupon_price" property="preferPrice" jdbcType="DECIMAL"/>
+        <result column="groupon_vip_price" property="vipPrice" jdbcType="DECIMAL"/>
+        <collection property="imageList" column="goods_info_id" javaType="ArrayList"
+                    ofType="com.ningpai.goods.bean.GoodsImage"
+                    select="com.ningpaihsite.goods.dao.GoodsImageMapper.queryByProductId"
+                ></collection>
+    </resultMap>
+    <!-- MarketingRushResultMap -->
+    <resultMap type="com.ningpai.site.goods.vo.GoodsProductVo" id="MarketingRushResultMap">
+        <id column="goods_info_id" property="goodsInfoId" jdbcType="BIGINT"/>
+        <result column="goods_info_item_no" property="goodsInfoItemNo" jdbcType="VARCHAR"/>
+        <result column="goods_info_name" property="productName" jdbcType="VARCHAR"/>
+        <result column="goods_info_subtitle" property="subtitle" jdbcType="VARCHAR"/>
+        <result column="goods_info_added" property="goodsInfoAdded" jdbcType="CHAR"/>
+        <result column="goods_info_stock" property="goodsInfoStock" jdbcType="BIGINT"/>
+        <result column="goods_info_prefer_price" property="goodsInfoPreferPrice" jdbcType="DECIMAL"/>
+        <!--2015.10.22  wuyanbo  添加会员价-->
+        <result column="goods_info_vip_price" property="goodsInfoVipPrice" jdbcType="DECIMAL"/>
+
+        <!--汽车配件类型：“1”表示OEM件，“2”表示常用件          杨国栋 2015.10.31-->
+        <result column="goods_info_auto_parts_type" property="goodsInfoAutoPartsType" jdbcType="VARCHAR"/>
+        <!--OEM号     goodsInfoOem                                     杨国栋 2015.10.31-->
+        <result column="goods_info_oem" property="goodsInfoOem" jdbcType="VARCHAR"/>
+        <!--OEM件的适配车型：用空格隔开      goodsInfoAutoStyle                   杨国栋 2015.10.31-->
+        <result column="goods_info_auto_style" property="goodsInfoAutoStyle" jdbcType="VARCHAR"/>
+
+
+        <result column="goods_info_cost_price" property="goodsInfoCostPrice" jdbcType="DECIMAL"/>
+        <result column="goods_info_market_price" property="goodsInfoMarketPrice" jdbcType="DECIMAL"/>
+        <result column="goods_info_weight" property="goodsInfoWeight" jdbcType="DECIMAL"/>
+        <result column="goods_info_img_id" property="goodsInfoImgId" jdbcType="VARCHAR"/>
+        <result column="goods_info_delflag" property="goodsInfoDelflag" jdbcType="CHAR"/>
+        <result column="third_id" property="thirdId" jdbcType="BIGINT"/>
+        <result column="is_third" property="isThird" jdbcType="CHAR"/>
+        <result column="third_name" property="thirdName" jdbcType="VARCHAR"/>
+        <result column="marketing_id" property="marketingId" jdbcType="BIGINT"/>
+        <association property="goods" column="goods_id"
+                     select="com.ningpaihsite.goods.dao.GoodsMapper.selectGoodsByGoodsId"></association>
+
+        <collection property="imageList" column="goods_info_id" javaType="ArrayList"
+                    ofType="com.ningpai.goods.bean.GoodsImage"
+                    select="com.ningpaihsite.goods.dao.GoodsImageMapper.queryByProductId"
+                ></collection>
+    </resultMap>
+
+    <!-- DetailResultMap -->
+    <resultMap type="com.ningpai.site.goods.vo.GoodsProductVo" id="productDetailResultMap" extends="ListVoResultMap">
+
+        <result column="goods_info_auto_parts_type" property="goodsInfoAutoPartsType" jdbcType="VARCHAR"/>
+        <result column="goods_info_oem" property="goodsInfoOem" jdbcType="VARCHAR"/>
+        <result column="goods_info_auto_style" property="goodsInfoAutoStyle" jdbcType="VARCHAR"/>
+        <result column="auto_style_id_LiYang_ID" property="autoStyleIdLiYangID" jdbcType="VARCHAR"/>
+
+        <result column="goods_info_added_time" property="goodsInfoAddedTime" jdbcType="TIMESTAMP"/>
+        <result column="goods_info_create_time" property="goodsInfoCreateTime" jdbcType="TIMESTAMP"/>
+        <result column="third_id" property="thirdId" jdbcType="BIGINT"/>
+        <result column="is_third" property="isThird" jdbcType="CHAR"/>
+        <result column="third_name" property="thirdName" jdbcType="VARCHAR"/>
+        <association property="goods" column="goods_id"
+                     select="com.ningpaihsite.goods.dao.GoodsMapper.selectGoodsByGoodsId"></association>
+        <association property="commentUtilBean" column="goods_info_id"
+                     select="com.ningpaihsite.goods.dao.GoodsMapper.queryCommentCountAndScoreByProductId"></association>
+    </resultMap>
+    <!-- miniResultMap -->
+    <resultMap type="com.ningpai.goods.bean.GoodsProduct" id="MiniResultMap">
+        <id column="goods_info_id" property="goodsInfoId" jdbcType="BIGINT"/>
+        <result column="goods_info_item_no" property="goodsInfoItemNo" jdbcType="VARCHAR"/>
+        <result column="goods_info_name" property="goodsInfoName" jdbcType="VARCHAR"/>
+        <result column="goods_info_subtitle" property="goodsInfoSubtitle" jdbcType="VARCHAR"/>
+        <result column="goods_info_prefer_price" property="goodsInfoPreferPrice" jdbcType="DECIMAL"/>
+        <!--2015.10.22 wuyanbo 添加会员价-->
+        <result column="goods_info_vip_price" property="goodsInfoVipPrice" jdbcType="DECIMAL"/>
+
+        <!--汽车配件类型：“1”表示OEM件，“2”表示常用件          杨国栋 2015.10.31-->
+        <result column="goods_info_auto_parts_type" property="goodsInfoAutoPartsType" jdbcType="VARCHAR"/>
+        <!--OEM号     goodsInfoOem                                     杨国栋 2015.10.31-->
+        <result column="goods_info_oem" property="goodsInfoOem" jdbcType="VARCHAR"/>
+        <!--OEM件的适配车型：用空格隔开      goodsInfoAutoStyle                   杨国栋 2015.10.31-->
+        <result column="goods_info_auto_style" property="goodsInfoAutoStyle" jdbcType="VARCHAR"/>
+
+
+        <result column="goods_info_market_price" property="goodsInfoMarketPrice" jdbcType="DECIMAL"/>
+        <result column="goods_info_img_id" property="goodsInfoImgId" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!-- 最终购买Vo -->
+    <resultMap id="ListFinalBuyResultMap" type="com.ningpai.site.goods.vo.ListFinalBuyVo">
+        <result column="precent" property="precent" jdbcType="VARCHAR"/>
+        <association property="product" column="goods_info_id"
+                     select="queryProductByPrimaryKeyForFinalBuy"></association>
+    </resultMap>
+
+
+    <sql id="exchangePoint">
+  	        exchange_point_id,
+			exchange_point_orderCode,
+			exchange_customer_id,
+			exchange_customer_point,
+			exchange_time,
+			disparityPrice,
+			consumption
+  </sql>
+
+    <sql id="Base_Column_List">
+    auto_style_id_LiYang_ID,goods_info_auto_style,goods_info_oem,goods_info_auto_parts_type,goods_info_id, goods_id, goods_info_item_no,goods_info_name,goods_info_subtitle, goods_info_added, goods_info_added_time,
+    goods_info_stock, goods_info_prefer_price, goods_info_vip_price, goods_info_cost_price, goods_info_market_price, show_mobile,
+    goods_info_weight, goods_info_img_id, goods_info_create_name, goods_info_create_time, 
+    goods_info_modified_name, goods_info_modified_time, goods_info_del_name, goods_info_del_time, 
+    goods_info_delflag,is_third,third_name,third_id,is_customer_discount,isMailBay
+  </sql>
+    <sql id="Mini_Column_List">
+     goods_info_id,goods_info_item_no,goods_info_name,goods_info_subtitle,goods_info_prefer_price,goods_info_vip_price,goods_info_img_id,goods_info_market_price
+  </sql>
+    <sql id="List_Column_list">
+  	i.goods_info_id, i.goods_id, i.goods_info_item_no,i.goods_info_name,i.goods_info_subtitle, i.goods_info_added, i.goods_info_added_time, 
+    i.goods_info_stock, i.goods_info_prefer_price,i.goods_info_vip_price, i.goods_info_cost_price, i.goods_info_market_price,
+    i.goods_info_weight, i.goods_info_img_id, i.goods_info_create_name, i.goods_info_create_time, 
+    i.goods_info_modified_name, i.goods_info_modified_time, i.goods_info_del_name, i.goods_info_del_time, 
+    i.goods_info_delflag,is_third,third_name,third_id
+  </sql>
+    <sql id="final_buy_Column_list">
+  	i.goods_info_id, i.goods_id, i.goods_info_item_no,i.goods_info_name,i.goods_info_subtitle, i.goods_info_added, i.goods_info_added_time, 
+    i.goods_info_stock, i.goods_info_prefer_price,i.goods_info_vip_price, i.goods_info_cost_price, i.goods_info_market_price,
+    i.goods_info_weight, i.goods_info_create_name, i.goods_info_create_time, 
+    i.goods_info_modified_name, i.goods_info_modified_time, i.goods_info_del_name, i.goods_info_del_time, 
+    i.goods_info_delflag,is_third,third_name,third_id
+  </sql>
+
+    <!-- 查询参加的团购商品总数量  -->
+    <select id="selectGrouponCount" resultType="java.lang.Integer" parameterType="java.lang.Long">
+        SELECT
+        count(DISTINCT info.goods_info_id)
+        FROM
+        np_goods_info info,
+        np_goods goods ,
+        np_marketing_scope scope ,
+        np_marketing mar
+        WHERE
+        info.goods_id = goods.goods_id
+        AND scope.scope_id = info.goods_info_id
+        AND mar.marketing_id = scope.marketing_id
+        AND goods_delflag = '0'
+        AND goods.goods_added = '1'
+        AND info.goods_info_delflag = '0'
+        AND info.goods_info_added = '1'
+        AND mar.flag = '0'
+        AND scope.flag = '0'
+        <if test="parentId != null">
+            AND goods.cat_id IN
+            (SELECT tm.cat_id FROM np_goods_category tm WHERE tm.cat_parent_id IN
+            (SELECT t.cat_id FROM np_goods_category t WHERE t.cat_parent_id=#{parentId}))
+        </if>
+        <![CDATA[  And mar.marketing_begin <= now() and mar.marketing_end   > now() ]]>
+        AND mar.m_group_id = 4
+    </select>
+
+    <select id="selectGrouponList" resultMap="GrouponResultMap" parameterType="java.util.Map">
+        SELECT
+        goods_info_id,
+        info.goods_id,
+        goods_info_item_no,
+        goods_info_name,
+        goods_info_subtitle,
+        goods_info_added,
+        goods_info_added_time,
+        goods_info_stock,
+        goods_info_prefer_price,
+        goods_info_vip_price,
+        goods_info_cost_price,
+        goods_info_market_price,
+        goods_info_weight,
+        goods_info_img_id,
+        goods_info_create_name,
+        goods_info_create_time,
+        goods_info_modified_name,
+        goods_info_modified_time,
+        goods_info_del_name,
+        goods_info_del_time,
+        goods_info_delflag,
+        goods.cat_id,
+        goods.brand_id,
+        mar.marketing_id,
+        groupon.groupon_discount,
+        groupon.groupon_vip_discount,
+        groupon.groupon_price,
+        groupon.groupon_vip_price
+        FROM
+        np_goods_info info,
+        np_goods goods ,
+        (SELECT sco.scope_id,sco.create_time,sco.marketing_id,sco.flag from np_marketing_scope sco where sco.flag='0'
+        ORDER BY sco.create_time DESC) scope,
+        np_marketing mar,
+        np_groupon groupon
+        WHERE
+        info.goods_id = goods.goods_id
+        AND scope.scope_id = info.goods_info_id
+        AND mar.marketing_id = scope.marketing_id
+        AND goods_delflag = '0'
+        AND goods.goods_added = '1'
+        AND info.goods_info_delflag = '0'
+        AND info.goods_info_added = '1'
+        AND mar.flag = '0'
+        AND groupon.market_id = mar.marketing_id
+        AND mar.m_group_id =4
+        <![CDATA[  And mar.marketing_begin <= now() and mar.marketing_end   > now() ]]>
+        <if test="parentId != null">
+            AND goods.cat_id IN
+            (SELECT tm.cat_id FROM np_goods_category tm WHERE tm.cat_parent_id IN
+            (SELECT t.cat_id FROM np_goods_category t WHERE t.cat_parent_id=#{parentId}))
+        </if>
+        GROUP BY
+        info.goods_info_id
+        <if test="isEnterprise == null">
+            <if test="isAsc == null">
+                ORDER BY groupon.groupon_price
+            </if>
+            <if test="isAsc != null">
+                ORDER BY groupon.groupon_price DESC
+            </if>
+        </if>
+        <if test="isEnterprise != null">
+            <if test="isAsc == null">
+                ORDER BY groupon_vip_price
+            </if>
+            <if test="isAsc != null">
+                ORDER BY groupon_vip_price DESC
+            </if>
+        </if>
+        limit #{start},#{number}
+    </select>
+    <!-- 根据货品ID查询货品信息 -->
+    <select id="queryPrductByGrouponProductId" parameterType="java.lang.Long" resultMap="GrouponResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from np_goods_info where goods_info_id=#{productId}
+    </select>
+    <!-- 查询参加的抢购商品总数量  -->
+    <select id="selectMarketingRushCount" resultType="java.lang.Integer">
+        SELECT count(DISTINCT info.goods_info_id)
+        FROM
+        np_goods_info info,
+        np_goods goods,
+        np_marketing_scope scope,
+        np_marketing mar
+        WHERE
+        info.goods_id = goods.goods_id
+        AND scope.scope_id = info.goods_info_id
+        and mar.marketing_id = scope.marketing_id
+        AND goods_delflag = '0'
+        AND goods.goods_added = '1'
+        AND info.goods_info_delflag = '0'
+        AND info.goods_info_added = '1'
+        AND mar.flag = '0'
+        AND scope.flag = '0'
+        AND mar.m_group_id = 5
+        <![CDATA[  AND DATE_ADD(NOW(), INTERVAL 1 DAY)  >= mar.marketing_begin AND DATE_ADD(mar.marketing_end, INTERVAL 1 DAY) >=NOW() ]]>
+        <!--<![CDATA[  And mar.marketing_begin <= now() and mar.marketing_end   > now() ]]>-->
+    </select>
+
+    <select id="selectMarketingRushList" resultMap="MarketingRushResultMap" parameterType="java.util.Map">
+ 	SELECT
+    goods_info_id,
+    info.goods_id,
+    goods_info_item_no,
+    goods_info_name,
+    goods_info_subtitle,
+    goods_info_added,
+    goods_info_added_time,
+    goods_info_stock,
+    goods_info_prefer_price,
+    goods_info_vip_price,
+    goods_info_cost_price,
+    goods_info_market_price,
+    goods_info_weight,
+    goods_info_img_id,
+    goods_info_create_name,
+    goods_info_create_time,
+    goods_info_modified_name,
+    goods_info_modified_time,
+    goods_info_del_name,
+    goods_info_del_time,
+    goods_info_delflag,
+    mar.marketing_id
+FROM
+    np_goods_info info,
+    np_goods goods,
+    np_marketing_scope scope,
+    np_marketing mar
+WHERE
+    info.goods_id = goods.goods_id
+AND
+   scope.scope_id = info.goods_info_id
+and mar.marketing_id = scope.marketing_id
+AND goods_delflag = '0'
+AND goods.goods_added = '1'
+AND info.goods_info_delflag = '0'
+AND info.goods_info_added = '1'
+AND mar.flag = '0'          
+AND scope.flag = '0'
+AND mar.m_group_id = 5
+ <![CDATA[  AND DATE_ADD(NOW(), INTERVAL 1 DAY)  >= mar.marketing_begin AND DATE_ADD(mar.marketing_end, INTERVAL 1 DAY) >=NOW() ]]>
+GROUP BY
+    info.goods_info_id
+limit #{start},#{number}
+ </select>
+    <select id="selectMarketingRushAllList" resultMap="MarketingRushResultMap">
+ 	SELECT
+    goods_info_id,
+    info.goods_id,
+    goods_info_item_no,
+    goods_info_name,
+    goods_info_subtitle,
+    goods_info_added,
+    goods_info_added_time,
+    goods_info_stock,
+    goods_info_prefer_price,
+    goods_info_vip_price,
+    goods_info_cost_price,
+    goods_info_market_price,
+    goods_info_weight,
+    goods_info_img_id,
+    goods_info_create_name,
+    goods_info_create_time,
+    goods_info_modified_name,
+    goods_info_modified_time,
+    goods_info_del_name,
+    goods_info_del_time,
+    goods_info_delflag,
+    mar.marketing_id
+FROM
+    np_goods_info info,
+    np_goods goods,
+    np_marketing_scope scope,
+    np_marketing mar
+WHERE
+    info.goods_id = goods.goods_id
+AND
+   scope.scope_id = info.goods_info_id
+and mar.marketing_id = scope.marketing_id
+AND goods_delflag = '0'
+AND goods.goods_added = '1'
+AND info.goods_info_delflag = '0'
+AND info.goods_info_added = '1'
+AND mar.flag = '0'
+AND scope.flag = '0'
+AND mar.m_group_id = 5
+ <![CDATA[  AND DATE_ADD(NOW(), INTERVAL 1 DAY)  >= mar.marketing_begin AND DATE_ADD(mar.marketing_end, INTERVAL 1 DAY) >=NOW() ]]>
+GROUP BY
+    info.goods_info_id
+ </select>
+    <!-- 根据货品ID查询货品信息 -->
+    <select id="queryPrductByMarketingRushProductId" parameterType="java.lang.Long" resultMap="MarketingRushResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from np_goods_info where goods_info_id=#{productId}
+    </select>
+
+    <!-- 根据货品ID查询货品信息 -->
+    <select id="queryPrductByProductId" parameterType="java.lang.Long" resultMap="ListVoResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from np_goods_info where goods_info_id=#{productId}
+    </select>
+    <!-- 根据货品ID查询货品信息 -->
+    <select id="queryProductByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from np_goods_info where goods_info_id=#{productId}
+    </select>
+    <!-- 根据货品ID查询货品信息ForFinalBuy -->
+    <select id="queryProductByPrimaryKeyForFinalBuy" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select<include refid="final_buy_Column_list"/>,img.image_in_name as goods_info_img_id from np_goods_info i left
+        JOIN (select image_in_name,goods_info_id from np_goods_image where goods_img_delflag='0' ) img on
+        i.goods_info_id = img.goods_info_id
+        where i.goods_info_id =#{productId}
+        group by i.goods_info_id
+    </select>
+
+    <!-- 根据分类ID查询销量最高的货品 -->
+    <select id="queryTopSalesInfoByCatIds" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="List_Column_list"/>
+        from np_goods_info i left join (select sum(goods_info_num) as count, np_order_goods.goods_info_id from
+        np_order_goods
+        where order_id in (select order_id from np_order where order_status='3')group by goods_info_id) o on
+        o.goods_info_id=i.goods_info_id
+        where i.goods_id in (select goods_id from np_goods where cat_id = #{catId})
+        and i.goods_info_delflag='0' and i.goods_info_added='1'
+        order by o.count desc
+        limit 0,#{rowCount}
+    </select>
+
+    <!-- 根据货品ID查询销量最高的货品 -->
+    <select id="queryTopSalesInfoByProductId" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="List_Column_list"/>
+        from np_goods_info i left join (select sum(goods_info_num) as count, np_order_goods.goods_info_id from
+        np_order_goods
+        where order_id in (select order_id from np_order where order_status='3')group by goods_info_id) o on
+        o.goods_info_id=i.goods_info_id
+        where i.goods_id in (select goods_id from np_goods where cat_id = (
+        select cat_id from np_goods where goods_id in (select goods_id from np_goods_info where goods_info_id
+        =#{productId})))
+        and i.goods_info_delflag='0' and i.goods_info_added='1'
+        order by o.count desc
+        limit 0,#{rowCount}
+    </select>
+
+    <!-- 根据分类查询最近一月销量最高的商品 -->
+    <select id="queryHotSalesByCatId" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="List_Column_list"/>
+        from np_goods_info i left join (select sum(goods_info_num) as count, np_order_goods.goods_info_id from
+        np_order_goods
+        where order_id in (select order_id from np_order where order_status='3') and TO_DAYS(NOW()) - TO_DAYS(buy_time)
+        &lt;= 30 group by goods_info_id) o on o.goods_info_id=i.goods_info_id
+        where i.goods_id in (select goods_id from np_goods where cat_id = #{catId})
+        and i.goods_info_delflag='0' and i.goods_info_added='1'
+        order by o.count desc
+        limit 0,#{rowCount}
+    </select>
+
+    <!-- 根据分类查询最近一月销量最高的同价位的商品 -->
+    <select id="queryHotSalesByCatIdandPrice" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="List_Column_list"/>
+        from np_goods_info i left join (select sum(goods_info_num) as count, np_order_goods.goods_info_id from
+        np_order_goods
+        where order_id in (select order_id from np_order where order_status='3') and TO_DAYS(NOW()) - TO_DAYS(buy_time)
+        &lt;= 30 group by goods_info_id) o on o.goods_info_id=i.goods_info_id
+        where i.goods_id in (select goods_id from np_goods where cat_id = #{catId})
+        and i.goods_info_delflag='0' and i.goods_info_added='1'
+        <!-- 会员价格 -->
+        <if test="isEnterprise == '1'">
+            and i.goods_info_vip_price = #{goodsPreferPrice}
+        </if>
+        <!-- 个人价格 -->
+        <if test="isEnterprise == '0' || isEnterprise == '' || isEnterprise == null ">
+            and i.goods_info_prefer_price = #{goodsPreferPrice}
+        </if>
+        order by o.count desc
+        limit 0,#{rowCount}
+    </select>
+
+    <!-- 根据分类查询最近一月销量最高的同一品牌的商品 -->
+    <select id="queryHotSalesByCatIdandBrand" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="List_Column_list"/>
+        from np_goods_info i left join (select sum(goods_info_num) as count, np_order_goods.goods_info_id from
+        np_order_goods
+        where order_id in (select order_id from np_order where order_status='3') and TO_DAYS(NOW()) - TO_DAYS(buy_time)
+        &lt;= 30 group by goods_info_id) o on o.goods_info_id=i.goods_info_id
+        where i.goods_id in (select goods_id from np_goods where cat_id = #{catId} and brand_id =#{brandId})
+        and i.goods_info_delflag='0' and i.goods_info_added='1'
+        order by o.count desc
+        limit 0,#{rowCount}
+    </select>
+
+    <!-- 查询浏览该分类下的用户最终购买以及百分比 -->
+    <select id="browCatFinalBuyAndPrecent" parameterType="java.util.Map" resultMap="ListFinalBuyResultMap">
+       select b.goods_info_id,ROUND((b.count/a.sumc)*100,0) as precent
+		from (select count(1) as sumc from np_order_goods where goods_info_id in (select goods_info_id from np_goods_info where goods_id in ( select goods_id from np_goods where cat_id=#{catId}) and goods_info_delflag='0' and goods_info_added='1') ) as a,
+		(select goods_info_id,count(1) as count from np_order_goods where goods_info_id in (select goods_info_id from np_goods_info where goods_id in ( select goods_id from np_goods where cat_id=#{catId}) and   goods_info_delflag='0' and goods_info_added='1') group by goods_info_id) as b
+		order by precent desc
+		limit 0,#{rowCount}
+   </select>
+    <!-- 根据分类ID查询最新上架的货品 -->
+    <select id="queryTopNewInfoByCatIds" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from np_goods_info where goods_id in
+        (select goods_id from np_goods where cat_id in
+        <foreach collection="catIds" open="(" close=")" separator="," item="catId">
+            #{catId}
+        </foreach>
+        )
+        and goods_info_delflag='0' and goods_info_added='1'
+        order by goods_info_create_time desc
+        limit 0,#{rowCount}
+    </select>
+
+    <!-- 根据货品ID查询详情页的Bean -->
+    <select id="queryDetailByProductId" parameterType="java.lang.Long" resultMap="productDetailResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from np_goods_info where goods_info_id=#{productId} and goods_info_delflag='0'
+    </select>
+
+    <!-- 根据货品ID查询详情页的Bean -->
+    <select id="queryDetailByGroupId" parameterType="java.lang.Long" resultMap="productDetailResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from np_goods_info info INNER JOIN np_goods_group_rele_product rele on info.goods_info_id=rele.product_id
+        WHERE group_id=#{groupId} and rele.rele_product_delflag='0'
+    </select>
+
+    <!-- 根据商品ID查询下面的第一个货品 -->
+    <select id="queryFirstProductByGoodsId" parameterType="java.lang.Long" resultMap="MiniResultMap">
+        select
+        <include refid="Mini_Column_List"/>
+        from np_goods_info
+        where goods_id=#{goodsId} and goods_info_added='1' and goods_info_delflag='0' limit 0,1
+    </select>
+
+    <!-- 根据货品ID查询属于同一组合中的货品 -->
+    <select id="queryGroupProductByProductId" parameterType="java.lang.Long" resultMap="MiniResultMap">
+        select
+        <include refid="Mini_Column_List"/>
+        from np_goods_info where goods_info_id in (
+        select product_id from np_goods_group_rele_product where group_id in
+        (select group_id from np_goods_group_rele_product where product_id = #{productId})
+        and product_id not in (#{productId}) and product_id not in
+        (select goods_info_id from np_goods_info where goods_info_added='0' or goods_info_delflag='1')
+        and rele_product_delflag='0')
+    </select>
+    <!-- 保存商品关注信息 -->
+    <insert id="saveGoodsAtte" parameterType="com.ningpai.site.goods.bean.SiteGoodsAtte">
+   		insert into np_customer_follow (customer_id,goods_id,create_time,del_flag,district_id,follow_price)
+   		values(#{custId},#{productId},now(),'0',#{districtId},#{followPrice})
+   </insert>
+
+    <!-- 保存商品浏览信息 -->
+    <insert id="saveGoodsBrow" parameterType="java.util.Map">
+   		insert into np_customer_browserecord (customer_id,goods_id,create_time,del_flag)
+   		values(#{custId},#{productId},now(),'0')
+   </insert>
+    <!-- 修改商品浏览信息状态 -->
+    <insert id="updateGoodsBrowStatus" parameterType="java.util.Map">
+        update np_customer_browserecord set del_flag='1'
+        where customer_id=#{custId}  and goods_id=#{productId}
+    </insert>
+
+
+    <!-- 根据货品和会员ID查询是否已经关注 -->
+    <select id="queryAtteHistByCustIdAndProId" parameterType="java.util.Map" resultType="java.lang.Integer">
+   		select count(1) from np_customer_follow where customer_id=#{custId} and goods_id = #{productId} and del_flag='0'
+   </select>
+
+    <!-- 根据货品ID数组查询货品信息 -->
+    <select id="queryProductsByProductIds" parameterType="java.util.ArrayList" resultMap="ListVoResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from np_goods_info where goods_info_id in
+        <foreach collection="productIds" item="productId" open="(" close=")" separator=",">
+            #{productId}
+        </foreach>
+        and goods_info_delflag='0'
+    </select>
+
+    <!-- 保存商品咨询信息 -->
+    <insert id="saveAskComment" parameterType="java.util.Map">
+   	insert into np_comment (customer_id,goods_id,is_consult,consult_item,comment_content,publish_time,publish_ip)
+   	values(#{custId},#{productId},'1',#{type},#{comment},now(),#{ip})
+   </insert>
+
+
+    <!-- 根据商品ID查询货品列表 -->
+    <select id="queryProductByGoodsId" parameterType="java.lang.Long" resultMap="ListVoResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from np_goods_info where goods_id=#{goodsId} and goods_info_delflag='0' and goods_info_added='1'
+    </select>
+
+    <!-- 根据货品ID 查询这个货品是否是上架状态以及未删除状态 -->
+    <select id="queryProductByGoodsInfoId" parameterType="java.lang.Long" resultType="java.lang.Integer">
+  select count(1) from np_goods g , np_goods_info info 
+  where g.goods_id = info.goods_id 
+  and g.goods_added='1' and  info.goods_info_added='1'and g.goods_delflag='0' and info.goods_info_delflag='0'
+  and info.goods_info_id = #{productId}
+  </select>
+
+
+    <!-- 根据订单号获取积分兑换记录对象 -->
+    <select id="selectExchangeByOrderCode" parameterType="java.util.Map" resultMap="pointMap">
+        select
+        <include refid="exchangePoint"/>
+        from np_customer_exchange_point where exchange_point_orderCode = #{orderCode,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 保存积分兑换记录-->
+    <insert id="insertExchangeCusmomer" parameterType="java.util.Map">
+  
+	  	INSERT INTO np_customer_exchange_point (
+			exchange_point_id,
+			exchange_point_orderCode,
+			exchange_customer_id,
+			exchange_customer_point,
+			exchange_time,
+			disparityPrice,
+			consumption
+		)
+		VALUES
+		(0, 
+		#{orderCode,jdbcType=VARCHAR},
+		#{customerId,jdbcType=BIGINT},
+		#{exchangePoint,jdbcType=BIGINT},
+		#{exchangeTime,jdbcType=TIMESTAMP},
+		#{disparityPrice,jdbcType=VARCHAR},
+	    #{consumption,jdbcType=VARCHAR}
+		)
+  </insert>
+
+</mapper>

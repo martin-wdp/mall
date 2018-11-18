@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.dao.MarketLelvelMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.marketing.bean.MarketLelvel" >
+    <id column="promotion_lelvel_id" property="promotionLelvelId" jdbcType="BIGINT" />
+    <result column="lelvel_id" property="lelvelId" jdbcType="BIGINT" />
+    <result column="marketing_id" property="marketingId" jdbcType="BIGINT" />
+    <result column="lelvel_del_flag" property="lelvelDelFlag" jdbcType="CHAR" />
+    <result column="levelName" property="levelName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    promotion_lelvel_id, lelvel_id, marketing_id, lelvel_del_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_market_lelvel
+    where promotion_lelvel_id = #{promotionLelvelId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_market_lelvel
+    where promotion_lelvel_id = #{promotionLelvelId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.marketing.bean.MarketLelvel" useGeneratedKeys="true" keyProperty="promotionLelvelId" >
+    insert into np_market_lelvel (lelvel_id, marketing_id, lelvel_del_flag
+      )
+    values (#{lelvelId,jdbcType=BIGINT}, #{marketingId,jdbcType=BIGINT}, #{lelvelDelFlag,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.marketing.bean.MarketLelvel" useGeneratedKeys="true" keyProperty="promotionLelvelId" >
+    insert into np_market_lelvel
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      lelvel_id,
+      marketing_id,
+      lelvel_del_flag,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{lelvelId,jdbcType=BIGINT},
+      #{marketingId,jdbcType=BIGINT},
+      #{lelvelDelFlag,jdbcType=CHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.marketing.bean.MarketLelvel" >
+    update np_market_lelvel
+    <set >
+      <if test="lelvelId != null" >
+        lelvel_id = #{lelvelId,jdbcType=BIGINT},
+      </if>
+      <if test="marketingId != null" >
+        marketing_id = #{marketingId,jdbcType=BIGINT},
+      </if>
+      <if test="lelvelDelFlag != null" >
+        lelvel_del_flag = #{lelvelDelFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where promotion_lelvel_id = #{promotionLelvelId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.marketing.bean.MarketLelvel" >
+    update np_market_lelvel
+    set lelvel_id = #{lelvelId,jdbcType=BIGINT},
+      marketing_id = #{marketingId,jdbcType=BIGINT},
+      lelvel_del_flag = #{lelvelDelFlag,jdbcType=CHAR}
+    where promotion_lelvel_id = #{promotionLelvelId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 根据促销ID查询促销等级 -->
+  <select id="queryLevelNameByMarketingId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  select pl.point_level_name as levelName,pl.point_lelvel_id as lelvel_id  from np_customer_point_level pl
+  LEFT JOIN np_market_lelvel  ml
+  on pl.point_lelvel_id=ml.lelvel_id
+  where ml.marketing_id=#{marketingId,jdbcType=BIGINT} and ml.lelvel_del_flag='0'
+  </select>
+  
+  <!-- 根据促销ID删除促销等级 -->
+  <update id="delMarketLevel" parameterType="java.lang.Long">
+    update np_market_lelvel
+    set lelvel_del_flag='1'
+    where marketing_id=#{marketingId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 根据 促销ID查询等级-->
+  <select id="queryLevelByMarketingId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+     select  <include refid="Base_Column_List" />
+     from np_market_lelvel 
+	where  marketing_id=#{marketingId,jdbcType=BIGINT} and lelvel_del_flag='0'
+  </select>
+  
+   <update id="deleteMarketingLelvelMarketing" parameterType="java.lang.Long" >
+    update np_market_lelvel
+    set lelvel_del_flag = '1'
+    where marketing_id = #{marketingId,jdbcType=BIGINT}
+  </update>
+</mapper>

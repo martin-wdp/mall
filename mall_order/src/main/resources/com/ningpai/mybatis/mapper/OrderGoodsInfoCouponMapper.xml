@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.OrderGoodsInfoCouponMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.order.bean.OrderGoodsInfoCoupon" >
+    <id column="goods_gift_id" property="goodsGiftId" jdbcType="BIGINT" />
+    <result column="order_goods_id" property="orderGoodsId" jdbcType="BIGINT" />
+    <result column="coupon_id" property="couponId" jdbcType="BIGINT" />
+    <result column="coupon_no" property="couponNo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    goods_gift_id, order_goods_id, coupon_id, coupon_no
+  </sql>
+  
+  
+  
+  <!-- 查询货品赠送的优惠券 -->
+  <select id="selectOrderGoodsInfoCoupon" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_order_goods_info_coupon
+    where order_goods_id = #{orderGoodsId,jdbcType=BIGINT}
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_order_goods_info_coupon
+    where goods_gift_id = #{goodsGiftId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_order_goods_info_coupon
+    where goods_gift_id = #{goodsGiftId,jdbcType=BIGINT}
+  </delete>
+  
+  
+  <insert id="insertOrderInfoCoupon" parameterType="java.util.List" >
+    insert into np_order_goods_info_coupon (goods_gift_id, order_goods_id, coupon_id, 
+      coupon_no)
+    values 
+      <foreach collection="list" separator="," item="coupon" index="index" >  
+         (#{coupon.goodsGiftId,jdbcType=BIGINT}, #{coupon.orderGoodsId,jdbcType=BIGINT}, #{coupon.couponId,jdbcType=BIGINT}, 
+     	 #{coupon.couponNo,jdbcType=VARCHAR})
+      
+     </foreach>  
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.order.bean.OrderGoodsInfoCoupon" >
+    insert into np_order_goods_info_coupon
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="goodsGiftId != null" >
+        goods_gift_id,
+      </if>
+      <if test="orderGoodsId != null" >
+        order_goods_id,
+      </if>
+      <if test="couponId != null" >
+        coupon_id,
+      </if>
+      <if test="couponNo != null" >
+        coupon_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="goodsGiftId != null" >
+        #{goodsGiftId,jdbcType=BIGINT},
+      </if>
+      <if test="orderGoodsId != null" >
+        #{orderGoodsId,jdbcType=BIGINT},
+      </if>
+      <if test="couponId != null" >
+        #{couponId,jdbcType=BIGINT},
+      </if>
+      <if test="couponNo != null" >
+        #{couponNo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.order.bean.OrderGoodsInfoCoupon" >
+    update np_order_goods_info_coupon
+    <set >
+      <if test="orderGoodsId != null" >
+        order_goods_id = #{orderGoodsId,jdbcType=BIGINT},
+      </if>
+      <if test="couponId != null" >
+        coupon_id = #{couponId,jdbcType=BIGINT},
+      </if>
+      <if test="couponNo != null" >
+        coupon_no = #{couponNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where goods_gift_id = #{goodsGiftId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.order.bean.OrderGoodsInfoCoupon" >
+    update np_order_goods_info_coupon
+    set order_goods_id = #{orderGoodsId,jdbcType=BIGINT},
+      coupon_id = #{couponId,jdbcType=BIGINT},
+      coupon_no = #{couponNo,jdbcType=VARCHAR}
+    where goods_gift_id = #{goodsGiftId,jdbcType=BIGINT}
+  </update>
+  
+ 
+</mapper>

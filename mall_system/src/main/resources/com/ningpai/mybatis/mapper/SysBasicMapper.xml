@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.system.dao.SysBasicMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.system.bean.SysBasic" >
+    <id column="basic_id" property="basicId" jdbcType="BIGINT" />
+    <result column="bset_name" property="bsetName" jdbcType="VARCHAR" />
+    <result column="login_logo" property="loginLogo" jdbcType="VARCHAR" />
+    <result column="index_logo" property="indexLogo" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="temp1" property="temp1" jdbcType="VARCHAR" />
+    <result column="temp2" property="temp2" jdbcType="VARCHAR" />
+    <result column="temp3" property="temp3" jdbcType="VARCHAR" />
+    <result column="temp4" property="temp4" jdbcType="VARCHAR" />
+    <result column="temp5" property="temp5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    basic_id, login_logo, index_logo, create_date, update_date, temp1, temp2, temp3, bset_name,
+    temp4, temp5
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_sys_basic
+    where basic_id = #{basicId,jdbcType=BIGINT}
+  </select>
+  <select id="selectCurr" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_sys_basic basic,np_sys_basicset bset
+    where basic.basic_id=bset.bset_id
+    limit 1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_sys_basic
+    where basic_id = #{basicId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.system.bean.SysBasic" >
+    insert into np_sys_basic (basic_id, login_logo, index_logo, 
+      create_date, update_date, temp1, 
+      temp2, temp3, temp4, 
+      temp5)
+    values (#{basicId,jdbcType=BIGINT}, #{loginLogo,jdbcType=VARCHAR}, #{indexLogo,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{temp1,jdbcType=VARCHAR}, 
+      #{temp2,jdbcType=VARCHAR}, #{temp3,jdbcType=VARCHAR}, #{temp4,jdbcType=VARCHAR}, 
+      #{temp5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.system.bean.SysBasic" >
+    insert into np_sys_basic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="basicId != null" >
+        basic_id,
+      </if>
+      <if test="loginLogo != null" >
+        login_logo,
+      </if>
+      <if test="indexLogo != null" >
+        index_logo,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="temp1 != null" >
+        temp1,
+      </if>
+      <if test="temp2 != null" >
+        temp2,
+      </if>
+      <if test="temp3 != null" >
+        temp3,
+      </if>
+      <if test="temp4 != null" >
+        temp4,
+      </if>
+      <if test="temp5 != null" >
+        temp5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="basicId != null" >
+        #{basicId,jdbcType=BIGINT},
+      </if>
+      <if test="loginLogo != null" >
+        #{loginLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="indexLogo != null" >
+        #{indexLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temp1 != null" >
+        #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null" >
+        #{temp2,jdbcType=VARCHAR},
+      </if>
+      <if test="temp3 != null" >
+        #{temp3,jdbcType=VARCHAR},
+      </if>
+      <if test="temp4 != null" >
+        #{temp4,jdbcType=VARCHAR},
+      </if>
+      <if test="temp5 != null" >
+        #{temp5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.system.bean.SysBasic" >
+    update np_sys_basic
+    <set >
+      <if test="loginLogo != null" >
+        login_logo = #{loginLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="indexLogo != null" >
+        index_logo = #{indexLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temp1 != null" >
+        temp1 = #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null" >
+        temp2 = #{temp2,jdbcType=VARCHAR},
+      </if>
+      <if test="temp3 != null" >
+        temp3 = #{temp3,jdbcType=VARCHAR},
+      </if>
+      <if test="temp4 != null" >
+        temp4 = #{temp4,jdbcType=VARCHAR},
+      </if>
+      <if test="temp5 != null" >
+        temp5 = #{temp5,jdbcType=VARCHAR},
+      </if>
+        update_date =SYSDATE()
+    </set>
+    where basic_id = #{basicId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.system.bean.SysBasic" >
+    update np_sys_basic
+    set login_logo = #{loginLogo,jdbcType=VARCHAR},
+      index_logo = #{indexLogo,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      temp1 = #{temp1,jdbcType=VARCHAR},
+      temp2 = #{temp2,jdbcType=VARCHAR},
+      temp3 = #{temp3,jdbcType=VARCHAR},
+      temp4 = #{temp4,jdbcType=VARCHAR},
+      temp5 = #{temp5,jdbcType=VARCHAR}
+    where basic_id = #{basicId,jdbcType=BIGINT}
+  </update>
+</mapper>

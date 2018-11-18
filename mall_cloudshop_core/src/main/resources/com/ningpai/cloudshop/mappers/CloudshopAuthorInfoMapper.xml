@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.cloudshop.dao.CloudshopAuthorInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.cloudshop.bean.CloudshopAuthorInfo" >
+    <id column="cloudshop_author_info_id" property="cloudshopAuthorInfoId" jdbcType="INTEGER" />
+    <result column="cloudshop_user_id" property="cloudshopUserId" jdbcType="VARCHAR" />
+    <result column="token_type" property="tokenType" jdbcType="VARCHAR" />
+    <result column="access_token" property="accessToken" jdbcType="VARCHAR" />
+    <result column="refresh_token" property="refreshToken" jdbcType="VARCHAR" />
+    <result column="last_refresh_time" property="lastRefreshTime" jdbcType="TIMESTAMP" />
+    <result column="expires_in" property="expiresIn" jdbcType="BIGINT" />
+    <result column="re_expires_in" property="reExpiresIn" jdbcType="BIGINT" />
+    <result column="access_token_expires_date" property="accessTokenExpiresDate" jdbcType="TIMESTAMP" />
+    <result column="refresh_token_expires_date" property="refreshTokenExpiresDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    cloudshop_author_info_id, cloudshop_user_id, token_type, access_token, refresh_token, 
+    last_refresh_time, access_token_expires_date, refresh_token_expires_date,expires_in, re_expires_in
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_cloudshop_author_info
+    where cloudshop_author_info_id = #{cloudshopAuthorInfoId,jdbcType=INTEGER}
+  </select>
+
+  <!--查询所有的授权信息（只有一条）-->
+  <select id="selectAuthorInfo" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from np_cloudshop_author_info
+  </select>
+
+  <!--查询accesstoken值-->
+  <select id="getAccessTokenVal" resultType="java.lang.String">
+    SELECT access_token FROM np_cloudshop_author_info
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from np_cloudshop_author_info
+    where cloudshop_author_info_id = #{cloudshopAuthorInfoId,jdbcType=INTEGER}
+  </delete>
+
+  <!--清空账户授权信息-liangck-2015年7月6日 -->
+  <delete id="deleteAllInfo">
+    delete from np_cloudshop_author_info
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.ningpai.cloudshop.bean.CloudshopAuthorInfo" >
+    insert into np_cloudshop_author_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cloudshopAuthorInfoId != null" >
+        cloudshop_author_info_id,
+      </if>
+      <if test="cloudshopUserId != null" >
+        cloudshop_user_id,
+      </if>
+      <if test="tokenType != null" >
+        token_type,
+      </if>
+      <if test="accessToken != null" >
+        access_token,
+      </if>
+      <if test="refreshToken != null" >
+        refresh_token,
+      </if>
+      <if test="lastRefreshTime != null" >
+        last_refresh_time,
+      </if>
+      <if test="accessTokenExpiresDate != null" >
+        access_token_expires_date,
+      </if>
+      <if test="refreshTokenExpiresDate != null" >
+        refresh_token_expires_date,
+      </if>
+      <if test="expiresIn != null" >
+        expires_in,
+      </if>
+      <if test="reExpiresIn != null" >
+        re_expires_in,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cloudshopAuthorInfoId != null" >
+        #{cloudshopAuthorInfoId,jdbcType=INTEGER},
+      </if>
+      <if test="cloudshopUserId != null" >
+        #{cloudshopUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="tokenType != null" >
+        #{tokenType,jdbcType=VARCHAR},
+      </if>
+      <if test="accessToken != null" >
+        #{accessToken,jdbcType=VARCHAR},
+      </if>
+      <if test="refreshToken != null" >
+        #{refreshToken,jdbcType=VARCHAR},
+      </if>
+      <if test="lastRefreshTime != null" >
+        #{lastRefreshTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accessTokenExpiresDate != null" >
+        #{accessTokenExpiresDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="refreshTokenExpiresDate != null" >
+        #{refreshTokenExpiresDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expiresIn != null" >
+        #{expiresIn,jdbcType=BIGINT},
+      </if>
+      <if test="reExpiresIn != null" >
+        #{reExpiresIn,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.cloudshop.bean.CloudshopAuthorInfo" >
+    update np_cloudshop_author_info
+    <set >
+      <if test="cloudshopUserId != null" >
+        cloudshop_user_id = #{cloudshopUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="tokenType != null" >
+        token_type = #{tokenType,jdbcType=VARCHAR},
+      </if>
+      <if test="accessToken != null" >
+        access_token = #{accessToken,jdbcType=VARCHAR},
+      </if>
+      <if test="refreshToken != null" >
+        refresh_token = #{refreshToken,jdbcType=VARCHAR},
+      </if>
+      <if test="lastRefreshTime != null" >
+        last_refresh_time = #{lastRefreshTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accessTokenExpiresDate != null" >
+        access_token_expires_date = #{accessTokenExpiresDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="refreshTokenExpiresDate != null" >
+        refresh_token_expires_date = #{refreshTokenExpiresDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expiresIn != null" >
+        expires_in = #{expiresIn,jdbcType=BIGINT},
+      </if>
+      <if test="reExpiresIn != null" >
+        re_expires_in = #{reExpiresIn,jdbcType=BIGINT},
+      </if>
+    </set>
+    where cloudshop_author_info_id = #{cloudshopAuthorInfoId,jdbcType=INTEGER}
+  </update>
+
+</mapper>

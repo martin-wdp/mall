@@ -1,0 +1,11 @@
+.fb_wp {width:1000px; margin:30px auto;}
+.feedback_box {border:1px solid #ddd; padding:40px;}
+.feedback_input dt {font-family:microsoft YaHei; font-size:18px; color:#333; float:left; width:130px; text-align:right;}
+.feedback_input dd {font-family:microsoft YaHei; font-size:16px; color:#333; margin-bottom:30px; margin-left:140px; line-height:25px;}
+.fb_check input {opacity:0; filter:alpha(opacity=0);}
+.fb_check {background:url(../images/fb_check.gif) no-repeat left center; display:inline-block; zoom:1; *display:inline; padding-left:10px;}
+.fb_checked {background:url(../images/fb_checked.gif) no-repeat left center;}
+.fb_txa {width:490px; height:275px; padding:5px; border:1px solid #ddd; border-radius:5px; box-shadow:0 0 5px #ddd;}
+.word_num {width:500px; font-size:14px; color:#999;}
+.upload_word {font-size:14px; color:#999;}
+.sub_fb {width:142px; height:40px; border:none; cursor:pointer; background:url(../images/sub_fb.gif) no-repeat; font-family:microsoft YaHei; font-size:20px; color:#fff;}

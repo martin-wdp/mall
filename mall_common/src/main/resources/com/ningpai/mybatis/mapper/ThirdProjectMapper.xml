@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.third.project.dao.ThirdProjectMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.thirdproject.bean.ThirdProject" >
+    <id column="third_project_id" property="thirdProjectId" jdbcType="BIGINT" />
+    <result column="third_id" property="thirdId" jdbcType="BIGINT" />
+    <result column="third_project_name" property="thirdProjectName" jdbcType="VARCHAR" />
+    <result column="third_project_url" property="thirdProjectUrl" jdbcType="VARCHAR" />
+    <result column="third_project_create_time" property="thirdProjectCreateTime" jdbcType="TIMESTAMP" />
+    <result column="third_project_modify_time" property="thirdProjectModifyTime" jdbcType="TIMESTAMP" />
+    <result column="third_project_delflag" property="thirdProjectDelflag" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.ningpai.thirdproject.bean.ThirdProject" extends="BaseResultMap" >
+    <result column="third_project_context" property="thirdProjectContext" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    third_project_id, third_id, third_project_name, third_project_url, third_project_create_time, 
+    third_project_modify_time, third_project_delflag
+  </sql>
+  <sql id="Blob_Column_List" >
+    third_project_context
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from np_third_project
+    where third_project_id = #{thirdProjectId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="queryThirdProjectByPage" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map">
+     select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from np_third_project
+    where third_project_delflag='0'and third_id=#{thirdId}
+    <if test="thirdProjectName!=null and thirdProjectName!='' ">
+        and third_project_name like  CONCAT(CONCAT('%', #{thirdProjectName},'%')) 
+    </if>   
+    ORDER BY third_project_create_time desc ,third_project_modify_time desc
+   
+    limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <select id="queryThirdProjectCount" resultType="java.lang.Integer" parameterType="com.ningpai.thirdproject.bean.ThirdProject" >
+   select count(1) from np_third_project where third_project_delflag='0'and third_id=#{thirdId}
+   <if test="thirdProjectName!=null and thirdProjectName!=''">
+       and third_project_name like  CONCAT(CONCAT('%', #{thirdProjectName},'%')) 
+    </if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_third_project
+    where third_project_id = #{thirdProjectId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.thirdproject.bean.ThirdProject" >
+    insert into np_third_project (third_project_id, third_id, third_project_name, 
+      third_project_url, third_project_create_time, 
+      third_project_modify_time, third_project_delflag, 
+      third_project_context)
+    values (#{thirdProjectId,jdbcType=BIGINT}, #{thirdId,jdbcType=BIGINT}, #{thirdProjectName,jdbcType=VARCHAR}, 
+      #{thirdProjectUrl,jdbcType=VARCHAR}, #{thirdProjectCreateTime,jdbcType=TIMESTAMP}, 
+      #{thirdProjectModifyTime,jdbcType=TIMESTAMP}, #{thirdProjectDelflag,jdbcType=CHAR}, 
+      #{thirdProjectContext,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.thirdproject.bean.ThirdProject" >
+    insert into np_third_project
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="thirdProjectId != null" >
+        third_project_id,
+      </if>
+      <if test="thirdId != null" >
+        third_id,
+      </if>
+      <if test="thirdProjectName != null" >
+        third_project_name,
+      </if>
+      <if test="thirdProjectUrl != null" >
+        third_project_url,
+      </if>
+      <if test="thirdProjectCreateTime != null" >
+        third_project_create_time,
+      </if>
+      <if test="thirdProjectModifyTime != null" >
+        third_project_modify_time,
+      </if>
+      <if test="thirdProjectDelflag != null" >
+        third_project_delflag,
+      </if>
+      <if test="thirdProjectContext != null" >
+        third_project_context,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="thirdProjectId != null" >
+        #{thirdProjectId,jdbcType=BIGINT},
+      </if>
+      <if test="thirdId != null" >
+        #{thirdId,jdbcType=BIGINT},
+      </if>
+      <if test="thirdProjectName != null" >
+        #{thirdProjectName,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdProjectUrl != null" >
+        #{thirdProjectUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdProjectCreateTime != null" >
+        #{thirdProjectCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="thirdProjectModifyTime != null" >
+        #{thirdProjectModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="thirdProjectDelflag != null" >
+        #{thirdProjectDelflag,jdbcType=CHAR},
+      </if>
+      <if test="thirdProjectContext != null" >
+        #{thirdProjectContext},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="selectLastId" resultType="java.lang.Long" >
+        select LAST_INSERT_ID()
+    </select>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.thirdproject.bean.ThirdProject" >
+    update np_third_project
+    <set >
+      <if test="thirdId != null" >
+        third_id = #{thirdId,jdbcType=BIGINT},
+      </if>
+      <if test="thirdProjectName != null" >
+        third_project_name = #{thirdProjectName,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdProjectUrl != null" >
+        third_project_url = #{thirdProjectUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdProjectCreateTime != null" >
+        third_project_create_time = #{thirdProjectCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="thirdProjectModifyTime != null" >
+        third_project_modify_time = #{thirdProjectModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="thirdProjectDelflag != null" >
+        third_project_delflag = #{thirdProjectDelflag,jdbcType=CHAR},
+      </if>
+      <if test="thirdProjectContext != null" >
+        third_project_context = #{thirdProjectContext},
+      </if>
+    </set>
+    where third_project_id = #{thirdProjectId,jdbcType=BIGINT}
+    <if test="thirdId != null" >
+       and third_id = #{thirdId,jdbcType=BIGINT}
+     </if>
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ningpai.thirdproject.bean.ThirdProject" >
+    update np_third_project
+    set third_id = #{thirdId,jdbcType=BIGINT},
+      third_project_name = #{thirdProjectName,jdbcType=VARCHAR},
+      third_project_url = #{thirdProjectUrl,jdbcType=VARCHAR},
+      third_project_create_time = #{thirdProjectCreateTime,jdbcType=TIMESTAMP},
+      third_project_modify_time = #{thirdProjectModifyTime,jdbcType=TIMESTAMP},
+      third_project_delflag = #{thirdProjectDelflag,jdbcType=CHAR},
+      third_project_context = #{thirdProjectContext,jdbcType=LONGVARCHAR}
+    where third_project_id = #{thirdProjectId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.thirdproject.bean.ThirdProject" >
+    update np_third_project
+    set third_id = #{thirdId,jdbcType=BIGINT},
+      third_project_name = #{thirdProjectName,jdbcType=VARCHAR},
+      third_project_url = #{thirdProjectUrl,jdbcType=VARCHAR},
+      third_project_create_time = #{thirdProjectCreateTime,jdbcType=TIMESTAMP},
+      third_project_modify_time = #{thirdProjectModifyTime,jdbcType=TIMESTAMP},
+      third_project_delflag = #{thirdProjectDelflag,jdbcType=CHAR}
+    where third_project_id = #{thirdProjectId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateDelflagstatu" parameterType="java.util.Map">
+    update np_third_project set third_project_delflag='1'
+    where third_project_id = #{thirdProjectId,jdbcType=BIGINT} and third_id= #{thirdId,jdbcType=BIGINT}
+  </update>
+  
+  
+  
+</mapper>

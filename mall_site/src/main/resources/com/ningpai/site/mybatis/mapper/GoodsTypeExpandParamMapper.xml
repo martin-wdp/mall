@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpaihsite.goods.dao.GoodsTypeExpandParamMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsTypeExpandParam" >
+    <id column="expandparam_id" property="expandparamId" jdbcType="BIGINT" />
+    <result column="type_id" property="typeId" jdbcType="BIGINT" />
+    <result column="expandparam_name" property="expandparamName" jdbcType="VARCHAR" />
+    <result column="expandparam_nickname" property="expandparamNickname" jdbcType="VARCHAR" />
+    <result column="expandparam_showtype" property="expandparamShowtype" jdbcType="INTEGER" />
+    <result column="expanparam_isshow" property="expanparamIsshow" jdbcType="CHAR" />
+    <result column="expandparam_sort" property="expandparamSort" jdbcType="INTEGER" />
+    <result column="expandparam_delflag" property="expandparamDelflag" jdbcType="CHAR" />
+    <result column="expandparam_create_name" property="expandparamCreateName" jdbcType="VARCHAR" />
+    <result column="expandparam_create_time" property="expandparamCreateTime" jdbcType="TIMESTAMP" />
+    <result column="expandparam_modified_name" property="expandparamModifiedName" jdbcType="VARCHAR" />
+    <result column="expandparam_modified_time" property="expandparamModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="expandparam_del_name" property="expandparamDelName" jdbcType="VARCHAR" />
+    <result column="expandparam_del_time" property="expandparamDelTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap type="com.ningpai.site.goods.vo.GoodsTypeExpandParamVo" id="VoResultMap">
+  	<id column="expandparam_id" property="expandparamId" jdbcType="BIGINT" />
+    <result column="type_id" property="typeId" jdbcType="BIGINT" />
+    <result column="expandparam_name" property="expandparamName" jdbcType="VARCHAR" />
+    <result column="expandparam_nickname" property="expandparamNickname" jdbcType="VARCHAR" />
+    <result column="expanparam_isshow" property="expanparamIsshow" jdbcType="CHAR" />
+    <result column="expandparam_sort" property="expandparamSort" jdbcType="INTEGER" />
+    <result column="expandparam_delflag" property="expandparamDelflag" jdbcType="CHAR" />
+    <collection property="valueList" column="expandparam_id" javaType="ArrayList" ofType="com.ningpai.goods.bean.GoodsTypeExpandParamValue"
+  		select="com.ningpaihsite.goods.dao.GoodsTypeExpandParamValueMapper.queryParamValueByParamId"
+  	></collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    expandparam_id, type_id, expandparam_name, expandparam_nickname, expandparam_showtype, 
+    expanparam_isshow, expandparam_sort, expandparam_delflag, expandparam_create_name, 
+    expandparam_create_time, expandparam_modified_name, expandparam_modified_time, expandparam_del_name, 
+    expandparam_del_time
+  </sql>
+  <!-- 根据类型ID查询扩展属性Vo -->
+  <select id="queryAllExpandParam" resultMap="VoResultMap" parameterType="java.lang.Long">
+  	select 
+    <include refid="Base_Column_List" />
+    from np_goods_type_expandparam 
+    where type_id = #{typeId,jdbcType=BIGINT} and expandparam_delflag='0'
+    order by expandparam_sort
+  </select>
+  <!-- 根据主键查询Vo -->
+    <select id="queryByExpandParamId" parameterType="java.lang.Long" resultMap="VoResultMap">
+    	select 
+	    	<include refid="Base_Column_List" />
+	    from np_goods_type_expandparam where expandparam_id=#{expandParamId}
+    </select>
+</mapper>

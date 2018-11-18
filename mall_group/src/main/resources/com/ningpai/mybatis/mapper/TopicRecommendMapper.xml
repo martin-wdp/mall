@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.dao.TopicRecommendMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.topic.bean.TopicRecommend" >
+    <id column="recommend_id" property="recommendId" jdbcType="BIGINT" />
+    <result column="recommend_ship_id" property="recommendShipId" jdbcType="BIGINT" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="recommend_type" property="recommendType" jdbcType="CHAR" />
+    <result column="customer_ip" property="customerIp" jdbcType="VARCHAR" />
+    <result column="recommend_create_time" property="recommendCreateTime" jdbcType="TIMESTAMP" />
+    <result column="recommend_modify_time" property="recommendModifyTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    recommend_id, recommend_ship_id, customer_id,recommend_type,recommend_create_time,recommend_modify_time,del_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_topic_recommend
+    where recommend_id = #{recommendId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_topic_recommend
+    where recommend_id = #{recommendId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.topic.bean.TopicRecommend" useGeneratedKeys="true" keyProperty="recommendId" >
+    insert into np_topic_recommend (recommend_ship_id, customer_id,recommend_type,customer_ip,
+   				 recommend_create_time,recommend_modify_time,del_flag)
+    values (#{recommendShipId,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT},
+    recommend_type = #{recommendType,jdbcType=CHAR},customer_ip = #{customerIp,jdbcType=VARCHAR}
+    recommend_create_time=#{recommendCreateTime,jdbcType=TIMESTAMP},recommend_modify_time=#{recommendModifyTime,jdbcType=TIMESTAMP},
+    del_flag = #{delFlag,jdbcType=CHAR})
+     )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.topic.bean.TopicRecommend" useGeneratedKeys="true" keyProperty="recommendId" >
+    insert into np_topic_recommend
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      recommend_ship_id,
+      customer_id,
+      recommend_type,
+      customer_ip,
+      recommend_create_time,
+      recommend_modify_time,
+      del_flag,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{recommendShipId,jdbcType=BIGINT},
+      #{customerId,jdbcType=BIGINT},
+      #{recommendType,jdbcType=CHAR},
+      #{customerIp,jdbcType=VARCHAR},
+      #{recommendCreateTime,jdbcType=TIMESTAMP},
+      #{recommendModifyTime,jdbcType=TIMESTAMP},
+   	  #{delFlag,jdbcType=CHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.topic.bean.TopicRecommend" >
+    update np_topic_recommend
+    <set>
+      <if test="recommendShipId != null" >
+        recommend_ship_id = #{recommendShipId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="recommendType != null and recommendType !=''" >
+        recommend_type = #{recommendType,jdbcType=CHAR}
+     </if>
+      <if test="customerIp != null and customerIp !=''" >
+        customer_ip = #{customerIp,jdbcType=CHAR}
+     </if>
+      <if test="recommendModifyTime != null and recommendModifyTime !=''" >
+        recommend_modify_time = #{recommendModifyTime,jdbcType=TIMESTAMP}
+     </if>
+      <if test="delFlag != null and delFlag !=''" >
+        del_flag = #{delFlag,jdbcType=CHAR}
+     </if>
+    </set>
+    where recommend_id = #{recommendId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.topic.bean.TopicRecommend" >
+    update np_topic_recommend
+    set recommend_ship_id = #{recommendShipId,jdbcType=BIGINT},
+      customer_id = #{customerId,jdbcType=BIGINT},recommend_type = #{recommendType,jdbcType=CHAR},
+      customer_ip = #{customerIp,jdbcType=CHAR}, recommend_modify_time = #{recommendModifyTime,jdbcType=TIMESTAMP},
+       del_flag = #{delFlag,jdbcType=CHAR}
+    where recommend_id = #{recommendId,jdbcType=BIGINT}
+  </update>
+
+  <!--根据话题Id和用户Id查询推荐次数  -->
+  <select id="topicRecommendCount" parameterType="java.util.Map" resultType="java.lang.Integer"> 
+   select count(1) from np_topic_recommend where 1=1 and del_flag='0'
+    <if test="recommendShipId != null and recommendShipId != ''" >
+      and recommend_ship_id = #{recommendShipId,jdbcType=BIGINT}
+     </if>
+     <if test="customerId != null and customerId !=''" >
+      and customer_id = #{customerId,jdbcType=BIGINT}
+     </if>
+     <if test="recommendType != null and recommendType !=''" >
+      and recommend_type = #{recommendType,jdbcType=CHAR}
+     </if>
+     <if test="customerIp != null and customerIp !=''" >
+      and customer_ip = #{customerIp,jdbcType=VARCHAR}
+     </if>
+     <if test="recommendCreateTime != null and recommendCreateTime !=''" >
+      and DATE_FORMAT(recommend_create_time,'%Y-%m-%d') = DATE_FORMAT(#{recommendCreateTime,jdbcType=TIMESTAMP},'%Y-%m-%d')
+     </if>
+  </select>
+ </mapper> 
+  
+  
+  

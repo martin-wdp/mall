@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.order.dao.BackOrderLogMapper" >
+    <resultMap id="BaseResultMap" type="com.ningpai.order.bean.BackOrderLog" >
+        <id column="log_id" property="logId" jdbcType="BIGINT" />
+        <result column="back_log_person" property="backLogPerson" jdbcType="VARCHAR" />
+        <result column="back_log_time" property="backLogTime" jdbcType="TIMESTAMP" />
+        <result column="back_log_status" property="backLogStatus" jdbcType="VARCHAR" />
+        <result column="back_order_id" property="backOrderId" jdbcType="BIGINT" />
+        <result column="back_remark" property="backRemark" jdbcType="VARCHAR" />
+        <result column="customer_remark" property="customerRemark" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        log_id, back_log_person, back_log_time, back_log_status, back_order_id, back_remark,customer_remark
+    </sql>
+
+    <insert id="insert" parameterType="com.ningpai.order.bean.BackOrderLog">
+        insert into np_back_order_log
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="logId != null" >
+                log_id,
+            </if>
+            <if test="backLogPerson != null" >
+                back_log_person,
+            </if>
+            <if test="backLogTime != null" >
+                back_log_time,
+            </if>
+            <if test="backLogStatus != null" >
+                back_log_status,
+            </if>
+            <if test="backOrderId != null" >
+                back_order_id,
+            </if>
+            <if test="backRemark != null" >
+                back_remark,
+            </if>
+            <if test="customerRemark != null">
+                customer_remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="logId != null" >
+                #{logId,jdbcType=BIGINT},
+            </if>
+            <if test="backLogPerson != null" >
+                #{backLogPerson,jdbcType=VARCHAR},
+            </if>
+            <if test="backLogTime != null" >
+                #{backLogTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="backLogStatus != null" >
+                #{backLogStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="backOrderId != null" >
+                #{backOrderId,jdbcType=BIGINT},
+            </if>
+            <if test="backRemark != null" >
+                #{backRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="customerRemark != null">
+                #{customerRemark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <!-- 获取退单日志信息 -->
+    <select id="queryByBackId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" /> from np_back_order_log where back_order_id = #{backOrderId,jdbcType=BIGINT}
+    </select>
+</mapper>

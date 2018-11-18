@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ningpai.system.estore.dao.EStoreMapper">
+  <resultMap id="BaseResultMap" type="com.ningpai.system.estore.bean.EStore">
+    <id column="estoreId" jdbcType="BIGINT" property="estoreid" />
+    <result column="server" jdbcType="VARCHAR" property="server" />
+    <result column="dbhost" jdbcType="VARCHAR" property="dbhost" />
+      <result column="address" jdbcType="VARCHAR" property="address"/>
+      <result column="image" jdbcType="VARCHAR" property="image"/>
+      <result column="provider" jdbcType="VARCHAR" property="provider"/>
+    <result column="appkey" jdbcType="VARCHAR" property="appkey" />
+    <result column="appscret" jdbcType="VARCHAR" property="appscret" />
+    <result column="token" jdbcType="VARCHAR" property="token" />
+    <result column="isopen" jdbcType="CHAR" property="isopen" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="delflag" jdbcType="CHAR" property="delflag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+      estoreId, server, dbhost, appkey, appscret, token, isopen,createtime, updatetime, delflag,address,provider,image
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_estore
+    where estoreId = #{estoreid,jdbcType=BIGINT} and delflag = '0'
+  </select>
+  <!-- 查询全部信息 -->
+  <select id="selectAllByPb" resultMap="BaseResultMap" >
+     select 
+    <include refid="Base_Column_List" />
+    from np_estore
+    where delflag = '0'
+  </select>
+  <!-- 查询全部信息数量 -->
+  <select id="selectAllCount" resultType="java.lang.Integer">
+    select count(1)
+    from np_estore
+    where delflag = '0'
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from np_estore
+    where estoreId = #{estoreid,jdbcType=BIGINT}
+  </delete>
+  
+  <update id="delete"	parameterType="java.lang.Long">
+  	update np_estore
+    set updatetime = SYSDATE(),delflag='1'
+    where estoreId = #{estoreid,jdbcType=BIGINT}
+  </update>
+  <insert id="insertSelective" parameterType="com.ningpai.system.estore.bean.EStore">
+    insert into np_estore
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="estoreid != null">
+        estoreId,
+      </if>
+      <if test="server != null">
+        server,
+      </if>
+      <if test="dbhost != null">
+        dbhost,
+      </if>
+      <if test="appkey != null">
+        appkey,
+      </if>
+      <if test="appscret != null">
+        appscret,
+      </if>
+      <if test="token != null">
+        token,
+      </if>
+      <if test="isopen != null">
+        isopen,
+      </if>
+      <if test="createtime == null">
+        createtime,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+      <if test="delflag == null">
+        delflag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="estoreid != null">
+        #{estoreid,jdbcType=BIGINT},
+      </if>
+      <if test="server != null">
+        #{server,jdbcType=VARCHAR},
+      </if>
+      <if test="dbhost != null">
+        #{dbhost,jdbcType=VARCHAR},
+      </if>
+      <if test="appkey != null">
+        #{appkey,jdbcType=VARCHAR},
+      </if>
+      <if test="appscret != null">
+        #{appscret,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null">
+        #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="isopen != null">
+        '0',
+      </if>
+      <if test="createtime == null">
+         SYSDATE(),
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delflag == null">
+        '0',
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.system.estore.bean.EStore">
+    update np_estore
+    <set>
+      <if test="server != null">
+        server = #{server,jdbcType=VARCHAR},
+      </if>
+      <if test="dbhost != null">
+        dbhost = #{dbhost,jdbcType=VARCHAR},
+      </if>
+      <if test="appkey != null">
+        appkey = #{appkey,jdbcType=VARCHAR},
+      </if>
+      <if test="appscret != null">
+        appscret = #{appscret,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null">
+        token = #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="isopen != null">
+        isopen = #{isopen,jdbcType=CHAR},
+      </if>
+        <if test="address != null">
+            address = #{address,jdbcType=CHAR},
+        </if>
+        <if test="image != null">
+            image = #{image,jdbcType=CHAR},
+        </if>
+        <if test="provider != null">
+            provider = #{provider,jdbcType=CHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delflag != null">
+        delflag = #{delflag,jdbcType=CHAR},
+      </if>
+      updatetime = SYSDATE()
+    </set>
+    where estoreId = #{estoreid,jdbcType=BIGINT}
+  </update>
+</mapper>

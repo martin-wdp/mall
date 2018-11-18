@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.info.dao.MessageSendMapper">
+<resultMap id="BaseResultMap" type="com.ningpai.info.bean.MessageBean" >
+    <id column="id" property="informId" jdbcType="BIGINT" />
+    <result column="subject" property="informSubject" jdbcType="VARCHAR" />
+    <result column="type" property="informType" jdbcType="BIGINT" />
+    <result column="status" property="informStatus" jdbcType="BIGINT" />
+    <result column="text" property="informText" jdbcType="VARCHAR" />
+    <result column="updateTime" property="informUpdateTime" jdbcType="TIMESTAMP" />   
+  </resultMap>
+  <sql id="Base_Column_List">
+  	id,subject,type,status,updateTime,text
+  </sql>
+	<select id="selectInformMapper" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/> 
+		from np_sendInform 
+		where type=#{informType,jdbcType=BIGINT} 
+		  and status=#{informStatus,jdbcType=BIGINT}
+	</select>
+	<update id="updateInformMapper" parameterType="com.ningpai.info.bean.MessageBean">
+		update np_sendInform set 			
+			subject=#{informSubject,jdbcType=VARCHAR},			
+			text=#{informText,jdbcType=VARCHAR}
+		where 
+			id=#{informId,jdbcType=BIGINT}
+	</update>
+	<select id="selectListMapper" parameterType="java.util.Map" resultMap="BaseResultMap">
+	select 
+		<include refid="Base_Column_List"/>	 
+	from np_sendInform
+    order by id
+    limit #{startRowNum},#{endRowNum} 
+	</select>
+	<select id="selectAllSize" resultType="java.lang.Integer">
+		select count(1) from np_sendInform
+	</select>
+	<select id="selectByIdMapper" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List"/>	
+		from np_sendInform
+		where id=#{informId,jdbcType=BIGINT}
+	</select>
+	<select id="findSubjectMapper" parameterType="java.lang.Integer" resultType="java.lang.String">
+		select subject from np_sendInform where id=#{informId,jdbcType=BIGINT}	
+	</select>
+	<select id="findTextMapper" parameterType="java.lang.Integer" resultType="java.lang.String">
+		select text from np_sendInform where id=#{informId,jdbcType=BIGINT}	
+	</select>
+</mapper>

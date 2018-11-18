@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.mybatis.mapper.AppServerMapper" >
+    <resultMap id="BaseResultMap" type="com.ningpai.app.bean.AppServer" >
+        <id column="app_server_id" property="appServerId" jdbcType="BIGINT" />
+        <result column="app_server_root" property="appServerRoot" jdbcType="VARCHAR" />
+        <result column="app_server_type" property="appServerType" jdbcType="CHAR" />
+        <result column="is_main" property="isMain" jdbcType="CHAR" />
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        app_server_id,app_server_root,app_server_type,is_main,del_flag
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        from np_app_server
+        where app_server_id = #{appServerId,jdbcType=BIGINT}
+    </select>
+
+    <update id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        update np_app_server set del_flag = '1'
+        where app_server_id = #{appServerId,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insertSelective" parameterType="com.ningpai.app.bean.AppServer" useGeneratedKeys="true" keyProperty="appServerId" >
+        insert into np_app_server
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="appServerId != null" >
+                app_server_id,
+            </if>
+            <if test="appServerRoot != null" >
+                app_server_root,
+            </if>
+            <if test="appServerType != null" >
+                app_server_type,
+            </if>
+            <if test="isMain != null" >
+                is_main,
+            </if>
+            <if test="delFlag != null" >
+                del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="appServerId != null" >
+                #{appServerId,jdbcType=BIGINT},
+            </if>
+            <if test="appServerRoot != null" >
+                #{appServerRoot,jdbcType=VARCHAR},
+            </if>
+            <if test="appServerType != null" >
+                #{appServerType,jdbcType=CHAR},
+            </if>
+            <if test="isMain != null" >
+                #{isMain,jdbcType=CHAR},
+            </if>
+            <if test="delFlag != null" >
+                #{delFlag,jdbcType=CHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.app.bean.AppServer" >
+        update np_app_server
+        <set >
+            <if test="appServerRoot != null" >
+                app_server_root = #{appServerRoot,jdbcType=VARCHAR},
+            </if>
+            <if test="appServerType != null" >
+                app_server_type = #{appServerType,jdbcType=CHAR},
+            </if>
+            <if test="isMain != null" >
+                is_main = #{isMain,jdbcType=CHAR},
+            </if>
+            <if test="delFlag != null" >
+                del_flag = #{delFlag,jdbcType=CHAR},
+            </if>
+        </set>
+        where app_server_id = #{appServerId,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByParam" parameterType="java.util.Map" >
+        update np_app_server
+        <set >
+            <if test="isMain != null" >
+                is_main = #{isMain,jdbcType=CHAR},
+            </if>
+        </set>
+        where
+        <if test="appServerType != null" >
+            app_server_type = #{appServerType,jdbcType=CHAR}
+        </if>
+        <if test="appServerId != null" >
+            app_server_id = #{appServerId,jdbcType=BIGINT}
+        </if>
+    </update>
+
+    <select id="selectByParam" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from np_app_server
+        where del_flag = '0'
+        <if test="appServerType != null and appServerType != ''">
+            and app_server_type = #{appServerType,jdbcType=CHAR}
+        </if>
+        order by is_main desc
+    </select>
+
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from np_app_server
+        where del_flag = '0'
+        <if test="pageBean.objectBean.appServerRoot != null and pageBean.objectBean.appServerRoot != ''">
+            and app_server_root like CONCAT('%',#{pageBean.objectBean.appServerRoot,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.appServerType != null and pageBean.objectBean.appServerType != ''">
+            and app_server_type = #{pageBean.objectBean.appServerType,jdbcType=CHAR}
+        </if>
+        <if test="pageBean.objectBean.delFlag != null and pageBean.objectBean.delFlag != ''">
+            and del_flag = #{pageBean.objectBean.delFlag,jdbcType=CHAR}
+        </if>
+        limit #{pageBean.startRowNum},#{pageBean.endRowNum}
+    </select>
+    <select id="selectListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select
+        count(1)
+        from np_app_server
+        where del_flag = '0'
+        <if test="pageBean.objectBean.appServerRoot != null and pageBean.objectBean.appServerRoot != ''">
+            and app_server_root like CONCAT('%',#{pageBean.objectBean.appServerRoot,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.appServerType != null and pageBean.objectBean.appServerType != ''">
+            and app_server_type = #{pageBean.objectBean.appServerType,jdbcType=CHAR}
+        </if>
+        <if test="pageBean.objectBean.delFlag != null and pageBean.objectBean.delFlag != ''">
+            and del_flag = #{pageBean.objectBean.delFlag,jdbcType=CHAR}
+        </if>
+    </select>
+
+    <update id="deleteMuilti" parameterType="java.lang.Long">
+        update np_app_server
+        set del_flag = '1'
+        where app_server_id in
+        <foreach collection="array" item="appServerId" open="(" separator="," close=")">
+        #{appServerId,jdbcType=BIGINT}
+        </foreach>
+    </update>
+</mapper>

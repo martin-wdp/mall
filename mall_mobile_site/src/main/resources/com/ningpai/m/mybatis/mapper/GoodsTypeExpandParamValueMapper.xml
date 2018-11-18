@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpaimsite.goods.dao.GoodsTypeExpandParamValueMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsTypeExpandParamValue" >
+    <id column="expandparam_value_id" property="expandparamValueId" jdbcType="BIGINT" />
+    <result column="expandparam_id" property="expandparamId" jdbcType="BIGINT" />
+    <result column="expandparam_value_name" property="expandparamValueName" jdbcType="VARCHAR" />
+    <result column="expandparam_value_sort" property="expandparamValueSort" jdbcType="INTEGER" />
+    <result column="expandparam_value_delflag" property="expandparamValueDelflag" jdbcType="CHAR" />
+    <result column="expandparam_value_create_name" property="expandparamValueCreateName" jdbcType="VARCHAR" />
+    <result column="expandparam_value_create_time" property="expandparamValueCreateTime" jdbcType="TIMESTAMP" />
+    <result column="expandparam_value_modified_name" property="expandparamValueModifiedName" jdbcType="VARCHAR" />
+    <result column="expandparam_value_modified_time" property="expandparamValueModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="expandparam_value_del_name" property="expandparamValueDelName" jdbcType="VARCHAR" />
+    <result column="expandparam_value_del_time" property="expandparamValueDelTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    expandparam_value_id, expandparam_id, expandparam_value_name, expandparam_value_sort, 
+    expandparam_value_delflag, expandparam_value_create_name, expandparam_value_create_time, 
+    expandparam_value_modified_name, expandparam_value_modified_time, expandparam_value_del_name, 
+    expandparam_value_del_time
+  </sql>
+  <!-- 根据属性ID查询属性值 -->
+  <select id="queryParamValueByParamId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  	select 
+    <include refid="Base_Column_List" />
+    from np_goods_type_expandparam_value
+    where expandparam_id = #{paramId,jdbcType=BIGINT} and expandparam_value_delflag='0' 
+    order by expandparam_value_sort
+  </select>
+  <!-- 根据主键查询 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_goods_type_expandparam_value
+    where expandparam_value_id = #{expandparamValueId,jdbcType=BIGINT}
+  </select>
+</mapper>

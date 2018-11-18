@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.dao.MarketLogoMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.marketing.bean.MarketLogo" >
+    <id column="market_logo_id" property="marketLogoId" jdbcType="BIGINT" />
+    <result column="marketing_id" property="marketingId" jdbcType="BIGINT" />
+    <result column="promotion_logo_id" property="promotionLogoId" jdbcType="BIGINT" />
+    <result column="promotion_logo_url" property="promotionLogoUrl" jdbcType="VARCHAR" />
+    <result column="promotion_logo_name" property="promotionLogoName" jdbcType="VARCHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    market_logo_id, marketing_id, promotion_logo_id, del_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_market_logo
+    where market_logo_id = #{marketLogoId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_market_logo
+    where market_logo_id = #{marketLogoId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.marketing.bean.MarketLogo" useGeneratedKeys="true" keyProperty="marketLogoId" >
+    insert into np_market_logo (marketing_id, promotion_logo_id, del_flag
+      )
+    values (#{marketingId,jdbcType=BIGINT}, #{promotionLogoId,jdbcType=BIGINT}, #{delFlag,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.marketing.bean.MarketLogo" useGeneratedKeys="true" keyProperty="marketLogoId" >
+    insert into np_market_logo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      marketing_id,
+      promotion_logo_id,
+      del_flag,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{marketingId,jdbcType=BIGINT},
+      #{promotionLogoId,jdbcType=BIGINT},
+      #{delFlag,jdbcType=CHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.marketing.bean.MarketLogo" >
+    update np_market_logo
+    <set >
+      <if test="marketingId != null" >
+        marketing_id = #{marketingId,jdbcType=BIGINT},
+      </if>
+      <if test="promotionLogoId != null" >
+        promotion_logo_id = #{promotionLogoId,jdbcType=BIGINT},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where market_logo_id = #{marketLogoId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.marketing.bean.MarketLogo" >
+    update np_market_logo
+    set marketing_id = #{marketingId,jdbcType=BIGINT},
+      promotion_logo_id = #{promotionLogoId,jdbcType=BIGINT},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where market_logo_id = #{marketLogoId,jdbcType=BIGINT}
+  </update>
+  
+   <!-- 根据促销ID查询促销LOGO -->
+  <select id="queryLogoByMarketingId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  select l.market_logo_id, l.marketing_id,
+   l.promotion_logo_id, l.del_flag,p.promotion_logo_url,p.promotion_logo_name from np_market_logo  l
+  left join np_promotion_logo p on l.promotion_logo_id = p.promotion_logo_id 
+  where marketing_id=#{marketingId,jdbcType=BIGINT} and l.del_flag='0'
+  </select>
+  
+  <!-- 根据促销ID删除促销等级 -->
+  <update id="delMarketLogo" parameterType="java.lang.Long">
+    update np_market_logo
+    set del_flag='1'
+    where marketing_id=#{marketingId,jdbcType=BIGINT}
+  </update>
+</mapper>

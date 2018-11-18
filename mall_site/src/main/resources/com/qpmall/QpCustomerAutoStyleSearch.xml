@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qpmall.dao.QpCustomerAutoStyleSearchMapper" >
+
+    <resultMap id="BaseResultMap" type="com.qpmall.bean.QpCustomerAutoStyleSearchBean">
+        <id column="customer_auto_style_search_id" jdbcType="BIGINT" property="customerAutoStyleSearchId" />
+        <result column="customer_id" jdbcType="BIGINT" property="customerId" />
+        <result column="auto_style_id" jdbcType="VARCHAR" property="autoStyleId" />
+        <result column="customer_auto_style_search_create_name" jdbcType="VARCHAR" property="customerAutoStyleSearchCreateName" />
+        <result column="customer_auto_style_search_create_time" jdbcType="TIMESTAMP" property="customerAutoStyleSearchCreateTime" />
+        <result column="customer_auto_style_search_modified_name" jdbcType="VARCHAR" property="customerAutoStyleSearchModifiedName" />
+        <result column="customer_auto_style_search_modified_time" jdbcType="TIMESTAMP" property="customerAutoStyleSearchModifiedTime" />
+        <result column="customer_auto_style_search_del_name" jdbcType="VARCHAR" property="customerAutoStyleSearchDelName" />
+        <result column="customer_auto_style_search_del_time" jdbcType="TIMESTAMP" property="customerAutoStyleSearchDelTime" />
+        <result column="customer_auto_style_search_delflag" jdbcType="CHAR" property="customerAutoStyleSearchDelflag" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    customer_auto_style_search_id, customer_id, auto_style_id, customer_auto_style_search_create_name,
+    customer_auto_style_search_create_time, customer_auto_style_search_modified_name,
+    customer_auto_style_search_modified_time, customer_auto_style_search_del_name, customer_auto_style_search_del_time,
+    customer_auto_style_search_delflag
+  </sql>
+
+    <select id="findAllList" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM qp_customer_auto_style_search WHERE customer_auto_style_search_delflag='0' AND customer_id=#{id,jdbcType=INTEGER}
+    </select>
+    <insert id="insert" parameterType="com.qpmall.bean.QpCustomerAutoStyleSearchBean" >
+        insert into qp_customer_auto_style_search
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="customerAutoStyleSearchId != null" >
+                customer_auto_style_search_id,
+            </if>
+            <if test="customerId != null" >
+                customer_id,
+            </if>
+            <if test="autoStyleId != null" >
+                auto_style_id,
+            </if>
+            <if test="customerAutoStyleSearchCreateName != null" >
+                customer_auto_style_search_create_name,
+            </if>
+            <if test="customerAutoStyleSearchCreateTime != null" >
+                customer_auto_style_search_create_time,
+            </if>
+            <if test="customerAutoStyleSearchModifiedName != null" >
+                customer_auto_style_search_modified_name,
+            </if>
+            <if test="customerAutoStyleSearchModifiedTime != null" >
+                customer_auto_style_search_modified_time,
+            </if>
+            <if test="customerAutoStyleSearchDelName != null" >
+                customer_auto_style_search_del_name,
+            </if>
+            <if test="customerAutoStyleSearchDelTime != null" >
+                customer_auto_style_search_del_time,
+            </if>
+            <if test="customerAutoStyleSearchDelflag != null" >
+                customer_auto_style_search_delflag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="customerAutoStyleSearchId != null" >
+                #{customerAutoStyleSearchId,jdbcType=BIGINT},
+            </if>
+            <if test="customerId != null" >
+                #{customerId,jdbcType=BIGINT},
+            </if>
+            <if test="autoStyleId != null" >
+                #{autoStyleId,jdbcType=BIGINT},
+            </if>
+            <if test="customerAutoStyleSearchCreateName != null" >
+                #{customerAutoStyleSearchCreateName,jdbcType=VARCHAR},
+            </if>
+            <if test="customerAutoStyleSearchCreateTime != null" >
+                #{customerAutoStyleSearchCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="customerAutoStyleSearchModifiedName != null" >
+                #{customerAutoStyleSearchModifiedName,jdbcType=VARCHAR},
+            </if>
+            <if test="customerAutoStyleSearchModifiedTime != null" >
+                #{customerAutoStyleSearchModifiedTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="customerAutoStyleSearchDelName != null" >
+                #{customerAutoStyleSearchDelName,jdbcType=VARCHAR},
+            </if>
+            <if test="customerAutoStyleSearchDelTime != null" >
+                #{customerAutoStyleSearchDelTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="customerAutoStyleSearchDelflag != null" >
+                #{customerAutoStyleSearchDelflag,jdbcType=CHAR},
+            </if>
+        </trim>
+  </insert>
+    <update id="updateRecordByIsDel" parameterType="com.qpmall.bean.QpCustomerAutoStyleSearchBean" >
+        update qp_customer_auto_style_search
+        <set >
+            <if test="customerId != null" >
+                customer_id = #{customerId,jdbcType=BIGINT},
+            </if>
+            <if test="autoStyleId != null" >
+                auto_style_id = #{autoStyleId,jdbcType=BIGINT},
+            </if>
+            <if test="customerAutoStyleSearchCreateName != null" >
+                customer_auto_style_search_create_name = #{customerAutoStyleSearchCreateName,jdbcType=VARCHAR},
+            </if>
+            <if test="customerAutoStyleSearchCreateTime != null" >
+                customer_auto_style_search_create_time = #{customerAutoStyleSearchCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="customerAutoStyleSearchModifiedName != null" >
+                customer_auto_style_search_modified_name = #{customerAutoStyleSearchModifiedName,jdbcType=VARCHAR},
+            </if>
+            <if test="customerAutoStyleSearchModifiedTime != null" >
+                customer_auto_style_search_modified_time = #{customerAutoStyleSearchModifiedTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="customerAutoStyleSearchDelName != null" >
+                customer_auto_style_search_del_name = #{customerAutoStyleSearchDelName,jdbcType=VARCHAR},
+            </if>
+            <if test="customerAutoStyleSearchDelTime != null" >
+                customer_auto_style_search_del_time = #{customerAutoStyleSearchDelTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="customerAutoStyleSearchDelflag != null" >
+                customer_auto_style_search_delflag = #{customerAutoStyleSearchDelflag,jdbcType=CHAR},
+            </if>
+        </set>
+        where customer_auto_style_search_id = #{customerAutoStyleSearchId,jdbcType=BIGINT}
+    </update>
+    <select id="findRecordByUserIdAndAutoId" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM qp_customer_auto_style_search WHERE customer_auto_style_search_delflag='0' AND customer_id=#{userId,jdbcType=BIGINT} AND auto_style_id=#{autoId,jdbcType=VARCHAR}
+    </select>
+</mapper>

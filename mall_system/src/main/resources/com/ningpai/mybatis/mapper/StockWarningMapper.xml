@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.system.dao.StockWarningMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.system.bean.StockWarning" >
+    <id column="sw_id" property="swId" jdbcType="BIGINT" />
+    <result column="sw_value" property="swValue" jdbcType="BIGINT" />  
+  </resultMap>
+  
+  <resultMap id="BaseResultMaps" type="com.ningpai.system.util.StorkWarningUtil" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="goodname" property="goodname" jdbcType="VARCHAR" />  
+    <result column="number" property="number" jdbcType="BIGINT" />  
+    <result column="stock" property="stock" jdbcType="BIGINT" /> 
+    <result column="wareid" property="wareid" jdbcType="BIGINT" /> 
+    <result column="thirdid" property="thirdid" jdbcType="BIGINT" /> 
+    <result column="stockid" property="stockid" jdbcType="BIGINT" /> 
+    <result column="storename" property="storename" jdbcType="VARCHAR" />
+      <result column="preferprice" property="preferPrice" jdbcType="VARCHAR"/>
+      <result column="imgid" property="imgId" jdbcType="VARCHAR"/>
+    <result column="warename" property="warename" jdbcType="VARCHAR"/>
+    <collection property="stockWarnSpec" column="id" javaType="ArrayList"
+			ofType="com.ningpai.system.util.StockWarnSpec" select="com.ningpai.system.dao.StockWarningMapper.selectstockWarnSpec"></collection>
+  </resultMap>
+  
+  <resultMap type="com.ningpai.system.util.StockWarnSpec" id="BaseResultList">
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="specname" property="specname" jdbcType="VARCHAR" />  
+    <result column="specvalue" property="specvalue" jdbcType="VARCHAR" />  
+  </resultMap>
+  
+ 
+  
+  
+ <select id="select" resultMap="BaseResultMap">
+    select sw_id,sw_value
+    from np_sys_stockwarning
+  </select>
+  
+  <update id="update" parameterType="com.ningpai.system.bean.StockWarning">
+     update np_sys_stockwarning 
+     set sw_value=#{swValue,jdbcType=BIGINT}
+     where sw_id=#{swId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectGoods" resultMap="BaseResultMaps" parameterType="java.util.Map">
+select goods_info_name as goodname,goods_info_item_no as number,ware_id as wareid,ware_name as warename,ware_stock  as stock,
+      pp.goods_info_prefer_price as preferprice,pp.goods_info_img_id as imgid, pp.third_id as third, pp.goods_info_id as
+      id,g.goods_belo_name as storename ,id as stockid,pp.is_third as is_third from
+      (select infos.third_id, infos.goods_info_id,infos.is_third
+      ,infos.goods_info_name,infos.goods_id,infos.goods_info_prefer_price,infos.goods_info_img_id,
+      wares.id,wares.ware_id,wares.ware_name,infos.goods_info_item_no,wares.ware_stock
+from np_goods_info infos,
+(select product_id,ware.ware_id,house.ware_name,ware.ware_stock ,ware.id
+from np_product_ware ware,np_warehouse house where ware.ware_id=house.ware_id and ware.del_flag='0' and house.del_flag='0')
+ wares
+where infos.goods_info_id = wares.product_id
+and infos.goods_info_delflag='0' and goods_info_added='1'
+) as pp
+left join np_goods g
+on g.goods_id = pp.goods_id
+where (select sw_value from np_sys_stockwarning)>ware_stock
+<if test="id!=null and id!=''">
+   and goods_info_id=#{id,jdbcType=BIGINT}
+</if>
+
+<if test="goodsName!=null and goodsName!=''">
+   and pp.goods_info_name like CONCAT(CONCAT('%',#{goodsName,jdbcType=VARCHAR},'%'))
+</if>
+
+<if test="goodsNo!=null and goodsNo!=''">
+   and pp.goods_info_item_no like CONCAT(CONCAT('%',#{goodsNo,jdbcType=VARCHAR},'%'))
+</if>
+
+<if test="isThird!=null and isThird!=''">
+   and pp.is_third = #{isThird,jdbcType=CHAR}
+</if>
+GROUP BY number
+limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <select id="selectstockWarnSpec" resultMap="BaseResultList" parameterType="java.util.List">
+      SELECT spc.spec_name as specname,re.spec_value_remark as specvalue FROM 
+    np_goods_info_rele_spec_detail re LEFT JOIN np_goods_spec spc on spc.spec_id=re.spec_id
+    where re.goods_info_id=#{id,jdbcType=BIGINT}
+  </select>
+  
+    <select id="selectWare" resultMap="BaseResultMaps" parameterType="java.util.Map">
+select goods_info_name as goodname,goods_info_item_no as number,ware_id as wareid,ware_name as warename,ware_stock  as stock,
+ pp.third_id as third, goods_info_id as id,g.goods_belo_name as storename ,id as stockid from 
+(select infos.third_id,infos.is_third, goods_info_id ,infos.goods_info_name,infos.goods_id,wares.id,
+wares.ware_id,wares.ware_name,infos.goods_info_item_no,wares.ware_stock  from np_goods_info infos,
+(  select product_id,ware.ware_id,house.ware_name,ware.ware_stock ,ware.id
+from np_product_ware ware,np_warehouse house where ware.ware_id=house.ware_id and ware.del_flag='0' and house.del_flag='0')
+ wares
+where infos.goods_info_id = wares.product_id
+and infos.goods_info_delflag='0'
+) as pp
+left join np_goods g
+on g.goods_id = pp.goods_id
+where (select sw_value from np_sys_stockwarning)>ware_stock
+<if test="id!=null and id!=''">
+   and goods_info_id=#{id,jdbcType=BIGINT}
+</if>
+limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <select id="selectcount"  resultType="java.lang.Integer" parameterType="java.util.Map">   
+ select count(th.id)
+			 from (select goods_info_name as goodname,goods_info_item_no as number,ware_id as wareid,ware_name as warename,ware_stock  as stock,
+ pp.third_id as third, pp.goods_info_id as id,g.goods_belo_name as storename ,id as stockid,pp.is_third as is_third from 
+(select infos.third_id,infos.is_third, infos.goods_info_id ,infos.goods_info_name,infos.goods_id,wares.id,
+wares.ware_id,wares.ware_name,infos.goods_info_item_no,wares.ware_stock 
+from np_goods_info infos,
+(select product_id,ware.ware_id,house.ware_name,ware.ware_stock ,ware.id
+from np_product_ware ware,np_warehouse house where ware.ware_id=house.ware_id and ware.del_flag='0' and house.del_flag='0')
+ wares
+where infos.goods_info_id = wares.product_id
+and infos.goods_info_delflag='0' and goods_info_added='1'
+) as pp
+left join np_goods g
+on g.goods_id = pp.goods_id
+where (select sw_value from np_sys_stockwarning)>ware_stock
+<if test="id!=null and id!=''">
+   and goods_info_id=#{id,jdbcType=BIGINT}
+</if>
+<if test="goodsName!=null and goodsName!=''">
+   and goods_info_name like CONCAT(CONCAT('%',#{goodsName,jdbcType=VARCHAR},'%'))
+</if>
+
+<if test="goodsNo!=null and goodsNo!=''">
+   and goods_info_item_no like CONCAT(CONCAT('%',#{goodsNo,jdbcType=VARCHAR},'%'))
+</if>
+
+<if test="isThird!=null and isThird!=''">
+   and pp.is_third  = #{isThird,jdbcType=CHAR}
+</if>
+   GROUP BY number
+) th
+</select>
+
+<select id="selectcounts"  resultType="java.lang.Integer">
+ select count(th.id)
+			 from (select goods_info_name as goodname,goods_info_item_no as number,ware_id as wareid,ware_name as warename,ware_stock  as stock,
+ pp.third_id as third, pp.goods_info_id as id,g.goods_belo_name as storename ,id as stockid from 
+(select infos.third_id, infos.goods_info_id ,infos.goods_info_name,infos.goods_id,wares.id,
+wares.ware_id,wares.ware_name,infos.goods_info_item_no,wares.ware_stock 
+from np_goods_info infos,
+(select product_id,ware.ware_id,house.ware_name,ware.ware_stock ,ware.id
+from np_product_ware ware,np_warehouse house where ware.ware_id=house.ware_id and ware.del_flag='0' and house.del_flag='0')
+ wares
+where infos.goods_info_id = wares.product_id
+and infos.goods_info_delflag='0'
+) as pp
+left join np_goods g
+on g.goods_id = pp.goods_id
+where (select sw_value from np_sys_stockwarning)>ware_stock
+<if test="id!=null and id!=''">
+   and goods_info_id=#{id,jdbcType=BIGINT}
+</if>
+) th
+</select>
+  
+  
+  
+  <update id="updatestock" parameterType="com.ningpai.goods.bean.ProductWare">
+     update np_product_ware  set ware_stock=#{stock,jdbcType=BIGINT}
+     where id=#{stockid,jdbcType=BIGINT}
+  </update>
+  
+  
+  <!-- 按货品名字进行搜索，分页显示 -->		
+<select id="selectGoodsbyname"  parameterType="java.util.Map" resultMap="BaseResultMaps">
+    select goods_info_name as goodname,goods_info_item_no as number,ware_id as wareid,ware_name as warename,ware_stock
+    as stock,
+    pp.third_id as third, pp.goods_info_id as id,g.goods_belo_name as storename ,id as stockid from
+    (select infos.third_id, infos.goods_info_id ,infos.goods_info_name,infos.goods_id,
+    wares.id,wares.ware_id,wares.ware_name,infos.goods_info_item_no,wares.ware_stock
+from np_goods_info infos,
+(select product_id,ware.ware_id,house.ware_name,ware.ware_stock ,ware.id
+from np_product_ware ware,np_warehouse house where ware.ware_id=house.ware_id and ware.del_flag='0')
+ wares
+where infos.goods_info_id = wares.product_id
+and infos.goods_info_delflag='0'
+) as pp
+left join np_goods g
+on g.goods_id = pp.goods_id
+where (select sw_value from np_sys_stockwarning)>ware_stock
+   <if test="condition != '' and condition == 1 and condition!=null and searchText != null and searchText !=''">
+  		and goods_info_name like CONCAT('%',#{searchText},'%')
+  	</if>
+  	<if test="condition != '' and condition == 2 and condition!=null and searchText != null and searchText !=''">
+  		and goods_info_item_no =#{searchText}
+  	</if>
+  	<if test="goodsName!=null and goodsName!=''">
+  	    and goods_info_name like CONCAT('%',#{goodsName},'%')
+  	</if>
+  	<if test="goodsNo!=null and goodsNo!=''">
+  	    and goods_info_item_no like CONCAT('%',#{goodsNo},'%')
+  	</if>
+ GROUP BY number
+ limit #{startRowNum},#{endRowNum}
+		</select>
+		
+<select id="selectcountbyname" parameterType="java.util.Map" resultType="java.lang.Integer">
+ select count(th.id)
+			 from (select goods_info_name as goodname,goods_info_item_no as number,ware_id as wareid,ware_name as warename,ware_stock  as stock,
+ pp.third_id as third, pp.goods_info_id as id,g.goods_belo_name as storename ,id as stockid from 
+(select infos.third_id, infos.goods_info_id ,infos.goods_info_name,infos.goods_id,wares.id,
+wares.ware_id,wares.ware_name,infos.goods_info_item_no,wares.ware_stock 
+from np_goods_info infos,
+(select product_id,ware.ware_id,house.ware_name,ware.ware_stock ,ware.id
+from np_product_ware ware,np_warehouse house where ware.ware_id=house.ware_id and ware.del_flag='0')
+ wares
+where infos.goods_info_id = wares.product_id
+and infos.goods_info_delflag='0'
+) as pp
+left join np_goods g
+on g.goods_id = pp.goods_id
+where (select sw_value from np_sys_stockwarning)>ware_stock
+  <if test="condition != '' and condition == 1 and searchText != null and searchText !=''">
+  		and goods_info_name like CONCAT('%',#{searchText},'%')
+  	</if>
+  	<if test="condition != '' and condition == 2 and searchText != null and searchText !=''">
+  		and goods_info_item_no =#{searchText}
+  	</if>
+  	<if test="goodsName!=null and goodsName!=''">
+  	    and goods_info_name like CONCAT('%',#{goodsName},'%')
+  	</if>
+  	<if test="goodsNo!=null and goodsNo!=''">
+  	    and goods_info_item_no like CONCAT('%',#{goodsNo},'%')
+  	</if>
+  GROUP BY number
+) th 	
+</select>
+</mapper>

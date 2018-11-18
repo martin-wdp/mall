@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ningpai.third.auth.mapper.ThirdManagerAuthorityMapper">
+  <resultMap id="BaseResultMap" type="com.ningpai.third.auth.bean.ThirdManagerAuthority">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="manager_id" jdbcType="BIGINT" property="managerId" />
+    <result column="authority_id" jdbcType="BIGINT" property="authorityId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="mod_time" jdbcType="TIMESTAMP" property="modTime" />
+    <result column="flag" jdbcType="CHAR" property="flag" />
+  </resultMap>
+   <resultMap id="custMap" type="com.ningpai.third.auth.bean.Customer">
+		<id column="customer_id" jdbcType="BIGINT" property="customerId" />
+		<result column="customer_username" jdbcType="VARCHAR" property="customerUsername" />
+		<result column="customer_password" jdbcType="VARCHAR" property="customerPassword" />
+		<result column="info_realname" jdbcType="VARCHAR" property="customerNickname" />
+		<result column="is_mobile" jdbcType="CHAR" property="isMobile" />
+		<result column="is_email" jdbcType="CHAR" property="isEmail" />
+		<result column="is_flag" jdbcType="CHAR" property="isFlag" />
+		<result column="login_ip" jdbcType="VARCHAR" property="loginIp" />
+		<result column="login_time" jdbcType="TIMESTAMP" property="loginTime" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
+		<result column="del_flag" jdbcType="CHAR" property="delFlag" />
+		<result column="is_seller" jdbcType="CHAR" property="delFlag" />
+		<result column="third_id" jdbcType="BIGINT" property="thirdId" />
+		<result column="del_time" jdbcType="TIMESTAMP" property="delTime" />
+		<association property="thirdAuthority" column="customer_id" select="selectByCustomerId"></association>
+	</resultMap>
+  <sql id="Base_Column_List">
+    id, manager_id, authority_id, create_time, mod_time, flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_third_manager_authority
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectAuthIdByCust" parameterType="com.ningpai.customer.bean.Customer" resultType="java.lang.Long">
+  	select authority_id from np_third_manager_authority where manager_id = #{customerId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAuthIdByCustId" parameterType="java.lang.Long" resultType="java.lang.Long">
+  	select authority_id from np_third_manager_authority where manager_id = #{customerId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByCustomerId" parameterType="java.lang.Long" resultMap="com.ningpai.third.auth.mapper.ThirdAuthorityMapper.BaseResultMap">
+  	select
+	 a.id, a.store_id, a.designation, a.characterization, a.create_time, a.mod_time, a.flag
+	from np_third_manager_authority m 
+	inner join np_third_authority a on m.authority_id = a.id
+	where m.manager_id = #{customerId,jdbcType=BIGINT} AND a.flag = '0'
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from np_third_manager_authority
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.third.auth.bean.ThirdManagerAuthority">
+    insert into np_third_manager_authority (id, manager_id, authority_id, 
+      create_time, mod_time, flag
+      )
+    values (#{id,jdbcType=BIGINT}, #{managerId,jdbcType=BIGINT}, #{authorityId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modTime,jdbcType=TIMESTAMP}, #{flag,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.third.auth.bean.ThirdManagerAuthority">
+    insert into np_third_manager_authority
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="managerId != null">
+        manager_id,
+      </if>
+      <if test="authorityId != null">
+        authority_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modTime != null">
+        mod_time,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="managerId != null">
+        #{managerId,jdbcType=BIGINT},
+      </if>
+      <if test="authorityId != null">
+        #{authorityId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modTime != null">
+        #{modTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.third.auth.bean.ThirdManagerAuthority">
+    update np_third_manager_authority
+    <set>
+      <if test="managerId != null">
+        manager_id = #{managerId,jdbcType=BIGINT},
+      </if>
+      <if test="authorityId != null">
+        authority_id = #{authorityId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modTime != null">
+        mod_time = #{modTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByPrimaryByid" parameterType="com.ningpai.third.auth.bean.ThirdManagerAuthority">
+    update np_third_manager_authority
+	set
+      <if test="authorityId != null">
+        authority_id = #{authorityId,jdbcType=BIGINT}
+      </if>
+    where manager_id = #{managerId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.third.auth.bean.ThirdManagerAuthority">
+    update np_third_manager_authority
+    set manager_id = #{managerId,jdbcType=BIGINT},
+      authority_id = #{authorityId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      mod_time = #{modTime,jdbcType=TIMESTAMP},
+      flag = #{flag,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  
+ 
+  
+  	<select id="queryEmployeeList" resultType="java.lang.Long" parameterType="java.lang.Long">
+		select count(c.customer_username)
+		from np_customer c
+		where del_flag='0' and third_id = #{storeId,jdbcType=BIGINT} and is_seller ='2'
+	</select>
+	<select id="queryEmployeeListByStotreId" parameterType="java.util.Map" resultMap="custMap">
+		select
+		c.customer_id, c.customer_username, c.customer_password, c.customer_nickname,
+		c.is_mobile,c.is_email, c.is_flag, c.login_ip, c.login_time, c.create_time, 
+		c.modified_time,c.del_flag, c.del_time,is_seller,third_id,info_realname
+		from np_customer c 
+		inner join np_customer_info i on i.customer_id =c.customer_id
+		where third_id = #{storeId,jdbcType=BIGINT} and is_seller ='2' and c.del_flag = '0'
+		order by c.login_time desc,create_time desc
+		limit #{startRowNum,jdbcType=BIGINT},#{endRowNum,jdbcType=BIGINT}
+	</select>
+
+    <!--根据管理员ID 查询该管理员对应的商家ID-->
+    <select id="selectCustomerByManagerId" resultType="java.lang.Long" parameterType="java.lang.Long">
+      select third_id from np_customer where customer_id = #{manageId,jdbcType=BIGINT}
+    </select>
+	
+	<insert id="addRecord" parameterType="java.util.Map">
+	    insert into np_third_manager_authority
+	    <trim prefix="(" suffix=")" suffixOverrides=",">
+	      <if test="customerId != null">
+	        manager_id,
+	      </if>
+	      <if test="authId != null">
+	        authority_id,
+	      </if>
+	        create_time,
+	        mod_time,
+	        flag,
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides=",">
+	      <if test="customerId != null">
+	        #{customerId,jdbcType=BIGINT},
+	      </if>
+	      <if test="authId != null">
+	        #{authId,jdbcType=BIGINT},
+	      </if>
+	        SYSDATE(),
+	         SYSDATE(),
+	       '0',
+	    </trim>
+  	</insert>
+</mapper>

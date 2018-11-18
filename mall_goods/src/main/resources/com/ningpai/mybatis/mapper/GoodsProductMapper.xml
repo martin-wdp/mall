@@ -1,0 +1,1775 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.goods.dao.GoodsProductMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsProduct" >
+    <id column="goods_info_id" property="goodsInfoId" jdbcType="BIGINT" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="goods_info_item_no" property="goodsInfoItemNo" jdbcType="VARCHAR" />
+    <result column="goods_info_name" property="goodsInfoName" jdbcType="VARCHAR"/>
+    <result column="goods_info_subtitle" property="goodsInfoSubtitle" jdbcType="VARCHAR"/>
+    <result column="goods_info_added" property="goodsInfoAdded" jdbcType="CHAR" />
+    <result column="goods_info_added_time" property="goodsInfoAddedTime" jdbcType="TIMESTAMP" />
+    <result column="goods_info_unadded_time" property="goodsInfounAddedTime" jdbcType="TIMESTAMP" />
+    <result column="goods_info_stock" property="goodsInfoStock" jdbcType="BIGINT" />
+    <result column="goods_info_prefer_price" property="goodsInfoPreferPrice" jdbcType="DECIMAL" />
+      <!--2015.10.22 wuyanbo 添加会员价格-->
+    <result column="goods_info_vip_price" property="goodsInfoVipPrice" jdbcType="DECIMAL" />
+
+      <!--汽车配件类型：“1”表示OEM件，“2”表示常用件          杨国栋 2015.10.31-->
+      <result column="goods_info_auto_parts_type" property="goodsInfoAutoPartsType" jdbcType="VARCHAR" />
+      <!--OEM号     goodsInfoOem                                     杨国栋 2015.10.31-->
+      <result column="goods_info_oem" property="goodsInfoOem" jdbcType="VARCHAR" />
+      <!--OEM件的适配车型：用空格隔开      goodsInfoAutoStyle                   杨国栋 2015.10.31-->
+      <result column="goods_info_auto_style" property="goodsInfoAutoStyle" jdbcType="VARCHAR" />
+
+
+    <result column="goods_info_cost_price" property="goodsInfoCostPrice" jdbcType="DECIMAL" />
+    <result column="goods_info_market_price" property="goodsInfoMarketPrice" jdbcType="DECIMAL" />
+    <result column="goods_info_weight" property="goodsInfoWeight" jdbcType="DECIMAL" />
+    <result column="goods_info_img_id" property="goodsInfoImgId" jdbcType="VARCHAR" />
+    <result column="goods_info_create_name" property="goodsInfoCreateName" jdbcType="VARCHAR" />
+    <result column="goods_info_create_time" property="goodsInfoCreateTime" jdbcType="TIMESTAMP" />
+    <result column="goods_info_modified_name" property="goodsInfoModifiedName" jdbcType="VARCHAR" />
+    <result column="goods_info_modified_time" property="goodsInfoModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="goods_info_del_name" property="goodsInfoDelName" jdbcType="VARCHAR" />
+    <result column="goods_info_del_time" property="goodsInfoDelTime" jdbcType="TIMESTAMP" />
+    <result column="goods_info_delflag" property="goodsInfoDelflag" jdbcType="CHAR" />
+    <result column="third_id" property="thirdId" jdbcType="BIGINT" />
+    <result column="third_name" property="thirdName" jdbcType="VARCHAR" />
+    <result column="is_third" property="isThird" jdbcType="CHAR" />
+    <result column="is_customer_discount" property="isCustomerDiscount" jdbcType="VARCHAR" />
+    <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
+    <result column="refuse_reason" property="refuseReason" jdbcType="VARCHAR" />
+    <result column="discount_info" property="discountInfo" jdbcType="DECIMAL" />
+    <result column="discount_price" property="discountPrice" jdbcType="DECIMAL" />
+    <result column="auto_style_id_LiYang_ID" property="autoStyleIdLiYangID" jdbcType="VARCHAR" />
+  </resultMap>
+  <!-- VoResultMap -->
+  <resultMap type="com.ningpai.goods.vo.GoodsProductVo" id="ListVoResultMap">
+  	<id column="goods_info_id" property="goodsInfoId" jdbcType="BIGINT" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="goods_info_item_no" property="goodsInfoItemNo" jdbcType="VARCHAR" />
+    <result column="goods_info_name" property="goodsInfoName" jdbcType="VARCHAR"/>
+    <result column="goods_info_subtitle" property="goodsInfoSubtitle" jdbcType="VARCHAR"/>
+    <result column="goods_info_added" property="goodsInfoAdded" jdbcType="CHAR" />
+    <result column="goods_info_stock" property="goodsInfoStock" jdbcType="BIGINT" />
+    <result column="goods_info_prefer_price" property="goodsInfoPreferPrice" jdbcType="DECIMAL" />
+      <result column="goods_info_vip_price" property="goodsInfoVipPrice" jdbcType="DECIMAL" />
+
+      <!--汽车配件类型：“1”表示OEM件，“2”表示常用件          杨国栋 2015.10.31-->
+      <result column="goods_info_auto_parts_type" property="goodsInfoAutoPartsType" jdbcType="VARCHAR" />
+      <!--OEM号     goodsInfoOem                                     杨国栋 2015.10.31-->
+      <result column="goods_info_oem" property="goodsInfoOem" jdbcType="VARCHAR" />
+      <!--OEM件的适配车型：用空格隔开      goodsInfoAutoStyle                   杨国栋 2015.10.31-->
+      <result column="goods_info_auto_style" property="goodsInfoAutoStyle" jdbcType="VARCHAR" />
+      <result column="auto_style_id_LiYang_ID" property="autoStyleIdLiYangID" jdbcType="VARCHAR" />
+
+    <result column="goods_info_cost_price" property="goodsInfoCostPrice" jdbcType="DECIMAL" />
+    <result column="goods_info_market_price" property="goodsInfoMarketPrice" jdbcType="DECIMAL" />
+    <result column="goods_info_weight" property="goodsInfoWeight" jdbcType="DECIMAL" />
+    <result column="goods_info_img_id" property="goodsInfoImgId" jdbcType="VARCHAR" />
+    <result column="goods_info_delflag" property="goodsInfoDelflag" jdbcType="CHAR" />
+    <result column="third_id" property="thirdId" jdbcType="BIGINT" />
+    <result column="goods_belo" property="goodsBelo" jdbcType="BIGINT" />
+    <result column="third_name" property="thirdName" jdbcType="VARCHAR" />
+    <result column="isMailBay" property="isMailBay" jdbcType="VARCHAR" />
+    <result column="is_third" property="isThird" jdbcType="CHAR" />
+    <result column="show_list" property="showList" jdbcType="CHAR" />
+    <result column="show_mobile" property="showMobile" jdbcType="CHAR" />
+    <result column="is_customer_discount" property="isCustomerDiscount" jdbcType="VARCHAR" />
+    <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
+    <result column="refuse_reason" property="refuseReason" jdbcType="VARCHAR" />
+    <result column="goodscount"  property="goodsCount" jdbcType="BIGINT" /> 
+    <collection property="specVo" column="goods_info_id" javaType="ArrayList" ofType="com.ningpai.goods.vo.GoodsProductReleSpecVo"
+  		select="com.ningpai.goods.dao.GoodsProductReleSpecMapper.queryAllByProductId"
+  	></collection>
+  	<collection property="productWares" column="goods_info_id" javaType="ArrayList" ofType="com.ningpai.goods.bean.ProductWare"
+  	select="com.ningpai.goods.dao.ProductWareMapper.queryAllByProductId"></collection>
+  </resultMap>
+
+  <resultMap type="com.ningpai.goods.vo.GoodsProductVo" id="SimpleListVoResultMap">
+  	<id column="goods_info_id" property="goodsInfoId" jdbcType="BIGINT" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="goods_info_item_no" property="goodsInfoItemNo" jdbcType="VARCHAR" />
+    <result column="goods_info_name" property="goodsInfoName" jdbcType="VARCHAR"/>
+    <result column="goods_info_subtitle" property="goodsInfoSubtitle" jdbcType="VARCHAR"/>
+    <result column="goods_info_added" property="goodsInfoAdded" jdbcType="CHAR" />
+    <result column="goods_info_stock" property="goodsInfoStock" jdbcType="BIGINT" />
+    <result column="goods_info_prefer_price" property="goodsInfoPreferPrice" jdbcType="DECIMAL" />
+      <result column="goods_info_vip_price" property="goodsInfoVipPrice" jdbcType="DECIMAL" />
+
+      <!--汽车配件类型：“1”表示OEM件，“2”表示常用件          杨国栋 2015.10.31-->
+      <result column="goods_info_auto_parts_type" property="goodsInfoAutoPartsType" jdbcType="VARCHAR" />
+      <!--OEM号     goodsInfoOem                                     杨国栋 2015.10.31-->
+      <result column="goods_info_oem" property="goodsInfoOem" jdbcType="VARCHAR" />
+      <!--OEM件的适配车型：用空格隔开      goodsInfoAutoStyle                   杨国栋 2015.10.31-->
+      <result column="goods_info_auto_style" property="goodsInfoAutoStyle" jdbcType="VARCHAR" />
+      <result column="auto_style_id_LiYang_ID" property="autoStyleIdLiYangID" jdbcType="VARCHAR" />
+
+    <result column="goods_info_cost_price" property="goodsInfoCostPrice" jdbcType="DECIMAL" />
+    <result column="goods_info_market_price" property="goodsInfoMarketPrice" jdbcType="DECIMAL" />
+    <result column="goods_info_weight" property="goodsInfoWeight" jdbcType="DECIMAL" />
+    <result column="goods_info_img_id" property="goodsInfoImgId" jdbcType="VARCHAR" />
+    <result column="goods_info_delflag" property="goodsInfoDelflag" jdbcType="CHAR" />
+    <result column="third_id" property="thirdId" jdbcType="BIGINT" />
+    <result column="goods_belo" property="goodsBelo" jdbcType="BIGINT" />
+    <result column="third_name" property="thirdName" jdbcType="VARCHAR" />
+    <result column="isMailBay" property="isMailBay" jdbcType="VARCHAR" />
+    <result column="is_third" property="isThird" jdbcType="CHAR" />
+    <result column="show_list" property="showList" jdbcType="CHAR" />
+    <result column="show_mobile" property="showMobile" jdbcType="CHAR" />
+    <result column="is_customer_discount" property="isCustomerDiscount" jdbcType="VARCHAR" />
+    <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
+    <result column="refuse_reason" property="refuseReason" jdbcType="VARCHAR" />
+    <result column="goodscount"  property="goodsCount" jdbcType="BIGINT" />
+   <!-- <collection property="specVo" column="goods_info_id" javaType="ArrayList" ofType="com.ningpai.goods.vo.GoodsProductReleSpecVo"
+  		select="com.ningpai.goods.dao.GoodsProductReleSpecMapper.queryAllByProductId"
+  	></collection>
+  	<collection property="productWares" column="goods_info_id" javaType="ArrayList" ofType="com.ningpai.goods.bean.ProductWare"
+  	select="com.ningpai.goods.dao.ProductWareMapper.queryAllByProductId"></collection>-->
+  </resultMap>
+  <!-- 详细信息的Vo -->
+  <resultMap type="com.ningpai.goods.vo.GoodsProductDetailVo" id="DetailVoResultMap" extends="ListVoResultMap">
+  	<result column="goods_info_name" property="goodsInfoName" jdbcType="VARCHAR"/>
+    <result column="goods_info_subtitle" property="goodsInfoSubtitle" jdbcType="VARCHAR"/>
+      <result column="cat_name" property="catName" jdbcType="VARCHAR"/>
+      <result column="brand_name" property="brandName" jdbcType="VARCHAR"/>
+  </resultMap>
+
+  <resultMap type="com.ningpai.goods.vo.GoodsProductDetailVo" id="SimpleDetailVoResultMap" extends="SimpleListVoResultMap">
+    <result column="goods_info_subtitle" property="goodsInfoSubtitle" jdbcType="VARCHAR"/>
+      <result column="cat_name" property="catName" jdbcType="VARCHAR"/>
+      <result column="brand_name" property="brandName" jdbcType="VARCHAR"/>
+  </resultMap>
+
+  <!-- 预览页VO -->
+  <resultMap type="com.ningpai.goods.vo.GoodsProductDetailViewVo" id="detailViewVoResultMap" extends="DetailVoResultMap">
+  	<association property="goods" column="goods_id"
+  		select="com.ningpai.goods.dao.GoodsMapper.queryModeifiedVoByGoodsId"
+  	></association>
+  	<collection property="productAttes" column="goods_info_id" javaType="ArrayList" ofType="com.ningpai.goods.vo.GoodsAtteVo"
+  		select="com.ningpai.goods.dao.GoodsAtteMapper.queryAllByProductId"
+  	></collection>
+  	<collection property="productImages" column="goods_info_id" javaType="ArrayList" ofType="com.ningpai.goods.bean.GoodsImage"
+  		select="com.ningpai.goods.dao.GoodsImageMapper.queryByProductId"
+  	></collection>
+  </resultMap>
+  <resultMap type="com.ningpai.goods.vo.GoodsProductDetailViewVo" id="SimpledetailViewVoResultMap" extends="SimpleDetailVoResultMap">
+  <!--	<association property="goods" column="goods_id"
+  		select="com.ningpai.goods.dao.GoodsMapper.queryModeifiedVoByGoodsId"
+  	></association>-->
+  	<!--<collection property="productAttes" column="goods_info_id" javaType="ArrayList" ofType="com.ningpai.goods.vo.GoodsAtteVo"
+  		select="com.ningpai.goods.dao.GoodsAtteMapper.queryAllByProductId"
+  	></collection>-->
+  	<!--<collection property="productImages" column="goods_info_id" javaType="ArrayList" ofType="com.ningpai.goods.bean.GoodsImage"
+  		select="com.ningpai.goods.dao.GoodsImageMapper.queryByProductId"
+  	></collection>-->
+  </resultMap>
+
+    <!-- 货品的适配车型 2015-12-20 wuyanbo add-->
+    <resultMap type="com.ningpai.goods.bean.GoodsProductAutoStyle" id="ListProductAutoStyleResultMap">
+        <id column="pro_auto_style_id" property="proAutoStyleId" jdbcType="BIGINT" />
+        <result column="goods_info_id" property="goodsInfoId" jdbcType="BIGINT" />
+        <result column="goods_brand_name" property="goodsBrandName" jdbcType="VARCHAR" />
+        <result column="auto_style_brand_make" property="autoStyleBrandMake" jdbcType="VARCHAR"/>
+        <result column="auto_style_system" property="autoStyleSystem" jdbcType="VARCHAR"/>
+        <result column="auto_style_type" property="autoStyleType" jdbcType="VARCHAR"/>
+        <result column="auto_style_engine" property="autoStyleEngine" jdbcType="VARCHAR"/>
+        <result column="auto_style_gearbox" property="autoStyleGearbox" jdbcType="VARCHAR"/>
+        <result column="auto_style_productive_year" property="autoStyleProductiveYear" jdbcType="VARCHAR"/>
+    </resultMap>
+
+  <sql id="Base_Column_List" >
+    goods_info_id, goods_id, goods_info_item_no,goods_info_name,goods_info_subtitle, goods_info_added, goods_info_added_time,goods_info_unadded_time,
+    goods_info_stock, goods_info_prefer_price, goods_info_vip_price, goods_info_cost_price, goods_info_market_price,
+    goods_info_weight, goods_info_img_id, goods_info_create_name, goods_info_create_time, 
+    goods_info_modified_name, goods_info_modified_time, goods_info_del_name, goods_info_del_time, 
+    goods_info_delflag,third_id,third_name,is_third,show_list,show_mobile,is_customer_discount,isMailBay,
+    audit_status,refuse_reason,goods_info_auto_style,goods_info_oem,goods_info_auto_parts_type,auto_style_id_LiYang_ID
+
+  </sql>
+  <!-- 详细信息 -->
+  <sql id="Detail_Column_List" >
+    i.goods_info_id, i.goods_id, i.goods_info_item_no,i.goods_info_name,i.goods_info_subtitle, i.goods_info_added, i.goods_info_added_time,i.goods_info_unadded_time, 
+    i.goods_info_stock, i.goods_info_prefer_price, i.goods_info_vip_price, i.goods_info_cost_price, i.goods_info_market_price,
+    i.goods_info_weight, i.goods_info_img_id, i.goods_info_create_name, i.goods_info_create_time, 
+    i.goods_info_modified_name, i.goods_info_modified_time, i.goods_info_del_name, i.goods_info_del_time, 
+    i.goods_info_delflag,i.third_id,i.third_name,i.is_third,i.show_list,i.show_mobile
+  </sql>
+  
+  
+   <select id="selectByGoodsInfoId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_goods_info
+    where goods_info_id = #{goodsInfoId,jdbcType=BIGINT} and goods_info_delflag='0'
+  </select>
+  
+  
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_goods_info
+    where  goods_info_delflag='0'
+  </select>
+  
+  
+  <!-- 根据货品编号查询货品信息 -->    
+  <select id="selectByGoodsInfoItemNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_goods_info
+    where goods_info_item_no = #{goodsInfoItemNo} and goods_info_delflag='0'
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="ListVoResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_goods_info
+    where goods_info_id = #{goodsInfoId,jdbcType=BIGINT} and goods_info_delflag='0'
+  </select>
+    <!--用于订单显示，当货品被删除时-->
+    <select id="selectAllByGoodsInfoId" resultMap="ListVoResultMap" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        from np_goods_info
+        where goods_info_id = #{goodsInfoId,jdbcType=BIGINT}
+    </select>
+  <!-- 删除货品信息  （更新参数） -->
+  <delete id="deleteByPrimaryKey" parameterType="java.util.Map" >
+    update np_goods_info set goods_info_delflag='1',goods_info_del_name=#{delName},goods_info_del_time=NOW()
+    where goods_info_id = #{goodsInfoId,jdbcType=BIGINT}
+  </delete>
+    <!-- 删除第三方货品信息  （更新参数） -->
+    <delete id="deleteThirdProductByPrimaryKey" parameterType="java.util.Map" >
+        update np_goods_info set goods_info_delflag='1',goods_info_del_name=#{delName},goods_info_del_time=NOW()
+        where goods_info_id = #{goodsInfoId,jdbcType=BIGINT}
+        and third_id = #{thirdId,jdbcType=BIGINT}
+    </delete>
+  <insert id="insert" parameterType="com.ningpai.goods.bean.GoodsProduct" >
+    insert into np_goods_info (goods_info_id, goods_id, goods_info_item_no, 
+      goods_info_added, goods_info_added_time, goods_info_stock, 
+      goods_info_prefer_price, goods_info_vip_price, goods_info_cost_price,
+      goods_info_market_price, goods_info_weight, 
+      goods_info_img_id, goods_info_create_name, goods_info_create_time, 
+      goods_info_modified_name, goods_info_modified_time, 
+      goods_info_del_name, goods_info_del_time, goods_info_delflag
+      )
+    values (#{goodsInfoId,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, #{goodsInfoItemNo,jdbcType=VARCHAR}, 
+      #{goodsInfoAdded,jdbcType=CHAR}, #{goodsInfoAddedTime,jdbcType=TIMESTAMP}, #{goodsInfoStock,jdbcType=BIGINT}, 
+      #{goodsInfoPreferPrice,jdbcType=DECIMAL}, #{goodsInfoVipPrice,jdbcType=DECIMAL}, #{goodsInfoCostPrice,jdbcType=DECIMAL},
+      #{goodsInfoMarketPrice,jdbcType=DECIMAL}, #{goodsInfoWeight,jdbcType=DECIMAL}, 
+      #{goodsInfoImgId,jdbcType=VARCHAR}, #{goodsInfoCreateName,jdbcType=VARCHAR}, #{goodsInfoCreateTime,jdbcType=TIMESTAMP}, 
+      #{goodsInfoModifiedName,jdbcType=VARCHAR}, #{goodsInfoModifiedTime,jdbcType=TIMESTAMP}, 
+      #{goodsInfoDelName,jdbcType=VARCHAR}, #{goodsInfoDelTime,jdbcType=TIMESTAMP}, #{goodsInfoDelflag,jdbcType=CHAR}
+      )
+  </insert>
+  <!-- 插入信息  创建时间为当前时间 -->
+  <insert id="insertSelective" parameterType="com.ningpai.goods.bean.GoodsProduct" >
+    insert into np_goods_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="goodsInfoId != null" >
+        goods_info_id,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="goodsInfoItemNo != null" >
+        goods_info_item_no,
+      </if>
+      <if test="goodsInfoName != null" >
+        goods_info_name,
+      </if>
+      <if test="goodsInfoSubtitle != null" >
+        goods_info_subtitle,
+      </if>
+      <if test="goodsInfoAdded != null" >
+        goods_info_added,
+      </if>
+      <if test="goodsInfoAddedTime != null" >
+        goods_info_added_time,
+      </if>
+      <if test="goodsInfoStock != null" >
+        goods_info_stock,
+      </if>
+      <if test="goodsInfoPreferPrice != null" >
+        goods_info_prefer_price,
+      </if>
+      <if test="goodsInfoVipPrice != null" >
+        goods_info_vip_price,
+      </if>
+      <if test="goodsInfoCostPrice != null" >
+        goods_info_cost_price,
+      </if>
+      <if test="goodsInfoMarketPrice != null" >
+        goods_info_market_price,
+      </if>
+      <if test="goodsInfoWeight != null" >
+        goods_info_weight,
+      </if>
+      <if test="goodsInfoImgId != null" >
+        goods_info_img_id,
+      </if>
+      <if test="goodsInfoCreateName != null" >
+        goods_info_create_name,
+      </if>
+        goods_info_create_time,
+      <if test="goodsInfoModifiedName != null" >
+        goods_info_modified_name,
+      </if>
+      <if test="goodsInfoModifiedTime != null" >
+        goods_info_modified_time,
+      </if>
+      <if test="goodsInfoDelName != null" >
+        goods_info_del_name,
+      </if>
+      <if test="goodsInfoDelTime != null" >
+        goods_info_del_time,
+      </if>
+      <if test="goodsInfoDelflag != null" >
+        goods_info_delflag,
+      </if>
+      <if test="thirdId != null" >
+        third_id,
+      </if>
+      <if test="thirdName != null" >
+        third_name,
+      </if>
+      <if test="isThird != null" >
+        is_third,
+      </if>
+      <if test="showList != null" >
+        show_list,
+      </if>
+      <if test="showMobile != null" >
+        show_mobile,
+      </if>
+      <if test="isCustomerDiscount != null" >
+        is_customer_discount,
+      </if>
+
+       <if test="isMailBay != null" >
+        isMailBay,
+      </if>
+     
+      <if test="auditStatus != null">
+      	audit_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="goodsInfoId != null" >
+        #{goodsInfoId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsInfoItemNo != null" >
+        #{goodsInfoItemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsInfoName != null" >
+        #{goodsInfoName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsInfoSubtitle != null" >
+        #{goodsInfoSubtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsInfoAdded != null" >
+        #{goodsInfoAdded,jdbcType=CHAR},
+      </if>
+      <if test="goodsInfoAddedTime != null" >
+        #{goodsInfoAddedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsInfoStock != null" >
+        #{goodsInfoStock,jdbcType=BIGINT},
+      </if>
+      <if test="goodsInfoPreferPrice != null" >
+        #{goodsInfoPreferPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsInfoVipPrice != null" >
+        #{goodsInfoVipPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsInfoCostPrice != null" >
+        #{goodsInfoCostPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsInfoMarketPrice != null" >
+        #{goodsInfoMarketPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsInfoWeight != null" >
+        #{goodsInfoWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsInfoImgId != null" >
+        #{goodsInfoImgId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsInfoCreateName != null" >
+        #{goodsInfoCreateName,jdbcType=VARCHAR},
+      </if>
+        NOW(),
+      <if test="goodsInfoModifiedName != null" >
+        #{goodsInfoModifiedName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsInfoModifiedTime != null" >
+        #{goodsInfoModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsInfoDelName != null" >
+        #{goodsInfoDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsInfoDelTime != null" >
+        #{goodsInfoDelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsInfoDelflag != null" >
+        #{goodsInfoDelflag,jdbcType=CHAR},
+      </if>
+      <if test="thirdId != null" >
+        #{thirdId},
+      </if>
+      <if test="thirdName != null" >
+        #{thirdName},
+      </if>
+      <if test="isThird != null" >
+        #{isThird},
+      </if>
+      <if test="showList != null" >
+        #{showList},
+      </if>
+      <if test="showMobile != null" >
+         #{showMobile},
+      </if>
+      <if test="isCustomerDiscount != null" >
+         #{isCustomerDiscount},
+      </if>
+
+      <if test="isMailBay != null" >
+         #{isMailBay},
+      </if>
+     
+
+      <if test="auditStatus != null">
+      	#{auditStatus,jdbcType=VARCHAR},
+      </if>
+
+    </trim>
+  </insert>
+  <!-- 修改信息   修改时间为当前时间 -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.goods.bean.GoodsProduct" >
+    update np_goods_info
+    <set >
+      <if test="goodsId != null" >
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsInfoItemNo != null" >
+        goods_info_item_no = #{goodsInfoItemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsInfoName != null" >
+        goods_info_name = #{goodsInfoName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsInfoSubtitle != null" >
+        goods_info_subtitle = #{goodsInfoSubtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsInfoAdded != null" >
+        goods_info_added = #{goodsInfoAdded,jdbcType=CHAR},
+      </if>
+      <if test="goodsInfoAddedTime != null" >
+        goods_info_added_time = #{goodsInfoAddedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsInfoStock != null" >
+        goods_info_stock = #{goodsInfoStock,jdbcType=BIGINT},
+      </if>
+      <if test="goodsInfoPreferPrice != null" >
+        goods_info_prefer_price = #{goodsInfoPreferPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsInfoVipPrice != null" >
+        goods_info_vip_price = #{goodsInfoVipPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsInfoCostPrice != null" >
+        goods_info_cost_price = #{goodsInfoCostPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsInfoMarketPrice != null" >
+        goods_info_market_price = #{goodsInfoMarketPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsInfoWeight != null" >
+        goods_info_weight = #{goodsInfoWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsInfoImgId != null" >
+        goods_info_img_id = #{goodsInfoImgId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsInfoCreateName != null" >
+        goods_info_create_name = #{goodsInfoCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsInfoCreateTime != null" >
+        goods_info_create_time = #{goodsInfoCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsInfoModifiedName != null" >
+        goods_info_modified_name = #{goodsInfoModifiedName,jdbcType=VARCHAR},
+      </if>
+        goods_info_modified_time = NOW(),
+      <if test="goodsInfoDelName != null" >
+        goods_info_del_name = #{goodsInfoDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsInfoDelTime != null" >
+        goods_info_del_time = #{goodsInfoDelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsInfoDelflag != null" >
+        goods_info_delflag = #{goodsInfoDelflag,jdbcType=CHAR},
+      </if>
+      <if test="thirdId != null" >
+        third_id = #{thirdId,jdbcType=BIGINT},
+      </if>
+      <if test="thirdName != null" >
+        third_name = #{thirdName,jdbcType=VARCHAR},
+      </if>
+      <if test="isThird != null" >
+        is_third = #{isThird,jdbcType=CHAR},
+      </if>
+      <if test="showList != null" >
+        show_list = #{showList,jdbcType=CHAR},
+      </if>
+      <if test="showMobile != null" >
+        show_mobile = #{showMobile,jdbcType=CHAR},
+      </if>
+      <if test="isCustomerDiscount != null" >
+        is_customer_discount= #{isCustomerDiscount},
+      </if>
+
+      <if test="isMailBay != null" >
+        isMailBay= #{isMailBay},
+      </if>
+
+      <if test="auditStatus != null">
+      	audit_status = #{auditStatus,jdbcType=VARCHAR},
+      </if>
+
+    </set>
+    where goods_info_id = #{goodsInfoId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.goods.bean.GoodsProduct" >
+    update np_goods_info
+    set goods_id = #{goodsId,jdbcType=BIGINT},
+      goods_info_item_no = #{goodsInfoItemNo,jdbcType=VARCHAR},
+      goods_info_added = #{goodsInfoAdded,jdbcType=CHAR},
+      goods_info_added_time = #{goodsInfoAddedTime,jdbcType=TIMESTAMP},
+      goods_info_stock = #{goodsInfoStock,jdbcType=BIGINT},
+      goods_info_prefer_price = #{goodsInfoPreferPrice,jdbcType=DECIMAL},
+      goods_info_vip_price = #{goodsInfoVipPrice,jdbcType=DECIMAL},
+      goods_info_cost_price = #{goodsInfoCostPrice,jdbcType=DECIMAL},
+      goods_info_market_price = #{goodsInfoMarketPrice,jdbcType=DECIMAL},
+      goods_info_weight = #{goodsInfoWeight,jdbcType=DECIMAL},
+      goods_info_img_id = #{goodsInfoImgId,jdbcType=VARCHAR},
+      goods_info_create_name = #{goodsInfoCreateName,jdbcType=VARCHAR},
+      goods_info_create_time = #{goodsInfoCreateTime,jdbcType=TIMESTAMP},
+      goods_info_modified_name = #{goodsInfoModifiedName,jdbcType=VARCHAR},
+      goods_info_modified_time = #{goodsInfoModifiedTime,jdbcType=TIMESTAMP},
+      goods_info_del_name = #{goodsInfoDelName,jdbcType=VARCHAR},
+      goods_info_del_time = #{goodsInfoDelTime,jdbcType=TIMESTAMP},
+      goods_info_delflag = #{goodsInfoDelflag,jdbcType=CHAR}
+    where goods_info_id = #{goodsInfoId,jdbcType=BIGINT}
+  </update>
+  <!-- 根据商品ID查询货品列表 -->
+  <select id="queryProductListByGoodsId" parameterType="java.lang.Long" resultMap="ListVoResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from np_goods_info where goods_id=#{goodsId} and goods_info_delflag='0'
+  </select>
+  
+  <!-- 根据商品ID和分页参数分页查询列表 -->
+  <select id="queryProductByGoodsId" parameterType="java.util.Map" resultMap="ListVoResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from np_goods_info where goods_id=#{goodsId} and goods_info_delflag='0'
+    <if test="condition != '' and condition == 1 and searchText != null and searchText !=''">
+  		and goods_info_name like CONCAT(CONCAT('%',
+			#{searchText}),'%')
+  	</if>
+  	<if test="condition != '' and condition == 2 and searchText != null and searchText !=''">
+  		and goods_info_item_no = #{searchText} 
+  	</if>
+    <if test="goodsName!='' and goodsName!=null">
+        and goods_info_name like CONCAT(CONCAT('%',
+        #{goodsName}),'%')
+    </if>
+    <if test="goodsNo!='' and goodsNo!=null">
+        and goods_info_item_no = #{goodsNo}
+    </if>
+    limit #{startRowNum},#{endRowNum}
+  </select>
+
+  <!-- 根据商品ID和分页参数分页查询列表 -->
+  <!-- 新版》店铺商品列表》查看商品页面搜索 -->
+  <select id="queryProductByGoodsIdNew" parameterType="java.util.Map" resultMap="ListVoResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from np_goods_info where goods_id=#{goodsId} and goods_info_delflag='0'
+    <if test="goodsName != '' and goodsName != null ">
+      and goods_info_name like CONCAT(CONCAT('%',
+      #{goodsName}),'%')
+    </if>
+    <if test="goodsNo != '' and goodsNo != null ">
+      and goods_info_item_no = #{goodsNo}
+    </if>
+    limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <!-- 根据商品ID和分页参数分页查询审核货品列表 -->
+  <select id="queryAuditProductByGoodsId" parameterType="java.util.Map" resultMap="ListVoResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from np_goods_info where goods_id=#{goodsId} and goods_info_delflag='0' and audit_status = '1'
+    <if test="condition != '' and condition == 1 and searchText != null and searchText !=''">
+  		and goods_info_name like CONCAT(CONCAT('%',
+			#{searchText}),'%')
+  	</if>
+  	<if test="condition != '' and condition == 2 and searchText != null and searchText !=''">
+  		and goods_info_item_no = #{searchText} 
+  	</if>
+      <if test="goodsName !='' and goodsName!=null">
+          and goods_info_name like CONCAT(CONCAT('%',
+          #{goodsName}),'%')
+      </if>
+      <if test="goodsNo !='' and goodsNo!=null">
+          and goods_info_item_no = #{goodsNo}
+      </if>
+    limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  
+  
+    <select id="selectProductSkuList" parameterType="java.util.List" resultMap="ListVoResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_goods_info where goods_info_delflag='0'
+     and goods_info_id in
+     <foreach collection="list" item="goodsInfoId" open="(" separator="," close=")">
+      #{goodsInfoId,jdbcType=BIGINT}
+    </foreach>
+  </select>
+  
+  <!-- 查询最新插入的主键ID -->
+   <select id="selectLastId"  resultType="java.lang.Integer">
+    	select LAST_INSERT_ID()
+   </select>
+  <!-- 根据商品ID查询所有的行数 -->
+  <select id="queryTotalCountByGoodsId" resultType="java.lang.Integer" parameterType="java.lang.Long">
+  	select count(1) from np_goods_info where  goods_id=#{goodsId} and goods_info_delflag='0'
+  </select>
+  <!-- 查询所有的行数 -->
+  <select id="queryTotalCount" resultType="java.lang.Integer" parameterType="java.lang.Long">
+  	select count(1) from np_goods_info where  goods_info_delflag='0' and goods_info_added='1'
+  </select>
+  <!-- 根据组合ID查询货品的行数 -->
+  <select id="queryTotalCountWithGroupId" resultType="java.lang.Integer" parameterType="java.util.Map">
+  	select count(1) from np_goods_info i,np_goods g where i.goods_id=g.goods_id
+  	and i.goods_info_delflag='0' and i.goods_info_added='1' 
+  	and i.goods_info_id not in (select product_Id from np_goods_group_rele_product where 1=1 <if test="groupId!=null and groupId!=''">and group_id=#{groupId} </if> and rele_product_delflag='0')
+  </select>
+  <!-- 批量上下架货品 -->
+  <update id="batchUploadProduct" parameterType="java.util.Map">
+  	update np_goods_info set goods_info_modified_name=#{username},goods_info_added= #{status},audit_status = '0'
+  	<if test="status==1">
+  		,goods_info_added_time=NOW()
+  	</if>
+  	<if test="status==0">
+  		,goods_info_unadded_time=NOW()
+  	</if>
+  	where goods_info_id in
+  	<foreach item="item" collection="productIds" open="(" separator="," close=")">
+  		#{item}
+  	</foreach>
+  </update>
+  <!-- 批量审核上下架货品 -->
+  <update id="batchAuditUploadProduct" parameterType="java.util.Map">
+  	update np_goods_info set goods_info_modified_name=#{username},audit_status = '1',goods_info_added= '0'
+  	where goods_info_id in
+  	<foreach item="item" collection="productIds" open="(" separator="," close=")">
+  		#{item}
+  	</foreach>
+  </update>
+  <!-- 查询货品的详细信息 -->
+  <select id="queryProductListByPageBean" parameterType="java.util.Map" resultMap="DetailVoResultMap">
+  	select <include refid="Detail_Column_List"/> from np_goods_info i,np_goods g where i.goods_id=g.goods_id
+  	and i.goods_info_delflag='0' and i.goods_info_added='1' 
+  	and i.goods_info_id not in (select product_Id from np_goods_group_rele_product where 1=1 <if test="groupId!=null and group!=''">and group_id=#{groupId} </if> and rele_product_delflag='0')
+  	order by i.goods_info_create_time
+  	limit #{startRowNum},#{endRowNum}
+  </select>
+  <!-- 根据主键查询货品详细信息 -->
+  <select id="queryDetailProductByPrimaryKey" parameterType="java.lang.Long" resultMap="DetailVoResultMap">
+  	select <include refid="Detail_Column_List"/> from np_goods_info i,np_goods g where i.goods_id=g.goods_id
+  	and i.goods_info_delflag='0' and i.goods_info_added='1' and goods_info_id=#{goodsInfoId}
+  	order by i.goods_info_create_time
+  </select>
+  
+  <!-- 根据商品ID删除货品信息 -->
+  <delete id="delProductWithGoodsId" parameterType="java.util.Map" >
+    update np_goods_info set goods_info_delflag='1',goods_info_del_name=#{delName},goods_info_del_time=NOW()
+    where goods_id = #{goodsId,jdbcType=BIGINT}
+  </delete>
+
+    <!-- 根据商品ID删除第三方店铺货品信息 -->
+    <delete id="delThirdProductWithGoodsId" parameterType="java.util.Map" >
+        update np_goods_info set goods_info_delflag='1',goods_info_del_name=#{delName},goods_info_del_time=NOW()
+        where goods_id = #{goodsId,jdbcType=BIGINT}
+        and third_id = #{thirdId,jdbcType=BIGINT}
+    </delete>
+  
+  <!-- 根据商品ID设置货品的下架状态 -->
+  <update id="updateProductAddedWithGoodsId" parameterType="java.util.Map">
+  	update np_goods_info set goods_info_modified_name = #{modifiedName,jdbcType=VARCHAR},
+        goods_info_modified_time = NOW(),goods_info_added='0',audit_status='0'
+        where goods_id=#{goodsId}
+      <if test="thirdId!=null and thirdId!=''">
+          and third_id=#{thirdId}
+
+      </if>
+  </update>
+  <!-- 审核上架商品时也把货品上架审核 -->
+    <update id="updateProductAddedWithAudit" parameterType="java.util.Map">
+        update np_goods_info set goods_info_modified_name = #{modifiedName,jdbcType=VARCHAR},
+        goods_info_modified_time = NOW(),goods_info_added = #{goodsInfoAdded,jdbcType=CHAR},
+        audit_status = #{auditStatus,jdbcType=VARCHAR}
+        where goods_id=#{goodsId}
+        <if test="thirdId!=null and thirdId!=''">
+            and third_id=#{thirdId}
+
+        </if>
+    </update>
+  <!-- 查询货品预览页VO -->
+  <select id="queryViewVoByProductIdSimple" parameterType="java.util.Map" resultMap="SimpledetailViewVoResultMap">
+  	select <include refid="Detail_Column_List"/> from np_goods_info i,np_goods g where i.goods_id=g.goods_id
+  	and goods_info_id=#{productId}
+  	and  goods_info_delflag = '0'
+  	order by i.goods_info_create_time
+  	limit 1
+  </select>
+
+  <select id="queryViewVoByProductId" parameterType="java.util.Map" resultMap="detailViewVoResultMap">
+  	select <include refid="Detail_Column_List"/> from np_goods_info i,np_goods g where i.goods_id=g.goods_id
+  	and goods_info_id=#{productId}
+  	and  goods_info_delflag = '0'
+  	order by i.goods_info_create_time
+  	limit 1
+  </select>
+
+    <!-- 查询货品预览页VO集合 -->
+  <select id="queryViewVoByProductIds" parameterType="java.util.List" resultMap="detailViewVoResultMap">
+  	select <include refid="Detail_Column_List"/> from np_goods_info i,np_goods g where i.goods_id=g.goods_id
+  	and goods_info_id in
+      (
+      <foreach collection="list" separator="," item="goodinfo" index="index" >
+          #{goodinfo.goodsInfoId}
+      </foreach>
+      )
+      order by i.goods_info_create_time
+  </select>
+
+
+
+  <!-- 根据货品编号查询行数 -->
+  <select id="queryCountByProductNo" parameterType="java.lang.String" resultType="java.lang.Integer">
+  	select count(1) from np_goods_info where goods_info_item_no=#{productId} and goods_info_delflag='0'
+  </select>
+  <!-- 根据货品参数查询行数 -->
+  <select id="queryCountByParam" parameterType="java.util.Map" resultType="java.lang.Integer">
+  		select count(1) from np_goods_info where goods_info_id in 
+		(select goods_info_id from (select count(1) c,goods_info_id from np_goods_info_rele_spec_detail 
+		where spec_detail_id in 
+			<foreach collection="params" item="param" open="(" close=")" separator=",">
+				#{param}
+			</foreach>
+		 group by goods_info_id having c>=#{paramLength}) as temp) 
+		and goods_id=#{goodsId} and goods_info_delflag='0'
+  </select>
+
+    <!-- 根据参数查询商品详细信息 -->
+    <select id="queryByGoodsInfoDetail" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select i.goods_info_id, i.goods_id, i.goods_info_item_no,i.goods_info_name,i.goods_info_subtitle,
+        i.goods_info_added, i.goods_info_added_time,i.goods_info_unadded_time,
+        i.goods_info_stock, i.goods_info_prefer_price, i.goods_info_vip_price, i.goods_info_cost_price, i.goods_info_market_price,
+        i.goods_info_weight, i.goods_info_img_id, i.goods_info_create_name, i.goods_info_create_time,
+        i.goods_info_modified_name, i.goods_info_modified_time, i.goods_info_del_name, i.goods_info_del_time,
+        i.goods_info_delflag,good.goods_belo as third_id,i.third_name,i.is_third,i.show_list,i.show_mobile from
+        np_goods_info i,np_goods good
+        where good.goods_id=i.goods_id and i.goods_info_delflag='0' and good.goods_delflag='0'
+        and i.goods_info_id=#{goodsId}
+    </select>
+
+    <!-- 根据参数查询行数 2015.11.17 wuyanbo 屏蔽（优化查询方法）  -->
+  <!--<select id="queryCountForCoupon" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select count(1) from np_goods_info i
+  	inner join (select goods_id, goods_name,goods_no from np_goods where 1=1
+      <if test="isThird != null and isThird != ''">
+          and is_third = #{isThird}
+      </if>
+  		<if test="brandIds!=null and brandIds!=''">
+	  	 and brand_id in 
+	  		<foreach item="brandId" collection="brandIds" open="(" close=")" separator=",">
+	  			#{brandId}
+	  		</foreach>
+  		</if>
+  		<if test="cateIds!=null and cateIds!=''">
+	  		and cat_id in
+	  		<foreach collection="cateIds" item="catId" open="(" close=")" separator=",">
+	  			#{catId}
+	  		</foreach>
+	  	</if>
+  	) g
+  	on i.goods_id = g.goods_id
+  	<if test="haveStock!='' and haveStock !=null">
+  	        left join (select IFNULL(sum(ware_stock),0) as stockSum,product_id from np_product_ware where del_flag = '0' group by product_id) as sto 
+ 				on sto.product_id = i.goods_info_id
+  	</if>
+  	  where i.goods_info_delflag='0' and i.goods_info_added='1'
+      <if test="isThird != null and isThird != ''">
+          and is_third = #{isThird}
+      </if>
+      <if test="goodsName !=null and goodsName !=''">
+	  		and (g.goods_name like CONCAT(CONCAT('%',
+			#{goodsName}),'%'))
+	  </if>
+  	  <if test="goodstNo !=null and goodstNo !=''">
+	  		and (g.goods_no like CONCAT(CONCAT('%',
+			#{goodstNo}),'%'))
+	  </if>
+  	  
+  	  <if test="productNo !=null and productNo!=''">
+	  		and (i.goods_info_item_no like CONCAT(CONCAT('%',
+			#{productNo}),'%'))
+	  </if>
+      &lt;!&ndash;根据高低价格查询&ndash;&gt;
+      <if test="lowGoodsInfoPrice !=null and lowGoodsInfoPrice != ''">
+          &lt;!&ndash; 会员价格 &ndash;&gt;
+          <if test="isEnterprise == '1'">
+            and i.goods_info_vip_price >= #{lowGoodsInfoPrice}
+          </if>
+          &lt;!&ndash; 个人价格 &ndash;&gt;
+          <if test="isEnterprise == '0' || isEnterprise == '' || isEnterprise == null ">
+            and i.goods_info_prefer_price >= #{lowGoodsInfoPrice}
+          </if>
+      </if>
+      <if test="highGoodsInfoPrice !=null and highGoodsInfoPrice != ''">
+          &lt;!&ndash; 会员价格 &ndash;&gt;
+          <if test="isEnterprise == '1'">
+              and i.goods_info_vip_price <![CDATA[ <= ]]> #{highGoodsInfoPrice}
+          </if>
+          &lt;!&ndash; 个人价格 &ndash;&gt;
+          <if test="isEnterprise == '0' || isEnterprise == '' || isEnterprise == null ">
+              and i.goods_info_prefer_price <![CDATA[ <= ]]> #{highGoodsInfoPrice}
+          </if>
+      </if>
+      
+        <if test="showMobile !=null">
+            and i.show_mobile = '1'
+        </if>
+        <if test="thirdId !=null and thirdId!=''">
+            and i.third_id = #{thirdId}
+        </if>
+		  &lt;!&ndash; 	<if test="productNo !=null and productNo!=''">
+	  		and (i.goods_info_item_no like CONCAT(CONCAT('%',
+			#{productNo}),'%') 
+	  		or i.goods_info_name like CONCAT(CONCAT('%',
+			#{productNo}),'%')) 
+	  	    </if> &ndash;&gt;
+          <if test="goodsInfoName != null and goodsInfoName != ''">
+              and (i.goods_info_name = #{goodsInfoName}
+              or i.goods_info_name like CONCAT(CONCAT('%',#{goodsInfoName}),'%'))
+          </if>
+          	<if test="haveStock!='' and haveStock !=null">
+          	    	<if test="haveStock==1">
+		  	        and sto.stockSum > 0 
+		  	         </if>
+		  	         <if test="haveStock==0">
+		  	        and sto.stockSum = 0 
+		  	         </if>
+  			</if>
+  			
+  </select>-->
+
+    <!-- 根据参数查询行数 -->
+    <select id="queryCountForCoupon" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1) from np_goods_info i
+            inner join np_goods g on g.goods_delflag='0'
+            <if test="isThird != null and isThird != ''">
+                and g.is_third = #{isThird}
+            </if>
+            <if test="brandIds!=null and brandIds!=''">
+                and brand_id in
+                <foreach item="brandId" collection="brandIds" open="(" close=")" separator=",">
+                    #{brandId}
+                </foreach>
+            </if>
+            <if test="cateIds!=null and cateIds!=''">
+                and cat_id in
+                <foreach collection="cateIds" item="catId" open="(" close=")" separator=",">
+                    #{catId}
+                </foreach>
+            </if>
+            and i.goods_id = g.goods_id
+            <if test="haveStock!='' and haveStock !=null">
+                left join (select IFNULL(sum(ware_stock),0) as stockSum,product_id from np_product_ware where del_flag = '0' group by product_id) as sto
+                on sto.product_id = i.goods_info_id
+            </if>
+        where i.goods_info_delflag='0' and i.goods_info_added='1'
+            <if test="isThird != null and isThird != ''">
+                and i.is_third = #{isThird}
+            </if>
+            <if test="goodsName !=null and goodsName !=''">
+                and (g.goods_name like CONCAT(CONCAT('%',
+                #{goodsName}),'%'))
+            </if>
+            <if test="goodstNo !=null and goodstNo !=''">
+                and (g.goods_no like CONCAT(CONCAT('%',
+                #{goodstNo}),'%'))
+            </if>
+
+            <if test="productNo !=null and productNo!=''">
+                and (i.goods_info_item_no like CONCAT(CONCAT('%',
+                #{productNo}),'%'))
+            </if>
+            <!--根据高低价格查询-->
+            <if test="lowGoodsInfoPrice !=null and lowGoodsInfoPrice != ''">
+                <!-- 会员价格 -->
+                <if test="isEnterprise == '1'">
+                    and i.goods_info_vip_price >= #{lowGoodsInfoPrice}
+                </if>
+                <!-- 个人价格 -->
+                <if test="isEnterprise == '0' || isEnterprise == '' || isEnterprise == null ">
+                    and i.goods_info_prefer_price >= #{lowGoodsInfoPrice}
+                </if>
+            </if>
+            <if test="highGoodsInfoPrice !=null and highGoodsInfoPrice != ''">
+                <!-- 会员价格 -->
+                <if test="isEnterprise == '1'">
+                    and i.goods_info_vip_price <![CDATA[ <= ]]> #{highGoodsInfoPrice}
+                </if>
+                <!-- 个人价格 -->
+                <if test="isEnterprise == '0' || isEnterprise == '' || isEnterprise == null ">
+                    and i.goods_info_prefer_price <![CDATA[ <= ]]> #{highGoodsInfoPrice}
+                </if>
+            </if>
+
+            <if test="showMobile !=null">
+                and i.show_mobile = '1'
+            </if>
+            <if test="thirdId !=null and thirdId!=''">
+                and i.third_id = #{thirdId}
+            </if>
+            <if test="goodsInfoName != null and goodsInfoName != ''">
+                and (i.goods_info_name = #{goodsInfoName}
+                or i.goods_info_name like CONCAT(CONCAT('%',#{goodsInfoName}),'%'))
+            </if>
+            <if test="haveStock!='' and haveStock !=null">
+                <if test="haveStock==1">
+                    and sto.stockSum > 0
+                </if>
+                <if test="haveStock==0">
+                    and sto.stockSum = 0
+                </if>
+            </if>
+
+    </select>
+
+    <!-- 查询在一段时间内没有参加团购抢购的货品数量-->
+    <select id="queryMarketingProductCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        SELECT COUNT(distinct info.goods_info_id) FROM np_goods_info info
+        INNER JOIN np_goods  goods ON goods.goods_id=info.goods_id
+        INNER JOIN np_goods_image img ON img.goods_info_id=info.goods_info_id
+        LEFT JOIN (
+        SELECT info.goods_info_id FROM
+        np_goods_info info,
+        np_goods goods,
+        np_marketing_scope scope,
+        np_marketing mar
+        WHERE
+        info.goods_id = goods.goods_id
+        AND scope.scope_id = info.goods_info_id
+        AND mar.marketing_id = scope.marketing_id
+        AND goods_delflag = '0'
+        AND goods.goods_added = '1'
+        AND info.goods_info_delflag = '0'
+        AND info.goods_info_added = '1'
+        AND mar.flag = '0'
+        AND scope.flag = '0'
+        AND mar.m_group_id = #{marketType}
+        AND info.goods_info_delflag='0' AND goods.goods_delflag='0'
+        <![CDATA[ AND ( mar.marketing_begin > #{sTime} AND mar.marketing_begin< #{eTime} OR mar.marketing_begin<#{sTime} AND mar.marketing_end > #{sTime})]]>
+        ) st ON st.goods_info_id=info.goods_info_id
+        WHERE st.goods_info_id IS NULL AND info.goods_info_delflag='0' AND goods.goods_delflag='0'
+        AND goods.goods_added = '1'
+        AND info.goods_info_added = '1'
+        and info.goods_info_name like CONCAT(CONCAT('%',
+        #{searchText}),'%')
+        and goods.is_third=#{isThird}
+    </select>
+    <!-- 查询在一段时间内没有参加团购抢购的货品数量-->
+    <select id="queryMarketingProduct" resultMap="DetailVoResultMap" parameterType="java.util.Map">
+        SELECT
+        i.goods_info_id, i.goods_id, i.goods_info_item_no,i.goods_info_name,i.goods_info_subtitle, i.goods_info_added, i.goods_info_added_time,i.goods_info_unadded_time,
+        i.goods_info_stock, i.goods_info_prefer_price, i.goods_info_vip_price, i.goods_info_cost_price, i.goods_info_market_price,
+        i.goods_info_weight, img.image_in_name as goods_info_img_id , i.goods_info_create_name, i.goods_info_create_time,
+        i.goods_info_modified_name, i.goods_info_modified_time, i.goods_info_del_name, i.goods_info_del_time,
+        i.goods_info_delflag,i.third_id,i.third_name,i.is_third,i.show_list
+        FROM np_goods_info i
+        INNER JOIN np_goods  goods ON goods.goods_id=i.goods_id
+        INNER JOIN np_goods_image img ON img.goods_info_id=i.goods_info_id
+        LEFT JOIN (
+        SELECT info.goods_info_id FROM
+        np_goods_info info,
+        np_goods goods,
+        np_marketing_scope scope,
+        np_marketing mar
+        WHERE
+        info.goods_id = goods.goods_id
+        AND scope.scope_id = info.goods_info_id
+        AND mar.marketing_id = scope.marketing_id
+        AND goods_delflag = '0'
+        AND goods.goods_added = '1'
+        AND info.goods_info_delflag = '0'
+        AND info.goods_info_added = '1'
+        AND mar.flag = '0'
+        AND scope.flag = '0'
+        AND mar.m_group_id = #{marketType}
+        AND info.goods_info_delflag='0' AND goods.goods_delflag='0'
+        <![CDATA[ AND  ( mar.marketing_begin > #{sTime} AND mar.marketing_begin< #{eTime} OR mar.marketing_begin<#{sTime} AND mar.marketing_end > #{sTime} ) ]]>
+
+        ) st ON st.goods_info_id=i.goods_info_id
+        WHERE st.goods_info_id IS NULL AND i.goods_info_delflag='0' AND goods.goods_delflag='0'
+        AND goods.goods_added = '1'
+        AND i.goods_info_added = '1'
+        and i.goods_info_name like CONCAT(CONCAT('%',
+        #{searchText}),'%')
+        and goods.is_third=#{isThird}
+        group by i.goods_info_id
+        limit #{startRowNum},#{endRowNum}
+    </select>
+  <!-- 根据参数查询货品列表  2015.11.17 wuyanbo 优化此方法 -->
+  <!--<select id="queryProductForCoupon" parameterType="java.util.Map" resultMap="DetailVoResultMap">
+  	select
+	i.goods_info_id, i.goods_id, i.goods_info_item_no,i.goods_info_name,i.goods_info_subtitle, i.goods_info_added, i.goods_info_added_time,i.goods_info_unadded_time,
+    i.goods_info_stock, i.goods_info_prefer_price, i.goods_info_vip_price, i.goods_info_cost_price, i.goods_info_market_price,
+    i.goods_info_weight, i.goods_info_img_id, i.goods_info_create_name, i.goods_info_create_time,
+    i.goods_info_modified_name, i.goods_info_modified_time, i.goods_info_del_name, i.goods_info_del_time,
+    i.goods_info_delflag,i.third_id,i.third_name,i.is_third,i.show_list,
+    cat.cat_name,brand.brand_name
+ 	from np_goods_info i
+ 	left join (select image_in_name as goods_info_img_id,goods_info_id from np_goods_image ngi where ngi.goods_img_delflag='0' group by goods_info_id) im
+	on im.goods_info_id = i.goods_info_id
+	inner join (select goods_id,cat_id ,brand_id,goods_name,goods_no from np_goods where 1=1
+      <if test="isThird != null and isThird != ''">
+        and is_third = #{isThird}
+      </if>
+  		<if test="brandIds!=null">
+	  	 and brand_id in
+	  		<foreach item="brandId" collection="brandIds" open="(" close=")" separator=",">
+	  			#{brandId}
+	  		</foreach>
+  		</if>
+  		<if test="cateIds!=null">
+	  		and cat_id in
+	  		<foreach collection="cateIds" item="catId" open="(" close=")" separator=",">
+	  			#{catId}
+	  		</foreach>
+	  	</if>
+
+  	) g
+  	on i.goods_id = g.goods_id
+    inner join np_goods_category cat on cat.cat_id=g.cat_id
+    inner join np_goods_brand brand on brand.brand_id = g.brand_id
+
+	<if test="haveStock!='' and haveStock !=null">
+  	        left join (select IFNULL(sum(ware_stock),0) as stockSum,product_id from np_product_ware where del_flag = '0' group by product_id) as sto
+ 				on sto.product_id = i.goods_info_id
+  	</if>
+  	where i.goods_info_delflag='0' and i.goods_info_added='1' and i.show_list='1'
+      <if test="isThird != null and isThird != ''">
+          and is_third = #{isThird}
+      </if>
+      <if test="goodsName !=null and goodsName !=''">
+	  		and (g.goods_name like CONCAT(CONCAT('%',
+			#{goodsName}),'%'))
+	  </if>
+  	  <if test="goodstNo !=null and goodstNo !=''">
+	  		and (g.goods_no like CONCAT(CONCAT('%',
+			#{goodstNo}),'%'))
+	  </if>
+
+  	  <if test="productNo !=null and productNo!=''">
+	  		and (i.goods_info_item_no like CONCAT(CONCAT('%',
+			#{productNo}),'%'))
+	  </if>
+	  <if test="thirdId !=null and thirdId!=''">
+	  		and i.third_id = #{thirdId}
+	  	</if>
+	  	<if test="showMobile !=null">
+		  		and i.show_mobile = '1'
+		</if>
+      <if test="goodsInfoName != null and goodsInfoName != ''">
+          and  i.goods_info_name like CONCAT(CONCAT('%',#{goodsInfoName}),'%')
+      </if>
+      &lt;!&ndash;根据高低价格查询&ndash;&gt;
+      <if test="lowGoodsInfoPrice !=null and lowGoodsInfoPrice != ''">
+          &lt;!&ndash; 会员价格 &ndash;&gt;
+          <if test="isEnterprise == '1'">
+              and i.goods_info_vip_price >= #{lowGoodsInfoPrice}
+          </if>
+          &lt;!&ndash; 个人价格 &ndash;&gt;
+          <if test="isEnterprise == '0' || isEnterprise == '' || isEnterprise == null ">
+              and i.goods_info_prefer_price >= #{lowGoodsInfoPrice}
+          </if>
+      </if>
+      <if test="highGoodsInfoPrice !=null and highGoodsInfoPrice != ''">
+          &lt;!&ndash; 会员价格 &ndash;&gt;
+          <if test="isEnterprise == '1'">
+              and i.goods_info_vip_price <![CDATA[ <= ]]> #{highGoodsInfoPrice}
+          </if>
+          &lt;!&ndash; 个人价格 &ndash;&gt;
+          <if test="isEnterprise == '0' || isEnterprise == '' || isEnterprise == null ">
+              and i.goods_info_prefer_price <![CDATA[ <= ]]> #{highGoodsInfoPrice}
+          </if>
+      </if>
+
+      <if test="haveStock!='' and haveStock !=null">
+          	    	<if test="haveStock==1">
+		  	        and sto.stockSum > 0
+		  	         </if>
+		  	         <if test="haveStock==0">
+		  	        and sto.stockSum = 0
+		  	         </if>
+  			</if>
+  	order by i.goods_info_create_time
+  	    limit #{startRowNum},#{endRowNum}
+  </select>-->
+
+    <!-- 根据参数查询货品列表 -->
+    <select id="queryProductForCoupon" parameterType="java.util.Map" resultMap="DetailVoResultMap">
+        select
+            i.goods_info_id, i.goods_id, i.goods_info_item_no,i.goods_info_name,i.goods_info_subtitle, i.goods_info_added, i.goods_info_added_time,i.goods_info_unadded_time,
+            i.goods_info_stock, i.goods_info_prefer_price, i.goods_info_vip_price, i.goods_info_cost_price, i.goods_info_market_price,
+            i.goods_info_weight, i.goods_info_img_id, i.goods_info_create_name, i.goods_info_create_time,
+            i.goods_info_modified_name, i.goods_info_modified_time, i.goods_info_del_name, i.goods_info_del_time,
+            i.goods_info_delflag,i.third_id,i.third_name,i.is_third,i.show_list,
+            cat.cat_name,brand.brand_name
+        from np_goods_info i
+            inner join np_goods g on g.goods_delflag='0'
+                <if test="isThird != null and isThird != ''">
+                    and g.is_third = #{isThird}
+                </if>
+                <if test="brandIds!=null">
+                    and brand_id in
+                    <foreach item="brandId" collection="brandIds" open="(" close=")" separator=",">
+                        #{brandId}
+                    </foreach>
+                </if>
+                <if test="cateIds!=null">
+                    and cat_id in
+                    <foreach collection="cateIds" item="catId" open="(" close=")" separator=",">
+                        #{catId}
+                    </foreach>
+                </if>
+                and i.goods_id = g.goods_id
+            inner join np_goods_category cat on cat.cat_id=g.cat_id
+            inner join np_goods_brand brand on brand.brand_id = g.brand_id
+
+                <if test="haveStock!='' and haveStock !=null">
+                    left join (select IFNULL(sum(ware_stock),0) as stockSum,product_id from np_product_ware where del_flag = '0' group by product_id) as sto
+                    on sto.product_id = i.goods_info_id
+                </if>
+                where i.goods_info_delflag='0' and i.goods_info_added='1' and i.show_list='1'
+                <if test="isThird != null and isThird != ''">
+                    and i.is_third = #{isThird}
+                </if>
+                <if test="goodsName !=null and goodsName !=''">
+                    and (g.goods_name like CONCAT(CONCAT('%',
+                    #{goodsName}),'%'))
+                </if>
+                <if test="goodstNo !=null and goodstNo !=''">
+                    and (g.goods_no like CONCAT(CONCAT('%',
+                    #{goodstNo}),'%'))
+                </if>
+
+                <if test="productNo !=null and productNo!=''">
+                    and (i.goods_info_item_no like CONCAT(CONCAT('%',
+                    #{productNo}),'%'))
+                </if>
+                <if test="thirdId !=null and thirdId!=''">
+                    and i.third_id = #{thirdId}
+                </if>
+                <if test="showMobile !=null">
+                    and i.show_mobile = '1'
+                </if>
+                <if test="goodsInfoName != null and goodsInfoName != ''">
+                    and  i.goods_info_name like CONCAT(CONCAT('%',#{goodsInfoName}),'%')
+                </if>
+                <!--根据高低价格查询-->
+                <if test="lowGoodsInfoPrice !=null and lowGoodsInfoPrice != ''">
+                    <!-- 会员价格 -->
+                    <if test="isEnterprise == '1'">
+                        and i.goods_info_vip_price >= #{lowGoodsInfoPrice}
+                    </if>
+                    <!-- 个人价格 -->
+                    <if test="isEnterprise == '0' || isEnterprise == '' || isEnterprise == null ">
+                        and i.goods_info_prefer_price >= #{lowGoodsInfoPrice}
+                    </if>
+                </if>
+                <if test="highGoodsInfoPrice !=null and highGoodsInfoPrice != ''">
+                    <!-- 会员价格 -->
+                    <if test="isEnterprise == '1'">
+                        and i.goods_info_vip_price <![CDATA[ <= ]]> #{highGoodsInfoPrice}
+                    </if>
+                    <!-- 个人价格 -->
+                    <if test="isEnterprise == '0' || isEnterprise == '' || isEnterprise == null ">
+                        and i.goods_info_prefer_price <![CDATA[ <= ]]> #{highGoodsInfoPrice}
+                    </if>
+                </if>
+
+                <if test="haveStock!='' and haveStock !=null">
+                    <if test="haveStock==1">
+                        and sto.stockSum > 0
+                    </if>
+                    <if test="haveStock==0">
+                        and sto.stockSum = 0
+                    </if>
+                </if>
+        order by i.goods_info_create_time
+        limit #{startRowNum},#{endRowNum}
+    </select>
+
+    <!--查询第三方上线的商品个数-->
+    <select id="queryCountThirdProduct" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1)
+        from np_goods_info i
+        left join (select image_in_name as goods_info_img_id,goods_info_id from np_goods_image ngi where ngi.goods_img_delflag='0' group by goods_info_id) im
+        on im.goods_info_id = i.goods_info_id
+        inner join (select goods_id,cat_id ,brand_id from np_goods where is_third='1' and goods_belo = #{goodsBelo}) g
+        on i.goods_id = g.goods_id
+        inner join np_goods_category cat on cat.cat_id=g.cat_id
+        inner join np_goods_brand brand on brand.brand_id = g.brand_id
+        where i.goods_info_delflag='0' and i.goods_info_added='1' and i.is_third='1'
+        <if test="goodsInfoName != null and goodsInfoName != ''">
+            and  i.goods_info_name like CONCAT(CONCAT('%',#{goodsInfoName}),'%')
+        </if>
+        <if test="goodsInfoNo != null and goodsInfoNo != ''">
+            and  i.goods_info_item_no = #{goodsInfoNo}
+        </if>
+        <if test="showMobile != null and showMobile != ''">
+            and  i.show_mobile = '1'
+        </if>
+        order by i.goods_info_create_time
+    </select>
+    <!--查询第三方上线的商品列表-->
+    <select id="queryThirdProduct" parameterType="java.util.Map" resultMap="DetailVoResultMap">
+        select
+        i.goods_info_id, i.goods_id, i.goods_info_item_no,i.goods_info_name,i.goods_info_subtitle, i.goods_info_added, i.goods_info_added_time,i.goods_info_unadded_time,
+        i.goods_info_stock, i.goods_info_prefer_price, i.goods_info_vip_price, i.goods_info_cost_price, i.goods_info_market_price,
+        i.goods_info_weight, i.goods_info_img_id, i.goods_info_create_name, i.goods_info_create_time,
+        i.goods_info_modified_name, i.goods_info_modified_time, i.goods_info_del_name, i.goods_info_del_time,
+        i.goods_info_delflag,i.third_id,i.third_name,i.is_third,i.show_list,
+        cat.cat_name,brand.brand_name
+        from np_goods_info i
+        left join (select image_in_name as goods_info_img_id,goods_info_id from np_goods_image ngi where ngi.goods_img_delflag='0' group by goods_info_id) im
+        on im.goods_info_id = i.goods_info_id
+        inner join (select goods_id,cat_id ,brand_id from np_goods where is_third='1' and goods_belo = #{goodsBelo}) g
+        on i.goods_id = g.goods_id
+        inner join np_goods_category cat on cat.cat_id=g.cat_id
+        inner join np_goods_brand brand on brand.brand_id = g.brand_id
+        where i.goods_info_delflag='0' and i.goods_info_added='1' and i.is_third='1'
+        <if test="goodsInfoName != null and goodsInfoName != ''">
+            and  i.goods_info_name like CONCAT(CONCAT('%',#{goodsInfoName}),'%')
+        </if>
+        <if test="goodsInfoNo != null and goodsInfoNo != ''">
+            and  i.goods_info_item_no = #{goodsInfoNo}
+        </if>
+        <if test="showMobile != null and showMobile != ''">
+            and  i.show_mobile = '1'
+        </if>
+        order by i.goods_info_create_time
+        limit #{startRowNum},#{endRowNum}
+    </select>
+    <!-- 查询库存预警的行数 -->
+  <select id="queryStockWarnCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select count(1) from np_goods_info where 1=1
+  	<if test="flag==2">
+  		and goods_info_added='0'
+  	</if>
+  	<if test="flag==3">
+  		and goods_info_stock &lt;= 0
+  	</if>
+  	<if test="flag==4">
+  		and goods_info_stock &lt;= 10
+  	</if>
+  	<if test="condition != '' and condition == 1 and searchText != null and searchText !=''">
+  		and goods_info_name like CONCAT(CONCAT('%',
+			#{searchText}),'%')
+  	</if>
+  	<if test="condition != '' and condition == 2 and searchText != null and searchText !=''">
+  		and goods_info_item_no = #{searchText} 
+  	</if>
+  	and goods_info_delflag = '0'
+  </select>
+  
+  <!-- 根据各种参数查询货品列表 -->
+  <select id="queryProductListBySomeParam" parameterType="java.util.Map" resultMap="ListVoResultMap">
+  	select <include refid="Base_Column_List"/> from np_goods_info where 1=1
+  	<if test="flag == 2">
+  		and goods_info_added = '0'
+  	</if>
+  	<if test="flag == 3">
+  		and goods_info_stock &lt;= 0
+  	</if>
+  	<if test="flag == 4">
+  		and goods_info_stock &lt;= 10
+  	</if>
+  	<if test="condition != '' and condition == 1 and searchText != null and searchText !=''">
+  		and goods_info_name like CONCAT(CONCAT('%',
+			#{searchText}),'%')
+  	</if>
+  	<if test="condition != '' and condition == 2 and searchText != null and searchText !=''">
+  		and goods_info_item_no = #{searchText} 
+  	</if>
+  	and goods_info_delflag = '0'
+  	limit #{startRowNum},#{endRowNum}
+  </select>
+  <!-- 根据商品ID和参数查询行数 -->
+  <select id="queryCountByGoodsAndSelectParam" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select count(1)
+      from np_goods_info where goods_id=#{goodsId} and goods_info_delflag='0'
+      <if test="condition != '' and condition == 1 and searchText != null and searchText !=''">
+          and goods_info_name like CONCAT(CONCAT('%',
+          #{searchText}),'%')
+      </if>
+      <if test="condition != '' and condition == 2 and searchText != null and searchText !=''">
+          and goods_info_item_no = #{searchText}
+      </if>
+      <if test="goodsName !='' and goodsName!=null">
+          and goods_info_name like CONCAT(CONCAT('%',
+          #{goodsName}),'%')
+      </if>
+      <if test="goodsNo !='' and goodsNo!=null">
+          and goods_info_item_no = #{goodsNo}
+      </if>
+  </select>
+  <!-- 根据货品ID的数组查询货品集合 -->
+  <select id="queryProductsByProductIds" parameterType="java.util.Map" resultMap="ListVoResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from np_goods_info where goods_info_delflag='0'
+     and goods_info_id in
+    <foreach collection="productIds" item="productId" open="(" separator="," close=")">
+      #{productId}
+    </foreach>
+  </select>
+
+    <!-- 根据货品ID查询货品适配车型集合 2015-12-20 wuyanbo add -->
+    <select id="queryProductAutoStyleByProductId" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select goods_info_auto_style,auto_style_id_LiYang_ID
+        from np_goods_info where goods_info_id = #{goodsInfoId,jdbcType=BIGINT}
+    </select>
+  
+  <!-- 查询当天创建的货品数量 -->
+  <select id="queryTodayProCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+      	select count(1) from np_goods_info where 
+      	to_days(goods_info_create_time) = to_days(now()) 
+      	and goods_info_delflag='0'
+      	<if test="third_id!=null">
+			and third_id=#{thirdId}
+      	</if>
+  </select>
+  
+   <!-- 根据商品id查询货品列表 -->
+  <select id="queryProductForCouponByGoodsInfoIds" parameterType="java.util.Map" resultMap="DetailVoResultMap">
+  	select <include refid="Detail_Column_List"/> from np_goods_info i
+  	where i.goods_info_delflag='0' and i.goods_info_added='1'
+  	and i.goods_info_id in 
+  	<foreach collection="goodsInfoIds" item="goodsInfoId" open="(" separator="," close=")">
+      #{goodsInfoId}
+    </foreach>
+  	order by i.goods_info_create_time
+  	limit #{startRowNum},#{endRowNum}
+  </select>
+  <!-- 根据参数查询行数 -->
+  <select id="queryCountForCouponByGoodsInfoIds" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select count(1) from np_goods_info  where goods_info_delflag='0' and goods_info_added='1'
+  	and goods_id in 
+  	<foreach collection="goodsInfoIds" item="goodsInfoId" open="(" separator="," close=")">
+      #{goodsInfoId}
+    </foreach>
+  </select>
+  
+   <!-- 根据参数查询货品列表 -->
+  <select id="queryProductForCouponByThird" parameterType="java.util.Map" resultMap="DetailVoResultMap">
+  	select <include refid="Detail_Column_List"/> from np_goods_info i
+  	where i.goods_info_delflag='0' and i.goods_info_added='1' and i.show_list='1'
+  	and i.goods_id in (select goods_id from np_goods where 1=1 
+  		<if test="brandIds!=null">
+	  	 and brand_id in 
+	  		<foreach item="brandId" collection="brandIds" open="(" close=")" separator=",">
+	  			#{brandId}
+	  		</foreach>
+  		</if>
+  		<if test="catIds!=null">
+	  		and cat_id in 
+	  		<foreach collection="catIds" item="catId" open="(" close=")" separator=",">
+	  			#{catId}
+	  		</foreach>
+	  	</if>
+	  	<if test="productNo !=null and productNo!=''">
+	  		and goods_info_item_no = #{productNo}
+	  	</if>
+	  		)and goods_id in (select goods_id from np_goods where goods_belo = 0
+  	)
+  	order by i.goods_info_create_time
+  </select>
+  
+  <!-- 批量显示到列表页 -->
+  <update id="batchShow" parameterType="java.util.Map">
+  	update np_goods_info set show_list=#{status},goods_info_modified_name=#{username}
+  	,goods_info_modified_time=now()
+  	where goods_info_id in
+  	<foreach item="item" collection="productIds" open="(" separator="," close=")">
+  		#{item}
+  	</foreach>
+  </update>
+  <!-- 批量显示到手机版 -->
+  <update id="batchShowMobile" parameterType="java.util.Map">
+  	update np_goods_info set show_mobile=#{status},goods_info_modified_name=#{username}
+  	,goods_info_modified_time=now()
+  	where goods_info_id in
+  	<foreach item="item" collection="productIds" open="(" separator="," close=")">
+  		#{item}
+  	</foreach>
+  </update>
+  
+  
+  <!-- 减货品基本库存 -->
+  <update id="minBaseStock" parameterType="java.util.Map">
+      update np_goods_info set goods_info_stock=goods_info_stock-#{stock}
+      where goods_info_id = #{productId}
+  </update>
+  <!-- 加货品基本库存 -->
+  <update id="plusBaseStock" parameterType="java.util.Map">
+      update np_goods_info set goods_info_stock=goods_info_stock+#{stock}
+      where goods_info_id = #{productId}
+  </update>
+  <!-- 审核货品通过 -->
+  <update id="auditProductAction" parameterType="java.lang.Long">
+  	update np_goods_info set audit_status = '3', goods_info_added = '1' where goods_info_id = #{goodsInfoId,jdbcType=BIGINT} and audit_status != '2'
+  </update>
+  
+  <update id="refuseAuditProductAction" parameterType="java.util.Map">
+  	update np_goods_info set audit_status = '2',refuse_reason=#{refuseReason,jdbcType=VARCHAR} where goods_info_id = #{goodsInfoId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 查询货品销售排行 -->
+  <select id="queryGoodsProductSalesRank"  parameterType="java.util.Map"  resultMap="ListVoResultMap">
+SELECT
+	gi.goods_id,
+	gi.goods_info_id,
+	gi.goods_info_name,
+    gi.goods_info_item_no,
+    gi.goods_info_img_id,
+    sum(og.goods_info_num) AS goodscount,
+	gi.goods_info_prefer_price, gi.goods_info_vip_price
+	FROM np_goods g
+	LEFT JOIN np_goods_info gi ON gi.goods_id = g.goods_id
+	LEFT JOIN np_order_goods og ON og.goods_info_id = gi.goods_info_id
+	LEFT JOIN np_order o ON o.order_id = og.order_id
+	WHERE
+	g.is_third = '0'
+	AND o.business_id = '0'
+	AND o.order_status IN ('1', '2', '3', '9')
+    <if test="startTime != null and startTime!=''">
+			AND   o.pay_time  &gt;=  #{startTime}
+	</if>
+      <if test="endTime != null and endTime!=''">
+			AND   o.pay_time  &lt;=   #{endTime}
+	</if>
+
+	GROUP BY  gi.goods_info_id
+	ORDER BY goodscount DESC 
+	   limit #{startRowNum},#{endRowNum}    
+  
+  </select>
+  
+  <select id="selectInfoIdList" parameterType="java.util.List" resultType="java.lang.Long">
+      select goods_info_id from np_goods_info
+      where 1=1
+    	and goods_id in
+      <foreach collection="list" open="("  separator="," close=")" item="goodsId">
+	          #{goodsId,jdbcType=BIGINT}
+      </foreach>
+      
+      
+  </select>
+  
+  <!-- 查询总条数 -->
+  <select id="selectAllSize" resultType="java.lang.Integer" parameterType="java.util.Map" >
+	select count(1) from 
+	(SELECT count(1) 
+	FROM np_goods g
+	LEFT JOIN np_goods_info gi ON gi.goods_id = g.goods_id
+	LEFT JOIN np_order_goods og ON og.goods_info_id = gi.goods_info_id
+	LEFT JOIN np_order o ON o.order_id = og.order_id
+	WHERE
+	g.is_third = '0'
+	AND o.business_id = '0'
+	AND o.order_status IN ('1', '2', '3')
+    <if test="startTime != null and startTime!='' and  endTime != null and endTime!=''">
+			AND   o.pay_time  between  #{startTime} and #{endTime}
+	</if>
+	GROUP BY  gi.goods_info_id)a
+    </select>
+
+    <select id="queryGoodsInfoIdByGoodsId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" /> from np_goods_info where goods_id = #{goodsId} and goods_info_delflag = '0'
+    </select>
+
+    <select id="queryProductById" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" />,(select np.discount_info from np_pre_discount_marketing np where np.goods_id = #{productId} and np.marketing_id = #{marketingId}) discount_info,
+        (select np.discount_price from np_pre_discount_marketing np where np.goods_id = #{productId} and np.marketing_id = #{marketingId}) discount_price
+        from np_goods_info where goods_info_id = #{productId} and goods_info_delflag = '0'
+    </select>
+
+    <select id="queryProductByGoodsIds" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" /> from np_goods_info where goods_info_id = #{productId} and goods_info_delflag = '0'
+    </select>
+
+    <select id="queryProductsByGoodsId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" /> from np_goods_info where goods_id = #{goodsId,jdbcType=BIGINT} and goods_info_delflag = '0'
+    </select>
+
+    <update id="updateGoodsSubtitleById" parameterType="java.util.Map">
+        update np_goods_info set goods_info_subtitle = #{goodsSubtitle,jdbcType=VARCHAR} where goods_info_id = #{goodsInfoId,jdbcType=BIGINT}
+    </update>
+
+    <select id="selectByPrimaryKeys" resultMap="ListVoResultMap" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        from np_goods_info
+        where goods_info_id = #{goodsInfoId,jdbcType=BIGINT}
+    </select>
+
+     <!-- 根据参数查询货品列表 -->
+  <select id="queryProductForMarketing" parameterType="java.util.Map" resultMap="DetailVoResultMap">
+  	select 
+	i.goods_info_id, i.goods_id, i.goods_info_item_no,i.goods_info_name,i.goods_info_subtitle, i.goods_info_added, i.goods_info_added_time,i.goods_info_unadded_time, 
+    i.goods_info_stock, i.goods_info_prefer_price, i.goods_info_vip_price, i.goods_info_cost_price, i.goods_info_market_price,
+    i.goods_info_weight, i.goods_info_img_id, i.goods_info_create_name, i.goods_info_create_time, 
+    i.goods_info_modified_name, i.goods_info_modified_time, i.goods_info_del_name, i.goods_info_del_time, 
+    i.goods_info_delflag,i.third_id,i.third_name,i.is_third,i.show_list,
+    cat.cat_name,brand.brand_name
+ 	from np_goods_info i
+ 	left join (select image_in_name as goods_info_img_id,goods_info_id from np_goods_image ngi where ngi.goods_img_delflag='0' group by goods_info_id) im
+	on im.goods_info_id = i.goods_info_id
+	inner join (select goods_id,cat_id ,brand_id from np_goods where 1=1) g
+  	on i.goods_id = g.goods_id
+    inner join np_goods_category cat on cat.cat_id=g.cat_id
+    inner join np_goods_brand brand on brand.brand_id = g.brand_id
+    
+	<if test="haveStock!='' and haveStock !=null">
+  	        left join (select IFNULL(sum(ware_stock),0) as stockSum,product_id from np_product_ware where del_flag = '0' group by product_id) as sto 
+ 				on sto.product_id = i.goods_info_id
+  	</if>
+  	where i.goods_info_delflag='0' and i.goods_info_added='1'
+  	  <if test="productNo !=null and productNo!=''">
+	 		and (i.goods_info_item_no = #{productNo}
+	  		or i.goods_info_name like CONCAT(CONCAT('%',
+			#{productNo}),'%'))
+	  </if>
+	  <if test="thirdId !=null and thirdId!=''">
+	  		and i.third_id = #{thirdId}
+	  	</if>
+	  	<if test="showMobile !=null and showMobile=='1'">
+		  		and i.show_mobile = '1'
+		</if>
+      <if test="goodsInfoName != null and goodsInfoName != ''">
+          and  i.goods_info_name like CONCAT(CONCAT('%',#{goodsInfoName}),'%')
+      </if>
+      <if test="haveStock!='' and haveStock !=null">
+          	    	<if test="haveStock==1">
+		  	        and sto.stockSum > 0 
+		  	         </if>
+		  	         <if test="haveStock==0">
+		  	        and sto.stockSum = 0 
+		  	         </if>
+  			</if>
+  	order by i.goods_info_create_time
+  </select>
+  
+  <!-- 新根据参数查询货品列表 -->
+  <select id="newQueryProductForMarketing" parameterType="java.util.Map" resultMap="DetailVoResultMap">
+  	select 
+	i.goods_info_id, i.goods_id, i.goods_info_item_no,i.goods_info_name,i.goods_info_subtitle, i.goods_info_added, i.goods_info_added_time,i.goods_info_unadded_time, 
+    i.goods_info_stock, i.goods_info_prefer_price, i.goods_info_vip_price, i.goods_info_cost_price, i.goods_info_market_price,
+    i.goods_info_weight, i.goods_info_img_id, i.goods_info_create_name, i.goods_info_create_time, 
+    i.goods_info_modified_name, i.goods_info_modified_time, i.goods_info_del_name, i.goods_info_del_time, 
+    i.goods_info_delflag,i.third_id,i.third_name,i.is_third,i.show_list,
+    cat.cat_name,brand.brand_name,g.goods_no,g.goods_name
+ 	from np_goods_info i
+ 	left join (select image_in_name as goods_info_img_id,goods_info_id from np_goods_image ngi where ngi.goods_img_delflag='0' group by goods_info_id) im
+	on im.goods_info_id = i.goods_info_id
+	inner join (select goods_id,cat_id ,brand_id,goods_no,goods_name from np_goods where 1=1 and is_third='1') g
+  	on i.goods_id = g.goods_id
+    inner join np_goods_category cat on cat.cat_id=g.cat_id
+    inner join np_goods_brand brand on brand.brand_id = g.brand_id
+  	where i.goods_info_delflag='0' and i.is_third='1'
+  	  <if test="goodsName !=null and goodsName !=''">
+	  		and (g.goods_name like CONCAT(CONCAT('%',
+			#{goodsName}),'%'))
+	  </if>
+  	  <if test="goodstNo !=null and goodstNo !=''">
+	  		and (g.goods_no like CONCAT(CONCAT('%',
+			#{goodstNo}),'%'))
+	  </if>
+  	  <if test="productNo !=null and productNo!=''">
+	  		and (i.goods_info_item_no like CONCAT(CONCAT('%',
+			#{productNo}),'%'))
+	  </if>
+	  <if test="thirdId !=null and thirdId!=''">
+	  		and i.third_id = #{thirdId}
+	  	</if>
+	  	<if test="showMobile !=null and showMobile=='1'">
+		  		and i.show_mobile = '1'
+		</if>
+      <if test="goodsInfoName != null and goodsInfoName != ''">
+          and  i.goods_info_name like CONCAT(CONCAT('%',#{goodsInfoName}),'%')
+      </if>
+      <if test="goodsInfoAdded !=null and goodsInfoAdded !=''" >
+        and goods_info_added = #{goodsInfoAdded}
+      </if>
+      <!--根据高低价格查询 2015.10.22 wuyanbo 修改-->
+      <if test="lowGoodsInfoPrice !=null and lowGoodsInfoPrice != ''">
+          <!-- 会员价格 -->
+          <if test="isEnterprise == '1'">
+              and i.goods_info_vip_price >= #{lowGoodsInfoPrice}
+          </if>
+          <!-- 个人价格 -->
+          <if test="isEnterprise == '0' || isEnterprise == '' || isEnterprise == null ">
+              and i.goods_info_prefer_price >= #{lowGoodsInfoPrice}
+          </if>
+      </if>
+      <if test="highGoodsInfoPrice !=null and highGoodsInfoPrice != ''">
+          <!-- 会员价格 -->
+          <if test="isEnterprise == '1'">
+              and i.goods_info_vip_price <![CDATA[ <= ]]> #{highGoodsInfoPrice}
+          </if>
+          <!-- 个人价格 -->
+          <if test="isEnterprise == '0' || isEnterprise == '' || isEnterprise == null ">
+              and i.goods_info_prefer_price <![CDATA[ <= ]]> #{highGoodsInfoPrice}
+          </if>
+      </if>
+
+      <if test="haveStock!='' and haveStock !=null">
+     	<if test="haveStock==1">
+        and sto.stockSum > 0 
+         </if>
+         <if test="haveStock==0">
+        and sto.stockSum = 0 
+         </if>
+	  </if>
+      <if test="offValue !='' and offValue !=null">
+        <!-- 会员价格 -->
+        <if test="isEnterprise == '1'">
+           <![CDATA[
+             and i.goods_info_vip_price > #{offValue}
+           ]]>
+        </if>
+        <!-- 个人价格 -->
+        <if test="isEnterprise == '0' || isEnterprise == '' || isEnterprise == null ">
+           <![CDATA[
+              and i.goods_info_prefer_price > #{offValue}
+           ]]>
+        </if>
+      </if>
+  	order by i.goods_info_create_time
+  	    limit #{startRowNum},#{endRowNum}
+  </select>
+  
+   <select id="newQueryProductForMarketingCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select 
+	count(1)
+ 	from np_goods_info i
+ 	left join (select image_in_name as goods_info_img_id,goods_info_id from np_goods_image ngi where ngi.goods_img_delflag='0' group by goods_info_id) im
+	on im.goods_info_id = i.goods_info_id
+	inner join (select goods_id,cat_id ,brand_id,goods_no,goods_name from np_goods where 1=1 and is_third='1') g
+  	on i.goods_id = g.goods_id
+    inner join np_goods_category cat on cat.cat_id=g.cat_id
+    inner join np_goods_brand brand on brand.brand_id = g.brand_id
+    where i.goods_info_delflag='0' and i.is_third='1'
+	<if test="goodsName !=null and goodsName !=''">
+	  		and (g.goods_name like CONCAT(CONCAT('%',
+			#{goodsName}),'%'))
+	  </if>
+  	  <if test="goodstNo !=null and goodstNo !=''">
+	  		and (g.goods_no like CONCAT(CONCAT('%',
+			#{goodstNo}),'%'))
+	  </if>
+  	  <if test="productNo !=null and productNo!=''">
+	  		and (i.goods_info_item_no like CONCAT(CONCAT('%',
+			#{productNo}),'%'))
+	  </if>
+	  <if test="thirdId !=null and thirdId!=''">
+	  		and i.third_id = #{thirdId}
+	  	</if>
+	  	<if test="showMobile !=null and showMobile=='1'">
+		  		and i.show_mobile = '1'
+		</if>
+      <if test="goodsInfoName != null and goodsInfoName != ''">
+          and  i.goods_info_name like CONCAT(CONCAT('%',#{goodsInfoName}),'%')
+      </if>
+      <if test="goodsInfoAdded !=null and goodsInfoAdded !=''" >
+        and goods_info_added = #{goodsInfoAdded}
+      </if>
+      <!--根据高低价格查询 2015.10.22 wuyanbo 修改-->
+      <if test="lowGoodsInfoPrice !=null and lowGoodsInfoPrice != ''">
+         <!-- 会员价格 -->
+         <if test="isEnterprise == '1'">
+           and i.goods_info_vip_price >= #{lowGoodsInfoPrice}
+         </if>
+         <!-- 个人价格 -->
+         <if test="isEnterprise == '0' || isEnterprise == '' || isEnterprise == null ">
+           and i.goods_info_prefer_price >= #{lowGoodsInfoPrice}
+         </if>
+      </if>
+      <if test="highGoodsInfoPrice !=null and highGoodsInfoPrice != ''">
+         <!-- 会员价格 -->
+         <if test="isEnterprise == '1'">
+           and i.goods_info_vip_price <![CDATA[ <= ]]> #{highGoodsInfoPrice}
+         </if>
+         <!-- 个人价格 -->
+         <if test="isEnterprise == '0' || isEnterprise == '' || isEnterprise == null ">
+           and i.goods_info_prefer_price <![CDATA[ <= ]]> #{highGoodsInfoPrice}
+         </if>
+      </if>
+
+      <if test="offValue != null and offValue != ''">
+          <!-- 会员价格 -->
+         <if test="isEnterprise == '1'">
+              <![CDATA[
+             and i.goods_info_vip_price > #{offValue}
+           ]]>
+         </if>
+          <!-- 个人价格 -->
+         <if test="isEnterprise == '0' || isEnterprise == '' || isEnterprise == null ">
+              <![CDATA[
+              and i.goods_info_prefer_price > #{offValue}
+           ]]>
+         </if>
+      </if>
+      <if test="haveStock!='' and haveStock !=null">
+     	   <if test="haveStock==1">
+           and sto.stockSum > 0 
+         </if>
+         <if test="haveStock==0">
+           and sto.stockSum = 0 
+         </if>
+  	 </if>
+  </select>
+
+    <!-- 根据id 删除购物车里的商品 -->
+    <update id="delShoppingGoodsByGoodsInfoIds" parameterType="java.util.List">
+        update np_shopping_cart set del_flag='1' where del_flag='0' and goods_info_id in
+        <foreach collection="list" item="goodsId"    open="(" separator="," close=")" >
+            #{goodsId}
+        </foreach>
+    </update>
+
+    <update id="updateAutoStyleByGoodsInfoId" parameterType="java.util.HashMap">
+      update np_goods_info set auto_style_id_LiYang_ID = #{autoStyleIdLiYangID,jdbcType=VARCHAR},goods_info_auto_style = #{goodsInfoAutoStyle,jdbcType=VARCHAR} where goods_info_id = #{goodsInfoId,jdbcType=BIGINT}
+    </update>
+</mapper>

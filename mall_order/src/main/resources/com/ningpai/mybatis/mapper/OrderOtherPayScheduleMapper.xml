@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.order.dao.OrderOtherPayScheduleMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.order.bean.OrderOtherPaySchedule" >
+    <id column="order_many_id" property="orderManyId" jdbcType="BIGINT" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="order_residue_price" property="orderResiduePrice" jdbcType="DECIMAL" />
+    <result column="order_pay_price" property="orderPayPrice" jdbcType="DECIMAL" />
+    <result column="order_remark" property="orderRemark" jdbcType="VARCHAR" />
+    <result column="order_pay_status" property="orderPayStatus" jdbcType="CHAR" />
+    <result column="order_pay_create_time" property="orderPayCreateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    order_many_id, order_code, order_residue_price, order_pay_price, order_remark, order_pay_status,order_pay_create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_other_pay_schedule
+    where order_code = #{orderCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_other_pay_schedule
+    where order_many_id = #{orderManyId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.order.bean.OrderOtherPaySchedule" >
+    insert into np_other_pay_schedule (order_many_id, order_code, order_residue_price, 
+      order_pay_price, order_remark, order_pay_status
+      )
+    values (#{orderManyId,jdbcType=BIGINT}, #{orderCode,jdbcType=VARCHAR}, #{orderResiduePrice,jdbcType=DECIMAL}, 
+      #{orderPayPrice,jdbcType=DECIMAL}, #{orderRemark,jdbcType=VARCHAR}, #{orderPayStatus,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.order.bean.OrderOtherPaySchedule" >
+    insert into np_other_pay_schedule
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderManyId != null" >
+        order_many_id,
+      </if>
+      <if test="orderCode != null" >
+        order_code,
+      </if>
+      <if test="orderResiduePrice != null" >
+        order_residue_price,
+      </if>
+      <if test="orderPayPrice != null" >
+        order_pay_price,
+      </if>
+      <if test="orderRemark != null" >
+        order_remark,
+      </if>
+      <if test="orderPayStatus != null" >
+        order_pay_status,
+      </if>
+      <if test="orderPayCreateTime != null" >
+        order_pay_create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderManyId != null" >
+        #{orderManyId,jdbcType=BIGINT},
+      </if>
+      <if test="orderCode != null" >
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderResiduePrice != null" >
+        #{orderResiduePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderPayPrice != null" >
+        #{orderPayPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderRemark != null" >
+        #{orderRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPayStatus != null" >
+        #{orderPayStatus,jdbcType=CHAR},
+      </if>
+       <if test="orderPayCreateTime != null" >
+          #{orderPayCreateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.order.bean.OrderOtherPaySchedule" >
+    update np_other_pay_schedule
+    <set >
+      <if test="orderRemark != null" >
+        order_remark = #{orderRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPayStatus != null" >
+        order_pay_status = #{orderPayStatus,jdbcType=CHAR},
+      </if>
+    </set>
+      where order_code = #{orderCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.order.bean.OrderOtherPaySchedule" >
+    update np_other_pay_schedule
+    set order_code = #{orderCode,jdbcType=VARCHAR},
+      order_residue_price = #{orderResiduePrice,jdbcType=DECIMAL},
+      order_pay_price = #{orderPayPrice,jdbcType=DECIMAL},
+      order_remark = #{orderRemark,jdbcType=VARCHAR},
+      order_pay_status = #{orderPayStatus,jdbcType=CHAR}
+    where order_many_id = #{orderManyId,jdbcType=BIGINT}
+  </update>
+  
+     <!-- 根据代付id查询订单 -->
+  <update id="payOther" parameterType="com.ningpai.order.bean.OrderOtherPaySchedule" >
+    update np_other_pay_schedule
+    set order_residue_price=order_residue_price-#{orderResiduePrice}
+    where order_many_id = #{orderManyId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="queryOrderOtherPayRefund" resultMap="BaseResultMap">
+	select order_many_id, order_code, order_residue_price, order_pay_price FROM np_other_pay_schedule  where  TIMESTAMPDIFF(DAY,order_pay_create_time,now())&gt;9 and order_pay_status ='0' 
+  </select>
+</mapper>

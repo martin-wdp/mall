@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.mobile.dao.MobHomeSinglePageMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.mobile.bean.MobHomeSinglePage" >
+    <id column="homesp_id" property="homespId" jdbcType="BIGINT" />
+    <result column="singlepage_id" property="singlepageId" jdbcType="BIGINT" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="friends_desc" property="friendsDesc" jdbcType="VARCHAR" />
+    <result column="friend_desc" property="friendDesc" jdbcType="VARCHAR" />
+    <result column="home_desc" property="homeDesc" jdbcType="VARCHAR" />
+    <result column="home_img" property="homeImg" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="friend_desc" property="friendDesc" jdbcType="VARCHAR" />
+    <result column="doc" property="doc" jdbcType="LONGVARCHAR" />
+    <result column="doc_bac" property="docBac" jdbcType="LONGVARCHAR" />
+    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="temp1" property="temp1" jdbcType="VARCHAR" />
+    <result column="temp2" property="temp2" jdbcType="VARCHAR" />
+    <result column="temp3" property="temp3" jdbcType="VARCHAR" />
+    <result column="temp4" property="temp4" jdbcType="VARCHAR" />
+    <result column="temp5" property="temp5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    homesp_id, singlepage_id, title, logo, friends_desc, friend_desc, home_desc, home_img, author, 
+  	update_user_id, update_date, temp1, temp2, temp3, temp4, temp5
+  </sql>
+  <sql id="Blob_Column_List" >
+    doc, doc_bac
+  </sql>
+<!--查询开始-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from np_mob_home_single_page
+    where homesp_id = #{homespId,jdbcType=BIGINT}
+  </select> 
+<!--查询结束-->
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_mob_home_single_page
+    where homesp_id = #{homespId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.mobile.bean.MobHomeSinglePage" >
+    insert into np_mob_home_single_page (homesp_id, singlepage_id, title, logo, friends_desc, friend_desc, 
+  	  home_desc, home_img, author, update_user_id, update_date, temp1, temp2, temp3, temp4, temp5, doc, doc_bac)
+    values (#{homespId,jdbcType=BIGINT}, #{singlepageId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR},
+  	  #{logo,jdbcType=VARCHAR},#{friendsDesc,jdbcType=VARCHAR},#{friendDesc,jdbcType=VARCHAR}, 
+  	  #{homeDesc,jdbcType=VARCHAR},#{homeImg,jdbcType=VARCHAR},#{author,jdbcType=VARCHAR},
+  	  #{updateUserId,jdbcType=BIGINT}, #{updateDate,jdbcType=TIMESTAMP}, #{temp1,jdbcType=VARCHAR}, 
+  	  #{temp2,jdbcType=VARCHAR}, #{temp3,jdbcType=VARCHAR}, #{temp4,jdbcType=VARCHAR}, 
+  	  #{temp5,jdbcType=VARCHAR}, #{doc,jdbcType=LONGVARCHAR}, #{docBac,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.mobile.bean.MobHomeSinglePage" >
+    <selectKey keyProperty="homespId" resultType="long">
+		select LAST_INSERT_ID() 
+	</selectKey> 
+  	insert into np_mob_home_single_page
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="homespId != null" >
+        homesp_id,
+      </if>
+      <if test="singlepageId != null" >
+        singlepage_id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="logo != null" >
+        logo,
+      </if>
+      <if test="friendsDesc != null" >
+        friends_desc,
+      </if>
+      <if test="friendDesc != null" >
+        friend_desc,
+      </if>
+      <if test="homeDesc != null" >
+        home_desc,
+      </if>
+      <if test="homeImg != null" >
+        home_img,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="temp1 != null" >
+        temp1,
+      </if>
+      <if test="temp2 != null" >
+        temp2,
+      </if>
+      <if test="temp3 != null" >
+        temp3,
+      </if>
+      <if test="temp4 != null" >
+        temp4,
+      </if>
+      <if test="temp5 != null" >
+        temp5,
+      </if>
+      <if test="doc != null" >
+        doc,
+      </if>
+      <if test="docBac != null" >
+        doc_bac,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="homespId != null" >
+        #{homespId,jdbcType=BIGINT},
+      </if>
+      <if test="singlepageId != null" >
+        #{singlepageId,jdbcType=BIGINT},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null" >
+        #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="friendsDesc != null" >
+        #{friendsDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="friendDesc != null" >
+        #{friendDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="homeDesc != null" >
+        #{homeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="homeImg != null" >
+        #{homeImg,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temp1 != null" >
+        #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null" >
+        #{temp2,jdbcType=VARCHAR},
+      </if>
+      <if test="temp3 != null" >
+        #{temp3,jdbcType=VARCHAR},
+      </if>
+      <if test="temp4 != null" >
+        #{temp4,jdbcType=VARCHAR},
+      </if>
+      <if test="temp5 != null" >
+        #{temp5,jdbcType=VARCHAR},
+      </if>
+      <if test="doc != null" >
+        #{doc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="docBac != null" >
+        #{docBac,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.mobile.bean.MobHomeSinglePage" >
+    update np_mob_home_single_page
+    <set >
+      <if test="singlepageId != null" >
+        singlepage_id = #{singlepageId,jdbcType=BIGINT},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null" >
+        logo = #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="friendsDesc != null" >
+        friends_desc = #{friendsDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="friendDesc != null" >
+        friend_desc = #{friendDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="homeDesc != null" >
+        home_desc = #{homeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="homeImg != null" >
+        home_img = #{homeImg,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temp1 != null" >
+        temp1 = #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null" >
+        temp2 = #{temp2,jdbcType=VARCHAR},
+      </if>
+      <if test="temp3 != null" >
+        temp3 = #{temp3,jdbcType=VARCHAR},
+      </if>
+      <if test="temp4 != null" >
+        temp4 = #{temp4,jdbcType=VARCHAR},
+      </if>
+      <if test="temp5 != null" >
+        temp5 = #{temp5,jdbcType=VARCHAR},
+      </if>
+      <if test="doc != null" >
+        doc = #{doc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="docBac != null" >
+        doc_bac = #{docBac,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where homesp_id = #{homespId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ningpai.mobile.bean.MobHomeSinglePage" >
+    update np_mob_home_single_page
+    set merchant_id = #{singlepage_id,jdbcType=BIGINT},
+  	  title = #{title,jdbcType=VARCHAR},
+  	  logo = #{logo,jdbcType=VARCHAR},
+  	  friends_desc = #{friendsDesc,jdbcType=VARCHAR},
+  	  friend_desc = #{friendDesc,jdbcType=VARCHAR},
+  	  home_desc = #{homeDesc,jdbcType=VARCHAR},
+  	  home_img = #{homeImg,jdbcType=VARCHAR},
+  	  author = #{author,jdbcType=VARCHAR},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      temp1 = #{temp1,jdbcType=VARCHAR},
+      temp2 = #{temp2,jdbcType=VARCHAR},
+      temp3 = #{temp3,jdbcType=VARCHAR},
+      temp4 = #{temp4,jdbcType=VARCHAR},
+      temp5 = #{temp5,jdbcType=VARCHAR},
+      doc = #{doc,jdbcType=LONGVARCHAR},
+      doc_bac = #{docBac,jdbcType=LONGVARCHAR}
+    where homesp_id = #{homespId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.mobile.bean.MobHomeSinglePage" >
+    update np_mob_home_single_page
+    set singlepageId = #{singlepageId,jdbcType=BIGINT},
+      title = #{title,jdbcType=VARCHAR},
+  	  logo = #{logo,jdbcType=VARCHAR},
+  	  friends_desc = #{friendsDesc,jdbcType=VARCHAR},
+  	  friend_desc = #{friendDesc,jdbcType=VARCHAR},
+  	  home_desc = #{homeDesc,jdbcType=VARCHAR},
+  	  home_img = #{homeImg,jdbcType=VARCHAR},
+  	  author = #{author,jdbcType=VARCHAR},  
+  	  update_user_id = #{updateUserId,jdbcType=BIGINT},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      temp1 = #{temp1,jdbcType=VARCHAR},
+      temp2 = #{temp2,jdbcType=VARCHAR},
+      temp3 = #{temp3,jdbcType=VARCHAR},
+      temp4 = #{temp4,jdbcType=VARCHAR},
+      temp5 = #{temp5,jdbcType=VARCHAR}
+    where homesp_id = #{homespId,jdbcType=BIGINT}
+  </update>
+  
+  
+  <select id="queryInfoBySinglepageId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  	 select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from np_mob_home_single_page
+    where singlepage_id = #{singlepageId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="queryinitInfoBySinglepageId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  	select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from np_mob_home_single_page
+    where singlepage_id=-1
+  </select>
+  
+  <select id="queryinitInfoCount" resultType="java.lang.Integer" parameterType="java.lang.Long">
+  	select count(homesp_id) from np_mob_home_single_page where singlepage_id=-1
+  </select>
+  
+  <delete id="deleteBySinglepageId" parameterType="java.lang.Long"  >
+  	delete from np_mob_home_single_page where singlepage_id=#{singlepageId,jdbcType=BIGINT} 
+  </delete>
+ 
+</mapper>

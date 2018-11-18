@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.system.dao.AdverTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.system.bean.AdverType" >
+    <id column="at_id" property="atId" jdbcType="BIGINT" />
+    <result column="at_name" property="atName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    at_id, at_name, create_time, modify_time, del_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_sys_advertype
+    where at_id = #{atId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_sys_advertype
+    where at_id = #{atId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.system.bean.AdverType" >
+    insert into np_sys_advertype (at_id, at_name, create_time, 
+      modify_time, del_flag)
+    values (#{atId,jdbcType=BIGINT}, #{atName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.system.bean.AdverType" >
+    insert into np_sys_advertype
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="atId != null" >
+        at_id,
+      </if>
+      <if test="atName != null" >
+        at_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="atId != null" >
+        #{atId,jdbcType=BIGINT},
+      </if>
+      <if test="atName != null" >
+        #{atName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.system.bean.AdverType" >
+    update np_sys_advertype
+    <set >
+      <if test="atName != null" >
+        at_name = #{atName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where at_id = #{atId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.system.bean.AdverType" >
+    update np_sys_advertype
+    set at_name = #{atName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where at_id = #{atId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 查询所有广告分类 -->
+  <select id="selectAll" resultMap="BaseResultMap">
+  	 select  at_id, at_name, create_time, modify_time, del_flag
+  	  from np_sys_advertype where del_flag='0'
+  </select>
+  
+</mapper>

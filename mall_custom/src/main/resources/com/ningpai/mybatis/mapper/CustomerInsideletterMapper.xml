@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ningpai.customer.dao.CustomerInsideletterMapper">
+  <resultMap id="BaseResultMap" type="insideletter">
+    <id column="letter_id" jdbcType="BIGINT" property="letterId" />
+    <result column="customer_id" jdbcType="BIGINT" property="customerId" />
+    <result column="receive_customer_id" jdbcType="BIGINT" property="receiveCustomerId" />
+    <result column="letter_title" jdbcType="VARCHAR" property="letterTitle" />
+    <result column="letter_content" jdbcType="VARCHAR" property="letterContent" />
+    <result column="letter_ip" jdbcType="VARCHAR" property="letterIp" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
+    <result column="del_time" jdbcType="TIMESTAMP" property="delTime" />
+    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    letter_id, customer_id, receive_customer_id, letter_title, letter_content, letter_ip, 
+    parent_id, create_time, modified_time, del_time, del_flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_customer_insideletter
+    where letter_id = #{letterId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from np_customer_insideletter
+    where letter_id = #{letterId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="insideletter">
+    insert into np_customer_insideletter (letter_id, customer_id, receive_customer_id, 
+      letter_title, letter_content, letter_ip, 
+      parent_id, create_time, modified_time, 
+      del_time, del_flag)
+    values (#{letterId,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, #{receiveCustomerId,jdbcType=BIGINT}, 
+      #{letterTitle,jdbcType=VARCHAR}, #{letterContent,jdbcType=VARCHAR}, #{letterIp,jdbcType=VARCHAR}, 
+      #{parentId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{modifiedTime,jdbcType=TIMESTAMP}, 
+      #{delTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="insideletter">
+    insert into np_customer_insideletter
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="letterId != null">
+        letter_id,
+      </if>
+      <if test="customerId != null">
+        customer_id,
+      </if>
+      <if test="receiveCustomerId != null">
+        receive_customer_id,
+      </if>
+      <if test="letterTitle != null">
+        letter_title,
+      </if>
+      <if test="letterContent != null">
+        letter_content,
+      </if>
+      <if test="letterIp != null">
+        letter_ip,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifiedTime != null">
+        modified_time,
+      </if>
+      <if test="delTime != null">
+        del_time,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="letterId != null">
+        #{letterId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null">
+        #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="receiveCustomerId != null">
+        #{receiveCustomerId,jdbcType=BIGINT},
+      </if>
+      <if test="letterTitle != null">
+        #{letterTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="letterContent != null">
+        #{letterContent,jdbcType=VARCHAR},
+      </if>
+      <if test="letterIp != null">
+        #{letterIp,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null">
+        #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delTime != null">
+        #{delTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="insideletter">
+    update np_customer_insideletter
+    <set>
+      <if test="customerId != null">
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="receiveCustomerId != null">
+        receive_customer_id = #{receiveCustomerId,jdbcType=BIGINT},
+      </if>
+      <if test="letterTitle != null">
+        letter_title = #{letterTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="letterContent != null">
+        letter_content = #{letterContent,jdbcType=VARCHAR},
+      </if>
+      <if test="letterIp != null">
+        letter_ip = #{letterIp,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null">
+        modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delTime != null">
+        del_time = #{delTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where letter_id = #{letterId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="insideletter">
+    update np_customer_insideletter
+    set customer_id = #{customerId,jdbcType=BIGINT},
+      receive_customer_id = #{receiveCustomerId,jdbcType=BIGINT},
+      letter_title = #{letterTitle,jdbcType=VARCHAR},
+      letter_content = #{letterContent,jdbcType=VARCHAR},
+      letter_ip = #{letterIp,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      del_time = #{delTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where letter_id = #{letterId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qianmi.web.dao.EsGoodsInfoMapper">
+	<resultMap id="BaseResultMap" type="com.ningpai.goods.bean.EsGoodsInfo">
+		<id column="goods_info_id" property="goodsInfoId" jdbcType="BIGINT" />
+		<id column="goods_info_img_id" property="goodsInfoImgId" jdbcType="VARCHAR" />
+		<result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+		<result column="goods_info_item_no" property="goodsInfoItemNo"
+			jdbcType="VARCHAR" />
+		<result column="goods_info_name" property="goodsInfoName"
+			jdbcType="VARCHAR" />
+		<result column="goods_info_subtitle" property="goodsInfoSubtitle"
+			jdbcType="VARCHAR" />
+		<result column="goods_info_added" property="goodsInfoAdded"
+			jdbcType="CHAR" />
+		<result column="goods_info_added_time" property="goodsInfoAddedTime"
+			jdbcType="TIMESTAMP" />
+		<result column="goods_info_unadded_time" property="goodsInfoUnaddedTime"
+			jdbcType="TIMESTAMP" />
+		<result column="goods_info_stock" property="goodsInfoStock"
+			jdbcType="BIGINT" />
+		<result column="goods_info_prefer_price" property="goodsInfoPreferPrice"
+			jdbcType="DECIMAL" />
+		<result column="goods_info_cost_price" property="goodsInfoCostPrice"
+			jdbcType="DECIMAL" />
+		<result column="goods_info_market_price" property="goodsInfoMarketPrice"
+			jdbcType="DECIMAL" />
+		<result column="goods_info_weight" property="goodsInfoWeight"
+			jdbcType="DECIMAL" />
+		<result column="goods_info_create_name" property="goodsInfoCreateName"
+			jdbcType="VARCHAR" />
+		<result column="goods_info_create_time" property="goodsInfoCreateTime"
+			jdbcType="TIMESTAMP" />
+		<result column="goods_info_modified_name" property="goodsInfoModifiedName"
+			jdbcType="VARCHAR" />
+		<result column="goods_info_modified_time" property="goodsInfoModifiedTime"
+			jdbcType="TIMESTAMP" />
+		<result column="goods_info_del_name" property="goodsInfoDelName"
+			jdbcType="VARCHAR" />
+		<result column="goods_info_del_time" property="goodsInfoDelTime"
+			jdbcType="TIMESTAMP" />
+		<result column="goods_info_delflag" property="goodsInfoDelflag"
+			jdbcType="CHAR" />
+		<result column="third_id" property="thirdId" jdbcType="BIGINT" />
+		<result column="third_name" property="thirdName" jdbcType="VARCHAR" />
+		<result column="is_third" property="isThird" jdbcType="CHAR" />
+		<result column="goods_info_isbn" property="goodsInfoIsbn"
+			jdbcType="VARCHAR" />
+		<result column="show_list" property="showList" jdbcType="CHAR" />
+		<result column="show_mobile" property="showMobile" jdbcType="CHAR" />
+		<result column="is_customer_discount" property="isCustomerDiscount"
+			jdbcType="CHAR" />
+		<result column="audit_status" property="auditStatus" jdbcType="CHAR" />
+		<result column="isMailBay" property="ismailbay" jdbcType="CHAR" />
+		<result column="refuse_reason" property="refuseReason"
+			jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 查询实体 -->
+	<resultMap id="BaseResultMapBIOS" type="com.ningpai.goods.bean.EsGoodsInfo"
+		extends="BaseResultMap">
+
+        <result column="goods_info_vip_price" property="goodsInfoVipPrice" jdbcType="DECIMAL" />
+        <!--汽车配件类型：“1”表示OEM件，“2”表示常用件          杨国栋 2015.10.31-->
+        <result column="goods_info_auto_parts_type" property="goodsInfoAutoPartsType" jdbcType="VARCHAR" />
+        <!--OEM号     goodsInfoOem                                     杨国栋 2015.10.31-->
+        <result column="goods_info_oem" property="goodsInfoOem" jdbcType="VARCHAR" />
+        <!--OEM件的适配车型：用空格隔开      goodsInfoAutoStyle                   杨国栋 2015.10.31-->
+        <result column="goods_info_auto_style" property="goodsInfoAutoStyle" jdbcType="VARCHAR" />
+		<result column="cat_id" property="catId" jdbcType="BIGINT" />
+		<result column="third_cate_id" property="thirdCateId" jdbcType="BIGINT" />
+		<result column="type_id" property="typeId" jdbcType="BIGINT" />
+		<result column="brand_id" property="brandId" jdbcType="BIGINT" />
+		<result column="sale_count" property="saleCount" jdbcType="INTEGER" />
+		<result column="collection_count" property="collectionCount" jdbcType="INTEGER" />
+		<!-- 查询分类
+		<collection property="cateList" column="cat_id" javaType="ArrayList"
+			ofType="com.ningpai.goods.bean.EsGoodsCategory" select="com.qianmi.web.dao.EsGoodsCategoryMapper.selectByPrimaryKey"></collection>
+		 查询商家分类
+		<collection property="thirdCateList" column="third_cate_id" javaType="ArrayList"
+					ofType="com.ningpai.goods.bean.EsThirdCate" select="com.qianmi.web.dao.EsThirdCateMapper.selectByPrimaryKey"></collection>
+		  -->
+		<!-- 查询品牌 -->
+		<collection property="brand" column="brand_id"
+			javaType="com.ningpai.goods.bean.EsGoodsBrand" ofType="com.ningpai.goods.bean.EsGoodsBrand"
+			select="com.qianmi.web.dao.EsGoodsBrandMapper.selectByPrimaryKey"></collection>
+		<!-- 查询货品图片 -->
+		<collection property="imgList" column="goods_info_id"
+			javaType="ArrayList" ofType="com.ningpai.goods.bean.EsGoodsImage"
+			select="com.qianmi.web.dao.EsGoodsImageMapper.selectByGoodsInfoId"></collection>
+		<!-- 查询属性参数 -->
+		<collection property="paramList" column="goods_id"
+			javaType="ArrayList" ofType="com.ningpai.goods.bean.EsExpandparam"
+			select="com.qianmi.web.dao.EsExpandparamMapper.selectParamByGoodsId"></collection>
+
+		<collection property="wareList" column="goods_info_id"
+			javaType="ArrayList" ofType="com.ningpai.goods.bean.EsProductWare"
+			select="com.qianmi.web.dao.EsProductWareMapper.selectWareByProductId"></collection>
+
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		goods_info_auto_parts_type,goods_info_oem,goods_info_auto_style,goods_info_vip_price,cat_id,type_id,goods_detail_desc,mobile_desc,brand_id,goods_info_id,
+		goods_info_img_id, b.goods_id, goods_info_item_no, goods_info_name,
+		goods_info_subtitle, goods_info_added, goods_info_added_time,
+		goods_info_unadded_time,
+		goods_info_stock, goods_info_prefer_price,
+		goods_info_cost_price,
+		goods_info_market_price,
+		goods_info_weight,
+		goods_info_create_name, goods_info_create_time,
+		goods_info_modified_name,
+		goods_info_modified_time,
+		goods_info_del_name, goods_info_del_time, goods_info_delflag,
+		third_id, third_name, b.is_third, goods_info_isbn, show_list,
+		show_mobile, is_customer_discount,
+		a.audit_status, isMailBay,
+		a.refuse_reason,
+		IFNULL(sale_count,0),
+		IFNULL(collection_count,0),
+		b.third_cate_id
+	</sql>
+	<select id="selectGoodsElasticList" resultMap="BaseResultMapBIOS" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		FROM  np_goods b,np_goods_info a
+		LEFT JOIN(SELECT COUNT(1) AS sale_count, goods_id AS pid FROM np_customer_follow WHERE del_flag = '0' GROUP BY goods_id ) AS follow
+		ON follow.pid = a.goods_info_id
+		
+		LEFT JOIN (select sum(goods_info_num) as collection_count, goods_info_id as sid from np_order o , np_order_goods g where o.order_id = g.order_id and order_status = '3' group by goods_info_id ) as sale
+		ON sale.sid =  a.goods_info_id
+
+		WHERE a.goods_id = b.goods_id
+		
+		AND
+		b.goods_delflag = '0'
+		AND a.goods_info_delflag = '0'
+		AND a.audit_status
+		IN('3','0')
+		<if test="_parameter !=null and _parameter !=''">
+		    and b.goods_id = #{_parameter,jdbcType=BIGINT}
+		    
+		</if>
+
+	</select>
+	<select id="selectGoodsInfoElasticList" resultMap="BaseResultMapBIOS" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		FROM  np_goods b,np_goods_info a
+		LEFT JOIN(SELECT COUNT(1) AS sale_count, goods_id AS pid FROM np_customer_follow WHERE del_flag = '0' GROUP BY goods_id ) AS follow
+		ON follow.pid = a.goods_info_id
+
+		LEFT JOIN (select sum(goods_info_num) as collection_count, goods_info_id as sid from np_order o , np_order_goods g where o.order_id = g.order_id and order_status = '3' group by goods_info_id ) as sale
+		ON sale.sid =  a.goods_info_id
+
+		WHERE a.goods_id = b.goods_id
+
+		AND
+		b.goods_delflag = '0'
+		AND a.goods_info_delflag = '0'
+		AND a.audit_status
+		IN('3','0')
+		<if test="_parameter !=null and _parameter !=''">
+			and a.goods_info_id = #{_parameter,jdbcType=BIGINT}
+
+		</if>
+
+	</select>
+
+	<!-- 查询总数-->
+	<select id="selectGoodsElasticListCount" resultType="java.lang.Integer">
+		select count(1)
+		FROM  np_goods b,np_goods_info a
+		WHERE a.goods_id = b.goods_id
+		AND b.goods_delflag = '0'
+		AND a.goods_info_delflag = '0'
+		/*and a.goods_info_added='1'*/
+		AND a.audit_status
+		IN('3','0')
+	</select>
+
+<!--分页查询-->
+	<select id="selectGoodsElasticListByPage" resultMap="BaseResultMapBIOS" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		FROM  np_goods b,np_goods_info a
+		LEFT JOIN(SELECT COUNT(1) AS sale_count, goods_id AS pid FROM np_customer_follow WHERE del_flag = '0' GROUP BY goods_id ) AS follow
+		ON follow.pid = a.goods_info_id
+
+		LEFT JOIN (select sum(goods_info_num) as collection_count, goods_info_id as sid from np_order o , np_order_goods g where o.order_id = g.order_id and order_status = '3' group by goods_info_id ) as sale
+		ON sale.sid =  a.goods_info_id
+
+		WHERE a.goods_id = b.goods_id
+        <!--and a.goods_info_added='1'-->
+		AND
+		b.goods_delflag = '0'
+		AND a.goods_info_delflag = '0'
+		AND a.audit_status
+		IN('3','0')
+		limit #{start},#{end}
+
+	</select>
+
+	<!--根据参数查询商品，并批量插入索引库 2016-01-21 Wuyanbo添加-->
+	<select id="selectGoodsElasticListByParams" resultMap="BaseResultMapBIOS" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		FROM  np_goods b,np_goods_info a
+		LEFT JOIN(SELECT COUNT(1) AS sale_count, goods_id AS pid FROM np_customer_follow WHERE del_flag = '0' GROUP BY goods_id ) AS follow
+		ON follow.pid = a.goods_info_id
+
+		LEFT JOIN (select sum(goods_info_num) as collection_count, goods_info_id as sid from np_order o , np_order_goods g where o.order_id = g.order_id and order_status = '3' group by goods_info_id ) as sale
+		ON sale.sid =  a.goods_info_id
+
+		WHERE a.goods_id = b.goods_id
+
+		AND
+		b.goods_delflag = '0'
+		AND a.goods_info_delflag = '0'
+		AND a.audit_status IN('3','0')
+		<if test="goodsId !=null and goodsId !=''">
+			and b.goods_id = #{goodsId,jdbcType=BIGINT}
+		</if>
+		<if test="firstCatId !=null and firstCatId !=''">
+			and EXISTS (select 1 from np_goods_category gc1,np_goods_category gc2
+				where b.cat_id=gc1.cat_id and gc1.cat_parent_id=gc2.cat_id and gc2.cat_parent_id = #{firstCatId, jdbcType=BIGINT} )
+		</if>
+		<if test="secondCatId !=null and secondCatId !=''">
+			and EXISTS (select 1 from np_goods_category gc1 where b.cat_id=gc1.cat_id and gc1.cat_parent_id = #{secondCatId,jdbcType=BIGINT} )
+		</if>
+		<if test="thirdCatId !=null and thirdCatId !=''">
+			and b.cat_id = #{thirdCatId,jdbcType=BIGINT}
+		</if>
+		<if test="brandId !=null and brandId !=''">
+			and b.brand_id = #{brandId,jdbcType=BIGINT}
+		</if>
+	</select>
+
+</mapper>

@@ -1,0 +1,1 @@
+[{"regPointId":"1","regPointReferee":"test","regPointRecom":"test1","regPointTime":"2015-01-01 01:01:01","regPointNumber":"2","startTime":"2015-01-01 01:01:01","endTime":"2015-02-01 01:01:01"}]

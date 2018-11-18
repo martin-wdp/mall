@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.temp.dao.TempTokenMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.temp.bean.TempToken" >
+    <id column="token_id" property="tokenId" jdbcType="BIGINT" />
+    <result column="token" property="token" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="temp1" property="temp1" jdbcType="VARCHAR" />
+    <result column="temp2" property="temp2" jdbcType="VARCHAR" />
+    <result column="temp3" property="temp3" jdbcType="VARCHAR" />
+    <result column="temp4" property="temp4" jdbcType="VARCHAR" />
+    <result column="temp5" property="temp5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    token_id, token, create_date, update_date, temp1, temp2, temp3, temp4, temp5
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_temp_token
+    where token_id = #{tokenId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAllToken" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_temp_token
+  </select>
+  <!-- 根据token类型获取最新的token -->
+  <select id="selectTokenByType" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from np_temp_token where temp1 = #{temp1}
+    limit 1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_temp_token
+    where token_id = #{tokenId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.temp.bean.TempToken" >
+    insert into np_temp_token (token_id, token, create_date, 
+      update_date, temp1, temp2, 
+      temp3, temp4, temp5
+      )
+    values (#{tokenId,jdbcType=BIGINT}, #{token,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{temp1,jdbcType=VARCHAR}, #{temp2,jdbcType=VARCHAR}, 
+      #{temp3,jdbcType=VARCHAR}, #{temp4,jdbcType=VARCHAR}, #{temp5,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.temp.bean.TempToken" >
+    insert into np_temp_token
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tokenId != null" >
+        token_id,
+      </if>
+      <if test="token != null" >
+        token,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="temp1 != null" >
+        temp1,
+      </if>
+      <if test="temp2 != null" >
+        temp2,
+      </if>
+      <if test="temp3 != null" >
+        temp3,
+      </if>
+      <if test="temp4 != null" >
+        temp4,
+      </if>
+      <if test="temp5 != null" >
+        temp5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tokenId != null" >
+        #{tokenId,jdbcType=BIGINT},
+      </if>
+      <if test="token != null" >
+        #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temp1 != null" >
+        #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null" >
+        #{temp2,jdbcType=VARCHAR},
+      </if>
+      <if test="temp3 != null" >
+        #{temp3,jdbcType=VARCHAR},
+      </if>
+      <if test="temp4 != null" >
+        #{temp4,jdbcType=VARCHAR},
+      </if>
+      <if test="temp5 != null" >
+        #{temp5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.temp.bean.TempToken" >
+    update np_temp_token
+    <set >
+      <if test="token != null" >
+        token = #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temp1 != null" >
+        temp1 = #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null" >
+        temp2 = #{temp2,jdbcType=VARCHAR},
+      </if>
+      <if test="temp3 != null" >
+        temp3 = #{temp3,jdbcType=VARCHAR},
+      </if>
+      <if test="temp4 != null" >
+        temp4 = #{temp4,jdbcType=VARCHAR},
+      </if>
+      <if test="temp5 != null" >
+        temp5 = #{temp5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where token_id = #{tokenId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.temp.bean.TempToken" >
+    update np_temp_token
+    set token = #{token,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      temp1 = #{temp1,jdbcType=VARCHAR},
+      temp2 = #{temp2,jdbcType=VARCHAR},
+      temp3 = #{temp3,jdbcType=VARCHAR},
+      temp4 = #{temp4,jdbcType=VARCHAR},
+      temp5 = #{temp5,jdbcType=VARCHAR}
+    where token_id = #{tokenId,jdbcType=BIGINT}
+  </update>
+  
+  
+  <update id="updateTokenValue" parameterType="com.ningpai.temp.bean.TempToken" >
+     UPDATE np_temp_token 
+      <set >
+      <if test="token != null" >
+        token = #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temp1 != null" >
+        temp1 = #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null" >
+        temp2 = #{temp2,jdbcType=VARCHAR},
+      </if>
+      <if test="temp3 != null" >
+        temp3 = #{temp3,jdbcType=VARCHAR},
+      </if>
+      <if test="temp4 != null" >
+        temp4 = #{temp4,jdbcType=VARCHAR},
+      </if>
+      <if test="temp5 != null" >
+        temp5 = #{temp5,jdbcType=VARCHAR},
+      </if>
+    </set>
+     where temp1='1'
+  </update>
+  
+</mapper>

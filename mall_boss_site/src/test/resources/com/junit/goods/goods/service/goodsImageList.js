@@ -1,0 +1,1 @@
+[{"goodsImgId":"1","goodsInfoId":"1","imageInName":"单元测试","imageThumName":"1","imageBigName":"1","imageArtworkName":"SEO描述","goodsImgSort":"1","goodsImgDelflag":"1","goodsImgCreateName":"测试","goodsImgCreateTime":"2015-9-14 20:53:02","goodsImgModifiedName":"测试","goodsImgModifiedTime":"2015-9-14 20:53:02","goodsImgDelName":"1","goodsImgDelTime":"2015-9-14 20:53:02"}]

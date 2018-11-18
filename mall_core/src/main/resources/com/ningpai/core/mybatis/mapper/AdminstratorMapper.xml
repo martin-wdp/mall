@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.AdminstratorMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.web.bean.Adminstrator" >
+    <id column="adminstrator_id" property="adminstratorId" jdbcType="BIGINT" />
+    <result column="adminstrator_name" property="adminstratorName" jdbcType="VARCHAR" />
+    <result column="adminstrator_password" property="adminstratorPassword" jdbcType="VARCHAR" />
+    <result column="adminstrator_realname" property="adminstratorRealname" jdbcType="VARCHAR" />
+    <result column="adminstrator_email" property="adminstratorEmail" jdbcType="VARCHAR" />
+    <result column="class_id" property="classId" jdbcType="BIGINT" />
+    <result column="role_id" property="roleId" jdbcType="BIGINT" />
+    <result column="adminstrator_head" property="adminstratorHead" jdbcType="VARCHAR" />
+    <result column="adminstrator_create_time" property="adminstratorCreateTime" jdbcType="TIMESTAMP" />
+    <result column="adminstrator_modified_time" property="adminstratorModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="adminstrator_flag" property="adminstratorFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    adminstrator_id, adminstrator_name, adminstrator_password, adminstrator_realname, 
+    adminstrator_email, class_id, role_id, adminstrator_head, adminstrator_create_time, 
+    adminstrator_modified_time, adminstrator_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_adminstrator
+    where adminstrator_id = #{adminstratorId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_adminstrator
+    where adminstrator_id = #{adminstratorId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.web.bean.Adminstrator" >
+    insert into np_adminstrator (adminstrator_id, adminstrator_name, 
+      adminstrator_password, adminstrator_realname, 
+      adminstrator_email, class_id, role_id, 
+      adminstrator_head, adminstrator_create_time, 
+      adminstrator_modified_time, adminstrator_flag
+      )
+    values (#{adminstratorId,jdbcType=BIGINT}, #{adminstratorName,jdbcType=VARCHAR}, 
+      #{adminstratorPassword,jdbcType=VARCHAR}, #{adminstratorRealname,jdbcType=VARCHAR}, 
+      #{adminstratorEmail,jdbcType=VARCHAR}, #{classId,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}, 
+      #{adminstratorHead,jdbcType=VARCHAR}, #{adminstratorCreateTime,jdbcType=TIMESTAMP}, 
+      #{adminstratorModifiedTime,jdbcType=TIMESTAMP}, #{adminstratorFlag,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.web.bean.Adminstrator" >
+    insert into np_adminstrator
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="adminstratorId != null" >
+        adminstrator_id,
+      </if>
+      <if test="adminstratorName != null" >
+        adminstrator_name,
+      </if>
+      <if test="adminstratorPassword != null" >
+        adminstrator_password,
+      </if>
+      <if test="adminstratorRealname != null" >
+        adminstrator_realname,
+      </if>
+      <if test="adminstratorEmail != null" >
+        adminstrator_email,
+      </if>
+      <if test="classId != null" >
+        class_id,
+      </if>
+      <if test="roleId != null" >
+        role_id,
+      </if>
+      <if test="adminstratorHead != null" >
+        adminstrator_head,
+      </if>
+      <if test="adminstratorCreateTime != null" >
+        adminstrator_create_time,
+      </if>
+      <if test="adminstratorModifiedTime != null" >
+        adminstrator_modified_time,
+      </if>
+      <if test="adminstratorFlag != null" >
+        adminstrator_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="adminstratorId != null" >
+        #{adminstratorId,jdbcType=BIGINT},
+      </if>
+      <if test="adminstratorName != null" >
+        #{adminstratorName,jdbcType=VARCHAR},
+      </if>
+      <if test="adminstratorPassword != null" >
+        #{adminstratorPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="adminstratorRealname != null" >
+        #{adminstratorRealname,jdbcType=VARCHAR},
+      </if>
+      <if test="adminstratorEmail != null" >
+        #{adminstratorEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null" >
+        #{classId,jdbcType=BIGINT},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=BIGINT},
+      </if>
+      <if test="adminstratorHead != null" >
+        #{adminstratorHead,jdbcType=VARCHAR},
+      </if>
+      <if test="adminstratorCreateTime != null" >
+        #{adminstratorCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminstratorModifiedTime != null" >
+        #{adminstratorModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminstratorFlag != null" >
+        #{adminstratorFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.web.bean.Adminstrator" >
+    update np_adminstrator
+    <set >
+      <if test="adminstratorName != null" >
+        adminstrator_name = #{adminstratorName,jdbcType=VARCHAR},
+      </if>
+      <if test="adminstratorPassword != null" >
+        adminstrator_password = #{adminstratorPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="adminstratorRealname != null" >
+        adminstrator_realname = #{adminstratorRealname,jdbcType=VARCHAR},
+      </if>
+      <if test="adminstratorEmail != null" >
+        adminstrator_email = #{adminstratorEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null" >
+        class_id = #{classId,jdbcType=BIGINT},
+      </if>
+      <if test="roleId != null" >
+        role_id = #{roleId,jdbcType=BIGINT},
+      </if>
+      <if test="adminstratorHead != null" >
+        adminstrator_head = #{adminstratorHead,jdbcType=VARCHAR},
+      </if>
+      <if test="adminstratorCreateTime != null" >
+        adminstrator_create_time = #{adminstratorCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminstratorModifiedTime != null" >
+        adminstrator_modified_time = #{adminstratorModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminstratorFlag != null" >
+        adminstrator_flag = #{adminstratorFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where adminstrator_id = #{adminstratorId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.web.bean.Adminstrator" >
+    update np_adminstrator
+    set adminstrator_name = #{adminstratorName,jdbcType=VARCHAR},
+      adminstrator_password = #{adminstratorPassword,jdbcType=VARCHAR},
+      adminstrator_realname = #{adminstratorRealname,jdbcType=VARCHAR},
+      adminstrator_email = #{adminstratorEmail,jdbcType=VARCHAR},
+      class_id = #{classId,jdbcType=BIGINT},
+      role_id = #{roleId,jdbcType=BIGINT},
+      adminstrator_head = #{adminstratorHead,jdbcType=VARCHAR},
+      adminstrator_create_time = #{adminstratorCreateTime,jdbcType=TIMESTAMP},
+      adminstrator_modified_time = #{adminstratorModifiedTime,jdbcType=TIMESTAMP},
+      adminstrator_flag = #{adminstratorFlag,jdbcType=CHAR}
+    where adminstrator_id = #{adminstratorId,jdbcType=BIGINT}
+  </update>
+</mapper>

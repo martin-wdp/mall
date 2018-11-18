@@ -1,0 +1,1 @@
+<#assign basePath=request.contextPath>

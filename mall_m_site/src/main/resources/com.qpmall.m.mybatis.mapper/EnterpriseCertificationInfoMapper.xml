@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qpmall.m.customer.dao.EnterpriseCertificationInfoMapper">
+    <resultMap id="BaseResultMap" type="com.qpmall.m.customer.bean.EnterpriseCertificationInfo">
+        <id column="enterprise_id" property="enterpriseId" jdbcType="BIGINT"/>
+        <result column="customerId" property="customerid" jdbcType="BIGINT"/>
+        <result column="company_name" property="companyName" jdbcType="VARCHAR"/>
+        <result column="company_address" property="companyAddress" jdbcType="VARCHAR"/>
+        <result column="company_capital" property="companyCapital" jdbcType="DECIMAL"/>
+        <result column="company_email" property="companyEmail" jdbcType="VARCHAR"/>
+        <result column="company_type" property="companyType" jdbcType="CHAR"/>
+        <result column="company_contact_name" property="companyContactName" jdbcType="VARCHAR"/>
+        <result column="card_url" property="cardUrl" jdbcType="VARCHAR"/>
+        <result column="company_contact_tel" property="companyContactTel" jdbcType="VARCHAR"/>
+        <result column="buss_dept_no_url" property="bussDeptNoUrl" jdbcType="VARCHAR"/>
+        <result column="buss_tax_regist_url" property="bussTaxRegistUrl" jdbcType="VARCHAR"/>
+        <result column="buss_legal_name" property="bussLegalName" jdbcType="VARCHAR"/>
+        <result column="buss_legal_card_id" property="bussLegalCardId" jdbcType="VARCHAR"/>
+        <result column="busscard_url" property="busscardUrl" jdbcType="VARCHAR"/>
+        <result column="buss_range" property="bussRange" jdbcType="VARCHAR"/>
+        <result column="check_status" property="checkStatus" jdbcType="CHAR"/>
+        <result column="enterprise_aptitude" property="enterpriseAptitude" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="mod_time" property="modTime" jdbcType="TIMESTAMP"/>
+        <result column="enterprise_province" property="enterpriseProvince" jdbcType="BIGINT"/>
+        <result column="enterprise_city" property="enterpriseCity" jdbcType="BIGINT"/>
+        <result column="enterprise_county" property="enterpriseCounty" jdbcType="BIGINT"/>
+        <result column="buss_brand" property="bussBrand" jdbcType="VARCHAR"/>
+        <result column="company_pic_url" property="companyPicUrl" jdbcType="VARCHAR"/>
+        <result column="company_contact_addr" property="companyContactAddr" jdbcType="VARCHAR"/>
+        <result column="company_contact_cz" property="companyContactCz" jdbcType="VARCHAR"/>
+        <result column="company_contact_yb" property="companyContactYb" jdbcType="VARCHAR"/>
+        <result column="company_contact_moble" property="company_contact_moble" jdbcType="VARCHAR"/>
+        <result column="audit_time" property="auditTime" jdbcType="VARCHAR"/>
+        <result column="audit_manager" property="auditManager" jdbcType="VARCHAR"/>
+        <result column="audit_feedback" property="auditFeedback" jdbcType="VARCHAR"/>
+        <result column="audit_manager_id" property="auditManagerId" jdbcType="BIGINT"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR"/>
+    </resultMap>
+    <resultMap id="AllInfoBaseResultMap" type="com.qpmall.m.customer.bean.EnterpriseCertificationAllInfo">
+        <id column="enterprise_id" property="enterpriseId" jdbcType="BIGINT"/>
+        <result column="customerId" property="customerid" jdbcType="BIGINT"/>
+        <result column="company_name" property="companyName" jdbcType="VARCHAR"/>
+        <result column="company_address" property="companyAddress" jdbcType="VARCHAR"/>
+        <result column="company_capital" property="companyCapital" jdbcType="DECIMAL"/>
+        <result column="company_email" property="companyEmail" jdbcType="VARCHAR"/>
+        <result column="company_type" property="companyType" jdbcType="CHAR"/>
+        <result column="company_contact_name" property="companyContactName" jdbcType="VARCHAR"/>
+        <result column="card_url" property="cardUrl" jdbcType="VARCHAR"/>
+        <result column="company_contact_tel" property="companyContactTel" jdbcType="VARCHAR"/>
+        <result column="buss_dept_no_url" property="bussDeptNoUrl" jdbcType="VARCHAR"/>
+        <result column="buss_tax_regist_url" property="bussTaxRegistUrl" jdbcType="VARCHAR"/>
+        <result column="buss_legal_name" property="bussLegalName" jdbcType="VARCHAR"/>
+        <result column="buss_legal_card_id" property="bussLegalCardId" jdbcType="VARCHAR"/>
+        <result column="busscard_url" property="busscardUrl" jdbcType="VARCHAR"/>
+        <result column="buss_range" property="bussRange" jdbcType="VARCHAR"/>
+        <result column="check_status" property="checkStatus" jdbcType="CHAR"/>
+        <result column="enterprise_aptitude" property="enterpriseAptitude" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="mod_time" property="modTime" jdbcType="TIMESTAMP"/>
+        <result column="enterprise_province" property="enterpriseProvince" jdbcType="BIGINT"/>
+        <result column="enterprise_city" property="enterpriseCity" jdbcType="BIGINT"/>
+        <result column="enterprise_county" property="enterpriseCounty" jdbcType="BIGINT"/>
+        <result column="buss_brand" property="bussBrand" jdbcType="VARCHAR"/>
+        <result column="company_pic_url" property="companyPicUrl" jdbcType="VARCHAR"/>
+        <result column="company_contact_addr" property="companyContactAddr" jdbcType="VARCHAR"/>
+        <result column="company_contact_cz" property="companyContactCz" jdbcType="VARCHAR"/>
+        <result column="company_contact_yb" property="companyContactYb" jdbcType="VARCHAR"/>
+        <result column="company_contact_moble" property="company_contact_moble" jdbcType="VARCHAR"/>
+        <result column="customer_username" property="customerUsername" jdbcType="VARCHAR"/>
+        <result column="audit_time" property="auditTime" jdbcType="TIMESTAMP"/>
+        <result column="audit_manager" property="auditManager" jdbcType="VARCHAR"/>
+        <result column="audit_feedback" property="auditFeedback" jdbcType="VARCHAR"/>
+        <result column="audit_manager_id" property="auditManagerId" jdbcType="BIGINT"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    enterprise_id, customerId, company_name, company_address, company_capital, company_email, 
+    company_type, company_contact_name, card_url, company_contact_tel, buss_dept_no_url, 
+    buss_tax_regist_url, buss_legal_name, buss_legal_card_id, busscard_url, buss_range, 
+    check_status, enterprise_aptitude, create_time, mod_time, enterprise_province, enterprise_city, 
+    enterprise_county, buss_brand, company_pic_url, company_contact_addr, company_contact_cz, 
+    company_contact_yb,company_contact_moble,audit_time,audit_manager,audit_feedback,audit_manager_id
+  </sql>
+    <sql id="Base_AllColumn_List">
+        enterprise_id, customerId, company_name, company_address, company_capital, company_email,
+        company_type, company_contact_name, card_url, company_contact_tel, buss_dept_no_url,
+        buss_tax_regist_url, buss_legal_name, buss_legal_card_id, busscard_url, buss_range,
+        check_status, enterprise_aptitude, qp_enterprise_certification_info.create_time, mod_time, enterprise_province, enterprise_city,
+        enterprise_county, buss_brand, company_pic_url, company_contact_addr, company_contact_cz,
+        company_contact_yb,company_contact_moble,audit_time,audit_manager,audit_feedback,audit_manager_id
+    </sql>
+
+    <select id="selectAllInfos" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from qp_enterprise_certification_info WHERE del_flag ='0'
+    </select>
+    <select id="selectEsAndCustomerAllInfos" resultMap="AllInfoBaseResultMap" parameterType="Map">
+        select
+        <include refid="Base_AllColumn_List"/> ,customer_username customerUsername
+        from qp_enterprise_certification_info , np_customer  WHERE qp_enterprise_certification_info.`customerId`=np_customer.`customer_id`
+        AND  qp_enterprise_certification_info.del_flag = '0'
+        ORDER BY check_status  DESC ,mod_time DESC LIMIT #{startRowNum,jdbcType=BIGINT},#{pageSize,jdbcType=BIGINT}
+    </select>
+    <select id="selectEsAndCustomerAllInfosCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+         SELECT
+        COUNT(enterprise_id)
+        FROM qp_enterprise_certification_info c, np_customer d  WHERE c.`customerId`=d.`customer_id` AND  c.del_flag = '0'
+       <if test="_parameter != null">
+           AND c.`check_status`=#{_parameter,jdbcType=VARCHAR}
+        </if>
+    </select>
+    <select id="selectEsAndCustomerAllInfo" parameterType="Long" resultMap="AllInfoBaseResultMap">
+        select
+        <include refid="Base_AllColumn_List"/> ,customer_username customerUsername
+        from qp_enterprise_certification_info , np_customer  WHERE qp_enterprise_certification_info.`customerId`=np_customer.`customer_id`
+        AND enterprise_id=#{enterpriseId jdbcType=BIGINT} AND qp_enterprise_certification_info.del_flag = '0'
+    </select>
+    <select id="selectEsAndCustomerAllInfosByStatus" parameterType="Map" resultMap="AllInfoBaseResultMap">
+        select
+        <include refid="Base_AllColumn_List"/> ,customer_username customerUsername
+        from qp_enterprise_certification_info , np_customer  WHERE qp_enterprise_certification_info.`customerId`=np_customer.`customer_id`
+        AND check_status=#{checkStatus jdbcType=CHAR} and qp_enterprise_certification_info.del_flag = '0'
+        ORDER BY mod_time DESC
+        LIMIT #{startRowNum,jdbcType=BIGINT},#{pageSize,jdbcType=BIGINT}
+    </select>
+    <select id="selectEsAndCustomerAllInfosByStatusCount" parameterType="String" resultType="java.lang.Integer">
+        select
+        COUNT(enterprise_id)
+        from qp_enterprise_certification_info , np_customer  WHERE qp_enterprise_certification_info.`customerId`=np_customer.`customer_id`
+        AND check_status=#{checkStatus jdbcType=CHAR}  AND  qp_enterprise_certification_info.del_flag = '0'
+        ORDER BY mod_time DESC
+    </select>
+    <select id="selectInfoById" parameterType="Long"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from qp_enterprise_certification_info
+        WHERE enterprise_id=#{enterpriseId jdbcType=BIGINT} AND  qp_enterprise_certification_info.del_flag = '0'
+    </select>
+
+    <select id="selectInfosByQpEn" parameterType="com.qpmall.m.customer.bean.EnterpriseCertificationInfo"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from qp_enterprise_certification_info
+        WHERE qp_enterprise_certification_info.del_flag = '0'
+            <if test="enterpriseId != null">
+                AND  enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+            </if>
+            <if test="customerid != null">
+                AND customerId = #{customerid,jdbcType=BIGINT}
+            </if>
+            <if test="companyName != null">
+                AND company_name = #{companyName,jdbcType=VARCHAR}
+            </if>
+            <if test="companyAddress != null">
+                AND company_address = #{companyAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="companyCapital != null">
+                AND company_capital = #{companyCapital,jdbcType=DECIMAL}
+            </if>
+            <if test="companyEmail != null">
+                AND company_email = #{companyEmail,jdbcType=VARCHAR}
+            </if>
+            <if test="companyType != null">
+                AND company_type = #{companyType,jdbcType=CHAR}
+            </if>
+            <if test="companyContactName != null">
+                AND company_contact_name = #{companyContactName,jdbcType=VARCHAR}
+            </if>
+            <if test="cardUrl != null">
+                AND card_url = #{cardUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="companyContactTel != null">
+                AND company_contact_tel = #{companyContactTel,jdbcType=VARCHAR}
+            </if>
+            <if test="bussDeptNoUrl != null">
+                AND buss_dept_no_url = #{bussDeptNoUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="bussTaxRegistUrl != null">
+                AND buss_tax_regist_url = #{bussTaxRegistUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="bussLegalName != null">
+                AND buss_legal_name = #{bussLegalName,jdbcType=VARCHAR}
+            </if>
+            <if test="bussLegalCardId != null">
+                AND buss_legal_card_id = #{bussLegalCardId,jdbcType=VARCHAR}
+            </if>
+            <if test="busscardUrl != null">
+                AND busscard_url = #{busscardUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="bussRange != null">
+                AND buss_range = #{bussRange,jdbcType=VARCHAR}
+            </if>
+            <if test="checkStatus != null">
+                AND check_status = #{checkStatus,jdbcType=CHAR}
+            </if>
+            <if test="enterpriseAptitude != null">
+                AND enterprise_aptitude = #{enterpriseAptitude,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                AND create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="modTime != null">
+                AND mod_time = #{modTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="enterpriseProvince != null">
+                AND enterprise_province = #{enterpriseProvince,jdbcType=BIGINT}
+            </if>
+            <if test="enterpriseCity != null">
+                AND enterprise_city = #{enterpriseCity,jdbcType=BIGINT}
+            </if>
+            <if test="enterpriseCounty != null">
+                AND enterprise_county = #{enterpriseCounty,jdbcType=BIGINT}
+            </if>
+            <if test="bussBrand != null">
+                AND buss_brand = #{bussBrand,jdbcType=VARCHAR}
+            </if>
+            <if test="companyPicUrl != null">
+                AND company_pic_url = #{companyPicUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="companyContactAddr != null">
+                AND company_contact_addr = #{companyContactAddr,jdbcType=VARCHAR}
+            </if>
+            <if test="companyContactCz != null">
+                AND company_contact_cz = #{companyContactCz,jdbcType=VARCHAR}
+            </if>
+            <if test="companyContactYb != null">
+                AND company_contact_yb = #{companyContactYb,jdbcType=VARCHAR}
+            </if>
+            <if test="company_contact_moble != null">
+                AND company_contact_moble = #{company_contact_moble,jdbcType=VARCHAR}
+            </if>
+    </select>
+    <update id="updateCheckStatus" parameterType="Map">
+        update qp_enterprise_certification_info
+        SET  check_status=#{checkStatus ,jdbcType=CHAR},
+         audit_time=#{auditTime ,jdbcType=TIMESTAMP} ,
+        audit_manager=#{auditManager ,jdbcType=VARCHAR},
+        audit_feedback=#{auditFeedback ,jdbcType=VARCHAR},
+        audit_manager_id=#{auditManagerId ,jdbcType=BIGINT}
+        WHERE enterprise_id=#{enterpriseId, jdbcType=BIGINT}
+    </update>
+    <delete id="deleteEnterpriseAllInfoById" parameterType="Long">
+        /*DELETE FROM qp_enterprise_certification_info WHERE enterprise_id=#{enterpriseId, jdbcType=BIGINT}*/
+        update qp_enterprise_certification_info SET del_flag = '1'
+    </delete>
+
+    <select id="selectuserEnperseByCustomerId" parameterType="java.lang.Long"
+            resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM  qp_enterprise_certification_info WHERE customerId=#{customerId1,jdbcType=BIGINT}
+        <![CDATA[ AND check_status<>'2' ]]>
+    </select>
+
+    <insert id="saveEnterpriseCertificationInfo"
+            parameterType="com.qpmall.m.customer.bean.EnterpriseCertificationInfo">
+        INSERT INTO qp_enterprise_certification_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerid != null">
+                customerId,
+            </if>
+            <if test="companyName != null">
+                company_name,
+            </if>
+            <if test="companyAddress != null">
+                company_address,
+            </if>
+            <if test="companyCapital != null">
+                company_capital,
+            </if>
+            <if test="companyEmail != null">
+                company_email,
+            </if>
+            <if test="companyType != null">
+                company_type,
+            </if>
+            <if test="companyContactName != null">
+                company_contact_name,
+            </if>
+            <if test="cardUrl != null">
+                card_url,
+            </if>
+            <if test="companyContactTel != null">
+                company_contact_tel,
+            </if>
+            <if test="bussBrand != null">
+                buss_brand,
+            </if>
+            <if test="bussRange != null">
+                buss_range,
+            </if>
+            <if test="busscardUrl != null">
+                busscard_url,
+            </if>
+            <if test="bussLegalCardId != null">
+                buss_legal_card_id,
+            </if>
+            <if test="bussLegalName != null">
+                buss_legal_name,
+            </if>
+            <if test="bussTaxRegistUrl != null">
+                buss_tax_regist_url,
+            </if>
+            <if test="bussDeptNoUrl != null">
+                buss_dept_no_url,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="modTime != null">
+                mod_time,
+            </if>
+            <if test="enterpriseProvince != null">
+                enterprise_province,
+            </if>
+            <if test="enterpriseCity != null">
+                enterprise_city,
+            </if>
+            <if test="enterpriseCounty != null">
+                enterprise_county,
+            </if>
+            <if test="enterpriseAptitude != null">
+                enterprise_aptitude,
+            </if>
+            <if test="checkStatus != null">
+                check_status,
+            </if>
+            <if test="companyPicUrl != null">
+                company_pic_url,
+            </if>
+            <if test="companyContactAddr != null">
+                company_contact_addr,
+            </if>
+            <if test="companyContactCz != null">
+                company_contact_cz,
+            </if>
+            <if test="companyContactYb != null">
+                company_contact_yb,
+            </if>
+            <if test="company_contact_moble != null">
+                company_contact_moble,
+            </if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            <if test="customerid != null">
+                #{customerid , jdbcType=BIGINT},
+            </if>
+            <if test="companyName != null">
+                #{companyName , jdbcType=VARCHAR},
+            </if>
+            <if test="companyAddress != null">
+                #{companyAddress , jdbcType=VARCHAR},
+            </if>
+            <if test="companyCapital != null">
+                #{companyCapital , jdbcType=VARCHAR},
+            </if>
+            <if test="companyEmail != null">
+                #{companyEmail , jdbcType=VARCHAR},
+            </if>
+            <if test="companyType != null">
+                #{companyType , jdbcType=CHAR},
+            </if>
+            <if test="companyContactName != null">
+                #{companyContactName , jdbcType=VARCHAR},
+            </if>
+            <if test="cardUrl != null">
+                #{cardUrl , jdbcType=VARCHAR},
+            </if>
+            <if test="companyContactTel != null">
+                #{companyContactTel , jdbcType=VARCHAR},
+            </if>
+            <if test="bussBrand != null">
+                #{bussBrand , jdbcType=VARCHAR},
+            </if>
+            <if test="bussRange != null">
+                #{bussRange , jdbcType=VARCHAR},
+            </if>
+            <if test="busscardUrl != null">
+                #{busscardUrl , jdbcType=VARCHAR},
+            </if>
+            <if test="bussLegalCardId != null">
+                #{bussLegalCardId , jdbcType=VARCHAR},
+            </if>
+            <if test="bussLegalName != null">
+                #{bussLegalName , jdbcType=VARCHAR},
+            </if>
+            <if test="bussTaxRegistUrl != null">
+                #{bussTaxRegistUrl , jdbcType=VARCHAR},
+            </if>
+            <if test="bussDeptNoUrl != null">
+                #{bussDeptNoUrl , jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime , jdbcType=TIMESTAMP},
+            </if>
+            <if test="modTime != null">
+                #{modTime , jdbcType=TIMESTAMP},
+            </if>
+            <if test="enterpriseProvince != null">
+                #{enterpriseProvince , jdbcType=INTEGER},
+            </if>
+            <if test="enterpriseCity != null">
+                #{enterpriseCity , jdbcType=INTEGER},
+            </if>
+            <if test="enterpriseCounty != null">
+                #{enterpriseCounty , jdbcType=INTEGER},
+            </if>
+            <if test="enterpriseAptitude != null">
+                #{enterpriseAptitude , jdbcType=VARCHAR},
+            </if>
+            <if test="checkStatus != null">
+                #{checkStatus , jdbcType=CHAR},
+            </if>
+            <if test="companyPicUrl != null">
+                #{companyPicUrl , jdbcType=VARCHAR},
+            </if>
+            <if test="companyContactAddr != null">
+                #{companyContactAddr , jdbcType=VARCHAR},
+            </if>
+            <if test="companyContactCz != null">
+                #{companyContactCz , jdbcType=VARCHAR},
+            </if>
+            <if test="companyContactYb != null">
+                #{companyContactYb , jdbcType=VARCHAR},
+            </if>
+            <if test="company_contact_moble != null">
+                #{company_contact_moble , jdbcType=VARCHAR},
+            </if>
+
+
+        </trim>
+    </insert>
+
+    <select id="selectEnterpriseCertificationByCustomerId" parameterType="java.lang.Long"
+            resultType="com.qpmall.m.customer.bean.EnterpriseCertificationInfo">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM  qp_enterprise_certification_info WHERE customerId=#{customerId,jdbcType=BIGINT} ORDER BY mod_time DESC
+    </select>
+
+
+</mapper>

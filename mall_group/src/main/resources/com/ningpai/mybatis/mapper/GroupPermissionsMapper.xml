@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.group.mapper.GroupPermissionsMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.group.bean.GroupPermissions" >
+    <id column="limit_id" property="limitId" jdbcType="BIGINT" />
+    <result column="group_id" property="groupId" jdbcType="BIGINT" />
+    <result column="limit_add_type" property="limitAddType" jdbcType="CHAR" />
+    <result column="limit_reply_type" property="limitReplyType" jdbcType="CHAR" />
+    <result column="limit_reply_del_type" property="limitReplyDelType" jdbcType="CHAR" />
+    <result column="limit_access_type" property="limitAccessType" jdbcType="CHAR" />
+    <result column="limit_create_topic_type" property="limitCreateTopicType" jdbcType="CHAR" />
+    <result column="limit_modify_topic_type" property="limitModifyTopicType" jdbcType="CHAR" />
+    <result column="limit_del_topic_type" property="limitDelTopicType" jdbcType="CHAR" />
+    <result column="limit_create_pic_type" property="limitCreatePicType" jdbcType="CHAR" />
+    <result column="limit_del_pic_type" property="limitDelPicType" jdbcType="CHAR" />
+    <result column="limit_del_flag" property="limitDelFlag" jdbcType="CHAR" />
+    <result column="limit_condition" property="limitCondition" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    limit_id, group_id, limit_add_type, limit_reply_type, limit_reply_del_type, limit_access_type, 
+    limit_create_topic_type, limit_modify_topic_type, limit_del_topic_type, limit_create_pic_type, 
+    limit_del_pic_type, limit_del_flag,limit_condition
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_group_permissions
+    where limit_id = #{limitId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_group_permissions
+    where limit_id = #{limitId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.group.bean.GroupPermissions" useGeneratedKeys="true" keyProperty="limitId" >
+    insert into np_group_permissions (group_id, limit_add_type, limit_reply_type, 
+      limit_reply_del_type, limit_access_type, limit_create_topic_type, 
+      limit_modify_topic_type, limit_del_topic_type, limit_create_pic_type, 
+      limit_del_pic_type, limit_del_flag,limit_condition)
+    values (#{groupId,jdbcType=BIGINT}, #{limitAddType,jdbcType=CHAR}, #{limitReplyType,jdbcType=CHAR}, 
+      #{limitReplyDelType,jdbcType=CHAR}, #{limitAccessType,jdbcType=CHAR}, #{limitCreateTopicType,jdbcType=CHAR}, 
+      #{limitModifyTopicType,jdbcType=CHAR}, #{limitDelTopicType,jdbcType=CHAR}, #{limitCreatePicType,jdbcType=CHAR}, 
+      #{limitDelPicType,jdbcType=CHAR}, #{limitDelFlag,jdbcType=CHAR},#{limitCondition,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.group.bean.GroupPermissions" useGeneratedKeys="true" keyProperty="limitId" >
+    insert into np_group_permissions
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      group_id,
+      limit_add_type,
+      limit_reply_type,
+      limit_reply_del_type,
+      limit_access_type,
+      limit_create_topic_type,
+      limit_modify_topic_type,
+      limit_del_topic_type,
+      limit_create_pic_type,
+      limit_del_pic_type,
+      limit_del_flag,
+      limit_condition,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{groupId,jdbcType=BIGINT},
+      #{limitAddType,jdbcType=CHAR},
+      #{limitReplyType,jdbcType=CHAR},
+      #{limitReplyDelType,jdbcType=CHAR},
+      #{limitAccessType,jdbcType=CHAR},
+      #{limitCreateTopicType,jdbcType=CHAR},
+      #{limitModifyTopicType,jdbcType=CHAR},
+      #{limitDelTopicType,jdbcType=CHAR},
+      #{limitCreatePicType,jdbcType=CHAR},
+      #{limitDelPicType,jdbcType=CHAR},
+      #{limitDelFlag,jdbcType=CHAR},
+      #{limitCondition,jdbcType=CHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.group.bean.GroupPermissions" >
+    update np_group_permissions
+    <set >
+      <if test="groupId != null" >
+        group_id = #{groupId,jdbcType=BIGINT},
+      </if>
+      <if test="limitAddType != null" >
+        limit_add_type = #{limitAddType,jdbcType=CHAR},
+      </if>
+      <if test="limitReplyType != null" >
+        limit_reply_type = #{limitReplyType,jdbcType=CHAR},
+      </if>
+      <if test="limitReplyDelType != null" >
+        limit_reply_del_type = #{limitReplyDelType,jdbcType=CHAR},
+      </if>
+      <if test="limitAccessType != null" >
+        limit_access_type = #{limitAccessType,jdbcType=CHAR},
+      </if>
+      <if test="limitCreateTopicType != null" >
+        limit_create_topic_type = #{limitCreateTopicType,jdbcType=CHAR},
+      </if>
+      <if test="limitModifyTopicType != null" >
+        limit_modify_topic_type = #{limitModifyTopicType,jdbcType=CHAR},
+      </if>
+      <if test="limitDelTopicType != null" >
+        limit_del_topic_type = #{limitDelTopicType,jdbcType=CHAR},
+      </if>
+      <if test="limitCreatePicType != null" >
+        limit_create_pic_type = #{limitCreatePicType,jdbcType=CHAR},
+      </if>
+      <if test="limitDelPicType != null" >
+        limit_del_pic_type = #{limitDelPicType,jdbcType=CHAR},
+      </if>
+      <if test="limitDelFlag != null" >
+        limit_del_flag = #{limitDelFlag,jdbcType=CHAR},
+      </if>
+      <if test="limitCondition != null" >
+        limit_condition = #{limitCondition,jdbcType=CHAR},
+      </if>
+    </set>
+    where limit_id = #{limitId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByGroupId" parameterType="com.ningpai.group.bean.GroupPermissions" >
+    update np_group_permissions
+    <set >
+      <if test="limitAddType != null" >
+        limit_add_type = #{limitAddType,jdbcType=CHAR},
+      </if>
+      <if test="limitReplyType != null" >
+        limit_reply_type = #{limitReplyType,jdbcType=CHAR},
+      </if>
+      <if test="limitReplyDelType != null" >
+        limit_reply_del_type = #{limitReplyDelType,jdbcType=CHAR},
+      </if>
+      <if test="limitAccessType != null" >
+        limit_access_type = #{limitAccessType,jdbcType=CHAR},
+      </if>
+      <if test="limitCreateTopicType != null" >
+        limit_create_topic_type = #{limitCreateTopicType,jdbcType=CHAR},
+      </if>
+      <if test="limitModifyTopicType != null" >
+        limit_modify_topic_type = #{limitModifyTopicType,jdbcType=CHAR},
+      </if>
+      <if test="limitDelTopicType != null" >
+        limit_del_topic_type = #{limitDelTopicType,jdbcType=CHAR},
+      </if>
+      <if test="limitCreatePicType != null" >
+        limit_create_pic_type = #{limitCreatePicType,jdbcType=CHAR},
+      </if>
+      <if test="limitDelPicType != null" >
+        limit_del_pic_type = #{limitDelPicType,jdbcType=CHAR},
+      </if>
+      <if test="limitDelFlag != null" >
+        limit_del_flag = #{limitDelFlag,jdbcType=CHAR},
+      </if>
+      <if test="limitCondition != null" >
+        limit_condition = #{limitCondition,jdbcType=CHAR},
+      </if>
+    </set>
+    where group_id = #{groupId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.group.bean.GroupPermissions" >
+    update np_group_permissions
+    set group_id = #{groupId,jdbcType=BIGINT},
+      limit_add_type = #{limitAddType,jdbcType=CHAR},
+      limit_reply_type = #{limitReplyType,jdbcType=CHAR},
+      limit_reply_del_type = #{limitReplyDelType,jdbcType=CHAR},
+      limit_access_type = #{limitAccessType,jdbcType=CHAR},
+      limit_create_topic_type = #{limitCreateTopicType,jdbcType=CHAR},
+      limit_modify_topic_type = #{limitModifyTopicType,jdbcType=CHAR},
+      limit_del_topic_type = #{limitDelTopicType,jdbcType=CHAR},
+      limit_create_pic_type = #{limitCreatePicType,jdbcType=CHAR},
+      limit_del_pic_type = #{limitDelPicType,jdbcType=CHAR},
+      limit_del_flag = #{limitDelFlag,jdbcType=CHAR},
+      limit_condition = #{limitCondition,jdbcType=CHAR}
+    where limit_id = #{limitId,jdbcType=BIGINT}
+  </update>
+</mapper>

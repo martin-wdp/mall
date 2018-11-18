@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.mybatis.mapper.AppMapper" >
+    <resultMap id="BaseResultMap" type="com.ningpai.app.bean.App" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="app_id" property="appId" jdbcType="VARCHAR" />
+        <result column="app_logo" property="appLogo" jdbcType="VARCHAR" />
+        <result column="app_name" property="appName" jdbcType="VARCHAR" />
+        <result column="app_desc" property="appDesc" jdbcType="VARCHAR" />
+        <result column="app_location" property="appLocation" jdbcType="VARCHAR" />
+        <result column="app_version" property="appVersion" jdbcType="VARCHAR" />
+        <result column="app_introduction" property="appIntroduction" jdbcType="VARCHAR" />
+        <result column="install_count" property="installCount" jdbcType="BIGINT" />
+        <result column="publish_status" property="publishStatus" jdbcType="CHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="publish_time" property="publishTime" jdbcType="TIMESTAMP" />
+        <result column="user_id" property="userId" jdbcType="BIGINT" />
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+        <result column="load_sql" property="loadSql" jdbcType="VARCHAR" />
+        <result column="start_sql" property="startSql" jdbcType="VARCHAR" />
+        <result column="stop_sql" property="stopSql" jdbcType="VARCHAR" />
+        <result column="unload_sql" property="unloadSql" jdbcType="VARCHAR" />
+        <result column="app_third_location" property="appThirdLocation" jdbcType="VARCHAR" />
+        <result column="app_site_location" property="appSiteLocation" jdbcType="VARCHAR" />
+        <result column="start_menu_id" property="startMenuId" jdbcType="BIGINT" />
+        <result column="end_menu_id" property="endMenuId" jdbcType="BIGINT" />
+        <result column="bundle_name" property="bundleName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id,app_id,app_logo,app_name,app_desc,app_location,app_version,
+        install_count,publish_status,create_time,publish_time,user_id,
+        load_sql, start_sql,stop_sql,unload_sql,app_introduction,bundle_name,
+        del_flag,app_third_location,app_site_location,start_menu_id,end_menu_id
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        from np_app
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <update id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        update np_app set del_flag = '1'
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insertSelective" parameterType="com.ningpai.app.bean.App" useGeneratedKeys="true" keyProperty="id" >
+        insert into np_app
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="appId != null" >
+                app_id,
+            </if>
+            <if test="appLogo != null" >
+                app_logo,
+            </if>
+            <if test="appName != null" >
+                app_name,
+            </if>
+            <if test="appDesc != null" >
+                app_desc,
+            </if>
+            <if test="appLocation != null" >
+                app_location,
+            </if>
+            <if test="appVersion != null" >
+                app_version,
+            </if>
+            <if test="installCount != null" >
+                install_count,
+            </if>
+            <if test="publishStatus != null" >
+                publish_status,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="publishTime != null" >
+                publish_time,
+            </if>
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="delFlag != null" >
+                del_flag,
+            </if>
+            <if test="loadSql != null" >
+                load_sql,
+            </if>
+            <if test="startSql != null" >
+                start_sql,
+            </if>
+            <if test="stopSql != null" >
+                stop_sql,
+            </if>
+            <if test="unloadSql != null" >
+                unload_sql,
+            </if>
+            <if test="appThirdLocation != null" >
+                app_third_location,
+            </if>
+            <if test="appSiteLocation != null" >
+                app_site_location,
+            </if>
+            <if test="startMenuId != null" >
+                start_menu_id,
+            </if>
+            <if test="endMenuId != null" >
+                end_menu_id,
+            </if>
+            <if test="appIntroduction != null" >
+                app_introduction,,
+            </if>
+            <if test="bundleName != null" >
+                bundle_name,,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="appId != null" >
+                #{appId,jdbcType=VARCHAR},
+            </if>
+            <if test="appLogo != null" >
+                #{appLogo,jdbcType=VARCHAR},
+            </if>
+            <if test="appName != null" >
+                #{appName,jdbcType=VARCHAR},
+            </if>
+            <if test="appDesc != null" >
+                #{appDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="appLocation != null" >
+                #{appLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="appVersion != null" >
+                #{appVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="installCount != null" >
+                #{installCount,jdbcType=BIGINT},
+            </if>
+            <if test="publishStatus != null" >
+                #{publishStatus,jdbcType=CHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="publishTime != null" >
+                #{publishTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userId != null" >
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="delFlag != null" >
+                #{delFlag,jdbcType=CHAR},
+            </if>
+            <if test="loadSql != null" >
+                #{loadSql,jdbcType=VARCHAR},
+            </if>
+            <if test="startSql != null" >
+                #{startSql,jdbcType=VARCHAR},
+            </if>
+            <if test="stopSql != null" >
+                #{stopSql,jdbcType=VARCHAR},
+            </if>
+            <if test="unloadSql != null" >
+                #{unloadSql,jdbcType=VARCHAR},
+            </if>
+            <if test="appThirdLocation != null" >
+                #{appThirdLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="appSiteLocation != null" >
+                #{appSiteLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="startMenuId != null" >
+                #{startMenuId,jdbcType=BIGINT},
+            </if>
+            <if test="endMenuId != null" >
+                #{endMenuId,jdbcType=BIGINT},
+            </if>
+            <if test="appIntroduction != null" >
+                #{appIntroduction,jdbcType=VARCHAR},
+            </if>
+            <if test="bundleName != null" >
+                #{bundleName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.app.bean.App" >
+        update np_app
+        <set >
+            <if test="appId != null" >
+                app_id = #{appId,jdbcType=VARCHAR},
+            </if>
+            <if test="appLogo != null" >
+                app_logo = #{appLogo,jdbcType=VARCHAR},
+            </if>
+            <if test="appName != null" >
+                app_name = #{appName,jdbcType=VARCHAR},
+            </if>
+            <if test="bundleName != null" >
+                bundle_name = #{bundleName,jdbcType=VARCHAR},
+            </if>
+            <if test="appDesc != null" >
+                app_desc = #{appDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="appLocation != null" >
+                app_location = #{appLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="appVersion != null" >
+                app_version = #{appVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="installCount != null" >
+                install_count = #{installCount,jdbcType=BIGINT},
+            </if>
+            <if test="publishStatus != null" >
+                publish_status = #{publishStatus,jdbcType=CHAR},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="publishTime != null" >
+                publish_time = #{publishTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userId != null" >
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="delFlag != null" >
+                del_flag = #{delFlag,jdbcType=CHAR},
+            </if>
+            <if test="loadSql != null" >
+                load_sql = #{loadSql,jdbcType=VARCHAR},
+            </if>
+            <if test="startSql != null" >
+                start_sql = #{startSql,jdbcType=VARCHAR},
+            </if>
+            <if test="stopSql != null" >
+                stop_sql = #{stopSql,jdbcType=VARCHAR},
+            </if>
+            <if test="unloadSql != null" >
+                unload_sql = #{unloadSql,jdbcType=VARCHAR},
+            </if>
+            <if test="appThirdLocation != null" >
+                app_third_location = #{appThirdLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="appSiteLocation != null" >
+                app_site_location = #{appSiteLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="startMenuId != null" >
+                start_menu_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="endMenuId != null" >
+                end_menu_id = #{endMenuId,jdbcType=BIGINT},
+            </if>
+            <if test="appIntroduction != null" >
+                app_introduction = #{appIntroduction,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        id,app_id,app_logo,app_name,app_desc,app_location,app_version,
+        install_count,publish_status,create_time,publish_time,bundle_name,
+        del_flag
+        from np_app
+        where del_flag = '0'
+        <if test="pageBean.objectBean.appId != null and pageBean.objectBean.appId != ''">
+            and app_id like CONCAT('%',#{pageBean.objectBean.appId,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.appLogo != null and pageBean.objectBean.appLogo != ''">
+            and app_logo like CONCAT('%',#{pageBean.objectBean.appLogo,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.appName != null and pageBean.objectBean.appName != ''">
+            and app_name like CONCAT('%',#{pageBean.objectBean.appName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.appDesc != null and pageBean.objectBean.appDesc != ''">
+            and app_desc like CONCAT('%',#{pageBean.objectBean.appDesc,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.publishStatus != null and pageBean.objectBean.publishStatus != ''">
+            and publish_status = #{pageBean.objectBean.publishStatus,jdbcType=CHAR}
+        </if>
+        <if test="pageBean.objectBean.delFlag != null and pageBean.objectBean.delFlag != ''">
+            and del_flag = #{pageBean.objectBean.delFlag,jdbcType=CHAR}
+        </if>
+        limit #{pageBean.startRowNum},#{pageBean.endRowNum}
+    </select>
+
+    <select id="selectListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select
+        count(1)
+        from np_app
+        where del_flag = '0'
+        <if test="pageBean.objectBean.appId != null and pageBean.objectBean.appId != ''">
+            and app_id like CONCAT('%',#{pageBean.objectBean.appId,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.appLogo != null and pageBean.objectBean.appLogo != ''">
+            and app_logo like CONCAT('%',#{pageBean.objectBean.appLogo,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.appName != null and pageBean.objectBean.appName != ''">
+            and app_name like CONCAT('%',#{pageBean.objectBean.appName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.appDesc != null and pageBean.objectBean.appDesc != ''">
+            and app_desc like CONCAT('%',#{pageBean.objectBean.appDesc,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.publishStatus != null and pageBean.objectBean.publishStatus != ''">
+            and publish_status = #{pageBean.objectBean.publishStatus,jdbcType=CHAR}
+        </if>
+        <if test="pageBean.objectBean.delFlag != null and pageBean.objectBean.delFlag != ''">
+            and del_flag = #{pageBean.objectBean.delFlag,jdbcType=CHAR}
+        </if>
+    </select>
+
+    <update id="deleteMuilti" parameterType="java.lang.Long">
+        update np_app
+        set del_flag = '1'
+        where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+        #{id,jdbcType=BIGINT}
+        </foreach>
+    </update>
+
+
+    <select id="checkAppName" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select
+        count(1)
+        from np_app
+        where del_flag = '0' and app_name=#{appName}
+    </select>
+    <select id="selectMenuId" resultType="java.lang.Long">
+        select
+        MAX(end_menu_id)
+        from np_app
+    </select>
+</mapper>

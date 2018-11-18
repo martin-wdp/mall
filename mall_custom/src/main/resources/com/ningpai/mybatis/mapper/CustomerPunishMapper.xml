@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.customer.dao.CustomerPunishMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.customer.bean.CustomerPunish" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="rule" property="rule" jdbcType="CHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modified_time" property="modifiedTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, rule, remark, create_time, modified_time, del_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_customer_punish
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectPunishInfoByPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+  select 
+    <include refid="Base_Column_List" />
+  from np_customer_punish
+  where del_flag='0'
+  order by rule 
+  limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <select id="selectPunishInfoCount" resultType="java.lang.Integer">
+  	select count(1) from np_customer_punish where del_flag='0'
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_customer_punish
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.customer.bean.CustomerPunish" >
+    insert into np_customer_punish (id, rule, remark, 
+      create_time, modified_time, del_flag
+      )
+    values (#{id,jdbcType=BIGINT}, #{rule,jdbcType=CHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifiedTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.customer.bean.CustomerPunish" >
+    insert into np_customer_punish
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="rule != null" >
+        rule,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifiedTime != null" >
+        modified_time,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="rule != null" >
+        #{rule,jdbcType=CHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null" >
+        #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.customer.bean.CustomerPunish" >
+    update np_customer_punish
+    <set >
+      <if test="rule != null" >
+        rule = #{rule,jdbcType=CHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null" >
+        modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.customer.bean.CustomerPunish" >
+    update np_customer_punish
+    set rule = #{rule,jdbcType=CHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  
+  <update id="updateDelflag" parameterType="java.lang.Long">
+  update np_customer_punish
+  set del_flag='1' where id=#{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="queryAllRules" resultMap="BaseResultMap">
+  select 
+  <include refid="Base_Column_List" /> 
+  from np_customer_punish where del_flag='0' 
+  ORDER BY rule ;  
+  </select>
+  
+  
+  <select id="queryIdByRule" resultMap="BaseResultMap" parameterType="com.ningpai.customer.bean.CustomerPunish">
+  select 
+  <include refid="Base_Column_List" />  
+   from np_customer_punish where rule = #{rule,jdbcType=CHAR} and del_flag='0'
+  </select>
+  
+  
+  
+</mapper>

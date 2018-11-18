@@ -1,0 +1,1 @@
+{"downId":100001,"couponId":101,"downPrice":100,"updateTime":"2015-09-06 01:01:01","fullPrice":100,"reductionPrice":100,"delFlag":"0"}

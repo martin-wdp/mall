@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qpmall.site.register.dao.QpEnterpriseCertificationInfoMapper">
+    <!--<insert id="saveTest" parameterType="Long">
+        INSERT INTO qp_enterprise_certification_info (customerId) VALUES (#{customerId,jdbcType=BIGINT})
+    </insert>
+    <select id="selectTest" parameterType="Long" resultType="com.qpmall.site.register.bean.QpEnterpriseCertificationInfo">
+        select * from qp_enterprise_certification_info WHERE  enterprise_id=#{enterprise_id,jdbcType=BIGINT}
+    </select>-->
+
+    <!-- city -->
+    <resultMap id="cityMap" type="com.ningpai.other.bean.CityBean">
+        <id column="city_id" property="cityId" jdbcType="BIGINT"/>
+        <result column="city_name" property="cityName" jdbcType="VARCHAR"/>
+        <result column="province_id" property="provinceId" jdbcType="BIGINT"/>
+    </resultMap>
+    <!-- district -->
+    <resultMap id="districtMap" type="com.ningpai.other.bean.DistrictBean">
+        <id column="district_id" property="districtId" jdbcType="BIGINT"/>
+        <result column="district_name" property="districtName" jdbcType="VARCHAR"/>
+        <result column="city_id" property="cityId" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        enterprise_id, customerId, company_name, company_address, company_capital, company_email,
+        company_type, company_contact_name, card_url, company_contact_tel, buss_dept_no_url,
+        buss_tax_regist_url, buss_legal_name, buss_legal_card_id, busscard_url, buss_range,
+        check_status, enterprise_aptitude, create_time, mod_time, enterprise_province, enterprise_city,
+        enterprise_county, buss_brand, company_pic_url, company_contact_addr, company_contact_cz,
+        company_contact_yb,company_contact_moble,audit_time ,audit_manager ,audit_feedback
+    </sql>
+
+    <select id="selectEnterpriseCertificationByCustomerId" parameterType="java.lang.Long"
+            resultType="com.qpmall.site.register.bean.QpEnterpriseCertificationInfo">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM  qp_enterprise_certification_info WHERE customerId=#{customerId,jdbcType=BIGINT} ORDER BY mod_time DESC
+    </select>
+
+    <select id="selectuserEnperseByCustomerId" parameterType="java.lang.Long"
+            resultType="com.qpmall.site.register.bean.QpEnterpriseCertificationInfo">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM  qp_enterprise_certification_info WHERE customerId=#{customerId1,jdbcType=BIGINT} AND check_status!='2'
+    </select>
+
+    <insert id="saveQpEnterpriseCertificationInfo"
+            parameterType="com.qpmall.site.register.bean.QpEnterpriseCertificationInfo">
+        INSERT INTO qp_enterprise_certification_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">
+                customerId,
+            </if>
+            <if test="company_name != null">
+                company_name,
+            </if>
+            <if test="company_address != null">
+                company_address,
+            </if>
+            <if test="company_capital != null">
+                company_capital,
+            </if>
+            <if test="company_email != null">
+                company_email,
+            </if>
+            <if test="company_type != null">
+                company_type,
+            </if>
+            <if test="company_contact_name != null">
+                company_contact_name,
+            </if>
+            <if test="card_url != null">
+                card_url,
+            </if>
+            <if test="company_contact_tel != null">
+                company_contact_tel,
+            </if>
+            <if test="buss_brand != null">
+                buss_brand,
+            </if>
+            <if test="buss_range != null">
+                buss_range,
+            </if>
+            <if test="busscard_url != null">
+                busscard_url,
+            </if>
+            <if test="buss_legal_card_id != null">
+                buss_legal_card_id,
+            </if>
+            <if test="buss_legal_name != null">
+                buss_legal_name,
+            </if>
+            <if test="buss_tax_regist_url != null">
+                buss_tax_regist_url,
+            </if>
+            <if test="buss_dept_no_url != null">
+                buss_dept_no_url,
+            </if>
+            <if test="create_time != null">
+                create_time,
+            </if>
+            <if test="mod_time != null">
+                mod_time,
+            </if>
+            <if test="enterprise_province != null">
+                enterprise_province,
+            </if>
+            <if test="enterprise_city != null">
+                enterprise_city,
+            </if>
+            <if test="enterprise_county != null">
+                enterprise_county,
+            </if>
+            <if test="enterprise_aptitude != null">
+                enterprise_aptitude,
+            </if>
+            <if test="check_status != null">
+                check_status,
+            </if>
+            <if test="company_pic_url != null">
+                company_pic_url,
+            </if>
+            <if test="company_contact_addr != null">
+                company_contact_addr,
+            </if>
+            <if test="company_contact_cz != null">
+                company_contact_cz,
+            </if>
+            <if test="company_contact_yb != null">
+                company_contact_yb,
+            </if>
+            <if test="company_contact_moble != null">
+                company_contact_moble,
+            </if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">
+                #{customerId , jdbcType=BIGINT},
+            </if>
+            <if test="company_name != null">
+                #{company_name , jdbcType=VARCHAR},
+            </if>
+            <if test="company_address != null">
+                #{company_address , jdbcType=VARCHAR},
+            </if>
+            <if test="company_capital != null">
+                #{company_capital , jdbcType=VARCHAR},
+            </if>
+            <if test="company_email != null">
+                #{company_email , jdbcType=VARCHAR},
+            </if>
+            <if test="company_type != null">
+                #{company_type , jdbcType=CHAR},
+            </if>
+            <if test="company_contact_name != null">
+                #{company_contact_name , jdbcType=VARCHAR},
+            </if>
+            <if test="card_url != null">
+                #{card_url , jdbcType=VARCHAR},
+            </if>
+            <if test="company_contact_tel != null">
+                #{company_contact_tel , jdbcType=VARCHAR},
+            </if>
+            <if test="buss_brand != null">
+                #{buss_brand , jdbcType=VARCHAR},
+            </if>
+            <if test="buss_range != null">
+                #{buss_range , jdbcType=VARCHAR},
+            </if>
+            <if test="busscard_url != null">
+                #{busscard_url , jdbcType=VARCHAR},
+            </if>
+            <if test="buss_legal_card_id != null">
+                #{buss_legal_card_id , jdbcType=VARCHAR},
+            </if>
+            <if test="buss_legal_name != null">
+                #{buss_legal_name , jdbcType=VARCHAR},
+            </if>
+            <if test="buss_tax_regist_url != null">
+                #{buss_tax_regist_url , jdbcType=VARCHAR},
+            </if>
+            <if test="buss_dept_no_url != null">
+                #{buss_dept_no_url , jdbcType=VARCHAR},
+            </if>
+            <if test="create_time != null">
+                #{create_time , jdbcType=TIMESTAMP},
+            </if>
+            <if test="mod_time != null">
+                #{mod_time , jdbcType=TIMESTAMP},
+            </if>
+            <if test="enterprise_province != null">
+                #{enterprise_province , jdbcType=INTEGER},
+            </if>
+            <if test="enterprise_city != null">
+                #{enterprise_city , jdbcType=INTEGER},
+            </if>
+            <if test="enterprise_county != null">
+                #{enterprise_county , jdbcType=INTEGER},
+            </if>
+            <if test="enterprise_aptitude != null">
+                #{enterprise_aptitude , jdbcType=VARCHAR},
+            </if>
+            <if test="check_status != null">
+                #{check_status , jdbcType=CHAR},
+            </if>
+            <if test="company_pic_url != null">
+                #{company_pic_url , jdbcType=VARCHAR},
+            </if>
+            <if test="company_contact_addr != null">
+                #{company_contact_addr , jdbcType=VARCHAR},
+            </if>
+            <if test="company_contact_cz != null">
+                #{company_contact_cz , jdbcType=VARCHAR},
+            </if>
+            <if test="company_contact_yb != null">
+                #{company_contact_yb , jdbcType=VARCHAR},
+            </if>
+            <if test="company_contact_moble != null">
+                #{company_contact_moble , jdbcType=VARCHAR},
+            </if>
+
+
+        </trim>
+    </insert>
+    <update id="updateQpEnterpriseCertificationInfo" parameterType="com.qpmall.site.register.bean.QpEnterpriseCertificationInfo">
+        update qp_enterprise_certification_info
+        <set >
+            <if test="customerId != null" >
+                customerId = #{customerId,jdbcType=BIGINT},
+            </if>
+            <if test="company_name != null" >
+                company_name = #{company_name,jdbcType=VARCHAR},
+            </if>
+            <if test="company_address != null" >
+                company_address = #{company_address,jdbcType=VARCHAR},
+            </if>
+            <if test="company_capital != null" >
+                company_capital = #{company_capital,jdbcType=DECIMAL},
+            </if>
+            <if test="company_email != null" >
+                company_email = #{company_email,jdbcType=VARCHAR},
+            </if>
+            <if test="company_type != null" >
+                company_type = #{company_type,jdbcType=CHAR},
+            </if>
+            <if test="company_contact_name != null" >
+                company_contact_name = #{company_contact_name,jdbcType=VARCHAR},
+            </if>
+            <if test="card_url != null" >
+                card_url = #{card_url,jdbcType=VARCHAR},
+            </if>
+            <if test="company_contact_tel != null" >
+                company_contact_tel = #{company_contact_tel,jdbcType=VARCHAR},
+            </if>
+            <if test="buss_dept_no_url != null" >
+                buss_dept_no_url = #{buss_dept_no_url,jdbcType=VARCHAR},
+            </if>
+            <if test="buss_tax_regist_url != null" >
+                buss_tax_regist_url = #{buss_tax_regist_url,jdbcType=VARCHAR},
+            </if>
+            <if test="buss_legal_name != null" >
+                buss_legal_name = #{buss_legal_name,jdbcType=VARCHAR},
+            </if>
+            <if test="buss_legal_card_id != null" >
+                buss_legal_card_id = #{buss_legal_card_id,jdbcType=VARCHAR},
+            </if>
+            <if test="busscard_url != null" >
+                busscard_url = #{busscard_url,jdbcType=VARCHAR},
+            </if>
+            <if test="buss_range != null" >
+                buss_range = #{buss_range,jdbcType=VARCHAR},
+            </if>
+            <if test="check_status != null" >
+                check_status = #{check_status,jdbcType=CHAR},
+            </if>
+            <if test="enterprise_aptitude != null" >
+                enterprise_aptitude = #{enterprise_aptitude,jdbcType=VARCHAR},
+            </if>
+            <if test="create_time != null" >
+                create_time = #{create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="mod_time != null" >
+                mod_time = #{mod_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="enterprise_province != null" >
+                enterprise_province = #{enterprise_province,jdbcType=BIGINT},
+            </if>
+            <if test="enterprise_city != null" >
+                enterprise_city = #{enterprise_city,jdbcType=BIGINT},
+            </if>
+            <if test="enterprise_county != null" >
+                enterprise_county = #{enterprise_county,jdbcType=BIGINT},
+            </if>
+            <if test="buss_brand != null" >
+                buss_brand = #{buss_brand,jdbcType=VARCHAR},
+            </if>
+            <if test="company_pic_url != null" >
+                company_pic_url = #{company_pic_url,jdbcType=VARCHAR},
+            </if>
+            <if test="company_contact_addr != null" >
+                company_contact_addr = #{company_contact_addr,jdbcType=VARCHAR},
+            </if>
+            <if test="company_contact_cz != null" >
+                company_contact_cz = #{company_contact_cz,jdbcType=VARCHAR},
+            </if>
+            <if test="company_contact_yb != null" >
+                company_contact_yb = #{company_contact_yb,jdbcType=VARCHAR},
+            </if>
+            <if test="company_contact_moble != null" >
+                company_contact_moble = #{company_contact_moble,jdbcType=VARCHAR},
+            </if>
+
+        </set>
+        where enterprise_id = #{enterprise_id,jdbcType=BIGINT}
+    </update>
+
+
+    <select id="selectCityByPid" resultMap="cityMap" parameterType="java.lang.Long">
+        select
+        c.city_id,c.city_name
+        from np_sys_city c
+        where c.city_id = #{cityId,jdbcType=BIGINT}
+    </select>
+    <select id="selectDistrictByCid" resultMap="districtMap" parameterType="java.lang.Long">
+        select
+        d.district_id,d.district_name
+        from np_sys_district d
+        where d.district_id = #{districtId,jdbcType=BIGINT}
+    </select>
+
+
+    <insert id="insertSelective" parameterType="com.ningpai.other.bean.CustomerAllInfo">
+    insert into np_customer_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="infoId != null">
+            info_id,
+        </if>
+        <if test="customerId != null">
+            customer_id,
+        </if>
+        <if test="infoRealname != null">
+            info_realname,
+        </if>
+        <if test="infoCardid != null">
+            info_cardid,
+        </if>
+        <if test="infoGender != null">
+            info_gender,
+        </if>
+        <if test="pointLevelName == null">
+            point_level_name,
+        </if>
+        <if test="pointLevelId != null">
+            point_level_id,
+        </if>
+        <if test="infoBirthday != null">
+            info_birthday,
+        </if>
+        <if test="infoRegip != null">
+            info_regip,
+        </if>
+        <if test="infoProvince != null and infoProvince != ''">
+            info_province,
+        </if>
+        <if test="infoCity != null">
+            info_city,
+        </if>
+        <if test="infoCounty != null">
+            info_county,
+        </if>
+        <if test="infoStreet != null">
+            infoStreet,
+        </if>
+        <if test="infoAddress != null">
+            info_address,
+        </if>
+        <if test="infoMarital != null">
+            info_marital,
+        </if>
+        <if test="infoSalary != null">
+            info_salary,
+        </if>
+        <if test="infoInterest != null">
+            info_interest,
+        </if>
+        <if test="infoEmail != null">
+            info_email,
+        </if>
+        <if test="infoMobile != null">
+            info_mobile,
+        </if>
+        <if test="balanceSum == null">
+            balance_sum,
+        </if>
+        <if test="infoPointSum == null">
+            info_point_sum,
+        </if>
+        <if test="infoType == null">
+            info_type,
+        </if>
+        <if test="infoRegisterTime == null">
+            info_register_time,
+        </if>
+        <if test="modifiedTime == null">
+            modified_time,
+        </if>
+        <if test="delFlag == null">
+            del_flag,
+        </if>
+        <if test="infoPhone != null">
+            info_phone,
+        </if>
+        <if test="infoZip != null">
+            info_zip,
+        </if>
+        <if test="delTime == null">
+            del_time,
+        </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="infoId != null">
+            #{infoId,jdbcType=BIGINT},
+        </if>
+        <if test="customerId != null">
+            #{customerId,jdbcType=BIGINT},
+        </if>
+        <if test="infoRealname != null">
+            #{infoRealname,jdbcType=VARCHAR},
+        </if>
+        <if test="infoCardid != null">
+            #{infoCardid,jdbcType=VARCHAR},
+        </if>
+        <if test="infoGender != null">
+            #{infoGender,jdbcType=CHAR},
+        </if>
+        <if test="pointLevelName == null">
+            (select p.point_level_name from np_customer_point_level p where p.point_lelvel_id=#{pointLevelId,jdbcType=VARCHAR}),
+        </if>
+        <if test="pointLevelId != null">
+            #{pointLevelId,jdbcType=VARCHAR},
+        </if>
+        <if test="infoBirthday != null">
+            #{infoBirthday,jdbcType=VARCHAR},
+        </if>
+        <if test="infoRegip != null">
+            #{infoRegip,jdbcType=VARCHAR},
+        </if>
+        <if test="infoProvince != null and infoProvince != ''">
+            #{infoProvince,jdbcType=VARCHAR},
+        </if>
+        <if test="infoCity != null">
+            #{infoCity,jdbcType=VARCHAR},
+        </if>
+        <if test="infoCounty != null">
+            #{infoCounty,jdbcType=VARCHAR},
+        </if>
+        <if test="infoStreet != null">
+            #{infoStreet,jdbcType=VARCHAR},
+        </if>
+        <if test="infoAddress != null">
+            #{infoAddress,jdbcType=VARCHAR},
+        </if>
+        <if test="infoMarital != null">
+            #{infoMarital,jdbcType=CHAR},
+        </if>
+        <if test="infoSalary != null">
+            #{infoSalary,jdbcType=VARCHAR},
+        </if>
+        <if test="infoInterest != null">
+            #{infoInterest,jdbcType=VARCHAR},
+        </if>
+        <if test="infoEmail != null">
+            #{infoEmail,jdbcType=VARCHAR},
+        </if>
+        <if test="infoMobile != null">
+            #{infoMobile,jdbcType=VARCHAR},
+        </if>
+        <if test="balanceSum == null">
+            0,
+        </if>
+        <if test="infoPointSum == null">
+            0,
+        </if>
+        <if test="infoType == null">
+            '1',
+        </if>
+        <if test="infoRegisterTime == null">
+            SYSDATE(),
+        </if>
+        <if test="modifiedTime == null">
+            SYSDATE(),
+        </if>
+        <if test="delFlag == null">
+            '0',
+        </if>
+        <if test="infoPhone != null">
+            #{infoPhone,jdbcType=VARCHAR},
+        </if>
+        <if test="infoZip != null">
+            #{infoZip,jdbcType=VARCHAR},
+        </if>
+        <if test="delTime == null">
+            SYSDATE(),
+        </if>
+    </trim>
+    </insert>
+
+</mapper>

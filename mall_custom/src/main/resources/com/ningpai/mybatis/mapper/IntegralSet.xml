@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ningpai.customer.dao.IntegralSetMapper">
+  <resultMap id="BaseResultMap" type="com.ningpai.other.bean.IntegralSet">
+    <id column="pset_id" jdbcType="BIGINT" property="psetId" />
+    <result column="pset_register" jdbcType="INTEGER" property="psetRegister" />
+    <result column="pset_login" jdbcType="INTEGER" property="psetLogin" />
+    <result column="pset_email" jdbcType="INTEGER" property="psetEmail" />
+    <result column="pset_phone" jdbcType="INTEGER" property="psetPhone" />
+    <result column="pset_comment" jdbcType="INTEGER" property="psetComment" />
+    <result column="pset_user" jdbcType="INTEGER" property="psetUser" />
+    <result column="pset_online" jdbcType="INTEGER" property="psetOnline" />
+    <result column="is_open" jdbcType="CHAR" property="isOpen" />
+    <result column="exchange" jdbcType="INTEGER" property="exchange" />
+    <result column="consumption" jdbcType="DECIMAL" property="consumption" />
+    <result column="pset_pubtopic" jdbcType="INTEGER" property="psetPubtopic" />
+    <result column="pset_hottopic" jdbcType="INTEGER" property="psetHottopic" />
+    <result column="pset_essencetopic" jdbcType="INTEGER" property="psetEssencetopic" />
+    <result column="pset_indextopic" jdbcType="INTEGER" property="psetIndextopic" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    pset_id, pset_register, pset_login, pset_email, pset_phone, pset_comment, pset_user, 
+    pset_online, is_open, exchange, consumption,pset_pubtopic,pset_hottopic,pset_essencetopic,pset_indextopic
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_sys_pointset
+  </select>
+  <select id="selectByFirst" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_sys_pointset
+    limit 0,1
+  </select>
+
+    <update id="updateIntegralById" parameterType="java.lang.Long">
+        update np_sys_pointset set pset_register = #{psetRegister,jdbcType=INTEGER}
+    </update>
+ </mapper>

@@ -1,0 +1,26 @@
+@charset "utf-8";
+
+body {font-family:"microsoft Yahei";}
+a:hover {text-decoration:none;}
+/* 手机专题 */
+.phone-topic .section a {display:block; background-position:center top; background-repeat:no-repeat;}
+.phone-topic .section-01 {height:560px; background:url(../images/phone-01.jpg) no-repeat center top;}
+.phone-topic .section-02 a {height:660px; background-image:url(../images/phone-02.jpg);}
+.phone-topic .section-03 a {height:500px; background-image:url(../images/phone-03.jpg);}
+.phone-topic .section-04 a {height:550px; background-image:url(../images/phone-04.jpg);}
+
+/* 女装专题 */
+.dress-banner {height:630px; background:url(../images/dress-banner.jpg) no-repeat center top;}
+.dress-01 {height:1250px; background:url(../images/dress-01.jpg) no-repeat center top;}
+.dress-02 {height:1260px; background:url(../images/dress-02.jpg) no-repeat center top;}
+.topic-cont {width:1200px; margin:0 auto; padding-top:275px;}
+.dress-02 .topic-cont {padding-top:285px;}
+.topic-list {width:1220px;}
+.topic-list li {float:left; width:265px; height:340px; background:#fff; margin:0 20px 20px 0; padding:10px; font-family:"microsoft Yahei";}
+.tp-img {display:block; width:260px; margin:0 auto;}
+.tp-name {display:block; width:260px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:18px; color:#333; margin-top:10px;}
+.tp-name:hover {color:#fc677d; text-decoration:none;}
+.tp-price {font-size:18px; color:#fc677d; font-weight:700;}
+.tp-price strong {font-size:24px; margin-left:2px;}
+.buy-btn {display:block; width:260px; height:36px; background:#fc677d; color:#fff; text-align:center; line-height:36px; font-size:18px; font-weight:700; border-radius:5px; margin:5px auto 0;}
+.buy-btn:hover {text-decoration:none;}

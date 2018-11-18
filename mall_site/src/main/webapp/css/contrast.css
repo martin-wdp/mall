@@ -1,0 +1,16 @@
+.goods_contrast {width:966px; border-width:2px; border-style:solid; background:#fff; padding:10px; position:fixed; bottom:0; z-index:10000; display:none;}
+.gc_tit {border-bottom:1px dotted #ddd; padding:0 5px 5px;}
+.gc_tit h3 {font-family:microsoft YaHei; font-size:14px;}
+.hide_ct {color:#005aa0;}
+.contrast_items dl {padding:5px 10px 5px 0; border-right-width:1px; border-right-style:dotted; margin-right:10px;}
+.contrast_items dl dt {float:left;}
+.contrast_items dl dd {float:left; margin-left:5px; width:140px; line-height:150%;}
+.ct-item-price {font-family:microsoft YaHei;}
+.del-ct-item {color:#005aa0; margin-left:10px; display:none;}
+.has_item:hover .del-ct-item {display:inline;}
+.empty_item dt {width:50px; height:50px; background:#f6f6f6; text-align:center; line-height:50px; color:#ccc; font-size:30px;}
+.empty_item dd {color:#ccc;}
+.ct_operation {width:85px; margin-left:10px; padding-top:5px;}
+.contrast_btn {display:inline-block; zoom:1; *display:inline; width:54px; height:24px; line-height:24px; border-width:1px; border-style:solid; border-radius:3px; font-weight:700; color:#fff!important;}
+.contrast_btn.dis_ct {background:#fff; border-color:#ddd!important; color:#ccc!important; cursor:default;}
+.ct_operation .del-items a {color:#005aa0;}

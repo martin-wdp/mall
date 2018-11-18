@@ -1,0 +1,1 @@
+$(function(){$(".pro_sort").addClass("pro_sort_close");if(window.location.href.indexOf("/comment/")!=-1){loadComment(1,3)}});

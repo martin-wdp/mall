@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.OrderCouponMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.order.bean.OrderCoupon" >
+    <id column="order_coupon_id" property="orderCouponId" jdbcType="BIGINT" />
+    <result column="order_marketing_id" property="orderMarketingId" jdbcType="BIGINT" />
+    <result column="coupon_id" property="couponId" jdbcType="BIGINT" />
+    <result column="coupon_No" property="couponNo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    order_coupon_id, order_marketing_id, coupon_id, coupon_No
+  </sql>
+  
+  
+  <!-- 查询订单赠送的优惠券 -->
+  <select id="selectOrderCoupon" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_order_coupon
+    where order_marketing_id = #{orderMarketingId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_order_coupon
+    where order_coupon_id = #{orderCouponId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_order_coupon
+    where order_coupon_id = #{orderCouponId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.order.bean.OrderCoupon" >
+    insert into np_order_coupon (order_coupon_id, order_marketing_id, coupon_id, 
+      coupon_No)
+    values (#{orderCouponId,jdbcType=BIGINT}, #{orderMarketingId,jdbcType=BIGINT}, #{couponId,jdbcType=BIGINT}, 
+      #{couponNo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.order.bean.OrderCoupon" >
+    insert into np_order_coupon
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderCouponId != null" >
+        order_coupon_id,
+      </if>
+      <if test="orderMarketingId != null" >
+        order_marketing_id,
+      </if>
+      <if test="couponId != null" >
+        coupon_id,
+      </if>
+      <if test="couponNo != null" >
+        coupon_No,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderCouponId != null" >
+        #{orderCouponId,jdbcType=BIGINT},
+      </if>
+      <if test="orderMarketingId != null" >
+        #{orderMarketingId,jdbcType=BIGINT},
+      </if>
+      <if test="couponId != null" >
+        #{couponId,jdbcType=BIGINT},
+      </if>
+      <if test="couponNo != null" >
+        #{couponNo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 批量插入优惠劵 -->
+  <insert id="insertCouponInfoGift" parameterType="java.util.List" >
+    insert into np_order_coupon (order_coupon_id, order_marketing_id,coupon_id,coupon_No)
+    values 
+       <foreach collection="list" separator="," item="coupon" index="index" >  
+         (0, #{coupon.orderMarketingId,jdbcType=BIGINT}, #{coupon.couponId,jdbcType=BIGINT},#{coupon.couponNo,jdbcType=VARCHAR}
+      	)
+      
+     </foreach>  
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.order.bean.OrderCoupon" >
+    update np_order_coupon
+    <set >
+      <if test="orderMarketingId != null" >
+        order_marketing_id = #{orderMarketingId,jdbcType=BIGINT},
+      </if>
+      <if test="couponId != null" >
+        coupon_id = #{couponId,jdbcType=BIGINT},
+      </if>
+      <if test="couponNo != null" >
+        coupon_No = #{couponNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where order_coupon_id = #{orderCouponId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.order.bean.OrderCoupon" >
+    update np_order_coupon
+    set order_marketing_id = #{orderMarketingId,jdbcType=BIGINT},
+      coupon_id = #{couponId,jdbcType=BIGINT},
+      coupon_No = #{couponNo,jdbcType=VARCHAR}
+    where order_coupon_id = #{orderCouponId,jdbcType=BIGINT}
+  </update>
+</mapper>

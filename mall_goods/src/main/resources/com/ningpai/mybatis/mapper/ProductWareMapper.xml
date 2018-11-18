@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.goods.dao.ProductWareMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.ProductWare" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="product_id" property="productId" jdbcType="BIGINT" />
+    <result column="ware_id" property="wareId" jdbcType="BIGINT" />
+    <result column="ware_stock" property="wareStock" jdbcType="BIGINT" />
+    <result column="ware_price" property="warePrice" jdbcType="DECIMAL" />
+      <!--2015.10.22 wuyanbo 添加分仓会员价-->
+      <result column="ware_vip_price" property="wareVipPrice" jdbcType="DECIMAL" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+    <resultMap type="com.ningpai.goods.bean.WareHouse" id = "wareMap">
+        <id column="ware_id" property="wareId" jdbcType="BIGINT"/>
+        <result column="ware_name" property="wareName" jdbcType="VARCHAR"/>
+        <result column="ware_remark" property="wareRemark" jdbcType="VARCHAR"/>
+        <result column="ware_admin" property="wareAdmin" jdbcType="BIGINT"/>
+        <result column="ware_address" property="wareAddress" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modified_time" property="modifiedTime" jdbcType="TIMESTAMP"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR"/>
+        <result column="exec_name" property="execName" jdbcType="VARCHAR"/>
+        <result column="identifiy_id" property="identifiyId" jdbcType="VARCHAR"/>
+    </resultMap>
+  <sql id="Base_Column_List" >
+    id, product_id, ware_id, ware_stock, ware_price, ware_vip_price, del_flag
+  </sql>
+  <insert id="insertSelective" parameterType="com.ningpai.goods.bean.ProductWare" >
+    insert into np_product_ware
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="wareId != null" >
+        ware_id,
+      </if>
+      <if test="wareStock != null" >
+        ware_stock,
+      </if>
+      <if test="warePrice != null" >
+        ware_price,
+      </if>
+        <if test="wareVipPrice != null" >
+            ware_vip_price,
+        </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="wareId != null" >
+        #{wareId,jdbcType=BIGINT},
+      </if>
+      <if test="wareStock != null" >
+        #{wareStock,jdbcType=BIGINT},
+      </if>
+      <if test="warePrice != null" >
+        #{warePrice,jdbcType=DECIMAL},
+      </if>
+        <if test="wareVipPrice != null" >
+            #{wareVipPrice,jdbcType=DECIMAL},
+        </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.goods.bean.ProductWare" >
+    update np_product_ware
+    <set >
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="wareId != null" >
+        ware_id = #{wareId,jdbcType=BIGINT},
+      </if>
+      <if test="wareStock != null" >
+        ware_stock = #{wareStock,jdbcType=BIGINT},
+      </if>
+      <if test="warePrice != null" >
+        ware_price = #{warePrice,jdbcType=DECIMAL},
+      </if>
+        <if test="wareVipPrice != null" >
+            ware_vip_price = #{wareVipPrice,jdbcType=DECIMAL},
+        </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+<!-- 根据货品ID查询所有的记录 -->
+<select id="queryAllByProductId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+	select <include refid="Base_Column_List"/> from np_product_ware where 
+	del_flag='0' and product_id = #{productId}
+</select>
+<!-- 根据货品ID和仓库ID查询记录 -->
+<select id="queryCountByProductIdAndWareId" parameterType="java.util.Map" resultType="java.lang.Integer">
+	select count(1) from np_product_ware where del_flag='0' and ware_id = #{wareId} and product_id = #{productId}
+</select>
+<!-- 根据货品ID和仓库ID查询记录 -->
+<select id="queryIdByProductIdAndWareId" parameterType="java.util.Map" resultType="java.lang.Long">
+	select id from np_product_ware where del_flag='0' and ware_id = #{wareId} and product_id = #{productId}
+</select>
+<!-- 根据城市ID和货品ID查询关联信息 -->
+<select id="queryProductWareByProductIdAndDistinctId" parameterType="java.util.Map" resultMap="BaseResultMap">
+	 select <include refid="Base_Column_List"/> from np_product_ware where product_id =#{productId} and ware_id =
+	 (
+    SELECT
+    c.ware_id
+    FROM
+    np_ware_city c,np_warehouse h
+    WHERE c.ware_id=h.ware_id and
+    c.city_id =#{distinctId}
+    AND c.del_flag ='0' and h.del_flag='0'
+    LIMIT 0,
+    1
+    )
+	 and del_flag='0'
+</select>
+
+<!-- 根据货品ID和地区ID减库存 -->
+<update id="minStockToWare" parameterType="java.util.Map">
+    update np_product_ware set ware_stock=ware_stock-#{stock} where 
+    product_id =#{productId} and ware_id =
+	 (select ware_id from np_ware_city where city_id=#{distinctId} and del_flag='0' limit 0,1)
+</update>
+<!-- 根据货品ID和地区ID加库存 -->
+<update id="plusStockToWare" parameterType="java.util.Map">
+    update np_product_ware set ware_stock=ware_stock+#{stock} where 
+    product_id =#{productId} and ware_id =
+	 (select ware_id from np_ware_city where city_id=#{distinctId} and del_flag='0' limit 0,1 )
+</update>
+
+
+<!-- 根据货品编号和仓库标识减库存 -->
+<update id="minStockToWareByIdentity" parameterType="java.util.Map">
+    update np_product_ware set ware_stock=ware_stock-#{stock} where 
+    product_id =
+    (SELECT goods_info_id from np_goods_info  where goods_info_item_no=#{goodsInfoItemNo} and goods_info_delflag='0')
+     and ware_id =
+    (SELECT ware_id from np_warehouse where identify_id=#{identifyId} )
+</update>
+<!-- 根据货品编号和仓库标识加库存 -->
+<update id="plusStockToWareByIdentity" parameterType="java.util.Map">
+    update np_product_ware set ware_stock=ware_stock+#{stock} where 
+    product_id =
+    (SELECT goods_info_id from np_goods_info  where goods_info_item_no=#{goodsInfoItemNo} and goods_info_delflag='0')
+     and ware_id =
+    (SELECT ware_id from np_warehouse where identify_id=#{identifyId} )
+</update>
+
+ <!-- 根据仓库id -->
+  <update id="deleteWareCity" parameterType="java.lang.Long">
+        update np_product_ware set del_flag='1' where ware_id = #{wareId}
+  </update>
+    <select id="findWare" parameterType="java.lang.Long" resultMap="wareMap">
+        select h.ware_id,h.ware_name from np_warehouse  h LEFT JOIN np_ware_city c on h.ware_id = c.ware_id WHERE c.city_id = #{districtId,jdbcType=BIGINT} and c.del_flag='0' and h.del_flag='0'  GROUP BY c.city_id
+    </select>
+</mapper>

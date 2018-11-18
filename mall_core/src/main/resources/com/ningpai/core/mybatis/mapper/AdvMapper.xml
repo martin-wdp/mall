@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.mybatis.mapper.site.AdvMapper" >
+	<resultMap id="BaseResultMap" type="com.ningpai.adv.bean.Adv" >
+		<id column="adv_id" property="advId" jdbcType="BIGINT" />
+		<result column="adv_name" property="advName" jdbcType="VARCHAR" />
+		<result column="adv_url" property="advUrl" jdbcType="VARCHAR" />
+		<result column="adv_position" property="advPosition" jdbcType="CHAR" />
+		<result column="adv_img" property="advImg" jdbcType="VARCHAR" />
+		<result column="adv_show_flag" property="advShowFlag" jdbcType="CHAR" />
+		<result column="adv_del_flag" property="advDelFlag" jdbcType="CHAR" />
+		<result column="adv_create_time" property="advCreateTime" jdbcType="TIMESTAMP" />
+		<result column="adv_modify_time" property="advModifyTime" jdbcType="TIMESTAMP" />
+		<result column="adv_sort" property="advSort" jdbcType="INTEGER" />
+	</resultMap>
+
+	<sql id="Base_Column_List" >
+		adv_id,adv_name,adv_url,adv_position,adv_img,
+		adv_show_flag,adv_del_flag,adv_create_time,adv_modify_time,adv_sort
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+		select
+		<include refid="Base_Column_List" />
+		from np_adv
+		where adv_id = #{advId,jdbcType=BIGINT}
+	</select>
+
+	<update id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+		update np_adv set adv_del_flag = '1'
+		where adv_id = #{advId,jdbcType=BIGINT}
+	</update>
+	<update id="deleteMuilti" parameterType="java.lang.Long" >
+		update np_adv set adv_del_flag = '1'
+		where adv_id in
+		<foreach collection="array" item="id" open="(" close=")" separator=",">
+		 #{id,jdbcType=BIGINT}
+		</foreach>
+	</update>
+
+	<insert id="insertSelective" parameterType="com.ningpai.adv.bean.Adv" useGeneratedKeys="true" keyProperty="advId" >
+		insert into np_adv
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="advId != null" >
+				adv_id,
+			</if>
+			<if test="advName != null" >
+				adv_name,
+			</if>
+			<if test="advUrl != null" >
+				adv_url,
+			</if>
+			<if test="advPosition != null" >
+				adv_position,
+			</if>
+			<if test="advImg != null" >
+				adv_img,
+			</if>
+			<if test="advShowFlag != null" >
+				adv_show_flag,
+			</if>
+			<if test="advDelFlag != null" >
+				adv_del_flag,
+			</if>
+			<if test="advCreateTime != null" >
+				adv_create_time,
+			</if>
+			<if test="advModifyTime != null" >
+				adv_modify_time,
+			</if>
+			<if test="advSort != null" >
+				adv_sort,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="advId != null" >
+				#{advId,jdbcType=BIGINT},
+			</if>
+			<if test="advName != null" >
+				#{advName,jdbcType=VARCHAR},
+			</if>
+			<if test="advUrl != null" >
+				#{advUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="advPosition != null" >
+				#{advPosition,jdbcType=CHAR},
+			</if>
+			<if test="advImg != null" >
+				#{advImg,jdbcType=VARCHAR},
+			</if>
+			<if test="advShowFlag != null" >
+				#{advShowFlag,jdbcType=CHAR},
+			</if>
+			<if test="advDelFlag != null" >
+				#{advDelFlag,jdbcType=CHAR},
+			</if>
+			<if test="advCreateTime != null" >
+				#{advCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="advModifyTime != null" >
+				#{advModifyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="advSort != null" >
+				#{advSort,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.ningpai.adv.bean.Adv" >
+		update np_adv
+		<set >
+			<if test="advName != null" >
+				adv_name = #{advName,jdbcType=VARCHAR},
+			</if>
+			<if test="advUrl != null" >
+				adv_url = #{advUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="advPosition != null" >
+				adv_position = #{advPosition,jdbcType=CHAR},
+			</if>
+			<if test="advImg != null" >
+				adv_img = #{advImg,jdbcType=VARCHAR},
+			</if>
+			<if test="advShowFlag != null" >
+				adv_show_flag = #{advShowFlag,jdbcType=CHAR},
+			</if>
+			<if test="advDelFlag != null" >
+				adv_del_flag = #{advDelFlag,jdbcType=CHAR},
+			</if>
+			<if test="advCreateTime != null" >
+				adv_create_time = #{advCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="advModifyTime != null" >
+				adv_modify_time = #{advModifyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="advSort != null" >
+				adv_sort = #{advSort,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where adv_id = #{advId,jdbcType=BIGINT}
+	</update>
+	
+	<select id="selectPageList" parameterType="java.util.Map" resultMap="BaseResultMap">
+	select
+		<include refid="Base_Column_List" />
+		from np_adv
+		where adv_del_flag = '0'
+		<if test="pageBean.objectBean.advName != null and pageBean.objectBean.advName != ''">
+			and adv_name like concat('%',#{pageBean.objectBean.advName,jdbcType=VARCHAR},'%')
+		</if>
+		order by adv_position desc,adv_sort asc
+		limit #{pageBean.startRowNum},#{pageBean.endRowNum}
+	</select>
+	
+	<select id="selectPageListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+	select
+		count(1)
+		from np_adv
+		where adv_del_flag = '0'
+	</select>
+	
+	<select id="selectAdvListByPosition" parameterType="java.lang.String" resultMap="BaseResultMap">
+	select
+		<include refid="Base_Column_List" />
+		from np_adv
+		where adv_del_flag = '0'
+		and adv_show_flag = '1'
+		and adv_position = #{advPosition,jdbcType=CHAR}
+		order by adv_sort asc
+	</select>
+</mapper>

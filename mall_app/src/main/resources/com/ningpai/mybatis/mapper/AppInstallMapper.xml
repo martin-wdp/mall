@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.mybatis.mapper.AppInstallMapper" >
+    <resultMap id="BaseResultMap" type="com.ningpai.app.bean.AppInstall" >
+        <id column="install_id" property="installId" jdbcType="BIGINT" />
+        <result column="app_id" property="appId" jdbcType="BIGINT" />
+        <result column="app_key" property="appKey" jdbcType="VARCHAR" />
+        <result column="app_name" property="appName" jdbcType="VARCHAR" />
+        <result column="install_status" property="installStatus" jdbcType="CHAR" />
+        <result column="install_time" property="installTime" jdbcType="TIMESTAMP" />
+        <result column="install_version" property="installVersion" jdbcType="VARCHAR" />
+        <result column="bundle_location" property="bundleLocation" jdbcType="VARCHAR" />
+        <result column="bundle_id" property="bundleId" jdbcType="BIGINT" />
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+        <result column="load_sql" property="loadSql" jdbcType="VARCHAR" />
+        <result column="start_sql" property="startSql" jdbcType="VARCHAR" />
+        <result column="stop_sql" property="stopSql" jdbcType="VARCHAR" />
+        <result column="unload_sql" property="unloadSql" jdbcType="VARCHAR" />
+        <result column="app_third_location" property="appThirdLocation" jdbcType="VARCHAR" />
+        <result column="app_site_location" property="appSiteLocation" jdbcType="VARCHAR" />
+        <result column="bundle_name" property="bundleName" jdbcType="VARCHAR" />
+        <result column="app_logo" property="appLogo" jdbcType="VARCHAR" />
+        <result column="need_memory" property="needMemory" jdbcType="VARCHAR" />
+        <result column="app_introduction" property="appIntroduction" jdbcType="VARCHAR" />
+        <result column="sub_title" property="subTitle" jdbcType="VARCHAR" />
+        <result column="update_flag" property="updateFlag" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        install_id,app_id,app_key,app_name,install_status,bundle_id,bundle_location,sub_title,update_flag,
+        install_time,install_version,del_flag,load_sql, start_sql,stop_sql,unload_sql,bundle_name,
+        app_third_location,app_site_location,app_logo,need_memory,app_introduction
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        from np_app_install
+        where install_id = #{installId,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectByAppId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        from np_app_install
+        where app_id = #{appId,jdbcType=BIGINT}
+    </select>
+
+    <select id="queryAllInstallApps" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from np_app_install
+        where del_flag='0' and install_status!='4'
+    </select>
+
+    <update id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        DELETE FROM  np_app_install
+        WHERE install_id = #{installId,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insertSelective" parameterType="com.ningpai.app.bean.AppInstall" useGeneratedKeys="true" keyProperty="installId" >
+        insert into np_app_install
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="installId != null" >
+                install_id,
+            </if>
+            <if test="appId != null" >
+                app_id,
+            </if>
+            <if test="appKey != null" >
+                app_key,
+            </if>
+            <if test="appName != null" >
+                app_name,
+            </if>
+            <if test="appLogo != null" >
+                app_logo,
+            </if>
+            <if test="appIntroduction != null" >
+                app_introduction,
+            </if>
+            <if test="installStatus != null" >
+                install_status,
+            </if>
+            <if test="installTime != null" >
+                install_time,
+            </if>
+            <if test="installVersion != null" >
+                install_version,
+            </if>
+            <if test="bundleId != null" >
+                bundle_id,
+            </if>
+            <if test="bundleName != null" >
+                bundle_name,
+            </if>
+            <if test="loadSql != null" >
+                load_sql,
+            </if>
+            <if test="startSql != null" >
+                start_sql,
+            </if>
+            <if test="stopSql != null" >
+                stop_sql,
+            </if>
+            <if test="unloadSql != null" >
+                unload_sql,
+            </if>
+            <if test="bundleLocation != null" >
+                bundle_location,
+            </if>
+            <if test="appThirdLocation != null" >
+                app_third_location,
+            </if>
+            <if test="appSiteLocation != null" >
+                app_site_location,
+            </if>
+            <if test="needMemory != null" >
+                need_memory,
+            </if>
+            <if test="delFlag != null" >
+                del_flag,
+            </if>
+            <if test="subTitle != null" >
+                sub_title,
+            </if>
+            <if test="updateFlag != null" >
+                update_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="installId != null" >
+                #{installId,jdbcType=BIGINT},
+            </if>
+            <if test="appId != null" >
+                #{appId,jdbcType=BIGINT},
+            </if>
+            <if test="appKey != null" >
+                #{appKey,jdbcType=VARCHAR},
+            </if>
+            <if test="appName != null" >
+                #{appName,jdbcType=VARCHAR},
+            </if>
+            <if test="appLogo != null" >
+                #{appLogo,jdbcType=VARCHAR},
+            </if>
+            <if test="appIntroduction != null" >
+                #{appIntroduction,jdbcType=VARCHAR},
+            </if>
+            <if test="installStatus != null" >
+                #{installStatus,jdbcType=CHAR},
+            </if>
+            <if test="installTime != null" >
+                #{installTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="installVersion != null" >
+                #{installVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="bundleId != null" >
+                #{bundleId,jdbcType=BIGINT},
+            </if>
+            <if test="bundleName != null" >
+                #{bundleName,jdbcType=VARCHAR},
+            </if>
+            <if test="loadSql != null" >
+                #{loadSql,jdbcType=VARCHAR},
+            </if>
+            <if test="startSql != null" >
+                #{startSql,jdbcType=VARCHAR},
+            </if>
+            <if test="stopSql != null" >
+                #{stopSql,jdbcType=VARCHAR},
+            </if>
+            <if test="unloadSql != null" >
+                #{unloadSql,jdbcType=VARCHAR},
+            </if>
+            <if test="bundleLocation != null" >
+                #{bundleLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="appThirdLocation != null" >
+                #{appThirdLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="appSiteLocation != null" >
+                #{appSiteLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="needMemory != null" >
+                #{needMemory,jdbcType=DECIMAL},
+            </if>
+            <if test="delFlag != null" >
+                #{delFlag,jdbcType=CHAR},
+            </if>
+            <if test="subTitle != null" >
+                #{subTitle,jdbcType=CHAR},
+            </if>
+            <if test="updateFlag != null" >
+                #{updateFlag,jdbcType=CHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.app.bean.AppInstall" >
+        update np_app_install
+        <set >
+            <if test="appId != null" >
+                app_id = #{appId,jdbcType=BIGINT},
+            </if>
+            <if test="appKey != null" >
+                app_key = #{appKey,jdbcType=VARCHAR},
+            </if>
+            <if test="appName != null" >
+                app_name = #{appName,jdbcType=VARCHAR},
+            </if>
+            <if test="appLogo != null" >
+                app_logo = #{appLogo,jdbcType=VARCHAR},
+            </if>
+            <if test="appIntroduction != null" >
+                app_introduction = #{appIntroduction,jdbcType=VARCHAR},
+            </if>
+            <if test="installStatus != null" >
+                install_status = #{installStatus,jdbcType=CHAR},
+            </if>
+            <if test="installTime != null" >
+                install_time = #{installTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="installVersion != null" >
+                install_version = #{installVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="bundleId != null" >
+                bundle_id = #{bundleId,jdbcType=BIGINT},
+            </if>
+            <if test="bundleName != null" >
+                bundle_name = #{bundleName,jdbcType=VARCHAR},
+            </if>
+            <if test="loadSql != null" >
+                load_sql = #{loadSql,jdbcType=VARCHAR},
+            </if>
+            <if test="startSql != null" >
+                start_sql = #{startSql,jdbcType=VARCHAR},
+            </if>
+            <if test="stopSql != null" >
+                stop_sql = #{stopSql,jdbcType=VARCHAR},
+            </if>
+            <if test="unloadSql != null" >
+                unload_sql = #{unloadSql,jdbcType=VARCHAR},
+            </if>
+            <if test="bundleLocation != null" >
+                bundle_location = #{bundleLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="appThirdLocation != null" >
+                app_third_location = #{appThirdLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="appSiteLocation != null" >
+                app_site_location = #{appSiteLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="needMemory != null" >
+                need_memory = #{needMemory,jdbcType=DECIMAL},
+            </if>
+            <if test="delFlag != null" >
+                del_flag = #{delFlag,jdbcType=CHAR},
+            </if>
+            <if test="subTitle != null" >
+                sub_title = #{subTitle,jdbcType=CHAR},
+            </if>
+            <if test="updateFlag != null" >
+                update_flag = #{updateFlag,jdbcType=CHAR},
+            </if>
+        </set>
+        where install_id = #{installId,jdbcType=BIGINT}
+    </update>
+
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from np_app_install
+        where del_flag = '0'
+        <if test="pageBean.objectBean.appKey != null and pageBean.objectBean.appKey != ''">
+            and app_key like CONCAT('%',#{pageBean.objectBean.appKey,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.appName != null and pageBean.objectBean.appName != ''">
+            and app_name like CONCAT('%',#{pageBean.objectBean.appName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.installStatus != null and pageBean.objectBean.installStatus != ''">
+            and install_status = #{pageBean.objectBean.installStatus,jdbcType=CHAR}
+        </if>
+        <if test="pageBean.objectBean.installVersion != null and pageBean.objectBean.installVersion != ''">
+            and install_version like CONCAT('%',#{pageBean.objectBean.installVersion,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.updateFlag != null and pageBean.objectBean.updateFlag != ''">
+            and update_flag like CONCAT('%',#{pageBean.objectBean.updateFlag,jdbcType=VARCHAR},'%')
+        </if>
+        limit #{pageBean.startRowNum},#{pageBean.endRowNum}
+    </select>
+
+    <select id="selectListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select
+        count(1)
+        from np_app_install
+        where del_flag = '0'
+        <if test="pageBean.objectBean.appKey != null and pageBean.objectBean.appKey != ''">
+            and app_key like CONCAT('%',#{pageBean.objectBean.appKey,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.appName != null and pageBean.objectBean.appName != ''">
+            and app_name like CONCAT('%',#{pageBean.objectBean.appName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.installStatus != null and pageBean.objectBean.installStatus != ''">
+            and install_status = #{pageBean.objectBean.installStatus,jdbcType=CHAR}
+        </if>
+        <if test="pageBean.objectBean.installVersion != null and pageBean.objectBean.installVersion != ''">
+            and install_version like CONCAT('%',#{pageBean.objectBean.installVersion,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.delFlag != null and pageBean.objectBean.delFlag != ''">
+            and del_flag = #{pageBean.objectBean.delFlag,jdbcType=CHAR}
+        </if>
+    </select>
+
+    <update id="deleteMuilti" parameterType="java.lang.Long">
+        update np_app_install
+        set del_flag = '1'
+        where install_id in
+        <foreach collection="array" item="installId" open="(" separator="," close=")">
+        #{installId,jdbcType=BIGINT}
+        </foreach>
+    </update>
+    <update id="modifyUpdateFlag" parameterType="java.util.List">
+        update np_app_install
+        set update_flag = '1'
+        where app_id in
+        <foreach collection="list" item="appId" open="(" separator="," close=")">
+            #{appId,jdbcType=BIGINT}
+        </foreach>
+    </update>
+
+    <update id="modifyAppUpdateFlag" parameterType="java.lang.Long">
+        update np_app_install
+        set update_flag = '0'
+        where app_id =#{appId,jdbcType=BIGINT}
+    </update>
+</mapper>

@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.order.dao.OrderViceMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.order.bean.OrderVice" >
+    <id column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="shipping_address" property="shippingAddress" jdbcType="VARCHAR" />
+    <result column="shipping_mobile" property="shippingMobile" jdbcType="VARCHAR" />
+    <result column="shipping_person" property="shippingPerson" jdbcType="VARCHAR" />
+    <result column="order_status" property="orderStatus" jdbcType="CHAR" />
+    <result column="order_type" property="orderType" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="express_no" property="expressNo" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="send_express_time" property="sendExpressTime" jdbcType="TIMESTAMP" />
+    <result column="customer_remark" property="customerRemark" jdbcType="VARCHAR" />
+    <result column="shipping_address_detail" property="shippingAddressDetail" jdbcType="VARCHAR" />
+    <result column="order_price" property="orderPrice" jdbcType="DECIMAL" />
+    <result column="order_pre_price" property="orderPrePrice" jdbcType="DECIMAL" />
+    <result column="goods_info_id" property="goodsInfoId" jdbcType="BIGINT" />
+    <result column="goods_num" property="goodsNum" jdbcType="BIGINT" />
+    <result column="express_name" property="expressName" jdbcType="VARCHAR" />
+    <result column="business_id" property="businessId" jdbcType="BIGINT" />
+    <result column="express_id" property="expressId" jdbcType="BIGINT" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="temp1" property="temp1" jdbcType="VARCHAR" />
+    <result column="temp2" property="temp2" jdbcType="VARCHAR" />
+    <result column="temp3" property="temp3" jdbcType="VARCHAR" />
+    <result column="store_name" property="storeName" jdbcType="VARCHAR" />
+    <result column="marketing_id" property="marketingId" jdbcType="BIGINT" />
+    <result column="district_id" property="districtId" jdbcType="BIGINT" />
+    <result column="customer_username" property="customerUsername" jdbcType="VARCHAR" />
+    <result column="point_level_name" property="pointLevelName" jdbcType="VARCHAR" />
+ 	<association property="goodsProductVo" column="goods_info_id" select="com.ningpai.goods.dao.GoodsProductMapper.selectAllByGoodsInfoId"></association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    order_id, order_code, shipping_address, shipping_mobile, shipping_person, order_status, 
+    order_type, create_time, express_no, customer_id, pay_time, send_express_time, customer_remark, 
+    order_price, order_pre_price, goods_info_id, goods_num, express_name, business_id, 
+    del_flag, temp1, temp2, temp3,express_id,shipping_address_detail,marketing_id,district_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_order_vice
+    where order_id = #{orderId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByOrderCode" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_order_vice
+    where order_code = #{orderCode,jdbcType=VARCHAR}
+  </select>
+  
+    <select id="existOrderCode" parameterType="java.lang.String" resultType="java.lang.Long" >
+	    select 
+	    count(1)
+	    from np_order_vice
+	    where order_code = #{orderCode,jdbcType=VARCHAR}
+  	</select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_order_vice
+    where order_id = #{orderId,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insertSelective" parameterType="com.ningpai.order.bean.OrderVice" >
+    insert into np_order_vice
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderCode != null" >
+        order_code,
+      </if>
+      <if test="shippingAddress != null" >
+        shipping_address,
+      </if>
+      <if test="shippingMobile != null" >
+        shipping_mobile,
+      </if>
+      <if test="shippingPerson != null" >
+        shipping_person,
+      </if>
+      <if test="orderStatus != null" >
+        order_status,
+      </if>
+      <if test="orderType != null" >
+        order_type,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="expressNo != null" >
+        express_no,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="payTime != null" >
+        pay_time,
+      </if>
+      <if test="sendExpressTime != null" >
+        send_express_time,
+      </if>
+      <if test="customerRemark != null" >
+        customer_remark,
+      </if>
+      <if test="orderPrice != null" >
+        order_price,
+      </if>
+      <if test="orderPrePrice != null" >
+        order_pre_price,
+      </if>
+      <if test="goodsInfoId != null" >
+        goods_info_id,
+      </if>
+      <if test="goodsNum != null" >
+        goods_num,
+      </if>
+      <if test="expressName != null" >
+        express_name,
+      </if>
+      <if test="businessId != null" >
+        business_id,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="temp1 != null" >
+        temp1,
+      </if>
+      <if test="temp2 != null" >
+        temp2,
+      </if>
+      <if test="temp3 != null" >
+        temp3,
+      </if>
+      
+      <if test="expressId != null" >
+        express_id,
+      </if>
+      <if test="shippingAddressDetail != null" >
+        shipping_address_detail,
+      </if>
+      <if test="marketingId != null" >
+        marketing_id,
+      </if>
+      <if test="districtId != null" >
+        district_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderCode != null" >
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="shippingAddress != null" >
+        #{shippingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="shippingMobile != null" >
+        #{shippingMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="shippingPerson != null" >
+        #{shippingPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null" >
+        #{orderStatus,jdbcType=CHAR},
+      </if>
+      <if test="orderType != null" >
+        #{orderType,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expressNo != null" >
+        #{expressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendExpressTime != null" >
+        #{sendExpressTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customerRemark != null" >
+        #{customerRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPrice != null" >
+        #{orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderPrePrice != null" >
+        #{orderPrePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsInfoId != null" >
+        #{goodsInfoId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsNum != null" >
+        #{goodsNum,jdbcType=BIGINT},
+      </if>
+      <if test="expressName != null" >
+        #{expressName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessId != null" >
+        #{businessId,jdbcType=BIGINT},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="temp1 != null" >
+        #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null" >
+        #{temp2,jdbcType=VARCHAR},
+      </if>
+      <if test="temp3 != null" >
+        #{temp3,jdbcType=VARCHAR},
+      </if>
+      <if test="expressId != null" >
+        #{expressId,jdbcType=BIGINT},
+      </if>
+      <if test="shippingAddressDetail != null" >
+        #{shippingAddressDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="marketingId != null" >
+        #{marketingId,jdbcType=BIGINT},
+      </if>
+      <if test="districtId != null" >
+        #{districtId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.order.bean.OrderVice" >
+    update np_order_vice
+    <set >
+      <if test="orderCode != null" >
+        order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="shippingAddress != null" >
+        shipping_address = #{shippingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="shippingMobile != null" >
+        shipping_mobile = #{shippingMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="shippingPerson != null" >
+        shipping_person = #{shippingPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null" >
+        order_status = #{orderStatus,jdbcType=CHAR},
+      </if>
+      <if test="orderType != null" >
+        order_type = #{orderType,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expressNo != null" >
+        express_no = #{expressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendExpressTime != null" >
+        send_express_time = #{sendExpressTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customerRemark != null" >
+        customer_remark = #{customerRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPrice != null" >
+        order_price = #{orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderPrePrice != null" >
+        order_pre_price = #{orderPrePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsInfoId != null" >
+        goods_info_id = #{goodsInfoId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsNum != null" >
+        goods_num = #{goodsNum,jdbcType=BIGINT},
+      </if>
+      <if test="expressName != null" >
+        express_name = #{expressName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessId != null" >
+        business_id = #{businessId,jdbcType=BIGINT},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="temp1 != null" >
+        temp1 = #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null" >
+        temp2 = #{temp2,jdbcType=VARCHAR},
+      </if>
+      <if test="temp3 != null" >
+        temp3 = #{temp3,jdbcType=VARCHAR},
+      </if>
+      <if test="expressId != null" >
+        express_id = #{expressId,jdbcType=BIGINT},
+      </if>
+      <if test="shippingAddressDetail != null" >
+        shipping_address_detail = #{shippingAddressDetail,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.order.bean.OrderVice" >
+    update np_order_vice
+    set order_code = #{orderCode,jdbcType=VARCHAR},
+      shipping_address = #{shippingAddress,jdbcType=VARCHAR},
+      shipping_mobile = #{shippingMobile,jdbcType=VARCHAR},
+      shipping_person = #{shippingPerson,jdbcType=VARCHAR},
+      order_status = #{orderStatus,jdbcType=CHAR},
+      order_type = #{orderType,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      express_no = #{expressNo,jdbcType=VARCHAR},
+      customer_id = #{customerId,jdbcType=BIGINT},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      send_express_time = #{sendExpressTime,jdbcType=TIMESTAMP},
+      customer_remark = #{customerRemark,jdbcType=VARCHAR},
+      order_price = #{orderPrice,jdbcType=DECIMAL},
+      order_pre_price = #{orderPrePrice,jdbcType=DECIMAL},
+      goods_info_id = #{goodsInfoId,jdbcType=BIGINT},
+      goods_num = #{goodsNum,jdbcType=BIGINT},
+      express_name = #{expressName,jdbcType=VARCHAR},
+      business_id = #{businessId,jdbcType=BIGINT},
+      del_flag = #{delFlag,jdbcType=CHAR},
+      temp1 = #{temp1,jdbcType=VARCHAR},
+      temp2 = #{temp2,jdbcType=VARCHAR},
+      temp3 = #{temp3,jdbcType=VARCHAR}
+    where order_id = #{orderId,jdbcType=BIGINT}
+  </update>
+  
+    <!-- 查询总数 -->
+   <select id="searchOrderViceCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select count(1)
+    from np_order_vice
+    where 1=1 and order_status!='0'
+    and customer_id= #{customerId,jdbcType=BIGINT}
+	  <if test="orderId != null" >
+      and order_id =  #{orderId,jdbcType=BIGINT}
+      </if>
+      <if test="orderCode != null and orderCode !=''" > 
+        and order_code =  #{orderCode,jdbcType=VARCHAR}
+      </if>
+      <if test="orderPrice != null" >
+       and  order_price = #{orderPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="orderPrePrice != null" >
+        and order_pre_price =  #{orderPrePrice,jdbcType=DECIMAL}
+      </if>
+      <if test="orderStatus != null and orderStatus != ''" >
+        and order_status = #{orderStatus,jdbcType=CHAR}
+      </if>
+      <if test="customerId != null" >
+        and customer_id = #{customerId,jdbcType=BIGINT}
+      </if>
+      <if test="payTime != null" >
+        and pay_time = #{payTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="sendExpressTime != null" >
+        and send_express_time = #{sendExpressTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="getGoodsTime != null" >
+        and get_goods_time =  #{getGoodsTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="shippingAddress != null" >
+        and shipping_address  like CONCAT(CONCAT('%',#{shippingAddress,jdbcType=VARCHAR},'%'))
+      </if>
+      <if test="shippingPerson != null and shippingPerson !=''" >
+        and shipping_person like   CONCAT(CONCAT('%',#{shippingPerson,jdbcType=VARCHAR},'%')) 
+      </if>
+      <if test="shippingMobile != null and shippingMobile !=''" >
+        and shipping_mobile like  CONCAT(CONCAT('%',#{shippingMobile,jdbcType=VARCHAR},'%'))  
+      </if>
+      <if test="delFlag != null" >
+        and del_flag =  #{delFlag,jdbcType=CHAR}
+      </if>
+      <if test="customerRemark != null" >
+        and customer_remark =  #{customerRemark,jdbcType=VARCHAR}
+      </if>
+      <if test="orderType != null" >
+        and order_type =  #{orderType,jdbcType=VARCHAR}
+      </if>
+      <if test="businessId !=null">
+     	<if test="businessId == 0">
+    	and business_id = #{businessId,jdbcType=BIGINT}
+    	</if>
+    	<if test="businessId != 0">
+    	and business_id != 0
+    	</if>
+    </if>
+  </select>
+  
+  
+  <!-- 查询订单列表 -->
+  <select id="searchOrderViceList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+     store_name,order_id, order_code, shipping_address, shipping_mobile, shipping_person, order_status, 
+    order_type,orders.create_time, express_no, customer_id, pay_time, send_express_time, customer_remark, 
+    order_price, order_pre_price, goods_info_id, goods_num, express_name, business_id, 
+    orders.del_flag, temp1, temp2, temp3,orders.express_id,shipping_address_detail,
+    (select n.customer_username from np_customer n where n.customer_id = orders.customer_id) customer_username,
+        (select ni.point_level_name from np_customer_info ni where ni.customer_id = orders.customer_id) point_level_name 
+    from np_order_vice orders
+    left join np_third_store_info info on info.store_id =orders.business_id 
+    where 1=1 and order_status!='0'
+      <if test="customerId != null">
+          and orders.customer_id= #{customerId,jdbcType=BIGINT}
+      </if>
+	  <if test="orderId != null" >
+      	and orders.order_id =  #{orderId,jdbcType=BIGINT}
+      </if>
+      <if test="orderCode != null and orderCode !=''" > 
+        and orders.order_code =  #{orderCode,jdbcType=VARCHAR}
+      </if>
+      <if test="orderPrice != null" >
+       and  orders.order_price = #{orderPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="orderPrePrice != null" >
+        and orders.order_pre_price =  #{orderPrePrice,jdbcType=DECIMAL}
+      </if>
+      <if test="orderStatus != null and orderStatus != ''" >
+        and orders.order_status = #{orderStatus,jdbcType=CHAR}
+      </if>
+      <if test="customerId != null" >
+        and orders.customer_id = #{customerId,jdbcType=BIGINT}
+      </if>
+      <if test="payTime != null" >
+        and orders.pay_time = #{payTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="sendExpressTime != null" >
+        and orders.send_express_time = #{sendExpressTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="getGoodsTime != null" >
+        and orders.get_goods_time =  #{getGoodsTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="shippingPerson != null and shippingPerson !=''" >
+        and orders.shipping_person like   CONCAT(CONCAT('%',#{shippingPerson,jdbcType=VARCHAR},'%')) 
+      </if>
+      <if test="shippingMobile != null and shippingMobile !=''" >
+        and orders.shipping_mobile like  CONCAT(CONCAT('%',#{shippingMobile,jdbcType=VARCHAR},'%'))  
+      </if>
+      <if test="delFlag != null" >
+        and orders.del_flag =  #{delFlag,jdbcType=CHAR}
+      </if>
+      <if test="customerRemark != null" >
+        and orders.customer_remark =  #{customerRemark,jdbcType=VARCHAR}
+      </if>
+       <if test="businessId !=null">
+     	<if test="businessId == 0">
+    	and business_id = #{businessId,jdbcType=BIGINT}
+    	</if>
+    	<if test="businessId != 0">
+    	and business_id != 0
+    	</if>
+    	</if>
+       <if test="orderType != null" >
+        and order_type =  #{orderType,jdbcType=VARCHAR}
+      </if>
+      order by orders.create_time desc
+      limit #{start},#{number}
+  </select>
+  
+  <!-- 前台列表 -->
+  <!-- 查询总数 -->
+   <select id="selectOrderViceCount" resultType="java.lang.Long" parameterType="java.util.Map" >
+    select count(1)
+    from np_order_vice orders
+    where 1=1 and del_flag='0' and order_status!='0'
+    and orders.customer_id= #{customerId,jdbcType=BIGINT}
+    <if test="orderStatus != null and orderStatus != ''" >
+        and orders.order_status = #{orderStatus,jdbcType=CHAR}
+      </if>
+    <if test="oType == 0" >
+       and order_type =  '0'
+    </if>
+    <if test="oType == 1" >
+       and order_type =  '1'
+    </if>
+	<if test="type == 0" >
+       and (orders.order_status = '1' or orders.order_status = '2' or orders.order_status = '3' ) 
+    </if>
+	<if test="type == 1" >
+     	and orders.order_status ='1' 
+   	</if>
+   	<if test="type == 2" >
+     	and orders.order_status = '2'  
+   	</if>
+	<if test="type == 3" >
+     	and orders.order_status ='3' 
+   	</if>
+   	<if test="date != null" >
+      		<if test="date == 0" >
+		    	<![CDATA[
+		    		and orders.create_time>= date_sub(now(), INTERVAL  30 DAY)  AND orders.create_time<= now() 
+		    	]]>
+		    </if>
+		    <if test="date == 1">
+		    	<![CDATA[
+		    		and orders.create_time<= date_sub(now(), INTERVAL  30 DAY) 
+		    	]]>
+		    </if>
+   	</if>
+    </select>
+  
+  
+  
+  <!-- 查询抢购、团购订单 -->
+  <select id="selectOrderViceList" resultMap="BaseResultMap" parameterType="java.util.Map">
+     select 
+     store_name,order_id, order_code, shipping_address, shipping_mobile, shipping_person, order_status, 
+    order_type,orders.create_time, express_no, customer_id, pay_time, send_express_time, customer_remark, 
+    order_price, order_pre_price, goods_info_id, goods_num, express_name, business_id, 
+    orders.del_flag, temp1, temp2, temp3,orders.express_id,shipping_address_detail
+    from np_order_vice orders
+    left join np_third_store_info info on info.store_id =orders.business_id 
+    where 1=1  and orders.del_flag='0' and order_status!='0'
+    and orders.customer_id= #{customerId,jdbcType=BIGINT}
+	<if test="orderStatus != null and orderStatus != ''" >
+        and orders.order_status = #{orderStatus,jdbcType=CHAR}
+      </if>
+	<if test="oType == 0" >
+       and order_type =  '0'
+    </if>
+	<if test="oType == 1" >
+       and order_type =  '1'
+    </if>
+	<if test="type == 0" >
+       and (orders.order_status = '1' or orders.order_status = '2' or orders.order_status = '3' ) 
+    </if>
+	<if test="type == 1" >
+     	and orders.order_status ='1' 
+   	</if>
+   	<if test="type == 2" >
+     	and orders.order_status = '2'  
+   	</if>
+	<if test="type == 3" >
+     	and orders.order_status ='3' 
+   	</if>
+   	<if test="date != null" >
+      		<if test="date == 0" >
+		    	<![CDATA[
+		    		and orders.create_time>= date_sub(now(), INTERVAL  30 DAY)  AND orders.create_time<= now() 
+		    	]]>
+		    </if>
+		    <if test="date == 1">
+		    	<![CDATA[
+		    		and orders.create_time<= date_sub(now(), INTERVAL  30 DAY) 
+		    	]]>
+		    </if>
+   	</if>
+   	order by orders.create_time desc
+   	limit #{startRowNum},#{endRowNum}
+  </select>
+  
+</mapper>

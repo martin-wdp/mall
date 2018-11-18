@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.third.login.mapper.IpRecordMapper">
+	<resultMap id="BaseResultMap" type="com.ningpai.third.login.bean.IpRecord">
+		<id column="ipid" property="ipid" jdbcType="BIGINT" />
+		<result column="ip" property="ip" jdbcType="VARCHAR" />
+		<result column="err_count" property="errCount" jdbcType="BIGINT" />
+		<result column="capt_time" property="captTime" jdbcType="TIMESTAMP" />
+		<result column="end_capt_time" property="endCaptTime" jdbcType="TIMESTAMP" />
+		<result column="del_flag" property="delFlag" jdbcType="CHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ipid, ip, err_count, capt_time, end_capt_time, del_flag
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from np_ip_record
+		where ipid = #{ipid,jdbcType=BIGINT}
+	</select>
+
+	<select id="selectByIp" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from np_ip_record
+		<![CDATA[
+		where ip = #{id,jdbcType=BIGINT} and end_capt_time > sysdate()
+		]]> 
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		np_ip_record
+		where ipid = #{ipid,jdbcType=BIGINT}
+	</delete>
+
+
+	<insert id="insertSelective" parameterType="com.ningpai.third.login.bean.IpRecord">
+		insert into np_ip_record
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ip != null">
+				ip,
+			</if>
+			<if test="errCount != null">
+				err_count,
+			</if>
+			<if test="captTime != null">
+				capt_time,
+			</if>
+			<if test="endCaptTime != null">
+				end_capt_time,
+			</if>
+			<if test="delFlag != null">
+				del_flag,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ip != null">
+				#{ip,jdbcType=VARCHAR},
+			</if>
+			<if test="errCount != null">
+				#{errCount,jdbcType=BIGINT},
+			</if>
+			<if test="captTime != null">
+				#{captTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endCaptTime != null">
+				#{endCaptTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="delFlag != null">
+				#{delFlag,jdbcType=CHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.ningpai.third.login.bean.IpRecord">
+		update np_ip_record
+		<set>
+			<if test="ip != null">
+				ip = #{ip,jdbcType=VARCHAR},
+			</if>
+			<if test="errCount != null">
+				err_count = #{errCount,jdbcType=BIGINT},
+			</if>
+			<if test="captTime != null">
+				capt_time = #{captTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endCaptTime != null">
+				end_capt_time = #{endCaptTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="delFlag != null">
+				del_flag = #{delFlag,jdbcType=CHAR},
+			</if>
+		</set>
+		where ipid = #{ipid,jdbcType=BIGINT}
+	</update>
+
+</mapper>

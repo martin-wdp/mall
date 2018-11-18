@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.information.dao.InformationTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.information.bean.InformationType" >
+    <id column="info_type_id" property="infoTypeId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="grade" property="grade" jdbcType="INTEGER" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    <result column="seo_title" property="seoTitle" jdbcType="VARCHAR" />
+    <result column="seo_keyword" property="seoKeyword" jdbcType="VARCHAR" />
+    <result column="seo_desc" property="seoDesc" jdbcType="VARCHAR" />
+    <result column="is_show" property="isShow" jdbcType="CHAR" />
+    <result column="is_third_news" property="isThirdNews" jdbcType="CHAR" />
+    
+    <result column="browseable" property="browseable" jdbcType="BIGINT" />
+    <result column="list_options" property="listOptions" jdbcType="CHAR" />
+    <result column="default_page" property="defaultPage" jdbcType="VARCHAR" />
+    <result column="attribute" property="attribute" jdbcType="CHAR" />
+    
+    <result column="delflag" property="delflag" jdbcType="CHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="temp3" property="temp3" jdbcType="VARCHAR"/>
+  </resultMap>
+  <!-- 包含子资讯类型集合 -->
+  <resultMap id="BaseResultMapVo" type="com.ningpai.information.vo.InformationTypeVo" >
+  	<id column="info_type_id" property="infoTypeId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="grade" property="grade" jdbcType="INTEGER"/>
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    <result column="is_show" property="isShow" jdbcType="CHAR" />
+    <result column="is_third_news" property="isThirdNews" jdbcType="CHAR" />
+    <result column="browseable" property="browseable" jdbcType="BIGINT" />
+    <result column="list_options" property="listOptions" jdbcType="CHAR" />
+    <result column="default_page" property="defaultPage" jdbcType="VARCHAR" />
+    <result column="attribute" property="attribute" jdbcType="CHAR" />
+    <result column="temp3" property="temp3" jdbcType="VARCHAR"/>
+    <association column="info_type_id" property="childs" 
+			select="com.ningpai.information.dao.InformationTypeMapper.selectByParentId"></association>
+    <association column="info_type_id" property="infos" 
+			select="com.ningpai.information.dao.InformationMapper.selectByInfoType"></association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    info_type_id, name, parent_id, grade, sort, url, seo_title, seo_keyword, seo_desc, is_show,is_third_news,
+    browseable, list_options, default_page, attribute,
+    delflag, create_user_id, create_date, update_user_id, update_date,temp3
+  </sql>
+  <!-- 根据编号查找资讯类型 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_information_type
+    where info_type_id = #{infoTypeId,jdbcType=BIGINT}
+    and delflag = '0' 
+  </select>
+  <!-- 根据栏目名称查找资讯栏目数量 -->
+  <select id="selectByName" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select count(info_type_id) from np_information_type
+    where name = #{name,jdbcType=VARCHAR}
+    and temp1 is null
+    and delflag = '0' 
+  </select>
+  <!-- 根据父编号查找子资讯类型集合 -->
+  <select id="selectByParentId" resultMap="BaseResultMapVo" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_information_type
+    where parent_id = #{infoTypeId,jdbcType=BIGINT}
+    and delflag = '0'
+    and temp1 is null
+    order by sort 
+  </select>
+  <!-- 根据父编号查找子资讯类型数量 -->
+  <select id="selectCountByParentId" resultType="java.lang.Integer" parameterType="java.lang.Long" >
+    select 
+    count(info_type_id)
+    from np_information_type
+    where parent_id = #{infoTypeId,jdbcType=BIGINT}
+    and delflag = '0'
+    and temp1 is null
+  </select>
+  
+  <!-- 查找所有资讯类型 -->
+  <select id="selectAll" resultMap="BaseResultMapVo">
+    select 
+    <include refid="Base_Column_List" />
+    from np_information_type
+    where delflag = '0'
+    and is_show = '1'
+    and is_third_news = '0'
+    and temp1 is null
+    and temp3 &lt; 2
+    order by sort 
+  </select>
+  <!-- 根据栏目属性查找所有资讯类型,获得可发布文章的栏目，添加文章用 -->
+  <select id="selectInfoTypeByAttrForAddInfo" resultMap="BaseResultMapVo">
+    select 
+    <include refid="Base_Column_List" />
+    from np_information_type
+    where delflag = '0' and attribute = '0'
+    and is_show = '1'
+    and temp1 is null
+    order by sort 
+  </select>
+  <!-- 根据栏目属性查找所有资讯类型,获得可发布文章的栏目，关联模板、频道用 -->
+  <select id="selectInfoTypeByAttrForTemp" resultMap="BaseResultMapVo">
+    select 
+    <include refid="Base_Column_List" />
+    from np_information_type
+    where delflag = '0' and attribute = '0'
+    and is_show = '1'
+    and is_third_news = '0'
+    and temp1 is null
+    and temp3 &lt; 2
+    order by sort 
+  </select>
+  
+  <!-- 查询所有的行数（分页用） -->
+  <select id="queryTotalCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+	select count(info_type_id) from np_information_type where
+  	delflag = '0'
+  	<if test="searchText != null and searchText != ''">
+  		and name like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  	</if>
+  	<if test="searchText == null or searchText == ''">
+  		 and parent_id = 0
+  	</if>
+  	and temp1 is null
+  </select>
+  <!-- 根据分页参数查询资讯类型列表 -->
+  <select id="queryByPageBean" resultMap="BaseResultMapVo"
+	parameterType="java.util.Map">
+    select 
+  		<include refid="Base_Column_List" />
+  	from np_information_type where 
+  	delflag = '0'
+  	<if test="searchText != null and searchText != ''">
+  		and name like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  	</if>
+  	<if test="searchText == null or searchText == ''">
+	  	and parent_id = 0
+  	</if>
+  	and temp1 is null
+  	order by sort 
+  	limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <select id="selectAllType" parameterType="java.util.Map" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List"/>
+      from np_information_type 
+      where  delflag = '0'
+      <if test="searchText != null and searchText != ''">
+          and name like  CONCAT(CONCAT('%', #{searchText},'%')) 
+      </if>
+      and temp1 is null
+      order by sort 
+  </select>
+  <!-- 根据编号删除资讯类型 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_information_type
+    where info_type_id = #{info_type_id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByPrimaryKeyPro" parameterType="java.lang.Long" >
+    {call np_del_infor_type_pro(#{infoTypeId})}
+  </delete>
+  <!-- 添加资讯类型 -->
+  <insert id="insert" parameterType="com.ningpai.information.bean.InformationType" >
+    insert into np_information_type (info_type_id, name, parent_id, grade, sort, url, seo_title, seo_keyword, seo_desc, is_show,
+      is_third_news,browseable, list_options, default_page, attribute, delflag, create_user_id, create_date, update_user_id, update_date, temp3)
+    values (#{infoTypeId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, #{grade,jdbcType=INTEGER},
+      #{sort,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{seoTitle,jdbcType=VARCHAR}, #{seoKeyword,jdbcType=VARCHAR},
+      #{seoDesc,jdbcType=VARCHAR}, #{isShow,jdbcType=CHAR}, #{isThirdNews,jdbcType=CHAR},#{browseable,jdbcType=BIGINT}, #{list_options,jdbcType=CHAR},
+      #{default_page,jdbcType=VARCHAR}, #{attribute,jdbcType=CHAR}, #{delflag,jdbcType=CHAR}, #{createUserId,jdbcType=BIGINT}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{updateDate,jdbcType=TIMESTAMP}, #{temp3,jdbcType=VARCHAR})
+  </insert>
+  <!-- 添加资讯类型-字段可选择性 -->
+  <insert id="insertSelective" parameterType="com.ningpai.information.bean.InformationType" >
+    insert into np_information_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="infoTypeId != null" >
+        info_type_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="grade != null" >
+        grade,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="seoTitle != null" >
+        seo_title,
+      </if>
+      <if test="seoKeyword != null" >
+        seo_keyword,
+      </if>
+      <if test="seoDesc != null" >
+        seo_desc,
+      </if>
+      <if test="isShow != null" >
+        is_show,
+      </if>
+      <if test="isThirdNews != null" >
+        is_third_news,
+      </if>
+      <if test="browseable != null" >
+        browseable,
+      </if>
+      <if test="listOptions != null" >
+        list_options,
+      </if>
+      <if test="defaultPage != null" >
+        default_page,
+      </if>
+      <if test="attribute != null" >
+        attribute,
+      </if>
+      <if test="delflag != null" >
+        delflag,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="temp3 != null" >
+        temp3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="infoTypeId != null" >
+        #{infoTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="seoTitle != null" >
+        #{seoTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="seoKeyword != null" >
+        #{seoKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="seoDesc != null" >
+        #{seoDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="isShow != null" >
+        #{isShow,jdbcType=CHAR},
+      </if>
+      <if test="isThirdNews != null" >
+        #{isThirdNews,jdbcType=CHAR},
+      </if>
+      <if test="browseable != null" >
+        #{browseable,jdbcType=BIGINT},
+      </if>
+      <if test="listOptions != null" >
+        #{listOptions,jdbcType=CHAR},
+      </if>
+      <if test="defaultPage != null" >
+        #{defaultPage,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute != null" >
+        #{attribute,jdbcType=CHAR},
+      </if>
+      <if test="delflag != null" >
+        #{delflag,jdbcType=CHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temp3 != null" >
+        #{temp3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <!-- 更新资讯类型-字段可选择性 -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.information.bean.InformationType" >
+    update np_information_type
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="seoTitle != null" >
+        seo_title = #{seoTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="seoKeyword != null" >
+        seo_keyword = #{seoKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="seoDesc != null" >
+        seo_desc = #{seoDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="isShow != null" >
+        is_show = #{isShow,jdbcType=CHAR},
+      </if>
+      <if test="isThirdNews != null" >
+        is_third_news = #{isThirdNews,jdbcType=CHAR},
+      </if>
+      <if test="browseable != null" >
+        browseable = #{browseable,jdbcType=BIGINT},
+      </if>
+      <if test="listOptions != null" >
+        list_options = #{listOptions,jdbcType=CHAR},
+      </if>
+      <if test="defaultPage != null" >
+        default_page = #{defaultPage,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute != null" >
+        attribute = #{attribute,jdbcType=CHAR},
+      </if>
+      <if test="delflag != null" >
+        delflag = #{delflag,jdbcType=CHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temp3 != null" >
+        url = #{temp3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where info_type_id = #{infoTypeId,jdbcType=BIGINT}
+  </update>
+  <!-- 更新资讯类型 -->
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.information.bean.InformationType" >
+    update np_information_type
+    set name = #{name,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      grade = #{grade,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      url = #{url,jdbcType=VARCHAR},
+      seo_title = #{seoTitle,jdbcType=VARCHAR},
+      seo_keyword = #{seoKeyword,jdbcType=VARCHAR},
+      seo_desc = #{seoDesc,jdbcType=VARCHAR},
+      is_show = #{isShow,jdbcType=CHAR},
+      is_third_news = #{isThirdNews,jdbcType=CHAR},
+      browseable = #{browseable,jdbcType=BIGINT},
+      list_options = #{listOptions,jdbcType=CHAR},
+      default_page = #{defaultPage,jdbcType=VARCHAR},
+      attribute = #{attribute,jdbcType=CHAR},
+      delflag = #{delflag,jdbcType=CHAR},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      temp3 = #{temp3,jdbcType=VARCHAR}
+    where info_type_id = #{infoTypeId,jdbcType=BIGINT}
+  </update>
+</mapper>

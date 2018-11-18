@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.goods.dao.GoodsTypeBrandMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsTypeBrand" >
+    <id column="type_brand_id" property="typeBrandId" jdbcType="BIGINT" />
+    <result column="type_id" property="typeId" jdbcType="BIGINT" />
+    <result column="brand_id" property="brandId" jdbcType="BIGINT" />
+    <result column="delflag" property="delflag" jdbcType="CHAR" />
+    <result column="del_name" property="delName" jdbcType="VARCHAR" />
+    <result column="del_time" property="delTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <!-- Vo Result Map -->
+  <resultMap type="com.ningpai.goods.vo.GoodsTypeBrandVo" id="VoResultMap">
+  	<id column="type_brand_id" property="typeBrandId" jdbcType="BIGINT" />
+    <result column="type_id" property="typeId" jdbcType="BIGINT" />
+    <result column="delflag" property="delflag" jdbcType="CHAR" />
+  	<!-- 一对一映射 -->
+  	<association property="brand" column="brand_id" select="com.ningpai.goods.dao.GoodsBrandMapper.selectByPrimaryKey"/>  
+  </resultMap>
+  <sql id="Base_Column_List" >
+    type_brand_id, type_id, brand_id, delflag, del_name, del_time
+  </sql>
+
+
+    <!-- 根据分类集合查询所有品牌 -->
+    <select id="queryBrandByCatIds" resultMap="VoResultMap" parameterType="java.util.List">
+        select <include refid="Base_Column_List"/> from np_goods_type_brand
+        where type_id in (
+        <foreach collection="list" separator="," item="cate" index="index">
+            #{cate.typeId}
+        </foreach>)
+    </select>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_goods_type_brand
+    where type_brand_id = #{typeBrandId,jdbcType=BIGINT}
+  </select>
+  <!-- 删除类型关联品牌，实际就是更新字段 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.util.Map" >
+    update np_goods_type_brand set delflag='1',del_name=#{delName},del_time=NOW()
+    where type_brand_id = #{typeBrandId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.goods.bean.GoodsTypeBrand" >
+    insert into np_goods_type_brand (type_brand_id, type_id, brand_id, 
+      delflag, del_name, del_time
+      )
+    values (#{typeBrandId,jdbcType=BIGINT}, #{typeId,jdbcType=BIGINT}, #{brandId,jdbcType=BIGINT}, 
+      #{delflag,jdbcType=CHAR}, #{delName,jdbcType=VARCHAR}, #{delTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <!-- 插入记录 -->
+  <insert id="insertSelective" parameterType="com.ningpai.goods.bean.GoodsTypeBrand" >
+    insert into np_goods_type_brand
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="typeBrandId != null" >
+        type_brand_id,
+      </if>
+      <if test="typeId != null" >
+        type_id,
+      </if>
+      <if test="brandId != null" >
+        brand_id,
+      </if>
+      <if test="delflag != null" >
+        delflag,
+      </if>
+      <if test="delName != null" >
+        del_name,
+      </if>
+      <if test="delTime != null" >
+        del_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="typeBrandId != null" >
+        #{typeBrandId,jdbcType=BIGINT},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=BIGINT},
+      </if>
+      <if test="brandId != null" >
+        #{brandId,jdbcType=BIGINT},
+      </if>
+      <if test="delflag != null" >
+        #{delflag,jdbcType=CHAR},
+      </if>
+      <if test="delName != null" >
+        #{delName,jdbcType=VARCHAR},
+      </if>
+      <if test="delTime != null" >
+        #{delTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <!-- 更新记录 -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.goods.bean.GoodsTypeBrand" >
+    update np_goods_type_brand
+    <set >
+      <if test="typeId != null" >
+        type_id = #{typeId,jdbcType=BIGINT},
+      </if>
+      <if test="brandId != null" >
+        brand_id = #{brandId,jdbcType=BIGINT},
+      </if>
+      <if test="delflag != null" >
+        delflag = #{delflag,jdbcType=CHAR},
+      </if>
+      <if test="delName != null" >
+        del_name = #{delName,jdbcType=VARCHAR},
+      </if>
+      <if test="delTime != null" >
+        del_time = #{delTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where type_brand_id = #{typeBrandId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.goods.bean.GoodsTypeBrand" >
+    update np_goods_type_brand
+    set type_id = #{typeId,jdbcType=BIGINT},
+      brand_id = #{brandId,jdbcType=BIGINT},
+      delflag = #{delflag,jdbcType=CHAR},
+      del_name = #{delName,jdbcType=VARCHAR},
+      del_time = #{delTime,jdbcType=TIMESTAMP}
+    where type_brand_id = #{typeBrandId,jdbcType=BIGINT}
+  </update>
+  <!-- 根据类型ID查询列表 -->
+  <select id="queryAllTypeBrand" resultMap="VoResultMap" parameterType="java.lang.Long">
+  	select 
+  		<include refid="Base_Column_List"/>
+  	from np_goods_type_brand where type_id=#{typeId}
+  	and delflag='0'
+  </select>
+  <!-- 根据商品类型ID和品牌ID -->
+  <select id="queryTypeBrandByTypeIdAndBrandId" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select 
+  		<include refid="Base_Column_List"/>
+  	from np_goods_type_brand where type_id=#{typeId} and brand_id=#{brandId}
+  </select>
+</mapper>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.OrderPickingMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.order.bean.OrderPicking" >
+    <id column="picking_id" property="pickingId" jdbcType="BIGINT" />
+    <result column="picking_no" property="pickingNo" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="picking_time" property="pickingTime" jdbcType="TIMESTAMP" />
+    <result column="picking_name" property="pickingName" jdbcType="VARCHAR" />
+    <result column="third_id" property="thirdId" jdbcType="BIGINT" />
+    <result column="picking_status" property="pickingStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    picking_id, picking_no, order_id, picking_time, picking_name, third_id
+  </sql>
+
+  
+  <insert id="insertSelective" parameterType="com.ningpai.order.bean.OrderPicking" >
+    insert into np_order_picking
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pickingId != null" >
+        picking_id,
+      </if>
+      <if test="pickingStatus != null" >
+        picking_status,
+      </if>
+      <if test="pickingNo != null" >
+        picking_no,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="pickingTime != null" >
+        picking_time,
+      </if>
+      <if test="pickingName != null" >
+        picking_name,
+      </if>
+      <if test="thirdId != null" >
+        third_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pickingId != null" >
+        #{pickingId,jdbcType=BIGINT},
+      </if>
+      <if test="pickingStatus != null" >
+        #{pickingStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="pickingNo != null" >
+        #{pickingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="pickingTime != null" >
+        #{pickingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pickingName != null" >
+        #{pickingName,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdId != null" >
+        #{thirdId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  
+ 
+</mapper>

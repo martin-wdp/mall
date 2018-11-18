@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.system.dao.CurrencyInfoMapper" >
+  
+  <resultMap id="BaseResultMap" type="com.ningpai.system.bean.CurrencyInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="currency_base_id" property="currencyBaseId" jdbcType="BIGINT" />
+    <result column="exchange_rate" property="exchangeRate" jdbcType="DECIMAL" />
+    <result column="is_default" property="isDefault" jdbcType="CHAR" />
+    <result column="delflag" property="delflag" jdbcType="CHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <resultMap id="BaseResultMapVo" type="com.ningpai.system.vo.CurrencyInfoVo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="exchange_rate" property="exchangeRate" jdbcType="DECIMAL" />
+    <result column="is_default" property="isDefault" jdbcType="CHAR" />
+    <result column="delflag" property="delflag" jdbcType="CHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <association column="currency_base_id" property="currencyBase" 
+			select="com.ningpai.system.dao.CurrencyBaseMapper.selectByPrimaryKey"></association>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, currency_base_id, exchange_rate, is_default, delflag, create_user_id, create_date, 
+    update_user_id, update_date
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMapVo" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_sys_currency_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <!-- 查询所有的行数（分页用） -->
+  <select id="queryTotalCount" resultType="java.lang.Integer">
+	select count(id) from np_sys_currency_info 
+	where delflag = '0'
+  </select>
+  
+  <!-- 根据分页参数查询单独页列表 -->
+  <select id="queryByPageBean" resultMap="BaseResultMapVo" parameterType="java.util.Map">
+    select 
+  	<include refid="Base_Column_List" />
+  	from np_sys_currency_info 
+  	where delflag = '0'
+  	limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_sys_currency_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.system.bean.CurrencyInfo" >
+    insert into np_sys_currency_info (id, currency_base_id, exchange_rate, 
+      is_default, delflag, create_user_id, 
+      create_date, update_user_id, update_date
+      )
+    values (#{id,jdbcType=BIGINT}, #{currencyBaseId,jdbcType=BIGINT}, #{exchangeRate,jdbcType=DECIMAL}, 
+      #{isDefault,jdbcType=CHAR}, #{delflag,jdbcType=CHAR}, #{createUserId,jdbcType=BIGINT}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{updateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.system.bean.CurrencyInfo" >
+    insert into np_sys_currency_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="currencyBaseId != null" >
+        currency_base_id,
+      </if>
+      <if test="exchangeRate != null" >
+        exchange_rate,
+      </if>
+      <if test="isDefault != null" >
+        is_default,
+      </if>
+      <if test="delflag != null" >
+        delflag,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="currencyBaseId != null" >
+        #{currencyBaseId,jdbcType=BIGINT},
+      </if>
+      <if test="exchangeRate != null" >
+        #{exchangeRate,jdbcType=DECIMAL},
+      </if>
+      <if test="isDefault != null" >
+        #{isDefault,jdbcType=CHAR},
+      </if>
+      <if test="delflag != null" >
+        #{delflag,jdbcType=CHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.system.bean.CurrencyInfo" >
+    update np_sys_currency_info
+    <set >
+      <if test="currencyBaseId != null" >
+        currency_base_id = #{currencyBaseId,jdbcType=BIGINT},
+      </if>
+      <if test="exchangeRate != null" >
+        exchange_rate = #{exchangeRate,jdbcType=DECIMAL},
+      </if>
+      <if test="isDefault != null" >
+        is_default = #{isDefault,jdbcType=CHAR},
+      </if>
+      <if test="delflag != null" >
+        delflag = #{delflag,jdbcType=CHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.system.bean.CurrencyInfo" >
+    update np_sys_currency_info
+    set currency_base_id = #{currencyBaseId,jdbcType=BIGINT},
+      exchange_rate = #{exchangeRate,jdbcType=DECIMAL},
+      is_default = #{isDefault,jdbcType=CHAR},
+      delflag = #{delflag,jdbcType=CHAR},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

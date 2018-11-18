@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ningpai.comment.dao.ShareImgMapper">
+	<resultMap id="BaseResultMap" type="com.ningpai.comment.bean.ShareImg">
+		<id column="image_id" jdbcType="BIGINT" property="imageId" />
+		<id column="share_id" jdbcType="BIGINT" property="shareId" />
+		<result column="image_name" jdbcType="VARCHAR" property="imageName" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		c.image_id, c.share_id, c.image_name
+	</sql>
+	<!-- 根据晒单Id查询晒单图片 -->
+	<select id="queryImgsByShareId" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from np_share_img c
+		inner join np_share s
+		where c.share_id=#{shareId,jdbcType=BIGINT} and c.share_id = s.share_id and s.del_flag ='0' and s.is_display in ('0','1','2')
+	</select>
+
+    <!--根据会员编号 订单商品编号 查询 个数-->
+    <select id="checkCommGoodIsUser" resultType="java.lang.Long"  parameterType="java.util.Map">
+        SELECT
+        count(1)
+        from np_order orders
+        INNER JOIN np_order_goods goods on orders.order_id=goods.order_id
+        where orders.del_flag='0' and goods.del_flag='0' and  goods.order_goods_id= #{orderGoodsId,jdbcType=BIGINT}
+        and orders.customer_id=#{customerId,jdbcType=BIGINT}
+        <if test="flag=='1'">
+            and goods.evaluate_flag='0'
+        </if>
+        <if test="flag=='2'">
+            and goods.share_flag='0'
+        </if>
+    </select>
+</mapper>

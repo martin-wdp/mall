@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qpmall.web.dao.FreightExpressAllMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.freighttemplate.bean.FreightExpressAll" >
+    <id column="express_area_id" property="expressAreaId" jdbcType="BIGINT" />
+    <result column="express_area" property="expressArea" jdbcType="VARCHAR" />
+    <result column="distribution_id" property="distributionId" jdbcType="BIGINT" />
+    <result column="express_start" property="expressStart" jdbcType="BIGINT" />
+    <result column="express_postage" property="expressPostage" jdbcType="DECIMAL" />
+    <result column="express_plus_n1" property="expressPlusN1" jdbcType="BIGINT" />
+    <result column="express_postageplus" property="expressPostageplus" jdbcType="DECIMAL" />
+    <result column="express_delflag" property="expressDelflag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    express_area_id, express_area, distribution_id, express_start, express_postage, express_plus_n1, 
+    express_postageplus, express_delflag
+  </sql>
+  
+  <!-- 查询其他配送设置 -->
+  <select id="selectExpressAll" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_freight_express_all
+    where distribution_id = #{distributionId,jdbcType=BIGINT} and express_delflag='0'
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_freight_express_all
+    where express_area_id = #{expressAreaId,jdbcType=BIGINT}
+  </delete>
+  
+  
+  
+  <!-- 批量插入运费其他设置 -->
+  <insert id="insertFreightExpressAll" parameterType="com.ningpai.freighttemplate.bean.FreightExpressAll" >
+    insert into np_freight_express_all (express_area_id, express_area, distribution_id, 
+      express_start, express_postage, express_plus_n1, 
+      express_postageplus, express_delflag)
+    values 
+     <foreach collection="list" separator="," item="expressall" index="index" >  
+    (#{expressall.expressAreaId,jdbcType=BIGINT}, #{expressall.expressArea,jdbcType=VARCHAR}, #{expressall.distributionId,jdbcType=BIGINT}, 
+      #{expressall.expressStart,jdbcType=BIGINT}, #{expressall.expressPostage,jdbcType=DECIMAL}, #{expressall.expressPlusN1,jdbcType=BIGINT}, 
+      #{expressall.expressPostageplus,jdbcType=DECIMAL}, #{expressall.expressDelflag,jdbcType=CHAR})
+    </foreach>
+  
+  </insert>
+  
+  
+  <insert id="insert" parameterType="com.ningpai.freighttemplate.bean.FreightExpressAll" >
+    insert into np_freight_express_all (express_area_id, express_area, distribution_id, 
+      express_start, express_postage, express_plus_n1, 
+      express_postageplus, express_delflag)
+    values (#{expressAreaId,jdbcType=BIGINT}, #{expressArea,jdbcType=VARCHAR}, #{distributionId,jdbcType=BIGINT}, 
+      #{expressStart,jdbcType=BIGINT}, #{expressPostage,jdbcType=DECIMAL}, #{expressPlusN1,jdbcType=BIGINT}, 
+      #{expressPostageplus,jdbcType=DECIMAL}, #{expressDelflag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.freighttemplate.bean.FreightExpressAll" >
+    insert into np_freight_express_all
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="expressAreaId != null" >
+        express_area_id,
+      </if>
+      <if test="expressArea != null" >
+        express_area,
+      </if>
+      <if test="distributionId != null" >
+        distribution_id,
+      </if>
+      <if test="expressStart != null" >
+        express_start,
+      </if>
+      <if test="expressPostage != null" >
+        express_postage,
+      </if>
+      <if test="expressPlusN1 != null" >
+        express_plus_n1,
+      </if>
+      <if test="expressPostageplus != null" >
+        express_postageplus,
+      </if>
+      <if test="expressDelflag != null" >
+        express_delflag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="expressAreaId != null" >
+        #{expressAreaId,jdbcType=BIGINT},
+      </if>
+      <if test="expressArea != null" >
+        #{expressArea,jdbcType=VARCHAR},
+      </if>
+      <if test="distributionId != null" >
+        #{distributionId,jdbcType=BIGINT},
+      </if>
+      <if test="expressStart != null" >
+        #{expressStart,jdbcType=BIGINT},
+      </if>
+      <if test="expressPostage != null" >
+        #{expressPostage,jdbcType=DECIMAL},
+      </if>
+      <if test="expressPlusN1 != null" >
+        #{expressPlusN1,jdbcType=BIGINT},
+      </if>
+      <if test="expressPostageplus != null" >
+        #{expressPostageplus,jdbcType=DECIMAL},
+      </if>
+      <if test="expressDelflag != null" >
+        #{expressDelflag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.freighttemplate.bean.FreightExpressAll" >
+    update np_freight_express_all
+    <set >
+      <if test="expressArea != null" >
+        express_area = #{expressArea,jdbcType=VARCHAR},
+      </if>
+      <if test="distributionId != null" >
+        distribution_id = #{distributionId,jdbcType=BIGINT},
+      </if>
+      <if test="expressStart != null" >
+        express_start = #{expressStart,jdbcType=BIGINT},
+      </if>
+      <if test="expressPostage != null" >
+        express_postage = #{expressPostage,jdbcType=DECIMAL},
+      </if>
+      <if test="expressPlusN1 != null" >
+        express_plus_n1 = #{expressPlusN1,jdbcType=BIGINT},
+      </if>
+      <if test="expressPostageplus != null" >
+        express_postageplus = #{expressPostageplus,jdbcType=DECIMAL},
+      </if>
+      <if test="expressDelflag != null" >
+        express_delflag = #{expressDelflag,jdbcType=CHAR},
+      </if>
+    </set>
+    where express_area_id = #{expressAreaId,jdbcType=BIGINT}
+  </update>
+  
+  
+  
+  <!-- 删除其他设置 -->
+  <update id="deleteTemplateExpressAll" parameterType="com.ningpai.freighttemplate.bean.FreightExpressAll" >
+    update np_freight_express_all
+    set  express_delflag = '1'
+    where distribution_id = #{distributionId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.freighttemplate.bean.FreightExpressAll" >
+    update np_freight_express_all
+    set express_area = #{expressArea,jdbcType=VARCHAR},
+      distribution_id = #{distributionId,jdbcType=BIGINT},
+      express_start = #{expressStart,jdbcType=BIGINT},
+      express_postage = #{expressPostage,jdbcType=DECIMAL},
+      express_plus_n1 = #{expressPlusN1,jdbcType=BIGINT},
+      express_postageplus = #{expressPostageplus,jdbcType=DECIMAL},
+      express_delflag = #{expressDelflag,jdbcType=CHAR}
+    where express_area_id = #{expressAreaId,jdbcType=BIGINT}
+  </update>
+</mapper>

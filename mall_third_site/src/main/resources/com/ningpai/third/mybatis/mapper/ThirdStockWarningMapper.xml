@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.third.goods.dao.ThirdWarnGoodMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.third.goods.vo.StockWarningVo" >
+    <id column="infoid" property="infoid" jdbcType="BIGINT" />
+    <result column="goodname" property="goodname" jdbcType="VARCHAR" />  
+    <result column="number" property="number" jdbcType="BIGINT" />  
+    <result column="stock" property="stock" jdbcType="BIGINT" /> 
+    <result column="buyprice" property="buyprice" jdbcType="VARCHAR"/>
+    <result column="salprice" property="salprice" jdbcType="VARCHAR"/>
+    <result column="swvalue" property="swvalue" jdbcType="BIGINT"/>
+    <result column="storeid" property="storeid" jdbcType="BIGINT"/>
+    <result column="thirdid" property="thirdid" jdbcType="BIGINT"/>
+    <result column="goodsInfoImgId" property="goodsInfoImgId" jdbcType="VARCHAR"/>
+  </resultMap>
+  
+  <!-- 分页查询预警货品信息 -->
+ <select id="selectwarngoods" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select goods_info_id as infoid,goods_info_name goodname,goods_info_item_no as number,
+         goods_info_stock as stock,goods_info_cost_price as buyprice,goods_info_prefer_price as salprice,goods_info_img_id as goodsInfoImgId
+     from np_goods_info  
+      where   
+   	     third_id  = #{thirdid} and goods_info_delflag = '0'
+     <if test="goodname!=null and goodname !=''">
+		and goods_info_name like CONCAT('%',#{goodname},'%') 
+	</if>
+	 <if test="number !=null and number !=''">
+		and goods_info_item_no like CONCAT('%',#{number},'%')
+	</if>
+     and (SELECT sw_value from np_third_store_info where store_id= #{thirdid}  )>goods_info_stock
+   
+     limit #{startRowNum},#{endRowNum}
+     
+ </select>
+ 
+ 
+ 
+ <!-- 查询预警货品数量 -->
+ <select id="selectwarncount" resultType="java.lang.Integer" parameterType="java.util.Map">
+  select count(th.infoid) from (select goods_info_id as infoid,goods_info_name goodname,goods_info_item_no as number,
+         goods_info_stock as stock,goods_info_cost_price as buyprice,goods_info_prefer_price as salprice
+     from np_goods_info ni   where   third_id  = #{thirdid}  
+     <if test="goodname!=null and goodname !=''">
+		and goods_info_name like CONCAT('%',#{goodname},'%') 
+	</if>
+	 <if test="number !=null and number !=''">
+		and goods_info_item_no = #{number,jdbcType=VARCHAR}
+	</if>
+	 <if test="goodname!=null and goodname !='' and number !=null and number !=''">
+		and goods_info_name like CONCAT('%',#{goodname},'%') 
+		and goods_info_item_no = #{number,jdbcType=VARCHAR}
+	</if>
+     and (SELECT sw_value from np_third_store_info where store_id=#{thirdid}  )>goods_info_stock) th
+  </select>
+  
+  <!-- 修改库存 -->
+ <update id="updatewarnstock" parameterType="com.ningpai.third.goods.vo.StockWarningVo">
+     update np_goods_info
+     set goods_info_stock=#{stock,jdbcType=BIGINT}
+     where goods_info_id=#{infoid,jdbcType=BIGINT}
+     and third_id = #{thirdid,jdbcType=BIGINT}
+  </update>
+  
+  
+  
+  <!-- 查询预警值 -->
+  <select id="selectstock" resultMap="BaseResultMap" parameterType="java.util.Map">
+      select sw_value as swvalue,store_id as storeid from np_third_store_info where  store_id=#{thirdId}
+  </select>
+ 
+ <!-- 修改预警值 -->
+ <update id="updatestockgoods" parameterType="com.ningpai.third.goods.vo.StockWarningVo">
+     update np_third_store_info
+     set sw_value=#{swvalue,jdbcType=BIGINT}
+     where store_id=#{storeid,jdbcType=BIGINT}
+  </update>
+</mapper>

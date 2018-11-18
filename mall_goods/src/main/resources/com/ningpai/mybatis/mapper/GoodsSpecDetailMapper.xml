@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.goods.dao.GoodsSpecDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsSpecDetail" >
+    <id column="spec_detail_id" property="specDetailId" jdbcType="BIGINT" />
+    <result column="spec_id" property="specId" jdbcType="BIGINT" />
+    <result column="spec_detail_name" property="specDetailName" jdbcType="VARCHAR" />
+    <result column="spec_detail_nickname" property="specDetailNickname" jdbcType="VARCHAR" />
+    <result column="spec_detail_img" property="specDetailImg" jdbcType="VARCHAR" />
+    <result column="spec_detail_sort" property="specDetailSort" jdbcType="INTEGER" />
+    <result column="spec_detail_delflag" property="specDetailDelflag" jdbcType="CHAR" />
+    <result column="spec_detail_create_name" property="specDetailCreateName" jdbcType="VARCHAR" />
+    <result column="spec_detail_create_time" property="specDetailCreateTime" jdbcType="TIMESTAMP" />
+    <result column="spec_detail_modified_name" property="specDetailModifiedName" jdbcType="VARCHAR" />
+    <result column="spec_detail_modified_time" property="specDetailModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="spec_detail_del_name" property="specDetailDelName" jdbcType="VARCHAR" />
+    <result column="spec_detail_del_time" property="specDetailDelTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    spec_detail_id, spec_id, spec_detail_name, spec_detail_nickname, spec_detail_img, 
+    spec_detail_sort, spec_detail_delflag, spec_detail_create_name, spec_detail_create_time, 
+    spec_detail_modified_name, spec_detail_modified_time, spec_detail_del_name, spec_detail_del_time
+  </sql>
+  <sql id="delFlag">
+  	spec_detail_delflag='0'
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_goods_spec_detail
+    where spec_detail_id = #{specDetailId,jdbcType=BIGINT}
+  </select>
+  <!-- 删除规格值，实际上只更新删除标记，删除人名称以及删除时间 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.util.Map" >
+    update np_goods_spec_detail set spec_detail_delflag='1',spec_detail_del_name=#{delName},spec_detail_del_time=NOW()
+    where spec_detail_id = #{specDetailId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.goods.bean.GoodsSpecDetail" >
+    insert into np_goods_spec_detail (spec_detail_id, spec_id, spec_detail_name, 
+      spec_detail_nickname, spec_detail_img, spec_detail_sort, 
+      spec_detail_delflag, spec_detail_create_name, spec_detail_create_time, 
+      spec_detail_modified_name, spec_detail_modified_time, 
+      spec_detail_del_name, spec_detail_del_time)
+    values (#{specDetailId,jdbcType=BIGINT}, #{specId,jdbcType=BIGINT}, #{specDetailName,jdbcType=VARCHAR}, 
+      #{specDetailNickname,jdbcType=VARCHAR}, #{specDetailImg,jdbcType=VARCHAR}, #{specDetailSort,jdbcType=INTEGER}, 
+      #{specDetailDelflag,jdbcType=CHAR}, #{specDetailCreateName,jdbcType=VARCHAR}, #{specDetailCreateTime,jdbcType=TIMESTAMP}, 
+      #{specDetailModifiedName,jdbcType=VARCHAR}, #{specDetailModifiedTime,jdbcType=TIMESTAMP}, 
+      #{specDetailDelName,jdbcType=VARCHAR}, #{specDetailDelTime,jdbcType=TIMESTAMP})
+  </insert>
+  <!-- 插入一条记录，不管添加时间为不为空，都设置为当前时间 -->
+  <insert id="insertSelective" parameterType="com.ningpai.goods.bean.GoodsSpecDetail" >
+    insert into np_goods_spec_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="specDetailId != null" >
+        spec_detail_id,
+      </if>
+      <if test="specId != null" >
+        spec_id,
+      </if>
+      <if test="specDetailName != null" >
+        spec_detail_name,
+      </if>
+      <if test="specDetailNickname != null" >
+        spec_detail_nickname,
+      </if>
+      <if test="specDetailImg != null" >
+        spec_detail_img,
+      </if>
+      <if test="specDetailSort != null" >
+        spec_detail_sort,
+      </if>
+      <if test="specDetailDelflag != null" >
+        spec_detail_delflag,
+      </if>
+      <if test="specDetailCreateName != null" >
+        spec_detail_create_name,
+      </if>
+        spec_detail_create_time,
+      <if test="specDetailModifiedName != null" >
+        spec_detail_modified_name,
+      </if>
+      <if test="specDetailModifiedTime != null" >
+        spec_detail_modified_time,
+      </if>
+      <if test="specDetailDelName != null" >
+        spec_detail_del_name,
+      </if>
+      <if test="specDetailDelTime != null" >
+        spec_detail_del_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="specDetailId != null" >
+        #{specDetailId,jdbcType=BIGINT},
+      </if>
+      <if test="specId != null" >
+        #{specId,jdbcType=BIGINT},
+      </if>
+      <if test="specDetailName != null" >
+        #{specDetailName,jdbcType=VARCHAR},
+      </if>
+      <if test="specDetailNickname != null" >
+        #{specDetailNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="specDetailImg != null" >
+        #{specDetailImg,jdbcType=VARCHAR},
+      </if>
+      <if test="specDetailSort != null" >
+        #{specDetailSort,jdbcType=INTEGER},
+      </if>
+      <if test="specDetailDelflag != null" >
+        #{specDetailDelflag,jdbcType=CHAR},
+      </if>
+      <if test="specDetailCreateName != null" >
+        #{specDetailCreateName,jdbcType=VARCHAR},
+      </if>
+        NOW(),
+      <if test="specDetailModifiedName != null" >
+        #{specDetailModifiedName,jdbcType=VARCHAR},
+      </if>
+      <if test="specDetailModifiedTime != null" >
+        #{specDetailModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="specDetailDelName != null" >
+        #{specDetailDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="specDetailDelTime != null" >
+        #{specDetailDelTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <!-- 更新规格值信息，不管更新时间为不为空，都设置为当前时间 -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.goods.bean.GoodsSpecDetail" >
+    update np_goods_spec_detail
+    <set >
+      <if test="specId != null" >
+        spec_id = #{specId,jdbcType=BIGINT},
+      </if>
+      <if test="specDetailName != null" >
+        spec_detail_name = #{specDetailName,jdbcType=VARCHAR},
+      </if>
+      <if test="specDetailNickname != null" >
+        spec_detail_nickname = #{specDetailNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="specDetailImg != null" >
+        spec_detail_img = #{specDetailImg,jdbcType=VARCHAR},
+      </if>
+      <if test="specDetailSort != null" >
+        spec_detail_sort = #{specDetailSort,jdbcType=INTEGER},
+      </if>
+      <if test="specDetailDelflag != null" >
+        spec_detail_delflag = #{specDetailDelflag,jdbcType=CHAR},
+      </if>
+      <if test="specDetailCreateName != null" >
+        spec_detail_create_name = #{specDetailCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="specDetailCreateTime != null" >
+        spec_detail_create_time = #{specDetailCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <!-- 如果修改人名称不为空 更新修改人名称和修改时间 -->
+      <if test="specDetailModifiedName != null" >
+        spec_detail_modified_name = #{specDetailModifiedName,jdbcType=VARCHAR},
+        spec_detail_modified_time = NOW(),
+      </if>
+      <!-- 如果深处人名称不为空，设置删除人名称和删除时间 -->
+      <if test="specDetailDelName != null" >
+        spec_detail_del_name = #{specDetailDelName,jdbcType=VARCHAR},
+        spec_detail_del_time = NOW(),
+      </if>
+    </set>
+    where spec_detail_id = #{specDetailId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.goods.bean.GoodsSpecDetail" >
+    update np_goods_spec_detail
+    set spec_id = #{specId,jdbcType=BIGINT},
+      spec_detail_name = #{specDetailName,jdbcType=VARCHAR},
+      spec_detail_nickname = #{specDetailNickname,jdbcType=VARCHAR},
+      spec_detail_img = #{specDetailImg,jdbcType=VARCHAR},
+      spec_detail_sort = #{specDetailSort,jdbcType=INTEGER},
+      spec_detail_delflag = #{specDetailDelflag,jdbcType=CHAR},
+      spec_detail_create_name = #{specDetailCreateName,jdbcType=VARCHAR},
+      spec_detail_create_time = #{specDetailCreateTime,jdbcType=TIMESTAMP},
+      spec_detail_modified_name = #{specDetailModifiedName,jdbcType=VARCHAR},
+      spec_detail_modified_time = #{specDetailModifiedTime,jdbcType=TIMESTAMP},
+      spec_detail_del_name = #{specDetailDelName,jdbcType=VARCHAR},
+      spec_detail_del_time = #{specDetailDelTime,jdbcType=TIMESTAMP}
+    where spec_detail_id = #{specDetailId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 根据规格ID查询规格值列表 -->
+  <select id="querySpecDeetailBySpecId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  	select 
+  		<include refid="Base_Column_List"/>
+  	from np_goods_spec_detail
+  	where spec_id=#{specId} and
+  		<include refid="delFlag"/>
+  	order by spec_detail_sort
+  </select>  
+</mapper>

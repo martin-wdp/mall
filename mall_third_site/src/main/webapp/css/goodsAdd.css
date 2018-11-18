@@ -1,0 +1,51 @@
+.no_spec {font-size:14px; color:#999;}
+.hs_caption span {margin-right:50px;}
+.spec_list li {float:left; margin-right:30px;}
+.spec_box {display:none; padding-left:30px; margin-bottom:20px;}
+ul.spec_cont {width:500px;}
+.spec_cont li {float:left; margin-right:30px; margin-bottom:15px;}
+.dw_input {width:50px; padding:0 5px; height:25px; line-height:25px\9; border:1px solid #dfdfdf; text-align:center;}
+.dw_box a {color:#999; margin:0 2px;}
+/*.dinfo_tabs li {float:left; margin-right:5px;}*/
+.dinfo_tabs li a {display:block; height:25px; /*line-height:25px;*/ padding:0 20px; border:1px solid #ccc; border-bottom:none; border-radius:5px 5px 0 0; color:#333;}
+.dinfo_tabs li a:hover {text-decoration:none;}
+.dinfo_tabs .cur a {background:#298dcc; border-color:#298dcc; color:#fff;}
+.dinfo_wp {width:100%;}
+.copy_all {margin-left:10px; cursor:pointer; color:#369;}
+.copy_all:hover {text-decoration:none;}
+.des_input {}
+.sml_input {width:50px; padding:0 5px; height:25px; line-height:25px\9; border:1px solid #dfdfdf;}
+.ga_text {padding:0 5px; height:25px; line-height:25px\9; border:1px solid #dfdfdf;}
+.price-tb {width:400px;}
+.price-tb tr:hover, .para_tb tr:hover {background:none!important;}
+.dinfo_box {border:1px solid #ccc; padding:20px; display:none;}
+.para_tb {width:340px; float:left;}
+.det_des {width:300px; height:100px; border:1px solid #dfdfdf; padding:5px;}
+.seo_cont span {display:inline-block; zoom:1; *display:inline; width:80px; text-align:right;}
+.seo_cont textarea {width:250px; height:30px; padding:5px; border:1px solid #dfdfdf; vertical-align:middle;}
+.qf_box {display:none;}
+.prev_step {margin-right:5px;}
+
+/* 2014.08.01 */
+.para_tb th, .para_tb td, .price-tb th, .price-tb td {padding:5px 10px;}
+dd.type_spec, dd.type_attribute {padding:10px; border:1px solid #ddd; width:62%;}
+.price-tb td .text {height:25px; padding:0 5px;}
+.ntabs_dl dt {text-align:left; width:100px;}
+.ntabs_dl dd {margin-left:100px;}
+
+.spec_cont li label {position:relative; padding-right:30px;}
+.spec_cont li label form {position:absolute; width:16px; height:16px; background:url(../images/add_icon.png) no-repeat; top:0; right:0;}
+.spec_cont li label form input {opacity:0; filter:alpha(opacity=0); margin-left:0!important; width:16px; height:16px;}
+
+.spe_text {width:50px; height:20px; border:1px solid #cdcdcd; padding:0 5px;}
+.img_btn {display:inline-block; zoom:1; *display:inline; width:80px; height:25px; margin-right:5px; position:relative; background:#4d90fe; color:#fff; text-align:center; line-height:25px; vertical-align:middle;}
+.img_btn input {opacity:0; filter:alpha(opacity=0); width:80px; height:25px; position:absolute; top:0; left:0;}
+.img_btn:hover {text-decoration:none;}
+.upload_preview {overflow:hidden;}
+.upload_append_list {float:left; margin:0 20px 20px 0; position:relative; padding-top:10px;}
+.upload_append_list strong {display:none;}
+.upload_delete {position:absolute; width:16px; height:16px; background:url(../images/img_delete.png) no-repeat; top:2px; right:-7px; overflow:hidden; text-indent:-9999px;}
+.choose_imgs li {float:left; margin:0 20px 20px 0;position:relative;}
+.choose_imgs li .del_ts {position:absolute; top:-5px; right:-5px;}
+.choose_imgs img {border:1px solid #cdcdcd;}
+.choose_imgs .choose img {border-color:#ff0000;}

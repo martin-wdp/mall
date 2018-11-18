@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.uploadfileset.dao.UploadFileSetMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.uploadfileset.bean.UploadFileSet" >
+    <id column="uploadfileset_id" property="uploadfilesetId" jdbcType="BIGINT" />
+    <result column="max_size" property="maxSize" jdbcType="BIGINT" />
+    <result column="suffix_array" property="suffixArray" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="temp1" property="temp1" jdbcType="VARCHAR" />
+    <result column="temp2" property="temp2" jdbcType="VARCHAR" />
+    <result column="temp3" property="temp3" jdbcType="VARCHAR" />
+    <result column="temp4" property="temp4" jdbcType="VARCHAR" />
+    <result column="temp5" property="temp5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    uploadfileset_id, max_size, suffix_array, create_date, update_date, temp1, temp2, 
+    temp3, temp4, temp5
+  </sql>
+  <!-- 查询开始 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_sys_uploadfileset
+    where uploadfileset_id = #{uploadfilesetId,jdbcType=BIGINT}
+  </select>
+  <select id="selectUploadfileset" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_sys_uploadfileset 
+    limit 1
+  </select>
+  <!-- 查询结束 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_sys_uploadfileset
+    where uploadfileset_id = #{uploadfilesetId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.uploadfileset.bean.UploadFileSet" >
+    insert into np_sys_uploadfileset (uploadfileset_id, max_size, suffix_array, 
+      create_date, update_date, temp1, 
+      temp2, temp3, temp4, 
+      temp5)
+    values (#{uploadfilesetId,jdbcType=BIGINT}, #{maxSize,jdbcType=BIGINT}, #{suffixArray,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{temp1,jdbcType=VARCHAR}, 
+      #{temp2,jdbcType=VARCHAR}, #{temp3,jdbcType=VARCHAR}, #{temp4,jdbcType=VARCHAR}, 
+      #{temp5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.uploadfileset.bean.UploadFileSet" >
+    insert into np_sys_uploadfileset
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uploadfilesetId != null" >
+        uploadfileset_id,
+      </if>
+      <if test="maxSize != null" >
+        max_size,
+      </if>
+      <if test="suffixArray != null" >
+        suffix_array,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="temp1 != null" >
+        temp1,
+      </if>
+      <if test="temp2 != null" >
+        temp2,
+      </if>
+      <if test="temp3 != null" >
+        temp3,
+      </if>
+      <if test="temp4 != null" >
+        temp4,
+      </if>
+      <if test="temp5 != null" >
+        temp5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uploadfilesetId != null" >
+        #{uploadfilesetId,jdbcType=BIGINT},
+      </if>
+      <if test="maxSize != null" >
+        #{maxSize,jdbcType=BIGINT},
+      </if>
+      <if test="suffixArray != null" >
+        #{suffixArray,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temp1 != null" >
+        #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null" >
+        #{temp2,jdbcType=VARCHAR},
+      </if>
+      <if test="temp3 != null" >
+        #{temp3,jdbcType=VARCHAR},
+      </if>
+      <if test="temp4 != null" >
+        #{temp4,jdbcType=VARCHAR},
+      </if>
+      <if test="temp5 != null" >
+        #{temp5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.uploadfileset.bean.UploadFileSet" >
+    update np_sys_uploadfileset
+    <set >
+      <if test="maxSize != null" >
+        max_size = #{maxSize,jdbcType=BIGINT},
+      </if>
+      <if test="suffixArray != null" >
+        suffix_array = #{suffixArray,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temp1 != null" >
+        temp1 = #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null" >
+        temp2 = #{temp2,jdbcType=VARCHAR},
+      </if>
+      <if test="temp3 != null" >
+        temp3 = #{temp3,jdbcType=VARCHAR},
+      </if>
+      <if test="temp4 != null" >
+        temp4 = #{temp4,jdbcType=VARCHAR},
+      </if>
+      <if test="temp5 != null" >
+        temp5 = #{temp5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where uploadfileset_id = #{uploadfilesetId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.uploadfileset.bean.UploadFileSet" >
+    update np_sys_uploadfileset
+    set max_size = #{maxSize,jdbcType=BIGINT},
+      suffix_array = #{suffixArray,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      temp1 = #{temp1,jdbcType=VARCHAR},
+      temp2 = #{temp2,jdbcType=VARCHAR},
+      temp3 = #{temp3,jdbcType=VARCHAR},
+      temp4 = #{temp4,jdbcType=VARCHAR},
+      temp5 = #{temp5,jdbcType=VARCHAR}
+    where uploadfileset_id = #{uploadfilesetId,jdbcType=BIGINT}
+  </update>
+</mapper>

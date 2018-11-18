@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.weixin.mapper.WXGroupMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.weixin.bean.WXGroup" >
+    <id column="wx_id" property="wxId" jdbcType="BIGINT" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="get_time" property="getTime" jdbcType="TIMESTAMP" />
+    <result column="emp1" property="emp1" jdbcType="VARCHAR" />
+    <result column="emp2" property="emp2" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    wx_id, openid, get_time, emp1, emp2
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_wx_group
+    where wx_id = #{wxId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_wx_group
+    where wx_id = #{wxId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.weixin.bean.WXGroup" >
+    insert into np_wx_group (wx_id, openid, get_time, 
+      emp1, emp2)
+    values (#{wxId,jdbcType=BIGINT}, #{openid,jdbcType=VARCHAR}, #{getTime,jdbcType=TIMESTAMP}, 
+      #{emp1,jdbcType=VARCHAR}, #{emp2,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.weixin.bean.WXGroup" >
+    insert into np_wx_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wxId != null" >
+        wx_id,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+      <if test="getTime != null" >
+        get_time,
+      </if>
+      <if test="emp1 != null" >
+        emp1,
+      </if>
+      <if test="emp2 != null" >
+        emp2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wxId != null" >
+        #{wxId,jdbcType=BIGINT},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="getTime != null" >
+        #{getTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="emp1 != null" >
+        #{emp1,jdbcType=VARCHAR},
+      </if>
+      <if test="emp2 != null" >
+        #{emp2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.weixin.bean.WXGroup" >
+    update np_wx_group
+    <set >
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="getTime != null" >
+        get_time = #{getTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="emp1 != null" >
+        emp1 = #{emp1,jdbcType=VARCHAR},
+      </if>
+      <if test="emp2 != null" >
+        emp2 = #{emp2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where wx_id = #{wxId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.weixin.bean.WXGroup" >
+    update np_wx_group
+    set openid = #{openid,jdbcType=VARCHAR},
+      get_time = #{getTime,jdbcType=TIMESTAMP},
+      emp1 = #{emp1,jdbcType=VARCHAR},
+      emp2 = #{emp2,jdbcType=VARCHAR}
+    where wx_id = #{wxId,jdbcType=BIGINT}
+  </update>
+  <select id="selectAllGroup" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_wx_group
+  </select>
+
+</mapper>

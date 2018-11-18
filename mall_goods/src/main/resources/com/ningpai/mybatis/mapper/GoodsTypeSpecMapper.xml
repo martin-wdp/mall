@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.goods.dao.GoodsTypeSpecMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsTypeSpec" >
+    <id column="type_spec_id" property="typeSpecId" jdbcType="BIGINT" />
+    <result column="type_id" property="typeId" jdbcType="BIGINT" />
+    <result column="spec_id" property="specId" jdbcType="BIGINT" />
+    <result column="type_spec_showtype" property="typeSpecShowtype" jdbcType="INTEGER" />
+    <result column="type_spec_sort" property="typeSpecSort" jdbcType="INTEGER" />
+    <result column="type_spec_delflag" property="typeSpecDelflag" jdbcType="CHAR" />
+    <result column="type_spec_create_name" property="typeSpecCreateName" jdbcType="VARCHAR" />
+    <result column="type_spec_create_time" property="typeSpecCreateTime" jdbcType="TIMESTAMP" />
+    <result column="type_spec_modified_name" property="typeSpecModifiedName" jdbcType="VARCHAR" />
+    <result column="type_spec_modified_time" property="typeSpecModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="type_spec_del_name" property="typeSpecDelName" jdbcType="VARCHAR" />
+    <result column="type_spec_del_time" property="typeSpecDelTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <!-- Vo Result Map -->
+  <resultMap type="com.ningpai.goods.vo.GoodsTypeSpecVo" id="VoResultMap">
+  	<id column="type_spec_id" property="typeSpecId" jdbcType="BIGINT" />
+    <result column="type_id" property="typeId" jdbcType="BIGINT" />
+    <result column="type_spec_sort" property="typeSpecSort" jdbcType="INTEGER" />
+    <result column="type_spec_delflag" property="typeSpecDelflag" jdbcType="CHAR" />
+    <association property="goodsSpec" column="spec_id" select="com.ningpai.goods.dao.GoodsSpecMapper.querySpecVoBySpecId"></association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    type_spec_id, type_id, spec_id, type_spec_showtype, type_spec_sort, type_spec_delflag, 
+    type_spec_create_name, type_spec_create_time, type_spec_modified_name, type_spec_modified_time, 
+    type_spec_del_name, type_spec_del_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_goods_type_spec
+    where type_spec_id = #{typeSpecId,jdbcType=BIGINT}
+  </select>
+  <!-- 删除商品类型关联的规格  实际上就是更新三个字段 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.util.Map" >
+    update np_goods_type_spec set type_spec_delflag='1',type_spec_del_name=#{delName},
+    type_spec_del_time=NOW()
+    where type_spec_id = #{typeSpecId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.goods.bean.GoodsTypeSpec" >
+    insert into np_goods_type_spec (type_spec_id, type_id, spec_id, 
+      type_spec_showtype, type_spec_sort, type_spec_delflag, 
+      type_spec_create_name, type_spec_create_time, 
+      type_spec_modified_name, type_spec_modified_time, 
+      type_spec_del_name, type_spec_del_time)
+    values (#{typeSpecId,jdbcType=BIGINT}, #{typeId,jdbcType=BIGINT}, #{specId,jdbcType=BIGINT}, 
+      #{typeSpecShowtype,jdbcType=INTEGER}, #{typeSpecSort,jdbcType=INTEGER}, #{typeSpecDelflag,jdbcType=CHAR}, 
+      #{typeSpecCreateName,jdbcType=VARCHAR}, #{typeSpecCreateTime,jdbcType=TIMESTAMP}, 
+      #{typeSpecModifiedName,jdbcType=VARCHAR}, #{typeSpecModifiedTime,jdbcType=TIMESTAMP}, 
+      #{typeSpecDelName,jdbcType=VARCHAR}, #{typeSpecDelTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.goods.bean.GoodsTypeSpec" >
+    insert into np_goods_type_spec
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="typeSpecId != null" >
+        type_spec_id,
+      </if>
+      <if test="typeId != null" >
+        type_id,
+      </if>
+      <if test="specId != null" >
+        spec_id,
+      </if>
+      <if test="typeSpecShowtype != null" >
+        type_spec_showtype,
+      </if>
+      <if test="typeSpecSort != null" >
+        type_spec_sort,
+      </if>
+      <if test="typeSpecDelflag != null" >
+        type_spec_delflag,
+      </if>
+      <if test="typeSpecCreateName != null" >
+        type_spec_create_name,
+      </if>
+      <if test="typeSpecCreateTime != null" >
+        type_spec_create_time,
+      </if>
+      <if test="typeSpecModifiedName != null" >
+        type_spec_modified_name,
+      </if>
+      <if test="typeSpecModifiedTime != null" >
+        type_spec_modified_time,
+      </if>
+      <if test="typeSpecDelName != null" >
+        type_spec_del_name,
+      </if>
+      <if test="typeSpecDelTime != null" >
+        type_spec_del_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="typeSpecId != null" >
+        #{typeSpecId,jdbcType=BIGINT},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=BIGINT},
+      </if>
+      <if test="specId != null" >
+        #{specId,jdbcType=BIGINT},
+      </if>
+      <if test="typeSpecShowtype != null" >
+        #{typeSpecShowtype,jdbcType=INTEGER},
+      </if>
+      <if test="typeSpecSort != null" >
+        #{typeSpecSort,jdbcType=INTEGER},
+      </if>
+      <if test="typeSpecDelflag != null" >
+        #{typeSpecDelflag,jdbcType=CHAR},
+      </if>
+      <if test="typeSpecCreateName != null" >
+        #{typeSpecCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeSpecCreateTime != null" >
+        #{typeSpecCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="typeSpecModifiedName != null" >
+        #{typeSpecModifiedName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeSpecModifiedTime != null" >
+        #{typeSpecModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="typeSpecDelName != null" >
+        #{typeSpecDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeSpecDelTime != null" >
+        #{typeSpecDelTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.goods.bean.GoodsTypeSpec" >
+    update np_goods_type_spec
+    <set >
+      <if test="typeId != null" >
+        type_id = #{typeId,jdbcType=BIGINT},
+      </if>
+      <if test="specId != null" >
+        spec_id = #{specId,jdbcType=BIGINT},
+      </if>
+      <if test="typeSpecShowtype != null" >
+        type_spec_showtype = #{typeSpecShowtype,jdbcType=INTEGER},
+      </if>
+      <if test="typeSpecSort != null" >
+        type_spec_sort = #{typeSpecSort,jdbcType=INTEGER},
+      </if>
+      <if test="typeSpecDelflag != null" >
+        type_spec_delflag = #{typeSpecDelflag,jdbcType=CHAR},
+      </if>
+      <if test="typeSpecCreateName != null" >
+        type_spec_create_name = #{typeSpecCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeSpecCreateTime != null" >
+        type_spec_create_time = #{typeSpecCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="typeSpecModifiedName != null" >
+        type_spec_modified_name = #{typeSpecModifiedName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeSpecModifiedTime != null" >
+        type_spec_modified_time = #{typeSpecModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="typeSpecDelName != null" >
+        type_spec_del_name = #{typeSpecDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeSpecDelTime != null" >
+        type_spec_del_time = #{typeSpecDelTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where type_spec_id = #{typeSpecId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.goods.bean.GoodsTypeSpec" >
+    update np_goods_type_spec
+    set type_id = #{typeId,jdbcType=BIGINT},
+      spec_id = #{specId,jdbcType=BIGINT},
+      type_spec_showtype = #{typeSpecShowtype,jdbcType=INTEGER},
+      type_spec_sort = #{typeSpecSort,jdbcType=INTEGER},
+      type_spec_delflag = #{typeSpecDelflag,jdbcType=CHAR},
+      type_spec_create_name = #{typeSpecCreateName,jdbcType=VARCHAR},
+      type_spec_create_time = #{typeSpecCreateTime,jdbcType=TIMESTAMP},
+      type_spec_modified_name = #{typeSpecModifiedName,jdbcType=VARCHAR},
+      type_spec_modified_time = #{typeSpecModifiedTime,jdbcType=TIMESTAMP},
+      type_spec_del_name = #{typeSpecDelName,jdbcType=VARCHAR},
+      type_spec_del_time = #{typeSpecDelTime,jdbcType=TIMESTAMP}
+    where type_spec_id = #{typeSpecId,jdbcType=BIGINT}
+  </update>
+  <!-- 根据类型ID查询 -->
+  <select id="queryTypeSpecBytypeId" resultMap="VoResultMap" parameterType="java.lang.Long">
+  	select 
+  		<include refid="Base_Column_List"/>
+  	from np_goods_type_spec where type_id=#{typeId}
+  	and type_spec_delflag='0' 
+  	order by type_spec_sort
+  </select>
+  <!-- 根据商品类型id和规格ID查询 -->
+  <select id="queryTypeSpecByTypeIdAndSpecId" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select 
+  		<include refid="Base_Column_List"/>
+  	from np_goods_type_spec where type_id=#{typeId} and spec_id=#{specId}
+  </select>
+</mapper>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.third.grandbrand.dao.ThirdGrandBrandMapper" >
+   <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsBrand" >
+    <id column="brand_id" property="brandId" jdbcType="BIGINT" />
+    <result column="brand_nickname" property="brandNickname" jdbcType="VARCHAR" />
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+    <result column="brand_url" property="brandUrl" jdbcType="VARCHAR" />
+    <result column="brand_logo" property="brandLogo" jdbcType="VARCHAR" />
+    <result column="brand_prom_index" property="brandPromIndex" jdbcType="CHAR" />
+    <result column="brand_sort" property="brandSort" jdbcType="INTEGER" />
+    <result column="brand_seo_title" property="brandSeoTitle" jdbcType="VARCHAR" />
+    <result column="brand_seo_keyword" property="brandSeoKeyword" jdbcType="VARCHAR" />
+    <result column="brand_seo_desc" property="brandSeoDesc" jdbcType="VARCHAR" />
+    <result column="brand_delflag" property="brandDelflag" jdbcType="CHAR" />
+    <result column="brand_create_name" property="brandCreateName" jdbcType="VARCHAR" />
+    <result column="brand_create_time" property="brandCreateTime" jdbcType="TIMESTAMP" />
+    <result column="brand_modified_name" property="brandModifiedName" jdbcType="VARCHAR" />
+    <result column="brand_modified_time" property="brandModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="brand_del_name" property="brandDelName" jdbcType="VARCHAR" />
+    <result column="brand_del_time" property="brandDelTime" jdbcType="TIMESTAMP" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="rate_status" property="rateStatus" jdbcType="CHAR" />
+  </resultMap>
+   <sql id="Base_Column_List" >
+    brand_id, brand_nickname, brand_name, brand_url, brand_logo, brand_prom_index, brand_sort, 
+    brand_seo_title, brand_seo_keyword, brand_seo_desc, brand_delflag, brand_create_name, 
+    brand_create_time, brand_modified_name, brand_modified_time, brand_del_name, brand_del_time
+  </sql>
+ <select id="checkGoodCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+    select count(1) from np_goods where brand_id=#{brandId,jdbcType=BIGINT} and goods_belo = #{thirdId} and is_third='1' and  goods_delflag='0'
+ </select>
+  <!-- 分页查询 -->
+  <select id="queryAllThirdGoodsBrand"  resultMap="BaseResultMap" parameterType="java.util.Map">
+   select goods.brand_id,goods.brand_logo,goods.brand_nickname,goods.brand_name,goods.brand_url,goods.brand_sort ,grand.reason ,grand.rate_status
+   from np_goods_brand  goods,np_third_grandbrand grand
+   where grand.brand_id=goods.brand_id
+       and grand.del_flag='0'
+     <if test="thirdId != null" >
+        and goods.brand_id  in (select brand_id from np_third_grandbrand where third_id=#{thirdId,jdbcType=CHAR} AND del_flag = '0' order by modify_time desc )
+     </if>
+     <if test="rateStatus != null" >
+         and goods.brand_id in (select brand_id from np_third_grandbrand where 
+         		<if test="rateStatus==1">rate_status=#{rateStatus,jdbcType=CHAR}</if> 
+         		<if test="rateStatus!=1">(rate_status= '0' or rate_status='2' 	or del_flag = '0')</if> )
+     </if>
+     <if test="brandName != null and brandName != ''">
+         and goods.brand_name like CONCAT(CONCAT('%',#{brandName,jdbcType=VARCHAR},'%'))
+     </if>
+     <if test="brandNickname != null and brandNickname != ''">
+         and goods.brand_nickname like CONCAT(CONCAT('%',#{brandNickname,jdbcType=VARCHAR},'%'))
+     </if>
+     <if test="brandSort != null and brandSort != ''">
+         and goods.brand_sort = #{brandSort,jdbcType=VARCHAR}
+     </if>
+     GROUP BY brand_id
+      order by grand.modify_time desc
+      limit #{startRowNum},#{endRowNum}
+  </select>
+
+   <!-- 查询第三方全部品牌-->
+  <select id="queryAllByThirdGoodsBrand"  resultMap="BaseResultMap" parameterType="java.util.Map">
+   select goods.brand_id,goods.brand_logo,goods.brand_nickname,goods.brand_name,goods.brand_url,goods.brand_sort ,grand.reason ,grand.rate_status
+   from np_goods_brand  goods,np_third_grandbrand grand
+   where grand.brand_id=goods.brand_id
+       and grand.del_flag='0'
+         and goods.brand_id in (select brand_id from np_third_grandbrand where rate_status='1' order by modify_time desc )
+     <if test="thirdId != null" >
+        and goods.brand_id  in (select brand_id from np_third_grandbrand where third_id=#{thirdId,jdbcType=CHAR} order by modify_time desc )
+     </if>
+    	 GROUP BY brand_id
+      order by grand.modify_time desc
+  </select>
+
+  <!-- 分页查询 未申请的品牌-->
+ <select id="forQueryAllThirdGoodsBrand"  resultMap="BaseResultMap" parameterType="java.util.Map">
+     select brand_id,brand_logo,brand_nickname,brand_name,brand_url,brand_sort
+     from np_goods_brand
+     where 1=1 and brand_delflag = "0"
+     and brand_id not in (
+     select brand_id from np_third_grandbrand
+     WHERE
+       third_id = #{thirdId}
+        and
+        (rate_status = '1' or rate_status = '0'))
+     <if test="brandName != null and brandName != ''">
+         and brand_name like CONCAT(CONCAT('%',#{brandName,jdbcType=VARCHAR},'%'))
+     </if>
+     GROUP BY brand_id
+      order by brand_name 
+      limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  
+  
+  <!-- 移除品牌 -->
+  <update id="updateGrandBrand" parameterType="com.ningpai.goods.bean.GoodsBrand">
+  	 update np_third_grandbrand set del_flag='1' , rate_status='2'
+  	 where brand_id=#{brandId,jdbcType=BIGINT}
+     and third_id=#{thirdId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 批量移除品牌 -->
+  <update id="updateGrandBrands" parameterType="java.util.Map">
+  	 update np_third_grandbrand set del_flag='1' , rate_status='2'  
+  	 where brand_id in 
+  	 <foreach collection="grandBrands" index="index" item="brandId" open="(" separator="," close=")">
+        #{brandId}   
+    </foreach>
+      and third_id=#{thirdId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 查询总数 -->
+   <select id="searchGoodsGoodsCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select count(*)
+    from np_goods_brand
+   where 1=1 and brand_delflag = "0"
+     <if test="forBrand == null">
+        and brand_id in (select brand_id from np_third_grandbrand  
+      where del_flag='0')
+     <if test="thirdId != null" >
+        and brand_id  in (select brand_id from np_third_grandbrand where third_id=#{thirdId,jdbcType=CHAR} and del_flag='0' )
+     </if>
+     <if test="rateStatus != null" >
+         and brand_id in (select brand_id from np_third_grandbrand where 
+         		<if test="rateStatus==1">rate_status=#{rateStatus,jdbcType=CHAR}</if> 
+         		<if test="rateStatus!=1">(rate_status= '0' or rate_status='2')</if> )
+     </if>
+     </if>
+     <if test="forBrand != null">
+         and brand_id not in (select brand_id from np_third_grandbrand  where del_flag='0') 
+     </if>
+     <if test="brandName != null and brandName != ''">
+         and brand_name like CONCAT(CONCAT('%',#{brandName,jdbcType=VARCHAR},'%'))
+     </if>
+     <if test="brandNickname != null and brandNickname != ''">
+         and brand_nickname like CONCAT(CONCAT('%',#{brandNickname,jdbcType=VARCHAR},'%'))
+     </if>
+  </select>
+  
+  <!-- 申请品牌 -->
+  <insert id="forTheGoodsBrand"  parameterType="java.util.List" >
+  <![CDATA[
+  		insert into np_third_grandbrand(id,third_id,brand_id,del_flag,modify_time,rate_status) values
+  ]]>
+  	 	<foreach collection="list" item="goodsBrands" index="index"  separator="," >
+  	 		(0,#{goodsBrands.thirdId,jdbcType=CHAR},#{goodsBrands.brandId,jdbcType=BIGINT},'0',#{goodsBrands.modifyTime,jdbcType=TIMESTAMP},'0')
+  	 	</foreach>
+  </insert>
+ 
+</mapper>

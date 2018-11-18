@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ningpai.comment.dao.ShareReplyMapper">
+  <resultMap id="BaseResultMap" type="com.ningpai.comment.bean.ShareReply">
+    <id column="share_reply_id" jdbcType="BIGINT" property="shareReplyId" />
+    <result column="customer_id" jdbcType="BIGINT" property="customerId" />
+    <result column="share_id" jdbcType="BIGINT" property="shareId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="reply_level" jdbcType="BIGINT" property="replyLevel" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="reply_content" jdbcType="VARCHAR" property="replyContent" />
+	  <result column="is_display" jdbcType="CHAR" property="isDisplay"/>
+  </resultMap>
+  <resultMap id="ShareReplyVoMap" type="com.ningpai.comment.vo.ShareReplyVo" extends="BaseResultMap">
+    <association property="customer" column="customer_id" select="com.ningpai.customer.dao.CustomerMapper.selectByPrimaryKey"></association>
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    c.share_reply_id, c.customer_id, c.share_id, c.create_time, c.parent_id,reply_content
+  </sql>
+  
+	<select id="queryReplyByShareId" resultMap="ShareReplyVoMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />,c.is_display
+		from np_share_reply c
+		where c.share_id=#{shareId,jdbcType=BIGINT}
+		order by c.create_time desc
+	</select>
+
+	<select id="queryShareReplyByShareId" resultMap="ShareReplyVoMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />,c.is_display
+		from np_share_reply c
+		where c.share_id=#{shareId,jdbcType=BIGINT}
+		order by c.create_time desc
+	</select>
+
+	<insert id="insertShareReply" parameterType="com.ningpai.comment.bean.ShareReply">
+	    insert into np_share_reply
+	    (customer_id,share_id,create_time,reply_content)
+	    values
+	    (
+	    #{customerId,jdbcType=BIGINT},
+	    #{shareId,jdbcType=BIGINT},
+	    #{createTime,jdbcType=TIMESTAMP},
+	    #{replyContent,jdbcType=VARCHAR}
+	    )
+
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="shareReplyId">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+	</insert>
+
+	<update id="updateShareReply" parameterType="com.ningpai.comment.bean.ShareReply">
+		update np_share_reply SET is_display = #{isDisplay,jdbcType=CHAR}
+		where share_reply_id = #{shareReplyId,jdbcType=BIGINT}
+	</update>
+	
+</mapper>

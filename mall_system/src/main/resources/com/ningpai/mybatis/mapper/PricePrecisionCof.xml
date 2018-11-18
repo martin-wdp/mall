@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+ @Title: 价格精度设置的mapper映射配置文件
+ @Description:
+ @author NINGPAI_xiaomm
+ @since 2014-03-20 17:16:10
+ @version V1.0
+-->
+<mapper namespace="com.ningpai.system.dao.PricePrecisionCofDaoImpl">
+
+	<resultMap id="BaseResultMap" type="com.ningpai.system.bean.PricePrecisionCof">
+				<!-- 记录ID -->
+				<id column="PRICE_PRE_CONF_ID" 
+					jdbcType="BIGINT"
+				 property="pricePreConfId" />
+				<!-- 设置方案标题 -->
+				<result column="CONF_TITLE"
+					jdbcType="VARCHAR"
+				property="confTitle" />
+				<!-- 设置方案代码 -->
+				<result column="CONF_CODE"
+					jdbcType="VARCHAR"
+				property="confCode" />
+				<!-- 保留位数 -->
+				<result column="DECIMAL_DIGITS"
+					jdbcType="VARCHAR"
+				property="decimalDigits" />
+				<!-- 取整方式 -->
+				<result column="GET_INTEGER_STYLE"
+					jdbcType="VARCHAR"
+				property="getIntegerStyle" />
+				<!-- 默认方式 -->
+				<result column="DEFALUT_STATUS"
+					jdbcType="VARCHAR"
+				property="defalutStatus" />
+				<!-- 添加人 -->
+				<result column="INSERT_ID"
+					jdbcType="BIGINT"
+				property="insertId" />
+				<!-- 添加时间 -->
+				<result column="INSERT_DATE"
+					jdbcType="DATE"
+				property="insertDate" />
+				<!-- 修改人 -->
+				<result column="MODIFY_ID"
+					jdbcType="BIGINT"
+				property="modifyId" />
+				<!-- 修改时间 -->
+				<result column="MODIFY_DATE"
+					jdbcType="DATE"
+				property="modifyDate" />
+	</resultMap>
+	
+	<sql id="baseSql">
+			PRICE_PRE_CONF_ID, 
+			CONF_TITLE, 
+			CONF_CODE, 
+			DECIMAL_DIGITS, 
+			GET_INTEGER_STYLE, 
+			DEFALUT_STATUS, 
+			INSERT_ID, 
+			INSERT_DATE, 
+			MODIFY_ID, 
+			MODIFY_DATE 
+	</sql>
+	<sql id="querySql">
+			PRICE_PRE_CONF_ID, 
+			CONF_TITLE, 
+			CONF_CODE, 
+			DECIMAL_DIGITS, 
+			GET_INTEGER_STYLE, 
+			DEFALUT_STATUS 
+	</sql>
+	
+	<!-- 保存价格精度设置 -->	
+	<insert id="savePricePrecisionCof" parameterType="com.ningpai.system.bean.PricePrecisionCof">
+		INSERT INTO NP_SYS_PRICE_PRE_CONF
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+				<!-- 记录ID
+				<if test="pricePreConfId != null">
+					PRICE_PRE_CONF_ID,
+				</if>  -->
+				<!-- 设置方案标题 -->
+				<if test="confTitle != null">
+					CONF_TITLE,
+				</if>
+				<!-- 设置方案代码 -->
+				<if test="confCode != null">
+					CONF_CODE,
+				</if>
+				<!-- 保留位数 -->
+				<if test="decimalDigits != null">
+					DECIMAL_DIGITS,
+				</if>
+				<!-- 取整方式 -->
+				<if test="getIntegerStyle != null">
+					GET_INTEGER_STYLE,
+				</if>
+				<!-- 默认方式 -->
+				<if test="defalutStatus != null">
+					DEFALUT_STATUS,
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID,
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE,
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID,
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE,
+				</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+				<!-- 记录ID -->
+					<!-- 记录ID 
+						#{pricePreConfId,
+								jdbcType=BIGINT
+						}, -->
+				<!-- 设置方案标题 -->
+					<if test="confTitle != null">
+						#{confTitle,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 设置方案代码 -->
+					<if test="confCode != null">
+						#{confCode,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 保留位数 -->
+					<if test="decimalDigits != null">
+						#{decimalDigits,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 取整方式 -->
+					<if test="getIntegerStyle != null">
+						#{getIntegerStyle,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 默认方式 -->
+					<if test="defalutStatus != null">
+						#{defalutStatus,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						#{insertId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null">
+						#{insertDate,
+								jdbcType=DATE
+						},
+					</if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						#{modifyId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null">
+						#{modifyDate,
+								jdbcType=DATE
+						},
+					</if>
+		</trim>
+	</insert>
+	<!-- 修改价格精度设置 -->
+	<update id="updatePricePrecisionCof" parameterType="com.ningpai.system.bean.PricePrecisionCof">
+		UPDATE NP_SYS_PRICE_PRE_CONF
+		<set>
+			
+				<!-- 记录ID -->
+				<if test="pricePreConfId != null">
+					PRICE_PRE_CONF_ID = #{pricePreConfId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 设置方案标题 -->
+				<if test="confTitle != null">
+					CONF_TITLE = #{confTitle,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 设置方案代码 -->
+				<if test="confCode != null">
+					CONF_CODE = #{confCode,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 保留位数 -->
+				<if test="decimalDigits != null">
+					DECIMAL_DIGITS = #{decimalDigits,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 取整方式 -->
+				<if test="getIntegerStyle != null">
+					GET_INTEGER_STYLE = #{getIntegerStyle,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 默认方式 -->
+				<if test="defalutStatus != null">
+					DEFALUT_STATUS = #{defalutStatus,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID = #{modifyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE = #{modifyDate,
+							jdbcType=DATE
+					},
+				</if>
+		</set>
+		WHERE 
+				PRICE_PRE_CONF_ID = #{pricePreConfId,
+							jdbcType=BIGINT
+					}
+	</update>
+	
+	<!-- 根据价格精度设置对象的id查询价格精度设置对象 -->
+	<select id="getPricePrecisionCofById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_PRICE_PRE_CONF 
+		WHERE 
+				PRICE_PRE_CONF_ID = #{pricePreConfId,
+							jdbcType=BIGINT
+					}
+	</select>
+	
+	<!-- 根据价格精度设置对象的id字符集合查询价格精度设置对象 -->
+	<select id="getPricePrecisionCofByIds" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_PRICE_PRE_CONF 
+		WHERE 
+				PRICE_PRE_CONF_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</select>
+	
+	<!-- 根据价格精度设置对象的id字符集合删除价格精度设置对象 -->
+	<update id="deletePricePrecisionCof" parameterType="java.util.Map">
+		DELETE FROM NP_SYS_PRICE_PRE_CONF 
+		WHERE 
+				PRICE_PRE_CONF_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+		
+	</update>
+	
+	
+	<!-- 更新价格精度设置对象的单个字段  -->
+	<update id="updatePricePrecisionCofFieldById" parameterType="java.util.Map">
+		UPDATE NP_SYS_PRICE_PRE_CONF
+		<set>
+				<!-- 记录ID -->
+				<if test="pricePreConfId != null">
+					PRICE_PRE_CONF_ID = #{pricePreConfId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 设置方案标题 -->
+				<if test="confTitle != null">
+					CONF_TITLE = #{confTitle,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 设置方案代码 -->
+				<if test="confCode != null">
+					CONF_CODE = #{confCode,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 保留位数 -->
+				<if test="decimalDigits != null">
+					DECIMAL_DIGITS = #{decimalDigits,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 取整方式 -->
+				<if test="getIntegerStyle != null">
+					GET_INTEGER_STYLE = #{getIntegerStyle,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 默认方式 -->
+				<if test="defalutStatus != null">
+					DEFALUT_STATUS = #{defalutStatus,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID = #{modifyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE = #{modifyDate,
+							jdbcType=DATE
+					},
+				</if>
+		</set>
+		WHERE 
+				PRICE_PRE_CONF_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</update>
+	
+	<!-- 根据价格精度设置对象的单个字段查询价格精度设置对象信息总数 -->
+	<select id="getPricePrecisionCofByFieldTotal" resultType="java.lang.Integer" parameterType="java.util.Map">
+		   SELECT COUNT(PRICE_PRE_CONF_ID) 
+		   FROM NP_SYS_PRICE_PRE_CONF D 
+		   WHERE 
+				<!-- 记录ID -->
+					<if test="pricePreConfId != null">
+						D.PRICE_PRE_CONF_ID = #{pricePreConfId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 设置方案标题 -->
+					<if test="confTitle != null and confTitle != ''">
+						D.CONF_TITLE like CONCAT(CONCAT('%', #{confTitle,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 设置方案代码 -->
+					<if test="confCode != null and confCode != ''">
+						D.CONF_CODE like CONCAT(CONCAT('%', #{confCode,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 保留位数 -->
+					<if test="decimalDigits != null and decimalDigits != ''">
+						D.DECIMAL_DIGITS like CONCAT(CONCAT('%', #{decimalDigits,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 取整方式 -->
+					<if test="getIntegerStyle != null and getIntegerStyle != ''">
+						D.GET_INTEGER_STYLE like CONCAT(CONCAT('%', #{getIntegerStyle,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 默认方式 -->
+					<if test="defalutStatus != null and defalutStatus != ''">
+						D.DEFALUT_STATUS like CONCAT(CONCAT('%', #{defalutStatus,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						D.INSERT_ID = #{insertId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null and insertDate !=''" >
+			        	(D.INSERT_DATE between  #{insertDateStart,jdbcType=DATE}  AND  #{insertDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						D.MODIFY_ID = #{modifyId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null and modifyDate !=''" >
+			        	(D.MODIFY_DATE between  #{modifyDateStart,jdbcType=DATE}  AND  #{modifyDateEnd,jdbcType=DATE}) and
+			        </if>
+        	1=1 
+	</select>
+	
+	<!-- 根据价格精度设置对象的单个字段查询价格精度设置对象信息 -->
+	<select id="getPricePrecisionCofByField" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM  NP_SYS_PRICE_PRE_CONF D 
+		   WHERE 
+				<!-- 记录ID -->
+					<if test="pricePreConfId != null">
+						D.PRICE_PRE_CONF_ID = #{pricePreConfId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 设置方案标题 -->
+					<if test="confTitle != null and confTitle !=''" >
+						D.CONF_TITLE like CONCAT(CONCAT('%', #{confTitle,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 设置方案代码 -->
+					<if test="confCode != null and confCode !=''" >
+						D.CONF_CODE like CONCAT(CONCAT('%', #{confCode,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 保留位数 -->
+					<if test="decimalDigits != null and decimalDigits !=''" >
+						D.DECIMAL_DIGITS like CONCAT(CONCAT('%', #{decimalDigits,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 取整方式 -->
+					<if test="getIntegerStyle != null and getIntegerStyle !=''" >
+						D.GET_INTEGER_STYLE like CONCAT(CONCAT('%', #{getIntegerStyle,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 默认方式 -->
+					<if test="defalutStatus != null and defalutStatus !=''" >
+						D.DEFALUT_STATUS like CONCAT(CONCAT('%', #{defalutStatus,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						D.INSERT_ID = #{insertId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null and insertDate !=''" >
+			        	(D.INSERT_DATE between  #{insertDateStart,jdbcType=DATE}  AND  #{insertDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						D.MODIFY_ID = #{modifyId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null and modifyDate !=''" >
+			        	(D.MODIFY_DATE between  #{modifyDateStart,jdbcType=DATE}  AND  #{modifyDateEnd,jdbcType=DATE}) and
+			        </if>
+        	1=1 
+		    LIMIT #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询价格精度设置对象信息总数 -->
+	<select id="queryPricePrecisionCofTotal" resultType="java.lang.Integer">
+		SELECT COUNT(PRICE_PRE_CONF_ID) FROM NP_SYS_PRICE_PRE_CONF
+	</select>
+	
+	<!-- 分页查询价格精度设置对象信息 -->
+	<select id="queryPricePrecisionCofByPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM NP_SYS_PRICE_PRE_CONF 
+		LIMIT  #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+</mapper>

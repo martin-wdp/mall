@@ -1,0 +1,591 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+ @Title: 配送方式设置的mapper映射配置文件
+ @Description:
+ @author NINGPAI_xiaomm
+ @since 2014-03-26 16:38:32
+ @version V1.0
+-->
+<mapper namespace="com.ningpai.system.dao.ExpressConfDaoImpl">
+
+	<resultMap id="BaseResultMap" type="com.ningpai.system.bean.ExpressConf">
+				<!-- 记录ID -->
+				<id column="EXPRESS_ID" 
+					jdbcType="BIGINT"
+				 property="expressId" />
+				<!-- 配送公司 -->
+				<result column="EXPRESS"
+					jdbcType="BIGINT"
+				property="express" />
+				<!-- 运费 -->
+				<result column="PRICE"
+					jdbcType="DOUBLE"
+				property="price" />
+				<!-- 承运公司 -->
+				<result column="SEND_EXPRESS"
+					jdbcType="BIGINT"
+				property="sendExpress" />
+				<!-- 备注 -->
+				<result column="DES"
+					jdbcType="VARCHAR"
+				property="des" />
+				<!-- 启用 -->
+				<result column="USED_STATUS"
+					jdbcType="VARCHAR"
+				property="usedStatus" />
+				<!-- 扩展字段1 -->
+				<result column="EXP_FLEID_1"
+					jdbcType="VARCHAR"
+				property="expFleid1" />
+				<!-- 扩展字段2 -->
+				<result column="EXP_FLEID_2"
+					jdbcType="VARCHAR"
+				property="expFleid2" />
+				<!-- 添加人 -->
+				<result column="INSERT_ID"
+					jdbcType="BIGINT"
+				property="insertId" />
+				<!-- 添加时间 -->
+				<result column="INSERT_DATE"
+					jdbcType="DATE"
+				property="insertDate" />
+				<!-- 修改人 -->
+				<result column="MODIFY_ID"
+					jdbcType="BIGINT"
+				property="modifyId" />
+				<!-- 修改时间 -->
+				<result column="MODIFY_DATE"
+					jdbcType="DATE"
+				property="modifyDate" />
+				<!-- 删除标识 -->
+				<result column="DELETE_STATUS"
+					jdbcType="BIGINT"
+				property="deleteStatus" />
+				<!-- 自提标识 -->
+				<result column="PICKUP_FLAG"
+					jdbcType="VARCHAR"
+				property="pickupFlag" />
+				<!-- 配送方式名称 -->
+				<result column="NAME"
+					jdbcType="VARCHAR"
+				property="name" />
+
+	</resultMap>
+	
+	<sql id="baseSql">
+			EXPRESS_ID, 
+			NAME, 
+			EXPRESS, 
+			PRICE, 
+			SEND_EXPRESS, 
+			DES, 
+			USED_STATUS, 
+			EXP_FLEID_1, 
+			EXP_FLEID_2, 
+			INSERT_ID, 
+			INSERT_DATE, 
+			MODIFY_ID, 
+			MODIFY_DATE, 
+			DELETE_STATUS,
+			PICKUP_FLAG 
+	</sql>
+	<sql id="querySql">
+			EXPRESS_ID, 
+			NAME, 
+			EXPRESS, 
+			PRICE, 
+			SEND_EXPRESS, 
+			DES, 
+			USED_STATUS, 
+			EXP_FLEID_1, 
+			EXP_FLEID_2, 
+			INSERT_ID, 
+			INSERT_DATE, 
+			MODIFY_ID, 
+			MODIFY_DATE, 
+			DELETE_STATUS,
+			PICKUP_FLAG 
+	</sql>
+
+    <sql id="extendSql">
+        D.EXPRESS_ID,
+        D.NAME,
+        D.EXPRESS,
+        D.PRICE,
+        D.SEND_EXPRESS,
+        D.DES,
+        D.USED_STATUS,
+        D.INSERT_ID,
+        D.INSERT_DATE,
+        D.MODIFY_ID,
+        D.MODIFY_DATE,
+        D.DELETE_STATUS,
+        D.PICKUP_FLAG
+    </sql>
+	
+	<!-- 保存配送方式设置 -->	
+	<insert id="saveExpressConf" parameterType="com.ningpai.system.bean.ExpressConf">
+		INSERT INTO NP_SYS_EXPRESS_CONF
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+				<!-- 记录ID 
+				<if test="expressId != null">
+					EXPRESS_ID,
+				</if> -->
+				<!-- 配送公司 -->
+				<if test="express != null">
+					EXPRESS,
+				</if>
+				<!-- 运费 -->
+				<if test="price != null">
+					PRICE,
+				</if>
+				<!-- 承运公司 -->
+				<if test="sendExpress != null">
+					SEND_EXPRESS,
+				</if>
+				<!-- 备注 -->
+				<if test="des != null">
+					DES,
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS,
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1,
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2,
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID,
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE,
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID,
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE,
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS,
+				</if>
+				<!-- 自提标识 -->
+				<if test="pickupFlag != null">
+					PICKUP_FLAG,
+				</if>
+				<!-- 配送方式名称 -->
+				<if test="name != null">
+					NAME,
+				</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+				<!-- 记录ID 
+						#{expressId,
+								jdbcType=BIGINT
+						}, -->
+				<!-- 配送公司 -->
+					<if test="express != null">
+						#{express,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 运费 -->
+					<if test="price != null">
+						#{price,
+								jdbcType=DOUBLE
+						},
+					</if>
+				<!-- 承运公司 -->
+					<if test="sendExpress != null">
+						#{sendExpress,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 备注 -->
+					<if test="des != null">
+						#{des,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 启用 -->
+					<if test="usedStatus != null">
+						#{usedStatus,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null">
+						#{expFleid1,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null">
+						#{expFleid2,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						#{insertId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null">
+						#{insertDate,
+								jdbcType=DATE
+						},
+					</if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						#{modifyId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null">
+						#{modifyDate,
+								jdbcType=DATE
+						},
+					</if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						#{deleteStatus,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 自提标识 -->
+					<if test="pickupFlag != null">
+						#{pickupFlag,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 配送方式名称 -->
+					<if test="name != null">
+						#{name,
+								jdbcType=VARCHAR
+						},
+					</if>
+		</trim>
+	</insert>
+	<!-- 修改配送方式设置 -->
+	<update id="updateExpressConf" parameterType="com.ningpai.system.bean.ExpressConf">
+		UPDATE NP_SYS_EXPRESS_CONF
+		<set>
+			
+				<!-- 记录ID -->
+				<if test="expressId != null">
+					EXPRESS_ID = #{expressId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 配送公司 -->
+				<if test="express != null">
+					EXPRESS = #{express,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 运费 -->
+				<if test="price != null">
+					PRICE = #{price,
+							jdbcType=DOUBLE
+					},
+				</if>
+				<!-- 承运公司 -->
+				<if test="sendExpress != null">
+					SEND_EXPRESS = #{sendExpress,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 备注 -->
+				<if test="des != null">
+					DES = #{des,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS = #{usedStatus,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1 = #{expFleid1,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2 = #{expFleid2,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID = #{modifyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE = #{modifyDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS = #{deleteStatus,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 自提标识 -->
+				<if test="pickupFlag != null">
+					PICKUP_FLAG = #{pickupFlag,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 配送方式名称 -->
+				<if test="name != null">
+					NAME = #{name,
+							jdbcType=VARCHAR
+					},
+				</if>
+		</set>
+		WHERE 
+				EXPRESS_ID = #{expressId,
+							jdbcType=BIGINT
+					}
+	</update>
+	
+	<!-- 根据配送方式设置对象的id查询配送方式设置对象 -->
+	<select id="getExpressConfById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_EXPRESS_CONF 
+		WHERE 
+				EXPRESS_ID = #{expressId,
+							jdbcType=BIGINT
+					}
+	</select>
+	
+	<!-- 根据配送方式设置对象的id字符集合查询配送方式设置对象 -->
+	<select id="getExpressConfByIds" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_EXPRESS_CONF 
+		WHERE 
+				EXPRESS_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</select>
+	
+	<!-- 根据配送方式设置对象的id字符集合删除配送方式设置对象 -->
+	<update id="deleteExpressConf" parameterType="java.util.Map">
+		DELETE FROM NP_SYS_EXPRESS_CONF 
+		WHERE 
+				EXPRESS_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+		
+	</update>
+	
+	
+	<!-- 更新配送方式设置对象的单个字段  -->
+	<update id="updateExpressConfFieldById" parameterType="java.util.Map">
+		UPDATE NP_SYS_EXPRESS_CONF
+		<set>
+				<!-- 记录ID -->
+				<if test="expressId != null">
+					EXPRESS_ID = #{expressId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 配送公司 -->
+				<if test="express != null">
+					EXPRESS = #{express,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 运费 -->
+				<if test="price != null">
+					PRICE = #{price,
+							jdbcType=DOUBLE
+					},
+				</if>
+				<!-- 承运公司 -->
+				<if test="sendExpress != null">
+					SEND_EXPRESS = #{sendExpress,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 备注 -->
+				<if test="des != null">
+					DES = #{des,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS = #{usedStatus,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1 = #{expFleid1,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2 = #{expFleid2,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID = #{modifyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE = #{modifyDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS = #{deleteStatus,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 自提标识 -->
+				<if test="pickupFlag != null">
+					PICKUP_FLAG = #{pickupFlag,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 配送方式名称 -->
+				<if test="name != null">
+					NAME = #{name,
+							jdbcType=VARCHAR
+					},
+				</if>
+		</set>
+		WHERE 
+				EXPRESS_ID IN  
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</update>
+	
+	<!-- 根据配送方式设置对象的单个字段查询配送方式设置对象信息总数 -->
+	<select id="getExpressConfByFieldTotal" resultType="java.lang.Integer" parameterType="java.util.Map">
+		 SELECT count(1)
+        FROM
+        NP_SYS_EXPRESS_CONF 
+        where delete_status = '0'
+	</select>
+
+    <!-- 查询启用的上门自提 -->
+    <select id="getExpressConfByUsedField" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT <include refid="extendSql"/>
+    FROM NP_SYS_EXPRESS_CONF D
+        where D.DELETE_STATUS =0 and D.USED_STATUS='1'
+    </select>
+	
+	<!-- 根据配送方式设置对象的单个字段查询配送方式设置对象信息 -->
+	<select id="getExpressConfByField" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT 
+			EXPRESS_ID, 
+			NAME, 
+			EXPRESS, 
+			PRICE, 
+			SEND_EXPRESS, 
+			DES, 
+			USED_STATUS, 
+			EXP_FLEID_1, 
+			EXP_FLEID_2, 
+			INSERT_ID, 
+			INSERT_DATE, 
+			MODIFY_ID, 
+			MODIFY_DATE, 
+			DELETE_STATUS,
+			PICKUP_FLAG 
+        FROM
+        NP_SYS_EXPRESS_CONF 
+        where delete_status = '0'
+		    LIMIT #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询配送方式设置对象信息总数 -->
+	<select id="queryExpressConfTotal" resultType="java.lang.Integer">
+		SELECT COUNT(EXPRESS_ID) FROM NP_SYS_EXPRESS_CONF
+	</select>
+	
+	<!-- 分页查询配送方式设置对象信息 -->
+	<select id="queryExpressConfByPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM NP_SYS_EXPRESS_CONF 
+		LIMIT  #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 根据配送方式查询物流公司快递100代码 -->
+	<select id="queryKuaidi100CodeByExpressId" resultType="java.lang.String" parameterType="java.lang.Long">
+		SELECT c.KUAIDI100_CODE FROM NP_SYS_EXPRESS_CONF e
+		inner join NP_SYS_LOGISTICS_COMPANY c
+		WHERE e.EXPRESS = c.LOG_COM_ID
+		and e.EXPRESS_ID = #{expressid,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 根据物流公司ID查询配送方式数量 -->
+	<select id="queryExpressCountByLogistics" resultType="java.lang.Integer" parameterType="java.lang.Long">
+		SELECT COUNT(EXPRESS_ID) FROM NP_SYS_EXPRESS_CONF
+		WHERE EXPRESS = #{express,jdbcType=BIGINT}
+	</select>
+	<!-- 根据物流公司ID查询配送方式集合 -->
+	<update id="updateExpressUserdStatusByLogisticsId" parameterType="java.util.Map">
+		UPDATE NP_SYS_EXPRESS_CONF
+		SET USED_STATUS = #{usedStatus}
+		WHERE EXPRESS = #{logisticsId}
+	</update>
+</mapper>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.manager.mapper.ManagerAuthorityMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.manager.bean.ManagerAuthority" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="manager_id" property="managerId" jdbcType="BIGINT" />
+    <result column="authority_id" property="authorityId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+    <result column="flag" property="flag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, manager_id, authority_id, create_time, mod_time, flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_manager_authority
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_manager_authority
+    where type = '0'
+  </select>
+  <select id="selectByManagerId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_manager_authority
+    where manager_id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_manager_authority
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+   <!-- 根据Map中的权限编号批量删除管理员 -->
+  <delete id="deleteByManagerIds" parameterType="java.util.Map" >
+   	 update np_manager_authority set flag='1'
+     where manager_id in
+     <foreach item="item" index="index" collection="parameterIds" open="(" separator="," close=")">
+          #{item}
+     </foreach>
+  </delete>
+    <!-- 根据Map中的权限编号批量启用管理员 -->
+    <delete id="enabledByManagerIds" parameterType="java.util.Map" >
+        update np_manager_authority set flag='0'
+        where manager_id in
+        <foreach item="item" index="index" collection="parameterIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+  <insert id="insert" parameterType="com.ningpai.manager.bean.ManagerAuthority" >
+    insert into np_manager_authority (id, manager_id, authority_id, 
+      create_time, mod_time, flag
+      )
+    values (#{id,jdbcType=BIGINT}, #{managerId,jdbcType=BIGINT}, #{authorityId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modTime,jdbcType=TIMESTAMP}, #{flag,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="java.util.Map" >
+    insert into np_manager_authority
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="managerId != null" >
+        manager_id,
+      </if>
+      <if test="authorityId != null" >
+        authority_id,
+      </if>
+      <if test="createTime == null" >
+        create_time,
+      </if>
+      <if test="modTime != null" >
+        mod_time,
+      </if>
+      <if test="flag == null" >
+        flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="managerId != null" >
+        #{managerId,jdbcType=BIGINT},
+      </if>
+      <if test="authorityId != null" >
+        #{authorityId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime == null" >
+       SYSDATE(),
+      </if>
+      <if test="modTime != null" >
+        #{modTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag == null" >
+        '0',
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.manager.bean.ManagerAuthority" >
+    update np_manager_authority
+    <set >
+      <if test="authorityId != null" >
+        authority_id = #{authorityId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modTime == null" >
+        mod_time = SYSDATE(),
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=CHAR},
+      </if>
+    </set>
+    where manager_id = #{managerId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.manager.bean.ManagerAuthority" >
+    update np_manager_authority
+    set manager_id = #{managerId,jdbcType=BIGINT},
+      authority_id = #{authorityId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      mod_time = #{modTime,jdbcType=TIMESTAMP},
+      flag = #{flag,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

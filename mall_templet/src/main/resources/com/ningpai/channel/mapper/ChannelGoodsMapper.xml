@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.channel.dao.ChannelGoodsMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.channel.bean.ChannelGoods" >
+    <id column="channel_goods_id" property="channelGoodsId" jdbcType="BIGINT" />
+    <result column="channel_id" property="channelId" jdbcType="BIGINT" />
+    <result column="goodes_product_no" property="goodesProductNo" jdbcType="VARCHAR" />
+    <result column="goods_product_name" property="goodsProductName" jdbcType="VARCHAR" />
+    <result column="goods_product_id" property="goodsProductId" jdbcType="BIGINT" />
+    <result column="goods_product_img" property="goodsProductImg" jdbcType="VARCHAR" />
+    <result column="goods_product_price" property="goodsProductPrice" jdbcType="DECIMAL" />
+    <result column="channel_goods_flag" property="channelGoodsFlag" jdbcType="CHAR" />
+    <result column="channel_goods_flag_name" property="channelGoodsFlagName" jdbcType="VARCHAR" />
+    <result column="channel_goods_del_flag" property="channelGoodsDelFlag" jdbcType="CHAR" />
+    <result column="channel_goods_sort" property="channelGoodsSort" jdbcType="INTEGER" />
+    <result column="channel_goods_status" property="channelGoodsStatus" jdbcType="CHAR" />
+    <result column="channel_goods_create_time" property="channelGoodsCreateTime" jdbcType="TIMESTAMP" />
+    <result column="channel_goods_modify_time" property="channelGoodsModifyTime" jdbcType="TIMESTAMP" />
+    <result column="channel_goods_create_user" property="channelGoodsCreateUser" jdbcType="BIGINT" />
+    <result column="channel_goods_modify_user" property="channelGoodsModifyUser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    channel_goods_id, channel_id, goodes_product_no, goods_product_name, goods_product_id, 
+    goods_product_img, goods_product_price, channel_goods_flag,channel_goods_flag_name, channel_goods_del_flag, 
+    channel_goods_sort, channel_goods_status, channel_goods_create_time, channel_goods_modify_time, 
+    channel_goods_create_user, channel_goods_modify_user
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_channel_goods
+    where channel_goods_id = #{channelGoodsId,jdbcType=BIGINT}
+  </select>
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    update np_channel_goods set channel_goods_del_flag = '1'
+    where channel_goods_id = #{channelGoodsId,jdbcType=BIGINT}
+  </update>
+  <insert id="insert" parameterType="com.ningpai.channel.bean.ChannelGoods" useGeneratedKeys="true" keyProperty="channelGoodsId" >
+    insert into np_channel_goods (channel_id, goodes_product_no, goods_product_name, 
+      goods_product_id, goods_product_img, goods_product_price, 
+      channel_goods_flag, channel_goods_flag_name,channel_goods_del_flag, channel_goods_sort, 
+      channel_goods_status, channel_goods_create_time, 
+      channel_goods_modify_time, channel_goods_create_user, 
+      channel_goods_modify_user)
+    values (#{channelId,jdbcType=BIGINT}, #{goodesProductNo,jdbcType=VARCHAR}, #{goodsProductName,jdbcType=VARCHAR}, 
+      #{goodsProductId,jdbcType=BIGINT}, #{goodsProductImg,jdbcType=VARCHAR}, #{goodsProductPrice,jdbcType=DECIMAL}, 
+      #{channelGoodsFlag,jdbcType=CHAR}, #{channelGoodsFlagName,jdbcType=VARCHAR}, #{channelGoodsDelFlag,jdbcType=CHAR}, #{channelGoodsSort,jdbcType=INTEGER}, 
+      #{channelGoodsStatus,jdbcType=CHAR}, #{channelGoodsCreateTime,jdbcType=TIMESTAMP}, 
+      #{channelGoodsModifyTime,jdbcType=TIMESTAMP}, #{channelGoodsCreateUser,jdbcType=BIGINT}, 
+      #{channelGoodsModifyUser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.channel.bean.ChannelGoods" useGeneratedKeys="true" keyProperty="channelGoodsId" >
+    insert into np_channel_goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      channel_id,
+      goodes_product_no,
+      goods_product_name,
+      goods_product_id,
+      goods_product_img,
+      goods_product_price,
+      channel_goods_flag,
+      channel_goods_flag_name,
+      channel_goods_del_flag,
+      channel_goods_sort,
+      channel_goods_status,
+      channel_goods_create_time,
+      channel_goods_modify_time,
+      channel_goods_create_user,
+      channel_goods_modify_user,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{channelId,jdbcType=BIGINT},
+      #{goodesProductNo,jdbcType=VARCHAR},
+      #{goodsProductName,jdbcType=VARCHAR},
+      #{goodsProductId,jdbcType=BIGINT},
+      #{goodsProductImg,jdbcType=VARCHAR},
+      #{goodsProductPrice,jdbcType=DECIMAL},
+      #{channelGoodsFlag,jdbcType=CHAR},
+      #{channelGoodsFlagName,jdbcType=VARCHAR},
+      #{channelGoodsDelFlag,jdbcType=CHAR},
+      #{channelGoodsSort,jdbcType=INTEGER},
+      #{channelGoodsStatus,jdbcType=CHAR},
+      #{channelGoodsCreateTime,jdbcType=TIMESTAMP},
+      #{channelGoodsModifyTime,jdbcType=TIMESTAMP},
+      #{channelGoodsCreateUser,jdbcType=BIGINT},
+      #{channelGoodsModifyUser,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.channel.bean.ChannelGoods" >
+    update np_channel_goods
+    <set >
+      <if test="channelId != null" >
+        channel_id = #{channelId,jdbcType=BIGINT},
+      </if>
+      <if test="goodesProductNo != null" >
+        goodes_product_no = #{goodesProductNo,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsProductName != null" >
+        goods_product_name = #{goodsProductName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsProductId != null" >
+        goods_product_id = #{goodsProductId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsProductImg != null" >
+        goods_product_img = #{goodsProductImg,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsProductPrice != null" >
+        goods_product_price = #{goodsProductPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="channelGoodsFlag != null" >
+        channel_goods_flag = #{channelGoodsFlag,jdbcType=CHAR},
+      </if>
+      <if test="channelGoodsFlagName != null" >
+        channel_goods_flag_name = #{channelGoodsFlagName,jdbcType=VARCHAR},
+      </if>
+      <if test="channelGoodsDelFlag != null" >
+        channel_goods_del_flag = #{channelGoodsDelFlag,jdbcType=CHAR},
+      </if>
+      <if test="channelGoodsSort != null" >
+        channel_goods_sort = #{channelGoodsSort,jdbcType=INTEGER},
+      </if>
+      <if test="channelGoodsStatus != null" >
+        channel_goods_status = #{channelGoodsStatus,jdbcType=CHAR},
+      </if>
+      <if test="channelGoodsCreateTime != null" >
+        channel_goods_create_time = #{channelGoodsCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="channelGoodsModifyTime != null" >
+        channel_goods_modify_time = #{channelGoodsModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="channelGoodsCreateUser != null" >
+        channel_goods_create_user = #{channelGoodsCreateUser,jdbcType=BIGINT},
+      </if>
+      <if test="channelGoodsModifyUser != null" >
+        channel_goods_modify_user = #{channelGoodsModifyUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where channel_goods_id = #{channelGoodsId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.channel.bean.ChannelGoods" >
+    update np_channel_goods
+    set channel_id = #{channelId,jdbcType=BIGINT},
+      goodes_product_no = #{goodesProductNo,jdbcType=VARCHAR},
+      goods_product_name = #{goodsProductName,jdbcType=VARCHAR},
+      goods_product_id = #{goodsProductId,jdbcType=BIGINT},
+      goods_product_img = #{goodsProductImg,jdbcType=VARCHAR},
+      goods_product_price = #{goodsProductPrice,jdbcType=DECIMAL},
+      channel_goods_flag = #{channelGoodsFlag,jdbcType=CHAR},
+      channel_goods_flag_name = #{channelGoodsFlagName,jdbcType=VARCHAR},
+      channel_goods_del_flag = #{channelGoodsDelFlag,jdbcType=CHAR},
+      channel_goods_sort = #{channelGoodsSort,jdbcType=INTEGER},
+      channel_goods_status = #{channelGoodsStatus,jdbcType=CHAR},
+      channel_goods_create_time = #{channelGoodsCreateTime,jdbcType=TIMESTAMP},
+      channel_goods_modify_time = #{channelGoodsModifyTime,jdbcType=TIMESTAMP},
+      channel_goods_create_user = #{channelGoodsCreateUser,jdbcType=BIGINT},
+      channel_goods_modify_user = #{channelGoodsModifyUser,jdbcType=VARCHAR}
+    where channel_goods_id = #{channelGoodsId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectChannelGoodsCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+  select count(channel_goods_id) from np_channel_goods
+  where channel_id = #{channelId,jdbcType=BIGINT}
+  and channel_goods_del_flag = '0'
+  </select>
+  <select id="selectChannelGoodsList" parameterType="java.util.Map" resultMap="BaseResultMap">
+  select <include refid="Base_Column_List"/> from np_channel_goods
+  where channel_id = #{channelId,jdbcType=BIGINT}
+  and channel_goods_del_flag = '0'
+  ORDER BY channel_goods_flag desc,channel_goods_sort
+  limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <select id="selectChannelGoodsByFlag" parameterType="java.util.Map" resultMap="BaseResultMap">
+   select <include refid="Base_Column_List"/> from np_channel_goods
+  where channel_id = #{channelId,jdbcType=BIGINT}
+  and channel_goods_del_flag = '0'
+  and channel_goods_flag = #{channelGoodsFlag,jdbcType=CHAR}
+  limit #{top}
+  </select>
+</mapper>

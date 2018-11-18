@@ -1,0 +1,11 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="false">
+    <disqpmall path="java.io.tmpdir"/>
+
+    <defaultCache maxElementsInMemory="1000" eternal="false"
+                  timeToIdleSeconds="120" timeToLiveSeconds="120" overflowToDisk="true"/>
+
+    <cache name="authorinfo" eternal="false" timeToLiveSeconds="3600" maxElementsOnDisk="100000000"
+           overflowToDisk="false" maxElementsInMemory="100" diskPersistent="false"
+           memoryStoreEvictionPolicy="LRU"/>
+</ehcache>

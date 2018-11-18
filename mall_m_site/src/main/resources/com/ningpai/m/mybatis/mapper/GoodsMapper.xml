@@ -1,0 +1,655 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpaimsite.goods.dao.GoodsMapper">
+	<resultMap id="BaseResultMap" type="com.ningpai.goods.bean.Goods">
+		<id column="goods_id" property="goodsId" jdbcType="BIGINT" />
+		<result column="cat_id" property="catId" jdbcType="BIGINT" />
+		<result column="type_id" property="typeId" jdbcType="BIGINT" />
+		<result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+		<result column="goods_subtitle" property="goodsSubtitle"
+			jdbcType="VARCHAR" />
+		<result column="goods_no" property="goodsNo" jdbcType="VARCHAR" />
+		<result column="goods_keywords" property="goodsKeywords"
+			jdbcType="VARCHAR" />
+		<result column="brand_id" property="brandId" jdbcType="BIGINT" />
+		<result column="goods_brief" property="goodsBrief" jdbcType="VARCHAR" />
+		<result column="goods_added" property="goodsAdded" jdbcType="CHAR" />
+		<result column="goods_uptime" property="goodsUptime" jdbcType="TIMESTAMP" />
+		<result column="goods_price" property="goodsPrice" jdbcType="DECIMAL" />
+        <!--2015.10.22 wuyanbo  添加会员价-->
+        <result column="goods_vip_price" property="goodsVipPrice" jdbcType="DECIMAL" />
+		<result column="goods_recom" property="goodsRecom" jdbcType="CHAR" />
+		<result column="goods_img" property="goodsImg" jdbcType="VARCHAR" />
+		<result column="goods_score" property="goodsScore" jdbcType="DECIMAL" />
+		<result column="goods_deno" property="goodsDeno" jdbcType="VARCHAR" />
+		<result column="goods_detail_desc" property="goodsDetailDesc"
+			jdbcType="LONGVARCHAR" />
+		<result column="mobile_desc" property="mobileDesc"
+			jdbcType="LONGVARCHAR" />
+		<result column="goods_seo_title" property="goodsSeoTitle"
+			jdbcType="VARCHAR" />
+		<result column="goods_seo_keyword" property="goodsSeoKeyword"
+			jdbcType="VARCHAR" />
+		<result column="goods_seo_desc" property="goodsSeoDesc"
+			jdbcType="VARCHAR" />
+		<result column="goods_prom" property="goodsProm" jdbcType="CHAR" />
+		<result column="goods_info_instocksell" property="goodsInfoInstocksell"
+			jdbcType="CHAR" />
+		<result column="goods_usecoupon" property="goodsUsecoupon"
+			jdbcType="CHAR" />
+		<result column="goods_create_name" property="goodsCreateName"
+			jdbcType="VARCHAR" />
+		<result column="goods_create_time" property="goodsCreateTime"
+			jdbcType="TIMESTAMP" />
+		<result column="goods_modified_name" property="goodsModifiedName"
+			jdbcType="VARCHAR" />
+		<result column="goods_modified_time" property="goodsModifiedTime"
+			jdbcType="TIMESTAMP" />
+		<result column="goods_del_name" property="goodsDelName"
+			jdbcType="VARCHAR" />
+		<result column="goods_del_time" property="goodsDelTime"
+			jdbcType="TIMESTAMP" />
+		<result column="goods_delflag" property="goodsDelflag"
+			jdbcType="CHAR" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.ningpai.goods.bean.Goods"
+		extends="BaseResultMap">
+		<result column="goods_detail_desc" property="goodsDetailDesc"
+			jdbcType="LONGVARCHAR" />
+		<result column="mobile_desc" property="mobileDesc"
+			jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<!-- 包含所有的货品信息的VO -->
+	<resultMap type="com.ningpai.m.goods.vo.GoodsDetailVo" id="goodsDetailVo">
+		<id column="goods_id" property="goodsId" jdbcType="BIGINT" />
+		<result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+		<result column="goods_subtitle" property="goodsSubtitle"
+			jdbcType="VARCHAR" />
+		<result column="goods_keywords" property="goodsKeywords"
+			jdbcType="VARCHAR" />
+		<result column="goods_no" property="goodsNo" jdbcType="VARCHAR"/>
+		<result column="goods_added" property="goodsAdded" jdbcType="CHAR" />
+		<result column="goods_price" property="goodsPrice" jdbcType="DECIMAL" />
+        <!--2015.10.22 wuyanbo  添加会员价-->
+        <result column="goods_vip_price" property="goodsVipPrice" jdbcType="DECIMAL" />
+		<result column="goods_img" property="goodsImg" jdbcType="VARCHAR" />
+		<result column="goods_brief" property="goodsBrief" jdbcType="VARCHAR" />
+		<result column="goods_recom" property="goodsRecom" jdbcType="CHAR" />
+		<result column="goods_deno" property="goodsDeno" jdbcType="VARCHAR" />
+		<result column="goods_seo_title" property="goodsSeoTitle"
+			jdbcType="VARCHAR" />
+		<result column="goods_seo_keyword" property="goodsSeoKeyword"
+			jdbcType="VARCHAR" />
+		<result column="goods_seo_desc" property="goodsSeoDesc"
+			jdbcType="VARCHAR" />
+		<result column="goods_prom" property="goodsProm" jdbcType="CHAR" />
+		<result column="goods_info_instocksell" property="goodsInfoInstocksell"
+			jdbcType="CHAR" />
+		<result column="goods_usecoupon" property="goodsUsecoupon"
+			jdbcType="CHAR" />
+		<result column="goods_detail_desc" property="goodsDetailDesc"
+			jdbcType="LONGVARCHAR" />
+		<result column="mobile_desc" property="mobileDesc"
+			jdbcType="LONGVARCHAR" />
+		<association property="goodsCate" column="cat_id"
+			select="com.ningpaimsite.goods.dao.GoodsCateMapper.queryCateVoByCatId"></association>
+		<collection property="expandParamVoList" column="goods_id"
+			javaType="ArrayList" ofType="com.ningpai.m.goods.vo.GoodsReleExpandParamVo"
+			select="com.ningpaimsite.goods.dao.GoodsReleExpandParamMapper.queryAllByGoodsId"></collection>
+		<collection property="paramVoList" column="goods_id"
+			javaType="ArrayList" ofType="com.ningpai.m.goods.vo.GoodsReleParamVo"
+			select="com.ningpaimsite.goods.dao.GoodsReleParamMapper.queryAllByGoodsId"></collection>
+		<collection property="specVoList" column="goods_id"
+			javaType="ArrayList" ofType="com.ningpai.m.goods.vo.GoodsSpecVo"
+			select="com.ningpaimsite.goods.dao.GoodsSpecMapper.querySpecVoByGoodsId"></collection>
+		<collection property="productVos" column="goods_id"
+			javaType="ArrayList" ofType="com.ningpai.m.goods.vo.GoodsProductVo"
+			select="com.ningpaimsite.goods.dao.GoodsProductMapper.queryProductByGoodsId"></collection>
+	</resultMap>
+	<!-- 显示在列表页的ResultMap -->
+	<resultMap type="com.ningpai.m.goods.vo.GoodsShowListVo" id="showlistVo">
+		<id column="goods_info_id" property="goodsInfoId" jdbcType="BIGINT" />
+	    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+	    <result column="goods_info_item_no" property="goodsInfoItemNo" jdbcType="VARCHAR" />
+	    <result column="goods_info_name" property="productName" jdbcType="VARCHAR"/>
+        <result column="goods_info_oem" property="goodsInfoOem" jdbcType="VARCHAR"/>
+	    <result column="goods_info_subtitle" property="subtitle" jdbcType="VARCHAR"/>
+	    <result column="goods_info_added" property="goodsInfoAdded" jdbcType="CHAR" />
+	    <result column="ware_stock" property="goodsInfoStock" jdbcType="BIGINT" />
+        <result column="ware_price" property="warePrice" jdbcType="DECIMAL" />
+        <!--2015.10.22 wuyanbo  添加分仓会员价-->
+        <result column="ware_vip_price" property="wareVipPrice" jdbcType="DECIMAL" />
+	    <result column="goods_info_prefer_price" property="goodsInfoPreferPrice" jdbcType="DECIMAL" />
+        <!--2015.10.22 wuyanbo  添加货品会员价-->
+        <result column="goods_info_vip_price" property="goodsInfoVipPrice" jdbcType="DECIMAL" />
+
+        <!--汽车配件类型：“1”表示OEM件，“2”表示常用件          杨国栋 2015.10.31-->
+        <result column="goods_info_auto_parts_type" property="goodsInfoAutoPartsType" jdbcType="VARCHAR" />
+        <!--OEM号     goodsInfoOem                                     杨国栋 2015.10.31-->
+        <result column="goods_info_oem" property="goodsInfoOem" jdbcType="VARCHAR" />
+        <!--OEM件的适配车型：用空格隔开      goodsInfoAutoStyle                   杨国栋 2015.10.31-->
+        <result column="goods_info_auto_style" property="goodsInfoAutoStyle" jdbcType="VARCHAR" />
+
+
+
+
+	    <result column="goods_info_cost_price" property="goodsInfoCostPrice" jdbcType="DECIMAL" />
+	    <result column="goods_info_market_price" property="goodsInfoMarketPrice" jdbcType="DECIMAL" />
+	    <result column="goods_info_weight" property="goodsInfoWeight" jdbcType="DECIMAL" />
+	    <result column="goods_info_img_id" property="goodsInfoImgId" jdbcType="VARCHAR" />
+	    <result column="goods_info_delflag" property="goodsInfoDelflag" jdbcType="CHAR" />
+	    <result column="third_id" property="thirdId" jdbcType="CHAR"/>
+	    <result column="third_name" property="thirdName" jdbcType="VARCHAR"/>
+	    <!-- <association property="goods" column="goods_id" 
+	    	select="com.ningpaimsite.goods.dao.GoodsMapper.selectGoodsByGoodsId"></association> -->
+	   <!--  <collection property="specVo" column="goods_info_id" javaType="ArrayList" ofType="com.ningpai.m.goods.vo.GoodsProductReleSpecVo"
+	  		select="com.ningpaimsite.goods.dao.GoodsProductReleSpecMapper.queryAllByProductId"
+	  	></collection> -->
+	  	<association property="commentUtilBean" column="goods_info_id" select="com.ningpaimsite.goods.dao.GoodsMapper.queryCommentCountAndScoreByProductId"></association>
+	    <collection property="imageList" column="goods_info_id" javaType="ArrayList" ofType="com.ningpai.m.goods.bean.GoodsImage"
+	  		select="com.ningpaimsite.goods.dao.GoodsImageMapper.queryByProductId"
+	  	></collection>
+	</resultMap>
+	<!-- 商品列表页分数工具 -->
+	<resultMap type="com.ningpai.m.goods.util.ProductCommentUtilBean" id="commentUtilBeanResultMap">
+		<result column="count" property="count" jdbcType="VARCHAR"/>
+		<result column="score" property="score" jdbcType="VARCHAR"/>
+	</resultMap>
+	<sql id="Base_Column_List">
+		g.goods_id, g.cat_id, g.type_id, g.goods_name, g.goods_subtitle, g.goods_no,
+		g.goods_keywords,
+		g.brand_id, g.goods_brief, g.goods_added, g.goods_uptime, g.goods_price, g.goods_vip_price, g.goods_recom,
+		g.goods_img,
+		g.goods_score, g.goods_deno, g.goods_seo_title, g.goods_seo_keyword, g.goods_seo_desc,
+		g.goods_prom,
+		g.goods_info_instocksell, g.goods_usecoupon, g.goods_create_name, g.goods_create_time,
+		g.goods_modified_name,
+		g.goods_modified_time, g.goods_del_name, g.goods_del_time,g.goods_delflag
+	</sql>
+	<sql id="Product_Base_Column_List" >
+	    i.goods_info_id, i.goods_id,i.goods_info_name,i.goods_info_subtitle,i.goods_info_oem ,i.goods_info_item_no, i.goods_info_added, i.goods_info_added_time,
+	    i.goods_info_prefer_price, i.goods_info_vip_price, i.goods_info_cost_price, i.goods_info_market_price,
+	    i.goods_info_weight, i.goods_info_img_id, i.goods_info_create_name, i.goods_info_create_time, 
+	    i.goods_info_modified_name, i.goods_info_modified_time, i.goods_info_del_name, i.goods_info_del_time, 
+	    i.goods_info_delflag,i.third_id,i.third_name,i.show_mobile
+  	</sql>
+	<sql id="Blob_Column_List">
+		g.goods_detail_desc,g.mobile_desc
+	</sql>
+	<!-- 根据商品ID查询商品信息 -->
+	<select id="selectGoodsByGoodsId" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>,g.goods_detail_desc,g.mobile_desc from np_goods g where g.goods_id=#{goodsId}
+	</select>
+	<!-- 搜索商品列表 -->
+	<select id="searchGoods" resultMap="showlistVo" parameterType="java.util.Map">
+		select <include refid="Product_Base_Column_List"/>,IFNULL(w.ware_stock,0) AS ware_stock,
+        IFNULL(w.ware_price,i.goods_info_prefer_price) AS ware_price,IFNULL(w.ware_vip_price,i.goods_info_vip_price) AS ware_vip_price
+        from np_goods_info i
+		left join (select sum(goods_info_num) as count, np_order_goods.goods_info_id from np_order_goods 
+					where order_id in (select order_id from np_order where order_status='3') group by goods_info_id) o 
+					on o.goods_info_id=i.goods_info_id
+		left join (select ware_stock,product_id,ware_price,ware_vip_price from np_product_ware
+			 where ware_id in (select ware_id from np_ware_city where city_id=#{distinctId})) w on w.product_id = i.goods_info_id
+		left join (select count(1) as attecount,goods_id from np_customer_follow group by goods_id) a on a.goods_id=i.goods_info_id
+		where 
+		i.goods_info_delflag='0' and i.goods_info_added='1' and i.show_list='1' and i.show_mobile='1'
+        <if test="searchBean.storeId!=null and searchBean.storeId!=0">
+            and i.third_id=#{searchBean.storeId}
+        </if>
+		<!-- 根据输入的字符查询 -->
+		<if test="productIds != null and searchBean.title != null and searchBean.title!=''">
+			and i.goods_info_id in
+			<foreach collection="productIds" item="productId" open="(" close=")" separator=",">
+				#{productId}
+			</foreach>
+		</if>
+		<!--  判断 是否显示无货商品 -->
+		<if test="searchBean.showStock!=null and searchBean.showStock!='' and searchBean.showStock==1">
+			and i.goods_info_stock>0
+		</if>
+		<!-- 按照价格排序 -->
+		<if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='11D'">
+            <!-- 会员价格 -->
+            <if test="isEnterprise == '1'">
+                order by i.goods_info_vip_price
+            </if>
+            <!-- 个人价格 -->
+            <if test="isEnterprise == '0' || isEnterprise == '' || isEnterprise == null ">
+                order by i.goods_info_prefer_price
+            </if>
+		</if>
+		<!-- 按照价格排序 -->
+		<if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='1D'">
+            <!-- 会员价格 -->
+            <if test="isEnterprise == '1'">
+                order by i.goods_info_vip_price desc
+            </if>
+            <!-- 个人价格 -->
+            <if test="isEnterprise == '0' || isEnterprise == '' || isEnterprise == null ">
+                order by i.goods_info_prefer_price desc
+            </if>
+		</if>
+		<!-- 按照销量排序 -->
+		<if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='2D'">
+			order by o.count desc
+		</if>
+		<!-- 按照销量排序 -->
+		<if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='22D'">
+			order by o.count
+		</if>
+		<!-- 按照创建时间排序-->
+		<if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='33D'">
+			order by i.goods_info_create_time
+		</if>
+		<!-- 按照创建时间排序-->
+		<if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='3D'">
+			order by i.goods_info_create_time desc
+		</if>
+		<!-- 按照关注排序 -->
+		<if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='44D'">
+			order by a.attecount
+		</if>
+		<!-- 按照关注排序 -->
+		<if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='4D'">
+			order by a.attecount desc
+		</if>
+		limit #{startRowNum},#{endRowNum}
+	</select>
+	<!-- 根据查询参数查询行数 -->
+	<select id="searchTotalCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select COUNT(1) from np_goods_info where 
+		goods_info_delflag='0' and goods_info_added='1' and  show_list='1' and show_mobile='1'
+		<!-- 根据输入的字符查询 -->
+		<if test="productIds != null and searchBean.title != null and searchBean.title!=''">
+			and goods_info_id in
+			<foreach collection="productIds" item="productId" open="(" close=")" separator=",">
+				#{productId}
+			</foreach>	
+		</if>
+		<!-- 判断是都显示无货商品 -->
+		<if test="searchBean.showStock!=null and searchBean.showStock!='' and searchBean.showStock==1">
+			and goods_info_stock>0
+		</if>
+        <if test="searchBean.storeId!=null and searchBean.storeId!=0">
+            and third_id=#{searchBean.storeId}
+        </if>
+	</select>
+	<!-- 根据商品ID查询货品库存的和 -->
+	<select id="queryStockByGoodsId" resultType="java.lang.Integer" parameterType="java.lang.Long">
+		select sum(goods_info_stock) from np_goods_info where goods_info_added='1' and goods_info_delflag='0'
+		and goods_id=#{goodsId}
+	</select>
+	<!-- 查询最新的三条记录 -->
+	<select id="queryNewInfo" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select distinct <include refid="Base_Column_List"/> from np_goods g,np_goods_info i where g.goods_id=i.goods_id and 
+		g.goods_delflag='0' and g.goods_added='1'
+		<if test="catId!='-1'">
+			and g.cat_id in 
+			<foreach collection="catIds" open="(" close=")" separator="," item="catId">
+				#{catId}
+			</foreach>
+		</if>
+		order by g.goods_create_time desc
+		limit 0,5
+	</select>
+	<!-- 根据分类ID查询推荐到首页的商品 -->
+	<select id="queryPromGoodsByCatIds" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select distinct <include refid="Base_Column_List"/> from np_goods g,np_goods_info i where g.goods_id=i.goods_id and 
+		g.goods_delflag='0' and g.goods_added='1' and cat_id in
+		<foreach collection="catIds" open="(" close=")" separator="," item="catId">
+			#{catId}
+		</foreach>
+		limit 0,4
+	</select>
+	<!--列表页, 根据分类ID查询商品列表 -->
+	<select id="queryGoodsListByCatId" parameterType="java.util.Map" resultMap="showlistVo">
+        select <include refid="Product_Base_Column_List"/>, IFNULL(w.ware_stock,0) AS ware_stock,
+        IFNULL(w.ware_price,i.goods_info_prefer_price) AS ware_price,
+        IFNULL(w.ware_vip_price,i.goods_info_vip_price) AS ware_vip_price
+        from np_goods_info i
+
+        <!-- 如果是排序就拼接左链接 -->
+        <if test="searchBean.sort!=null and searchBean.sort!=''">
+            <!-- 如果是按照销量排序 -->
+            <if test="(searchBean.sort=='2D' or searchBean.sort=='22D')">
+                left join (select sum(goods_info_num) as count, og.goods_info_id from np_order_goods og
+                left join (select order_id from np_order where order_status='3') os on og.order_id = os.order_id
+                group by goods_info_id) o
+                on o.goods_info_id=i.goods_info_id
+            </if>
+            <!-- 如果是按照人气排序 -->
+            <if test="(searchBean.sort=='44D' or searchBean.sort=='4D')">
+                left join (select count(1) as attecount,goods_id from np_customer_follow group by goods_id) a on a.goods_id=i.goods_info_id
+            </if>
+
+        </if>
+
+        left join (select ware_stock,product_id,ware_price,ware_vip_price
+        from np_product_ware p
+        where p.ware_id in (select c.ware_id
+        from np_ware_city c,np_warehouse h
+        where h.ware_id=c.ware_id and
+        c.city_id=#{distinctId} AND h.del_flag='0'
+        and c.del_flag='0') and p.del_flag='0'
+        GROUP BY p.product_id ) w on w.product_id = i.goods_info_id
+
+        left join (select goods_id,cat_id,brand_id from np_goods) j on j.goods_id = i.goods_id
+        <!-- 如果参数不为空的时候 -->
+        <if test="params != null">
+            left join (select s.goods_id from (select h.goods_id,count(h.goods_id) as c
+            from (select x.goods_id from np_goods_rele_expandparam as x
+            where 1=1 and
+            <foreach collection="params" item="param" open="(" close=")" separator=" or ">
+                x.expangparam_value_id =#{param}
+            </foreach>
+            and x.rele_expandparam_delflag='0') as h GROUP BY H.goods_id HAVING c >= #{paramLengh} ) s ) ex
+            on ex.goods_id = i.goods_id
+        </if>
+        <!-- 拼接规格信息 -->
+        <if test="specs != null">
+            left join  (select s.goods_info_id from (select h.goods_info_id,count(h.goods_info_id) as c
+            from (select x.goods_info_id from np_goods_info_rele_spec_detail as x
+            where 1=1 and
+            <foreach collection="specs" item="spec" open="(" close=")" separator=" or ">
+                x.spec_detail_id = #{spec}
+            </foreach>
+            ) as h GROUP BY h.goods_info_id HAVING c >= #{specsLengh} ) s ) sp
+            on sp.goods_info_id = i.goods_info_id
+        </if>
+        where j.goods_id = i.goods_id and i.show_mobile = '1' and
+        goods_info_delflag='0' and goods_info_added='1' and show_list='1'  and ( audit_status='0'or audit_status='3' ) AND ware_stock>0
+        <if test="catIds !=null">
+        and
+        <foreach collection="catIds" index="index" item="catId" open="("
+                 separator="or" close=")">
+            j.cat_id =#{catId}
+        </foreach>
+        </if>
+        <!-- 判断商品品牌数组不为空就拼接条件 -->
+        <if test="brandId != null and brandId!=''">
+            and j.brand_id=#{brandId}
+        </if>
+        <!-- 如果参数不为空的时候 -->
+        <if test="params != null">
+            and ex.goods_id is not null
+        </if>
+        <!-- 拼接规格信息 -->
+        <if test="specs != null">
+            and sp.goods_info_id is not null
+        </if>
+        <!-- 拼接规格信息 -->
+        <!-- 判断是都显示无货商品 -->
+        <if test="searchBean.showStock!=null and searchBean.showStock!='' and searchBean.showStock==1">
+            and w.ware_stock>0
+        </if>
+        <if test="searchBean.storeId!=null">
+            and i.third_id=#{searchBean.storeId}
+        </if>
+        <!-- 按照价格排序 -->
+        <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='11D'">
+            <!-- 会员价格 -->
+            <if test="isEnterprise == '1'">
+                order by w.ware_vip_price
+            </if>
+            <!-- 个人价格 -->
+            <if test="isEnterprise == '0' || isEnterprise == '' || isEnterprise == null ">
+                order by w.ware_price
+            </if>
+        </if>
+        <!-- 按照价格排序 -->
+        <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='1D'">
+            <!-- 会员价格 -->
+            <if test="isEnterprise == '1'">
+                order by w.ware_vip_price desc
+            </if>
+            <!-- 个人价格 -->
+            <if test="isEnterprise == '0' || isEnterprise == '' || isEnterprise == null ">
+                order by w.ware_price desc
+            </if>
+
+        </if>
+        <!-- 按照销量排序 -->
+        <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='2D'">
+            order by o.count desc
+        </if>
+        <!-- 按照销量排序 -->
+        <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='22D'">
+            order by o.count
+        </if>
+        <!-- 按照创建时间排序-->
+        <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='33D'">
+            order by i.goods_info_added_time
+        </if>
+        <!-- 按照创建时间排序-->
+        <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='3D'">
+            order by i.goods_info_added_time desc
+        </if>
+        <!-- 按照关注排序 -->
+        <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='44D'">
+            order by a.attecount
+        </if>
+        <!-- 按照关注排序 -->
+        <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='4D'">
+            order by a.attecount desc
+        </if>
+        limit #{startRowNum},#{endRowNum}
+	</select>
+
+    <!--列表页, 根据分类ID查询商品列表 -->
+    <select id="queryGoodsListByCatIdAndType" parameterType="java.util.Map" resultMap="showlistVo">
+        select <include refid="Product_Base_Column_List"/>, IFNULL(w.ware_stock,0) AS ware_stock,
+        IFNULL(w.ware_price,i.goods_info_prefer_price) AS ware_price,
+        IFNULL(w.ware_vip_price,i.goods_info_vip_price) AS ware_vip_price
+        from np_goods_info i
+
+        <!-- 如果是排序就拼接左链接 -->
+        <if test="searchBean.sort!=null and searchBean.sort!=''">
+            <!-- 如果是按照销量排序 -->
+            <if test="(searchBean.sort=='2D' or searchBean.sort=='22D')">
+                left join (select sum(goods_info_num) as count, og.goods_info_id from np_order_goods og
+                left join (select order_id from np_order where order_status='3') os on og.order_id = os.order_id
+                group by goods_info_id) o
+                on o.goods_info_id=i.goods_info_id
+            </if>
+            <!-- 如果是按照人气排序 -->
+            <if test="(searchBean.sort=='44D' or searchBean.sort=='4D')">
+                left join (select count(1) as attecount,goods_id from np_customer_follow group by goods_id) a on a.goods_id=i.goods_info_id
+            </if>
+
+        </if>
+
+        left join (select ware_stock,product_id,ware_price,ware_vip_price
+        from np_product_ware p
+        where p.ware_id in (select c.ware_id
+        from np_ware_city c,np_warehouse h
+        where h.ware_id=c.ware_id and
+        c.city_id=#{distinctId} AND h.del_flag='0'
+        and c.del_flag='0') and p.del_flag='0'
+        GROUP BY p.product_id ) w on w.product_id = i.goods_info_id
+
+        left join (select goods_id,cat_id,brand_id from np_goods) j on j.goods_id = i.goods_id
+        <!-- 如果参数不为空的时候 -->
+        <if test="params != null">
+            left join (select s.goods_id from (select h.goods_id,count(h.goods_id) as c
+            from (select x.goods_id from np_goods_rele_expandparam as x
+            where 1=1 and
+            <foreach collection="params" item="param" open="(" close=")" separator=" or ">
+                x.expangparam_value_id =#{param}
+            </foreach>
+            and x.rele_expandparam_delflag='0') as h GROUP BY H.goods_id HAVING c >= #{paramLengh} ) s ) ex
+            on ex.goods_id = i.goods_id
+        </if>
+        <!-- 拼接规格信息 -->
+        <if test="specs != null">
+            left join  (select s.goods_info_id from (select h.goods_info_id,count(h.goods_info_id) as c
+            from (select x.goods_info_id from np_goods_info_rele_spec_detail as x
+            where 1=1 and
+            <foreach collection="specs" item="spec" open="(" close=")" separator=" or ">
+                x.spec_detail_id = #{spec}
+            </foreach>
+            ) as h GROUP BY h.goods_info_id HAVING c >= #{specsLengh} ) s ) sp
+            on sp.goods_info_id = i.goods_info_id
+        </if>
+        where j.goods_id = i.goods_id and i.show_mobile = '1' and
+        goods_info_delflag='0' and goods_info_added='1' and show_list='1'  and ( audit_status='0'or audit_status='3' )
+        <if test="catIds !=null">
+            and
+            <foreach collection="catIds" index="index" item="catId" open="("
+                     separator="or" close=")">
+                j.cat_id =#{catId}
+            </foreach>
+        </if>
+        <if test="oemList != null">
+            AND i.goods_info_oem in
+            <foreach item="oem" index="index" collection="oemList" open="(" separator="," close=")">
+                #{oem}
+            </foreach>
+        </if>
+        <if test="nameList != null">
+            AND i.goods_info_name in
+            <foreach item="name" index="index" collection="nameList" open="(" separator="," close=")">
+                #{name}
+            </foreach>
+        </if>
+        <!-- 判断商品品牌数组不为空就拼接条件 -->
+        <if test="brandId != null and brandId!=''">
+            and j.brand_id=#{brandId}
+        </if>
+        <!-- 如果参数不为空的时候 -->
+        <if test="params != null">
+            and ex.goods_id is not null
+        </if>
+        <!-- 拼接规格信息 -->
+        <if test="specs != null">
+            and sp.goods_info_id is not null
+        </if>
+        <!-- 拼接规格信息 -->
+        <!-- 判断是都显示无货商品 -->
+        <if test="searchBean.showStock!=null and searchBean.showStock!='' and searchBean.showStock==1">
+            and w.ware_stock>0
+        </if>
+        <if test="searchBean.storeId!=null">
+            and i.third_id=#{searchBean.storeId}
+        </if>
+        <!-- 按照价格排序 -->
+        <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='11D'">
+            <!-- 会员价格 -->
+            <if test="isEnterprise == '1'">
+                order by w.ware_vip_price
+            </if>
+            <!-- 个人价格 -->
+            <if test="isEnterprise == '0' || isEnterprise == '' || isEnterprise == null ">
+                order by w.ware_price
+            </if>
+        </if>
+        <!-- 按照价格排序 -->
+        <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='1D'">
+            <!-- 会员价格 -->
+            <if test="isEnterprise == '1'">
+                order by w.ware_vip_price desc
+            </if>
+            <!-- 个人价格 -->
+            <if test="isEnterprise == '0' || isEnterprise == '' || isEnterprise == null ">
+                order by w.ware_price desc
+            </if>
+
+        </if>
+        <!-- 按照销量排序 -->
+        <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='2D'">
+            order by o.count desc
+        </if>
+        <!-- 按照销量排序 -->
+        <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='22D'">
+            order by o.count
+        </if>
+        <!-- 按照创建时间排序-->
+        <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='33D'">
+            order by i.goods_info_added_time
+        </if>
+        <!-- 按照创建时间排序-->
+        <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='3D'">
+            order by i.goods_info_added_time desc
+        </if>
+        <!-- 按照关注排序 -->
+        <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='44D'">
+            order by a.attecount
+        </if>
+        <!-- 按照关注排序 -->
+        <if test="searchBean.sort!=null and searchBean.sort!='' and searchBean.sort=='4D'">
+            order by a.attecount desc
+        </if>
+        limit #{startRowNum},#{endRowNum}
+    </select>
+
+	<!-- 列表页,根据分类ID和查询参数查询行数 -->
+	<select id="searchTotalCountByParamAndCatId" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select COUNT(1) from np_goods_info i
+		inner join (select goods_id,cat_id,brand_id from np_goods) j on j.goods_id = i.goods_id
+		<!-- 判断是否显示无货商品 -->
+		<if test="searchBean.showStock!=null and searchBean.showStock!='' and searchBean.showStock==1">
+			inner join  (select product_id,ware_stock from np_product_ware
+			 where ware_id = (select ware_id from np_ware_city where city_id=#{distinctId} limit 0,1)) as w on w.product_id = i.goods_info_id
+		</if>
+		<!-- 如果参数不为空的时候 -->
+		<if test="params != null">
+			inner join  (select s.goods_id from (select h.goods_id,count(h.goods_id) as c  
+			 from (select x.goods_id from np_goods_rele_expandparam as x  
+			 where 1=1 and
+			<foreach collection="params" item="param" open="(" close=")" separator=" or ">
+				x.expangparam_value_id = #{param}
+			</foreach>
+			and x.rele_expandparam_delflag='0' ) as h GROUP BY h.goods_id HAVING c >= #{paramLengh} ) s ) as ex
+			on ex.goods_id = i.goods_id
+		</if>
+		<!-- 拼接规格查询 -->
+		<if test="specs != null">
+		   left join (select s.goods_info_id from (select h.goods_info_id,count(h.goods_info_id) as c  
+			 from (select x.goods_info_id from np_goods_info_rele_spec_detail as x  
+			 where 1=1 and
+			 	<foreach collection="specs" item="spec" open="(" close=")" separator=" or ">
+				x.spec_detail_id = #{spec}
+			</foreach>
+		 ) as h GROUP BY h.goods_info_id HAVING c >= #{specsLengh} ) s ) as sp
+		 on sp.goods_info_id = i.goods_info_id
+		</if>
+		 where 
+		i.goods_info_delflag='0' and i.goods_info_added='1' and i.show_mobile='1' and i.show_list='1'
+		<!-- 判断商品分类不为空就拼接条件 -->
+        <if test="catIds !=null">
+            and
+            <foreach collection="catIds" index="index" item="catId" open="("
+                     separator="or" close=")">
+                j.cat_id =#{catId}
+            </foreach>
+        </if>
+		<!-- 判断商品品牌数组不为空就拼接条件 -->
+		<if test="brandId != null and brandId !='' ">
+				and j.brand_id=#{brandId}
+		</if>
+		<!-- 如果参数不为空的时候 -->
+		<if test="params != null">
+			and ex.goods_id is not null
+		</if>
+		<!-- 拼接规格查询 -->
+		<if test="specs != null">
+		    and sp.goods_info_id is not null 
+		</if>
+		<!-- 判断是否显示无货商品 -->
+		<if test="searchBean.showStock!=null and searchBean.showStock!='' and searchBean.showStock==1">
+			and w.ware_stock>0
+		</if>
+        <if test="searchBean.storeId!=null">
+            and i.third_id = #{searchBean.storeId}
+        </if>
+	</select>
+	<!-- 根据商品ID查询商品的详细信息 -->
+	<select id="queryGoodsDetailVoByGoodsId" parameterType="java.lang.Long" resultMap="goodsDetailVo">
+		select <include refid="Base_Column_List"/>,<include refid="Blob_Column_List"/> from np_goods g
+		where goods_id=#{goodsId}
+	</select>
+	<!-- 根据货品ID查询评论的个数和分数 -->
+	<select id="queryCommentCountAndScoreByProductId" resultMap="commentUtilBeanResultMap" parameterType="java.lang.Long">
+		select count(goods_id) as count,avg(comment_score) as score from np_comment where is_display='1' and del_flag='0' 
+		and goods_id=#{productId} and is_consult='0' group by goods_id
+	</select>
+</mapper>

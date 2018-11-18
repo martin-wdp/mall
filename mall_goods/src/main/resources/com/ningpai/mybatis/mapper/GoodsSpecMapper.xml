@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.goods.dao.GoodsSpecMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsSpec" >
+    <id column="spec_id" property="specId" jdbcType="BIGINT" />
+    <result column="spec_name" property="specName" jdbcType="VARCHAR" />
+    <result column="spec_remark" property="specRemark" jdbcType="VARCHAR" />
+    <result column="spec_nickname" property="specNickname" jdbcType="VARCHAR" />
+    <result column="spec_showtype" property="specShowtype" jdbcType="CHAR" />
+    <result column="spec_showmode" property="specShowmode" jdbcType="CHAR" />
+    <result column="spec_delflag" property="specDelflag" jdbcType="CHAR" />
+    <result column="spec_create_name" property="specCreateName" jdbcType="VARCHAR" />
+    <result column="spec_create_time" property="specCreateTime" jdbcType="TIMESTAMP" />
+    <result column="spec_modified_name" property="specModifiedName" jdbcType="VARCHAR" />
+    <result column="spec_modified_time" property="specModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="spec_del_name" property="specDelName" jdbcType="VARCHAR" />
+    <result column="spec_del_time" property="specDelTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <!-- 封装Vo需要的参数 -->
+  <resultMap type="com.ningpai.goods.vo.GoodsSpecVo" id="VoResultMap">
+    <id column="spec_id" property="specId" jdbcType="BIGINT" />
+    <result column="spec_name" property="specName" jdbcType="VARCHAR" />
+    <result column="spec_remark" property="specRemark" jdbcType="VARCHAR" />
+    <result column="spec_value_remark" property="specValue" jdbcType="VARCHAR" />
+    <result column="spec_nickname" property="specNickname" jdbcType="VARCHAR" />
+    <result column="spec_showtype" property="specShowtype" jdbcType="CHAR" />
+    <result column="spec_showmode" property="specShowmode" jdbcType="CHAR" />
+  	<collection property="specDetails" column="spec_id" javaType="ArrayList" ofType="GoodsSpecDetail"
+  		select="com.ningpai.goods.dao.GoodsSpecDetailMapper.querySpecDeetailBySpecId"
+  	></collection>
+  </resultMap>
+  <!-- 封装Vo需要的参数 -->
+  <resultMap type="com.ningpai.goods.vo.GoodsSpecVo" id="SimpleVoResultMap">
+    <id column="spec_id" property="specId" jdbcType="BIGINT" />
+    <result column="spec_name" property="specName" jdbcType="VARCHAR" />
+    <result column="spec_remark" property="specRemark" jdbcType="VARCHAR" />
+    <result column="spec_value_remark" property="specValue" jdbcType="VARCHAR" />
+    <result column="spec_nickname" property="specNickname" jdbcType="VARCHAR" />
+    <result column="spec_showtype" property="specShowtype" jdbcType="CHAR" />
+    <result column="spec_showmode" property="specShowmode" jdbcType="CHAR" />
+  <!--	<collection property="specDetails" column="spec_id" javaType="ArrayList" ofType="GoodsSpecDetail"
+  		select="com.ningpai.goods.dao.GoodsSpecDetailMapper.querySpecDeetailBySpecId"
+  	></collection>-->
+  </resultMap>
+  <sql id="Base_Column_List" >
+    spec_id, spec_name, spec_remark, spec_nickname, spec_showtype, spec_showmode, spec_delflag, 
+    spec_create_name, spec_create_time, spec_modified_name, spec_modified_time, spec_del_name, 
+    spec_del_time
+  </sql>
+  <sql id="delFlag">
+  	spec_delflag='0'
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_goods_spec
+    where spec_id = #{specId,jdbcType=BIGINT}
+  </select>
+  <!-- 删除分类，实际就是更新删除标记，删除人名称和删除时间为当前时间 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.util.Map" >
+    update np_goods_spec set spec_delflag='1',spec_del_name=#{delName},spec_del_time=NOW()
+    where spec_id = #{specId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.goods.bean.GoodsSpec" >
+    insert into np_goods_spec (spec_id, spec_name, spec_remark, 
+      spec_nickname, spec_showtype, spec_showmode, 
+      spec_delflag, spec_create_name, spec_create_time, 
+      spec_modified_name, spec_modified_time, spec_del_name, 
+      spec_del_time)
+    values (#{specId,jdbcType=BIGINT}, #{specName,jdbcType=VARCHAR}, #{specRemark,jdbcType=VARCHAR}, 
+      #{specNickname,jdbcType=VARCHAR}, #{specShowtype,jdbcType=CHAR}, #{specShowmode,jdbcType=CHAR}, 
+      #{specDelflag,jdbcType=CHAR}, #{specCreateName,jdbcType=VARCHAR}, #{specCreateTime,jdbcType=TIMESTAMP}, 
+      #{specModifiedName,jdbcType=VARCHAR}, #{specModifiedTime,jdbcType=TIMESTAMP}, #{specDelName,jdbcType=VARCHAR}, 
+      #{specDelTime,jdbcType=TIMESTAMP})
+  </insert>
+  <!-- 插入一条记录  设置创建时间为当前时间  并返回插入的主键ID -->
+  <insert id="insertSelective" parameterType="com.ningpai.goods.bean.GoodsSpec" >
+    insert into np_goods_spec
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="specId != null" >
+        spec_id,
+      </if>
+      <if test="specName != null" >
+        spec_name,
+      </if>
+      <if test="specRemark != null" >
+        spec_remark,
+      </if>
+      <if test="specNickname != null" >
+        spec_nickname,
+      </if>
+      <if test="specShowtype != null" >
+        spec_showtype,
+      </if>
+      <if test="specShowmode != null" >
+        spec_showmode,
+      </if>
+      <if test="specDelflag != null" >
+        spec_delflag,
+      </if>
+      <if test="specCreateName != null" >
+        spec_create_name,
+      </if>
+        spec_create_time,
+      <if test="specModifiedName != null" >
+        spec_modified_name,
+      </if>
+      <if test="specModifiedTime != null" >
+        spec_modified_time,
+      </if>
+      <if test="specDelName != null" >
+        spec_del_name,
+      </if>
+      <if test="specDelTime != null" >
+        spec_del_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="specId != null" >
+        #{specId,jdbcType=BIGINT},
+      </if>
+      <if test="specName != null" >
+        #{specName,jdbcType=VARCHAR},
+      </if>
+      <if test="specRemark != null" >
+        #{specRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="specNickname != null" >
+        #{specNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="specShowtype != null" >
+        #{specShowtype,jdbcType=CHAR},
+      </if>
+      <if test="specShowmode != null" >
+        #{specShowmode,jdbcType=CHAR},
+      </if>
+      <if test="specDelflag != null" >
+        #{specDelflag,jdbcType=CHAR},
+      </if>
+      <if test="specCreateName != null" >
+        #{specCreateName,jdbcType=VARCHAR},
+      </if>
+        NOW(),
+      <if test="specModifiedName != null" >
+        #{specModifiedName,jdbcType=VARCHAR},
+      </if>
+      <if test="specModifiedTime != null" >
+        #{specModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="specDelName != null" >
+        #{specDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="specDelTime != null" >
+        #{specDelTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+    <!-- 查询最新插入的主键ID -->
+    <select id="selectLastId"  resultType="java.lang.Long">
+    	select LAST_INSERT_ID()
+    </select>
+  
+  <!-- 更新规格  设置修改时间为当前时间 -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.goods.bean.GoodsSpec" >
+    update np_goods_spec
+    <set >
+      <if test="specName != null" >
+        spec_name = #{specName,jdbcType=VARCHAR},
+      </if>
+      <if test="specRemark != null" >
+        spec_remark = #{specRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="specNickname != null" >
+        spec_nickname = #{specNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="specShowtype != null" >
+        spec_showtype = #{specShowtype,jdbcType=CHAR},
+      </if>
+      <if test="specShowmode != null" >
+        spec_showmode = #{specShowmode,jdbcType=CHAR},
+      </if>
+      <if test="specDelflag != null" >
+        spec_delflag = #{specDelflag,jdbcType=CHAR},
+      </if>
+      <if test="specCreateName != null" >
+        spec_create_name = #{specCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="specCreateTime != null" >
+        spec_create_time = #{specCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="specModifiedName != null" >
+        spec_modified_name = #{specModifiedName,jdbcType=VARCHAR},
+      </if>
+        spec_modified_time = NOW(),
+      <if test="specDelName != null" >
+        spec_del_name = #{specDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="specDelTime != null" >
+        spec_del_time = #{specDelTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where spec_id = #{specId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.goods.bean.GoodsSpec" >
+    update np_goods_spec
+    set spec_name = #{specName,jdbcType=VARCHAR},
+      spec_remark = #{specRemark,jdbcType=VARCHAR},
+      spec_nickname = #{specNickname,jdbcType=VARCHAR},
+      spec_showtype = #{specShowtype,jdbcType=CHAR},
+      spec_showmode = #{specShowmode,jdbcType=CHAR},
+      spec_delflag = #{specDelflag,jdbcType=CHAR},
+      spec_create_name = #{specCreateName,jdbcType=VARCHAR},
+      spec_create_time = #{specCreateTime,jdbcType=TIMESTAMP},
+      spec_modified_name = #{specModifiedName,jdbcType=VARCHAR},
+      spec_modified_time = #{specModifiedTime,jdbcType=TIMESTAMP},
+      spec_del_name = #{specDelName,jdbcType=VARCHAR},
+      spec_del_time = #{specDelTime,jdbcType=TIMESTAMP}
+    where spec_id = #{specId,jdbcType=BIGINT}
+  </update>
+  <!-- 查询所有的行数 -->
+  <select id="queryTotalCount" resultType="java.lang.Integer">
+  	select count(1) from np_goods_spec where 
+  		<include refid="delFlag"/>
+  </select>
+  <!-- 根据分页参数查询列表 -->
+  <select id="queryListByPageBean" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select 
+  		<include refid="Base_Column_List"/>
+  	from np_goods_spec where 
+  		<include refid="delFlag"/>
+  	limit #{startRowNum},#{endRowNum}
+  </select>
+  <!-- 根据规格ID查询Vo -->
+  <select id="querySpecVoBySpecId" resultMap="VoResultMap" parameterType="java.lang.Long">
+  	select
+  		<include refid="Base_Column_List"/>
+  	from np_goods_spec where
+  	spec_id = #{specId,jdbcType=BIGINT}
+  </select>
+  <!-- 根据规格ID查询Vo -->
+  <select id="querySimpleSpecVoBySpecId" resultMap="SimpleVoResultMap" parameterType="java.lang.Long">
+  	select
+  		<include refid="Base_Column_List"/>
+  	from np_goods_spec where
+  	spec_id = #{specId,jdbcType=BIGINT}
+  </select>
+  <!-- 查询所有的商品规格 -->
+  <select id="queryAllSpec" resultMap="BaseResultMap">
+  	select 
+  		<include refid="Base_Column_List"/>
+  	from np_goods_spec where 
+  	<include refid="delFlag"/>
+  </select>
+  <!-- 查询所有的商品规格包括删除的 -->
+  <select id="queryAllSpecIncludeDel" resultMap="BaseResultMap">
+  	select 
+  		<include refid="Base_Column_List"/>
+  	from np_goods_spec
+  </select>
+  <!-- 根据商品ID查询关联的规格的列表 -->
+  <!-- 根据规格ID查询Vo -->
+  <select id="querySpecVoByGoodsId" resultMap="VoResultMap" parameterType="java.lang.Long">
+  	select
+  		<include refid="Base_Column_List"/>
+  	from np_goods_spec where spec_id in 
+    (select spec_id from np_goods_type_spec 
+  	where type_id = (select type_id from np_goods where goods_id=#{goodsId}) and type_spec_delflag="0") and spec_delflag='0'
+  </select>
+    <!--根据货品ID查询规格信息-->
+    <select id="querySpecVoByGoodsInfoId" resultMap="VoResultMap" parameterType="java.lang.Long">
+        SELECT d.spec_value_remark,s.spec_name  FROM np_goods_info_rele_spec_detail d
+          ,np_goods_spec   s
+        WHERE  s.spec_id=d.spec_id AND goods_info_id=#{goodsInfoId}
+    </select>
+  <select id="searchTotalCount" resultType="java.lang.Integer"  parameterType="com.ningpai.goods.util.SelectBean">
+  	select count(1) from np_goods_spec where 
+  		<include refid="delFlag"/>
+  		<if test="condition == 1">
+  			and spec_name like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  		</if>
+  </select>
+  <!-- 查询所有的标签，已删除的也算 -->
+  <select id="searchAllSpec" resultMap="BaseResultMap">
+  		select 
+  		<include refid="Base_Column_List"/>
+  	from np_goods_spec where  
+  		<include refid="delFlag"/> 
+  		
+  		<if test="condition == 1">
+  			and spec_name like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  		</if>
+  	order by spec_create_time desc
+  	 limit #{startRowNum},#{endRowNum}
+  </select>
+   <!-- 根据规格名称查询行数 -->
+   <select id="queryCountBySpecName" parameterType="java.lang.String" resultType="java.lang.Integer">
+   	select count(1) from np_goods_spec where spec_name=#{specName} and spec_delflag='0'
+   </select>
+</mapper>

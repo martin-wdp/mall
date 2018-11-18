@@ -1,0 +1,1 @@
+    [{"marketingScopeId":"1","marketingId":"1","scopeId":"1","scopeType":"0","createTime":"2015-01-01 12:22:01","modTime":"2015-01-02 12:22:01","flag":"0"}]

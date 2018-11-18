@@ -1,0 +1,1 @@
+[{"balanceId":1,"customerId":1,"orderNo":"201509231628001","balanceNum":8.88,"balanceRemark":"test","balanceType":"1","createTime":"2015-9-23 16:20:00","delFlag":"0","payType":"0","isSeller":"0"}]

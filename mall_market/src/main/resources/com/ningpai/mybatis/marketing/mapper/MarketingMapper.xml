@@ -1,0 +1,722 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.marketing.dao.MarketingMapper">
+	<resultMap id="BaseResultMap" type="com.ningpai.marketing.bean.Marketing">
+		<id column="marketing_id" property="marketingId" jdbcType="BIGINT" />
+		<result column="marketing_name" property="marketingName"
+			jdbcType="VARCHAR" />
+		<result column="marketing_des" property="marketingDes"
+			jdbcType="VARCHAR" />
+		<result column="codex_name" property="codexName"
+			jdbcType="VARCHAR" />
+		<result column="is_repeat" property="isRepeat"
+			jdbcType="CHAR" />
+		<result column="marketing_type" property="marketingType"
+			jdbcType="CHAR" />
+		<result column="marketing_begin" property="marketingBegin"
+			jdbcType="TIMESTAMP" />
+		<result column="marketing_end" property="marketingEnd"
+			jdbcType="TIMESTAMP" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+		<result column="flag" property="flag" jdbcType="CHAR" />
+		<result column="is_all" property="isAll" jdbcType="CHAR" />
+		<result column="codex_id" property="codexId" jdbcType="BIGINT" />
+        <result column="codex_type" property="codexType" jdbcType="CHAR" />
+    	<result column="business_id" property="businessId" jdbcType="BIGINT" />
+    	<result column="third_id" property="thirId" jdbcType="BIGINT" />
+    	<result column="preferential_name" property="preferentialName" jdbcType="VARCHAR" />
+    	<result column="info_realname" property="infoRealname" jdbcType="VARCHAR" />
+    	<result column="group_id" property="groupId" jdbcType="BIGINT" />
+    	<result column="m_group_id" property="marketGroupId" jdbcType="BIGINT" />
+    	<result column="add_give_type" property="addGiveType" jdbcType="CHAR" /> 
+    	<result column="give_integral" property="giveIntegral" jdbcType="INTEGER" /> 
+    	<result column="coupon_id" property="couponId" jdbcType="BIGINT" /> 
+    	<result column="active_site_type" property="activeSiteType" jdbcType="CHAR" /> 
+    	<result column="coupon_name" property="couponName" jdbcType="VARCHAR" /> 
+    	<result column="shipping_money" property="shippingMoney" jdbcType="DECIMAL" /> 
+    	<result column="vip_shipping_money" property="vipShippingMoney" jdbcType="DECIMAL" />
+    	<!-- <result column="limit_num" property="limitNum" jdbcType="INTEGER" />
+    	<result column="is_free" property="isFree" jdbcType="CHAR" />  -->
+    	<collection property="marketLogos"
+    	column="marketing_id" select="com.ningpai.dao.MarketLogoMapper.queryLogoByMarketingId"></collection>
+    	<collection property="marketLelvels"
+    	column="marketing_id" select="com.ningpai.dao.MarketLelvelMapper.queryLevelNameByMarketingId"></collection>
+	</resultMap>
+	
+	<resultMap id="GrouponResultMap" type="com.ningpai.marketing.bean.Marketing">
+		<id column="marketing_id" property="marketingId" jdbcType="BIGINT" />
+		<result column="marketing_name" property="marketingName"
+			jdbcType="VARCHAR" />
+		<result column="marketing_des" property="marketingDes"
+			jdbcType="VARCHAR" />
+		<result column="codex_name" property="codexName"
+			jdbcType="VARCHAR" />
+		<result column="is_repeat" property="isRepeat"
+			jdbcType="CHAR" />
+		<result column="marketing_type" property="marketingType"
+			jdbcType="CHAR" />
+		<result column="marketing_begin" property="marketingBegin"
+			jdbcType="TIMESTAMP" />
+		<result column="marketing_end" property="marketingEnd"
+			jdbcType="TIMESTAMP" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+		<result column="flag" property="flag" jdbcType="CHAR" />
+		<result column="is_all" property="isAll" jdbcType="CHAR" />
+		<result column="codex_id" property="codexId" jdbcType="BIGINT" />
+        <result column="codex_type" property="codexType" jdbcType="CHAR" />
+    	<result column="business_id" property="businessId" jdbcType="BIGINT" />
+    	<result column="third_id" property="thirId" jdbcType="BIGINT" />
+    	<result column="preferential_name" property="preferentialName" jdbcType="VARCHAR" />
+    	<result column="info_realname" property="infoRealname" jdbcType="VARCHAR" />
+    	<result column="group_id" property="groupId" jdbcType="BIGINT" />
+    	<result column="m_group_id" property="marketGroupId" jdbcType="BIGINT" />
+    	<association property="groupon"
+    	column="marketing_id" select="com.ningpai.web.dao.GrouponMapper.selectByMarketId"></association>
+	</resultMap>
+	
+	<resultMap id="MarketingRushResultMap" type="com.ningpai.marketing.bean.Marketing">
+		<id column="marketing_id" property="marketingId" jdbcType="BIGINT" />
+		<result column="marketing_name" property="marketingName"
+			jdbcType="VARCHAR" />
+		<result column="marketing_des" property="marketingDes"
+			jdbcType="VARCHAR" />
+		<result column="codex_name" property="codexName"
+			jdbcType="VARCHAR" />
+		<result column="is_repeat" property="isRepeat"
+			jdbcType="CHAR" />
+		<result column="marketing_type" property="marketingType"
+			jdbcType="CHAR" />
+		<result column="marketing_begin" property="marketingBegin"
+			jdbcType="TIMESTAMP" />
+		<result column="marketing_end" property="marketingEnd"
+			jdbcType="TIMESTAMP" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+		<result column="flag" property="flag" jdbcType="CHAR" />
+		<result column="is_all" property="isAll" jdbcType="CHAR" />
+		<result column="codex_id" property="codexId" jdbcType="BIGINT" />
+        <result column="codex_type" property="codexType" jdbcType="CHAR" />
+    	<result column="business_id" property="businessId" jdbcType="BIGINT" />
+    	<result column="third_id" property="thirId" jdbcType="BIGINT" />
+    	<result column="preferential_name" property="preferentialName" jdbcType="VARCHAR" />
+    	<result column="info_realname" property="infoRealname" jdbcType="VARCHAR" />
+    	<result column="group_id" property="groupId" jdbcType="BIGINT" />
+    	<result column="m_group_id" property="marketGroupId" jdbcType="BIGINT" />
+    	<collection property="rushs"
+    	column="marketing_id" select="com.ningpai.marketing.dao.MarketingRushMapper.selectByMarketId"></collection>
+	</resultMap>
+	<sql id="Base_Column_List">
+		marketing_id, marketing_name, marketing_des, marketing_type, marketing_begin,
+		marketing_end,
+		create_time, mod_time, flag,is_repeat,is_all,m_group_id
+	</sql>
+	
+	<!-- 查询商品下所属的订单促销 -->
+  <select id="queryOrderMarketingByGoodsId" parameterType="java.util.Map" resultMap="BaseResultMap">
+      select m.marketing_id,m.marketing_name,codex.codex_type,info.third_id,m.shipping_money , m.vip_shipping_money
+		from np_marketing m ,np_marketing_codex mc,np_codex codex,np_marketing_scope scope,np_goods_info info
+		where m.marketing_id = mc.marketing_id and mc.codex_id = codex.codex_id  and mc.flag='0' and scope.scope_id=info.goods_info_id
+      and m.marketing_id = scope.marketing_id and m.flag='0'
+     and  <![CDATA[ m.marketing_begin <= now() and  m.marketing_end   > now() ]]>
+ 	 and scope.scope_id in 
+ 	 	<foreach collection="list" item="goodsId" open="(" separator="," close=")">
+    			 #{goodsId,jdbcType=BIGINT}
+   		</foreach> and info.third_id=#{thirdId}
+   		GROUP BY   m .marketing_id,info.third_id
+  </select>
+
+
+    <!-- 根据商品id和类型查询商品下所属的订单促销 -->
+    <select id="queryMarketingByGoodIdAndtype" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select m.marketing_id,m.marketing_name,codex.codex_type,info.third_id,m.shipping_money , m.vip_shipping_money
+        from np_marketing m ,np_marketing_codex mc,np_codex codex,np_marketing_scope scope,np_goods_info info
+        where m.marketing_id = mc.marketing_id and mc.codex_id = codex.codex_id and mc.flag='0' and
+        scope.scope_id=info.goods_info_id
+        and m.marketing_id = scope.marketing_id and m.flag='0'and scope.flag='0'
+        and  <![CDATA[ m.marketing_begin <= now() and  m.marketing_end   > now() ]]>
+        <if test="goodsId !=null and goodsId !=''">
+            and scope.scope_id = #{goodsId}
+        </if>
+        <if test="codeType !=null and codeType !=''">
+            and codex.codex_type = #{codeType}
+        </if>
+
+    </select>
+
+
+
+
+    <!-- 根据商品id和类型查询商品下所属的订单促销集合 -->
+    <select id="queryMarketingByGoodIdAndtypeList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select m.marketing_id,m.marketing_name,codex.codex_type,info.third_id,m.shipping_money , m.vip_shipping_money
+        from np_marketing m ,np_marketing_codex mc,np_codex codex,np_marketing_scope scope,np_goods_info info
+        where m.marketing_id = mc.marketing_id and mc.codex_id = codex.codex_id and mc.flag='0' and
+        scope.scope_id=info.goods_info_id
+        and m.marketing_id = scope.marketing_id and m.flag='0'and scope.flag='0'
+        and  <![CDATA[ m.marketing_begin <= now() and  m.marketing_end   > now() ]]>
+        <if test="goodsId !=null and goodsId !=''">
+            and scope.scope_id = #{goodsId}
+        </if>
+        <if test="codeType !=null and codeType !=''">
+            and codex.codex_type = #{codeType}
+        </if>
+
+    </select>
+
+    <!-- 查询促销详细信息 -->
+	<select id="marketingDetail" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+        select mgroup.preferential_name,mgroup.group_id, m.marketing_id, m.marketing_name,m.shipping_money,m.vip_shipping_money,
+        m.marketing_des, m.marketing_type, m.marketing_begin,
+				m.marketing_end,m.is_repeat,
+				m.create_time, m.mod_time, m.flag,m.is_all,codex.codex_name,codex.codex_id,codex.codex_type 
+		from np_marketing m ,np_marketing_codex mc,np_codex codex,np_marketing_group mgroup 
+		where m.marketing_id = mc.marketing_id and mc.codex_id = codex.codex_id  and mc.flag='0' 
+		and codex.codex_status=mgroup.group_id
+		and m.marketing_id = #{marketingId,jdbcType=BIGINT}
+		and <![CDATA[ m.marketing_begin <= now() and  m.marketing_end   > now() ]]>
+	</select>
+
+    <select id="marketingDetailNotTime" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select m.business_id,mgroup.preferential_name,mgroup.group_id, m.marketing_id, m.marketing_name, m.marketing_des, m.marketing_type, m.marketing_begin,
+				m.marketing_end,m.is_repeat,
+				m.create_time, m.mod_time, m.flag,m.is_all,codex.codex_name,codex.codex_id,codex.codex_type,
+				m.add_give_type,m.give_integral,m.coupon_id,m.active_site_type,m.shipping_money,m.vip_shipping_money,<!-- m.limit_num,m.is_free, -->
+		(select c.coupon_name from np_coupon c right join np_marketing mar on c.coupon_id=mar.coupon_id 
+		and c.del_flag='0' where  mar.marketing_id = #{marketingId,jdbcType=BIGINT})as coupon_name,
+		(select c.coupon_id from np_coupon c right join np_marketing mar on c.coupon_id=mar.coupon_id 
+		and c.del_flag='0' where  mar.marketing_id = #{marketingId,jdbcType=BIGINT})as coupon_id
+		from np_marketing m ,np_marketing_codex mc,np_codex codex,np_marketing_group mgroup
+		where m.marketing_id = mc.marketing_id and mc.codex_id = codex.codex_id  and mc.flag='0'
+		and codex.codex_status=mgroup.group_id
+		and m.marketing_id = #{marketingId,jdbcType=BIGINT}
+    </select>
+
+    <select id="marketingDetailForTime" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select m.business_id,mgroup.preferential_name,mgroup.group_id, m.marketing_id, m.marketing_name,
+        m.marketing_des, m.marketing_type, m.marketing_begin,
+        m.marketing_end,m.is_repeat,
+        m.create_time, m.mod_time, m.flag,m.is_all,codex.codex_name,codex.codex_id,codex.codex_type,
+        m.add_give_type,m.give_integral,m.coupon_id,m.active_site_type,m.shipping_money, m.vip_shipping_money,<!-- m.limit_num,m.is_free, -->
+        (select c.coupon_name from np_coupon c right join np_marketing mar on c.coupon_id=mar.coupon_id
+        and c.del_flag='0' where mar.marketing_id = #{marketingId,jdbcType=BIGINT})as coupon_name,
+        (select c.coupon_id from np_coupon c right join np_marketing mar on c.coupon_id=mar.coupon_id
+        and c.del_flag='0' where mar.marketing_id = #{marketingId,jdbcType=BIGINT})as coupon_id
+        from np_marketing m ,np_marketing_codex mc,np_codex codex,np_marketing_group mgroup
+        where m.marketing_id = mc.marketing_id and mc.codex_id = codex.codex_id and mc.flag='0'
+        and codex.codex_status=mgroup.group_id and
+        <![CDATA[ m.marketing_begin <= now() and  m.marketing_end   > now() ]]>
+        and m.marketing_id = #{marketingId,jdbcType=BIGINT}
+    </select>
+	
+	<!-- 根据商品编号和活动分组编号查询主键id -->
+	<select id="queryByCreatimeMarketing"  resultMap="BaseResultMap" parameterType="java.util.Map">
+		select  m.marketing_id, m.marketing_name,codex.codex_id,codex.codex_type,m.marketing_id
+		 from np_marketing m ,np_marketing_codex mc,np_codex codex,np_marketing_group mgroup ,np_marketing_scope sc 
+		where m.marketing_id = mc.marketing_id and mc.codex_id = codex.codex_id  and mc.flag='0' and sc.marketing_id=m.marketing_id
+		and codex.codex_status=mgroup.group_id  
+		and sc.scope_id=#{goodsId} and mgroup.group_id=#{groupId} and marketing_type='0' and m.flag='0'
+		and <![CDATA[ m.marketing_begin <= now() and  m.marketing_end   > now() ]]>
+		ORDER BY m.create_time 
+		limit 0,1
+	</select>
+	<!-- 根据商品id，商品品牌id，商品类型id，分组id，查询 -->
+	<select id="queryByCreatimemarketings" resultMap="BaseResultMap" parameterType="java.util.Map">
+	 select  m.marketing_id
+		 from np_marketing m ,np_marketing_scope sc 
+			where m.marketing_id = sc.marketing_id 
+			 and  sc.flag = '0' AND
+		    sc.scope_id = #{goodsInfoId}   and m.flag='0'
+				 and m.m_group_id=#{groupId}
+				 and   NOW()  >= m.marketing_begin AND m.marketing_end >=NOW()
+	 GROUP BY m.marketing_id
+	</select>
+	
+	<!-- 根据商品id，商品品牌id，商品类型id，分组id，查询 -->
+	<select id="queryByCreatimeMarketingGroupon" resultMap="GrouponResultMap" parameterType="java.util.Map">
+        select  m.marketing_id,  m.marketing_name,  m.marketing_des,  m.marketing_type,  m.marketing_begin,
+        m.marketing_end,
+        m.create_time,  m.mod_time,  m.flag, m.is_repeat,m.is_all
+        from np_marketing m ,np_marketing_scope sc
+        where m.marketing_id = sc.marketing_id and  sc.flag = '0' and m.flag='0'
+        <if test="marketingId !=null and marketingId !=''">
+            AND   m.marketing_id = #{marketingId}
+        </if>
+        <if test="goodsInfoId !=null and goodsInfoId !=''">
+            AND  sc.scope_id = #{goodsInfoId}
+        </if>
+
+            AND  m.m_group_id=4
+
+        <![CDATA[  AND NOW()  >= m.marketing_begin AND m.marketing_end >=NOW() ]]>
+	</select>
+	
+	<!-- 根据商品id，商品品牌id，商品类型id，分组id，查询抢购 -->
+	<select id="queryByCreatimeMarketingMR" resultMap="MarketingRushResultMap" parameterType="java.util.Map">
+	 select  m.marketing_id,  m.marketing_name,  m.marketing_des,  m.marketing_type,  m.marketing_begin,
+		 m.marketing_end,
+		 m.create_time,  m.mod_time,  m.flag, m.is_repeat,m.is_all
+		 from np_marketing m ,np_marketing_scope sc
+        where m.marketing_id = sc.marketing_id and  sc.flag = '0' and m.flag='0'
+			<if test="marketId !=null and marketId !=''">
+                AND   m.marketing_id = #{marketId}
+            </if>
+            <if test="goodsInfoId !=null and goodsInfoId !=''">
+             AND  sc.scope_id = #{goodsInfoId}
+            </if>
+
+              AND  m.m_group_id=5
+
+            <![CDATA[  AND DATE_ADD(NOW(), INTERVAL 1 DAY)  >= m.marketing_begin AND DATE_ADD(m.marketing_end, INTERVAL 1 DAY) >=NOW() ]]>
+
+	</select>
+
+	<!-- 分页查询优惠信息 -->
+	<select id="marketOrderList" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select mgroup.preferential_name, m.marketing_id, m.marketing_name, m.marketing_des, m.marketing_type, m.marketing_begin,
+				m.marketing_end,m.is_repeat,
+				m.create_time, m.mod_time, m.flag,m.is_all,codex.codex_name,codex.codex_id,codex.codex_type 
+		from np_marketing m ,np_marketing_codex mc,np_codex codex,np_marketing_group mgroup
+		where m.marketing_id = mc.marketing_id and mc.codex_id = codex.codex_id  and mc.flag='0' 
+		and codex.codex_status=mgroup.group_id
+            <if test="codexId != null and codexId !=''" >
+                and codex.codex_id=#{codexId}
+            </if>
+			<if test="marketingName != null and marketingName !=''">
+				and m.marketing_name like CONCAT(CONCAT('%',#{marketingName,jdbcType=VARCHAR},'%'))
+			</if>
+			<if test="marketingType != null ">
+				and m.marketing_type = #{marketingType,jdbcType=CHAR}
+                <if test="marketingType==0">
+                    and codex.codex_id !=10 and codex.codex_id !=11
+                </if>
+			</if>
+			<if test="flag != null">
+				and m.flag = #{flag,jdbcType=CHAR}
+			</if>
+			<if test="marketingBegin !=null and marketingBegin !=''">
+				and m.marketing_begin  &gt; #{marketingBegin,jdbcType=TIMESTAMP}
+			</if>
+			
+			<if test="marketingEnd !=null and marketingEnd !=''">
+				and m.marketing_end     &lt; #{marketingEnd,jdbcType=TIMESTAMP}
+			</if>
+			<if test="businessId !=null ">
+			and business_id = #{businessId,jdbcType=BIGINT}
+			</if>
+			<if test="businessId == null" >
+      		and business_id  is null
+      		</if>
+		order by m.mod_time desc
+		limit #{start},#{number}
+	</select>
+	<!-- 查询促销总数 -->
+	<select id="marketOrderListCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select count(1)
+			from np_marketing m ,np_marketing_codex mc,np_codex codex
+		where m.marketing_id = mc.marketing_id and mc.codex_id = codex.codex_id  AND mc.flag='0' and m.flag = '0'
+            <if test="codexId != null and codexId!=''" >
+               and codex.codex_id=#{codexId}
+            </if>
+			<if test="marketingName != null and marketingName !=''">
+				and m.marketing_name like CONCAT(CONCAT('%',#{marketingName,jdbcType=VARCHAR},'%'))
+			</if>
+			<if test="marketingType != null">
+				and m.marketing_type = #{marketingType,jdbcType=CHAR}
+                <if test="marketingType==0">
+                    and codex.codex_id !=10 and codex.codex_id !=11
+                </if>
+			</if>
+
+			<if test="marketingBegin !=null and marketingBegin!=''">
+				and m.marketing_begin  &gt; #{marketingBegin,jdbcType=TIMESTAMP}
+			</if>
+			
+			<if test="marketingEnd !=null and marketingEnd!=''">
+				and m.marketing_end     &lt; #{marketingEnd,jdbcType=TIMESTAMP}
+			</if>
+			<if test="businessId !=null ">
+			and business_id = #{businessId}
+			</if>
+			<if test="businessId == null" >
+      		and business_id  is null
+      		</if>
+	</select>
+	
+	
+	
+	<!-- 查询即将到期促销总数 -->
+		<select id="sellerMarketingOverdueCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select count(1)
+			from np_marketing m ,np_marketing_codex mc,np_codex codex
+		where m.marketing_id = mc.marketing_id and mc.codex_id = codex.codex_id  AND mc.flag='0'
+		
+			<if test="marketingType != null">
+				and m.marketing_type = #{marketingType,jdbcType=CHAR}
+			</if>
+			<if test="flag != null">
+				and m.flag = #{flag,jdbcType=CHAR}
+			</if>
+			<if test="marketingEnd !=null and marketingEnd!=''">
+			and marketing_end &gt; SYSDATE() AND marketing_end &lt; #{marketingEnd,jdbcType=TIMESTAMP} 	
+			</if>
+			<if test="businessId !=null and businessId!=''">
+			and business_id = #{businessId}
+			</if>
+	</select>
+	
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from np_marketing
+		where marketing_id = #{marketingId,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from np_marketing
+		where marketing_id = #{marketingId,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.ningpai.marketing.bean.Marketing">
+		insert into np_marketing (marketing_id, marketing_name, marketing_des,
+		marketing_type, marketing_begin, marketing_end,
+		create_time, mod_time, flag,group_id
+		)
+		values (#{marketingId,jdbcType=BIGINT}, #{marketingName,jdbcType=VARCHAR},
+		#{marketingDes,jdbcType=VARCHAR},
+		#{marketingType,jdbcType=CHAR}, #{marketingBegin,jdbcType=TIMESTAMP}, #{marketingEnd,jdbcType=TIMESTAMP},
+		#{createTime,jdbcType=TIMESTAMP}, #{modTime,jdbcType=TIMESTAMP},
+		#{flag,jdbcType=CHAR},#{groupId}
+		)
+	</insert>
+	<insert id="insertMarketing" parameterType="com.ningpai.marketing.bean.Marketing">
+		insert into np_marketing
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="marketingId != null">
+				marketing_id,
+			</if>
+			<if test="marketingName != null">
+				marketing_name,
+			</if>
+			<if test="marketingDes != null">
+				marketing_des,
+			</if>
+			<if test="marketingType != null">
+				marketing_type,
+			</if>
+			<if test="marketingBegin != null">
+				marketing_begin,
+			</if>
+			<if test="marketingEnd != null">
+				marketing_end,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="modTime != null">
+				mod_time,
+			</if>
+			<if test="flag != null">
+				flag,
+			</if>
+			<if test="isRepeat != null">
+				is_repeat,
+			</if>
+			<if test="businessId != null">
+				business_id,
+			</if>
+			<if test="marketGroupId != null">
+				m_group_id,
+			</if>
+			<if test="isAll != null">
+				is_all,
+			</if>
+			<if test="addGiveType !=null">
+			    add_give_type,
+			</if>
+			<if test="giveIntegral !=null">
+				give_integral,
+			</if>
+			<if test="couponId !=null">
+				coupon_id,
+			</if>
+			<if test="activeSiteType !=null">
+				active_site_type,
+			</if>
+			<if test="shippingMoney !=null">
+				shipping_money,
+			</if>
+			<if test="vipShippingMoney !=null">
+				vip_shipping_money,
+			</if>
+			<!-- <if test="limitNum !=null">
+				limit_num,
+			</if>
+			<if test="isFree !=null">
+				is_free,
+			</if> -->
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="marketingId != null">
+				#{marketingId,jdbcType=BIGINT},
+			</if>
+			<if test="marketingName != null">
+				#{marketingName,jdbcType=VARCHAR},
+			</if>
+			<if test="marketingDes != null">
+				#{marketingDes,jdbcType=VARCHAR},
+			</if>
+			<if test="marketingType != null">
+				#{marketingType,jdbcType=CHAR},
+			</if>
+			<if test="marketingBegin != null">
+				#{marketingBegin,jdbcType=TIMESTAMP},
+			</if>
+			<if test="marketingEnd != null">
+				#{marketingEnd,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modTime != null">
+				#{modTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="flag != null">
+				#{flag,jdbcType=CHAR},
+			</if>
+			<if test="isRepeat != null">
+				#{isRepeat,jdbcType=CHAR},
+			</if>
+			<if test="businessId != null">
+				#{businessId,jdbcType=BIGINT},
+			</if>
+			<if test="marketGroupId != null">
+				#{marketGroupId},
+			</if>
+			<if test="isAll != null">
+				#{isAll,jdbcType=CHAR},
+			</if>
+			<if test="addGiveType !=null">
+			    #{addGiveType,jdbcType=CHAR},
+			</if>
+			<if test="giveIntegral !=null">
+				#{giveIntegral, jdbcType=INTEGER},
+			</if>
+			<if test="couponId !=null">
+				#{couponId, jdbcType=BIGINT },
+			</if>
+			<if test="activeSiteType !=null">
+				#{activeSiteType,jdbcType=CHAR},
+			</if>
+			<if test="shippingMoney !=null">
+				#{shippingMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="vipShippingMoney !=null">
+				#{vipShippingMoney,jdbcType=DECIMAL},
+			</if>
+			<!-- <if test="limitNum !=null">
+				#{limitNum,jdbcType=INTEGER},
+		   </if>
+			<if test="isFree !=null">
+				#{isFree,jdbcType=CHAR},
+			</if> -->
+		</trim>   
+		<selectKey keyProperty="marketing_id" resultType="java.lang.Long">
+      		select LAST_INSERT_ID()
+      </selectKey>
+  </insert>
+
+    <update id="modifyMarketing" parameterType="com.ningpai.marketing.bean.Marketing">
+        update np_marketing
+        <set>
+            <if test="marketingName != null">
+                marketing_name = #{marketingName,jdbcType=VARCHAR},
+            </if>
+            <if test="marketingDes != null">
+                marketing_des = #{marketingDes,jdbcType=VARCHAR},
+            </if>
+            <if test="marketingBegin != null">
+                marketing_begin = #{marketingBegin,jdbcType=TIMESTAMP},
+            </if>
+            <if test="marketingEnd != null">
+                marketing_end = #{marketingEnd,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isAll != null">
+				 is_all = #{isAll,jdbcType=CHAR},
+			</if>
+			<if test="addGiveType !=null">
+			    add_give_type = #{addGiveType,jdbcType=CHAR},
+			</if>
+			<if test="giveIntegral !=null">
+				give_integral = #{giveIntegral, jdbcType=INTEGER},
+			</if>
+			<if test="couponId !=null">
+				coupon_id = #{couponId, jdbcType=BIGINT },
+			</if>
+			<if test="activeSiteType !=null">
+				active_site_type = #{activeSiteType,jdbcType=CHAR},
+			</if>
+			<if test="shippingMoney !=null">
+				shipping_money = #{shippingMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="vipShippingMoney !=null">
+				vip_shipping_money = #{vipShippingMoney,jdbcType=DECIMAL},
+			</if>
+        </set>
+        where  1=1 and marketing_id = #{marketingId,jdbcType=BIGINT}
+        <if test="businessId !=null and businessId !=''">
+          and business_id =#{businessId,jdbcType=BIGINT}
+        </if>
+    </update>
+  <!-- 查询刚刚插入的Id -->
+  <select id="selectLastId" resultType="java.lang.Long" >
+  		select LAST_INSERT_ID()
+  </select>
+  
+  
+	<update id="updateMarketing" parameterType="com.ningpai.marketing.bean.Marketing">
+		update np_marketing
+		<set>
+			<if test="marketingName != null">
+				marketing_name = #{marketingName,jdbcType=VARCHAR},
+			</if>
+			<if test="marketingDes != null">
+				marketing_des = #{marketingDes,jdbcType=VARCHAR},
+			</if>
+			<if test="marketingType != null">
+				marketing_type = #{marketingType,jdbcType=CHAR},
+			</if>
+			<if test="marketingBegin != null">
+				marketing_begin = #{marketingBegin,jdbcType=TIMESTAMP},
+			</if>
+			<if test="marketingEnd != null">
+				marketing_end = #{marketingEnd,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modTime != null">
+				mod_time = #{modTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="flag != null">
+				flag = #{flag,jdbcType=CHAR},
+			</if>
+			<if test="isRepeat != null">
+				is_repeat = #{isRepeat,jdbcType=CHAR},
+			</if>
+			<if test="isAll != null">
+				is_all=#{isAll,jdbcType=CHAR},
+			</if>
+		</set>
+		where marketing_id = #{marketingId,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.ningpai.marketing.bean.Marketing">
+		update np_marketing
+		set marketing_name = #{marketingName,jdbcType=VARCHAR},
+		marketing_des = #{marketingDes,jdbcType=VARCHAR},
+		marketing_type = #{marketingType,jdbcType=CHAR},
+		marketing_begin = #{marketingBegin,jdbcType=TIMESTAMP},
+		marketing_end = #{marketingEnd,jdbcType=TIMESTAMP},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		mod_time = #{modTime,jdbcType=TIMESTAMP},
+		flag = #{flag,jdbcType=CHAR}
+		where marketing_id = #{marketingId,jdbcType=BIGINT}
+	</update>
+	
+	
+	<update id="deleteMarketingById" parameterType="java.util.Map">
+		update np_marketing
+		set
+		flag = '1'
+		where marketing_id = #{marketingId,jdbcType=BIGINT}
+		<if test="businessId !=null and businessId!=''">
+			and business_id = #{businessId}
+	  </if>
+	</update>
+
+
+	<update id="delleteMarkting" parameterType="java.util.Map">
+		update np_marketing
+		set
+		flag = '1'
+		where marketing_id = #{marketingId,jdbcType=BIGINT}
+		<if test="businessId !=null and businessId!=''">
+			and business_id = #{businessId}
+		</if>
+	</update>
+	
+
+		<update id="delAllMarketingByIds" parameterType="java.util.Map">
+		update np_marketing
+		set flag = '1'
+		where marketing_id in
+		 <foreach collection="list" item="marketingId" open="(" separator="," close=")">
+    		 #{marketingId,jdbcType=BIGINT}
+   		</foreach>
+		 <if test="businessId !=null and businessId!=''">
+			and business_id = #{businessId}
+		</if>
+	</update>
+
+    <select id="searchMarketByMarketingId" parameterType="java.lang.Long"  resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" /> from np_marketing where marketing_id = #{marketingId,jdbcType=BIGINT}
+    </select>
+	
+	<!-- 新查询促销列表 -->
+	<select id="marketListCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select count(1)
+			from np_marketing m ,np_marketing_codex mc,np_codex codex
+		where m.marketing_id = mc.marketing_id and mc.codex_id = codex.codex_id  AND mc.flag='0' and m.flag = '0'
+			<if test="marketingType != null">
+				and m.marketing_type = #{marketingType,jdbcType=CHAR}
+                <if test="marketingType==0 and  marketingFlag=='DP' ">
+                    and codex.codex_id in(1,9)
+                </if>
+			</if>
+			<if test="businessId !=null and businessId!=''">
+			and business_id = #{businessId}
+			</if>
+			<if test="businessId == null" >
+      		and business_id  is null
+      		</if>
+	</select>
+	
+	<!-- 新分页查询优惠信息 -->
+	<select id="marketList" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select mgroup.preferential_name, m.marketing_id, m.marketing_name, m.marketing_des, m.marketing_type, m.marketing_begin,
+				m.marketing_end,m.is_repeat,
+				m.create_time, m.mod_time, m.flag,m.is_all,codex.codex_name,codex.codex_id,codex.codex_type 
+		from np_marketing m ,np_marketing_codex mc,np_codex codex,np_marketing_group mgroup
+		where m.marketing_id = mc.marketing_id and mc.codex_id = codex.codex_id  and mc.flag='0' and m.flag = '0'
+		and codex.codex_status=mgroup.group_id
+		    <if test="marketingType != null">
+				and m.marketing_type = #{marketingType,jdbcType=CHAR}
+                <if test="marketingType==0 and  marketingFlag=='DP' ">
+                    and codex.codex_id in(1,9)
+                </if>
+                <if test="marketingType==0 and  marketingFlag=='ZK' ">
+                    and codex.codex_id in(15)
+                </if>
+                <if test="marketingType==0 and  marketingFlag=='BY' ">
+                    and codex.codex_id in(12)
+                </if>
+                <if test="marketingType==0 and  marketingFlag=='MJO' ">
+                    and codex.codex_id in(5,8)
+                </if>
+                <if test="marketingType==0 and  marketingFlag=='MJP' ">
+                    and codex.codex_id in(13,14)
+                </if>
+			</if>
+			<if test="businessId !=null and businessId!=''">
+			and business_id = #{businessId}
+			</if>
+			<if test="businessId == null" >
+      		and business_id  is null
+      		</if>
+            
+		order by m.mod_time desc
+		limit #{start},#{number}
+	</select>
+</mapper>

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.system.dao.ErrorPageMapper" >
+  
+  <resultMap id="BaseResultMap" type="com.ningpai.system.bean.ErrorPage" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="pageDesc" property="pagedesc" jdbcType="VARCHAR" />
+    <result column="pageUrl" property="pageurl" jdbcType="VARCHAR" />
+    <result column="delflag" property="delflag" jdbcType="CHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <resultMap id="ResultMapWithBLOBs" type="com.ningpai.system.bean.ErrorPage" extends="BaseResultMap" >
+    <result column="prompt" property="prompt" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, name, title, pageDesc, pageUrl, delflag, create_user_id, create_date, update_user_id, 
+    update_date
+  </sql>
+  <sql id="Blob_Column_List" >
+    prompt
+  </sql>
+  <!-- 查询sql开始 -->
+  <!-- 根据主键查询-->
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from np_sys_errorpage
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <!-- 查询所有的行数（分页用） -->
+  <select id="queryTotalCount" resultType="java.lang.Integer">
+	select count(id) from np_sys_errorpage 
+	where delflag = '0'
+  	
+  </select>
+  <!-- 根据分页参数查询单独页列表 -->
+  <select id="queryByPageBean" resultMap="BaseResultMap">
+    select 
+  	<include refid="Base_Column_List" />
+  	from np_sys_errorpage 
+  	where delflag = '0'
+  	limit #{startRowNum},#{endRowNum}
+  </select>
+  <!-- 查询sql结束 -->
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_sys_errorpage
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.system.bean.ErrorPage" >
+    insert into np_sys_errorpage (id, name, title, 
+      pageDesc, pageUrl, delflag, 
+      create_user_id, create_date, update_user_id, 
+      update_date, prompt)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{pagedesc,jdbcType=VARCHAR}, #{pageurl,jdbcType=VARCHAR}, #{delflag,jdbcType=CHAR}, 
+      #{createUserId,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{prompt,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.system.bean.ErrorPage" >
+    insert into np_sys_errorpage
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="pagedesc != null" >
+        pageDesc,
+      </if>
+      <if test="pageurl != null" >
+        pageUrl,
+      </if>
+      <if test="delflag != null" >
+        delflag,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="prompt != null" >
+        prompt,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="pagedesc != null" >
+        #{pagedesc,jdbcType=VARCHAR},
+      </if>
+      <if test="pageurl != null" >
+        #{pageurl,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null" >
+        #{delflag,jdbcType=CHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prompt != null" >
+        #{prompt,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.system.bean.ErrorPage" >
+    update np_sys_errorpage
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="pagedesc != null" >
+        pageDesc = #{pagedesc,jdbcType=VARCHAR},
+      </if>
+      <if test="pageurl != null" >
+        pageUrl = #{pageurl,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null" >
+        delflag = #{delflag,jdbcType=CHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prompt != null" >
+        prompt = #{prompt,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ningpai.system.bean.ErrorPage" >
+    update np_sys_errorpage
+    set name = #{name,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      pageDesc = #{pagedesc,jdbcType=VARCHAR},
+      pageUrl = #{pageurl,jdbcType=VARCHAR},
+      delflag = #{delflag,jdbcType=CHAR},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      prompt = #{prompt,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.system.bean.ErrorPage" >
+    update np_sys_errorpage
+    set name = #{name,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      pageDesc = #{pagedesc,jdbcType=VARCHAR},
+      pageUrl = #{pageurl,jdbcType=VARCHAR},
+      delflag = #{delflag,jdbcType=CHAR},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

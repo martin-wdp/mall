@@ -1,0 +1,21 @@
+*{margin:0;padding:0;}
+body{background:#fff;}
+body,button,input{font-family:Microsoft YaHei;}
+li{list-style-type:none;}
+i,em{font-style:normal;}
+h3{font-weight:500;}
+.expressLogo{width:90%;height:100px;padding-top:20px;margin:0 auto;}
+.expressLogo img{width:80px;height:80px;margin:0 20px;}
+.expressLogo img,.expressLogo ul{float:left;}
+.expressLogo h3{margin:6px 0;}
+.expressMes{border-top:10px solid #efefef;}
+.expressMes h3{height:60px;line-height:60px;border-bottom:1px solid #ccc;text-indent:1em;}
+.expressMes ul{margin-top:20px;}
+.expressMes li {width:86%;height:90px;margin:10px auto;position:relative;}
+.expressMes li i{width:17px;height:17px;position:absolute;border-radius:8px;background:#DCDCDC;}
+.expressMes li i:before{content:"";display:block;width:1px;height:100px;background:#DCDCDC;margin-top:17px;margin-left:8px;}
+.expressMes li em{background:#DCDCDC;color:#fff;position:absolute;left:60px;border-radius:2px;padding:0 6px;}
+.expressMes li span{height:42px;line-height:24px;overflow:hidden;position:absolute;top:30px;left:60px;padding-bottom:10px;border-bottom:1px solid #DCDCDC;color:#ABABAB;}
+.expressMes li:nth-child(1) i{background:#F6AB00;box-shadow:0 0 6px #F6AB00;}
+.expressMes li:nth-child(1) em{background:#F6AB00;}
+.expressMes li:nth-child(1) span{color:#F6AB00;}

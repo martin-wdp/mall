@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.goods.dao.GoodsReleExpandParamMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsReleExpandParam" >
+    <id column="rele_expandparam_id" property="releExpandparamId" jdbcType="BIGINT" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="expandparam_id" property="expandparamId" jdbcType="BIGINT" />
+    <result column="expangparam_value_id" property="expangparamValueId" jdbcType="BIGINT" />
+    <result column="expandparam_value_name" property="expandparamValueName" jdbcType="VARCHAR" />
+    <result column="rele_expandparam_create_name" property="releExpandparamCreateName" jdbcType="VARCHAR" />
+    <result column="rele_expandparam_create_time" property="releExpandparamCreateTime" jdbcType="TIMESTAMP" />
+    <result column="rele_expandparam_modified_name" property="releExpandparamModifiedName" jdbcType="VARCHAR" />
+    <result column="rele_expandparam_modified_time" property="releExpandparamModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="rele_expandparam_del_name" property="releExpandparamDelName" jdbcType="VARCHAR" />
+    <result column="rele_expandparam_del_time" property="releExpandparamDelTime" jdbcType="TIMESTAMP" />
+    <result column="rele_expandparam_delflag" property="releExpandparamDelflag" jdbcType="CHAR" />
+  </resultMap>
+  <!-- VoResult -->
+  <resultMap type="com.ningpai.goods.vo.GoodsReleExpandParamVo" id="VoResultMap">
+  	<id column="rele_expandparam_id" property="releExpandparamId" jdbcType="BIGINT" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <association property="expandParamVo" column="expandparam_id" select="com.ningpai.goods.dao.GoodsTypeExpandParamMapper.queryByExpandParamId"></association>
+    <association property="expangparamValue" column="expangparam_value_id" select="com.ningpai.goods.dao.GoodsTypeExpandParamValueMapper.selectByPrimaryKey"></association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    rele_expandparam_id, goods_id, expandparam_id, expangparam_value_id, expandparam_value_name, 
+    rele_expandparam_create_name, rele_expandparam_create_time, rele_expandparam_modified_name, 
+    rele_expandparam_modified_time, rele_expandparam_del_name, rele_expandparam_del_time, 
+    rele_expandparam_delflag 
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_goods_rele_expandparam
+    where rele_expandparam_id = #{releExpandparamId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.util.Map" >
+    update np_goods_rele_expandparam set rele_expandparam_delflag='1',rele_expandparam_del_name=#{delName},
+    rele_expandparam_del_time=NOW()
+    where rele_expandparam_id = #{releExpandparamId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.goods.bean.GoodsReleExpandParam" >
+    insert into np_goods_rele_expandparam (rele_expandparam_id, goods_id, expandparam_id, 
+      expangparam_value_id, expandparam_value_name, 
+      rele_expandparam_create_name, rele_expandparam_create_time, 
+      rele_expandparam_modified_name, rele_expandparam_modified_time, 
+      rele_expandparam_del_name, rele_expandparam_del_time, 
+      rele_expandparam_delflag)
+    values (#{releExpandparamId,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, #{expandparamId,jdbcType=BIGINT}, 
+      #{expangparamValueId,jdbcType=BIGINT}, #{expandparamValueName,jdbcType=VARCHAR}, 
+      #{releExpandparamCreateName,jdbcType=VARCHAR}, #{releExpandparamCreateTime,jdbcType=TIMESTAMP}, 
+      #{releExpandparamModifiedName,jdbcType=VARCHAR}, #{releExpandparamModifiedTime,jdbcType=TIMESTAMP}, 
+      #{releExpandparamDelName,jdbcType=VARCHAR}, #{releExpandparamDelTime,jdbcType=TIMESTAMP}, 
+      #{releExpandparamDelflag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.goods.bean.GoodsReleExpandParam" >
+    insert into np_goods_rele_expandparam
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="releExpandparamId != null" >
+        rele_expandparam_id,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="expandparamId != null" >
+        expandparam_id,
+      </if>
+      <if test="expangparamValueId != null" >
+        expangparam_value_id,
+      </if>
+      <if test="expandparamValueName != null" >
+        expandparam_value_name,
+      </if>
+      <if test="releExpandparamCreateName != null" >
+        rele_expandparam_create_name,
+      </if>
+        rele_expandparam_create_time,
+      <if test="releExpandparamModifiedName != null" >
+        rele_expandparam_modified_name,
+      </if>
+      <if test="releExpandparamModifiedTime != null" >
+        rele_expandparam_modified_time,
+      </if>
+      <if test="releExpandparamDelName != null" >
+        rele_expandparam_del_name,
+      </if>
+      <if test="releExpandparamDelTime != null" >
+        rele_expandparam_del_time,
+      </if>
+      <if test="releExpandparamDelflag != null" >
+        rele_expandparam_delflag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="releExpandparamId != null" >
+        #{releExpandparamId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="expandparamId != null" >
+        #{expandparamId,jdbcType=BIGINT},
+      </if>
+      <if test="expangparamValueId != null" >
+        #{expangparamValueId,jdbcType=BIGINT},
+      </if>
+      <if test="expandparamValueName != null" >
+        #{expandparamValueName,jdbcType=VARCHAR},
+      </if>
+      <if test="releExpandparamCreateName != null" >
+        #{releExpandparamCreateName,jdbcType=VARCHAR},
+      </if>
+        NOW(),
+      <if test="releExpandparamModifiedName != null" >
+        #{releExpandparamModifiedName,jdbcType=VARCHAR},
+      </if>
+      <if test="releExpandparamModifiedTime != null" >
+        #{releExpandparamModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="releExpandparamDelName != null" >
+        #{releExpandparamDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="releExpandparamDelTime != null" >
+        #{releExpandparamDelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="releExpandparamDelflag != null" >
+        #{releExpandparamDelflag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.goods.bean.GoodsReleExpandParam" >
+    update np_goods_rele_expandparam
+    <set >
+      <if test="goodsId != null" >
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="expandparamId != null" >
+        expandparam_id = #{expandparamId,jdbcType=BIGINT},
+      </if>
+      <if test="expangparamValueId != null" >
+        expangparam_value_id = #{expangparamValueId,jdbcType=BIGINT},
+      </if>
+      <if test="expandparamValueName != null" >
+        expandparam_value_name = #{expandparamValueName,jdbcType=VARCHAR},
+      </if>
+      <if test="releExpandparamCreateName != null" >
+        rele_expandparam_create_name = #{releExpandparamCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="releExpandparamCreateTime != null" >
+        rele_expandparam_create_time = #{releExpandparamCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="releExpandparamModifiedName != null" >
+        rele_expandparam_modified_name = #{releExpandparamModifiedName,jdbcType=VARCHAR},
+      </if>
+        rele_expandparam_modified_time = NOW(),
+      <if test="releExpandparamDelName != null" >
+        rele_expandparam_del_name = #{releExpandparamDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="releExpandparamDelTime != null" >
+        rele_expandparam_del_time = #{releExpandparamDelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="releExpandparamDelflag != null" >
+        rele_expandparam_delflag = #{releExpandparamDelflag,jdbcType=CHAR},
+      </if>
+    </set>
+    where rele_expandparam_id = #{releExpandparamId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.goods.bean.GoodsReleExpandParam" >
+    update np_goods_rele_expandparam
+    set goods_id = #{goodsId,jdbcType=BIGINT},
+      expandparam_id = #{expandparamId,jdbcType=BIGINT},
+      expangparam_value_id = #{expangparamValueId,jdbcType=BIGINT},
+      expandparam_value_name = #{expandparamValueName,jdbcType=VARCHAR},
+      rele_expandparam_create_name = #{releExpandparamCreateName,jdbcType=VARCHAR},
+      rele_expandparam_create_time = #{releExpandparamCreateTime,jdbcType=TIMESTAMP},
+      rele_expandparam_modified_name = #{releExpandparamModifiedName,jdbcType=VARCHAR},
+      rele_expandparam_modified_time = #{releExpandparamModifiedTime,jdbcType=TIMESTAMP},
+      rele_expandparam_del_name = #{releExpandparamDelName,jdbcType=VARCHAR},
+      rele_expandparam_del_time = #{releExpandparamDelTime,jdbcType=TIMESTAMP},
+      rele_expandparam_delflag = #{releExpandparamDelflag,jdbcType=CHAR}
+    where rele_expandparam_id = #{releExpandparamId,jdbcType=BIGINT}
+  </update>
+  <!-- 根据商品ID查询列表 -->
+  <select id="queryAllByGoodsId" resultMap="VoResultMap" parameterType="java.lang.Long">
+  	select 
+    	<include refid="Base_Column_List" />
+    from np_goods_rele_expandparam
+    where goods_id = #{goodsId,jdbcType=BIGINT}
+    and rele_expandparam_delflag='0'
+  </select>
+  <!-- 根据商品ID和扩展属性ID查询记录 -->
+  <select id="queryByGoodsIdAndExpandParamId" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select 
+    	<include refid="Base_Column_List" />
+    from np_goods_rele_expandparam
+    where goods_id = #{goodsId,jdbcType=BIGINT}
+    and expandparam_id=#{expandParamId}
+    and rele_expandparam_delflag='0'
+  </select>
+  <!-- 根据商品ID删除所有的扩展属性 -->
+  <select id="delAllExpandParamByGoodsId" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	update np_goods_rele_expandparam set rele_expandparam_delflag='1',rele_expandparam_del_name=#{delName},
+    rele_expandparam_del_time=NOW()
+    where goods_id=#{goodsId}
+  </select>
+  
+</mapper>

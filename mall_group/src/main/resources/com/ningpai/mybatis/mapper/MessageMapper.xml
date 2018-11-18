@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.message.mapper.MessageMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.message.bean.Message" >
+    <id column="message_id" property="messageId" jdbcType="BIGINT" />
+    <result column="message_title" property="messageTitle" jdbcType="VARCHAR" />
+    <result column="message_create_time" property="messageCreateTime" jdbcType="TIMESTAMP" />
+    <result column="message_author_id" property="messageAuthorId" jdbcType="BIGINT" />
+    <result column="message_type" property="messageType" jdbcType="CHAR" />
+    <result column="message_del_flag" property="messageDelFlag" jdbcType="CHAR" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="group_id" property="groupId" jdbcType="BIGINT" />
+    <result column="pic_id" property="picId" jdbcType="BIGINT" />
+    <result column="topic_id" property="topicId" jdbcType="BIGINT" />
+    <result column="message_operation_flag" property="messageOperationFlag" jdbcType="CHAR" />
+    <result column="message_temp_id" property="messageTempId" jdbcType="BIGINT" />
+    <result column="tender_id" property="tenderId" jdbcType="BIGINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.ningpai.message.bean.Message" extends="BaseResultMap" >
+    <result column="message_content" property="messageContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+  <resultMap type="com.ningpai.message.vo.MessageVo" id="BaseVoMap" extends="ResultMapWithBLOBs">
+  <result column="message_rec_customer_id" property="messageRecCustomerId" jdbcType="BIGINT"/>
+  <result column="group_name" property="groupName" jdbcType="VARCHAR"/>
+  <result column="customer_img" property="customerHead" jdbcType="VARCHAR"/>
+  <result column="customer_nickname" property="customerName" jdbcType="VARCHAR"/>
+  <result column="group_name" property="groupName" jdbcType="VARCHAR"/>
+  <result column="customer_img" property="customerHead" jdbcType="VARCHAR"/>
+  <result column="message_flag" property="messageReadFlag" jdbcType="CHAR"/>
+  <result column="mesage_temp_type" property="messageTempType" jdbcType="CHAR"/>
+  <result column="message_operation" property="messageTempOperation" jdbcType="CHAR"/>
+  <result column="message_customer_id" property="messageCustomerId" jdbcType="BIGINT"/>
+  <result column="add_group_customer_nickname" property="addGroupCustomerName" jdbcType="VARCHAR"/>
+  <result column="create_message_customer_nickname" property="createMsgCustomerName" jdbcType="VARCHAR"/>
+  <result column="topic_title" property="topicTitle" jdbcType="VARCHAR"/>
+  <result column="create_customer_img" property="createCustomerHead" jdbcType="VARCHAR"/>
+  <result column="group_img_title" property="groupImgTitle" jdbcType="VARCHAR"/>
+  <result column="group_refuse_reason" property="refuseGroupReason" jdbcType="VARCHAR"/>
+  <result column="topic_del_flag" property="topicDelFlag" jdbcType="CHAR"/>
+  <result column="topic_apply_flag" property="topicApplyFlag" jdbcType="CHAR"/>
+  <result column="tender_title" property="tenderTitle" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    message_id, message_title, message_create_time, message_author_id, message_type, 
+    message_del_flag, customer_id, group_id, pic_id, topic_id, message_operation_flag,message_temp_id,topic_del_flag
+  </sql>
+  <sql id="Blob_Column_List" >
+    message_content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from np_message
+    where message_id = #{messageId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_message
+    where message_id = #{messageId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.message.bean.Message" useGeneratedKeys="true" keyProperty="messageId" >
+    insert into np_message (message_title, message_create_time, 
+      message_author_id, message_type, message_del_flag, 
+      customer_id, group_id, pic_id, 
+      topic_id, message_operation_flag, message_content,message_temp_id
+      )
+    values (#{messageTitle,jdbcType=VARCHAR}, #{messageCreateTime,jdbcType=TIMESTAMP}, 
+      #{messageAuthorId,jdbcType=BIGINT}, #{messageType,jdbcType=CHAR}, #{messageDelFlag,jdbcType=CHAR}, 
+      #{customerId,jdbcType=BIGINT}, #{groupId,jdbcType=BIGINT}, #{picId,jdbcType=BIGINT}, 
+      #{topicId,jdbcType=BIGINT}, #{messageOperationFlag,jdbcType=CHAR}, #{messageContent,jdbcType=LONGVARCHAR},
+      #{messageTempId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.message.bean.Message" useGeneratedKeys="true" keyProperty="messageId" >
+    insert into np_message
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      message_title,
+      message_create_time,
+      message_author_id,
+      message_type,
+      message_del_flag,
+      customer_id,
+      group_id,
+      pic_id,
+      topic_id,
+      message_operation_flag,
+      message_content,
+      message_temp_id
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{messageTitle,jdbcType=VARCHAR},
+      #{messageCreateTime,jdbcType=TIMESTAMP},
+      #{messageAuthorId,jdbcType=BIGINT},
+      #{messageType,jdbcType=CHAR},
+      #{messageDelFlag,jdbcType=CHAR},
+      #{customerId,jdbcType=BIGINT},
+      #{groupId,jdbcType=BIGINT},
+      #{picId,jdbcType=BIGINT},
+      #{topicId,jdbcType=BIGINT},
+      #{messageOperationFlag,jdbcType=CHAR},
+      #{messageContent,jdbcType=LONGVARCHAR},
+      #{messageTempId,jdbcType=BIGINT}
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.message.bean.Message" >
+    update np_message
+    <set >
+      <if test="messageTitle != null" >
+        message_title = #{messageTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="messageCreateTime != null" >
+        message_create_time = #{messageCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="messageAuthorId != null" >
+        message_author_id = #{messageAuthorId,jdbcType=BIGINT},
+      </if>
+      <if test="messageType != null" >
+        message_type = #{messageType,jdbcType=CHAR},
+      </if>
+      <if test="messageDelFlag != null" >
+        message_del_flag = #{messageDelFlag,jdbcType=CHAR},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="groupId != null" >
+        group_id = #{groupId,jdbcType=BIGINT},
+      </if>
+      <if test="picId != null" >
+        pic_id = #{picId,jdbcType=BIGINT},
+      </if>
+      <if test="topicId != null" >
+        topic_id = #{topicId,jdbcType=BIGINT},
+      </if>
+      <if test="messageOperationFlag != null" >
+        message_operation_flag = #{messageOperationFlag,jdbcType=CHAR},
+      </if>
+      <if test="messageContent != null" >
+        message_content = #{messageContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="messageTempId != null" >
+        message_temp_id = #{messageTempId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where message_id = #{messageId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ningpai.message.bean.Message" >
+    update np_message
+    set message_title = #{messageTitle,jdbcType=VARCHAR},
+      message_create_time = #{messageCreateTime,jdbcType=TIMESTAMP},
+      message_author_id = #{messageAuthorId,jdbcType=BIGINT},
+      message_type = #{messageType,jdbcType=CHAR},
+      message_del_flag = #{messageDelFlag,jdbcType=CHAR},
+      customer_id = #{customerId,jdbcType=BIGINT},
+      group_id = #{groupId,jdbcType=BIGINT},
+      pic_id = #{picId,jdbcType=BIGINT},
+      topic_id = #{topicId,jdbcType=BIGINT},
+      message_operation_flag = #{messageOperationFlag,jdbcType=CHAR},
+      message_content = #{messageContent,jdbcType=LONGVARCHAR},
+      message_temp_id = #{messageTempId,jdbcType=BIGINT},
+    where message_id = #{messageId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.message.bean.Message" >
+    update np_message
+    set message_title = #{messageTitle,jdbcType=VARCHAR},
+      message_create_time = #{messageCreateTime,jdbcType=TIMESTAMP},
+      message_author_id = #{messageAuthorId,jdbcType=BIGINT},
+      message_type = #{messageType,jdbcType=CHAR},
+      message_del_flag = #{messageDelFlag,jdbcType=CHAR},
+      customer_id = #{customerId,jdbcType=BIGINT},
+      group_id = #{groupId,jdbcType=BIGINT},
+      pic_id = #{picId,jdbcType=BIGINT},
+      topic_id = #{topicId,jdbcType=BIGINT},
+      message_operation_flag = #{messageOperationFlag,jdbcType=CHAR},
+      message_temp_id = #{messageTempId,jdbcType=BIGINT},
+    where message_id = #{messageId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 获取插入消息的Id -->
+   <select id="selectLastId" resultType="java.lang.Long" >
+  		select LAST_INSERT_ID()
+  </select>
+  
+  <!-- 根据用户Id和消息类型查询消息 -->
+  <select id="messageTypeList" parameterType="java.util.Map" resultMap="BaseVoMap">
+    select m.message_id, message_title, m.message_create_time, message_author_id,nct.customer_nickname create_message_customer_nickname,
+    nct.customer_img create_customer_img, m.message_type, mt.message_operation,mt.message_type mesage_temp_type,m.message_content,
+    m.message_del_flag, m.customer_id, m.group_id, m.pic_id, m.topic_id,gt.topic_title, message_operation_flag,nc.customer_nickname add_group_customer_nickname,
+    mc.customer_nickname,mc.customer_img,g.group_name,mc.message_rec_customer_id,mc.message_flag,mc.message_customer_id,mc.message_del_flag,
+    ngi.group_img_title,g.refuse_reason group_refuse_reason,gt.topic_del_flag,gt.topic_apply_flag
+    from np_message m
+    left join np_group g
+    on m.group_id = g.group_id
+    left join (select message_customer_id,message_del_flag, message_id,message_flag,message_rec_customer_id,c.customer_nickname,c.customer_img from np_message_customer 
+    left join np_customer c on c.customer_id = message_rec_customer_id )mc
+    on m.message_id = mc.message_id
+    left join np_customer nc
+    on nc.customer_id = m.customer_id
+    left join np_customer nct
+    on nct.customer_id = m.message_author_id
+    left join np_message_template mt 
+    on m.message_temp_id = mt.message_temp_id
+    left join np_group_topic gt
+    on m.topic_id = gt.topic_id
+    left join np_group_img ngi
+    on m.pic_id = ngi.group_img_id
+     where 1=1 
+     <if test="messageType !=null and messageType !=''">
+      and m.message_type=#{messageType,jdbcType=CHAR}
+     </if>
+     <if test="messageDelFlag !=null and messageDelFlag !=''">
+      and m.message_del_flag=#{messageDelFlag,jdbcType=CHAR}
+     </if>
+     <if test="messageRecDelFlag !=null and messageRecDelFlag !=''">
+      and  mc.message_del_flag=#{messageRecDelFlag,jdbcType=CHAR}
+     </if>
+     <if test="customerId !=null and customerId !=''">
+      and message_rec_customer_id=#{customerId,jdbcType=BIGINT}
+     </if>
+     <if test="createAuthorId !=null and createAuthorId !=''">
+      and message_author_id=#{createAuthorId,jdbcType=BIGINT}
+     </if>
+     order by message_create_time desc
+     limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <!-- 消息数目统计 -->
+  <select id="messagecount" parameterType="java.util.Map" resultType="java.lang.Integer">
+   select count(1)
+   from np_message m
+   left join np_group g
+   on m.group_id = g.group_id
+   left join (select message_id,message_del_flag,message_rec_customer_id,c.customer_nickname,c.customer_img from np_message_customer 
+   left join np_customer c on c.customer_id = message_rec_customer_id )mc
+   on m.message_id = mc.message_id
+   left join np_customer nc
+    on nc.customer_id = m.customer_id
+    left join np_message_template mt 
+    on m.message_temp_id = mt.message_temp_id
+     left join np_group_topic gt
+    on m.topic_id = gt.topic_id
+     left join np_group_img ngi
+    on m.pic_id = ngi.group_img_id
+     where 1=1 
+      <if test="messageDelFlag !=null and messageDelFlag !=''">
+      and m.message_del_flag=#{messageDelFlag,jdbcType=CHAR}
+     </if>
+     <if test="messageRecDelFlag !=null and messageRecDelFlag !=''">
+      and  mc.message_del_flag=#{messageRecDelFlag,jdbcType=CHAR}
+     </if>
+     <if test="messageType !=null and messageType !=''">
+      and m.message_type=#{messageType,jdbcType=CHAR}
+     </if> 
+      <if test="customerId !=null and customerId !=''">
+      and message_rec_customer_id=#{customerId,jdbcType=BIGINT}
+     </if>
+      <if test="createAuthorId !=null and createAuthorId !=''">
+      and message_author_id=#{createAuthorId,jdbcType=BIGINT}
+     </if>
+  </select>
+  
+  <!-- 修改已发私信为删除状态 -->
+    <update id="updateByMessageId" parameterType="java.lang.Long" >
+     update np_message
+     set  message_del_flag = '1'
+      where 
+    <foreach collection="array" separator="or"  item="messageId" index="index" >  
+             (message_id=#{messageId,jdbcType=BIGINT})
+     </foreach> 
+    </update>
+</mapper>

@@ -1,0 +1,109 @@
+/**瀹佹淳鐢靛瓙鍟嗗姟骞冲彴鍚庡彴浼氬憳椤甸潰css鏂囦欢
+ *浣滆� 锛歾qq
+ *鏃堕棿锛�013骞�2鏈�2鏃�0:23
+ *鐗堟湰锛�.01鐗�
+ */
+body {font-size:62.5%;}
+.custom-combobox {position:relative; display:inline-block;}
+.custom-combobox-toggle {position:absolute; top:0; bottom:0; margin-left:-1px; padding:0; *height:1.7em; *top:0.1em;}
+.custom-combobox-input {margin:0; padding:0.3em;}
+input.text {width:190px; height:auto; line-height:20px; padding:4px 6px; border:1px solid #e5e5e5; border-radius:0px;}
+fieldset {padding:0; border:0; margin-top:5px;}
+div#users-contain table, div#users-coupon table {border-collapse:collapse; width:100%; border-color:#dfdfdf;}
+div#users-contain table td,div#users-contain table th,div#users-coupon table td,div#users-coupon table th {padding:10px 15px; text-align:center; font-size:12px;}
+div#users-contain table th, div#users-coupon table th {border-color:#298dcc; white-space:nowrap;}
+div#users-contain table tbody tr:last-child td, div#users-coupon table tbody tr:last-child td {border-bottom:none;}
+div#users-contain table td{text-align:left;}
+.validateTips {border:1px solid transparent; padding:0.3em;}
+.sp {color:red;}
+.advancedsearch {width:98%; padding:10px; display:none;}
+.advancedsearch label {font-size:12px;}
+.advancedsearch form * {margin-bottom:10px;}
+.advancedsearch form button {vertical-align:bottom!important;}
+.advancedsearch form button span {margin-bottom:0;}
+
+.tit span {color:#999; font-size:12px; font-weight:500; margin-left:5px;}
+.hd_bar {background:#d5efff; padding:8px; border:1px solid #dfdfdf; margin-bottom:10px; position:relative;}
+#users-contain thead th, #users-coupon thead th {font-weight:700; color:#fff;}
+.search_box {display:inline-block; zoom:1; *display:inline; background:#fff; height:30px; line-height:30px; border:1px solid #dfdfdf; border-radius:0; position:relative; top:2px;}
+.search_sel {display:inline-block; zoom:1; *display:inline; padding-right:15px; height:23px; line-height:23px; text-indent:6px; position:relative;
+background:url(../images/down.gif) no-repeat right center;}
+.search_sel select {opacity:0; filter:alpha(opacity=0); position:absolute; top:0; left:0; height:23px;}
+.search_box input.search_text {width:150px; border:none; height:21px; line-height:21px\9; padding:0 5px; box-shadow:none; margin-bottom:0px; outline:none!important;-webkit-transition:none;}
+.search_word {left:50px;}
+.p_text.input {border:1px solid #ccc; padding:1px 2px; margin:0 5px;}
+.pages {display:inline-block; zoom:1; *display:inline;}
+#users-contain tfoot, #users-coupon tfoot {background:#f9f9f9;}
+.pages a {border:1px solid #dfdfdf; background:#f3f3f3; padding:2px 5px; margin:0 2px;}
+.pages .current {background:#336699; color:#fff;}
+.tabs_dl dt {float:left; width:160px; text-align:right; line-height:30px; font-weight:600; color:#000; font-size:14px; clear:both; font-family:"microsoft yahei";}
+.tabs_dl dd {margin-left:175px; margin-bottom:20px; line-height:34px; min-height:34px; font-family:"Microsoft YaHei"; font-size:14px;}
+.tabs_dl dd input.text{float:left;}
+.tb_select {border:1px solid #e5e5e5; padding:5px 3px; border-radius:0;}
+.t_tit {font-weight:700; margin-bottom:10px; color:#333;}
+.t_txa {width:50%; height:100px; border:1px solid #e5e5e5; padding:5px;}
+.t_txa:focus {border-color:#aaa;}
+#tabs-3 table th, #tabs-3 table td {padding:5px 10px;}
+#spec_list th, #spec_list td, #param_list th, #param_list td, #detailparam_list th, #detailparam_list td, #update_param_list th, #update_param_list td, #update_detailparam_list th, #update_detailparam_list td, #upate_expand_param_list th, #upate_expand_param_list td, #productChooseList th, #productChooseList td, #productAddList th, #productAddList td {padding:5px 10px; font-size:12px;}
+
+.j_text {height:auto; line-height:20px; padding:6px; border:1px solid #e5e5e5; border-radius:0; width:205px;}
+.j_text:focus {border-color:#aaa;}
+.det_tb th, .det_tb td {padding:5px 10px;}
+.det_tb th {text-align:right; color:#666;}
+.lt_dl dt {width:200px;}
+.lt_dl dd {margin-left:210px;}
+.tb_tit {font-weight:700; margin-top:10px;}
+#welcome_div {padding:10px; margin-top:5px; color:#fff;}
+#welcome_div a, #welcome_div span {color:#fff!important;}
+.property_useable{color: green}
+.trbcak{background-color: #bbb}
+tr:hover{cursor: default; }
+.unchecked{color: red;}
+.checked{color: green;}
+a:hover{ cursor: pointer; }
+
+.stars {width:73px; height:13px; background:url(../images/stars.gif) no-repeat;}
+.star5 {background-position:0 -178px;}
+.star4_5 {background-position:0 -156px;}
+.star4 {background-position:0 -112px;}
+.star3_5 {background-position:0 -46px;}
+.star3 {background-position:0 -68px;}
+.star2_5 {background-position:0 -2px;}
+.star2 {background-position:0 -90px;}
+.star1_5 {background-position:0 -24px;}
+.star1 {background-position:0 -134px;}
+.star0 {background-position:0 -199px;}
+.cmt_info li {line-height:200%;}
+.cmt_dl dt {float:left; clear:both;}
+.cmt_dl dd {float:left; margin-bottom:15px;}
+.tabs_dl dd label{font-family:"microsoft yahei"; font-size:14px; line-height:34px;}
+.tabs_dl dd label input{margin-right:5px;}
+.mr{ margin-right:5px;}
+.cmt_txa {border:1px solid #ccc; width:300px; height:50px; padding:5px;}
+.comment_wp a {color:#666;}
+.cmt_dl {border-top:1px solid #dfdfdf; padding-top:10px;}
+#update_detailparam_list .text, #detailparam_list .text {margin-bottom:0;}
+
+.tabs_dl dd table {line-height:normal;}
+.sml_table th, .sml_table td {padding:10px!important;}
+.sml_table th {background:#298dcc; color:#fff; font-weight:700;}
+.sml_table th a {color:#fff;}
+.seh_box {position:relative; display:inline-block; zoom:1; *display:inline;}
+.seh_input {padding-right:35px!important; width:161px!important;}
+.seh_bt {background:url(../images/search_icon.png) no-repeat center center!important; width:34px; height:30px; position:absolute; right:0; top:0; text-indent:-9999px; overflow:hidden; border:none!important;}
+
+
+.a_wr{font-family:"Microsoft YaHei"; font-size:12px; font-weight:bold;}
+.up_sch {
+width: 206px;
+background: url(images/up_sch.gif) no-repeat 5px center;
+border: 1px solid #439cd7;
+height: 22px;
+padding-left:25px!important;
+margin-bottom: 5px;
+}
+
+/*订单筛选优化*/
+.sb_sb span{color:#333!important; display:inline-block; zoom:1; width:100px; text-align:right; font-weight:400;}
+.editTable input{margin-bottom:0px;}
+

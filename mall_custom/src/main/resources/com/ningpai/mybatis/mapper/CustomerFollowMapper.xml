@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ningpai.customer.dao.CustomerFollowMapper">
+  <resultMap id="BaseResultMap" type="com.ningpai.customer.bean.CustomerFollow">
+    <id column="follow_id" jdbcType="BIGINT" property="followId" />
+    <result column="customer_id" jdbcType="BIGINT" property="customerId" />
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="follow_price" jdbcType="DECIMAL" property="followPrice" />
+    <result column="follow_tag" jdbcType="VARCHAR" property="followTag" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
+    <result column="district_id" jdbcType="BIGINT" property="districtId" />
+    <association property="good" column="goods_id" select="com.ningpai.customer.dao.CustomerMapper.selectGoodsByGoodsId"></association>
+  </resultMap>
+    <!-- 商品列表页分数工具 -->
+    <resultMap type="com.ningpai.customer.bean.ProductCommentUtilBean" id="commentUtilBeanResultMap">
+        <result column="count" property="count" jdbcType="VARCHAR"/>
+        <result column="score" property="score" jdbcType="VARCHAR"/>
+    </resultMap>
+  <sql id="Base_Column_List">
+    follow_id, customer_id, goods_id, follow_price, follow_tag, create_time,del_flag,district_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_customer_follow
+    where follow_id = #{followId,jdbcType=BIGINT}
+  </select>
+  <select id="selectCustFollowByCustId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    follow_id, customer_id, f.goods_id, follow_price, follow_tag, create_time,del_flag
+    from np_customer_follow f
+    INNER JOIN np_goods_info gi on gi.goods_info_id = f.goods_id
+    where customer_id = #{customerId,jdbcType=BIGINT} and del_flag = '0' and gi.goods_info_delflag = '0' order by create_time desc
+  </select>
+  <select id="selectCustFollowByCustIdCount" parameterType="java.lang.Long" resultType="INTEGER">
+    select
+    count(1)
+    from np_customer_follow f
+    INNER JOIN np_goods_info gi on gi.goods_info_id = f.goods_id
+    where customer_id = #{customerId,jdbcType=BIGINT} and del_flag = '0' and gi.goods_info_delflag = '0' order by create_time desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from np_customer_follow
+    where follow_id = #{followId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.customer.bean.CustomerFollow">
+    insert into np_customer_follow (follow_id, customer_id, goods_id, 
+      follow_price, follow_tag, create_time, 
+      modified_time, del_time, del_flag
+      )
+    values (#{followId,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, 
+      #{followPrice,jdbcType=DECIMAL}, #{followTag,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifiedTime,jdbcType=TIMESTAMP}, #{delTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.customer.bean.CustomerFollow">
+    insert into np_customer_follow
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="followId != null">
+        follow_id,
+      </if>
+      <if test="customerId != null">
+        customer_id,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="followPrice != null">
+        follow_price,
+      </if>
+      <if test="followTag != null">
+        follow_tag,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifiedTime != null">
+        modified_time,
+      </if>
+      <if test="delTime != null">
+        del_time,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="followId != null">
+        #{followId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null">
+        #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="followPrice != null">
+        #{followPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="followTag != null">
+        #{followTag,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null">
+        #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delTime != null">
+        #{delTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.customer.bean.CustomerFollow">
+    update np_customer_follow
+    <set>
+      <if test="customerId != null">
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="followPrice != null">
+        follow_price = #{followPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="followTag != null">
+        follow_tag = #{followTag,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null">
+        modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delTime != null">
+        del_time = #{delTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where follow_id = #{followId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.customer.bean.CustomerFollow">
+    update np_customer_follow
+    set customer_id = #{customerId,jdbcType=BIGINT},
+      goods_id = #{goodsId,jdbcType=BIGINT},
+      follow_price = #{followPrice,jdbcType=DECIMAL},
+      follow_tag = #{followTag,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      del_time = #{delTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where follow_id = #{followId,jdbcType=BIGINT}
+  </update>
+  
+   <select id="selectSendId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select 
+    customer_id
+    from np_customer_follow where goods_id= #{goodsInfoId,jdbcType=BIGINT}
+  </select>
+  
+  
+    <update id="updateFollow" parameterType="com.ningpai.customer.bean.CustomerFollow">
+	    update np_customer_follow
+	    set 
+	      follow_price = #{followPrice,jdbcType=DECIMAL},
+	      create_time = #{createTime,jdbcType=TIMESTAMP}
+	      where follow_id = #{followId,jdbcType=BIGINT}
+  	</update>	
+  
+     <!--根据物品ID查询关注表  -->
+	  <select id="selectFollowByGoods" parameterType="java.lang.Long" resultMap="BaseResultMap">
+	  	SELECT
+			<include refid="Base_Column_List"/>
+		FROM
+			np_customer_follow
+		WHERE
+			goods_id = #{goodsId,jdbcType=BIGINT}
+	  </select>
+	  <!-- 删除关注信息 -->
+	  <delete id="deleteFolloById" parameterType="java.lang.Long">
+	  
+			UPDATE np_customer_follow cu SET  cu.del_flag = '1'    where cu.follow_id = #{followId,jdbcType=BIGINT}
+			
+	  </delete>
+	  <!-- 删除关注信息 -->
+	  <delete id="deleteFolloByIdUId" parameterType="Map">
+
+			UPDATE np_customer_follow cu SET  cu.del_flag = '1'    where cu.follow_id = #{followId,jdbcType=BIGINT}
+			AND  cu.customer_id =#{customerId,jdbcType=BIGINT}  AND cu.del_flag = '0'
+
+	  </delete>
+	  <!-- 删除关注信息 -->
+	  <delete id="deleteFolloByGoodsIdUId" parameterType="Map">
+
+			UPDATE np_customer_follow cu SET  cu.del_flag = '1'    WHERE cu.goods_id=#{goodsId,jdbcType=BIGINT}
+			AND  cu.customer_id =#{customerId,jdbcType=BIGINT} AND cu.del_flag = '0'
+
+	  </delete>
+
+    <!-- 根据货品ID查询评论的个数和分数 -->
+    <select id="queryCommentCountAndScoreByProductId" resultMap="commentUtilBeanResultMap" parameterType="java.lang.Long">
+        select count(goods_id) as count,avg(comment_score) as score from np_comment where is_display='1' and del_flag='0'
+        and goods_id=#{productId} and is_consult='0' group by goods_id
+    </select>
+  
+  
+</mapper>

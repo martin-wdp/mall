@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qpmall.dao.AutoOemMapper">
+    <resultMap id="BaseResultMap" type="com.qpmall.bean.QpAutoOem">
+        <id column="auto_oem_id" property="autoOemId" jdbcType="BIGINT"/>
+        <result column="auto_oem_code" property="autoOemCode" jdbcType="VARCHAR"/>
+        <result column="auto_style_id_LiYang_ID" property="autoStyleIdLiyangId" jdbcType="VARCHAR"/>
+        <result column="auto_style_id" property="autoStyleId" jdbcType="VARCHAR"/>
+        <result column="auto_oem_brand" property="autoOemBrand" jdbcType="VARCHAR"/>
+        <result column="auto_oem_create_time" property="autoOemCreateTime" jdbcType="TIMESTAMP"/>
+        <result column="auto_oem_modified_name" property="autoOemModifiedName" jdbcType="VARCHAR"/>
+        <result column="auto_oem_modified_time" property="autoOemModifiedTime" jdbcType="TIMESTAMP"/>
+        <result column="auto_oem_del_name" property="autoOemDelName" jdbcType="VARCHAR"/>
+        <result column="auto_oem_del_time" property="autoOemDelTime" jdbcType="TIMESTAMP"/>
+        <result column="auto_oem_delflag" property="autoOemDelflag" jdbcType="CHAR"/>
+        <result column="goods_type_id" property="goodsTypeId" jdbcType="BIGINT"/>
+        <result column="auto_oem_name" property="autoOemName" jdbcType="VARCHAR"/>
+        <result column="auto_oem_create_name" property="autoOemCreateName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    auto_oem_id, auto_oem_code, auto_style_id_LiYang_ID, auto_style_id, auto_oem_brand, 
+    auto_oem_create_time, auto_oem_modified_name, auto_oem_modified_time, auto_oem_del_name, 
+    auto_oem_del_time, auto_oem_delflag, goods_type_id, auto_oem_name, auto_oem_create_name
+  </sql>
+
+    <select id="selectByAutoOemCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from qp_auto_oem
+        where auto_oem_code = #{autoOemCode,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from qp_auto_oem
+        where auto_oem_id = #{autoOemId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from qp_auto_oem
+    where auto_oem_id = #{autoOemId,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.qpmall.bean.QpAutoOem">
+    insert into qp_auto_oem (auto_oem_id, auto_oem_code, auto_style_id_LiYang_ID, 
+      auto_style_id, auto_oem_brand, auto_oem_create_time, 
+      auto_oem_modified_name, auto_oem_modified_time, 
+      auto_oem_del_name, auto_oem_del_time, auto_oem_delflag, 
+      goods_type_id, auto_oem_name, auto_oem_create_name
+      )
+    values (#{autoOemId,jdbcType=BIGINT}, #{autoOemCode,jdbcType=VARCHAR}, #{autoStyleIdLiyangId,jdbcType=VARCHAR}, 
+      #{autoStyleId,jdbcType=VARCHAR}, #{autoOemBrand,jdbcType=VARCHAR}, #{autoOemCreateTime,jdbcType=TIMESTAMP}, 
+      #{autoOemModifiedName,jdbcType=VARCHAR}, #{autoOemModifiedTime,jdbcType=TIMESTAMP}, 
+      #{autoOemDelName,jdbcType=VARCHAR}, #{autoOemDelTime,jdbcType=TIMESTAMP}, #{autoOemDelflag,jdbcType=CHAR}, 
+      #{goodsTypeId,jdbcType=BIGINT}, #{autoOemName,jdbcType=VARCHAR}, #{autoOemCreateName,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.qpmall.bean.QpAutoOem">
+        insert into qp_auto_oem
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="autoOemId != null">
+                auto_oem_id,
+            </if>
+            <if test="autoOemCode != null">
+                auto_oem_code,
+            </if>
+            <if test="autoStyleIdLiyangId != null">
+                auto_style_id_LiYang_ID,
+            </if>
+            <if test="autoStyleId != null">
+                auto_style_id,
+            </if>
+            <if test="autoOemBrand != null">
+                auto_oem_brand,
+            </if>
+            <if test="autoOemCreateTime != null">
+                auto_oem_create_time,
+            </if>
+            <if test="autoOemModifiedName != null">
+                auto_oem_modified_name,
+            </if>
+            <if test="autoOemModifiedTime != null">
+                auto_oem_modified_time,
+            </if>
+            <if test="autoOemDelName != null">
+                auto_oem_del_name,
+            </if>
+            <if test="autoOemDelTime != null">
+                auto_oem_del_time,
+            </if>
+            <if test="autoOemDelflag != null">
+                auto_oem_delflag,
+            </if>
+            <if test="goodsTypeId != null">
+                goods_type_id,
+            </if>
+            <if test="autoOemName != null">
+                auto_oem_name,
+            </if>
+            <if test="autoOemCreateName != null">
+                auto_oem_create_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="autoOemId != null">
+                #{autoOemId,jdbcType=BIGINT},
+            </if>
+            <if test="autoOemCode != null">
+                #{autoOemCode,jdbcType=VARCHAR},
+            </if>
+            <if test="autoStyleIdLiyangId != null">
+                #{autoStyleIdLiyangId,jdbcType=VARCHAR},
+            </if>
+            <if test="autoStyleId != null">
+                #{autoStyleId,jdbcType=VARCHAR},
+            </if>
+            <if test="autoOemBrand != null">
+                #{autoOemBrand,jdbcType=VARCHAR},
+            </if>
+            <if test="autoOemCreateTime != null">
+                #{autoOemCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="autoOemModifiedName != null">
+                #{autoOemModifiedName,jdbcType=VARCHAR},
+            </if>
+            <if test="autoOemModifiedTime != null">
+                #{autoOemModifiedTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="autoOemDelName != null">
+                #{autoOemDelName,jdbcType=VARCHAR},
+            </if>
+            <if test="autoOemDelTime != null">
+                #{autoOemDelTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="autoOemDelflag != null">
+                #{autoOemDelflag,jdbcType=CHAR},
+            </if>
+            <if test="goodsTypeId != null">
+                #{goodsTypeId,jdbcType=BIGINT},
+            </if>
+            <if test="autoOemName != null">
+                #{autoOemName,jdbcType=VARCHAR},
+            </if>
+            <if test="autoOemCreateName != null">
+                #{autoOemCreateName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.qpmall.bean.QpAutoOem">
+        update qp_auto_oem
+        <set>
+            <if test="autoOemCode != null">
+                auto_oem_code = #{autoOemCode,jdbcType=VARCHAR},
+            </if>
+            <if test="autoStyleIdLiyangId != null">
+                auto_style_id_LiYang_ID = #{autoStyleIdLiyangId,jdbcType=VARCHAR},
+            </if>
+            <if test="autoStyleId != null">
+                auto_style_id = #{autoStyleId,jdbcType=VARCHAR},
+            </if>
+            <if test="autoOemBrand != null">
+                auto_oem_brand = #{autoOemBrand,jdbcType=VARCHAR},
+            </if>
+            <if test="autoOemCreateTime != null">
+                auto_oem_create_time = #{autoOemCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="autoOemModifiedName != null">
+                auto_oem_modified_name = #{autoOemModifiedName,jdbcType=VARCHAR},
+            </if>
+            <if test="autoOemModifiedTime != null">
+                auto_oem_modified_time = #{autoOemModifiedTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="autoOemDelName != null">
+                auto_oem_del_name = #{autoOemDelName,jdbcType=VARCHAR},
+            </if>
+            <if test="autoOemDelTime != null">
+                auto_oem_del_time = #{autoOemDelTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="autoOemDelflag != null">
+                auto_oem_delflag = #{autoOemDelflag,jdbcType=CHAR},
+            </if>
+            <if test="goodsTypeId != null">
+                goods_type_id = #{goodsTypeId,jdbcType=BIGINT},
+            </if>
+            <if test="autoOemName != null">
+                auto_oem_name = #{autoOemName,jdbcType=VARCHAR},
+            </if>
+            <if test="autoOemCreateName != null">
+                auto_oem_create_name = #{autoOemCreateName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where auto_oem_id = #{autoOemId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.qpmall.bean.QpAutoOem">
+    update qp_auto_oem
+    set auto_oem_code = #{autoOemCode,jdbcType=VARCHAR},
+      auto_style_id_LiYang_ID = #{autoStyleIdLiyangId,jdbcType=VARCHAR},
+      auto_style_id = #{autoStyleId,jdbcType=VARCHAR},
+      auto_oem_brand = #{autoOemBrand,jdbcType=VARCHAR},
+      auto_oem_create_time = #{autoOemCreateTime,jdbcType=TIMESTAMP},
+      auto_oem_modified_name = #{autoOemModifiedName,jdbcType=VARCHAR},
+      auto_oem_modified_time = #{autoOemModifiedTime,jdbcType=TIMESTAMP},
+      auto_oem_del_name = #{autoOemDelName,jdbcType=VARCHAR},
+      auto_oem_del_time = #{autoOemDelTime,jdbcType=TIMESTAMP},
+      auto_oem_delflag = #{autoOemDelflag,jdbcType=CHAR},
+      goods_type_id = #{goodsTypeId,jdbcType=BIGINT},
+      auto_oem_name = #{autoOemName,jdbcType=VARCHAR},
+      auto_oem_create_name = #{autoOemCreateName,jdbcType=VARCHAR}
+    where auto_oem_id = #{autoOemId,jdbcType=BIGINT}
+  </update>
+</mapper>

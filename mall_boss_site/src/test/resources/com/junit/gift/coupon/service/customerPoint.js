@@ -1,0 +1,1 @@
+{"pointId" : 100001, "customerId" : 1001, "pointDetail" :"detail content", "point" : 10000, "delFlag" : "0"}

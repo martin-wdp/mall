@@ -1,0 +1,48 @@
+@charset "utf-8";
+.breadcrumb {padding:8px 20px;}
+.app-cat{display:inline;}
+.main_title {position:relative;text-indent:10px;font-size:20px;padding-bottom:10px;margin:0 20px;border-bottom:1px solid #ddd;}
+.common_data {padding:0px 20px;}
+.filter_area .form-group {margin:0 20px 20px 0;}
+.app-auth-info {float:left;width:231px;}
+.as-tit {text-indent:10px;font-size:16px;padding-bottom:10px;border-bottom:1px solid #ddd;margin:20px 0 10px;}
+.auth-con {font-size:12px;line-height:180%;color:#999;padding:10px;}
+.apps-container {margin-left:265px;}
+.apps-container .nav-tabs {height:48px;}
+.apps-container .nav-tabs li {margin-bottom:0;position:relative;}
+.apps-container .nav-tabs li a {line-height:1.1;padding:20px 15px 10px;font-size:16px;border:none;color:#666;height:auto;}
+.apps-container .nav-tabs .active a, .apps-container .nav-tabs li a:focus, .apps-container .nav-tabs li a:hover {border:none;border-bottom:1px solid #428bca;color:#428bca;}
+.apps-container .nav-tabs li a:hover {border:none;color:#428bca;background:none;}
+.apps-container .nav-tabs .active a:hover {border-bottom:1px solid #428bca;}
+.apps-container .nav-tabs .active:after {content:"";position:absolute;border:5px solid;border-color:transparent transparent #428bca transparent;bottom:0;left:50%;margin-left:-5px;}
+.apps-list {margin-top:20px;padding:0;}
+.apps-list>li {float:left;position:relative;width:250px;height:100px;list-style:none;padding-left:115px;margin:0 30px 30px 0;}
+.apps-list>li .app-icon {position:absolute; top:0;left:0;width:100px;height:100px;}
+.apps-list>li .app-name {width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;margin:10px 0 10px 0;}
+.apps-list>li .app-name a {color:#666;}
+.apps-list>li .app-version {font-size:12px;color:#999;margin-bottom:10px;}
+.status-bar {background:#ccc;border:1px solid #bbb;border-radius:3px;width:90px;height:22px;line-height:20px;text-align:center;color:#fff;}
+.process-bar {position:relative;background:#ccc;width:90px;height:22px;border-radius:3px;overflow:hidden;}
+.process-bar .ui-progressbar-value {position:absolute;left:0;top:0;height:22px;background:#428bca;display:block!important;border:0px!important;}
+.apps-list li .btn-group .btn:first-child {width:65px;}
+.apps-list .btn-default, .apps-list .btn[disabled] {background:#ccc;color:#fff;border-color:#bbb;opacity:1;}
+.apps-list .dropdown-menu {min-width:90px;text-align:center;margin:0;padding:0;margin-top:4px;}
+.apps-list .dropdown-menu a {color:#666;padding:3px 0;text-align:center;}
+.apps-list .dropdown-menu li:last-child a {border-bottom:none;}
+.apps-list .dropdown-menu a:hover {color:#666;}
+div.meneame{padding:10px 0 10px 13px;font-size:80%;margin:3px;color:#555;text-align:right}
+div.meneame a{border:#ddd 1px solid;padding:10px 17px 10px 17px;background-position:50% bottom;color:#555;margin-right:3px;text-decoration:none}
+div.meneame a:hover{border:#ddd 1px solid;color: #555;background:#F9F9F9}
+div.meneame a:active{border:#ddd 1px solid;color:#555;background-image:url(../images/meneame.jpg);}
+div.meneame span.current{border:#ddd 1px solid;padding:10px 17px 10px 17px;font-weight:bold;color:#555;margin-right:3px;background-image:url(../images/meneame.jpg);}
+div.meneame span.disabled{border:#eee 1px solid;padding:10px 17px 10px 17px;color:#555;margin-right:3px;background:#F9F9F9;}
+.app-header {position:relative;min-height:120px;padding-left:140px;}
+.app-header .app-icon {width:120px;height:120px;position:absolute;top:0;left:0;}
+.app-header h3 {font-size:18px;}
+.app-header .app-description {font-size:14px;color:#999;width:90%;line-height:180%;}
+.app-intro {margin-top:30px;}
+.app-intro h3 {font-size:16px;}
+.intro-content {margin-top:20px;}
+.intro-content img {max-width:100%;}
+.ui-widget-content{border:0px!important;}
+#appDetail .modal-body {height:400px;overflow-y:auto;padding:20px 50px;}

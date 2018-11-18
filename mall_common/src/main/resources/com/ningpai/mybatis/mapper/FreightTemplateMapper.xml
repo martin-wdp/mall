@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qpmall.web.dao.FreightTemplateMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.freighttemplate.bean.FreightTemplate" >
+    <id column="freight_template_id" property="freightTemplateId" jdbcType="BIGINT" />
+    <result column="freight_template_name" property="freightTemplateName" jdbcType="VARCHAR" />
+    <result column="freight_city_id" property="freightCityId" jdbcType="BIGINT" />
+    <result column="freight_province_id" property="freightProvinceId" jdbcType="BIGINT" />
+    <result column="freight_county_id" property="freightCountyId" jdbcType="BIGINT" />
+    <result column="freight_package_mail" property="freightPackageMail" jdbcType="CHAR" />
+    <result column="freight_methods" property="freightMethods" jdbcType="CHAR" />
+    <result column="freight_restri_area" property="freightRestriArea" jdbcType="CHAR" />
+    <result column="freight_is_default" property="freightIsDefault" jdbcType="CHAR" />
+    <result column="freight_del_flag" property="freightDelFlag" jdbcType="CHAR" />
+    <result column="freight_third_id" property="freightThirdId" jdbcType="BIGINT" />
+    <result column="freight_create_time" property="freightCreateTime" jdbcType="TIMESTAMP" />
+    <result column="freight_modify_time" property="freightModifyTime" jdbcType="TIMESTAMP" />
+    <result column="freight_remark" property="freightRemark" jdbcType="VARCHAR" />
+    <result column="freight_no_delete" property="freightNoDelete" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    freight_template_id, freight_template_name, freight_city_id, freight_province_id, 
+    freight_county_id, freight_package_mail, freight_methods, freight_restri_area, freight_is_default, 
+    freight_del_flag, freight_third_id, freight_create_time, freight_modify_time, freight_remark, 
+    freight_no_delete
+  </sql>
+  
+  
+  
+  
+  <!-- 查询模板列表 -->
+  <select id="searchAllTemplateList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select  <include refid="Base_Column_List" />
+    from np_freight_template
+    where 1=1 and freight_del_flag = '0'
+      <if test="freightTemplateName != null and freightTemplateName !='' " >
+        and freight_template_name like CONCAT(CONCAT('%',#{freightTemplateName},'%'))
+      </if>
+      <if test="freightDelFlag != null and freightDelFlag !=''" >
+        and freight_del_flag = #{freightDelFlag,jdbcType=CHAR}
+      </if>
+        and freight_third_id = #{freightThirdId,jdbcType=BIGINT}
+      order by freight_is_default,freight_create_time desc
+  </select>
+
+  <!-- 查询模板名称和id  -->
+  <select id="queryTemplate" resultMap="BaseResultMap">
+    SELECT freight_template_id, freight_template_name FROM np_freight_template
+  </select>
+
+
+    <!--根据id查询模板列表 -->
+    <select id="selectByFreightIds" resultMap="BaseResultMap" parameterType="java.util.List">
+        select
+        <include refid="Base_Column_List"/>
+        from np_freight_template
+        where freight_template_id in
+        <foreach collection="list" item="freightId" open="(" separator="," close=")">
+            #{freightId,jdbcType=BIGINT}
+        </foreach>
+
+    </select>
+  
+  <select id="selectFreightTemplateById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_freight_template
+      where freight_template_id = #{freightTemplateId,jdbcType=BIGINT} and freight_del_flag = '0'
+  </select>
+  
+  
+  <select id="selectFreightTemplateSubOrder" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_freight_template
+    where freight_is_default = #{freightIsDefault,jdbcType=CHAR}
+    and freight_third_id = #{freightThirdId,jdbcType=BIGINT} and freight_del_flag = '0'
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_freight_template
+    where freight_template_id = #{freightTemplateId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.freighttemplate.bean.FreightTemplate" >
+    insert into np_freight_template (freight_template_id, freight_template_name, 
+      freight_city_id, freight_province_id, freight_county_id, 
+      freight_package_mail, freight_methods, freight_restri_area, 
+      freight_is_default, freight_del_flag, freight_third_id, 
+      freight_create_time, freight_modify_time, 
+      freight_remark, freight_no_delete)
+    values (#{freightTemplateId,jdbcType=BIGINT}, #{freightTemplateName,jdbcType=VARCHAR}, 
+      #{freightCityId,jdbcType=BIGINT}, #{freightProvinceId,jdbcType=BIGINT}, #{freightCountyId,jdbcType=BIGINT}, 
+      #{freightPackageMail,jdbcType=CHAR}, #{freightMethods,jdbcType=CHAR}, #{freightRestriArea,jdbcType=CHAR}, 
+      #{freightIsDefault,jdbcType=CHAR}, #{freightDelFlag,jdbcType=CHAR}, #{freightThirdId,jdbcType=BIGINT}, 
+      #{freightCreateTime,jdbcType=TIMESTAMP}, #{freightModifyTime,jdbcType=TIMESTAMP}, 
+      #{freightRemark,jdbcType=VARCHAR}, #{freightNoDelete,jdbcType=CHAR})
+  </insert>
+  
+  
+  
+  <!-- 插入模板 -->
+  <insert id="insertNewFreightTemplate" parameterType="com.ningpai.freighttemplate.bean.FreightTemplate" >
+    insert into np_freight_template
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="freightTemplateId != null" >
+        freight_template_id,
+      </if>
+      <if test="freightTemplateName != null" >
+        freight_template_name,
+      </if>
+      <if test="freightCityId != null" >
+        freight_city_id,
+      </if>
+      <if test="freightProvinceId != null" >
+        freight_province_id,
+      </if>
+      <if test="freightCountyId != null" >
+        freight_county_id,
+      </if>
+      <if test="freightPackageMail != null" >
+        freight_package_mail,
+      </if>
+      <if test="freightMethods != null" >
+        freight_methods,
+      </if>
+      <if test="freightRestriArea != null" >
+        freight_restri_area,
+      </if>
+      <if test="freightIsDefault != null" >
+        freight_is_default,
+      </if>
+      <if test="freightDelFlag != null" >
+        freight_del_flag,
+      </if>
+        freight_third_id,
+      <if test="freightCreateTime != null" >
+        freight_create_time,
+      </if>
+      <if test="freightModifyTime != null" >
+        freight_modify_time,
+      </if>
+      <if test="freightRemark != null" >
+        freight_remark,
+      </if>
+      <if test="freightNoDelete != null" >
+        freight_no_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="freightTemplateId != null" >
+        #{freightTemplateId,jdbcType=BIGINT},
+      </if>
+      <if test="freightTemplateName != null" >
+        #{freightTemplateName,jdbcType=VARCHAR},
+      </if>
+      <if test="freightCityId != null" >
+        #{freightCityId,jdbcType=BIGINT},
+      </if>
+      <if test="freightProvinceId != null" >
+        #{freightProvinceId,jdbcType=BIGINT},
+      </if>
+      <if test="freightCountyId != null" >
+        #{freightCountyId,jdbcType=BIGINT},
+      </if>
+      <if test="freightPackageMail != null" >
+        #{freightPackageMail,jdbcType=CHAR},
+      </if>
+      <if test="freightMethods != null" >
+        #{freightMethods,jdbcType=CHAR},
+      </if>
+      <if test="freightRestriArea != null" >
+        #{freightRestriArea,jdbcType=CHAR},
+      </if>
+      <if test="freightIsDefault != null" >
+        #{freightIsDefault,jdbcType=CHAR},
+      </if>
+      <if test="freightDelFlag != null" >
+        #{freightDelFlag,jdbcType=CHAR},
+      </if>
+        #{freightThirdId,jdbcType=BIGINT},
+      <if test="freightCreateTime != null" >
+        #{freightCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="freightModifyTime != null" >
+        #{freightModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="freightRemark != null" >
+        #{freightRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="freightNoDelete != null" >
+        #{freightNoDelete,jdbcType=CHAR},
+      </if>
+    </trim>
+     <selectKey keyProperty="freight_template_id" resultType="java.lang.Long">
+      		select LAST_INSERT_ID()
+      </selectKey>
+  </insert>
+  <!-- 查询刚刚插入的Id -->
+  <select id="selectFreightTemplateLastId" resultType="java.lang.Long" >
+  		select LAST_INSERT_ID()
+  </select>
+  
+  
+  
+  <insert id="insertSelective" parameterType="com.ningpai.freighttemplate.bean.FreightTemplate" >
+    insert into np_freight_template
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="freightTemplateId != null" >
+        freight_template_id,
+      </if>
+      <if test="freightTemplateName != null" >
+        freight_template_name,
+      </if>
+      <if test="freightCityId != null" >
+        freight_city_id,
+      </if>
+      <if test="freightProvinceId != null" >
+        freight_province_id,
+      </if>
+      <if test="freightCountyId != null" >
+        freight_county_id,
+      </if>
+      <if test="freightPackageMail != null" >
+        freight_package_mail,
+      </if>
+      <if test="freightMethods != null" >
+        freight_methods,
+      </if>
+      <if test="freightRestriArea != null" >
+        freight_restri_area,
+      </if>
+      <if test="freightIsDefault != null" >
+        freight_is_default,
+      </if>
+      <if test="freightDelFlag != null" >
+        freight_del_flag,
+      </if>
+      <if test="freightThirdId != null" >
+        freight_third_id,
+      </if>
+      <if test="freightCreateTime != null" >
+        freight_create_time,
+      </if>
+      <if test="freightModifyTime != null" >
+        freight_modify_time,
+      </if>
+      <if test="freightRemark != null" >
+        freight_remark,
+      </if>
+      <if test="freightNoDelete != null" >
+        freight_no_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="freightTemplateId != null" >
+        #{freightTemplateId,jdbcType=BIGINT},
+      </if>
+      <if test="freightTemplateName != null" >
+        #{freightTemplateName,jdbcType=VARCHAR},
+      </if>
+      <if test="freightCityId != null" >
+        #{freightCityId,jdbcType=BIGINT},
+      </if>
+      <if test="freightProvinceId != null" >
+        #{freightProvinceId,jdbcType=BIGINT},
+      </if>
+      <if test="freightCountyId != null" >
+        #{freightCountyId,jdbcType=BIGINT},
+      </if>
+      <if test="freightPackageMail != null" >
+        #{freightPackageMail,jdbcType=CHAR},
+      </if>
+      <if test="freightMethods != null" >
+        #{freightMethods,jdbcType=CHAR},
+      </if>
+      <if test="freightRestriArea != null" >
+        #{freightRestriArea,jdbcType=CHAR},
+      </if>
+      <if test="freightIsDefault != null" >
+        #{freightIsDefault,jdbcType=CHAR},
+      </if>
+      <if test="freightDelFlag != null" >
+        #{freightDelFlag,jdbcType=CHAR},
+      </if>
+      <if test="freightThirdId != null" >
+        #{freightThirdId,jdbcType=BIGINT},
+      </if>
+      <if test="freightCreateTime != null" >
+        #{freightCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="freightModifyTime != null" >
+        #{freightModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="freightRemark != null" >
+        #{freightRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="freightNoDelete != null" >
+        #{freightNoDelete,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.freighttemplate.bean.FreightTemplate" >
+    update np_freight_template
+    <set >
+      <if test="freightTemplateName != null" >
+        freight_template_name = #{freightTemplateName,jdbcType=VARCHAR},
+      </if>
+      <if test="freightCityId != null" >
+        freight_city_id = #{freightCityId,jdbcType=BIGINT},
+      </if>
+      <if test="freightProvinceId != null" >
+        freight_province_id = #{freightProvinceId,jdbcType=BIGINT},
+      </if>
+      <if test="freightCountyId != null" >
+        freight_county_id = #{freightCountyId,jdbcType=BIGINT},
+      </if>
+      <if test="freightPackageMail != null" >
+        freight_package_mail = #{freightPackageMail,jdbcType=CHAR},
+      </if>
+      <if test="freightMethods != null" >
+        freight_methods = #{freightMethods,jdbcType=CHAR},
+      </if>
+      <if test="freightRestriArea != null" >
+        freight_restri_area = #{freightRestriArea,jdbcType=CHAR},
+      </if>
+      <if test="freightIsDefault != null" >
+        freight_is_default = #{freightIsDefault,jdbcType=CHAR},
+      </if>
+      <if test="freightDelFlag != null" >
+        freight_del_flag = #{freightDelFlag,jdbcType=CHAR},
+      </if>
+      <if test="freightThirdId != null" >
+        freight_third_id = #{freightThirdId,jdbcType=BIGINT},
+      </if>
+      <if test="freightCreateTime != null" >
+        freight_create_time = #{freightCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="freightModifyTime != null" >
+        freight_modify_time = #{freightModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="freightRemark != null" >
+        freight_remark = #{freightRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="freightNoDelete != null" >
+        freight_no_delete = #{freightNoDelete,jdbcType=CHAR},
+      </if>
+    </set>
+    where freight_template_id = #{freightTemplateId,jdbcType=BIGINT}
+  </update>
+  
+  
+  <!-- 删除运费模板 -->
+  <update id="deleteFreightTemplate" parameterType="java.util.Map" >
+    update np_freight_template
+    set  freight_del_flag = '1'
+    where freight_template_id = #{freightTemplateId,jdbcType=BIGINT}
+    and freight_third_id = #{freightThirdId,jdbcType=BIGINT}
+  </update>
+  
+  
+  
+  
+  
+  <!-- 设置为非默认 -->
+  <update id="noDefaultFreightTemplate" parameterType="com.ningpai.freighttemplate.bean.FreightTemplate" >
+    update np_freight_template
+    set  freight_is_default ='0'
+    where  freight_third_id = #{freightThirdId,jdbcType=BIGINT}
+  </update>
+  
+    <!-- 设置为默认 -->
+  <update id="defaultFreightTemplate" parameterType="com.ningpai.freighttemplate.bean.FreightTemplate" >
+    update np_freight_template
+    set  freight_is_default ='1'
+    where  freight_third_id = #{freightThirdId,jdbcType=BIGINT}
+    and  freight_template_id = #{freightTemplateId,jdbcType=BIGINT} 
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.freighttemplate.bean.FreightTemplate" >
+    update np_freight_template
+    set freight_template_name = #{freightTemplateName,jdbcType=VARCHAR},
+      freight_city_id = #{freightCityId,jdbcType=BIGINT},
+      freight_province_id = #{freightProvinceId,jdbcType=BIGINT},
+      freight_county_id = #{freightCountyId,jdbcType=BIGINT},
+      freight_package_mail = #{freightPackageMail,jdbcType=CHAR},
+      freight_methods = #{freightMethods,jdbcType=CHAR},
+      freight_restri_area = #{freightRestriArea,jdbcType=CHAR},
+      freight_is_default = #{freightIsDefault,jdbcType=CHAR},
+      freight_del_flag = #{freightDelFlag,jdbcType=CHAR},
+      freight_third_id = #{freightThirdId,jdbcType=BIGINT},
+      freight_create_time = #{freightCreateTime,jdbcType=TIMESTAMP},
+      freight_modify_time = #{freightModifyTime,jdbcType=TIMESTAMP},
+      freight_remark = #{freightRemark,jdbcType=VARCHAR},
+      freight_no_delete = #{freightNoDelete,jdbcType=CHAR}
+    where freight_template_id = #{freightTemplateId,jdbcType=BIGINT}
+  </update>
+</mapper>

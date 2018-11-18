@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.CouponLelvelMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.coupon.bean.CouponLelvel" >
+    <id column="coupon_lelvel_id" property="couponLelvelId" jdbcType="BIGINT" />
+    <result column="lelvel_id" property="lelvelId" jdbcType="BIGINT" />
+    <result column="lelvel_del_flag" property="lelvelDelFlag" jdbcType="CHAR" />
+    <result column="coupon_id" property="couponId" jdbcType="BIGINT" />
+    
+  </resultMap>
+  
+  <resultMap id="LevelNameResultMap" type="com.ningpai.coupon.bean.CouponLelvel" >
+    <result column="levelName" property="levelName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    coupon_lelvel_id, lelvel_id, lelvel_del_flag
+  </sql>
+  
+  
+  
+  
+  
+  <select id="selectCouponLelvel" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_coupon_lelvel
+    where coupon_id = #{couponId,jdbcType=BIGINT} and lelvel_del_flag='0'
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_coupon_lelvel
+    where coupon_lelvel_id = #{couponLelvelId,jdbcType=BIGINT}
+  </delete>
+  
+  
+  
+  <insert id="addCouponLelvel" parameterType="java.util.List" >
+    insert into np_coupon_lelvel (coupon_lelvel_id, lelvel_id, lelvel_del_flag,coupon_id
+      )
+    values 
+    <foreach collection="list" separator="," item="level" index="index" >  
+         (#{level.couponLelvelId,jdbcType=BIGINT}, #{level.lelvelId,jdbcType=BIGINT}, #{level.lelvelDelFlag,jdbcType=CHAR},#{level.couponId,jdbcType=BIGINT}
+      )
+     </foreach> 
+   
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.coupon.bean.CouponLelvel" >
+    insert into np_coupon_lelvel
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="couponLelvelId != null" >
+        coupon_lelvel_id,
+      </if>
+      <if test="lelvelId != null" >
+        lelvel_id,
+      </if>
+      <if test="lelvelDelFlag != null" >
+        lelvel_del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="couponLelvelId != null" >
+        #{couponLelvelId,jdbcType=BIGINT},
+      </if>
+      <if test="lelvelId != null" >
+        #{lelvelId,jdbcType=BIGINT},
+      </if>
+      <if test="lelvelDelFlag != null" >
+        #{lelvelDelFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.coupon.bean.CouponLelvel" >
+    update np_coupon_lelvel
+    <set >
+      <if test="lelvelId != null" >
+        lelvel_id = #{lelvelId,jdbcType=BIGINT},
+      </if>
+      <if test="lelvelDelFlag != null" >
+        lelvel_del_flag = #{lelvelDelFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where coupon_lelvel_id = #{couponLelvelId,jdbcType=BIGINT}
+  </update>
+  
+  
+  <update id="deleteCouponLelvel" parameterType="java.lang.Long" >
+    update np_coupon_lelvel
+    set 
+      lelvel_del_flag ='1'
+    where coupon_id = #{couponId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="queryLevelNameByCouponId" parameterType="java.lang.Long" resultMap="LevelNameResultMap">
+  select pl.point_level_name  as levelName from np_customer_point_level pl
+  LEFT JOIN np_coupon_lelvel  cl
+  on pl.point_lelvel_id=cl.lelvel_id
+  where cl.coupon_id=#{couponId,jdbcType=BIGINT} and cl.lelvel_del_flag='0'
+  </select>
+</mapper>

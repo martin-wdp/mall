@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.system.dao.BarMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.system.bean.Bar" >
+    <id column="bar_id" property="barId" jdbcType="BIGINT" />
+    <result column="bar_name" property="barName" jdbcType="VARCHAR" />
+    <result column="bar_position" property="barPosition" jdbcType="INTEGER" />
+    <result column="bar_url" property="barUrl" jdbcType="VARCHAR" />
+    <result column="bar_sort" property="barSort" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    bar_id, bar_name, bar_position, bar_url, bar_sort, create_time, modify_time, del_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_sys_bar
+    where bar_id = #{barId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_sys_bar
+    where bar_id = #{barId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.system.bean.Bar" >
+    insert into np_sys_bar (bar_id, bar_name, bar_position, 
+      bar_url, bar_sort, create_time, 
+      modify_time, del_flag)
+    values (#{barId,jdbcType=BIGINT}, #{barName,jdbcType=VARCHAR}, #{barPosition,jdbcType=INTEGER}, 
+      #{barUrl,jdbcType=VARCHAR}, #{barSort,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.system.bean.Bar" >
+    insert into np_sys_bar
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="barId != null" >
+        bar_id,
+      </if>
+      <if test="barName != null" >
+        bar_name,
+      </if>
+      <if test="barPosition != null" >
+        bar_position,
+      </if>
+      <if test="barUrl != null" >
+        bar_url,
+      </if>
+      <if test="barSort != null" >
+        bar_sort,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="barId != null" >
+        #{barId,jdbcType=BIGINT},
+      </if>
+      <if test="barName != null" >
+        #{barName,jdbcType=VARCHAR},
+      </if>
+      <if test="barPosition != null" >
+        #{barPosition,jdbcType=INTEGER},
+      </if>
+      <if test="barUrl != null" >
+        #{barUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="barSort != null" >
+        #{barSort,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.system.bean.Bar" >
+    update np_sys_bar
+    <set >
+      <if test="barName != null" >
+        bar_name = #{barName,jdbcType=VARCHAR},
+      </if>
+      <if test="barPosition != null" >
+        bar_position = #{barPosition,jdbcType=INTEGER},
+      </if>
+      <if test="barUrl != null" >
+        bar_url = #{barUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="barSort != null" >
+        bar_sort = #{barSort,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where bar_id = #{barId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.system.bean.Bar" >
+    update np_sys_bar
+    set bar_name = #{barName,jdbcType=VARCHAR},
+      bar_position = #{barPosition,jdbcType=INTEGER},
+      bar_url = #{barUrl,jdbcType=VARCHAR},
+      bar_sort = #{barSort,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where bar_id = #{barId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findByPageBean" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select <include refid="Base_Column_List"/> 
+  	from np_sys_bar where del_flag='0' 
+  	<!-- 若为1 按照导航名称查询 -->
+  		<if test="condition == 1">
+  			and bar_name like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  		</if>
+  		order by bar_position,bar_sort 
+  	limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <select id="findTotalCount" resultType="int"  parameterType="com.ningpai.system.util.SelectBean">
+  	select count(bar_id) from np_sys_bar where del_flag='0'
+  	<!-- 若为1 按照导航名称查询 -->
+  		<if test="condition == 1">
+  			and bar_name like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  		</if>
+  </select>
+</mapper>

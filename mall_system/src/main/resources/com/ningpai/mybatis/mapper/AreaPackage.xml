@@ -1,0 +1,592 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+ @Title: 地区设置的mapper映射配置文件
+ @Description:
+ @author NINGPAI_xiaomm
+ @since 2014-03-25 14:04:12
+ @version V1.0
+-->
+<mapper namespace="com.ningpai.system.dao.AreaPackageDaoImpl">
+
+	<resultMap id="BaseResultMap" type="com.ningpai.system.bean.AreaPackage">
+				<!-- 记录ID -->
+				<id column="AREA_PACKAGE_ID" 
+					jdbcType="BIGINT"
+				 property="areaPackageId" />
+				<!-- 地区包 -->
+				<result column="AREA_PACKAGE"
+					jdbcType="VARCHAR"
+				property="areaPackage" />
+				<!-- 地区设置 -->
+				<result column="AREA"
+					jdbcType="VARCHAR"
+				property="area" />
+				<!-- 默认 -->
+				<result column="DEFAULT_PACKAGE"
+					jdbcType="VARCHAR"
+				property="defaultPackage" />
+				<!-- 描述信息 -->
+				<result column="DES"
+					jdbcType="VARCHAR"
+				property="des" />
+				<!-- 启用 -->
+				<result column="USED_STATUS"
+					jdbcType="VARCHAR"
+				property="usedStatus" />
+				<!-- 扩展字段1 -->
+				<result column="EXP_FLEID_1"
+					jdbcType="VARCHAR"
+				property="expFleid1" />
+				<!-- 扩展字段2 -->
+				<result column="EXP_FLEID_2"
+					jdbcType="VARCHAR"
+				property="expFleid2" />
+				<!-- 添加人 -->
+				<result column="INSERT_ID"
+					jdbcType="BIGINT"
+				property="insertId" />
+				<!-- 添加时间 -->
+				<result column="INSERT_DATE"
+					jdbcType="DATE"
+				property="insertDate" />
+				<!-- 修改人 -->
+				<result column="MODIFY_ID"
+					jdbcType="BIGINT"
+				property="modifyId" />
+				<!-- 修改时间 -->
+				<result column="MODIFY_DATE"
+					jdbcType="DATE"
+				property="modifyDate" />
+				<!-- 删除标识 -->
+				<result column="DELETE_STATUS"
+					jdbcType="BIGINT"
+				property="deleteStatus" />
+	</resultMap>
+	
+	<sql id="baseSql">
+			AREA_PACKAGE_ID, 
+			AREA_PACKAGE, 
+			AREA, 
+			DEFAULT_PACKAGE, 
+			DES, 
+			USED_STATUS, 
+			EXP_FLEID_1, 
+			EXP_FLEID_2, 
+			INSERT_ID, 
+			INSERT_DATE, 
+			MODIFY_ID, 
+			MODIFY_DATE, 
+			DELETE_STATUS 
+	</sql>
+	<sql id="querySql">
+			AREA_PACKAGE_ID, 
+			AREA_PACKAGE, 
+			AREA, 
+			DEFAULT_PACKAGE, 
+			USED_STATUS 
+	</sql>
+	
+	<!-- 保存地区设置 -->	
+	<insert id="saveAreaPackage" parameterType="com.ningpai.system.bean.AreaPackage">
+		INSERT INTO NP_SYS_AREA_PACKAGE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+				<!-- 记录ID 
+				<if test="areaPackageId != null">
+					AREA_PACKAGE_ID,
+				</if> -->
+				<!-- 地区包 -->
+				<if test="areaPackage != null">
+					AREA_PACKAGE,
+				</if>
+				<!-- 地区设置 -->
+				<if test="area != null">
+					AREA,
+				</if>
+				<!-- 默认 -->
+				<if test="defaultPackage != null">
+					DEFAULT_PACKAGE,
+				</if>
+				<!-- 描述信息 -->
+				<if test="des != null">
+					DES,
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS,
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1,
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2,
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID,
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE,
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID,
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE,
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS,
+				</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+				<!-- 记录ID 
+						#{areaPackageId,
+								jdbcType=BIGINT
+						}, -->
+				<!-- 地区包 -->
+					<if test="areaPackage != null">
+						#{areaPackage,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 地区设置 -->
+					<if test="area != null">
+						#{area,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 默认 -->
+					<if test="defaultPackage != null">
+						#{defaultPackage,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 描述信息 -->
+					<if test="des != null">
+						#{des,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 启用 -->
+					<if test="usedStatus != null">
+						#{usedStatus,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null">
+						#{expFleid1,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null">
+						#{expFleid2,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						#{insertId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null">
+						#{insertDate,
+								jdbcType=DATE
+						},
+					</if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						#{modifyId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null">
+						#{modifyDate,
+								jdbcType=DATE
+						},
+					</if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						#{deleteStatus,
+								jdbcType=BIGINT
+						},
+					</if>
+		</trim>
+	</insert>
+	<!-- 修改地区设置 -->
+	<update id="updateAreaPackage" parameterType="com.ningpai.system.bean.AreaPackage">
+		UPDATE NP_SYS_AREA_PACKAGE
+		<set>
+			
+				<!-- 记录ID -->
+				<if test="areaPackageId != null">
+					AREA_PACKAGE_ID = #{areaPackageId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 地区包 -->
+				<if test="areaPackage != null">
+					AREA_PACKAGE = #{areaPackage,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 地区设置 -->
+				<if test="area != null">
+					AREA = #{area,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 默认 -->
+				<if test="defaultPackage != null">
+					DEFAULT_PACKAGE = #{defaultPackage,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 描述信息 -->
+				<if test="des != null">
+					DES = #{des,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS = #{usedStatus,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1 = #{expFleid1,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2 = #{expFleid2,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID = #{modifyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE = #{modifyDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS = #{deleteStatus,
+							jdbcType=BIGINT
+					},
+				</if>
+		</set>
+		WHERE 
+				AREA_PACKAGE_ID = #{areaPackageId,
+							jdbcType=BIGINT
+					}
+	</update>
+	
+	<!-- 根据地区设置对象的id查询地区设置对象 -->
+	<select id="getAreaPackageById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_AREA_PACKAGE 
+		WHERE 
+				AREA_PACKAGE_ID = #{areaPackageId,
+							jdbcType=BIGINT
+					}
+	</select>
+	
+	<!-- 根据地区设置对象的id字符集合查询地区设置对象 -->
+	<select id="getAreaPackageByIds" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_AREA_PACKAGE 
+		WHERE 
+				AREA_PACKAGE_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</select>
+	
+	<!-- 根据地区设置对象的id字符集合删除地区设置对象 -->
+	<update id="deleteAreaPackage" parameterType="java.util.Map">
+		DELETE FROM NP_SYS_AREA_PACKAGE 
+		WHERE 
+				AREA_PACKAGE_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+		
+	</update>
+	
+	
+	<!-- 更新地区设置对象的单个字段  -->
+	<update id="updateAreaPackageFieldById" parameterType="java.util.Map">
+		UPDATE NP_SYS_AREA_PACKAGE
+		<set>
+				<!-- 记录ID -->
+				<if test="areaPackageId != null">
+					AREA_PACKAGE_ID = #{areaPackageId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 地区包 -->
+				<if test="areaPackage != null">
+					AREA_PACKAGE = #{areaPackage,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 地区设置 -->
+				<if test="area != null">
+					AREA = #{area,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 默认 -->
+				<if test="defaultPackage != null">
+					DEFAULT_PACKAGE = #{defaultPackage,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 描述信息 -->
+				<if test="des != null">
+					DES = #{des,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS = #{usedStatus,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1 = #{expFleid1,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2 = #{expFleid2,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID = #{modifyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE = #{modifyDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS = #{deleteStatus,
+							jdbcType=BIGINT
+					},
+				</if>
+		</set>
+		WHERE 
+				AREA_PACKAGE_ID IN  
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</update>
+	
+	<!-- 根据地区设置对象的单个字段查询地区设置对象信息总数 -->
+	<select id="getAreaPackageByFieldTotal" resultType="java.lang.Integer" parameterType="java.util.Map">
+		   SELECT COUNT(AREA_PACKAGE_ID) 
+		   FROM NP_SYS_AREA_PACKAGE D 
+		   WHERE 
+				<!-- 记录ID -->
+					<if test="areaPackageId != null">
+						D.AREA_PACKAGE_ID = #{areaPackageId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 地区包 -->
+					<if test="areaPackage != null and areaPackage != ''">
+						D.AREA_PACKAGE like CONCAT(CONCAT('%', #{areaPackage,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 地区设置 -->
+					<if test="area != null and area != ''">
+						D.AREA like CONCAT(CONCAT('%', #{area,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 默认 -->
+					<if test="defaultPackage != null and defaultPackage != ''">
+						D.DEFAULT_PACKAGE like CONCAT(CONCAT('%', #{defaultPackage,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 描述信息 -->
+					<if test="des != null and des != ''">
+						D.DES like CONCAT(CONCAT('%', #{des,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 启用 -->
+					<if test="usedStatus != null and usedStatus != ''">
+						D.USED_STATUS like CONCAT(CONCAT('%', #{usedStatus,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null and expFleid1 != ''">
+						D.EXP_FLEID_1 like CONCAT(CONCAT('%', #{expFleid1,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null and expFleid2 != ''">
+						D.EXP_FLEID_2 like CONCAT(CONCAT('%', #{expFleid2,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						D.INSERT_ID = #{insertId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null and insertDate !=''" >
+			        	(D.INSERT_DATE between  #{insertDateStart,jdbcType=DATE}  AND  #{insertDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						D.MODIFY_ID = #{modifyId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null and modifyDate !=''" >
+			        	(D.MODIFY_DATE between  #{modifyDateStart,jdbcType=DATE}  AND  #{modifyDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						D.DELETE_STATUS = #{deleteStatus,
+								jdbcType=BIGINT
+						} AND
+					</if>
+        	1=1 
+	</select>
+	
+	<!-- 根据地区设置对象的单个字段查询地区设置对象信息 -->
+	<select id="getAreaPackageByField" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM  NP_SYS_AREA_PACKAGE D 
+		   WHERE 
+				<!-- 记录ID -->
+					<if test="areaPackageId != null">
+						D.AREA_PACKAGE_ID = #{areaPackageId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 地区包 -->
+					<if test="areaPackage != null and areaPackage !=''" >
+						D.AREA_PACKAGE like CONCAT(CONCAT('%', #{areaPackage,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 地区设置 -->
+					<if test="area != null and area !=''" >
+						D.AREA like CONCAT(CONCAT('%', #{area,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 默认 -->
+					<if test="defaultPackage != null and defaultPackage !=''" >
+						D.DEFAULT_PACKAGE like CONCAT(CONCAT('%', #{defaultPackage,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 描述信息 -->
+					<if test="des != null and des !=''" >
+						D.DES like CONCAT(CONCAT('%', #{des,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 启用 -->
+					<if test="usedStatus != null and usedStatus !=''" >
+						D.USED_STATUS like CONCAT(CONCAT('%', #{usedStatus,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null and expFleid1 !=''" >
+						D.EXP_FLEID_1 like CONCAT(CONCAT('%', #{expFleid1,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null and expFleid2 !=''" >
+						D.EXP_FLEID_2 like CONCAT(CONCAT('%', #{expFleid2,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						D.INSERT_ID = #{insertId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null and insertDate !=''" >
+			        	(D.INSERT_DATE between  #{insertDateStart,jdbcType=DATE}  AND  #{insertDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						D.MODIFY_ID = #{modifyId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null and modifyDate !=''" >
+			        	(D.MODIFY_DATE between  #{modifyDateStart,jdbcType=DATE}  AND  #{modifyDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						D.DELETE_STATUS = #{deleteStatus,
+								jdbcType=BIGINT
+						} AND
+					</if>
+        	1=1 
+		    LIMIT #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询地区设置对象信息总数 -->
+	<select id="queryAreaPackageTotal" resultType="java.lang.Integer">
+		SELECT COUNT(AREA_PACKAGE_ID) FROM NP_SYS_AREA_PACKAGE
+	</select>
+	
+	<!-- 分页查询地区设置对象信息 -->
+	<select id="queryAreaPackageByPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM NP_SYS_AREA_PACKAGE 
+		LIMIT  #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+
+    <!--把所有记录的默认状态改为非默认-->
+    <update id="changeAllDefaultStatusToNot">
+        update NP_SYS_AREA_PACKAGE set DEFAULT_PACKAGE = '0'
+    </update>
+</mapper>

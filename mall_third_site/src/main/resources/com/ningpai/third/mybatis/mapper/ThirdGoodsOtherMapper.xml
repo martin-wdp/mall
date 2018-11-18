@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.third.goods.dao.ThirdOtherMapper" >
+	<!-- 返回关联的品牌的Mapper -->
+	<resultMap id="BrandResultMap" type="com.ningpai.goods.bean.GoodsBrand" >
+    <id column="brand_id" property="brandId" jdbcType="BIGINT" />
+    <result column="brand_nickname" property="brandNickname" jdbcType="VARCHAR" />
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+    <result column="brand_url" property="brandUrl" jdbcType="VARCHAR" />
+    <result column="brand_logo" property="brandLogo" jdbcType="VARCHAR" />
+    <result column="brand_prom_index" property="promIndex" jdbcType="VARCHAR" />
+    <result column="brand_sort" property="brandSort" jdbcType="INTEGER" />
+    <result column="brand_seo_title" property="brandSeoTitle" jdbcType="VARCHAR" />
+    <result column="brand_seo_keyword" property="brandSeoKeyword" jdbcType="VARCHAR" />
+    <result column="brand_seo_desc" property="brandSeoDesc" jdbcType="VARCHAR" />
+    <result column="brand_delflag" property="brandDelflag" jdbcType="CHAR" />
+    <result column="brand_create_name" property="brandCreateName" jdbcType="VARCHAR" />
+    <result column="brand_create_time" property="brandCreateTime" jdbcType="TIMESTAMP" />
+    <result column="brand_modified_name" property="brandModifiedName" jdbcType="VARCHAR" />
+    <result column="brand_modified_time" property="brandModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="brand_del_name" property="brandDelName" jdbcType="VARCHAR" />
+    <result column="brand_del_time" property="brandDelTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <!-- 查询品牌的字段 -->
+  <sql id="Brand_Column_List" >
+    brand_id, brand_nickname, brand_name, brand_url, brand_logo, brand_prom_index, brand_sort, brand_seo_title, 
+    brand_seo_keyword, brand_seo_desc, brand_delflag, brand_create_name, brand_create_time, 
+    brand_modified_name, brand_modified_time, brand_del_name, brand_del_time
+  </sql>
+  
+  <!-- 根据第三方ID查询关联的商品品牌 -->
+  <select id="selectGrandBrandByThirdId" parameterType="java.lang.Long" resultMap="BrandResultMap">
+  	select <include refid="Brand_Column_List"/> from np_goods_brand where brand_delflag='0'
+  	and brand_id in (select brand_id from np_third_grandbrand where del_flag='0' and third_id=#{thirdId} and rate_status='1')
+  </select>
+  
+  
+  <resultMap id="TagResultMap" type="com.ningpai.goods.bean.GoodsTag" >
+    <id column="tag_id" property="tagId" jdbcType="BIGINT" />
+    <result column="tag_name" property="tagName" jdbcType="VARCHAR" />
+    <result column="tag_img" property="tagImg" jdbcType="VARCHAR"/>
+    <result column="tag_delflag" property="tagDelflag" jdbcType="CHAR" />
+    <result column="tag_create_name" property="tagCreateName" jdbcType="VARCHAR" />
+    <result column="tag_create_time" property="tagCreateTime" jdbcType="TIMESTAMP" />
+    <result column="tag_modified_name" property="tagModifiedName" jdbcType="VARCHAR" />
+    <result column="tag_modified_time" property="tagModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="tag_del_name" property="tagDelName" jdbcType="VARCHAR" />
+    <result column="tag_del_time" property="tagDelTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Tag_Column_List" >
+    tag_id, tag_name,tag_img, tag_delflag, tag_create_name, tag_create_time, tag_modified_name, 
+    tag_modified_time, tag_del_name, tag_del_time
+  </sql>
+  
+  <!-- 查询所有的商品标签 -->
+  <select id="queryAllGoodsTagForThirdId" resultMap="TagResultMap">
+  	select <include refid="Tag_Column_List"/> from np_goods_tag where tag_delflag='0'
+  </select>
+  
+  
+  <!-- 商品分类 -->
+  <resultMap id="CateResultMap" type="com.ningpai.goods.bean.GoodsCate" >
+    <id column="cat_id" property="catId" jdbcType="BIGINT" />
+    <result column="cat_name" property="catName" jdbcType="VARCHAR" />
+    <result column="cat_parent_id" property="catParentId" jdbcType="BIGINT" />
+    <result column="type_id" property="typeId" jdbcType="BIGINT" />
+    <result column="cat_sort" property="catSort" jdbcType="INTEGER" />
+    <result column="cat_grade" property="catGrade" jdbcType="INTEGER" />
+    <result column="cat_seo_title" property="catSeoTitle" jdbcType="VARCHAR" />
+    <result column="cat_seo_keyword" property="catSeoKeyword" jdbcType="VARCHAR" />
+    <result column="cat_seo_desc" property="catSeoDesc" jdbcType="VARCHAR" />
+    <result column="cat_is_show" property="catIsShow" jdbcType="CHAR" />
+    <result column="cat_delflag" property="catDelflag" jdbcType="CHAR" />
+    <result column="cat_create_name" property="catCreateName" jdbcType="VARCHAR" />
+    <result column="cat_create_time" property="catCreateTime" jdbcType="TIMESTAMP" />
+    <result column="cat_modified_name" property="catModifiedName" jdbcType="VARCHAR" />
+    <result column="cat_modified_time" property="catModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="cat_del_name" property="catDelName" jdbcType="VARCHAR" />
+    <result column="cat_del_time" property="catDelTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Cate_Column_List" >
+    cat_id, cat_name, cat_parent_id, type_id, cat_sort, cat_grade, cat_seo_title, cat_seo_keyword, 
+    cat_seo_desc, cat_is_show, cat_delflag, cat_create_name, cat_create_time, cat_modified_name, 
+    cat_modified_time, cat_del_name, cat_del_time
+  </sql>
+  <!-- 查询第三方已经签约的商品分类 -->
+  <select id="queryAllGoodsCateForThird" parameterType="java.lang.Long" resultMap="CateResultMap">
+  	select <include refid="Cate_Column_List"/> from np_goods_category where cat_delflag='0' and cat_grade = 3
+  	and cat_id in (select cate_id from np_third_grantcat where third_id = #{thirdId} and del_flag='0')
+  </select>
+   <!-- 查询第三方已经签约的商品分类 -->
+  <select id="queryAllGoodsCateForThirdtwo" parameterType="java.util.Map" resultMap="CateResultMap">
+  	select <include refid="Cate_Column_List"/> from np_goods_category where cat_delflag='0'
+  	and cat_id in (select cate_id from np_third_grantcat where third_id = #{thirdId} and del_flag='0'and cat_parent_id=#{catId})
+  </select>
+  
+  <!-- 根据分类ID查询第三方已经签约的商品分类信息 -->
+  <select id="queryGoodsCateForThirdById" parameterType="java.util.Map" resultMap="CateResultMap">
+  	select <include refid="Cate_Column_List"/> from np_goods_category where cat_delflag='0'
+  	and cat_id in (select cate_id from np_third_grantcat where third_id = #{thirdId} and del_flag='0'and cat_id=#{catId})
+  </select>
+  
+  <!-- 插入签约品牌 -->
+  <insert id="insertThirdGrantbrand" parameterType="java.util.Map">
+	 insert into np_third_grandbrand (third_id,brand_id,del_flag,rate_status) values(#{thirdId},#{brandId},'0','0')
+  </insert>
+  <!-- 插入签约分类 -->
+  <insert id="insertThirdGrantCat" parameterType="java.util.Map">
+	 insert into np_third_grantcat (third_id,cate_id,del_flag) values(#{thirdId},#{catId},'0')
+  </insert>
+  
+  
+  <!-- 查询相关商品 -->
+  <resultMap type="com.ningpai.goods.vo.GoodsListVo" id="AboutVoResultMap">
+		<id column="goods_id" property="goodsId" jdbcType="BIGINT" />
+		<result column="goods_no" property="goodsNo" jdbcType="VARCHAR" />
+		<result column="goods_img" property="goodsImg" jdbcType="VARCHAR" />
+		<result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+		<result column="goods_added" property="goodsAdded" jdbcType="CHAR" />
+		<result column="goods_price" property="goodsPrice" jdbcType="DECIMAL" />
+		<association property="goodsBrand" column="brand_id"
+			select="com.ningpai.goods.dao.GoodsBrandMapper.selectByPrimaryKey"></association>
+		<association property="goodsCate" column="cat_id"
+			select="com.ningpai.goods.dao.GoodsCateMapper.selectByPrimaryKeyForGoodsList"></association>
+	</resultMap>
+	<sql id="Goods_About_Column_List">
+		goods_id,goods_no,goods_img,goods_name,goods_added,goods_price,brand_id,cat_id
+	</sql>
+  <!-- 根据分类ID查询商品列表 -->
+	<select id="queryAboutGoodsListByCatId" parameterType="java.util.Map"
+		resultMap="AboutVoResultMap">
+		select
+		<include refid="Goods_About_Column_List" />
+		from np_goods where goods_delflag='0' and cat_id=#{catId} and goods_belo = #{thirdId}
+		and is_third='1'
+		limit #{startRowNum},#{endRowNum}
+	</select>
+   <!-- 查询相关商品的总数量 -->
+   <select id="queryAboutGoodsCountByCatId" parameterType="java.util.Map" resultType="java.lang.Integer">
+   	select count(*) from np_goods where goods_delflag='0' and cat_id=#{catId}
+   	and is_third='1' and goods_belo = #{thirdId}
+   </select>
+  
+  <!-- 查询商品组合 -->
+  <resultMap id="thirdGoodsGroupResultMap" type="com.ningpai.goods.bean.GoodsGroup" >
+    <id column="group_id" property="groupId" jdbcType="BIGINT" />
+    <result column="group_name" property="groupName" jdbcType="VARCHAR" />
+    <result column="group_prefertype" property="groupPrefertype" jdbcType="CHAR" />
+    <result column="group_preferamount" property="groupPreferamount" jdbcType="DECIMAL" />
+    <result column="group_delflag" property="groupDelflag" jdbcType="CHAR" />
+    <result column="group_create_name" property="groupCreateName" jdbcType="VARCHAR" />
+    <result column="group_create_time" property="groupCreateTime" jdbcType="TIMESTAMP" />
+    <result column="group_modified_name" property="groupModifiedName" jdbcType="VARCHAR" />
+    <result column="group_modified_time" property="groupModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="group_del_name" property="groupDelName" jdbcType="VARCHAR" />
+    <result column="group_del_time" property="groupDelTime" jdbcType="TIMESTAMP" />
+    <result column="is_third" property="isThird" jdbcType="CHAR" />
+    <result column="third_id" property="thirdId" jdbcType="BIGINT" />
+  </resultMap>
+ <sql id="thirdGroup_Column_List" >
+    group_id, group_name, group_prefertype, group_preferamount, group_delflag, group_create_name, 
+    group_create_time, group_modified_name, group_modified_time, group_del_name, group_del_time,is_third,third_id
+  </sql>
+ 
+  <!-- 根据分页参数查询列第三方商品组合表 -->
+  <select id="queryThirdGroupByParam" parameterType="java.util.Map" resultMap="thirdGoodsGroupResultMap">
+  	 select 
+    	<include refid="thirdGroup_Column_List" />
+	   from np_goods_group
+	   where group_delflag='0'
+	   and is_third='1'
+	   and third_id = #{thirdId}
+	   <if test="null != condition and condition == 1">
+			and group_name like CONCAT(CONCAT('%',#{searchText}),'%')
+		</if>
+	   order by group_create_time desc
+	   limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <!-- 查询第三方商品组合表的总行数 -->
+  <select id="queryThirdTotalAcount" resultType="java.lang.Integer" parameterType="java.util.Map">
+  		select count(*) from np_goods_group
+  		where group_delflag='0'
+	   	and is_third='1'
+	   	and third_id = #{thirdId}
+	    <if test="null != condition and condition == 1">
+	   		and group_name like CONCAT(CONCAT('%',#{searchText}),'%')
+		</if>
+  </select>
+
+
+    <!-- 查询第三方已经签约的商品分类的一级分类 -->
+  <select id="queryGrandCateForThirdnew" parameterType="java.util.Map" resultMap="CateResultMap">
+
+    SELECT
+         cat_id, cat_name
+    FROM
+        np_goods_category
+    WHERE
+        cat_delflag = '0'
+
+            AND cat_id IN (
+
+            SELECT
+               c.cat_parent_id
+            FROM
+                np_goods_category c ,np_goods_category c1 ,np_third_grantcat g
+            where
+                c.cat_id=c1.cat_parent_id
+            and
+                g.cate_id=c1.cat_id
+            and
+                c.cat_delflag = '0'
+            and
+                c1.cat_delflag = '0'
+            and
+                g.del_flag = '0'
+            and
+                g.third_id=#{thirdId}
+
+           )
+
+  </select>
+  
+  
+  	
+  
+</mapper>

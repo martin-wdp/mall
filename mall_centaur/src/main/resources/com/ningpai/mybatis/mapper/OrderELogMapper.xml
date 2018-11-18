@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.order.dao.OrderELogMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.order.bean.OrderELog" >
+    <id column="order_e_log_id" property="orderELogId" jdbcType="BIGINT" />
+    <result column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="flag" property="flag" jdbcType="CHAR" />
+    <result column="order_log_content" property="orderLogContent" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    order_e_log_id, order_id, order_code, flag, order_log_content, create_time, modify_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_order_e_log
+    where order_e_log_id = #{orderELogId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_order_e_log
+    where order_e_log_id = #{orderELogId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.order.bean.OrderELog" >
+    insert into np_order_e_log (order_e_log_id, order_id, order_code, 
+      flag, order_log_content, create_time, 
+      modify_time)
+    values (#{orderELogId,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{orderCode,jdbcType=VARCHAR}, 
+      #{flag,jdbcType=CHAR}, #{orderLogContent,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifyTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.order.bean.OrderELog" >
+    insert into np_order_e_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderELogId != null" >
+        order_e_log_id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="orderCode != null" >
+        order_code,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+      <if test="orderLogContent != null" >
+        order_log_content,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderELogId != null" >
+        #{orderELogId,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="orderCode != null" >
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=CHAR},
+      </if>
+      <if test="orderLogContent != null" >
+        #{orderLogContent,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.order.bean.OrderELog" >
+    update np_order_e_log
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="orderCode != null" >
+        order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=CHAR},
+      </if>
+      <if test="orderLogContent != null" >
+        order_log_content = #{orderLogContent,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where order_e_log_id = #{orderELogId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.order.bean.OrderELog" >
+    update np_order_e_log
+    set order_id = #{orderId,jdbcType=BIGINT},
+      order_code = #{orderCode,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=CHAR},
+      order_log_content = #{orderLogContent,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+    where order_e_log_id = #{orderELogId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectOrderELogList" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select 
+        <include refid="Base_Column_List"/>    
+    from np_order_e_log 
+    where flag='0'
+    ORDER BY create_time DESC
+    limit #{start},#{end}
+  </select>
+  
+  <select id="selectOrderELogCount" resultType="java.lang.Integer">
+	  select count(1) from np_order_e_log
+	  where flag='0'
+  </select>
+</mapper>

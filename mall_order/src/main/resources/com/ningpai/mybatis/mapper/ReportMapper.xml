@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.mybatis.mapper.ReportMapper" >
+	<resultMap id="BaseResultMap" type="com.ningpai.report.bean.Report" >
+		<id column="report_id" property="reportId" jdbcType="BIGINT" />
+		<result column="store_id" property="storeId" jdbcType="BIGINT" />
+		<result column="cate_rate" property="cateRate" jdbcType="DECIMAL" />
+		<result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+		<result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="total_order_money" property="totalOrderMoney" jdbcType="DECIMAL" />
+        <result column="total_order_pre_price" property="totalOrderPrePrice" jdbcType="DECIMAL" />
+        <result column="total_goods_pre_price" property="totalGoodsPrePrice" jdbcType="DECIMAL" />
+		<result column="cate_id" property="cateId" jdbcType="BIGINT" />
+		<result column="settle_status" property="settleStatus" jdbcType="CHAR" />
+		<result column="del_flag" property="delFlag" jdbcType="CHAR" />
+		<result column="settle_user_id" property="settleUserId" jdbcType="BIGINT" />
+		<result column="del_user_id" property="delUserId" jdbcType="BIGINT" />
+		
+		<result column="cate_name" property="cateName"/>
+        <result column="store_name" property="storeName" />
+        <result column="company_name" property="companyName" />
+        <result column="should_buckle" property="shouldBuckle" />
+        
+	</resultMap>
+
+	<sql id="Base_Column_List" >
+		report_id,store_id,cate_rate,start_time,end_time,
+		create_time,total_order_money,cate_id,settle_status,del_flag,
+		settle_user_id,del_user_id
+	</sql>
+	<sql id="Extend_Column_List" >
+        report.report_id,report.store_id,report.cate_rate,report.start_time,report.end_time,report.
+        create_time,report.total_order_money,report.cate_id,report.settle_status,report.del_flag,report.
+        settle_user_id,report.del_user_id,report.total_order_pre_price,report.total_goods_pre_price
+    </sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+		select
+		<include refid="Extend_Column_List" />,
+		store.store_name,
+		store.company_name,
+		cate.cat_name cate_name
+		from np_report report,np_third_store_info store,np_goods_category cate
+		where report.store_id = store.store_id 
+		  and report.cate_id = cate.cat_id
+		  and report.report_id = #{reportId,jdbcType=BIGINT}
+	</select>
+	
+	<select id="queryReportData" resultMap="BaseResultMap" parameterType="java.util.Map">
+       SELECT
+			    temp.business_id store_id,
+			    temp.cate_id,
+			    temp.cat_rate cate_rate,
+			    sum(temp.goods_info_sum_price) total_order_money,
+			    sum(temp.goods_coupon_price) total_goods_coupon_price,
+                sum(temp.order_pre_price) total_order_pre_price
+			FROM
+			    (
+		        SELECT
+		            o.business_id,
+		            o.pay_time,
+		            og.goods_info_sum_price - (
+		                o.order_pre_price_order * (
+		                    og.goods_info_sum_price / (
+		                        o.order_price + o.order_pre_price_order
+		                    )
+		                )
+		            ) goods_info_sum_price,
+		            o.order_pre_price_order * (
+		                og.goods_info_sum_price / (
+		                    o.order_price + o.order_pre_price_order
+		                )
+		            ) order_pre_price,
+		            og.goods_coupon_price,
+		            cate.cat_id cate_id,
+		            cate.cat_rate
+		        FROM
+		            np_order_goods og
+		        LEFT JOIN np_order o ON o.order_id = og.order_id
+		        INNER JOIN np_goods_info i ON og.goods_info_id = i.goods_info_id
+		        INNER JOIN np_goods g ON i.goods_id = g.goods_id
+		        INNER JOIN np_goods_category cate ON g.cat_id = cate.cat_id
+		        WHERE
+		            o.order_status NOT IN ('0', '4') 
+			    AND o.pay_time &gt;#{startDate} AND o.pay_time &lt;=#{endDate}
+			    AND o.business_id =#{storeId}
+		    ) temp
+        group by temp.cate_id 
+    </select>
+    
+    <select id="selectOneByParam" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from np_report
+        where del_flag = '0'
+        <if test="(storeId != null and storeId != '') or storeId='0'">
+            and store_id = #{storeId,jdbcType=BIGINT}
+        </if>
+        <if test="cateId != null and cateId != ''">
+            and cate_id = #{cateId,jdbcType=BIGINT}
+        </if>
+        <if test="startDate != null and startDate != ''">
+            and start_time = #{startDate}
+        </if>
+        <if test="endDate != null and endDate != ''">
+            and end_time = #{endDate}
+        </if>
+        limit 0,1
+    </select>
+
+	<update id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+		update np_report set del_flag = '1'
+		where report_id = #{reportId,jdbcType=BIGINT}
+	</update>
+	<update id="deleteByStoreId" parameterType="java.lang.Long" >
+        update np_report set del_flag = '1'
+        where store_id = #{storeId,jdbcType=BIGINT}
+    </update>
+
+	<insert id="insertSelective" parameterType="com.ningpai.report.bean.Report" useGeneratedKeys="true" keyProperty="reportId" >
+		insert into np_report
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="reportId != null" >
+				report_id,
+			</if>
+			<if test="storeId != null" >
+				store_id,
+			</if>
+			<if test="cateRate != null" >
+				cate_rate,
+			</if>
+			<if test="startTime != null" >
+				start_time,
+			</if>
+			<if test="endTime != null" >
+				end_time,
+			</if>
+			<if test="createTime != null" >
+				create_time,
+			</if>
+			<if test="totalOrderMoney != null" >
+				total_order_money,
+			</if>
+			<if test="totalOrderPrePrice != null" >
+                total_order_pre_price,
+            </if>
+            <if test="totalGoodsPrePrice != null" >
+                total_goods_pre_price,
+            </if>
+			<if test="cateId != null" >
+				cate_id,
+			</if>
+			<if test="settleStatus != null" >
+				settle_status,
+			</if>
+			<if test="delFlag != null" >
+				del_flag,
+			</if>
+			<if test="settleUserId != null" >
+				settle_user_id,
+			</if>
+			<if test="delUserId != null" >
+				del_user_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="reportId != null" >
+				#{reportId,jdbcType=BIGINT},
+			</if>
+			<if test="storeId != null" >
+				#{storeId,jdbcType=BIGINT},
+			</if>
+			<if test="cateRate != null" >
+				#{cateRate,jdbcType=DECIMAL},
+			</if>
+			<if test="startTime != null" >
+				#{startTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endTime != null" >
+				#{endTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createTime != null" >
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="totalOrderMoney != null" >
+				#{totalOrderMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="totalOrderPrePrice != null" >
+                #{totalOrderPrePrice,jdbcType=DECIMAL},
+            </if>
+            <if test="totalGoodsPrePrice != null" >
+                #{totalGoodsPrePrice,jdbcType=DECIMAL},
+            </if>
+			<if test="cateId != null" >
+				#{cateId,jdbcType=BIGINT},
+			</if>
+			<if test="settleStatus != null" >
+				#{settleStatus,jdbcType=CHAR},
+			</if>
+			<if test="delFlag != null" >
+				#{delFlag,jdbcType=CHAR},
+			</if>
+			<if test="settleUserId != null" >
+				#{settleUserId,jdbcType=BIGINT},
+			</if>
+			<if test="delUserId != null" >
+				#{delUserId,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.ningpai.report.bean.Report" >
+		update np_report
+		<set >
+			<if test="storeId != null" >
+				store_id = #{storeId,jdbcType=BIGINT},
+			</if>
+			<if test="cateRate != null" >
+				cate_rate = #{cateRate,jdbcType=DECIMAL},
+			</if>
+			<if test="startTime != null" >
+				start_time = #{startTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endTime != null" >
+				end_time = #{endTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createTime != null" >
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="totalOrderMoney != null" >
+				total_order_money = #{totalOrderMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="cateId != null" >
+				cate_id = #{cateId,jdbcType=BIGINT},
+			</if>
+			<if test="settleStatus != null" >
+				settle_status = #{settleStatus,jdbcType=CHAR},
+			</if>
+			<if test="delFlag != null" >
+				del_flag = #{delFlag,jdbcType=CHAR},
+			</if>
+			<if test="settleUserId != null" >
+				settle_user_id = #{settleUserId,jdbcType=BIGINT},
+			</if>
+			<if test="delUserId != null" >
+				del_user_id = #{delUserId,jdbcType=BIGINT},
+			</if>
+		</set>
+		where report_id = #{reportId,jdbcType=BIGINT}
+	</update>
+	
+	<select id="selectStoreCateReportList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Extend_Column_List" />,store.store_name,cate.cat_name cate_name
+        from np_report report 
+        left join np_third_store_info store on report.store_id = store.store_id
+        inner join np_goods_category cate on cate.cat_id = report.cate_id
+        where report.del_flag = '0' 
+        <if test="report.settleStatus != null and report.settleStatus != ''">
+            and report.settle_status = #{report.settleStatus,jdbcType=CHAR}
+        </if>
+        <if test="report.delFlag != null and report.delFlag != ''">
+            and report.del_flag = #{report.delFlag,jdbcType=CHAR}
+        </if>
+        <if test="(report.storeId != null and report.storeId != '') or report.storeId==0">
+            and report.store_id = #{report.storeId,jdbcType=BIGINT}
+        </if>
+        <if test="report.timeType=='0' and report.startDate != null and report.startDate != ''">
+            <![CDATA[ and report.start_time > #{report.startDate} ]]>
+        </if>
+        <if test="report.timeType=='0' and report.endDate != null and report.endDate != ''">
+            <![CDATA[ and report.start_time <= concat(#{report.endDate} ,'23:59:59') ]]>
+        </if>
+        
+        <if test="report.timeType==1 and report.startDate != null and report.startDate != ''">
+            <![CDATA[ and report.end_time > #{report.startDate} ]]>
+        </if>
+        <if test="report.timeType==1 and report.endDate != null and report.endDate != ''">
+            <![CDATA[ and report.end_time <= concat(#{report.endDate} ,'23:59:59') ]]>
+        </if>
+        <if test="report.cateName != null and report.cateName != ''">
+            and cate.cat_name like CONCAT(CONCAT('%',#{reportn.cateName}),'%')
+        </if>
+        order by report.store_id,report.start_time desc
+    </select>
+
+	<select id="selectReportCateList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select
+			<include refid="Extend_Column_List" />,
+			store.store_name,
+			cate.cat_name cate_name,
+			report.total_order_money * report.cate_rate  as should_buckle
+		from np_report report 
+		left join np_third_store_info store on report.store_id = store.store_id
+		inner join np_goods_category cate on cate.cat_id = report.cate_id
+		where report.del_flag = '0' 
+		<if test="pageBean.objectBean.settleStatus != null and pageBean.objectBean.settleStatus != ''">
+			and report.settle_status = #{pageBean.objectBean.settleStatus,jdbcType=CHAR}
+		</if>
+		<if test="pageBean.objectBean.delFlag != null and pageBean.objectBean.delFlag != ''">
+			and report.del_flag = #{pageBean.objectBean.delFlag,jdbcType=CHAR}
+		</if>
+		<if test="(pageBean.objectBean.storeId != null and pageBean.objectBean.storeId != '') or pageBean.objectBean.storeId ==0">
+            and report.store_id = #{pageBean.objectBean.storeId,jdbcType=BIGINT}
+        </if>
+        <if test="pageBean.objectBean.startDate != null and pageBean.objectBean.startDate != ''">
+            <![CDATA[ and report.end_time > #{pageBean.objectBean.startDate} ]]>
+        </if>
+        <if test="pageBean.objectBean.startDate != null and pageBean.objectBean.startDate != ''">
+            <![CDATA[ and report.end_time <= concat(#{pageBean.objectBean.endDate} ,'23:59:59') ]]>
+        </if>
+        <if test="pageBean!=null and pageBean.objectBean.cateName != null and pageBean.objectBean.cateName != ''">
+            and cate.cat_name like CONCAT(CONCAT('%',#{pageBean.objectBean.cateName}),'%')
+        </if>
+        <if test="pageBean!=null and pageBean.objectBean.totalOrderMoney != null and pageBean.objectBean.totalOrderMoney != ''">
+            and report.total_order_money &gt;#{pageBean.objectBean.totalOrderMoney}
+        </if>
+        order by report.cate_id,report.start_time desc
+		limit #{pageBean.startRowNum},#{pageBean.endRowNum}
+	</select>
+	<select id="selectReportCateListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select
+        count(1)
+        from np_report r
+        <if test="pageBean!=null and pageBean.objectBean.cateName != null and pageBean.objectBean.cateName != ''">
+            inner join np_goods_category cate on cate.cat_id = r.cate_id
+        </if>
+        where r.del_flag='0'
+        <if test="(pageBean.objectBean.storeId != null and pageBean.objectBean.storeId != '') or pageBean.objectBean.storeId ==0">
+            and r.store_id = #{pageBean.objectBean.storeId,jdbcType=BIGINT}
+        </if>
+        <if test="pageBean.objectBean.settleStatus != null and pageBean.objectBean.settleStatus != ''">
+            and r.settle_status = #{pageBean.objectBean.settleStatus,jdbcType=CHAR}
+        </if>
+        <if test="pageBean.objectBean.delFlag != null and pageBean.objectBean.delFlag != ''">
+            and r.del_flag = #{pageBean.objectBean.delFlag,jdbcType=CHAR}
+        </if>
+        <if test="pageBean.objectBean.startDate != null and pageBean.objectBean.startDate != ''">
+            <![CDATA[ and r.end_time > #{report.startDate} ]]>
+        </if>
+        <if test="pageBean.objectBean.startDate != null and pageBean.objectBean.startDate != ''">
+            <![CDATA[ and r.end_time <= concat(#{report.endDate} ,'23:59:59') ]]>
+        </if>
+        <if test="pageBean!=null and pageBean.objectBean.storeName != null and pageBean.objectBean.storeName != ''">
+            and r.store_name like CONCAT(CONCAT('%',#{pageBean.objectBean.storeName}),'%')
+        </if>
+        <if test="pageBean!=null and pageBean.objectBean.totalOrderMoney != null and pageBean.objectBean.totalOrderMoney != ''">
+            and r.total_order_money &gt;#{pageBean.objectBean.totalOrderMoney}
+        </if>
+    </select>
+	
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        report.store_id,
+        report.total_order_money,
+        report.total_order_pre_price,
+        report.total_goods_pre_price,
+        store.store_name
+        from (
+            select 
+	            r.store_id,
+	            sum(r.total_order_money) total_order_money,
+	            sum(r.total_order_pre_price) total_order_pre_price,
+	            sum(r.total_goods_pre_price) total_goods_pre_price
+	        from np_report r
+	        where r.del_flag = '0' 
+	        group by r.store_id
+        ) report ,
+        np_third_store_info store 
+        where report.store_id = store.store_id 
+        <if test="pageBean!=null and pageBean.objectBean.storeName != null and pageBean.objectBean.storeName != ''">
+            and store.store_name like CONCAT(CONCAT('%',#{pageBean.objectBean.storeName}),'%')
+        </if>
+        <if test="pageBean!=null and pageBean.objectBean.totalOrderMoney != null and pageBean.objectBean.totalOrderMoney != ''">
+            and report.total_order_money &gt;#{pageBean.objectBean.totalOrderMoney}
+        </if>
+        <if test="pageBean!=null">
+        limit #{pageBean.startRowNum},#{pageBean.endRowNum}
+        </if>
+    </select>
+    <!-- 根据参数查询汇总报表 -->
+    <select id="selectSumListByParam" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        report.store_id,
+        report.total_order_money,
+        report.total_order_pre_price,
+        report.total_goods_pre_price,
+        store.store_name
+        from (
+            select 
+                r.store_id,
+                sum(r.total_order_money) total_order_money,
+                sum(r.total_order_pre_price) total_order_pre_price,
+                sum(r.total_goods_pre_price) total_goods_pre_price
+            from np_report r
+            where r.del_flag = '0' 
+            <if test="report.timeType=='0' and report.startDate != null and report.startDate != ''">
+	            <![CDATA[ and r.start_time > #{report.startDate} ]]>
+	        </if>
+	        <if test="report.timeType=='0' and report.endDate != null and report.endDate != ''">
+	            <![CDATA[ and r.start_time <= concat(#{report.endDate} ,'23:59:59') ]]>
+	        </if>
+	        
+	        <if test="report.timeType==1 and report.startDate != null and report.startDate != ''">
+	            <![CDATA[ and r.end_time > #{report.startDate} ]]>
+	        </if>
+	        <if test="report.timeType==1 and report.endDate != null and report.endDate != ''">
+	            <![CDATA[ and r.end_time <= concat(#{report.endDate} ,'23:59:59') ]]>
+	        </if>
+            group by r.store_id
+        ) report ,
+        np_third_store_info store 
+        where report.store_id = store.store_id 
+        <if test="report.storeName != null and report.storeName != ''">
+            and store.store_name like CONCAT(CONCAT('%',#{report.storeName}),'%')
+        </if>
+        <if test="report.totalOrderMoney != null and report.totalOrderMoney != ''">
+            and report.total_order_money &gt;#{report.totalOrderMoney}
+        </if>
+    </select>
+
+	<select id="selectListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+	   <if test="pageBean.objectBean.totalOrderMoney != null and pageBean.objectBean.totalOrderMoney != ''">
+		select
+            count(1)
+        from (
+            select 
+                r.store_id,
+                sum(r.total_order_money) total_order_money,
+                sum(r.total_order_pre_price) total_order_pre_price,
+                sum(r.total_goods_pre_price) total_goods_pre_price
+            from np_report r
+            where r.del_flag = '0' 
+            group by r.store_id
+        ) report 
+        where report.total_order_money &gt;#{pageBean.objectBean.totalOrderMoney}
+		</if>
+		
+		<if test="pageBean.objectBean.totalOrderMoney == null or pageBean.objectBean.totalOrderMoney == ''">
+		select
+            count(1)
+        from (
+	        SELECT 
+	           r.store_id from np_report r ,
+	           np_third_store_info store 
+            where r.store_id = store.store_id
+	        <if test="pageBean.objectBean.storeName != null and pageBean.objectBean.storeName!= ''">
+	            and store.store_name like CONCAT(CONCAT('%',#{pageBean.objectBean.storeName}),'%')
+	        </if>
+	        and r.del_flag='0'
+	        group by r.store_id
+        ) t
+		</if>
+	</select>
+
+	<update id="deleteMuilti" parameterType="java.lang.Long">
+		update np_report
+		set del_flag = '1'
+		where report_id in 
+		<foreach collection="array" item="reportId" open="(" separator="," close=")">
+		#{reportId,jdbcType=BIGINT}
+		</foreach>
+	</update>
+	
+	<!-- 根据分类id和商店id修改结算状态 -->
+	<update id="settleReport" parameterType="java.util.Map">
+        update np_report
+        set settle_status = '1'
+        where 
+        <if test="reportId != null and reportId!=''">
+            report_id=#{reportId}
+         </if>
+         <if test="(storeId != null and storeId !='') or storeId==0">
+            store_id=#{storeId}
+         </if>
+    </update>
+</mapper>

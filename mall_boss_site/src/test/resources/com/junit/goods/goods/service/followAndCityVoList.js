@@ -1,0 +1,2 @@
+[{"id":"1","wareId":"1","cityId":"1","delFlag":"0","atteId":"2","productId":"3","createTime":"2015-9-14 20:53:02","modifiedTime":"2015-9-14 20:53:02","flag":"0","districtId":"111","followPrice":"22","goodsId":33},
+ {"id":"2","wareId":"1","cityId":"3","delFlag":"0","atteId":"3","productId":"4","createTime":"2015-9-14 20:53:02","modifiedTime":"2015-9-14 20:53:02","flag":"0","districtId":"111","followPrice":"22","goodsId":33}]

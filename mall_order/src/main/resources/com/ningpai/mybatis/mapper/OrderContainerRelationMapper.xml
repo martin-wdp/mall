@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.OrderContainerRelationMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.order.bean.OrderContainerRelation" >
+    <id column="relation_id" property="relationId" jdbcType="BIGINT" />
+    <result column="del_flge" property="delFlge" jdbcType="BIGINT" />
+    <result column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="order_express_id" property="orderExpressId" jdbcType="BIGINT" />
+    <result column="express_no" property="expressNo" jdbcType="VARCHAR" />
+    <result column="express_name" property="expressName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    relation_id, del_flge, order_id,express_no,order_express_id,express_name
+  </sql>
+ 
+ 
+ <select id="selectDelit" parameterType="java.lang.Long"> 
+ 	select 	relation_id, del_flge, order_id,express_no,order_express_id,express_name from  np_order_container_relation where order_id= #{orderId}
+ </select>
+ <!-- 根据订单id查询所有的包裹信息 -->
+ <select id="selectListByOrderIds" resultMap="BaseResultMap" parameterType="java.lang.Long">
+ 	select  relation_id, del_flge, order_id,express_no,order_express_id,express_name  from np_order_container_relation 
+ 	where order_id =#{orderId,jdbcType=BIGINT}
+ </select>
+ <!-- 查询刚刚插入的Id -->
+  <select id="selectLastId" resultType="java.lang.Long" >
+  		select LAST_INSERT_ID()
+  </select>
+  
+ <!-- 插入内容 -->
+  <insert id="insertSelective" parameterType="com.ningpai.order.bean.OrderContainerRelation" >
+    insert into np_order_container_relation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="relationId != null" >
+        relation_id,
+      </if>
+      <if test="delFlge != null" >
+        del_flge,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="expressNo != null" >
+        express_no,
+      </if>
+      <if test="orderExpressId != null" >
+        order_express_id,
+      </if>
+      <if test="expressName != null" >
+        express_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="relationId != null" >
+        #{relationId,jdbcType=BIGINT},
+      </if>
+      <if test="delFlge != null" >
+        #{delFlge,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="expressNo != null" >
+        #{expressNo,jdbcType=BIGINT},
+      </if>
+      <if test="orderExpressId != null" >
+        #{orderExpressId,jdbcType=BIGINT},
+      </if>
+      <if test="expressName != null" >
+        #{expressName}
+      </if>
+    </trim>
+  </insert>
+  <!-- 删除包裹 -->
+  <update id="delRelationById" parameterType="java.lang.Long">
+  	DELETE from np_order_container_relation where relation_id=#{relationId,jdbcType=BIGINT}
+  </update>
+
+    <!-- 删除包裹 -->
+    <update id="delContainerByCId" parameterType="java.lang.Long">
+        DELETE from np_order_container where container_id=#{cId,jdbcType=BIGINT}
+    </update>
+  <!-- 更新运货单 -->
+  <update id="updateRelation" parameterType="com.ningpai.order.bean.OrderContainerRelation">
+		update np_order_container_relation  
+		 <set >
+      <if test="expressName != null" >
+        express_name = #{expressName,jdbcType=VARCHAR},
+      </if>
+      <if test="expressNo != null" >
+        express_no = #{expressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderExpressId != null" >
+        order_express_id = #{orderExpressId,jdbcType=BIGINT},
+      </if>
+    </set>
+		where  relation_id=#{relationId}
+  </update>
+  
+  <!-- 查询运单 -->
+  <select id="getExpressNo" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  	   select express_no from np_order_container_relation
+  	   where order_id=#{orderId}
+  </select>
+ 
+</mapper>

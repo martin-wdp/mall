@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ningpai.system.dao.PointSetMapper">
+  <resultMap id="BaseResultMap" type="com.ningpai.system.bean.PointSet">
+    <id column="pset_id" jdbcType="BIGINT" property="psetId" />
+    <result column="pset_register" jdbcType="INTEGER" property="psetRegister" />
+    <result column="pset_login" jdbcType="INTEGER" property="psetLogin" />
+    <result column="pset_email" jdbcType="INTEGER" property="psetEmail" />
+    <result column="pset_phone" jdbcType="INTEGER" property="psetPhone" />
+    <result column="pset_comment" jdbcType="INTEGER" property="psetComment" />
+    <result column="pset_user" jdbcType="INTEGER" property="psetUser" />
+    <result column="pset_online" jdbcType="INTEGER" property="psetOnline" />
+    <result column="pset_pubtopic" jdbcType="INTEGER" property="psetPubtopic" />
+    <result column="pset_hottopic" jdbcType="INTEGER" property="psetHottopic" />
+    <result column="pset_essencetopic" jdbcType="INTEGER" property="psetEssencetopic" />
+    <result column="pset_indextopic" jdbcType="INTEGER" property="psetIndextopic" />
+    <result column="is_open" jdbcType="CHAR" property="isOpen" />
+    <result column="exchange" jdbcType="INTEGER" property="exchange" />
+    <result column="consumption" jdbcType="DECIMAL" property="consumption" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    pset_id, pset_register, pset_login, pset_email, pset_phone, pset_comment, pset_user, 
+    pset_online, is_open, exchange, consumption,pset_pubtopic,pset_hottopic,pset_essencetopic,pset_indextopic
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_sys_pointset
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from np_sys_pointset
+    where pset_id = #{psetId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.system.bean.PointSet">
+    insert into np_sys_pointset (pset_id, pset_register, pset_login, 
+      pset_email, pset_phone, pset_comment, 
+      pset_user, pset_online, is_open, 
+      exchange, consumption,pset_pubtopic,pset_hottopic,pset_essencetopic,pset_indextopic)
+    values (#{psetId,jdbcType=BIGINT}, #{psetRegister,jdbcType=INTEGER}, #{psetLogin,jdbcType=INTEGER}, 
+      #{psetEmail,jdbcType=INTEGER}, #{psetPhone,jdbcType=INTEGER}, #{psetComment,jdbcType=INTEGER}, 
+      #{psetUser,jdbcType=INTEGER}, #{psetOnline,jdbcType=INTEGER}, #{isOpen,jdbcType=CHAR}, 
+      #{exchange,jdbcType=INTEGER}, #{consumption,jdbcType=DECIMAL},#{psetPubtopic,jdbcType=INTEGER},
+      #{psetHottopic,jdbcType=INTEGER},#{psetEssencetopic,jdbcType=INTEGER},#{psetIndextopic,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.system.bean.PointSet">
+    insert into np_sys_pointset
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="psetId != null">
+        pset_id,
+      </if>
+      <if test="psetRegister != null">
+        pset_register,
+      </if>
+      <if test="psetLogin != null">
+        pset_login,
+      </if>
+      <if test="psetEmail != null">
+        pset_email,
+      </if>
+      <if test="psetPhone != null">
+        pset_phone,
+      </if>
+      <if test="psetComment != null">
+        pset_comment,
+      </if>
+      <if test="psetUser != null">
+        pset_user,
+      </if>
+      <if test="psetOnline != null">
+        pset_online,
+      </if>
+      <if test="isOpen != null">
+        is_open,
+      </if>
+      <if test="exchange != null">
+        exchange,
+      </if>
+      <if test="consumption != null">
+        consumption,
+      </if>
+        <if test="psetPubtopic != null">
+        pset_pubtopic,
+      </if>
+      <if test="psetHottopic != null">
+        pset_hottopic,
+      </if>
+      <if test="psetEssencetopic != null">
+        pset_essencetopic,
+      </if>
+      <if test="psetIndextopic != null">
+        pset_indextopic,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="psetId != null">
+        #{psetId,jdbcType=BIGINT},
+      </if>
+      <if test="psetRegister != null">
+        #{psetRegister,jdbcType=INTEGER},
+      </if>
+      <if test="psetLogin != null">
+        #{psetLogin,jdbcType=INTEGER},
+      </if>
+      <if test="psetEmail != null">
+        #{psetEmail,jdbcType=INTEGER},
+      </if>
+      <if test="psetPhone != null">
+        #{psetPhone,jdbcType=INTEGER},
+      </if>
+      <if test="psetComment != null">
+        #{psetComment,jdbcType=INTEGER},
+      </if>
+      <if test="psetUser != null">
+        #{psetUser,jdbcType=INTEGER},
+      </if>
+      <if test="psetOnline != null">
+        #{psetOnline,jdbcType=INTEGER},
+      </if>
+      <if test="isOpen != null">
+        #{isOpen,jdbcType=CHAR},
+      </if>
+      <if test="exchange != null">
+        #{exchange,jdbcType=INTEGER},
+      </if>
+      <if test="consumption != null">
+        #{consumption,jdbcType=DECIMAL},
+      </if>
+      <if test="psetPubtopic != null">
+        #{psetPubtopic,jdbcType=INTEGER},
+      </if>
+      <if test="psetHottopic != null">
+         #{psetHottopic,jdbcType=INTEGER},
+      </if>
+      <if test="psetEssencetopic != null">
+        #{psetEssencetopic,jdbcType=INTEGER},
+      </if>
+      <if test="psetIndextopic != null">
+         #{psetIndextopic,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.system.bean.PointSet">
+    update np_sys_pointset
+    <set>
+      <if test="psetRegister != null">
+        pset_register = #{psetRegister,jdbcType=INTEGER},
+      </if>
+      <if test="psetLogin != null">
+        pset_login = #{psetLogin,jdbcType=INTEGER},
+      </if>
+      <if test="psetEmail != null">
+        pset_email = #{psetEmail,jdbcType=INTEGER},
+      </if>
+      <if test="psetPhone != null">
+        pset_phone = #{psetPhone,jdbcType=INTEGER},
+      </if>
+      <if test="psetComment != null">
+        pset_comment = #{psetComment,jdbcType=INTEGER},
+      </if>
+      <if test="psetUser != null">
+        pset_user = #{psetUser,jdbcType=INTEGER},
+      </if>
+      <if test="psetOnline != null">
+        pset_online = #{psetOnline,jdbcType=INTEGER},
+      </if>
+      <if test="isOpen != null">
+        is_open = #{isOpen,jdbcType=CHAR},
+      </if>
+      <if test="exchange != null">
+        exchange = #{exchange,jdbcType=INTEGER},
+      </if>
+      <if test="consumption != null">
+        consumption = #{consumption,jdbcType=DECIMAL},
+      </if>
+      <if test="psetPubtopic != null">
+        pset_pubtopic = #{psetPubtopic,jdbcType=INTEGER},
+      </if>
+      <if test="psetHottopic != null">
+         pset_hottopic = #{psetHottopic,jdbcType=INTEGER},
+      </if>
+      <if test="psetEssencetopic != null">
+        pset_essencetopic = #{psetEssencetopic,jdbcType=INTEGER},
+      </if>
+      <if test="psetIndextopic != null">
+         pset_indextopic = #{psetIndextopic,jdbcType=INTEGER},
+      </if>
+    </set>
+    where pset_id = #{psetId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.system.bean.PointSet">
+    update np_sys_pointset
+    set pset_register = #{psetRegister,jdbcType=INTEGER},
+      pset_login = #{psetLogin,jdbcType=INTEGER},
+      pset_email = #{psetEmail,jdbcType=INTEGER},
+      pset_phone = #{psetPhone,jdbcType=INTEGER},
+      pset_comment = #{psetComment,jdbcType=INTEGER},
+      pset_user = #{psetUser,jdbcType=INTEGER},
+      pset_online = #{psetOnline,jdbcType=INTEGER},
+      is_open = #{isOpen,jdbcType=CHAR},
+      exchange = #{exchange,jdbcType=INTEGER},
+      consumption = #{consumption,jdbcType=DECIMAL}
+      pset_pubtopic = #{psetPubtopic,jdbcType=INTEGER},
+      pset_hottopic = #{psetHottopic,jdbcType=INTEGER},
+      pset_essencetopic = #{psetEssencetopic,jdbcType=INTEGER},
+      pset_indextopic = #{psetIndextopic,jdbcType=INTEGER}
+    where pset_id = #{psetId,jdbcType=BIGINT}
+  </update>
+ </mapper>

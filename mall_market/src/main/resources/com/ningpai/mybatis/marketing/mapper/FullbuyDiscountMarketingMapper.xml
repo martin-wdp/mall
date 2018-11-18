@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.marketing.dao.FullbuyDiscountMarketingMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.marketing.bean.FullbuyDiscountMarketing" >
+    <id column="fullbuy_discount_marketing_id" property="fullbuyDiscountMarketingId" jdbcType="BIGINT" />
+    <result column="marketing_id" property="marketingId" jdbcType="BIGINT" />
+    <result column="full_price" property="fullPrice" jdbcType="DECIMAL" />
+    <result column="fullbuy_discount" property="fullbuyDiscount" jdbcType="DECIMAL" />
+    <result column="vip_full_price" property="vipFullPrice" jdbcType="DECIMAL" />
+    <result column="vip_fullbuy_discount" property="vipFullbuyDiscount" jdbcType="DECIMAL" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    fullbuy_discount_marketing_id, marketing_id, full_price, fullbuy_discount, vip_full_price , vip_fullbuy_discount ,del_flag
+  </sql>
+  
+  
+    <!-- 查询满折 -->
+  <select id="selectFullbuyDiscountMarketingByMarketingId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_fullbuy_discount_marketing
+    where marketing_id = #{marketingId,jdbcType=BIGINT} and  del_flag = '0'
+    ORDER BY full_price
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_fullbuy_discount_marketing
+    where fullbuy_discount_marketing_id = #{fullbuyDiscountMarketingId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_fullbuy_discount_marketing
+    where fullbuy_discount_marketing_id = #{fullbuyDiscountMarketingId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.marketing.bean.FullbuyDiscountMarketing" >
+    insert into np_fullbuy_discount_marketing (fullbuy_discount_marketing_id, marketing_id, 
+      full_price, fullbuy_discount, vip_full_price , vip_fullbuy_discount ,del_flag
+      )
+    values (#{fullbuyDiscountMarketingId,jdbcType=BIGINT}, #{marketingId,jdbcType=BIGINT}, 
+      #{fullPrice,jdbcType=DECIMAL}, #{fullbuyDiscount,jdbcType=DECIMAL},
+       #{vipFullPrice,jdbcType=DECIMAL}, #{vipFullbuyDiscount,jdbcType=DECIMAL},#{delFlag,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.marketing.bean.FullbuyDiscountMarketing" >
+    insert into np_fullbuy_discount_marketing
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fullbuyDiscountMarketingId != null" >
+        fullbuy_discount_marketing_id,
+      </if>
+      <if test="marketingId != null" >
+        marketing_id,
+      </if>
+      <if test="fullPrice != null" >
+        full_price,
+      </if>
+      <if test="fullbuyDiscount != null" >
+        fullbuy_discount,
+      </if>
+      <if test="vipFullPrice != null" >
+          vip_full_price,
+      </if>
+      <if test="vipFullbuyDiscount != null" >
+          vip_fullbuy_discount,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fullbuyDiscountMarketingId != null" >
+        #{fullbuyDiscountMarketingId,jdbcType=BIGINT},
+      </if>
+      <if test="marketingId != null" >
+        #{marketingId,jdbcType=BIGINT},
+      </if>
+      <if test="fullPrice != null" >
+        #{fullPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="fullbuyDiscount != null" >
+        #{fullbuyDiscount,jdbcType=DECIMAL},
+      </if>
+        <if test="vipFullPrice != null" >
+            #{vipFullPrice,jdbcType=DECIMAL},
+        </if>
+        <if test="vipFullbuyDiscount != null" >
+            #{vipFullbuyDiscount,jdbcType=DECIMAL},
+        </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.marketing.bean.FullbuyDiscountMarketing" >
+    update np_fullbuy_discount_marketing
+    <set >
+      <if test="marketingId != null" >
+        marketing_id = #{marketingId,jdbcType=BIGINT},
+      </if>
+      <if test="fullPrice != null" >
+        full_price = #{fullPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="fullbuyDiscount != null" >
+        fullbuy_discount = #{fullbuyDiscount,jdbcType=DECIMAL},
+      </if>
+        <if test="vipFullPrice != null" >
+            vip_full_price = #{vipFullPrice,jdbcType=DECIMAL},
+        </if>
+        <if test="vipFullbuyDiscount != null" >
+            vip_fullbuy_discount = #{vipFullbuyDiscount,jdbcType=DECIMAL},
+        </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where fullbuy_discount_marketing_id = #{fullbuyDiscountMarketingId,jdbcType=BIGINT}
+  </update>
+  <update id="deleteFullbuyDiscountMarketing" parameterType="java.lang.Long" >
+    update np_fullbuy_discount_marketing
+    set 
+      del_flag = '1'
+    where marketing_id = #{marketingId,jdbcType=BIGINT}
+  </update>
+
+    <update id="modifyFullbuyDiscountMarketing" parameterType="com.ningpai.marketing.bean.FullbuyDiscountMarketing">
+        update np_fullbuy_discount_marketing
+        <set>
+            <if test="fullPrice != null">
+                full_price = #{fullPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="fullbuyDiscount != null">
+                fullbuy_discount = #{fullbuyDiscount,jdbcType=DECIMAL},
+            </if>
+            <if test="vipFullPrice != null" >
+                vip_full_price = #{vipFullPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="vipFullbuyDiscount != null" >
+                vip_fullbuy_discount = #{vipFullbuyDiscount,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where marketing_id = #{marketingId,jdbcType=BIGINT}
+    </update>
+</mapper>

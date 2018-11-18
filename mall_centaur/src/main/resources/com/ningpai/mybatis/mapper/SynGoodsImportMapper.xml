@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bbw.web.dao.centaur.GoodsImportMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goodsimport.bean.GoodsImport" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="goods_subtitle" property="goodsSubtitle" jdbcType="VARCHAR" />
+    <result column="goods_price" property="goodsPrice" jdbcType="DECIMAL" />
+    <result column="goods_cost_price" property="goodsCostPrice" jdbcType="DECIMAL" />
+    <result column="seo_key" property="seoKey" jdbcType="VARCHAR" />
+    <result column="seo_tit" property="seoTit" jdbcType="VARCHAR" />
+    <result column="seo_des" property="seoDes" jdbcType="VARCHAR" />
+    <result column="goods_market_price" property="goodsMarketPrice" jdbcType="DECIMAL" />
+    <result column="import_user" property="importUser" jdbcType="BIGINT" />
+    <result column="add_flag" property="addFlag" jdbcType="CHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="third_id" property="thirdId" jdbcType="BIGINT" />
+    <result column="third_name" property="thirdName" jdbcType="VARCHAR" />
+    <result column="e_goods_no" property="eGoodsNo" jdbcType="VARCHAR" />
+    <result column="e_goods_id" property="eGoodsId" jdbcType="BIGINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.ningpai.goodsimport.bean.GoodsImport" extends="BaseResultMap" >
+    <result column="goods_desp" property="goodsDesp" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, goods_name, goods_subtitle, goods_price, goods_cost_price, seo_key, seo_tit, 
+    seo_des, goods_market_price, import_user, add_flag, del_flag, third_id, third_name, 
+    e_goods_no, e_goods_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    goods_desp
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from np_goods_import
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+    <select id="checkGoods" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select count(1)
+    from np_goods_import
+    where e_goods_no = #{eGoodsNo,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_goods_import
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.goodsimport.bean.GoodsImport" >
+    insert into np_goods_import (id, goods_name, goods_subtitle, 
+      goods_price, goods_cost_price, seo_key, 
+      seo_tit, seo_des, goods_market_price, 
+      import_user, add_flag, del_flag, 
+      third_id, third_name, e_goods_no, 
+      e_goods_id, goods_desp)
+    values (#{id,jdbcType=BIGINT}, #{goodsName,jdbcType=VARCHAR}, #{goodsSubtitle,jdbcType=VARCHAR}, 
+      #{goodsPrice,jdbcType=DECIMAL}, #{goodsCostPrice,jdbcType=DECIMAL}, #{seoKey,jdbcType=VARCHAR}, 
+      #{seoTit,jdbcType=VARCHAR}, #{seoDes,jdbcType=VARCHAR}, #{goodsMarketPrice,jdbcType=DECIMAL}, 
+      #{importUser,jdbcType=BIGINT}, #{addFlag,jdbcType=CHAR}, #{delFlag,jdbcType=CHAR}, 
+      #{thirdId,jdbcType=BIGINT}, #{thirdName,jdbcType=VARCHAR}, #{eGoodsNo,jdbcType=VARCHAR}, 
+      #{eGoodsId,jdbcType=BIGINT}, #{goodsDesp,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.goodsimport.bean.GoodsImport" >
+    insert into np_goods_import
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="goodsName != null" >
+        goods_name,
+      </if>
+      <if test="goodsSubtitle != null" >
+        goods_subtitle,
+      </if>
+      <if test="goodsPrice != null" >
+        goods_price,
+      </if>
+      <if test="goodsCostPrice != null" >
+        goods_cost_price,
+      </if>
+      <if test="seoKey != null" >
+        seo_key,
+      </if>
+      <if test="seoTit != null" >
+        seo_tit,
+      </if>
+      <if test="seoDes != null" >
+        seo_des,
+      </if>
+      <if test="goodsMarketPrice != null" >
+        goods_market_price,
+      </if>
+      <if test="importUser != null" >
+        import_user,
+      </if>
+      <if test="addFlag != null" >
+        add_flag,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="thirdId != null" >
+        third_id,
+      </if>
+      <if test="thirdName != null" >
+        third_name,
+      </if>
+      <if test="eGoodsNo != null" >
+        e_goods_no,
+      </if>
+      <if test="eGoodsId != null" >
+        e_goods_id,
+      </if>
+      <if test="goodsDesp != null" >
+        goods_desp,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSubtitle != null" >
+        #{goodsSubtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPrice != null" >
+        #{goodsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsCostPrice != null" >
+        #{goodsCostPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="seoKey != null" >
+        #{seoKey,jdbcType=VARCHAR},
+      </if>
+      <if test="seoTit != null" >
+        #{seoTit,jdbcType=VARCHAR},
+      </if>
+      <if test="seoDes != null" >
+        #{seoDes,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsMarketPrice != null" >
+        #{goodsMarketPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="importUser != null" >
+        #{importUser,jdbcType=BIGINT},
+      </if>
+      <if test="addFlag != null" >
+        #{addFlag,jdbcType=CHAR},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="thirdId != null" >
+        #{thirdId,jdbcType=BIGINT},
+      </if>
+      <if test="thirdName != null" >
+        #{thirdName,jdbcType=VARCHAR},
+      </if>
+      <if test="eGoodsNo != null" >
+        #{eGoodsNo,jdbcType=VARCHAR},
+      </if>
+      <if test="eGoodsId != null" >
+        #{eGoodsId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsDesp != null" >
+        #{goodsDesp,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.goodsimport.bean.GoodsImport" >
+    update np_goods_import
+    <set >
+      <if test="goodsName != null" >
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSubtitle != null" >
+        goods_subtitle = #{goodsSubtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPrice != null" >
+        goods_price = #{goodsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsCostPrice != null" >
+        goods_cost_price = #{goodsCostPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="seoKey != null" >
+        seo_key = #{seoKey,jdbcType=VARCHAR},
+      </if>
+      <if test="seoTit != null" >
+        seo_tit = #{seoTit,jdbcType=VARCHAR},
+      </if>
+      <if test="seoDes != null" >
+        seo_des = #{seoDes,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsMarketPrice != null" >
+        goods_market_price = #{goodsMarketPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="importUser != null" >
+        import_user = #{importUser,jdbcType=BIGINT},
+      </if>
+      <if test="addFlag != null" >
+        add_flag = #{addFlag,jdbcType=CHAR},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="thirdId != null" >
+        third_id = #{thirdId,jdbcType=BIGINT},
+      </if>
+      <if test="thirdName != null" >
+        third_name = #{thirdName,jdbcType=VARCHAR},
+      </if>
+      <if test="eGoodsNo != null" >
+        e_goods_no = #{eGoodsNo,jdbcType=VARCHAR},
+      </if>
+      <if test="eGoodsId != null" >
+        e_goods_id = #{eGoodsId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsDesp != null" >
+        goods_desp = #{goodsDesp,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where e_goods_no = #{eGoodsNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ningpai.goodsimport.bean.GoodsImport" >
+    update np_goods_import
+    set goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_subtitle = #{goodsSubtitle,jdbcType=VARCHAR},
+      goods_price = #{goodsPrice,jdbcType=DECIMAL},
+      goods_cost_price = #{goodsCostPrice,jdbcType=DECIMAL},
+      seo_key = #{seoKey,jdbcType=VARCHAR},
+      seo_tit = #{seoTit,jdbcType=VARCHAR},
+      seo_des = #{seoDes,jdbcType=VARCHAR},
+      goods_market_price = #{goodsMarketPrice,jdbcType=DECIMAL},
+      import_user = #{importUser,jdbcType=BIGINT},
+      add_flag = #{addFlag,jdbcType=CHAR},
+      del_flag = #{delFlag,jdbcType=CHAR},
+      third_id = #{thirdId,jdbcType=BIGINT},
+      third_name = #{thirdName,jdbcType=VARCHAR},
+      e_goods_no = #{eGoodsNo,jdbcType=VARCHAR},
+      e_goods_id = #{eGoodsId,jdbcType=BIGINT},
+      goods_desp = #{goodsDesp,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.goodsimport.bean.GoodsImport" >
+    update np_goods_import
+    set goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_subtitle = #{goodsSubtitle,jdbcType=VARCHAR},
+      goods_price = #{goodsPrice,jdbcType=DECIMAL},
+      goods_cost_price = #{goodsCostPrice,jdbcType=DECIMAL},
+      seo_key = #{seoKey,jdbcType=VARCHAR},
+      seo_tit = #{seoTit,jdbcType=VARCHAR},
+      seo_des = #{seoDes,jdbcType=VARCHAR},
+      goods_market_price = #{goodsMarketPrice,jdbcType=DECIMAL},
+      import_user = #{importUser,jdbcType=BIGINT},
+      add_flag = #{addFlag,jdbcType=CHAR},
+      del_flag = #{delFlag,jdbcType=CHAR},
+      third_id = #{thirdId,jdbcType=BIGINT},
+      third_name = #{thirdName,jdbcType=VARCHAR},
+      e_goods_no = #{eGoodsNo,jdbcType=VARCHAR},
+      e_goods_id = #{eGoodsId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

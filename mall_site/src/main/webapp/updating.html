@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>更新中</title>
+	<style>
+		html {background:#f6f6f6;}
+		.update_box {width:620px; margin:10% auto 0;}
+		.update_img {margin-top:20px;}
+		.update_img img {display:block; box-shadow:0 5px 5px #ddd;}
+		.copyright {margin-top:30px; font-size:12px; color:#666;}
+	</style>
+</head>
+<body>
+	<div class="update_box">
+		<a href="javascript:;"><img id="logo" alt="" src="images/logo.png" /></a>
+		<div class="update_img"><img id="updateimg" alt="" src="images/update_img.jpg" /></div>
+		<p class="copyright">Copyright © 2004-2014  千米网络科技有限公司  版权所有</p>
+	</div><!--/update_box-->
+	<script type="text/javascript">
+		function getRootPath(){
+		    //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
+		    var curWwwPath=window.document.location.href;
+		    //获取主机地址之后的目录，如： uimcardprj/share/meun.jsp
+		    var pathName=window.document.location.pathname;
+		    var pos=curWwwPath.indexOf(pathName);
+		    //获取主机地址，如： http://localhost:8083
+		    var localhostPaht=curWwwPath.substring(0,pos);
+		    //获取带"/"的项目名，如：/uimcardprj
+		    var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);
+		    var rootPath = localhostPaht+projectName;
+		    document.getElementById("logo").src = rootPath+"/images/logo.png";
+		    document.getElementById("updateimg").src = rootPath+"/images/update_img.jpg";
+		}
+		getRootPath();
+	</script>
+</body>
+</html>

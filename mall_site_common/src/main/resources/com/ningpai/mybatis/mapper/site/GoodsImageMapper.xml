@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpaih.util.site.goods.dao.GoodsImageMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsImage" >
+    <id column="goods_img_id" property="goodsImgId" jdbcType="BIGINT" />
+    <result column="goods_info_id" property="goodsInfoId" jdbcType="BIGINT" />
+    <result column="image_in_name" property="imageInName" jdbcType="VARCHAR" />
+    <result column="image_thum_name" property="imageThumName" jdbcType="VARCHAR" />
+    <result column="image_big_name" property="imageBigName" jdbcType="VARCHAR" />
+    <result column="image_artwork_name" property="imageArtworkName" jdbcType="VARCHAR" />
+    <result column="goods_img_sort" property="goodsImgSort" jdbcType="INTEGER" />
+    <result column="goods_img_delflag" property="goodsImgDelflag" jdbcType="CHAR" />
+    <result column="goods_img_create_name" property="goodsImgCreateName" jdbcType="VARCHAR" />
+    <result column="goods_img_create_time" property="goodsImgCreateTime" jdbcType="TIMESTAMP" />
+    <result column="goods_img_modified_name" property="goodsImgModifiedName" jdbcType="VARCHAR" />
+    <result column="goods_img_modified_time" property="goodsImgModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="goods_img_del_name" property="goodsImgDelName" jdbcType="VARCHAR" />
+    <result column="goods_img_del_time" property="goodsImgDelTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    goods_img_id, goods_info_id, image_in_name, image_thum_name, image_big_name, image_artwork_name, 
+    goods_img_sort, goods_img_delflag, goods_img_create_name, goods_img_create_time, 
+    goods_img_modified_name, goods_img_modified_time, goods_img_del_name, goods_img_del_time
+  </sql>
+  <!-- 根据货品ID查询列表 -->
+  <select id="queryByProductId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from np_goods_image where  goods_info_id=#{productId} and goods_img_delflag='0'
+  </select>
+</mapper>

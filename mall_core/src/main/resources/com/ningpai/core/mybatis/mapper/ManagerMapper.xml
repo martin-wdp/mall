@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.manager.mapper.ManagerMapper">
+	<resultMap id="BaseResultMap" type="com.ningpai.manager.bean.Manager">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="userkey" property="userkey" jdbcType="VARCHAR" />
+		<result column="photo_img" property="photoImg" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+		<result column="login_time" property="loginTime" jdbcType="TIMESTAMP" />
+		<result column="flag" property="flag" jdbcType="CHAR" />
+		<result column="cellphone" property="mobile" jdbcType="VARCHAR" />
+		<result column="create_id" property="createId" jdbcType="BIGINT" />
+	</resultMap>
+	<resultMap id="captMap" type="com.ningpai.manager.bean.Manager">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="userkey" property="userkey" jdbcType="VARCHAR" />
+		<result column="cellphone" property="mobile" jdbcType="VARCHAR" />
+		<result column="captcha" property="captcha" jdbcType="VARCHAR" />
+		<result column="aead_time" property="aeadTime" jdbcType="TIMESTAMP" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+		<result column="login_time" property="loginTime" jdbcType="TIMESTAMP" />
+		<result column="flag" property="flag" jdbcType="CHAR" />
+		<result column="create_id" property="createId" jdbcType="BIGINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, username, userkey, create_time, mod_time, login_time, flag , photo_img,cellphone,create_id
+	</sql>
+	<!-- 通过用户名查询用户信息 -->
+	<select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from np_manager
+		where username = #{username,jdbcType=VARCHAR} and flag='0'
+	</select>
+    <!-- 通过用户名查询已冻结用户信息 -->
+    <select id="selectDelManagerByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List" />
+        from np_manager
+        where username = #{username,jdbcType=VARCHAR}
+    </select>
+	<select id="queryManagerList" resultMap="BaseResultMap"
+		parameterType="com.ningpai.manager.bean.Manager">
+		select
+		<include refid="Base_Column_List" />
+		from np_manager
+		where 1=1 and
+		<if test="username != null and username !=''">
+			username like CONCAT(CONCAT('%', #{username}),'%') and
+		</if>
+		1=1
+	</select>
+	<select id="queryManagerCount" resultType="java.lang.Integer"
+		parameterType="com.ningpai.manager.bean.Manager">
+		select
+		count(1)
+		from np_manager
+		where 1=1 
+		<if test="username != null and username !=''">
+			and username like CONCAT(CONCAT('%', #{username}),'%') 
+		</if>
+			and flag in ('0','1')
+		
+		<if test="createId != null and createId !=''">
+			and create_id  = #{createId,jdbcType=BIGINT} 
+		</if>
+	</select>
+
+	<!-- 分页查询管理员列表 -->
+	<select id="selectManagerByLimit" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from np_manager
+		where flag in ('0','1')
+		order by login_time desc
+		limit #{startRowNum,jdbcType=BIGINT},#{endRowNum,jdbcType=BIGINT}
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from np_manager
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	
+	<select id="selectById" resultMap="BaseResultMap"
+        parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List" />
+        from np_manager
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+	<select id="selectLastId" resultType="java.lang.Long">
+		select LAST_INSERT_ID()
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from np_manager
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<select id="selectCustmerSize" resultType="java.lang.Long"
+		parameterType="com.ningpai.manager.bean.Manager">
+		select
+		count(id)
+		from np_manager
+		where 1=1 and
+		<if test="username != null and username !=''">
+			username like CONCAT(CONCAT('%', #{username}),'%') and
+		</if>
+		1=1
+	</select>
+	<select id="selectManagerByManager" resultMap="BaseResultMap"
+		parameterType="com.ningpai.manager.bean.Manager">
+		select
+		<include refid="Base_Column_List" />
+		from np_manager
+		where 1=1 and
+		<if test="username != null and username !=''">
+			username like CONCAT(CONCAT('%', #{username}),'%') and
+		</if>
+			<if test="createId != null and createId !=''">
+			create_id  = #{createId,jdbcType=BIGINT} and
+		</if>
+		flag in ('0','1')
+		order by login_time desc
+		limit #{startRowNum,jdbcType=BIGINT},#{endRowNum,jdbcType=BIGINT}
+	</select>
+	<!-- -->
+	<delete id="delectMangerById" parameterType="java.util.Map">
+		update np_manager set flag='2'
+		where id in ( #{parameterIds,jdbcType=BIGINT} )
+	</delete>
+	<!-- 根据Map中的权限编号批量删除管理员 -->
+	<delete id="delectMangerByIds" parameterType="java.util.Map">
+		update np_manager set flag='2'
+		where id in
+		<foreach item="item" index="index" collection="parameterIds"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+    <!-- 根据Map中的权限编号批量启用管理员 -->
+    <delete id="enabledMangerByIds" parameterType="java.util.Map">
+        update np_manager set flag='0',create_time = now()
+        where id in
+        <foreach item="item" index="index" collection="parameterIds"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+	<insert id="insert" parameterType="com.ningpai.manager.bean.Manager">
+		insert into np_manager (id, username, userkey,
+		create_time, mod_time, login_time,
+		flag)
+		values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR},
+		#{userkey,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP}, #{modTime,jdbcType=TIMESTAMP}, #{loginTime,jdbcType=TIMESTAMP},
+		#{flag,jdbcType=CHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.ningpai.manager.bean.Manager">
+		insert into np_manager
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="username != null">
+				username,
+			</if>
+			<if test="userkey != null">
+				userkey,
+			</if>
+			<if test="mobile != null">
+				cellphone,
+			</if>
+			<if test="photoImg != null">
+				photo_img,
+			</if>
+			<if test="createTime == null">
+				create_time,
+			</if>
+			<if test="modTime != null">
+				mod_time,
+			</if>
+			<if test="loginTime != null">
+				login_time,
+			</if>
+			<if test="createId != null and createId!=''">
+				create_id,  
+			</if>
+			flag
+
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="username != null">
+				#{username,jdbcType=VARCHAR},
+			</if>
+			<if test="userkey != null">
+				md5(#{userkey,jdbcType=VARCHAR}),
+			</if>
+			<if test="mobile != null">
+				#{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="photoImg != null">
+				#{photoImg,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime == null">
+				SYSDATE(),
+			</if>
+			<if test="modTime != null">
+				#{modTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="loginTime != null">
+				#{loginTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createId != null and createId!=''">
+				#{createId,jdbcType=BIGINT},
+			</if>
+			'0',
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.ningpai.manager.bean.Manager">
+		update np_manager
+		<set>
+			<if test="username != null">
+				username = #{username,jdbcType=VARCHAR},
+			</if>
+			<if test="userkey != null">
+				userkey = md5(#{userkey,jdbcType=VARCHAR}),
+			</if>
+			<if test="mobile != null">
+				cellphone = #{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="photoImg != null">
+				photo_img=#{photoImg,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			mod_time = sysdate(),
+			<if test="loginTime != null">
+				login_time = #{loginTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="flag != null">
+				flag = #{flag,jdbcType=CHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.ningpai.manager.bean.Manager">
+		update np_manager
+		set login_time = sysdate()
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<select id="selectCaptcha" resultMap="captMap" parameterType="java.lang.Long">
+		select
+		id, username, userkey, create_time, mod_time, login_time, flag,cellphone,captcha,aead_time
+		from np_manager
+		where id = #{managerId,jdbcType=BIGINT}
+	</select>
+
+
+	<update id="updateSmsCaptcha" parameterType="com.ningpai.manager.bean.Manager">
+		update np_manager
+		<set>
+			<if test="mobile != null">
+				cellphone = #{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="captcha != null">
+				captcha = #{captcha,jdbcType=VARCHAR},
+			</if>
+			<if test="aeadTime != null">
+				aead_time = #{aeadTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<select id="checkexistsByCustName" resultType="java.lang.Long" parameterType="java.lang.String">
+		select
+		count(1)
+		from np_manager
+		where username = #{name,jdbcType=VARCHAR} and flag='0'
+	</select>
+	<select id="selectCustomerByNamePwd" parameterType="java.util.Map" resultMap="BaseResultMap" >
+		select
+		id, username, create_time, mod_time, login_time, flag , photo_img,create_id
+		from np_manager
+		where username = #{username,jdbcType=VARCHAR} and flag='0' and userkey = md5(#{password,jdbcType=VARCHAR})
+	</select>
+    <select id="queryCloudManagerList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from np_manager
+        where flag='0' and create_id=-1
+    </select>
+</mapper>

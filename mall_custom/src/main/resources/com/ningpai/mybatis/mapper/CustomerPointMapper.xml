@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.customer.dao.CustomerPointMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.customer.bean.CustomerPoint" >
+    <id column="point_id" property="pointId" jdbcType="BIGINT" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="point_detail" property="pointDetail" jdbcType="VARCHAR" />
+    <result column="customer_username" property="customerUsername" jdbcType="VARCHAR" />
+      <result column="customer_nickname" jdbcType="VARCHAR" property="customerNickname"/>
+    <result column="point_type" property="pointType" jdbcType="CHAR" />
+    <result column="point" property="point" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+      <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+<!--     <result column="modified_time" property="modifiedTime" jdbcType="TIMESTAMP" /> -->
+<!--     <result column="del_time" property="delTime" jdbcType="TIMESTAMP" /> -->
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  
+  <!--推广积分记录-->
+	<resultMap type="com.ningpai.customer.bean.RegisterPoint" id="RegisterPointMap">
+		<id column="register_point_id" property="regPointId"  jdbcType="BIGINT"/>
+		<result column="register_point_referee" property="regPointReferee"  jdbcType="VARCHAR"/>
+		<result column="register_point_Recommended" property="regPointRecom"  jdbcType="VARCHAR"/>
+		<result column="register_point_time" property="regPointTime"  jdbcType="TIMESTAMP"/>
+		<result column="register_point_number" property="regPointNumber"  jdbcType="BIGINT"/>
+	</resultMap>
+  <!--推广积分记录查询字段 -->
+  <sql id="RegisterPointMap_list">
+  	register_point_id,register_point_referee,register_point_Recommended,register_point_time,register_point_number
+  </sql>
+  
+  <sql id="Base_Column_List" >
+    point_id, np_customer_point.customer_id,customer_username, point_detail, point_type, point, np_customer_point.create_time, np_customer_point.del_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_customer_point
+    where point_id = #{pointId,jdbcType=BIGINT}
+  </select>
+  <!-- 查询所有会员记录 -->
+  <select id="selectAllCustomerPoint" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select 
+    <include refid="Base_Column_List" />
+    from np_customer_point
+    inner join np_customer c on c.customer_id=np_customer_point.customer_id 
+    where np_customer_point.del_flag ='0' 
+    order by  np_customer_point.create_time desc
+    limit #{startRowNum,jdbcType=BIGINT},#{endRowNum,jdbcType=BIGINT}
+  </select>
+  <!-- 按条件查询会员记录 -->
+  <select id="selectCustPointByCustPoint" resultMap="BaseResultMap" parameterType="com.ningpai.customer.bean.CustomerPoint">
+    select 
+    <include refid="Base_Column_List" /> ,enter.company_name , c.customer_nickname
+    from np_customer_point
+    inner join np_customer c on c.customer_id=np_customer_point.customer_id
+    left join qp_enterprise_certification_info enter on enter.customerId = np_customer_point.customer_id and enter.check_status='1' AND  enter.del_flag='0'
+    where np_customer_point.del_flag = '0' and
+    <if test="customerUsername != null and customerUsername !=''" >
+       c.customer_username like  CONCAT(CONCAT('%', #{customerUsername}),'%')  and
+    </if>
+      <if test="customerId != null and customerId !=''" >
+       c.customer_id= #{customerId,jdbcType=BIGINT} and
+    </if>
+    <if test="createTime != null and createTime !='' and createTimeTo != null and createTime!=''" >
+       np_customer_point.create_time between  #{createTime}  and  #{createTimeTo} and
+    </if>
+    <if test="createTime != null and createTime !='' and createTimeTo == null or createTimeTo==''" >
+       np_customer_point.create_time &gt; #{createTime}  and 
+    </if>
+    <if test="createTimeTo != null and createTimeTo !='' and createTime == null or createTime ==''" >
+       np_customer_point.create_time  &lt;  #{createTimeTo} and 
+    </if>
+    1=1
+    order by  np_customer_point.create_time desc
+    limit #{startRowNum,jdbcType=BIGINT},#{endRowNum,jdbcType=BIGINT}
+  </select>
+  <!-- 查询所有会员记录总数 -->
+  <select id="selectAllCustomerCount" resultType="java.lang.Integer">
+    select 
+    count(1)
+    from np_customer_point
+    where del_flag = '0' 
+  </select>
+  <!-- 查询所有会员记录总数 -->
+  <select id="selectCustmerPointSize" resultType="java.lang.Integer">
+    select 
+    count(1)
+    from np_customer_point
+    inner join np_customer c on c.customer_id=np_customer_point.customer_id 
+    where np_customer_point.del_flag = '0' and
+    <if test="customerUsername != null and customerUsername !=''" >
+       c.customer_username like  CONCAT(CONCAT('%', #{customerUsername}),'%')  and
+    </if>
+      <if test="customerId != null and customerId !=''" >
+          c.customer_id= #{customerId,jdbcType=BIGINT} and
+      </if>
+    <if test="createTime != null and createTime !='' and createTimeTo != null and createTime!=''" >
+       np_customer_point.create_time between  #{createTime}  and  #{createTimeTo} and
+    </if>
+    <if test="createTime != null and createTime !='' and createTimeTo == null or createTimeTo==''" >
+       np_customer_point.create_time &gt; #{createTime}  and 
+    </if>
+    <if test="createTimeTo != null and createTimeTo !='' and createTime == null or createTime ==''" >
+       np_customer_point.create_time  &lt;  #{createTimeTo} and 
+    </if>
+    1=1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_customer_point
+    where point_id = #{pointId,jdbcType=BIGINT}
+  </delete>
+  
+  <update id="deleteCustomerPointByPids" parameterType="java.util.Map">
+		update np_customer_point
+		set del_flag = '1', del_time = SYSDATE()
+		where point_id in 
+		<foreach item="item" index="index" collection="parameterValues" open="(" separator="," close=")">
+	           #{item}
+	    </foreach>
+  </update>
+  <insert id="insert" parameterType="com.ningpai.customer.bean.CustomerPoint" >
+    insert into np_customer_point (point_id, customer_id, point_detail, 
+      point_type, point, create_time, 
+      modified_time, del_time, del_flag
+      )
+    values (#{pointId,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, #{pointDetail,jdbcType=VARCHAR}, 
+      #{pointType,jdbcType=CHAR}, #{point,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifiedTime,jdbcType=TIMESTAMP}, #{delTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.customer.bean.CustomerPoint" >
+    insert into np_customer_point
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pointId != null" >
+        point_id,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="pointDetail != null" >
+        point_detail,
+      </if>
+      <if test="pointType != null" >
+        point_type,
+      </if>
+      <if test="point != null" >
+        point,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pointId != null" >
+        #{pointId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="pointDetail != null" >
+        #{pointDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="pointType != null" >
+        #{pointType,jdbcType=CHAR},
+      </if>
+      <if test="point != null" >
+        #{point,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.customer.bean.CustomerPoint" >
+    update np_customer_point
+    <set >
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="pointDetail != null" >
+        point_detail = #{pointDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="pointType != null" >
+        point_type = #{pointType,jdbcType=CHAR},
+      </if>
+      <if test="point != null" >
+        point = #{point,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null" >
+        modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delTime != null" >
+        del_time = #{delTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where point_id = #{pointId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.customer.bean.CustomerPoint" >
+    update np_customer_point
+    set customer_id = #{customerId,jdbcType=BIGINT},
+      point_detail = #{pointDetail,jdbcType=VARCHAR},
+      point_type = #{pointType,jdbcType=CHAR},
+      point = #{point,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      del_time = #{delTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where point_id = #{pointId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 查询推广注册积分记录数据总行数 -->
+  <select id="selectRegisterPointSize" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	 select COUNT(register_point_id) from np_point_register where 1 = 1
+  	<if test="null != regPointReferee and '' != regPointReferee">
+  		and  register_point_referee = #{regPointReferee,jdbcType=VARCHAR}
+  	</if>
+  	<if test="null != regPointRecom and '' != regPointRecom">
+  		and  register_point_Recommended = #{regPointRecom,jdbcType=VARCHAR}
+  	</if>
+  	<if test="null != startTime and '' != startTime and null != endTime  and '' != endTime ">
+  		and register_point_time BETWEEN #{startTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
+  	</if>
+  </select>
+  
+  <!-- 条件查询推广注册积分记录数据-->
+  <select id="selectRegisterPont" parameterType="java.util.Map" resultMap="RegisterPointMap">
+  		select <include refid="RegisterPointMap_list"/> from np_point_register where 1 = 1
+  	<if test="null != regPointReferee and '' != regPointReferee">
+  		and  register_point_referee = #{regPointReferee,jdbcType=VARCHAR}
+  	</if>
+  	<if test="null != regPointRecom and '' != regPointRecom">
+  		and  register_point_Recommended = #{regPointRecom,jdbcType=VARCHAR}
+  	</if>
+  	<if test="null != startTime and '' != startTime and null != endTime  and '' != endTime ">
+  		and register_point_time BETWEEN #{startTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
+  	</if>
+  </select>
+</mapper>

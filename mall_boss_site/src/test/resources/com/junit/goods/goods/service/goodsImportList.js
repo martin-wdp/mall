@@ -1,0 +1,1 @@
+[{"id":"1","goodsName":"测试","goodsSubtitle":"测试","goodsPrice":"1","goodsCostPrice":"1","goodsMarketPrice":"1","seoTit":"测试","seoKey":"测试","seoDes":"测试","goodsDes":"测试","thirdId":"1","thirdName":"测试","importUser":"1","addFlag":"测试","delFlag":"1","goodsNo":"测试","goodsId":"1"}]

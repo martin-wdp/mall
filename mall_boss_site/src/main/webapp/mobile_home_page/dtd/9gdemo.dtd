@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT ip_cont (app_cont|img_adv|roll_adv)*>
+<!--魔方-->
+<!ELEMENT app_cont (a*)>
+<!ATTLIST app_cont id CDATA #IMPLIED >
+<!--广告-->
+<!ELEMENT img_adv (a)>
+<!ATTLIST img_adv id CDATA #IMPLIED >
+<!--轮播广告-->
+<!ELEMENT roll_adv (roll_a*)>
+<!ATTLIST roll_adv id CDATA #IMPLIED >
+<!--文字-->
+<!ELEMENT text (#PCDATA)>
+<!ATTLIST text id CDATA #IMPLIED >
+<!--全屏轮播-->
+<!ELEMENT fullRoll (roll_a*)>
+<!ATTLIST fullRoll id CDATA #IMPLIED >
+	<!-- 轮播方式-水平sh-垂直sv -->
+<!ATTLIST fullRoll sd CDATA #IMPLIED >
+	<!-- 音乐地址 -->
+<!ATTLIST fullRoll music CDATA #IMPLIED >
+<!ATTLIST fullRoll musicname CDATA #IMPLIED >
+<!--商品-->
+<!ELEMENT goodsmod (li*)>
+<!ATTLIST goodsmod id CDATA #IMPLIED >
+<!ATTLIST goodsmod class CDATA #IMPLIED >
+<!-- 空白占位 -->
+<!ELEMENT blankbox (#PCDATA)>
+<!ATTLIST blankbox id CDATA #IMPLIED >
+<!ATTLIST blankbox height CDATA #IMPLIED >
+<!-- 分隔线 -->
+<!ELEMENT dividing EMPTY>
+<!ATTLIST dividing id CDATA #IMPLIED >
+
+<!ELEMENT a (img)>
+<!ATTLIST a href CDATA #IMPLIED >
+
+<!ELEMENT roll_a (img)>
+<!ATTLIST roll_a href CDATA #IMPLIED >
+
+<!ELEMENT li (goods_a)>
+<!ELEMENT goods_a (img)>
+<!ATTLIST goods_a href CDATA #IMPLIED >
+<!ATTLIST goods_a name CDATA #IMPLIED >
+<!ATTLIST goods_a price CDATA #IMPLIED >
+
+<!ELEMENT img EMPTY>
+<!ATTLIST img id CDATA #IMPLIED >
+<!ATTLIST img src CDATA #IMPLIED >
+<!ATTLIST img width CDATA #IMPLIED >
+<!ATTLIST img height CDATA #IMPLIED >
+<!ATTLIST img name CDATA #IMPLIED >
+<!ATTLIST img class CDATA #IMPLIED >
+<!ATTLIST img style CDATA #IMPLIED>
+<!ATTLIST img widthB CDATA #IMPLIED >
+<!ATTLIST img heightB CDATA #IMPLIED >
+<!ATTLIST img styleB CDATA #IMPLIED>
+
+
+
+

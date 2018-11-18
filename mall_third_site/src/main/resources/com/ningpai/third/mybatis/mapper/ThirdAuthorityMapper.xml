@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.third.auth.mapper.ThirdAuthorityMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.third.auth.bean.ThirdAuthority" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="store_id" property="storeId" jdbcType="BIGINT" />
+    <result column="designation" property="designation" jdbcType="VARCHAR" />
+    <result column="characterization" property="characterization" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+    <result column="flag" property="flag" jdbcType="CHAR" />
+  </resultMap>
+  
+  <resultMap type="com.ningpai.third.auth.bean.ThirdAuthority" id="allAuthorityInfoMap" extends="BaseResultMap">
+  	<collection property="pages" column="id" select="com.ningpai.third.auth.mapper.ThirdPageMapper.selectByAuthorityID"></collection>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, store_id, designation, characterization, create_time, mod_time, flag
+  </sql>
+   
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_third_authority
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.util.Map" >
+    update np_third_authority set flag = '1'
+    where id = #{auid,jdbcType=BIGINT} and store_id = #{thirdId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.third.auth.bean.ThirdAuthority" >
+    insert into np_third_authority (id, store_id, designation, 
+      characterization, create_time, mod_time, 
+      flag)
+    values (#{id,jdbcType=BIGINT}, #{storeId,jdbcType=BIGINT}, #{designation,jdbcType=VARCHAR}, 
+      #{characterization,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modTime,jdbcType=TIMESTAMP}, 
+      #{flag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.third.auth.bean.ThirdAuthority" >
+    insert into np_third_authority
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="storeId != null" >
+        store_id,
+      </if>
+      <if test="designation != null" >
+        designation,
+      </if>
+      <if test="characterization != null" >
+        characterization,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modTime != null" >
+        mod_time,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="storeId != null" >
+        #{storeId,jdbcType=BIGINT},
+      </if>
+      <if test="designation != null" >
+        #{designation,jdbcType=VARCHAR},
+      </if>
+      <if test="characterization != null" >
+        #{characterization,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modTime != null" >
+        #{modTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.third.auth.bean.ThirdAuthority" >
+    update np_third_authority
+    <set >
+      <if test="storeId != null" >
+        store_id = #{storeId,jdbcType=BIGINT},
+      </if>
+      <if test="designation != null" >
+        designation = #{designation,jdbcType=VARCHAR},
+      </if>
+      <if test="characterization != null" >
+        characterization = #{characterization,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modTime != null" >
+        mod_time = #{modTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT} 
+    <if test="storeId != null">
+      and  store_id = #{storeId,jdbcType=BIGINT}
+     </if>
+    
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.third.auth.bean.ThirdAuthority" >
+    update np_third_authority
+    set store_id = #{storeId,jdbcType=BIGINT},
+      designation = #{designation,jdbcType=VARCHAR},
+      characterization = #{characterization,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      mod_time = #{modTime,jdbcType=TIMESTAMP},
+      flag = #{flag,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="queryThirdAuthorityByStotreId" resultMap="allAuthorityInfoMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from np_third_authority
+    where store_id = #{storeId,jdbcType=BIGINT} and flag = '0'
+    order by create_time desc
+  </select>
+  
+  <select id="selectByDesignationAndTid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from np_third_authority
+    where designation = #{designation,jdbcType=BIGINT} AND store_id = #{storeId,jdbcType=BIGINT} and flag = '0'
+  </select>
+    <!--根据主键获取单个职位对象-->
+    <select id="selectAuthorById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        from np_third_authority
+        where id = #{id,jdbcType=BIGINT} and flag = '0'
+    </select>
+  
+  
+</mapper>

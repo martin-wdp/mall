@@ -1,0 +1,22 @@
+　 
+
+assertEquals()方法，用来查看对象中存的值是否是期待的值，与字符串比较中使用的equals()方法类似； 
+　　
+
+assertFalse()和assertTrue()方法，用来查看变量是是否为false或true，如果assertFalse()查看的变量的值是false则测试成功，如果是true则失败，assertTrue()与之相反； 
+　　
+
+assertSame()和assertNotSame()方法，用来比较两个对象的引用是否相等和不相等，类似于通过“==”和“!=”比较两个对象； 
+　　
+
+assertNull()和assertNotNull()方法，用来查看对象是否为空和不为空; 
+　　
+
+fail ()方法，意为失败，用来抛出错误。我个人认为有两个用途：首先是在测试驱动开发中，由于测试用例都是在被测试的类之前编写，而写成时又不清楚其正确与否，此时就可以使用fail方法抛出错误进行模拟；其次是抛出意外的错误，比如要测试的内容是从数据库中读取的数据是否正确，而导致错误的原因却是数据库连接失败。
+
+
+       测试类应该继承与 AbstractJUnit4SpringContextTests 或 AbstractTransactionalJUnit4SpringContextTests
+
+　　对于 AbstractJUnit4springcontextTests 和 AbstractTransactionalJUnit4SpringContextTests 类的选择：
+
+　　如果再你的测试类中，需要用到事务管理（比如要在测试结果出来之后回滚测试内容），就可以使用AbstractTransactionalJUnit4SpringTests类。事务管理的使用方法和正常使用Spring事务管理是一样的

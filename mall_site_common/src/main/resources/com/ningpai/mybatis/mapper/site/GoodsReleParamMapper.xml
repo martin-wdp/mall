@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.util.site.goods.dao.GoodsReleParamMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsReleParam" >
+    <id column="rele_param_id" property="releParamId" jdbcType="BIGINT" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="param_id" property="paramId" jdbcType="BIGINT" />
+    <result column="param_value" property="paramValue" jdbcType="VARCHAR" />
+    <result column="param_create_name" property="paramCreateName" jdbcType="VARCHAR" />
+    <result column="param_create_time" property="paramCreateTime" jdbcType="TIMESTAMP" />
+    <result column="param_modified_name" property="paramModifiedName" jdbcType="VARCHAR" />
+    <result column="param_modified_time" property="paramModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="param_del_name" property="paramDelName" jdbcType="VARCHAR" />
+    <result column="param_del_time" property="paramDelTime" jdbcType="TIMESTAMP" />
+    <result column="param_delflag" property="paramDelflag" jdbcType="CHAR" />
+  </resultMap>
+  <!-- VoresultMap -->
+  <resultMap type="com.ningpai.goods.site.goods.vo.GoodsReleParamVo" id="VoResultMap">
+  	<id column="rele_param_id" property="releParamId" jdbcType="BIGINT" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="param_value" property="paramValue" jdbcType="VARCHAR" />
+    <association property="param" column="param_id" select="com.ningpai.util.site.goods.dao.GoodsTypeParamMapper.selectByPrimaryKey"></association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    rele_param_id, goods_id, param_id, param_value, param_create_name, param_create_time, 
+    param_modified_name, param_modified_time, param_del_name, param_del_time, param_delflag
+  </sql>
+  <!-- 根据商品ID查询关联的记录 -->
+  <select id="queryAllByGoodsId" resultMap="VoResultMap" parameterType="java.lang.Long">
+  	select 
+    <include refid="Base_Column_List" />
+    from np_goods_rele_param
+    where goods_id = #{goodsId,jdbcType=BIGINT}
+    and param_delflag='0'
+  </select>
+</mapper>

@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.group.mapper.CustomerReplyMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.group.bean.CustomerReply" >
+    <id column="reply_id" property="replyId" jdbcType="BIGINT" />
+    <result column="reply_ship_id" property="replyShipId" jdbcType="BIGINT" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="reply_type" property="replyType" jdbcType="CHAR" />
+    <result column="reply_time" property="replyTime" jdbcType="TIMESTAMP" />
+    <result column="reply_del_flag" property="replyDelFlag" jdbcType="CHAR" />
+    <result column="reply_remark" property="replyRemark" jdbcType="VARCHAR" />
+    <result column="customer_nickname" property="customerName" jdbcType="VARCHAR" />
+    <result column="customer_img" property="customerHeadimg" jdbcType="VARCHAR" />
+    <result column="reply_parentId" property="replyParentId" jdbcType="BIGINT" />
+     <collection property="rlist" column="reply_id" javaType="ArrayList" 
+      ofType="com.ningpai.group.bean.CustomerReply" select="com.ningpai.group.mapper.CustomerReplyMapper.moodreplyList">
+    </collection>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.ningpai.group.bean.CustomerReply" extends="BaseResultMap" >
+    <result column="reply_content" property="replyContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    reply_id, relationship_id,reply_ship_id, customer_id, reply_type, reply_time, reply_del_flag, reply_remark
+  </sql>
+  <sql id="Blob_Column_List" >
+    reply_content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from np_customer_reply
+    where reply_id = #{replyId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_customer_reply
+    where reply_id = #{replyId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.group.bean.CustomerReply" useGeneratedKeys="true" keyProperty="replyId" >
+    insert into np_customer_reply (reply_ship_id, customer_id, reply_type, 
+      reply_time, reply_del_flag, reply_remark, 
+      reply_content,reply_parentId)
+    values (#{replyShipId,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, #{replyType,jdbcType=CHAR}, 
+      #{replyTime,jdbcType=TIMESTAMP}, #{replyDelFlag,jdbcType=CHAR}, #{replyRemark,jdbcType=VARCHAR}, 
+      #{replyContent,jdbcType=LONGVARCHAR},#{replyParentId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.group.bean.CustomerReply" useGeneratedKeys="true" keyProperty="replyId" >
+    insert into np_customer_reply
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      reply_ship_id,
+      customer_id,
+      reply_type,
+      reply_time,
+      reply_del_flag,
+      reply_remark,
+      reply_content,
+      reply_parentId,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{replyShipId,jdbcType=BIGINT},
+      #{customerId,jdbcType=BIGINT},
+      #{replyType,jdbcType=CHAR},
+      #{replyTime,jdbcType=TIMESTAMP},
+      #{replyDelFlag,jdbcType=CHAR},
+      #{replyRemark,jdbcType=VARCHAR},
+      #{replyContent,jdbcType=LONGVARCHAR},
+      #{replyParentId,jdbcType=BIGINT},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.group.bean.CustomerReply" >
+    update np_customer_reply
+    <set >
+      <if test="replyShipId != null" >
+        reply_ship_id = #{replyShipId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="replyType != null" >
+        reply_type = #{replyType,jdbcType=CHAR},
+      </if>
+      <if test="replyTime != null" >
+        reply_time = #{replyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replyDelFlag != null" >
+        reply_del_flag = #{replyDelFlag,jdbcType=CHAR},
+      </if>
+      <if test="replyRemark != null" >
+        reply_remark = #{replyRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="replyContent != null" >
+        reply_content = #{replyContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where reply_id = #{replyId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ningpai.group.bean.CustomerReply" >
+    update np_customer_reply
+    set reply_ship_id = #{replyShipId,jdbcType=BIGINT},
+      customer_id = #{customerId,jdbcType=BIGINT},
+      reply_type = #{replyType,jdbcType=CHAR},
+      reply_time = #{replyTime,jdbcType=TIMESTAMP},
+      reply_del_flag = #{replyDelFlag,jdbcType=CHAR},
+      reply_remark = #{replyRemark,jdbcType=VARCHAR},
+      reply_content = #{replyContent,jdbcType=LONGVARCHAR}
+    where reply_id = #{replyId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.group.bean.CustomerReply" >
+    update np_customer_reply
+    set reply_ship_id = #{replyShipId,jdbcType=BIGINT},
+      customer_id = #{customerId,jdbcType=BIGINT},
+      reply_type = #{replyType,jdbcType=CHAR},
+      reply_time = #{replyTime,jdbcType=TIMESTAMP},
+      reply_del_flag = #{replyDelFlag,jdbcType=CHAR},
+      reply_remark = #{replyRemark,jdbcType=VARCHAR}
+    where reply_id = #{replyId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 查看小组相片的最新评论 -->
+   <select id="groupImgLastestReply" parameterType="java.util.Map" resultMap="ResultMapWithBLOBs">
+   SELECT re.reply_id,re.customer_id,re.reply_content,re.reply_del_flag,re.reply_remark,
+   re.reply_ship_id,re.reply_time,re.reply_type,c.customer_nickname,c.customer_img,gimg.group_id
+   from np_customer_reply re
+   left join np_customer c
+   on re.customer_id = c.customer_id
+   LEFT join(SELECT img.group_id,img.group_img_id from np_group_img img)gimg
+   on  re.reply_ship_id = gimg.group_img_id
+   where re.reply_del_flag='0' and re.reply_type='1' and  gimg.group_id=#{groupId,jdbcType=BIGINT} 
+   ORDER BY re.reply_time desc 
+   limit #{number}
+   </select>
+  
+  <!-- 查询相片下的所有相关评论 -->
+   <select id="groupImgReplyList" parameterType="java.util.Map" resultMap="ResultMapWithBLOBs">
+     SELECT re.reply_id,re.customer_id,re.reply_content,re.reply_del_flag,
+     re.reply_remark,re.reply_ship_id,re.reply_time,re.reply_type,c.customer_nickname,c.customer_img
+	from np_customer_reply re
+	left JOIN np_customer c
+	on re.customer_id = c.customer_id
+	where re.reply_ship_id=#{groupImgId,jdbcType=BIGINT} and re.reply_del_flag='0' and re.reply_type=#{replyType,jdbcType=CHAR}
+	<if test="ta != null and ta != ''">
+	   and re.customer_id=#{ta}
+	</if>
+	limit #{startRowNum},#{endRowNum}
+   </select>
+   
+   <select id="groupImgReplyCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+    SELECT count(*)
+	from np_customer_reply re
+	where re.reply_ship_id=#{groupImgId,jdbcType=BIGINT} and re.reply_del_flag='0' and re.reply_type=#{replyType,jdbcType=CHAR}
+	<if test="ta != null and ta != ''">
+	   and re.customer_id=#{ta}
+	</if>
+   </select>
+   
+   <!-- 根据评论ID查询评论内容 -->
+   <select id="selectReplyById" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long">
+      SELECT re.reply_id,re.customer_id,re.reply_content,re.reply_del_flag,
+     re.reply_remark,re.reply_ship_id,re.reply_time,re.reply_type,c.customer_nickname,c.customer_img
+	from np_customer_reply re
+	left JOIN np_customer c
+	on re.customer_id = c.customer_id
+    where re.reply_id = #{replyId,jdbcType=BIGINT}
+   </select>
+   
+   <!-- 删除评论 -->
+   <update id="delreply" parameterType="java.lang.Long">
+    update np_customer_reply
+    set reply_del_flag='1'
+    where reply_id = #{replyId,jdbcType=BIGINT} or reply_parentId=#{replyId,jdbcType=BIGINT}
+   </update>
+   
+   <!-- 查询话题下的所有相关评论 -->
+   <select id="groupTopicReplyList" parameterType="java.util.Map" resultMap="ResultMapWithBLOBs">
+     SELECT re.reply_id,re.customer_id,re.reply_content,re.reply_del_flag,
+     re.reply_remark,re.reply_ship_id,re.reply_time,re.reply_type,c.customer_nickname,c.customer_img
+	from np_customer_reply re
+	left JOIN np_customer c
+	on re.customer_id = c.customer_id
+	where re.reply_ship_id=#{topicId,jdbcType=BIGINT} and re.reply_del_flag='0' and re.reply_type=#{replyType,jdbcType=CHAR}
+	<if test="ta != null and ta != ''">
+	   and re.customer_id=#{ta}
+	</if>
+	limit #{startRowNum},#{endRowNum}
+   </select>
+   
+   <select id="groupTopicReplyCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+    SELECT count(*)
+	from np_customer_reply re
+	where re.reply_ship_id=#{topicId,jdbcType=BIGINT} and re.reply_del_flag='0' and re.reply_type=#{replyType,jdbcType=CHAR}
+	<if test="ta != null and ta != ''">
+	   and re.customer_id=#{ta}
+	</if>
+   </select>
+
+   <!-- 删除相片下的所有评论 -->
+   <update id="delallReplyByShipId" parameterType="java.util.Map">
+     update np_customer_reply
+     set reply_del_flag = '1'
+     where reply_ship_id=#{replyShipId,jdbcType=BIGINT} and reply_type=#{replyType,jdbcType=CHAR}
+   </update>
+   
+   <!--根据类型查询回复数 -->
+   <select id="customerReplyCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+     select count(re.reply_id) from np_customer_reply re 
+      right join (select topic_id from np_group_topic gt left join np_group g on gt.group_id=g.group_id where g.group_secret='0' and gt.topic_del_flag ='0')t
+      on t.topic_id = re.reply_ship_id
+     where 1=1 
+     <if test="replyDelFlag !=null and replyDelFlag !=''">
+       and re.reply_del_flag=#{replyDelFlag,jdbcType=CHAR}
+     </if>
+     <if test="replyType !=null and replyType !=''">
+       and re.reply_type=#{replyType,jdbcType=CHAR}
+     </if>
+   </select>
+   
+   <!-- 心情评论 -->
+   <select id="replyList" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long">
+   select re.reply_id,re.customer_id,re.reply_content,re.reply_del_flag,
+     re.reply_remark,re.reply_ship_id,re.reply_time,re.reply_type,c.customer_nickname,c.customer_img
+	from np_customer_reply re
+	left JOIN np_customer c
+	on re.customer_id = c.customer_id
+	where re.reply_ship_id=#{moodId,jdbcType=BIGINT} and re.reply_del_flag='0' and reply_parentId is null and re.reply_type='3'
+   </select>
+   
+   <!-- 心情评论的回复 -->
+   <select id="moodreplyList" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long">
+   select re.reply_id,re.customer_id,re.reply_content,re.reply_del_flag,
+     re.reply_remark,re.reply_ship_id,re.reply_time,re.reply_type,c.customer_nickname,c.customer_img
+	from np_customer_reply re
+	left JOIN np_customer c
+	on re.customer_id = c.customer_id
+	where re.reply_parentId=#{replyId,jdbcType=BIGINT} and re.reply_del_flag='0' and re.reply_type='3'
+   </select>
+   
+   <!-- 查看心情的最新评论 -->
+    <select id="moodReply" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map" >
+	   select reply_id, reply_ship_id, customer_id, reply_time,reply_content,
+	    reply_del_flag, reply_type,customer_nickname,customer_img
+		from (select reply_id, reply_ship_id, mem.customer_id, reply_time, reply_content,
+		    reply_del_flag, reply_type,customer_nickname,customer_img
+		from np_customer mem,
+		(select reply_id, reply_ship_id, customer_id, reply_time, reply_content,reply_del_flag,
+		 reply_type from np_customer_reply 
+		 where reply_ship_id in (SELECT mood_id from np_mood where customer_id=#{customerId} and mood_del_flag='0'
+		)and reply_type ='3' and reply_del_flag='0') as rep
+		where rep.customer_id = mem.customer_id ) as com
+		order by reply_time desc
+   		limit #{number}
+   </select>
+   
+</mapper>

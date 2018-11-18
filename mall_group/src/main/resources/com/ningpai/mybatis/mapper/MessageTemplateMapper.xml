@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.dao.MessageTemplateMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.message.bean.MessageTemplate" >
+    <id column="message_temp_id" property="messageTempId" jdbcType="BIGINT" />
+    <result column="message_type" property="messageType" jdbcType="CHAR" />
+    <result column="message_operation" property="messageOperation" jdbcType="CHAR" />
+    <result column="message_template" property="messageTemplate" jdbcType="VARCHAR" />
+    <result column="message_create_time" property="messageCreateTime" jdbcType="TIMESTAMP" />
+    <result column="message_modify_time" property="messageModifyTime" jdbcType="TIMESTAMP" />
+    <result column="message_del_flag" property="messageDelFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    message_temp_id, message_type, message_operation, message_template, message_create_time, 
+    message_modify_time, message_del_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_message_template
+    where message_temp_id = #{messageTempId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_message_template
+    where message_temp_id = #{messageTempId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.message.bean.MessageTemplate" useGeneratedKeys="true" keyProperty="messageTempId" >
+    insert into np_message_template (message_type, message_operation, message_template, 
+      message_create_time, message_modify_time, 
+      message_del_flag)
+    values (#{messageType,jdbcType=CHAR}, #{messageOperation,jdbcType=CHAR}, #{messageTemplate,jdbcType=VARCHAR}, 
+      #{messageCreateTime,jdbcType=TIMESTAMP}, #{messageModifyTime,jdbcType=TIMESTAMP}, 
+      #{messageDelFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.message.bean.MessageTemplate" useGeneratedKeys="true" keyProperty="messageTempId" >
+    insert into np_message_template
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      message_type,
+      message_operation,
+      message_template,
+      message_create_time,
+      message_modify_time,
+      message_del_flag,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{messageType,jdbcType=CHAR},
+      #{messageOperation,jdbcType=CHAR},
+      #{messageTemplate,jdbcType=VARCHAR},
+      #{messageCreateTime,jdbcType=TIMESTAMP},
+      #{messageModifyTime,jdbcType=TIMESTAMP},
+      #{messageDelFlag,jdbcType=CHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.message.bean.MessageTemplate" >
+    update np_message_template
+    <set >
+      <if test="messageType != null" >
+        message_type = #{messageType,jdbcType=CHAR},
+      </if>
+      <if test="messageOperation != null" >
+        message_operation = #{messageOperation,jdbcType=CHAR},
+      </if>
+      <if test="messageTemplate != null" >
+        message_template = #{messageTemplate,jdbcType=VARCHAR},
+      </if>
+      <if test="messageCreateTime != null" >
+        message_create_time = #{messageCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="messageModifyTime != null" >
+        message_modify_time = #{messageModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="messageDelFlag != null" >
+        message_del_flag = #{messageDelFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where message_temp_id = #{messageTempId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.message.bean.MessageTemplate" >
+    update np_message_template
+    set message_type = #{messageType,jdbcType=CHAR},
+      message_operation = #{messageOperation,jdbcType=CHAR},
+      message_template = #{messageTemplate,jdbcType=VARCHAR},
+      message_create_time = #{messageCreateTime,jdbcType=TIMESTAMP},
+      message_modify_time = #{messageModifyTime,jdbcType=TIMESTAMP},
+      message_del_flag = #{messageDelFlag,jdbcType=CHAR}
+    where message_temp_id = #{messageTempId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 根据消息类型和消息操作查出消息模板 -->
+  <select id="selectByType" parameterType="java.util.Map" resultMap="BaseResultMap">
+   select  <include refid="Base_Column_List" />
+    from np_message_template
+    where 1=1 and message_type = #{messageType,jdbcType=CHAR} 
+    and message_operation = #{messageOperation,jdbcType=CHAR}
+    and message_del_flag = '0'
+  </select>
+</mapper>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.system.dao.StreetMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.system.bean.Street" >
+    <id column="street_id" property="streetId" jdbcType="BIGINT" />
+    <result column="street_name" property="streetName" jdbcType="VARCHAR" />
+    <result column="street_sort" property="streetSort" jdbcType="VARCHAR"/> 
+    <result column="district_id" property="districtId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+   <!-- 地区帮助BeanResultMap -->
+  <resultMap type="com.ningpai.system.util.AddressUtil" id="addressUtilResultMap">
+  	<result column="province_name" property="provinceName" jdbcType="VARCHAR" />
+  	<result column="city_name" property="cityName" jdbcType="VARCHAR" />
+  	<result column="district_name" property="districtName" jdbcType="VARCHAR" />
+  	<result column="street_name" property="streetName" jdbcType="VARCHAR" />
+  	<result column="street_sort" property="sort" jdbcType="VARCHAR"/> 
+  </resultMap>
+  <sql id="Base_Column_List" >
+    street_id, street_name, street_sort,district_id, create_time, modify_time, del_flag
+  </sql>
+  <!-- 根据主键查询 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_sys_street
+    where street_id = #{streetId,jdbcType=BIGINT}
+  </select>
+  <!-- 根据主键删除 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    update np_sys_street set del_flag="1"
+    where street_id = #{streetId,jdbcType=BIGINT}
+  </delete>
+  <!-- 插入记录 -->
+  <insert id="insertSelective" parameterType="com.ningpai.system.bean.Street" >
+    insert into np_sys_street
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="streetId != null" >
+        street_id,
+      </if>
+      <if test="streetName != null" >
+        street_name,
+      </if>
+      <if test="streetSort != null" >
+        street_sort,
+      </if>
+      <if test="districtId != null" >
+        district_id,
+      </if>
+        create_time,
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="streetId != null" >
+        #{streetId,jdbcType=BIGINT},
+      </if>
+      <if test="streetName != null" >
+        #{streetName,jdbcType=VARCHAR},
+      </if>
+      <if test="streetSort != null" >
+        #{streetSort,jdbcType=VARCHAR},
+      </if>
+      <if test="districtId != null" >
+        #{districtId,jdbcType=BIGINT},
+      </if>
+       NOW(),
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <!-- 更新记录 -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.system.bean.Street" >
+    update np_sys_street
+    <set >
+      <if test="streetName != null" >
+        street_name = #{streetName,jdbcType=VARCHAR},
+      </if>
+      <if test="streetSort != null" >
+        street_sort = #{streetSort,jdbcType=VARCHAR},
+      </if>
+      <if test="districtId != null" >
+        district_id = #{districtId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+        modify_time = NOW(),
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where street_id = #{streetId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 根据参数查询行数 -->
+  <select id="queryTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select count(street_id) from np_sys_street where del_flag='0'
+  </select>
+  <!-- 根据参数分页查询列表 -->
+  <select id="queryAllStreetByPb" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/> from np_sys_street where del_flag='0'
+      <if test="districtId!=null and districtId!=''">
+          and district_id =#{districtId}
+      </if>
+      <if test="streetName!=null and streetName!=''">
+          and street_name like  CONCAT(CONCAT('%',#{streetName}),'%')
+      </if>
+  	order by street_sort
+  	limit #{startRowNum},#{endRowNum}
+  </select>
+  <!-- 根据区县ID查询街道 -->
+  <select id="queryStreetByDistrictId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/> from np_sys_street where del_flag='0'
+  	and district_id=#{districtId}
+  	order by street_sort
+  </select>
+  <!-- 根据街道名称查询是否已经存在 -->
+  <select id="queryStreetByStreetName" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select count(street_id) from np_sys_street where del_flag='0' and street_name=#{streetName}
+  </select>
+  <!-- 根据街道ID查询所属的区县和城市和省份名称 -->
+  <select id="queryAddressNameByStreetId" parameterType="java.lang.Long" resultMap="addressUtilResultMap">
+  	select p.province_name,c.city_name,d.district_name,s.street_name,s.street_sort from np_sys_province p,np_sys_city c,np_sys_district d,np_sys_street s 
+	where c.province_id=p.province_id and d.city_id=c.city_id and s.district_id=d.district_id
+	and s.street_id=#{streetId}
+  </select>
+</mapper>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.supplieraudit.mapper.StoreInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.supplieraudit.bean.StoreInfo" >
+    <id column="store_id" property="storeId" jdbcType="BIGINT" />
+    <result column="customerId" property="customerid" jdbcType="BIGINT" />
+    <result column="store_name" property="storeName" jdbcType="VARCHAR" />
+    <result column="store_status" property="storeStatus" jdbcType="CHAR" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="company_cre_time" property="companyCreTime" jdbcType="VARCHAR" />
+    <result column="company_addr" property="companyAddr" jdbcType="VARCHAR" />
+    <result column="company_addr_id" property="companyAddrId" jdbcType="VARCHAR" />
+    <result column="buss_addr_id" property="bussAddrId" jdbcType="VARCHAR" />
+    <result column="bank_addr_id" property="bankAddrId" jdbcType="VARCHAR" />
+    <result column="company_addr_del" property="companyAddrDel" jdbcType="VARCHAR" />
+    <result column="company_tel" property="companyTel" jdbcType="VARCHAR" />
+    <result column="company_emp_num" property="companyEmpNum" jdbcType="BIGINT" />
+    <result column="company_capital" property="companyCapital" jdbcType="DECIMAL" />
+    <result column="company_email" property="companyEmail" jdbcType="VARCHAR" />
+    <result column="company_type" property="companyType" jdbcType="CHAR" />
+    <result column="company_contact_name" property="companyContactName" jdbcType="VARCHAR" />
+    <result column="company_contact_tel" property="companyContactTel" jdbcType="VARCHAR" />
+    <result column="company_research_url" property="companyResearchUrl" jdbcType="VARCHAR" />
+    <result column="bank_url" property="bankUrl" jdbcType="VARCHAR" />
+    <result column="card_url" property="cardUrl" jdbcType="VARCHAR" />
+    <result column="company_sku" property="companySku" jdbcType="DECIMAL" />
+    <result column="company_avg" property="companyAvg" jdbcType="CHAR" />
+    <result column="return_addr" property="returnAddr" jdbcType="VARCHAR" />
+    <result column="return_mail" property="returnMail" jdbcType="VARCHAR" />
+    <result column="return_contact_name" property="returnContactName" jdbcType="VARCHAR" />
+    <result column="return_contact_tel" property="returnContactTel" jdbcType="VARCHAR" />
+    <result column="buss_id" property="bussId" jdbcType="VARCHAR" />
+    <result column="buss_addr" property="bussAddr" jdbcType="VARCHAR" />
+    <result column="BUSS_DATE" property="bussDate" jdbcType="VARCHAR" />
+    <result column="buss_dept_no" property="bussDeptNo" jdbcType="VARCHAR" />
+    <result column="buss_tax_regist_id" property="bussTaxRegistId" jdbcType="VARCHAR" />
+    <result column="buss_tax_regist_url" property="bussTaxRegistUrl" jdbcType="VARCHAR" />
+    <result column="buss_tax_payer_id" property="bussTaxPayerId" jdbcType="VARCHAR" />
+    <result column="buss_tax_cred_url" property="bussTaxCredUrl" jdbcType="VARCHAR" />
+    <result column="buss_tax_type" property="bussTaxType" jdbcType="VARCHAR" />
+    <result column="buss_tax_type_id" property="bussTaxTypeId" jdbcType="VARCHAR" />
+    <result column="buss_legal_name" property="bussLegalName" jdbcType="VARCHAR" />
+    <result column="buss_url" property="bussUrl" jdbcType="VARCHAR" />
+    <result column="buss_range" property="bussRange" jdbcType="VARCHAR" />
+    <result column="bank_username" property="bankUsername" jdbcType="VARCHAR" />
+    <result column="bank_card_id" property="bankCardId" jdbcType="VARCHAR" />
+    <result column="bank_addr" property="bankAddr" jdbcType="VARCHAR" />
+    <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+    <result column="bank_id" property="bankId" jdbcType="VARCHAR" />
+    <result column="check_status" property="checkStatus" jdbcType="CHAR" />
+    <result column="contract_url" property="contractUrl" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+    <result column="expiry_time" property="expiryTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+     <result column="buss_legal_card_id" property="bussLegalCardId" jdbcType="VARCHAR" />
+     <result column="is_submit" property="isSubmit" jdbcType="VARCHAR" />
+     <result column="is_store_index" property="isStoreIndex" jdbcType="VARCHAR" />
+      <result column="store_promise" property="storePromise" jdbcType="VARCHAR"/>
+       <result column="store_qi" property="storeQi" jdbcType="CHAR" />
+      <result column="billing_cycle" property="billingCycle" jdbcType="VARCHAR"/>
+      <result column="collection_seller_id" property="collectionSellerId" jdbcType="BIGINT" />
+      <result column="service_qq" property="serviceQq" jdbcType="VARCHAR"/>
+      <!--供应商-->
+      <result column="is_supplier" property="isSupplier" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <resultMap id="PointResultMap" type="com.ningpai.thirdaudit.bean.StoreInfo" >
+    <result column="sumPoint" property="sumPoint" jdbcType="INTEGER" />
+    <result column="store_point" property="storePoint" jdbcType="INTEGER" />
+    <result column="store_balance" property="storeBalance" jdbcType="DECIMAL" />
+   </resultMap>
+  <sql id="Base_Column_List" >
+    store_id, customerId, store_name, store_status, company_name, company_cre_time, company_addr, company_addr_del, 
+    company_tel, company_emp_num, company_capital, company_email, company_type, company_contact_name, 
+    company_contact_tel, company_research_url, company_sku, company_avg, return_addr, 
+    return_mail, return_contact_name, return_contact_tel, buss_id, buss_addr, BUSS_DATE, 
+    buss_dept_no, buss_tax_regist_id, buss_tax_regist_url, buss_tax_cred_url, buss_tax_payer_id, buss_tax_type, buss_tax_type_id, 
+    buss_legal_name, buss_url, buss_range, bank_username, bank_card_id, bank_addr, bank_name, 
+    bank_id, check_status, contract_url, create_time, mod_time, del_flag,company_addr_id,billing_cycle,expiry_time,
+    buss_addr_id,bank_addr_id,bank_url,card_url,buss_legal_card_id,is_submit,store_promise,store_qi,service_qq,is_supplier
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_third_store_info
+    where store_id = #{storeId,jdbcType=BIGINT}
+  </select>
+    <!-- 查询所有供应商审核记录总数 -->
+    <select id="selectSupplierAuditCount" resultType="java.lang.Long" parameterType="com.ningpai.thirdaudit.bean.StoreInfo">
+        select
+        count(1)
+        from np_third_store_info
+        where del_flag ='0' and is_submit = '1' and is_supplier='1' and
+        <if test="companyName != null and companyName !=''" >
+            company_name like  CONCAT(CONCAT('%', #{companyName}),'%')  and
+        </if>
+        <if test="storeName != null and storeName !=''" >
+            store_name like  CONCAT(CONCAT('%', #{storeName}),'%')  and
+        </if>
+        <if test="checkStatus != null and checkStatus !=''" >
+            check_status  =  #{checkStatus,jdbcType=CHAR}  and
+        </if>
+        1=1
+    </select>
+    <!-- 查询所有供应商审核记录列表 -->
+    <select id="selectSupplierAuditList" resultMap="BaseResultMap"  parameterType="com.ningpai.thirdaudit.bean.StoreInfo">
+        select
+        <include refid="Base_Column_List" />
+        from np_third_store_info
+        where del_flag ='0' and is_submit = '1' and is_supplier='1' and
+        <if test="storeInfo!= null and storeInfo.companyName != null and storeInfo.companyName !=''" >
+            company_name like  CONCAT(CONCAT('%', #{storeInfo.companyName}),'%')  and
+        </if>
+        <if test="storeInfo!= null and storeInfo.storeName != null and storeName !=''" >
+            store_name like  CONCAT(CONCAT('%', #{storeInfo.storeName}),'%')  and
+        </if>
+        <if test="storeInfo!= null and storeInfo.checkStatus != null and storeInfo.checkStatus !=''" >
+            check_status  = #{storeInfo.checkStatus,jdbcType=CHAR}  and
+        </if>
+        1=1
+        order by mod_time desc
+        limit #{startRowNum,jdbcType=BIGINT},#{endRowNum,jdbcType=BIGINT}
+    </select>
+
+</mapper>

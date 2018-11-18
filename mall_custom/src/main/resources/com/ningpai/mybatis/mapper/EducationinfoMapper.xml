@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.customer.mapper.EducationinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.customer.bean.Educationinfo" >
+    <id column="education_id" property="educationId" jdbcType="BIGINT" />
+    <result column="school_type" property="schoolType" jdbcType="VARCHAR" />
+    <result column="school_name" property="schoolName" jdbcType="VARCHAR" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+    <result column="come_time" property="comeTime" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modified_time" property="modifiedTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="del_time" property="delTime" jdbcType="TIMESTAMP" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    education_id, school_type, school_name, class_name, come_time, create_time, modified_time, 
+    del_flag, del_time, customer_id
+  </sql>
+  <!-- 根据主键查询教育信息 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_educationinfo
+    where education_id = #{educationId,jdbcType=BIGINT} and del_flag='0'
+  </select>
+ 
+ 	<!-- 查询所有教育信息-->
+ 	<select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.Long">
+ 		select
+ 			<include refid="Base_Column_List"/>
+ 			from np_educationinfo
+ 			where del_flag='0' and customer_id=#{customerId,jdbcType=BIGINT};
+ 	</select>
+ 	
+ 	<!-- 删除教育信息-->
+	<update id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		update np_educationinfo
+		set del_flag = '1', del_time = SYSDATE()
+		where education_id = #{educationId,jdbcType=BIGINT} 
+	</update>
+  
+  <insert id="insert" parameterType="com.ningpai.customer.bean.Educationinfo" >
+    insert into np_educationinfo (education_id, school_type, school_name, 
+      class_name, come_time, create_time, 
+      modified_time, del_flag, del_time, 
+      customer_id)
+    values (#{educationId,jdbcType=BIGINT}, #{schoolType,jdbcType=VARCHAR}, #{schoolName,jdbcType=VARCHAR}, 
+      #{className,jdbcType=VARCHAR}, #{comeTime,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifiedTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR}, #{delTime,jdbcType=TIMESTAMP}, 
+      #{customerId,jdbcType=BIGINT})
+  </insert>
+  
+  <!-- 添加教育信息 -->
+  <insert id="insertSelective" parameterType="com.ningpai.customer.bean.Educationinfo" >
+    insert into np_educationinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="educationId != null" >
+        education_id,
+      </if>
+      <if test="schoolType != null" >
+        school_type,
+      </if>
+      <if test="schoolName != null" >
+        school_name,
+      </if>
+      <if test="className != null" >
+        class_name,
+      </if>
+      <if test="comeTime != null" >
+        come_time,
+      </if>
+      <if test="createTime == null" >
+        create_time,
+      </if>
+      <if test="modifiedTime == null" >
+        modified_time,
+      </if>
+      <if test="delFlag == null" >
+        del_flag,
+      </if>
+      <if test="delTime == null" >
+        del_time,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="educationId != null" >
+        #{educationId,jdbcType=BIGINT},
+      </if>
+      <if test="schoolType != null" >
+        #{schoolType,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolName != null" >
+        #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null" >
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="comeTime != null" >
+        #{comeTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime == null" >
+        SYSDATE(),
+      </if>
+      <if test="modifiedTime == null" >
+       	SYSDATE(),
+      </if>
+      <if test="delFlag == null" >
+       	'0',
+      </if>
+      <if test="delTime == null" >
+        SYSDATE(),
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 根据id修改教育信息-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.customer.bean.Educationinfo" >
+    update np_educationinfo
+    <set >
+      <if test="schoolType != null" >
+        school_type = #{schoolType,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolName != null" >
+        school_name = #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null" >
+        class_name = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="comeTime != null" >
+        come_time = #{comeTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="delTime != null" >
+        del_time = #{delTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      modified_time = SYSDATE()
+    </set>
+    where education_id = #{educationId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.customer.bean.Educationinfo" >
+    update np_educationinfo
+    set school_type = #{schoolType,jdbcType=VARCHAR},
+      school_name = #{schoolName,jdbcType=VARCHAR},
+      class_name = #{className,jdbcType=VARCHAR},
+      come_time = #{comeTime,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR},
+      del_time = #{delTime,jdbcType=TIMESTAMP},
+      customer_id = #{customerId,jdbcType=BIGINT}
+    where education_id = #{educationId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.system.dao.AdvertisementMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.system.bean.Advertisement" >
+    <id column="adver_id" property="adverId" jdbcType="BIGINT" />
+    <result column="adver_name" property="adverName" jdbcType="VARCHAR" />
+    <result column="adver_path" property="adverPath" jdbcType="VARCHAR" />
+    <result column="adver_href" property="adverHref" jdbcType="VARCHAR" />
+    <result column="at_id" property="atId" jdbcType="BIGINT" />
+     <result column="at_position" property="atPosition" jdbcType="INTEGER" />
+    <result column="adver_sort" property="adverSort" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  
+  <resultMap type="com.ningpai.system.bean.SystemsSet" id="systemsSetMap">
+		<id column="set_id" property="setId" jdbcType="BIGINT"/>
+  		<result column="is_backorder" property="isBackOrder" jdbcType="CHAR"/>
+        <result column="bset_order_time" property="bsetOrderTime" jdbcType="BIGINT"/>
+        <result column="receipt_time" property="receiptTime" jdbcType="BIGINT"/>
+        <result column="back_info_remark" property="backInfoRemark" jdbcType="VARCHAR" />
+      <result column="back_price_remark" property="backPriceRemark" jdbcType="VARCHAR" />
+ 	</resultMap>
+  
+  
+  
+  <resultMap id="AdvertisementVoResultMap" extends="BaseResultMap" type="com.ningpai.system.vo.AdvertisementVo" >
+    <result column="at_name" property="atName" jdbcType="VARCHAR" />
+  </resultMap>
+  	<!--修改是否允许退单的状态 -->
+  	<update id="updatesetBackOrder" parameterType="com.ningpai.system.bean.SystemsSet">
+  		update np_set <set>
+        <if test="isBackOrder !=null and isBackOrder!=''">
+            is_backorder = #{isBackOrder,jdbcType=CHAR}
+        </if>
+
+        <if test="receiptTime !=null and receiptTime!=''">
+            receipt_time = #{receiptTime,jdbcType=CHAR}
+        </if>
+
+    </set>  where set_id = #{setId,jdbcType=BIGINT}
+  	</update>
+  
+  
+  	<!--  是否允许退单-->
+	<select id="getIsBackOrder" resultMap="systemsSetMap">
+		select set_id,receipt_time,is_backorder,bset_order_time,back_info_remark,back_price_remark  from np_set
+	</select>
+	
+	<!-- 根据ID查询 是否允许退单-->
+	<select id="getIsBackOrderById" parameterType="java.lang.Long" resultMap="systemsSetMap">
+		select set_id,is_backorder from np_set where set_id = #{setId,jdbcType=BIGINT}
+	</select>
+  
+  
+  <sql id="Base_Column_List" >
+    adver_id, adver_name, adver_path, adver_href, at_id, at_position, adver_sort, create_time, modify_time, 
+    del_flag
+  </sql>
+  <sql id="AdvertisementVo_Column_List" >
+    a.adver_id, a.adver_name, a.adver_path, a.adver_href, a.at_id, a.at_position, a.adver_sort, a.create_time, a.modify_time, 
+    a.del_flag,t.at_name 
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_sys_advertisement
+    where adver_id = #{adverId,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    update  np_sys_advertisement set del_flag = '1' 
+    where adver_id = #{adverId,jdbcType=BIGINT}
+  </delete>
+  
+   <insert id="insert" parameterType="com.ningpai.system.bean.Advertisement" >
+    insert into np_sys_advertisement (adver_id, adver_name, adver_path, 
+      adver_href, at_id, at_position, 
+      adver_sort, create_time, modify_time, 
+      del_flag)
+    values (#{adverId,jdbcType=BIGINT}, #{adverName,jdbcType=VARCHAR}, #{adverPath,jdbcType=VARCHAR}, 
+      #{adverHref,jdbcType=VARCHAR}, #{atId,jdbcType=BIGINT}, #{atPosition,jdbcType=INTEGER}, 
+      #{adverSort,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{delFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.system.bean.Advertisement" >
+    insert into np_sys_advertisement
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="adverId != null" >
+        adver_id,
+      </if>
+      <if test="adverName != null" >
+        adver_name,
+      </if>
+      <if test="adverPath != null" >
+        adver_path,
+      </if>
+      <if test="adverHref != null" >
+        adver_href,
+      </if>
+      <if test="atId != null" >
+        at_id,
+      </if>
+      <if test="atPosition != null" >
+        at_position,
+      </if>
+      <if test="adverSort != null" >
+        adver_sort,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="adverId != null" >
+        #{adverId,jdbcType=BIGINT},
+      </if>
+      <if test="adverName != null" >
+        #{adverName,jdbcType=VARCHAR},
+      </if>
+      <if test="adverPath != null" >
+        #{adverPath,jdbcType=VARCHAR},
+      </if>
+      <if test="adverHref != null" >
+        #{adverHref,jdbcType=VARCHAR},
+      </if>
+      <if test="atId != null" >
+        #{atId,jdbcType=BIGINT},
+      </if>
+      <if test="atPosition != null" >
+        #{atPosition,jdbcType=INTEGER},
+      </if>
+      <if test="adverSort != null" >
+        #{adverSort,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+ <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.system.bean.Advertisement" >
+    update np_sys_advertisement
+    <set >
+      <if test="adverName != null" >
+        adver_name = #{adverName,jdbcType=VARCHAR},
+      </if>
+      <if test="adverPath != null and adverPath != ''" >
+        adver_path = #{adverPath,jdbcType=VARCHAR},
+      </if>
+      <if test="adverHref != null" >
+        adver_href = #{adverHref,jdbcType=VARCHAR},
+      </if>
+      <if test="atId != null" >
+        at_id = #{atId,jdbcType=BIGINT},
+      </if>
+      <if test="atPosition != null" >
+        at_position = #{atPosition,jdbcType=INTEGER},
+      </if>
+      <if test="adverSort != null" >
+        adver_sort = #{adverSort,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where adver_id = #{adverId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.system.bean.Advertisement" >
+    update np_sys_advertisement
+    set adver_name = #{adverName,jdbcType=VARCHAR},
+      adver_path = #{adverPath,jdbcType=VARCHAR},
+      adver_href = #{adverHref,jdbcType=VARCHAR},
+      at_id = #{atId,jdbcType=BIGINT},
+      at_position = #{atPosition,jdbcType=INTEGER},
+      adver_sort = #{adverSort,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where adver_id = #{adverId,jdbcType=BIGINT}
+  </update>
+  
+  
+  <select id="findByPageBean" resultMap="AdvertisementVoResultMap" parameterType="java.util.Map">
+  	select <include refid="AdvertisementVo_Column_List"/> 
+  	from np_sys_advertisement a
+  	 inner join np_sys_advertype t on a.at_id = t.at_id 
+  	 where a.del_flag='0'  order by t.at_id,a.at_position,a.adver_sort 
+  	<!-- 若为1 按照链接名称查询 -->
+  		<if test="condition == 1">
+  			and a.adver_name like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  		</if>
+  	limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <select id="findTotalCount" resultType="int" parameterType="com.ningpai.system.util.SelectBean">
+  	select count(adver_id) from np_sys_advertisement a
+  	 inner join np_sys_advertype t on a.at_id = t.at_id  where a.del_flag='0'
+  	<!-- 若为1 按照链接名称查询 -->
+  		<if test="condition == 1">
+  			and a.adver_name like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  		</if>
+  </select>
+
+    <update id="updatesetOrderTime" parameterType="java.lang.Long">
+        update np_set set bset_order_time = #{bsetOrderTime,jdbcType=BIGINT}
+    </update>
+
+    <select id="getTimeFromNpset" resultType="java.lang.Long">
+        select bset_order_time from np_set
+    </select>
+
+    <update id="updateBackInfo" parameterType="com.ningpai.system.bean.SystemsSet">
+        update np_set
+        <set >
+            <if test="backInfoRemark != null and backInfoRemark != ''" >
+                back_info_remark = #{backInfoRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="backPriceRemark != null and backPriceRemark != ''" >
+                back_price_remark = #{backPriceRemark,jdbcType=VARCHAR},
+            </if>
+
+        </set>
+    </update>
+
+    <select id="queryBackInfoRemark" resultType="java.lang.String">
+        select back_info_remark from np_set
+    </select>
+</mapper>

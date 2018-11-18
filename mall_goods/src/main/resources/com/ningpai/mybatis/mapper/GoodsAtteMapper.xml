@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.goods.dao.GoodsAtteMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsAtte" >
+    <id column="follow_id" property="atteId" jdbcType="BIGINT" />
+    <result column="customer_id" property="custId" jdbcType="BIGINT" />
+    <result column="goods_id" property="productId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modified_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="flag" jdbcType="CHAR" />
+  </resultMap>
+  <!-- voResultMap -->
+  <resultMap type="com.ningpai.goods.vo.GoodsAtteVo" id="voResultmap">
+  	<id column="follow_id" property="atteId" jdbcType="BIGINT" />
+    <result column="customer_id" property="custId" jdbcType="BIGINT" />
+    <result column="goods_id" property="productId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modified_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="flag" jdbcType="CHAR" />
+    <result column="customer_username" property="customerUsername" jdbcType="VARCHAR"/>
+  	<result column="info_mobile" property="infoMobile" jdbcType="VARCHAR"/>
+  	<result column="info_email" property="infoEmail" jdbcType="VARCHAR"/>
+  	<result column="goods_info_stock" property="goodsInfoStock" jdbcType="BIGINT"/>
+  	<result column="goods_info_name" property="goodsName" jdbcType="VARCHAR"/>
+  	<result column="goods_info_item_no" property="goodsInfoItemNo" jdbcType="VARCHAR"/>
+  </resultMap>
+  
+  <!-- ListVo -->
+  <resultMap type="com.ningpai.goods.vo.GoodsAtteListVo" id="listVoResult">
+  	<result column="atteCount" property="atteCount" jdbcType="BIGINT"/>
+  	<association property="product" column="goods_id" 
+  	select="com.ningpai.goods.dao.GoodsProductMapper.selectByPrimaryKey"></association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    follow_id, customer_id, goods_id,  create_time, modified_time, del_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_customer_follow
+    where follow_id = #{atteId,jdbcType=BIGINT}
+  </select>
+  <!-- 逻辑删除 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.util.Map" >
+    update np_customer_follow set del_flag='1',modified_time=now()
+    where follow_id = #{atteId,jdbcType=BIGINT}
+  </delete>
+  <!-- 批量删除 -->
+  <update id="batchDelete" parameterType="java.util.Map">
+  	update np_customer_follow set del_flag='1',modified_time=now()
+  	where follow_id in 
+  	<foreach collection="atteIds" item="atteId" open="(" close=")" separator=",">
+  		#{atteId}
+  	</foreach>
+  </update>
+  <!-- 根据参数查询行数 -->
+  <select id="queryTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select count(DISTINCT goods_id)  from np_customer_follow where del_flag='0'
+  	<if test="condition!=null and condition==1 and condition!='' and searchText!='' and searchText!=null">
+		and goods_id in (select goods_info_id from np_goods_info where goods_info_name like CONCAT(CONCAT('%',#{searchText}),'%'))
+	</if>
+	<if test="condition!=null and condition==2 and condition!='' and searchText!='' and searchText!=null">
+		and goods_id = (select goods_info_id from np_goods_info where goods_info_item_no  = #{searchText})
+	</if>
+	<if test="productId!=null and productId!=''">
+		and goods_id=#{productId}
+	</if>
+  </select>
+  <!-- 根据参数查询行数 -->
+  <select id="queryTotalCountToProduct" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select count(goods_id)  from np_customer_follow where del_flag='0'
+  	<if test="condition!=null and condition==1 and condition!='' and searchText!='' and searchText!=null">
+		and goods_id in (select goods_info_id from np_goods_info where goods_info_name like CONCAT(CONCAT('%',#{searchText}),'%'))
+	</if>
+	<if test="condition!=null and condition==2 and condition!='' and searchText!='' and searchText!=null">
+		and goods_id = (select goods_info_id from np_goods_info where goods_info_item_no  = #{searchText})
+	</if>
+	<if test="productId!=null and productId!=''">
+		and goods_id=#{productId}
+	</if>
+  </select>
+  
+  
+  <!-- 根据参数查询集合 -->
+  <select id="queryByParam"  parameterType="java.util.Map" resultMap="voResultmap">
+  	select a.*,(select customer_username from np_customer where customer_id=a.customer_id) as customer_username,
+	(select info_email from np_customer_info where customer_id=a.customer_id) as info_email,
+	(select info_mobile from np_customer_info where customer_id=a.customer_id) as info_mobile,
+	(select goods_info_item_no from np_goods_info where goods_info_id=a.goods_id) as goods_info_item_no,
+	(select goods_info_stock from np_goods_info where goods_info_id=a.customer_id) as goods_info_stock,
+	(select goods_info_name from np_goods_info where  goods_info_id=a.customer_id) as goods_info_name from np_customer_follow a where del_flag='0'
+	<if test="condition!=null and condition==1 and condition!='' and searchText!='' and searchText!=null">
+		and goods_id in (select goods_info_id from np_goods_info where goods_info_name like CONCAT(CONCAT('%',#{searchText}),'%'))
+	</if>
+	<if test="condition!=null and condition==2 and condition!='' and searchText!='' and searchText!=null">
+		and goods_id = (select goods_info_id from np_goods_info where goods_info_item_no = #{searchText})
+	</if>
+	limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <!-- 根据货品ID查询集合 -->
+  <select id="queryByProductId"  parameterType="java.util.Map" resultMap="voResultmap">
+  	select a.*,(select customer_username from np_customer where customer_id=a.customer_id) as customer_username,
+	(select info_email from np_customer_info where customer_id=a.customer_id) as info_email,
+	(select info_mobile from np_customer_info where customer_id=a.customer_id) as info_mobile,
+	(select goods_info_item_no from np_goods_info where goods_info_id=a.goods_id) as goods_info_item_no,
+	(select goods_info_stock from np_goods_info where goods_info_id=a.goods_id) as goods_info_stock,
+	(select goods_info_name from np_goods_info where goods_info_id=a.goods_id) as goods_info_name from np_customer_follow a where del_flag='0'
+	<if test="productId!=null and productId!=''">
+		and goods_id=#{productId}
+	</if>
+	limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <!-- 根据货品ID查询集合 -->
+  <select id="queryAllByProductId"  parameterType="java.lang.Long" resultMap="voResultmap">
+  	select a.*,(select customer_username from np_customer where customer_id=a.goods_id) as customer_username,
+	(select info_email from np_customer_info where customer_id=a.goods_id) as info_email,
+	(select info_mobile from np_customer_info where customer_id=a.goods_id) as info_mobile,
+	(select goods_info_item_no from np_goods_info where goods_info_id=a.goods_id) as goods_info_item_no,
+	(select goods_info_stock from np_goods_info where goods_info_id=a.goods_id) as goods_info_stock,
+	(select goods_info_name from np_goods_info where goods_info_id=a.goods_id) as goods_info_name from np_customer_follow a where del_flag='0'
+	and goods_id=#{productId}
+  </select>
+  <!-- 查询商品关注List -->
+  <!-- 根据参数查询集合 -->
+  <select id="queryAtteListByParam"  parameterType="java.util.Map" resultMap="listVoResult">
+  	select count(1) as atteCount,goods_id from np_customer_follow a where del_flag='0' and goods_id in (select goods_info_id from np_goods_info)
+	<if test="condition!=null and condition==1 and condition!='' and searchText!='' and searchText!=null">
+		and goods_id in (select goods_info_id from np_goods_info where goods_info_name like CONCAT(CONCAT('%',#{searchText}),'%'))
+	</if>
+	<if test="condition!=null and condition==2 and condition!='' and searchText!='' and searchText!=null">
+		and goods_id = (select goods_info_id from np_goods_info where goods_info_item_no  = #{searchText})
+	</if>
+	group by goods_id
+	order by atteCount desc
+	limit #{startRowNum},#{endRowNum}
+  </select>
+</mapper>

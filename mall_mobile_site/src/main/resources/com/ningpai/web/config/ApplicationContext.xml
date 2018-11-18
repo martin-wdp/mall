@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context" 
+    xmlns:aop="http://www.springframework.org/schema/aop" 
+    xmlns:tx="http://www.springframework.org/schema/tx" 
+    xmlns:task="http://www.springframework.org/schema/task" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context-3.0.xsd 
+						http://www.springframework.org/schema/aop 
+						http://www.springframework.org/schema/aop/spring-aop-3.0.xsd 
+						http://www.springframework.org/schema/tx 
+						http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+						http://www.springframework.org/schema/task  
+						http://www.springframework.org/schema/task/spring-task-3.1.xsd 
+						">
+						
+	<import resource="spring-jcaptcha.xml" />
+    <!-- jdbc.properties文件路径,es-hosts配置  -->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:/com/ningpai/web/config/jdbc.properties</value>
+                <value>classpath:/com/ningpai/web/config/es-hosts.properties</value>
+            </list>
+        </property> <!--value="classpath:/com/ningpai/web/config/jdbc.properties" />-->
+    </bean>
+
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driver}" />
+        <property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+        <!-- data source configuration -->
+        <property name="initialSize" value="600" /><!-- initial connections -->
+        <property name="maxActive" value="1000" /><!-- MAX connections -->
+        <property name="maxIdle" value="500" /><!-- MAX idle connections -->
+        <property name="minIdle" value="100" /><!-- MIN idle connections -->
+        <!-- 处理mysql 8小时自动断开连接的问题 -->
+        <property name="testWhileIdle" value="true" />
+        <property name="testOnBorrow" value="false" />
+        <property name="testOnReturn" value="false" />
+        <property name="validationQuery" value="select 1" />
+        <property name="timeBetweenEvictionRunsMillis" value="20000" />
+        <property name="numTestsPerEvictionRun" value="100" />
+        <!--属性类型是字符串，通过别名的方式配置扩展插件，常用的插件有：
+                监控统计用的filter:stat
+                日志用的filter:log4j
+               防御SQL注入的filter:wall -->
+        <property name="filters" value="${druid.filters}" />
+    </bean>
+    <!--事务相关控制-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> 
+        <property name="dataSource" ref="dataSource" /> 
+    </bean>     
+    <context:component-scan  base-package="com.ningpai"/>
+    <!--启动注解 @Transactional -->
+    <tx:annotation-driven/>
+	<!--     
+	<tx:advice id="userTxAdvice" transaction-manager="transactionManager"> 
+        <tx:attributes> 
+            <tx:method name="*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/> 
+        </tx:attributes> 
+    </tx:advice> 
+    
+    <aop:config> 
+        <aop:pointcut id="pc" expression="execution(* com.ningpai.web.impl.*.*(..)) " /> 
+        		把事务控制在Business层 
+        <aop:advisor pointcut-ref="pc" advice-ref="userTxAdvice" /> 
+    </aop:config>
+  	-->   
+    <!-- MyBatis sqlSessionFactory 配置 mybatis--> 
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> 
+        <property name="configLocation" 
+        	value="classpath:/com/ningpai/web/mybatis/SqlMapConfig.xml" /> 
+        <property name="dataSource" ref="dataSource" />
+    </bean>    
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"> 
+        <constructor-arg index="0" ref="sqlSessionFactory" /> 
+    </bean> 
+    <!-- 设置字段内容长度，这里不做限定   -->    
+    <bean id="mappingJacksonHttpMessageConverter"  
+        class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+
+    <!--esClientManager,设置为单例-->
+    <bean id="esClientManager" class="com.ningpai.searchplatform.client.ESClientManager" scope="singleton">
+        <constructor-arg index="0" type="java.lang.String">
+            <value>${es.hosts}</value>
+        </constructor-arg>
+        <constructor-arg index="1" type="java.lang.String" value="${es.cluster.name}"/>
+    </bean>
+        
+    <task:scheduled-tasks>
+		<task:scheduled ref="RefundmentUtil" method="service" cron="0 0 12 * * ?" />
+	</task:scheduled-tasks>
+    <import resource="ImplAndBusinessBeans.xml" /> 
+	<import resource="beans.xml" /> 
+</beans>

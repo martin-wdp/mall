@@ -1,0 +1,683 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+ @Title: SEO设置的mapper映射配置文件
+ @Description:
+ @author NINGPAI_xiaomm
+ @since 2014-03-24 13:35:13
+ @version V1.0
+-->
+<mapper namespace="com.ningpai.system.dao.SeoConfDaoImpl">
+
+	<resultMap id="BaseResultMap" type="com.ningpai.system.bean.SeoConf">
+				<!-- 记录ID -->
+				<id column="SEO_ID" 
+					jdbcType="BIGINT"
+				 property="seoId" />
+				<!-- 设置方案标题 -->
+				<result column="SEO_TITLE"
+					jdbcType="VARCHAR"
+				property="seoTitle" />
+				<!-- 设置方案代码 -->
+				<result column="SEO_CODE"
+					jdbcType="VARCHAR"
+				property="seoCode" />
+				<!-- 页面标题 -->
+				<result column="METE"
+					jdbcType="VARCHAR"
+				property="mete" />
+				<!-- 关键字 -->
+				<result column="METE_KEY"
+					jdbcType="VARCHAR"
+				property="meteKey" />
+				<!-- 启用 -->
+				<result column="USED_STATUS"
+					jdbcType="VARCHAR"
+				property="usedStatus" />
+        <!-- 所属平台版本-->
+        <result column="BELONG_PLATE"
+                jdbcType="VARCHAR"
+                property="belongPlate"/>
+        <!-- URL-->
+        <result column="URL"
+                jdbcType="VARCHAR"
+                property="url"/>
+        <!-- seo类型-->
+        <result column="TYPE"
+                jdbcType="VARCHAR"
+                property="type"/>
+				<!-- 描述信息 -->
+				<result column="METE_DES"
+					jdbcType="VARCHAR"
+				property="meteDes" />
+				<!-- 扩展字段1 -->
+				<result column="EXP_FLEID_1"
+					jdbcType="VARCHAR"
+				property="expFleid1" />
+				<!-- 扩展字段2 -->
+				<result column="EXP_FLEID_2"
+					jdbcType="VARCHAR"
+				property="expFleid2" />
+				<!-- 添加人 -->
+				<result column="INSERT_ID"
+					jdbcType="BIGINT"
+				property="insertId" />
+				<!-- 添加时间 -->
+				<result column="INSERT_DATE"
+                        jdbcType="TIMESTAMP"
+				property="insertDate" />
+				<!-- 修改人 -->
+				<result column="MODIFY_ID"
+					jdbcType="BIGINT"
+				property="modifyId" />
+				<!-- 修改时间 -->
+				<result column="MODIFY_DATE"
+                        jdbcType="TIMESTAMP"
+				property="modifyDate" />
+				<!-- 删除标识 -->
+				<result column="DELETE_STATUS"
+					jdbcType="BIGINT"
+				property="deleteStatus" />
+	</resultMap>
+	
+	<sql id="baseSql">
+			SEO_ID,
+        SEO_TITLE,
+        TYPE,
+        URL,
+        BELONG_PLATE,
+			SEO_CODE, 
+			METE, 
+			METE_KEY, 
+			USED_STATUS, 
+			METE_DES, 
+			EXP_FLEID_1, 
+			EXP_FLEID_2, 
+			INSERT_ID, 
+			INSERT_DATE, 
+			MODIFY_ID, 
+			MODIFY_DATE, 
+			DELETE_STATUS 
+	</sql>
+	<sql id="querySql">
+        SEO_ID,
+        TYPE,
+        URL,
+        SEO_TITLE,
+        BELONG_PLATE,
+			SEO_CODE, 
+			METE,
+			METE_KEY,
+			METE_DES,
+        MODIFY_DATE,
+			USED_STATUS 
+	</sql>
+	
+	<!-- 保存SEO设置 -->	
+	<insert id="saveSeoConf" parameterType="com.ningpai.system.bean.SeoConf">
+		INSERT INTO NP_SYS_SEO_CONF
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+				<!-- 记录ID 
+				<if test="seoId != null">
+					SEO_ID,
+				</if> -->
+				<!-- 设置方案标题 -->
+				<if test="seoTitle != null">
+					SEO_TITLE,
+				</if>
+				<!-- 设置方案代码 -->
+				<if test="seoCode != null">
+					SEO_CODE,
+				</if>
+				<!-- 页面标题 -->
+				<if test="mete != null">
+					METE,
+				</if>
+				<!-- 关键字 -->
+				<if test="meteKey != null">
+					METE_KEY,
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS,
+				</if>
+				<!-- 描述信息 -->
+				<if test="meteDes != null">
+					METE_DES,
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1,
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2,
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID,
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE,
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID,
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE,
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS,
+				</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+				<!-- 记录ID 
+						#{seoId,
+								jdbcType=BIGINT
+						}, -->
+				<!-- 设置方案标题 -->
+					<if test="seoTitle != null">
+						#{seoTitle,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 设置方案代码 -->
+					<if test="seoCode != null">
+						#{seoCode,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 页面标题 -->
+					<if test="mete != null">
+						#{mete,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 关键字 -->
+					<if test="meteKey != null">
+						#{meteKey,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 启用 -->
+					<if test="usedStatus != null">
+						#{usedStatus,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 描述信息 -->
+					<if test="meteDes != null">
+						#{meteDes,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null">
+						#{expFleid1,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null">
+						#{expFleid2,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						#{insertId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null">
+						#{insertDate,
+								jdbcType=TIMESTAMP
+						},
+					</if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						#{modifyId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null">
+						#{modifyDate,
+								jdbcType=TIMESTAMP
+						},
+					</if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						#{deleteStatus,
+								jdbcType=BIGINT
+						},
+					</if>
+		</trim>
+	</insert>
+	<!-- 修改SEO设置 -->
+	<update id="updateSeoConf" parameterType="com.ningpai.system.bean.SeoConf">
+		UPDATE NP_SYS_SEO_CONF
+		<set>
+			
+				<!-- 记录ID -->
+				<if test="seoId != null">
+					SEO_ID = #{seoId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 设置方案标题 -->
+				<if test="seoTitle != null">
+					SEO_TITLE = #{seoTitle,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 设置方案代码 -->
+				<if test="seoCode != null">
+					SEO_CODE = #{seoCode,
+							jdbcType=VARCHAR
+					},
+                </if>
+            <!-- 设置url -->
+            <if test="url != null">
+                URL = #{url,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 页面标题 -->
+				<if test="mete != null">
+					METE = #{mete,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 关键字 -->
+				<if test="meteKey != null">
+					METE_KEY = #{meteKey,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS = #{usedStatus,
+							jdbcType=VARCHAR
+					},
+                </if>
+
+            <!-- 所属平台版本 -->
+            <if test="belongPlate != null">
+                BELONG_PLATE = #{belongPlate,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 描述信息 -->
+				<if test="meteDes != null">
+					METE_DES = #{meteDes,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1 = #{expFleid1,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2 = #{expFleid2,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=TIMESTAMP
+					},
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID = #{modifyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE = #{modifyDate,
+							jdbcType=TIMESTAMP
+					},
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS = #{deleteStatus,
+							jdbcType=BIGINT
+					},
+				</if>
+		</set>
+		WHERE 
+				SEO_ID = #{seoId,
+							jdbcType=BIGINT
+					}
+	</update>
+	
+	<!-- 根据SEO设置对象的id查询SEO设置对象 -->
+	<select id="getSeoConfById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_SEO_CONF 
+		WHERE 
+				SEO_ID = #{seoId,
+							jdbcType=BIGINT
+					}
+	</select>
+	
+	<!-- 根据SEO设置对象的id字符集合查询SEO设置对象 -->
+	<select id="getSeoConfByIds" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_SEO_CONF 
+		WHERE 
+				SEO_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</select>
+	
+	<!-- 根据SEO设置对象的id字符集合删除SEO设置对象 -->
+	<update id="deleteSeoConf" parameterType="java.util.Map">
+		DELETE FROM NP_SYS_SEO_CONF 
+		WHERE 
+				SEO_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+		
+	</update>
+    <!-- 根据SEO设置对象的id删除SEO设置对象 -->
+    <update id="deleteSeoByPrimaryKey" parameterType="java.lang.Long">
+        update NP_SYS_SEO_CONF set DELETE_STATUS = '1'
+        WHERE
+        SEO_ID =#{seoId}
+    </update>
+	
+	<!-- 更新SEO设置对象的单个字段  -->
+	<update id="updateSeoConfFieldById" parameterType="java.util.Map">
+		UPDATE NP_SYS_SEO_CONF
+		<set>
+				<!-- 记录ID -->
+				<if test="seoId != null">
+					SEO_ID = #{seoId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 设置方案标题 -->
+				<if test="seoTitle != null">
+					SEO_TITLE = #{seoTitle,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 设置方案代码 -->
+				<if test="seoCode != null">
+					SEO_CODE = #{seoCode,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 页面标题 -->
+				<if test="mete != null">
+					METE = #{mete,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 关键字 -->
+				<if test="meteKey != null">
+					METE_KEY = #{meteKey,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS = #{usedStatus,
+							jdbcType=VARCHAR
+					},
+				</if>
+            <!-- 所属平台版本 -->
+            <if test="belongPlate != null">
+                BELONG_PLATE = #{belongPlate,
+							jdbcType=VARCHAR
+					},
+            </if>
+				<!-- 描述信息 -->
+				<if test="meteDes != null">
+					METE_DES = #{meteDes,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1 = #{expFleid1,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2 = #{expFleid2,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=TIMESTAMP
+					},
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID = #{modifyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE = #{modifyDate,
+							jdbcType=TIMESTAMP
+					},
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS = #{deleteStatus,
+							jdbcType=BIGINT
+					},
+				</if>
+		</set>
+		WHERE 
+				SEO_ID IN  
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</update>
+	
+	<!-- updateSeoConfByUsedStatus -->
+	<update id="updateSeoConfByUsedStatus">
+		update NP_SYS_SEO_CONF set USED_STATUS = '0' where USED_STATUS='1'
+	</update>
+	<!-- 根据SEO设置对象的单个字段查询SEO设置对象信息总数 -->
+	<select id="getSeoConfByFieldTotal" resultType="java.lang.Integer" parameterType="java.util.Map">
+		   SELECT COUNT(SEO_ID) 
+		   FROM NP_SYS_SEO_CONF D 
+		   WHERE 
+				<!-- 记录ID -->
+					<if test="seoId != null">
+						D.SEO_ID = #{seoId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 设置方案标题 -->
+					<if test="seoTitle != null and seoTitle != ''">
+						D.SEO_TITLE like CONCAT(CONCAT('%', #{seoTitle,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 设置方案代码 -->
+					<if test="seoCode != null and seoCode != ''">
+						D.SEO_CODE like CONCAT(CONCAT('%', #{seoCode,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 页面标题 -->
+					<if test="mete != null and mete != ''">
+						D.METE like CONCAT(CONCAT('%', #{mete,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 关键字 -->
+					<if test="meteKey != null and meteKey != ''">
+						D.METE_KEY like CONCAT(CONCAT('%', #{meteKey,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 启用 -->
+					<if test="usedStatus != null and usedStatus != ''">
+						D.USED_STATUS like CONCAT(CONCAT('%', #{usedStatus,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 描述信息 -->
+					<if test="meteDes != null and meteDes != ''">
+						D.METE_DES like CONCAT(CONCAT('%', #{meteDes,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null and expFleid1 != ''">
+						D.EXP_FLEID_1 like CONCAT(CONCAT('%', #{expFleid1,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null and expFleid2 != ''">
+						D.EXP_FLEID_2 like CONCAT(CONCAT('%', #{expFleid2,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						D.INSERT_ID = #{insertId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null and insertDate !=''" >
+                        (D.INSERT_DATE between #{insertDateStart,jdbcType=TIMESTAMP} AND
+                        #{insertDateEnd,jdbcType=TIMESTAMP}) and
+			        </if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						D.MODIFY_ID = #{modifyId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null and modifyDate !=''" >
+                        (D.MODIFY_DATE between #{modifyDateStart,jdbcType=TIMESTAMP} AND
+                        #{modifyDateEnd,jdbcType=TIMESTAMP}) and
+			        </if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						D.DELETE_STATUS = #{deleteStatus,
+								jdbcType=BIGINT
+						} AND
+					</if>
+        	1=1 
+	</select>
+	
+	<!-- 根据SEO设置对象的单个字段查询SEO设置对象信息 -->
+	<select id="getSeoConfByField" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM  NP_SYS_SEO_CONF D 
+		   WHERE 
+				<!-- 记录ID -->
+					<if test="seoId != null">
+						D.SEO_ID = #{seoId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 设置方案标题 -->
+					<if test="seoTitle != null and seoTitle !=''" >
+						D.SEO_TITLE like CONCAT(CONCAT('%', #{seoTitle,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 设置方案代码 -->
+					<if test="seoCode != null and seoCode !=''" >
+						D.SEO_CODE like CONCAT(CONCAT('%', #{seoCode,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 页面标题 -->
+					<if test="mete != null and mete !=''" >
+						D.METE like CONCAT(CONCAT('%', #{mete,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 关键字 -->
+					<if test="meteKey != null and meteKey !=''" >
+						D.METE_KEY like CONCAT(CONCAT('%', #{meteKey,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 启用 -->
+					<if test="usedStatus != null and usedStatus !=''" >
+						D.USED_STATUS like CONCAT(CONCAT('%', #{usedStatus,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 描述信息 -->
+					<if test="meteDes != null and meteDes !=''" >
+						D.METE_DES like CONCAT(CONCAT('%', #{meteDes,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null and expFleid1 !=''" >
+						D.EXP_FLEID_1 like CONCAT(CONCAT('%', #{expFleid1,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null and expFleid2 !=''" >
+						D.EXP_FLEID_2 like CONCAT(CONCAT('%', #{expFleid2,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						D.INSERT_ID = #{insertId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null and insertDate !=''" >
+                        (D.INSERT_DATE between #{insertDateStart,jdbcType=TIMESTAMP} AND
+                        #{insertDateEnd,jdbcType=TIMESTAMP}) and
+			        </if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						D.MODIFY_ID = #{modifyId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null and modifyDate !=''" >
+                        (D.MODIFY_DATE between #{modifyDateStart,jdbcType=TIMESTAMP} AND
+                        #{modifyDateEnd,jdbcType=TIMESTAMP}) and
+			        </if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						D.DELETE_STATUS = #{deleteStatus,
+								jdbcType=BIGINT
+						} AND
+					</if>
+        	1=1 
+		    LIMIT #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询SEO设置对象信息总数 -->
+	<select id="querySeoConfTotal" resultType="java.lang.Integer">
+		SELECT COUNT(SEO_ID) FROM NP_SYS_SEO_CONF
+	</select>
+	
+	<!-- 分页查询SEO设置对象信息 -->
+	<select id="querySeoConfByPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM NP_SYS_SEO_CONF 
+		LIMIT  #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 获取已启用的SEO设置对象 -->
+	<select id="querySeoByUsedStatus" resultMap="BaseResultMap">
+		SELECT <include refid="baseSql"/> FROM NP_SYS_SEO_CONF
+        WHERE USED_STATUS='1' and DELETE_STATUS='0' AND TYPE='1'
+	</select>
+	
+	
+</mapper>

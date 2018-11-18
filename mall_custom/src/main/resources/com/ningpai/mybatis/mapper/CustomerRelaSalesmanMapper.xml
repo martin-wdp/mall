@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.salesman.dao.CustomerRelaSalesmanMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.salesman.bean.CustomerRelaSalesman" >
+    <id column="rela_id" property="relaId" jdbcType="BIGINT" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="salesman_id" property="salesmanId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    rela_id, customer_id, salesman_id, create_time, modify_time, del_flag
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from qp_customer_rela_salesman
+    where rela_id = #{relaId,jdbcType=BIGINT}
+  </select>
+  <select id="getSalesmanIdByCustId" resultType="Long" parameterType="java.lang.Long" >
+   SELECT t.salesman_id FROM qp_customer_rela_salesman t WHERE t.customer_id = #{customerId} AND t.del_flag = '0'
+  </select>
+  <select id="getSalesmanIdBySalaId" resultType="java.lang.Integer" parameterType="java.lang.Long" >
+   SELECT COUNT(1) FROM qp_customer_rela_salesman t WHERE t.salesman_id = #{salesmanId} AND t.del_flag = '0'
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from qp_customer_rela_salesman
+    where rela_id = #{relaId,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" parameterType="com.ningpai.salesman.bean.CustomerRelaSalesman" >
+    insert into qp_customer_rela_salesman (rela_id, customer_id, salesman_id, 
+      create_time, modify_time, del_flag
+      )
+    values (#{relaId,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, #{salesmanId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.salesman.bean.CustomerRelaSalesman" >
+    insert into qp_customer_rela_salesman
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="relaId != null" >
+        rela_id,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="salesmanId != null" >
+        salesman_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="relaId != null" >
+        #{relaId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="salesmanId != null" >
+        #{salesmanId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+       '0'
+      </if>
+    </trim>
+  </insert>
+
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.salesman.bean.CustomerRelaSalesman" >
+    update qp_customer_rela_salesman
+    <set >
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="salesmanId != null" >
+        salesman_id = #{salesmanId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where rela_id = #{relaId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.salesman.bean.CustomerRelaSalesman" >
+    update qp_customer_rela_salesman
+    set customer_id = #{customerId,jdbcType=BIGINT},
+      salesman_id = #{salesmanId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where rela_id = #{relaId,jdbcType=BIGINT}
+  </update>
+
+    <delete id="deleteByCustId" parameterType="java.lang.Long">
+        UPDATE  qp_customer_rela_salesman SET del_flag = '1'
+        where customer_id = #{customerId,jdbcType=BIGINT}
+    </delete>
+</mapper>

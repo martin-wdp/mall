@@ -1,0 +1,1 @@
+[{"followId":1,"customerId":1,"goodsId":1,"followPrice":"10.00","followTag":"test","createTime":"2015-02-01 01:01:01","delFlag":"0","districtId":"1103"}]

@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.lianft.com/project/ups/base" elementFormDefault="qualified" version="0.1">
+	<!--ups base data type-->
+	<simpleType name="T_ID">
+		<restriction base="string">
+			<length value="32"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_Version">
+		<restriction base="string">
+			<length value="3"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_TxType">
+		<restriction base="string">
+			<length value="4"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_TxTraceNo">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="32"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_SettleType">
+		<restriction base="string">
+			<length value="4"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_MoneyFen">
+		<restriction base="long"/>
+	</simpleType>
+	<simpleType name="T_FeeFen">
+		<restriction base="integer"/>
+	</simpleType>
+	<simpleType name="T_DateTime14">
+		<restriction base="string">
+			<pattern value="[0-9]{4}(0[1-9]|1[012]){1}(0[1-9]|[12][0-9]|3[01]){1}(([01][0-9])|2[0-3]){1}([012345][0-9]){1}([012345][0-9]){1}"/>
+		</restriction>
+		<!--format:YYYYMMDDhhmmss-->
+	</simpleType>
+	<simpleType name="T_Date8">
+		<restriction base="string">
+			<pattern value="[0-9]{4}(0[1-9]|1[012]){1}(0[1-9]|[12][0-9]|3[01]){1}"/>
+		</restriction>
+		<!--format:YYYYMMDD-->
+	</simpleType>
+	<simpleType name="T_Status">
+		<restriction base="string">
+			<length value="1"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_Role">
+		<restriction base="string">
+			<length value="1"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_UsageType">
+		<restriction base="string">
+			<length value="1"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_UsageDesc">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="100"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_PayerProtestEndDays">
+		<restriction base="integer"/>
+	</simpleType>
+	<simpleType name="T_BankID">
+		<restriction base="string">
+			<minLength value="1"/>
+			<maxLength value="11"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_PayeeBankID">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="11"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_BankAddr">
+		<restriction base="string">
+			<minLength value="1"/>
+			<maxLength value="90"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_BranchID">
+		<restriction base="string">
+			<minLength value="1"/>
+			<maxLength value="12"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_MerchantID">
+		<restriction base="string">
+			<minLength value="1"/>
+			<maxLength value="24"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_AccountNo">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="30"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_PayeeAccountNo">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="30"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_SubAccount">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="90"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_AccountName">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="90"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_RateFlag">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="1"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_PayeeAccountName">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="90"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_AccountType">
+		<restriction base="string">
+			<length value="1"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_UPSEntID">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="90"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_OrderNo">
+		<restriction base="string">
+			<minLength value="1"/>
+			<maxLength value="50"/>
+		</restriction>
+	</simpleType>
+	
+	<simpleType name="T_AdditionOrgOderNo">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="50"/>
+		</restriction>
+	</simpleType>
+	
+	<simpleType name="T_OrderDesc">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="2000"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_BillNo">
+		<restriction base="string">
+			<minLength value="1"/>
+			<maxLength value="50"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_BillDesc">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="512"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_BillType">
+		<restriction base="string">
+			<length value="3"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_BillKey">
+		<restriction base="string">
+			<minLength value="1"/>
+			<maxLength value="32"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_InstallmentSN">
+		<restriction base="integer"/>
+	</simpleType>
+	<simpleType name="T_EntName">
+		<restriction base="string">
+			<minLength value="1"/>
+			<maxLength value="90"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_OrgCode">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="10"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_Email">
+		<restriction base="string">
+			<minLength value="1"/>
+			<maxLength value="90"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_Contact">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="20"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_Phone">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="20"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_Address">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="90"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_PostCode">
+		<restriction base="string">
+			<minLength value="6"/>
+			<maxLength value="6"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_Password">
+		<restriction base="string">
+			<minLength value="6"/>
+			<maxLength value="8"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_EnterpriseID">
+		<restriction base="string">
+			<minLength value="1"/>
+			<maxLength value="20"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_ResponseCode">
+		<restriction base="string">
+			<length value="4"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_ResponseDesc">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="512"/>
+		</restriction>
+	</simpleType>	
+	<simpleType name="T_AccountInfo">
+		<restriction base="string">
+			<minLength value="1"/>
+			<maxLength value="90"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_Expansion">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="50"/>
+		</restriction>
+	</simpleType>	
+	<simpleType name="T_CertNum">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="50"/>
+		</restriction>
+	</simpleType>	
+	<simpleType name="T_CertType">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="3"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_BusiLicen">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="50"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_CustType">
+		<restriction base="string">
+			<minLength value="1"/>
+			<maxLength value="20"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_Remark">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="20"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_TxName">
+		<restriction base="string">
+			<minLength value="1"/>
+			<maxLength value="50"/>
+		</restriction>
+	</simpleType>
+	
+	<simpleType name="T_TxPayerNo">
+		<restriction base="string">
+			<minLength value="1"/>
+			<maxLength value="50"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_TxPayeeNo">
+		<restriction base="string">
+			<minLength value="1"/>
+			<maxLength value="50"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_Sex">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="50"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_HintMsg">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="50"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_PwdQuesid">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="50"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_PwdQuesans">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="50"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="T_busiLicen">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="20"/>
+		</restriction>
+	</simpleType>
+	
+	<simpleType name="T_DetailOrder">
+		<restriction base="string">
+			<pattern value="((\d{1,40})|([a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+))\|[1-9]{1}\d{0,18}(&amp;&amp;((\d{1,40})|([a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+))\|[1-9]{1}\d{0,18})*"/>
+		</restriction>
+		<!-- format:02211|200000&&02211|300000 -->
+	</simpleType>
+	
+	<simpleType name="T_Multi_BankID">
+		<restriction base="string">
+			<pattern value="\d{1,11}(\|\d{1,11}){0,7}"/>
+		</restriction>
+		<!-- multiple bankId format : 102|304 -->
+	</simpleType>
+	
+	<simpleType name="T_Multi_AccountNo">
+		<restriction base="string">
+			<pattern value="[0-9\-\|]+"/>
+		</restriction>
+		<!-- multiple AccountNo format : 102|304 -->
+	</simpleType>
+	
+	<simpleType name="T_Multi_BankName">
+		<restriction base="string">
+			<minLength value="1"/>
+			<maxLength value="256"/>
+		</restriction>
+	</simpleType>
+	
+	<simpleType name="T_Multi_AccountName">
+		<restriction base="string">
+			<minLength value="1"/>
+			<maxLength value="256"/>
+		</restriction>
+	</simpleType>
+	
+	<simpleType name="T_USEOF">
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="38"/>
+		</restriction>
+	</simpleType>
+</schema>

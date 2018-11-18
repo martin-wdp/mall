@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.marketing.dao.FullbuyNoDiscountMarketingMapper" >
+	<resultMap id="BaseResultMap" type="com.ningpai.marketing.bean.FullbuyNoDiscountMarketing" >
+		<id column="fullbuy_no_discount_marketing_id" property="fullbuyNoDiscountMarketingId" jdbcType="BIGINT" />
+		<result column="marketing_id" property="marketingId" jdbcType="BIGINT" />
+		<result column="packages_no" property="packagesNo" jdbcType="BIGINT" />
+		<result column="package_buy_discount" property="packagebuyDiscount" jdbcType="DECIMAL" />
+		<result column="del_flag" property="delFlag" jdbcType="VARCHAR" />
+		<result column="count_condition" property="countCondition"	jdbcType="BIGINT" />
+	</resultMap>
+	<sql id="Base_Column_List" >
+    	fullbuy_no_discount_marketing_id, marketing_id, packages_no, package_buy_discount, del_flag,count_condition
+    </sql>
+    
+    <insert id="insert" parameterType="com.ningpai.marketing.bean.FullbuyNoDiscountMarketing">
+    	insert into np_full_package_discount
+    	<trim prefix="(" suffix=")" suffixOverrides="," >
+    		<if test="fullbuyNoDiscountMarketingId != null">
+    			fullbuy_no_discount_marketing_id,
+    		</if>
+    		<if test="marketingId != null">
+    			marketing_id,
+    		</if>
+    		<if test="packagesNo != null">
+    			packages_no,
+    		</if>
+    		<if test="packagebuyDiscount != null">
+    			package_buy_discount,
+    		</if>
+    		<if test="delFlag != null">
+    			del_flag,
+    		</if>
+    	</trim>
+    	<trim prefix="values (" suffix=")" suffixOverrides="," >
+    		<if test="fullbuyNoDiscountMarketingId != null">
+    			#{fullbuyNoDiscountMarketingId,jdbcType=BIGINT},
+    		</if>
+    		<if test="marketingId != null">
+    			#{marketingId,jdbcType=BIGINT},
+    		</if>
+    		<if test="packagesNo != null">
+    			#{packagesNo,jdbcType=BIGINT},
+    		</if>
+    		<if test="packagebuyDiscount != null">
+    			#{packagebuyDiscount,jdbcType=DECIMAL},
+    		</if>
+    		<if test="delFlag != null">
+    			#{delFlag,jdbcType=VARCHAR},
+    		</if>
+    	</trim>
+    </insert>
+    
+    <select id="selectByMarketId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    	select <include refid="Base_Column_List" /> from np_full_package_discount
+    	where 1=1 and  del_flag = '0' and marketing_id = #{marketingId,jdbcType=BIGINT}
+    </select>
+    
+    <update id="insertCountConditionByMarketing" parameterType="java.util.Map">
+    	update np_full_package_discount set count_condition = #{countCondition,jdbcType=BIGINT}
+    	where marketing_id = #{marketingId,jdbcType=BIGINT}
+    </update>
+    
+    <update id="update">
+    	update np_full_package_discount set count_condition = '0'
+    </update>
+
+    <update id="modifySelective" parameterType="com.ningpai.marketing.bean.FullbuyNoDiscountMarketing">
+        update np_full_package_discount
+        <set>
+            <if test="packagesNo != null">
+                packages_no = #{packagesNo,jdbcType=BIGINT},
+            </if>
+            <if test="packagebuyDiscount != null">
+                package_buy_discount = #{packagebuyDiscount,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where marketing_id = #{marketingId,jdbcType=BIGINT}
+    </update>
+    
+    <update id="delFullbuyNoDiscountByMarketingId" parameterType="java.lang.Long">
+       update np_full_package_discount set del_flag = '1'
+       where marketing_id = #{marketingId,jdbcType=BIGINT}
+    </update>
+</mapper>

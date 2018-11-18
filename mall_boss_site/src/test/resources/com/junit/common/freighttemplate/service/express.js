@@ -1,0 +1,1 @@
+{"shoreExpId":1,"storeId":"0","expName":"shunfeng","expPrice":"0","expCompany":"shunfeng","isDefault":"0","seCreateTime":"2015-01-01 11:11:11","seModTime":"2015-01-01 11:11:11","seDelTime":"2015-01-01 11:11:11","delFlag":"0","kudi100code":"shunfeng"}

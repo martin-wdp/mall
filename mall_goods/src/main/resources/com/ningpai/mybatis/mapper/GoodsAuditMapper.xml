@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.goods.dao.GoodsAuditMapper">
+	<resultMap id="BaseResultMap" type="com.ningpai.goods.bean.Goods">
+		<id column="goods_id" property="goodsId" jdbcType="BIGINT" />
+		<result column="cat_id" property="catId" jdbcType="BIGINT" />
+		<result column="type_id" property="typeId" jdbcType="BIGINT" />
+		<result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+		<result column="goods_subtitle" property="goodsSubtitle"
+			jdbcType="VARCHAR" />
+	    <result column="goods_info_item_no" property="goodsInfoItemNo" jdbcType="VARCHAR" />
+		<result column="goods_no" property="goodsNo" jdbcType="VARCHAR" />
+		<result column="goods_keywords" property="goodsKeywords"
+			jdbcType="VARCHAR" />
+		<result column="brand_id" property="brandId" jdbcType="BIGINT" />
+		<result column="goods_brief" property="goodsBrief" jdbcType="VARCHAR" />
+		<result column="goods_added" property="goodsAdded" jdbcType="CHAR" />
+		<result column="goods_uptime" property="goodsUptime" jdbcType="TIMESTAMP" />
+		<result column="goods_price" property="goodsPrice" jdbcType="DECIMAL" />
+        <!--2015.10.22 wuyanbo 添加会员价格-->
+        <result column="goods_vip_price" property="goodsVipPrice" jdbcType="DECIMAL" />
+		<result column="goods_recom" property="goodsRecom" jdbcType="CHAR" />
+		<result column="goods_img" property="goodsImg" jdbcType="VARCHAR" />
+		<result column="goods_score" property="goodsScore" jdbcType="DECIMAL" />
+		<result column="goods_deno" property="goodsDeno" jdbcType="VARCHAR" />
+		<result column="goods_seo_title" property="goodsSeoTitle"
+			jdbcType="VARCHAR" />
+		<result column="goods_seo_keyword" property="goodsSeoKeyword"
+			jdbcType="VARCHAR" />
+		<result column="goods_seo_desc" property="goodsSeoDesc"
+			jdbcType="VARCHAR" />
+		<result column="goods_prom" property="goodsProm" jdbcType="CHAR" />
+		<result column="goods_info_instocksell" property="goodsInfoInstocksell"
+			jdbcType="CHAR" />
+		<result column="goods_usecoupon" property="goodsUsecoupon"
+			jdbcType="CHAR" />
+		<result column="goods_create_name" property="goodsCreateName"
+			jdbcType="VARCHAR" />
+		<result column="goods_create_time" property="goodsCreateTime"
+			jdbcType="TIMESTAMP" />
+		<result column="goods_modified_name" property="goodsModifiedName"
+			jdbcType="VARCHAR" />
+		<result column="goods_modified_time" property="goodsModifiedTime"
+			jdbcType="TIMESTAMP" />
+		<result column="goods_del_name" property="goodsDelName"
+			jdbcType="VARCHAR" />
+		<result column="goods_del_time" property="goodsDelTime"
+			jdbcType="TIMESTAMP" />
+		<result column="goods_delflag" property="goodsDelflag"
+			jdbcType="CHAR" />
+		<result column="goods_belo" property="goodsBelo" jdbcType="BIGINT"/>
+		<result column="goods_belo_name" property="goodsBeloName" jdbcType="VARCHAR"/>
+		<result column="is_third" property="isThird" jdbcType="VARCHAR"/>
+		<result column="third_cate_id" property="thirdCateId" jdbcType="BIGINT"/>
+		<result column="is_third_audit_used" property="isThirdAuditUsed" jdbcType="VARCHAR" />
+		<result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />	
+		<result column="cat_name" property="catName" jdbcType="VARCHAR" />
+		<result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+		<result column="store_valid_time" property="storeValidTime" jdbcType="VARCHAR" />
+		<result column="refuse_reason" property="refuseReason" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		goods_id, cat_id, type_id, goods_name, goods_subtitle, goods_no,
+		goods_keywords,
+		brand_id, goods_brief, goods_added, goods_uptime, goods_price, goods_vip_price, goods_recom,
+		goods_img,
+		goods_score, goods_deno, goods_seo_title, goods_seo_keyword, goods_seo_desc,
+		goods_prom,
+		goods_info_instocksell, goods_usecoupon, goods_create_name, goods_create_time,
+		goods_modified_name,
+		goods_modified_time, goods_del_name, goods_del_time, goods_delflag,goods_belo,goods_belo_name,is_third,third_cate_id,is_third_audit_used,audit_status
+	</sql>
+	
+	<select id="selectAuditRows" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select count(1) from np_goods np
+		where (( np.audit_status = '1' and np.is_third = '1' and np.goods_delflag='0') or
+		      (np.goods_id in (select distinct info.goods_id from np_goods_info info where info.audit_status = '1' and info.goods_info_delflag = '0')))
+		<if test="searchBean.goodsName != '' and searchBean.goodsName != null">
+			and np.goods_name like CONCAT(CONCAT('%',
+			#{searchBean.goodsName}),'%')
+		</if>
+		<if test="searchBean.goodsNo != '' and searchBean.goodsNo != null and searchBean.goodsNo != ''">
+			and np.goods_no = #{searchBean.goodsNo}
+		</if>
+		<if test="searchBean.goodsCateId != '' and searchBean.goodsCateId!=null and searchBean.goodsCateId!='-1'">
+			and np.cat_id = #{searchBean.goodsCateId}
+		</if>
+		<if test="searchBean.goodsBrandId != -1 and searchBean.goodsBrandId!='' and searchBean.goodsBrandId!=null">
+			and np.brand_id = #{searchBean.goodsBrandId}
+		</if>
+		<if test="searchBean.status != -1 and searchBean.status !='' and searchBean.status !=null">
+			and np.goods_added = #{searchBean.status}
+		</if>
+		<if test="searchBean.condition==1 and searchBean.searchText!=null and searchBean.searchText!=''">
+			and np.goods_name like CONCAT(CONCAT('%',
+			#{searchBean.searchText}),'%')
+		</if>
+		<if test="searchBean.condition==2 and searchBean.searchText!=null and searchBean.searchText != ''">
+			and np.goods_no = #{searchBean.searchText}
+		</if>
+		<if test="searchBean.condition==3 and searchBean.searchText!=null and searchBean.searchText!=''">
+			and goods_keywords like CONCAT(CONCAT('%',
+			#{searchBean.searchText}),'%')
+		</if>
+		<if test="searchBean.thirdName!= null  and searchBean.thirdName!=''">
+			and np.goods_belo_name like CONCAT(CONCAT('%',
+			#{searchBean.thirdName}),'%')
+		</if>
+	</select>
+	
+	<select id="selectAuditList" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="Base_Column_List" />,
+		(select n.cat_name from np_goods_category n where np.cat_id = n.cat_id) cat_name,
+		(select b.brand_name from np_goods_brand b where np.brand_id = b.brand_id) brand_name,
+		(select store.BUSS_DATE from np_third_store_info store where np.goods_belo = store.store_id) store_valid_time
+		from np_goods np where (( np.audit_status = '1' and np.is_third = '1' and np.goods_delflag='0') or
+		    				   (np.goods_id in (select distinct info.goods_id from np_goods_info info where info.audit_status = '1' and info.goods_info_delflag = '0')))
+		<if test="searchBean.goodsName != '' and searchBean.goodsName != null">
+			and np.goods_name like CONCAT(CONCAT('%',
+			#{searchBean.goodsName}),'%')
+		</if>
+		<if test="searchBean.goodsNo != '' and searchBean.goodsNo != null and searchBean.goodsNo != ''">
+			and np.goods_no = #{searchBean.goodsNo}
+		</if>
+		<if test="searchBean.goodsCateId != '' and searchBean.goodsCateId!=null and searchBean.goodsCateId!='-1'">
+			and np.cat_id = #{searchBean.goodsCateId}
+		</if>
+		<if test="searchBean.goodsBrandId != -1 and searchBean.goodsBrandId!='' and searchBean.goodsBrandId!=null">
+			and np.brand_id = #{searchBean.goodsBrandId}
+		</if>
+		<if test="searchBean.status != -1 and searchBean.status !='' and searchBean.status !=null">
+			and np.goods_added = #{searchBean.status}
+		</if>
+		<if test="searchBean.condition==1 and searchBean.searchText!=null and searchBean.searchText!=''">
+			and np.goods_name like CONCAT(CONCAT('%',
+			#{searchBean.searchText}),'%')
+		</if>
+		<if test="searchBean.condition==2 and searchBean.searchText!=null and searchBean.searchText != ''">
+			and np.goods_no = #{searchBean.searchText}
+		</if>
+		<if test="searchBean.condition==3 and searchBean.searchText!=null and searchBean.searchText!=''">
+			and goods_keywords like CONCAT(CONCAT('%',
+			#{searchBean.searchText}),'%')
+		</if>
+		<if test="searchBean.thirdName!= null  and searchBean.thirdName!=''">
+			and np.goods_belo_name like CONCAT(CONCAT('%',
+			#{searchBean.thirdName}),'%')
+		</if>
+		order by np.goods_create_time desc
+		limit #{startRowNum},#{endRowNum}   				    	
+	</select>
+	
+	<select id="selectAuditAction" resultType="java.lang.String">
+		select distinct is_third_audit_used from np_goods
+	</select>
+	
+	<update id="updateAuditAction" parameterType="java.lang.String">
+		update np_goods set is_third_audit_used = #{isThirdAuditUsed,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="auditByGoodsId" parameterType="java.lang.Long">
+		update np_goods set audit_status = '3' , goods_added = '1' where goods_id = #{goodsId,jdbcType=BIGINT}
+	</update>
+	
+	<update id="refuseAuditByGoodsId" parameterType="java.util.Map">
+		update np_goods set audit_status = '2',refuse_reason = #{refuseReason,jdbcType=VARCHAR} where goods_id = #{goodsId,jdbcType=BIGINT}
+	</update>
+	</mapper>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.system.dao.ShopKuaiShangMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.system.bean.ShopKuaiShang" >
+    <id column="shang_id" property="shangId" jdbcType="BIGINT" />
+    <result column="shang_login_id" property="shangLongId" jdbcType="VARCHAR" />
+    <result column="shang_login_name" property="shangLoginName" jdbcType="VARCHAR"/>
+    <result column="password" property="password" jdbcType="VARCHAR"/>
+    <result column="company_name" property="companyName" jdbcType="VARCHAR"/>
+    <result column="company_url" property="companyUrl" jdbcType="VARCHAR"/>
+    <result column="trade" property="trade" jdbcType="VARCHAR"/>
+    <result column="linkman" property="linkman" jdbcType="VARCHAR"/>
+    <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
+    <result column="email" property="email" jdbcType="VARCHAR"/>
+    <result column="mobilephone" property="mobilephone" jdbcType="VARCHAR"/>
+    <result column="shang_logo" property="shangLogo" jdbcType="VARCHAR"/>
+    <result column="introduce" property="introduce" jdbcType="VARCHAR"/>
+    <result column="upgrade_introduce" property="upgradeIntroduce" jdbcType="LONGVARCHAR"/>
+    <result column="operation" property="operation" jdbcType="LONGVARCHAR"/>
+      <result column="client_address" property="clientAddress" jdbcType="VARCHAR"/>
+      <result column="shang_contant_qq" property="shangContantQq" jdbcType="VARCHAR"/>
+      <result column="shang_telephone" property="shangTelephone" jdbcType="VARCHAR"/>
+      <result column="shang_linkman" property="shangLinkman" jdbcType="VARCHAR"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="isuseing" property="isuseing" jdbcType="CHAR" />
+      <result column="delete_flag" property="deleteFlag" jdbcType="CHAR" />
+  </resultMap>
+
+  
+  <sql id="Base_Column_List" >
+    shang_id, shang_login_id, shang_login_name,password, company_name, company_url, trade,linkman,telephone,email,
+    mobilephone,shang_logo,introduce,upgrade_introduce,operation,client_address,shang_contant_qq,shang_telephone,
+    shang_linkman,create_time,update_time,isuseing,delete_flag
+  </sql>
+  <select id="selectInitone" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_kuai_shang_tong
+  </select>
+
+  <!-- 添加记录 -->
+  <insert id="insertKuaiShang" parameterType="com.ningpai.system.bean.ShopKuaiShang" >
+    insert into np_kuai_shang_tong
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+
+      <if test="shangLongId != null" >
+          shang_login_id,
+      </if>
+      <if test="shangLoginName != null" >
+          shang_login_name,
+      </if>
+      <if test="password != null" >
+          password,
+      </if>
+      <if test="telephone != null" >
+          telephone,
+      </if>
+        <if test="email != null" >
+            email,
+        </if>
+        <if test="mobilephone != null" >
+            mobilephone,
+        </if>
+        <if test="shangLogo != null" >
+            shang_logo,
+        </if>
+        <if test="introduce != null" >
+            introduce,
+        </if>
+        <if test="upgradeIntroduce != null" >
+            upgrade_introduce,
+        </if>
+        <if test="operation != null" >
+            operation,
+        </if>
+        <if test="clientAddress != null" >
+            client_address,
+        </if>
+        create_time,
+      <if test="updateTime != null" >
+          update_time,
+      </if>
+      <if test="isuseing != null" >
+          isuseing,
+      </if>
+      <if test="deleteFlag != null" >
+          delete_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+
+      <if test="shangLongId != null" >
+        #{shang_login_id,jdbcType=VARCHAR},
+      </if>
+      <if test="shangLoginName != null" >
+        #{shang_login_name,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilephone != null" >
+        #{mobilephone,jdbcType=VARCHAR},
+      </if>
+      <if test="shangLogo != null" >
+        #{shang_logo,jdbcType=VARCHAR},
+      </if>
+      <if test="introduce != null" >
+        #{introduce,jdbcType=VARCHAR},
+      </if>
+      <if test="upgradeIntroduce!= null" >
+        #{upgrade_introduce,jdbcType=VARCHAR},
+      </if>
+      <if test="operation!= null" >
+        #{operation,jdbcType=VARCHAR},
+      </if>
+        <if test="clientAddress!= null" >
+            #{client_address,jdbcType=VARCHAR},
+        </if>
+      NOW(),
+      <if test="updateTime != null" >
+        #{update_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isuseing != null" >
+        #{isuseing,jdbcType=CHAR},
+      </if>
+      <if test="deleteFlag != null" >
+        #{delete_flag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+
+    <update id="updateKuaiShangByPrimaryKey" parameterType="com.ningpai.system.bean.ShopKuaiShang" >
+        update np_kuai_shang_tong
+        <set >
+
+            <if test="shangLongId != null and shangLongId!=''" >
+                shang_login_id= #{shangLongId,jdbcType=VARCHAR},
+            </if>
+            <if test="shangLoginName != null and shangLoginName!='' " >
+                shang_login_name=#{shangLoginName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null and password!= '' " >
+                password= #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null and telephone != '' " >
+                telephone= #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null and email !='' " >
+                email=  #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null" >
+                company_name=  #{companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="companyUrl != null and companyUrl != '' " >
+                company_url=  #{companyUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="trade != null and trade !='' " >
+                trade=  #{trade,jdbcType=VARCHAR},
+            </if>
+            <if test="linkman != null and linkman != '' " >
+                linkman=  #{linkman,jdbcType=VARCHAR},
+            </if>
+            <if test="mobilephone != null and mobilephone !='' " >
+                mobilephone=#{mobilephone,jdbcType=VARCHAR},
+            </if>
+            <if test="shangLogo != null and shangLogo!= '' " >
+                shang_logo=#{shangLogo,jdbcType=VARCHAR},
+            </if>
+            <if test="introduce != null and introduce != '' " >
+                introduce=#{introduce,jdbcType=VARCHAR},
+            </if>
+            <if test="upgradeIntroduce!= null and upgradeIntroduce!= ''  " >
+                #{upgrade_introduce,jdbcType=VARCHAR},
+            </if>
+            <if test="operation!= null and operation!= '' " >
+                operation=#{operation,jdbcType=VARCHAR},
+            </if>
+            <if test="clientAddress != null and clientAddress != '' " >
+                client_address=#{clientAddress,jdbcType=VARCHAR},
+            </if>
+            update_time=NOW(),
+            <if test="isuseing != null and isuseing != '' " >
+                isuseing= #{isuseing,jdbcType=CHAR},
+            </if>
+            <if test="deleteFlag != null and deleteFlag!= '' " >
+                delete_flag=#{deleteFlag,jdbcType=CHAR},
+            </if>
+        </set>
+        where shang_id = #{shangId,jdbcType=BIGINT}
+    </update>
+
+</mapper>

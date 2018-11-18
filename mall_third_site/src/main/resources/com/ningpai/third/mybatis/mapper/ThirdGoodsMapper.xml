@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.third.goods.dao.ThirdGoodsMapper" >
+	<!-- 商品列表页的返回Map -->
+	<resultMap type="com.ningpai.goods.vo.GoodsListVo" id="ThirdGoodsListResultMap">
+		<id column="goods_id" property="goodsId" jdbcType="BIGINT" />
+        <result column="goods_info_id" property="goodsInfoId" jdbcType="BIGINT" />
+		<result column="goods_no" property="goodsNo" jdbcType="VARCHAR" />
+		<result column="goods_img" property="goodsImg" jdbcType="VARCHAR" />
+		<result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+		<result column="goods_added" property="goodsAdded" jdbcType="CHAR" />
+		<result column="goods_price" property="goodsPrice" jdbcType="DECIMAL" />
+		<result column="goods_belo_name" property="thirdName" jdbcType="VARCHAR" />
+		<result column="goods_create_time" property="goodsCreateTime" jdbcType="TIMESTAMP" />
+		<result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
+		<result column="refuse_reason" property="refuseReason" jdbcType="VARCHAR" />
+		<association property="goodsBrand" column="brand_id"
+			select="com.ningpai.goods.dao.GoodsBrandMapper.selectByPrimaryKey"></association>
+	</resultMap>
+	<!-- 销量排行辅助Bean-->
+	<resultMap type="com.ningpai.third.goods.vo.SalesProductVo" id="salesProductVo">
+	    <result column="goods_info_item_no" property="goodsInfoId" jdbcType="VARCHAR" />
+	    <result column="goods_info_name" property="goodsInfoName" jdbcType="VARCHAR" />
+	    <result column="count" property="count" jdbcType="BIGINT"/>
+	</resultMap>	
+	<!-- 商品列表查询Column_list -->
+	<sql id="Third_Goods_List_Column_List">
+		goods_id,goods_no,goods_img,goods_name,goods_added,goods_price,brand_id,goods_belo_name,goods_create_time,audit_status,refuse_reason
+	</sql>
+	<select id="bsetUrl" resultType="java.lang.String">
+		select bset_address from np_sys_basicset where bset_id = 1
+	</select>
+	<!-- 查询第三方的商品列表 -->
+	<select id="queryThirdGoodsList" parameterType="java.util.Map" resultMap="ThirdGoodsListResultMap">
+		select <include refid="Third_Goods_List_Column_List"/>,(SELECT goods_info_id FROM np_goods_info info WHERE info.goods_id=goods.goods_id LIMIT 0,1) goods_info_id from np_goods goods where goods_delflag='0'
+		and goods_added=#{goodsAdded}
+		and goods_belo = #{thirdId}
+		and is_third='1'
+		<if test="null != condition and condition == 1">
+			and goods_name like CONCAT(CONCAT('%',#{searchText}),'%')
+		</if>
+		<if test="null != condition and condition == 2">
+			and goods_no like CONCAT(CONCAT('%',#{searchText}),'%')
+		</if>
+		<if test="null != goodsName and goodsName != ''">
+			and goods_name like CONCAT(CONCAT('%',#{goodsName}),'%')
+		</if>
+		<if test="null != goodsNo and goodsNo != ''">
+			and goods_no like CONCAT(CONCAT('%',#{goodsNo}),'%')
+		</if>
+		<if test="null != lowGoodsPrice and lowGoodsPrice != ''">
+			and goods_price >= #{lowGoodsPrice}
+		</if>
+		<if test="null != highGoodsPrice and highGoodsPrice != ''">
+			and goods_price <![CDATA[ <= ]]> #{highGoodsPrice}
+		</if>
+		<if test="null != lowCreateTime and lowCreateTime != ''">
+			and goods_create_time >= #{lowCreateTime}
+		</if>
+		<if test="null != highCreateTime and highCreateTime != ''">
+			and goods_create_time <![CDATA[ <=]]> #{highCreateTime}
+		</if>
+		<if test="null != npCateId and npCateId != ''">
+			and cat_id = #{npCateId}
+		</if>
+		<if test="null != thirdCateId and thirdCateId != ''">
+			and third_cate_id = #{thirdCateId}
+		</if>
+        order by goods_create_time desc
+		limit #{startRowNum},#{endRowNum}
+	</select>
+    <!-- 根据条件查询第三方商品列表 -->
+    <select id="queryThirdGoodsListByFlag" parameterType="java.util.Map" resultMap="ThirdGoodsListResultMap">
+        select <include refid="Third_Goods_List_Column_List"/>,(SELECT goods_info_id FROM np_goods_info info WHERE info.goods_id=goods.goods_id LIMIT 0,1) goods_info_id from np_goods goods where goods_delflag='0'
+        and goods_added=#{goodsAdded}
+        and goods_belo = #{thirdId}
+        and is_third='1'
+        <if test="null != condition and condition == 1">
+            and goods_name like CONCAT(CONCAT('%',#{searchText}),'%')
+        </if>
+        <if test="null != condition and condition == 2">
+            and goods_no like CONCAT(CONCAT('%',#{searchText}),'%')
+        </if>
+        <if test="null != goodsName and goodsName != ''">
+            and goods_name like CONCAT(CONCAT('%',#{goodsName}),'%')
+        </if>
+        <if test="null != goodsNo and goodsNo != ''">
+            and goods_no like CONCAT(CONCAT('%',#{goodsNo}),'%')
+        </if>
+        <if test="null != lowGoodsPrice and lowGoodsPrice != ''">
+            and goods_price >= #{lowGoodsPrice}
+        </if>
+        <if test="null != highGoodsPrice and highGoodsPrice != ''">
+            and goods_price <![CDATA[ <= ]]> #{highGoodsPrice}
+        </if>
+        <if test="null != lowCreateTime and lowCreateTime != ''">
+            and goods_create_time >= #{lowCreateTime}
+        </if>
+        <if test="null != highCreateTime and highCreateTime != ''">
+            and goods_create_time <![CDATA[ <=]]> #{highCreateTime}
+        </if>
+        <if test="null != npCateId and npCateId != ''">
+            and cat_id = #{npCateId}
+        </if>
+        <if test="null != thirdCateId and thirdCateId != ''">
+            and third_cate_id = #{thirdCateId}
+        </if>
+        <if test="flag != null and flag != '' and flag == 3">
+            and audit_status = '1'
+        </if>
+        <if test="flag != null and flag != '' and flag == 2">
+            and audit_status in ('0','2','3')
+        </if>
+        <if test="flag != null and flag != '' and flag == 1">
+            and audit_status in ('0','3')
+        </if>
+		 order by goods_create_time desc
+        limit #{startRowNum},#{endRowNum}
+    </select>
+
+	<!-- 查询第三方的商品行数 -->
+	<select id="queryThirdGoodsCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(*) from np_goods where goods_delflag='0' and goods_added=#{goodsAdded}
+		and goods_belo = #{thirdId}
+		and is_third='1'
+		<if test="null != condition and condition == 1">
+			and goods_name like CONCAT(CONCAT('%',#{searchText}),'%')
+		</if>
+		<if test="null != condition and condition == 2">
+			and goods_no like CONCAT(CONCAT('%',#{searchText}),'%')
+		</if>
+		<if test="null != goodsName and goodsName != ''">
+			and goods_name like CONCAT(CONCAT('%',#{goodsName}),'%')
+		</if>
+		<if test="null != goodsNo and goodsNo != ''">
+			and goods_no like CONCAT(CONCAT('%',#{goodsNo}),'%')
+		</if>
+		<if test="null != lowGoodsPrice and lowGoodsPrice != ''">
+			and goods_price >= #{lowGoodsPrice}
+		</if>
+		<if test="null != highGoodsPrice and highGoodsPrice != ''">
+			and goods_price <![CDATA[ <= ]]> #{highGoodsPrice}
+		</if>
+		<if test="null != lowCreateTime and lowCreateTime != ''">
+			and goods_create_time >= #{lowCreateTime}
+		</if>
+		<if test="null != highCreateTime and highCreateTime != ''">
+			and goods_create_time <![CDATA[ <=]]> #{highCreateTime}
+		</if>
+		<if test="null != npCateId and npCateId != ''">
+			and cat_id = #{npCateId}
+		</if>
+		<if test="null != thirdCateId and thirdCateId != ''">
+			and third_cate_id = #{thirdCateId}
+		</if>
+	</select>
+
+    <!-- 根据条件查询商品行数 -->
+    <select id="queryThirdGoodsCountByFlag" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(*) from np_goods where goods_delflag='0' and goods_added=#{goodsAdded}
+        and goods_belo = #{thirdId}
+        and is_third='1'
+        <if test="null != condition and condition == 1">
+            and goods_name like CONCAT(CONCAT('%',#{searchText}),'%')
+        </if>
+        <if test="null != condition and condition == 2">
+            and goods_no like CONCAT(CONCAT('%',#{searchText}),'%')
+        </if>
+        <if test="null != goodsName and goodsName != ''">
+            and goods_name like CONCAT(CONCAT('%',#{goodsName}),'%')
+        </if>
+        <if test="null != goodsNo and goodsNo != ''">
+            and goods_no like CONCAT(CONCAT('%',#{goodsNo}),'%')
+        </if>
+        <if test="null != lowGoodsPrice and lowGoodsPrice != ''">
+            and goods_price >= #{lowGoodsPrice}
+        </if>
+        <if test="null != highGoodsPrice and highGoodsPrice != ''">
+            and goods_price <![CDATA[ <= ]]> #{highGoodsPrice}
+        </if>
+        <if test="null != lowCreateTime and lowCreateTime != ''">
+            and goods_create_time >= #{lowCreateTime}
+        </if>
+        <if test="null != highCreateTime and highCreateTime != ''">
+            and goods_create_time <![CDATA[ <=]]> #{highCreateTime}
+        </if>
+        <if test="null != npCateId and npCateId != ''">
+            and cat_id = #{npCateId}
+        </if>
+        <if test="null != thirdCateId and thirdCateId != ''">
+            and third_cate_id = #{thirdCateId}
+        </if>
+        <if test="flag != null and flag != '' and flag == 3">
+            and audit_status = '1'
+        </if>
+        <if test="flag != null and flag != '' and flag == 2">
+            and audit_status in ('0','2','3')
+        </if>
+        <if test="flag != null and flag != '' and flag == 1">
+            and audit_status in ('0','3')
+        </if>
+    </select>
+	
+	<!-- 查询第三方店铺销量排行 -->
+	<select id="queryThirdProductSalesNum" parameterType="java.util.Map" resultMap="salesProductVo">
+			select i.goods_info_id,i.goods_info_name,i.goods_info_item_no,o.count from np_goods_info i left join (select sum(goods_info_num) as count, np_order_goods.goods_info_id from np_order_goods 
+			where order_id in (select order_id from np_order where order_status='3')group by goods_info_id) o on o.goods_info_id=i.goods_info_id 
+			where  i.goods_info_delflag='0' and i.goods_info_added='1'
+			and i.third_id=#{thirdId}
+			group by i.goods_info_id
+			order by o.count desc
+			limit 0,5
+	</select>
+	
+	
+	<!-- 查询所有商家的商品列表 -->
+	<select id="queryThirdGoodsCopyList" parameterType="java.util.Map" resultMap="ThirdGoodsListResultMap">
+		select <include refid="Third_Goods_List_Column_List"/> from np_goods where goods_delflag='0'
+		and goods_added=#{goodsAdded}
+		<if test="null != thirdId and thirdId != '' ">
+			and goods_belo = #{thirdId}
+		</if>
+		<if test="thirdId==0">
+			and goods_belo = 0
+		</if>
+		<if test="null != condition and condition == 1">
+			and goods_name like CONCAT(CONCAT('%',#{searchText}),'%')
+		</if>
+		<if test="null != condition and condition == 2">
+			and goods_no like CONCAT(CONCAT('%',#{searchText}),'%')
+		</if>
+		<if test="null != goodsName and goodsName != ''">
+			and goods_name like CONCAT(CONCAT('%',#{goodsName}),'%')
+		</if>
+		<if test="null != goodsNo and goodsNo != ''">
+			and goods_no like CONCAT(CONCAT('%',#{goodsNo}),'%')
+		</if>
+		<if test="null != lowGoodsPrice and lowGoodsPrice != ''">
+			and goods_price >= #{lowGoodsPrice}
+		</if>
+		<if test="null != highGoodsPrice and highGoodsPrice != ''">
+			and goods_price <![CDATA[ <= ]]> #{highGoodsPrice}
+		</if>
+		<if test="null != lowCreateTime and lowCreateTime != ''">
+			and goods_create_time >= #{lowCreateTime}
+		</if>
+		<if test="null != highCreateTime and highCreateTime != ''">
+			and goods_create_time <![CDATA[ <=]]> #{highCreateTime}
+		</if>
+		<if test="null != npCateId and npCateId != ''">
+			and cat_id = #{npCateId}
+		</if>
+		<if test="null != thirdCateId and thirdCateId != ''">
+			and third_cate_id = #{thirdCateId}
+		</if>
+		order by goods_create_time desc
+		limit #{startRowNum},#{endRowNum}
+	</select>
+	<!-- 查询第三方的商品行数 -->
+	<select id="queryThirdGoodsCopyCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(*) from np_goods where goods_delflag='0' and goods_added=#{goodsAdded}
+		<if test="null != thirdId and thirdId != '' ">
+			and goods_belo = #{thirdId}
+		</if>
+		<if test="thirdId==0">
+			and goods_belo = 0
+		</if>
+		<if test="null != condition and condition == 1">
+			and goods_name like CONCAT(CONCAT('%',#{searchText}),'%')
+		</if>
+		<if test="null != condition and condition == 2">
+			and goods_no like CONCAT(CONCAT('%',#{searchText}),'%')
+		</if>
+		<if test="null != goodsName and goodsName != ''">
+			and goods_name like CONCAT(CONCAT('%',#{goodsName}),'%')
+		</if>
+		<if test="null != goodsNo and goodsNo != ''">
+			and goods_no like CONCAT(CONCAT('%',#{goodsNo}),'%')
+		</if>
+		<if test="null != lowGoodsPrice and lowGoodsPrice != ''">
+			and goods_price >= #{lowGoodsPrice}
+		</if>
+		<if test="null != highGoodsPrice and highGoodsPrice != ''">
+			and goods_price <![CDATA[ <= ]]> #{highGoodsPrice}
+		</if>
+		<if test="null != lowCreateTime and lowCreateTime != ''">
+			and goods_create_time >= #{lowCreateTime}
+		</if>
+		<if test="null != highCreateTime and highCreateTime != ''">
+			and goods_create_time <![CDATA[ <=]]> #{highCreateTime}
+		</if>
+		<if test="null != npCateId and npCateId != ''">
+			and cat_id = #{npCateId}
+		</if>
+		<if test="null != thirdCateId and thirdCateId != ''">
+			and third_cate_id = #{thirdCateId}
+		</if>
+	</select>
+	
+</mapper>

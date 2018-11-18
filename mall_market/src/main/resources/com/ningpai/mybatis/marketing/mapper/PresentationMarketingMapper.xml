@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.PresentationMarketingMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.marketing.bean.PresentationMarketing" >
+    <id column="presentation_id" property="presentationId" jdbcType="BIGINT" />
+    <result column="marketing_id" property="marketingId" jdbcType="BIGINT" />
+    <result column="product_id" property="productId" jdbcType="BIGINT" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    presentation_id, marketing_id, product_id, del_flag
+  </sql>
+  
+  
+  <!-- 查询促销赠品 -->
+  <select id="selectPresentationMarketingListByMarketingId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_presentation_marketing
+    where marketing_id = #{marketingId,jdbcType=BIGINT} and del_flag = '0' 
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_presentation_marketing
+    where presentation_id = #{presentationId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_presentation_marketing
+    where presentation_id = #{presentationId,jdbcType=BIGINT}
+  </delete>
+  
+   <!-- 批量插入 -->
+    <insert id="insertPresentationMarketing" parameterType="java.util.List" >
+    insert into np_presentation_marketing (presentation_id, marketing_id, product_id, 
+      del_flag)
+    values 
+       <foreach collection="list" separator="," item="pm" index="index" >  
+          (#{pm.presentationId,jdbcType=BIGINT}, #{pm.marketingId,jdbcType=BIGINT}, #{pm.productId,jdbcType=BIGINT}, 
+    	  #{pm.delFlag,jdbcType=CHAR})
+     </foreach>  
+   
+  </insert>
+  
+  
+  <insert id="insert" parameterType="com.ningpai.marketing.bean.PresentationMarketing" >
+    insert into np_presentation_marketing (presentation_id, marketing_id, product_id, 
+      del_flag)
+    values (#{presentationId,jdbcType=BIGINT}, #{marketingId,jdbcType=BIGINT}, #{productId,jdbcType=BIGINT}, 
+      #{delFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.marketing.bean.PresentationMarketing" >
+    insert into np_presentation_marketing
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="presentationId != null" >
+        presentation_id,
+      </if>
+      <if test="marketingId != null" >
+        marketing_id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="presentationId != null" >
+        #{presentationId,jdbcType=BIGINT},
+      </if>
+      <if test="marketingId != null" >
+        #{marketingId,jdbcType=BIGINT},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.marketing.bean.PresentationMarketing" >
+    update np_presentation_marketing
+    <set >
+      <if test="marketingId != null" >
+        marketing_id = #{marketingId,jdbcType=BIGINT},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where presentation_id = #{presentationId,jdbcType=BIGINT}
+  </update>
+  
+  
+  
+  
+  <update id="deletePresentationMarketing" parameterType="java.lang.Long" >
+    update np_presentation_marketing
+    set 
+      del_flag = '1'
+    where presentation_id = #{presentationId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.marketing.bean.PresentationMarketing" >
+    update np_presentation_marketing
+    set marketing_id = #{marketingId,jdbcType=BIGINT},
+      product_id = #{productId,jdbcType=BIGINT},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where presentation_id = #{presentationId,jdbcType=BIGINT}
+  </update>
+</mapper>

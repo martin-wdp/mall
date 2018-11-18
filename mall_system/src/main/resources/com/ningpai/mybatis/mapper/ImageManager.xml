@@ -1,0 +1,839 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+ @Title: 图片管理的mapper映射配置文件
+ @Description:
+ @author NINGPAI_xiaomm
+ @since 2014-03-24 14:33:31
+ @version V1.0
+-->
+<mapper namespace="com.ningpai.system.dao.ImageManagerDaoImpl">
+
+	<resultMap id="BaseResultMap" type="com.ningpai.system.bean.ImageManager">
+				<!-- 记录ID -->
+				<id column="IMAGE_ID" 
+					jdbcType="BIGINT"
+				 property="imageId" />
+				<!-- 图片标题 -->
+				<result column="TITLE"
+					jdbcType="VARCHAR"
+				property="title" />
+				<!-- 图片尺寸 -->
+				<result column="SIZE"
+					jdbcType="VARCHAR"
+				property="size" />
+				<!-- 原图 -->
+				<result column="ORGINAL_URL"
+					jdbcType="VARCHAR"
+				property="orginalUrl" />
+				<!-- 大图 -->
+				<result column="BIG_URL"
+					jdbcType="VARCHAR"
+				property="bigUrl" />
+				<!-- 中图 -->
+				<result column="MIDDLE_URL"
+					jdbcType="VARCHAR"
+				property="middleUrl" />
+				<!-- 小图 -->
+				<result column="SMALL_URL"
+					jdbcType="VARCHAR"
+				property="smallUrl" />
+				<!-- 存储引擎 -->
+				<result column="STORAGE_ENGINE"
+					jdbcType="VARCHAR"
+				property="storageEngine" />
+				<!-- 水印 -->
+				<result column="WATERMARK"
+					jdbcType="VARCHAR"
+				property="watermark" />
+				<!-- 标签 -->
+				<result column="TAG"
+					jdbcType="BIGINT"
+				property="tag" />
+				<!-- 图标类型 -->
+				<result column="TYPE"
+					jdbcType="VARCHAR"
+				property="type" />
+				<!-- 启用 -->
+				<result column="USED_STATUS"
+					jdbcType="VARCHAR"
+				property="usedStatus" />
+				<!-- 描述信息 -->
+				<result column="METE_DES"
+					jdbcType="VARCHAR"
+				property="meteDes" />
+				<!-- 扩展字段1 -->
+				<result column="EXP_FLEID_1"
+					jdbcType="VARCHAR"
+				property="expFleid1" />
+				<!-- 扩展字段2 -->
+				<result column="EXP_FLEID_2"
+					jdbcType="VARCHAR"
+				property="expFleid2" />
+				<!-- 添加人 -->
+				<result column="INSERT_ID"
+					jdbcType="BIGINT"
+				property="insertId" />
+				<!-- 添加时间 -->
+				<result column="INSERT_DATE"
+					jdbcType="DATE"
+				property="insertDate" />
+				<!-- 修改人 -->
+				<result column="MODIFY_ID"
+					jdbcType="BIGINT"
+				property="modifyId" />
+				<!-- 修改时间 -->
+				<result column="MODIFY_DATE"
+					jdbcType="DATE"
+				property="modifyDate" />
+				<!-- 删除标识 -->
+				<result column="DELETE_STATUS"
+					jdbcType="BIGINT"
+				property="deleteStatus" />
+	</resultMap>
+	
+	<sql id="baseSql">
+			IMAGE_ID, 
+			TITLE, 
+			SIZE, 
+			ORGINAL_URL, 
+			BIG_URL, 
+			MIDDLE_URL, 
+			SMALL_URL, 
+			STORAGE_ENGINE, 
+			WATERMARK, 
+			TAG, 
+			TYPE, 
+			USED_STATUS, 
+			METE_DES, 
+			EXP_FLEID_1, 
+			EXP_FLEID_2, 
+			INSERT_ID, 
+			INSERT_DATE, 
+			MODIFY_ID, 
+			MODIFY_DATE, 
+			DELETE_STATUS 
+	</sql>
+	<sql id="querySql">
+			IMAGE_ID, 
+			TITLE, 
+			SIZE, 
+			WATERMARK, 
+			TAG, 
+			TYPE, 
+			USED_STATUS 
+	</sql>
+	
+	<!-- 保存图片管理 -->	
+	<insert id="saveImageManager" parameterType="com.ningpai.system.bean.ImageManager">
+		INSERT INTO NP_SYS_IMAGE_MANAGER
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+				<!-- 记录ID
+				<if test="imageId != null">
+					IMAGE_ID,
+				</if>  -->
+				<!-- 图片标题 -->
+				<if test="title != null">
+					TITLE,
+				</if>
+				<!-- 图片尺寸 -->
+				<if test="size != null">
+					SIZE,
+				</if>
+				<!-- 原图 -->
+				<if test="orginalUrl != null">
+					ORGINAL_URL,
+				</if>
+				<!-- 大图 -->
+				<if test="bigUrl != null">
+					BIG_URL,
+				</if>
+				<!-- 中图 -->
+				<if test="middleUrl != null">
+					MIDDLE_URL,
+				</if>
+				<!-- 小图 -->
+				<if test="smallUrl != null">
+					SMALL_URL,
+				</if>
+				<!-- 存储引擎 -->
+				<if test="storageEngine != null">
+					STORAGE_ENGINE,
+				</if>
+				<!-- 水印 -->
+				<if test="watermark != null">
+					WATERMARK,
+				</if>
+				<!-- 标签 -->
+				<if test="tag != null">
+					TAG,
+				</if>
+				<!-- 图标类型 -->
+				<if test="type != null">
+					TYPE,
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS,
+				</if>
+				<!-- 描述信息 -->
+				<if test="meteDes != null">
+					METE_DES,
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1,
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2,
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID,
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE,
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID,
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE,
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS,
+				</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+				<!-- 记录ID
+						#{imageId,
+								jdbcType=BIGINT
+						},  -->
+				<!-- 图片标题 -->
+					<if test="title != null">
+						#{title,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 图片尺寸 -->
+					<if test="size != null">
+						#{size,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 原图 -->
+					<if test="orginalUrl != null">
+						#{orginalUrl,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 大图 -->
+					<if test="bigUrl != null">
+						#{bigUrl,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 中图 -->
+					<if test="middleUrl != null">
+						#{middleUrl,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 小图 -->
+					<if test="smallUrl != null">
+						#{smallUrl,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 存储引擎 -->
+					<if test="storageEngine != null">
+						#{storageEngine,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 水印 -->
+					<if test="watermark != null">
+						#{watermark,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 标签 -->
+					<if test="tag != null">
+						#{tag,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 图标类型 -->
+					<if test="type != null">
+						#{type,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 启用 -->
+					<if test="usedStatus != null">
+						#{usedStatus,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 描述信息 -->
+					<if test="meteDes != null">
+						#{meteDes,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null">
+						#{expFleid1,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null">
+						#{expFleid2,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						#{insertId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null">
+						#{insertDate,
+								jdbcType=DATE
+						},
+					</if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						#{modifyId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null">
+						#{modifyDate,
+								jdbcType=DATE
+						},
+					</if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						#{deleteStatus,
+								jdbcType=BIGINT
+						},
+					</if>
+		</trim>
+	</insert>
+	<!-- 修改图片管理 -->
+	<update id="updateImageManager" parameterType="com.ningpai.system.bean.ImageManager">
+		UPDATE NP_SYS_IMAGE_MANAGER
+		<set>
+			
+				<!-- 记录ID -->
+				<if test="imageId != null">
+					IMAGE_ID = #{imageId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 图片标题 -->
+				<if test="title != null">
+					TITLE = #{title,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 图片尺寸 -->
+				<if test="size != null">
+					SIZE = #{size,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 原图 -->
+				<if test="orginalUrl != null">
+					ORGINAL_URL = #{orginalUrl,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 大图 -->
+				<if test="bigUrl != null">
+					BIG_URL = #{bigUrl,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 中图 -->
+				<if test="middleUrl != null">
+					MIDDLE_URL = #{middleUrl,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 小图 -->
+				<if test="smallUrl != null">
+					SMALL_URL = #{smallUrl,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 存储引擎 -->
+				<if test="storageEngine != null">
+					STORAGE_ENGINE = #{storageEngine,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 水印 -->
+				<if test="watermark != null">
+					WATERMARK = #{watermark,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 标签 -->
+				<if test="tag != null">
+					TAG = #{tag,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 图标类型 -->
+				<if test="type != null">
+					TYPE = #{type,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS = #{usedStatus,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 描述信息 -->
+				<if test="meteDes != null">
+					METE_DES = #{meteDes,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1 = #{expFleid1,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2 = #{expFleid2,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID = #{modifyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE = #{modifyDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS = #{deleteStatus,
+							jdbcType=BIGINT
+					},
+				</if>
+		</set>
+		WHERE 
+				IMAGE_ID = #{imageId,
+							jdbcType=BIGINT
+					}
+	</update>
+	
+	<!-- 根据图片管理对象的id查询图片管理对象 -->
+	<select id="getImageManagerById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_IMAGE_MANAGER 
+		WHERE 
+				IMAGE_ID = #{imageId,
+							jdbcType=BIGINT
+					}
+	</select>
+	
+	<!-- 根据图片管理对象的id字符集合查询图片管理对象 -->
+	<select id="getImageManagerByIds" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_IMAGE_MANAGER 
+		WHERE 
+				IMAGE_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</select>
+	
+	<!-- 根据图片管理对象的id字符集合删除图片管理对象 -->
+	<update id="deleteImageManager" parameterType="java.util.Map">
+		DELETE FROM NP_SYS_IMAGE_MANAGER 
+		WHERE 
+				IMAGE_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+		
+	</update>
+	
+	
+	<!-- 更新图片管理对象的单个字段  -->
+	<update id="updateImageManagerFieldById" parameterType="java.util.Map">
+		UPDATE NP_SYS_IMAGE_MANAGER
+		<set>
+				<!-- 记录ID -->
+				<if test="imageId != null">
+					IMAGE_ID = #{imageId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 图片标题 -->
+				<if test="title != null">
+					TITLE = #{title,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 图片尺寸 -->
+				<if test="size != null">
+					SIZE = #{size,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 原图 -->
+				<if test="orginalUrl != null">
+					ORGINAL_URL = #{orginalUrl,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 大图 -->
+				<if test="bigUrl != null">
+					BIG_URL = #{bigUrl,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 中图 -->
+				<if test="middleUrl != null">
+					MIDDLE_URL = #{middleUrl,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 小图 -->
+				<if test="smallUrl != null">
+					SMALL_URL = #{smallUrl,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 存储引擎 -->
+				<if test="storageEngine != null">
+					STORAGE_ENGINE = #{storageEngine,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 水印 -->
+				<if test="watermark != null">
+					WATERMARK = #{watermark,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 标签 -->
+				<if test="tag != null">
+					TAG = #{tag,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 图标类型 -->
+				<if test="type != null">
+					TYPE = #{type,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS = #{usedStatus,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 描述信息 -->
+				<if test="meteDes != null">
+					METE_DES = #{meteDes,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1 = #{expFleid1,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2 = #{expFleid2,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID = #{modifyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE = #{modifyDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS = #{deleteStatus,
+							jdbcType=BIGINT
+					},
+				</if>
+		</set>
+		WHERE 
+				IMAGE_ID IN  
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</update>
+	
+	<!-- 根据图片管理对象的单个字段查询图片管理对象信息总数 -->
+	<select id="getImageManagerByFieldTotal" resultType="java.lang.Integer" parameterType="java.util.Map">
+		   SELECT COUNT(IMAGE_ID) 
+		   FROM NP_SYS_IMAGE_MANAGER D 
+		   WHERE 
+				<!-- 记录ID -->
+					<if test="imageId != null">
+						D.IMAGE_ID = #{imageId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 图片标题 -->
+					<if test="title != null and title != ''">
+						D.TITLE like CONCAT(CONCAT('%', #{title,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 图片尺寸 -->
+					<if test="size != null and size != ''">
+						D.SIZE like CONCAT(CONCAT('%', #{size,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 原图 -->
+					<if test="orginalUrl != null and orginalUrl != ''">
+						D.ORGINAL_URL like CONCAT(CONCAT('%', #{orginalUrl,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 大图 -->
+					<if test="bigUrl != null and bigUrl != ''">
+						D.BIG_URL like CONCAT(CONCAT('%', #{bigUrl,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 中图 -->
+					<if test="middleUrl != null and middleUrl != ''">
+						D.MIDDLE_URL like CONCAT(CONCAT('%', #{middleUrl,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 小图 -->
+					<if test="smallUrl != null and smallUrl != ''">
+						D.SMALL_URL like CONCAT(CONCAT('%', #{smallUrl,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 存储引擎 -->
+					<if test="storageEngine != null and storageEngine != ''">
+						D.STORAGE_ENGINE like CONCAT(CONCAT('%', #{storageEngine,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 水印 -->
+					<if test="watermark != null and watermark != ''">
+						D.WATERMARK like CONCAT(CONCAT('%', #{watermark,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 标签 -->
+					<if test="tag != null">
+						D.TAG = #{tag,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 图标类型 -->
+					<if test="type != null and type != ''">
+						D.TYPE like CONCAT(CONCAT('%', #{type,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 启用 -->
+					<if test="usedStatus != null and usedStatus != ''">
+						D.USED_STATUS like CONCAT(CONCAT('%', #{usedStatus,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 描述信息 -->
+					<if test="meteDes != null and meteDes != ''">
+						D.METE_DES like CONCAT(CONCAT('%', #{meteDes,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null and expFleid1 != ''">
+						D.EXP_FLEID_1 like CONCAT(CONCAT('%', #{expFleid1,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null and expFleid2 != ''">
+						D.EXP_FLEID_2 like CONCAT(CONCAT('%', #{expFleid2,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						D.INSERT_ID = #{insertId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null and insertDate !=''" >
+			        	(D.INSERT_DATE between  #{insertDateStart,jdbcType=DATE}  AND  #{insertDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						D.MODIFY_ID = #{modifyId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null and modifyDate !=''" >
+			        	(D.MODIFY_DATE between  #{modifyDateStart,jdbcType=DATE}  AND  #{modifyDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						D.DELETE_STATUS = #{deleteStatus,
+								jdbcType=BIGINT
+						} AND
+					</if>
+        	1=1 
+	</select>
+	
+	<!-- 根据图片管理对象的单个字段查询图片管理对象信息 -->
+	<select id="getImageManagerByField" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM  NP_SYS_IMAGE_MANAGER D 
+		   WHERE 
+				<!-- 记录ID -->
+					<if test="imageId != null">
+						D.IMAGE_ID = #{imageId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 图片标题 -->
+					<if test="title != null and title !=''" >
+						D.TITLE like CONCAT(CONCAT('%', #{title,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 图片尺寸 -->
+					<if test="size != null and size !=''" >
+						D.SIZE like CONCAT(CONCAT('%', #{size,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 原图 -->
+					<if test="orginalUrl != null and orginalUrl !=''" >
+						D.ORGINAL_URL like CONCAT(CONCAT('%', #{orginalUrl,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 大图 -->
+					<if test="bigUrl != null and bigUrl !=''" >
+						D.BIG_URL like CONCAT(CONCAT('%', #{bigUrl,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 中图 -->
+					<if test="middleUrl != null and middleUrl !=''" >
+						D.MIDDLE_URL like CONCAT(CONCAT('%', #{middleUrl,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 小图 -->
+					<if test="smallUrl != null and smallUrl !=''" >
+						D.SMALL_URL like CONCAT(CONCAT('%', #{smallUrl,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 存储引擎 -->
+					<if test="storageEngine != null and storageEngine !=''" >
+						D.STORAGE_ENGINE like CONCAT(CONCAT('%', #{storageEngine,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 水印 -->
+					<if test="watermark != null and watermark !=''" >
+						D.WATERMARK like CONCAT(CONCAT('%', #{watermark,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 标签 -->
+					<if test="tag != null">
+						D.TAG = #{tag,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 图标类型 -->
+					<if test="type != null and type !=''" >
+						D.TYPE like CONCAT(CONCAT('%', #{type,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 启用 -->
+					<if test="usedStatus != null and usedStatus !=''" >
+						D.USED_STATUS like CONCAT(CONCAT('%', #{usedStatus,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 描述信息 -->
+					<if test="meteDes != null and meteDes !=''" >
+						D.METE_DES like CONCAT(CONCAT('%', #{meteDes,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null and expFleid1 !=''" >
+						D.EXP_FLEID_1 like CONCAT(CONCAT('%', #{expFleid1,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null and expFleid2 !=''" >
+						D.EXP_FLEID_2 like CONCAT(CONCAT('%', #{expFleid2,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						D.INSERT_ID = #{insertId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null and insertDate !=''" >
+			        	(D.INSERT_DATE between  #{insertDateStart,jdbcType=DATE}  AND  #{insertDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						D.MODIFY_ID = #{modifyId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null and modifyDate !=''" >
+			        	(D.MODIFY_DATE between  #{modifyDateStart,jdbcType=DATE}  AND  #{modifyDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						D.DELETE_STATUS = #{deleteStatus,
+								jdbcType=BIGINT
+						} AND
+					</if>
+        	1=1 
+		    LIMIT #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询图片管理对象信息总数 -->
+	<select id="queryImageManagerTotal" resultType="java.lang.Integer">
+		SELECT COUNT(IMAGE_ID) FROM NP_SYS_IMAGE_MANAGER
+	</select>
+	
+	<!-- 分页查询图片管理对象信息 -->
+	<select id="queryImageManagerByPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM NP_SYS_IMAGE_MANAGER 
+		LIMIT  #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+</mapper>

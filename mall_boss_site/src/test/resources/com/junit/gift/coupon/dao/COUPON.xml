@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <np_coupon coupon_id="1" coupon_name="优惠券" coupon_remark="备注" coupon_start_time="2015-09-06 09:00:00" coupon_end_time="2015-12-06 09:00:00"
+                create_time="2015-09-06 09:00:00" modify_time="2015-09-06 09:00:00" del_flag="0" coupon_integral="100" coupon_is_show="1"
+                coupon_pic="123.jpg" coupon_rules_type="1" business_id="0" coupon_get_no="10" coupon_price="100"
+                active_site_type="2" coupon_count="100" is_all="1"/>
+</dataset>

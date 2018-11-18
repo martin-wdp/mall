@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ups="http://www.lianft.com/project/ups" xmlns:upsb="http://www.lianft.com/project/ups/base" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://www.lianft.com/project/ups" elementFormDefault="qualified" version="0.1">
+	<xs:import namespace="http://www.lianft.com/project/ups/base" schemaLocation="ups-base-datatype.xsd"/>
+	<xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="lianft-xmldsig-financial.xsd"/>
+	<xs:element name="UPS">
+		<xs:complexType>
+			<xs:choice>
+				<xs:group ref="ups:RequestGroup"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:group name="RequestGroup">
+		<xs:sequence>
+			<xs:element ref="ups:Request"/>
+			<xs:element ref="ds:Signature"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:element name="Request">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ups:Version"/>
+				<xs:element ref="ups:TxType"/>
+				<xs:element ref="ups:TxInfo"/>
+				<xs:element ref="ups:Merchant"/>
+			</xs:sequence>
+			<xs:attribute name="id" type="upsb:T_ID" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Version" type="upsb:T_Version"/>
+	<xs:element name="TxType" type="upsb:T_TxType"/>
+	<xs:element name="TxInfo" type="ups:T_TxInfo"/>
+	<xs:element name="Merchant" type="ups:T_Merchant"/>
+	<xs:complexType name="T_TxInfo">
+		<xs:sequence>
+			<xs:element name="CompareDate" type="upsb:T_Date8"/>
+			<xs:element name="BizType" type="upsb:T_Status" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="T_Merchant">
+		<xs:sequence>
+			<xs:element name="MerchantID" type="upsb:T_MerchantID"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

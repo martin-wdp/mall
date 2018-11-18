@@ -1,0 +1,64 @@
+@charset "utf-8";
+/*
+ * zhidaibao
+ * suixiangjun 
+ * 2016-01-06 
+ */
+*{outline:none;}
+body,ul,li,h1,h2,h3,h4,h5,h6,table{padding: 0;margin: 0;font:12px/1.5 Arial, Verdana, Tahoma, "宋体", "微软雅黑"; color: #333;}
+ol,ul{list-style-type: none;} 
+a,a:link,a:visited,a:hover,a:active{text-decoration: none;color: #333;}
+img{ border:none;}
+input{outline:none;}
+.fl{float: left;}
+.fr{float: right;}
+.clear{clear: both;}
+.disb{display: block;}
+.dislb{display: inline-block;}
+/*长度高度*/
+.wrapper{ width: 1200px; margin: 0 auto; overflow: hidden;}
+/*边距*/
+
+/*head*/
+.top{ line-height: 40px;}
+.top label{ display: block; color: #999;}
+.top a{ display: block; color: #666; padding: 0px 10px; margin: 10px 0; line-height: 20px; border-left: solid 1px #efefef;}
+.hearder{ height: 100px; background-color: #ff5a09; position: relative;}
+.hearder .buycart{ cursor: pointer; margin: 25px 10px; background-color: #FFF; height: 20px; padding: 15px 20px;}
+.hearder .buycart .cart{border: solid 1px #DCDCDC; display: none; border-top: none; position: absolute; top:75px; line-height: 28px; right: 50%; margin-right: -590px; background-color: #FFF; width: 370px;}
+.hearder .buycart .cart ul{ padding:0 30px;}
+.hearder .buycart .cart ul li{ border-bottom: dashed 1px #DCDCDC; padding: 20px 0;}
+.hearder .buycart .cart ul li:last-child{ border: none;}
+.hearder .buycart .cart .js{ color: #ff5a09; padding: 10px 15px; border-top: solid 1px #DCDCDC;}
+.hearder .buycart .cart .pro2{ font-size: 14px; color: #6d6d6d; margin: 0 30px;}
+.hearder .buycart .cart .pro-img{ background: url(../images/index/buypro.jpg) no-repeat center; background-size: 100% 100%; width: 52px; height: 52px; margin-top: -8px;}
+.hearder .buycart .cart .pro-jg{ display: block; font-size: 18px; color: #ff6949;}
+.hearder .buycart .cart .pro-yjg{font-size: 12px; color: #d9d9d9;}
+.hearder .buycart .cart .js .count2{ margin-right: 50px; font-size: 14px; color: #6d6d6d;}
+.hearder .buycart .cart .js .but{ color: #FFF; background-color: #fe9901; padding: 0 20px; cursor: pointer;}
+.hearder .buycart .hearder-cart{ display:block; width: 23px; height: 20px; background: url(../images/index/buy_cat.png) no-repeat center; background-size: 100% 100%;}
+.hearder .buycart .count{ display: block;height: 20px; margin-left: 15px; color: #FFF; background-color: #ff6949; line-height: 20px; padding:0px 7px; border-radius: 20px;}
+.hearder .buycart .jt{ display: block; width: 9px; height: 7px; margin: 8px auto auto 15px; background: url(../images/index/attr2.png) no-repeat center; background-size: 100% 100%;}
+.hearder .tel{ margin: 22px 10px auto auto; line-height: 24px; text-align: right;}
+.hearder .tel font{ display: block; font-size: 32px; color: #FFF;}
+
+
+/*foot*/
+.foot{ border-top: solid 3px #ff5a09; background-color: #393939; width: 100%; padding: 30px 0;}
+.foot .contact{ padding-right: 50PX; border-right: solid 1px #000;}
+.foot .contact h2{ font-size: 24px; color: #f4f4f4; display: block;}
+.foot .contact font{font-size: 14px; color: #ff6949;}
+.foot .tel{ padding: 10px 50px 3px 50px; border-right: solid 1px #000; font-size: 12px; color: #bebebe; line-height: 23px;}
+.foot .tel .add{ display: block; background: url(../images/index/attr_addr.png) no-repeat 0 4px; text-indent: 20px;}
+.foot .tel .pho{ display: block; background: url(../images/index/attr_tel.png) no-repeat 0 4px; text-indent: 20px;}
+.foot .share{ padding: 0 30px;}
+.foot .share img{ margin-left: 5px;}
+.foot .copyright{ text-align: right;}
+.foot .copyright,.foot .copyright a{ color: #bebebe; font-size:12px;}
+.foot .copyright a{ border-left: solid 1px #a2a2a2; padding:0 10px; line-height: 28px;}
+
+
+
+
+
+

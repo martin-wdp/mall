@@ -1,0 +1,83 @@
+*{margin: 0;padding:0;}
+body{background: #EFEFEF;}
+.head{width:100%;height:auto;background: #FFFFFF;position: relative;}
+body,button,input{font-family:Microsoft YaHei;}
+button{border: none;outline:none;}
+li{list-style-type:none;}
+a,a:link,a:visited,a:hover,a:active{text-decoration: none;color: #333;}
+i,em{font-style:normal;}
+.clear{clear: both;}
+.head .account{width:100%;height:150px;background:url(../images/newimage/bg.jpg) no-repeat;background-size:100% 150px;overflow: hidden;}
+.head .account span{height:40px;width: 40px;line-height:40px; margin:20px 15px 0 0; border-radius: 20px;background: #ae7317;float: right;}
+.head .account .sp1 a{display: inline-block;width:40px; height:40px;}
+.head .account .sp1 a img{width:65%;margin:8px 0 0 7px;}
+.head .account .sp2{width: 100px;color: #FFFFFF;font-size: 18px;background:#ae7317 url(../images/newimage/pen.png) no-repeat 10px 5px;background-size:30% 70%;text-indent:45px;cursor:pointer;}
+.head .account p{color: #FFF;font-size: 22px;height:26px; line-height:26px; margin-left:120px;clear:both;padding-top:50px;}
+.head .account p strong{font-weight:300;font-size:18px;}
+.head .account p em{font-size:14px;display: inline-block;padding:0 2px;margin-left:10px;font-style:normal;width:60px;height:26px;line-height: 26px;border-radius:3px;background: #2d89f0;position:relative;}
+.head .account p em#comAuth{background:red;}
+.head .account p em i{position:absolute;width:16px;height:16px;line-height:14px;text-align:center;border:1px solid #fff;border-radius:20px;top:-10px;right:-10px;background:red;}
+.head .account2{text-align: center;font-size: 15px;color: #FFFFFF;}
+.head .account2 label{display: inline-block; margin-top:30px; font-size: 20px; font-weight: 900;color:#FFF;}
+.head .account2 button{border:none;margin-top:10px;border-radius: 4px;padding:5px 10px;}
+
+.head .colect{width:100%;height:80px;}
+.head .colect p{display:inline-block;width:auto;height:70px;text-align: center;float:left;}
+.head .colect p.co-p1{margin-left: 30%;position:relative;}
+.head .colect p.co-p2{margin-left: 20%;}
+.head .colect span{color:#F6AB00;font-weight:600;}
+.cus-head{width:90px; height:90px;border-radius:45px;overflow:hidden;position: absolute;left: 18px;top: 105px;border:3px solid #fde4a4;}
+.cus-head img{display:inline-block;width:100%;height:100%;margin-top:1%;background:#f6ab00;}
+
+.order{width: 100%; height:auto;background:#FFFFFF;margin:10px 0;}
+.order-my{display: block;width: 96%;margin-left:2%; height:60px;line-height: 60px; border-bottom:1px dashed #e1e1e1; background:url(../images/newimage/qp_grdd.png) no-repeat 10px 15px;background-size: 30px 30px;}
+.order .ord-sp1{margin-left:45px;}
+.order img{float:right;display: inline-block;width:20px; height:20px;margin-top:20px;}
+.order .ord-sp2{float:right;margin-right: 5px;}
+.oblig{width:90%;margin:0 5%;}
+.oblig a{display: inline-block;height:60px;line-height:90px;width:33.3%;margin:20px 0;text-align:center;padding-top: 10px;float: left;}
+.oblig .obl-left{background:url(../images/newimage/qp_ga.png) no-repeat center 10px;background-size:30px 30px;}
+.oblig .obl-center{background:url(../images/newimage/qp_gc.png) no-repeat center 10px;background-size:30px 30px;position: relative;}
+.oblig .obl-center span{position: absolute;top:3px;left:52%;color:#FFFFFF;background: #f53f3e;border-radius: 8px;width:16px;height:16px;font-size:12px;line-height:16px;text-align: center;}
+.oblig .obl-right{background:url(../images/newimage/qp_gd.png) no-repeat center 10px;background-size:30px 30px;}
+
+.wealth-my{display: block;width: 96%;margin-left:2%; height:60px;line-height: 60px; border-bottom:1px dashed #e1e1e1; background:url(../images/newimage/qp_grcf.png) no-repeat 10px 15px;background-size: 30px 30px;}
+.invite{display: block;width: 96%;margin-left:2%; height:60px;line-height: 60px; background:url(../images/newimage/qp_gryq.png) no-repeat 10px 15px;background-size: 30px 30px;}
+.invite img{float:right;display: inline-block;width:20px; height:20px;margin-top:20px;}
+
+.fit{background: #FFFFFF;margin: 10px 0 70px;}
+.fit a{border-bottom:1px dashed #efefef;}
+.fit a span{margin-left:45px;}
+.fit a .fit-sp{float:right;}
+.fit .fit1{background:url(../images/newimage/qp_grsz.png) no-repeat 10px 15px;background-size: 30px 30px;}
+.fit .fit2{background: url(../images/newimage/qp_gryj.png) no-repeat 10px 15px;background-size: 30px 30px;}
+.fit .fit3{background: url(../images/newimage/qp_grkf.png) no-repeat 10px 15px;background-size: 30px 30px;}
+
+.fixed{width:100%;height:70px;background:#000000;}
+
+
+.int{width:80%;max-width:400px;height:auto;margin:0 auto;padding:30px 0;}
+.int p{display: inline-block; width:180px;height:70px;line-height: 70px;}
+.int p img{float: left;width:20%;height:50%;margin:18px 8px 0 10px;}
+.int .int-p1{display: inline-block; width:180px;height:70px;line-height: 70px;text-align:center;background: url(../images/newimage/red.png) no-repeat;background-size: 100% 100%;}
+.int-p1 img{float: left;width:20%;height:50%;margin:18px 8px 0 10px;}
+.int .int-p2{float: right;background:url(../images/newimage/yellow.png) no-repeat;background-size: 100% 100%;}
+.int p span{color: #FFFFFF;font-size:16px;margin-left:7px;}
+.int .int-p1 span{color: #FFFFFF;font-size:16px;margin-left:7px;}
+.fit .fit-sp{font-size: 16px;margin-right:5px;}
+
+
+
+@media screen and (max-width:480px){
+	.int{text-align: center;}
+	.int p{margin-bottom:10px;font-size:18px;width:70%;}
+	.int p img{float:left; width:20%;height:60%;margin:15px 0 0 13px;}
+	.int p span{font-size: 18px;}
+	.int .int-p2{float:none;}
+    .int .int-p1{margin-bottom:10px;font-size:18px;width:70%;}
+    .int-p1 img{float:left; width:20%;height:60%;margin:15px 0 0 13px;}
+}
+
+
+
+

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.dao.CustomerCenterMapper" >
+
+
+ <resultMap id="BaseResultMap" type="com.ningpai.group.bean.CommonCustomer" >
+  <result column="customer_nickname" property="customerNickname" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="province_name" property="province" jdbcType="VARCHAR" />
+    <result column="city_name" property="city" jdbcType="VARCHAR" />
+    <result column="is_mobile" property="isMobile" jdbcType="CHAR" />
+     <result column="is_email" property="isEmail" jdbcType="CHAR" />
+    <result column="info_point_sum" property="infoCount" jdbcType="VARCHAR" />
+     <result column="customer_img" property="customerImg" jdbcType="VARCHAR" />
+     <result column="is_seller" property="isSeller" jdbcType="CHAR" />
+  </resultMap>
+  
+  <select id="selectCommonCustomer" resultMap="BaseResultMap" parameterType="java.util.Map">
+	  	select a.customer_nickname, a.customer_id,b.info_province,b.info_city,b.info_point_sum
+	  	,a.is_mobile,a.is_email,a.customer_img,city_name,province_name,is_seller
+	  	from np_customer a , np_customer_info b
+	  	left join np_sys_city  on np_sys_city.city_id  = b.info_city
+	  	left join np_sys_province on np_sys_province.province_id = b.info_province
+	  	where a.customer_id = b.customer_id 
+	  	and a.customer_id = #{customerId,jdbcType=BIGINT} 
+  </select>
+  
+  <!-- 查询我的系统消息 -->
+  <select id="selectSysCount" resultType="java.lang.Long" parameterType="java.lang.Long">
+	  select count(*) from np_message_customer cus , np_message mes
+	  where cus.message_rec_customer_id = #{customerId}
+	  and cus.message_id = mes.message_id and cus.message_del_flag ='0' 
+	  and message_type ='0' and mes.message_del_flag = '0' and cus.message_flag = '0'
+  </select>
+  
+  
+  
+  <!-- 查询我私信-->
+  <select id="selectMesCount" resultType="java.lang.Long" parameterType="java.lang.Long">
+	  select count(*) from np_message_customer cus , np_message mes
+	  where cus.message_rec_customer_id = #{customerId}
+	  and cus.message_id = mes.message_id and cus.message_del_flag ='0' 
+	  and message_type = '5' and mes.message_del_flag = '0' and cus.message_flag = '0'
+  </select> 
+  
+  
+  <!-- 查询我评论-->
+  <select id="selectReplyCount" resultType="java.lang.Long" parameterType="java.lang.Long">
+	  select count(*) from np_message_customer cus , np_message mes
+	  where cus.message_rec_customer_id = #{customerId}
+	  and cus.message_id = mes.message_id and cus.message_del_flag ='0' 
+	  and message_type = '4' and mes.message_del_flag = '0' and cus.message_flag = '0'
+  </select> 
+  
+  <!-- 查询我的关注 -->
+  <select id="selectGuanZhuCount" resultType="java.lang.Long" parameterType="java.lang.Long">
+  	SELECT count(*)
+  	FROM np_fans
+  	WHERE customer_id = #{customerId}
+  	AND fans_flag IN ('1','2')
+  </select>
+  
+    <!-- 查询我的粉丝-->
+  <select id="selectFansCount" resultType="java.lang.Long" parameterType="java.lang.Long">
+  	SELECT count(*)
+  	FROM np_fans
+  	WHERE customer_id = #{customerId}
+  	AND fans_flag IN ('0','2')
+  </select>
+  
+  <!-- 查询我的心情数 -->
+   <select id="selectMoodCount" resultType="java.lang.Long" parameterType="java.lang.Long">
+     select count(1) from np_mood 
+     where 1=1 and customer_id = #{customerId} and mood_del_flag='0'
+   </select>
+</mapper>

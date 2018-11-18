@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ningpai.customer.dao.CustomerLikeMapper">
+  <resultMap id="BaseResultMap" type="com.ningpai.customer.bean.CustomerLike">
+    <id column="like_id" jdbcType="BIGINT" property="likeId" />
+    <result column="customer_id" jdbcType="BIGINT" property="customerId" />
+    <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="like_type" jdbcType="CHAR" property="likeType" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
+    <result column="del_time" jdbcType="TIMESTAMP" property="delTime" />
+    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    like_id, customer_id, goods_id, like_type, create_time, modified_time, del_time, 
+    del_flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_customer_like
+    where like_id = #{likeId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from np_customer_like
+    where like_id = #{likeId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.customer.bean.CustomerLike">
+    insert into np_customer_like (like_id, customer_id, goods_id, 
+      like_type, create_time, modified_time, 
+      del_time, del_flag)
+    values (#{likeId,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, #{goodsId,jdbcType=INTEGER}, 
+      #{likeType,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifiedTime,jdbcType=TIMESTAMP}, 
+      #{delTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.customer.bean.CustomerLike">
+    insert into np_customer_like
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="likeId != null">
+        like_id,
+      </if>
+      <if test="customerId != null">
+        customer_id,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="likeType != null">
+        like_type,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifiedTime != null">
+        modified_time,
+      </if>
+      <if test="delTime != null">
+        del_time,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="likeId != null">
+        #{likeId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null">
+        #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="likeType != null">
+        #{likeType,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null">
+        #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delTime != null">
+        #{delTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.customer.bean.CustomerLike">
+    update np_customer_like
+    <set>
+      <if test="customerId != null">
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="likeType != null">
+        like_type = #{likeType,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null">
+        modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delTime != null">
+        del_time = #{delTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where like_id = #{likeId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.customer.bean.CustomerLike">
+    update np_customer_like
+    set customer_id = #{customerId,jdbcType=BIGINT},
+      goods_id = #{goodsId,jdbcType=INTEGER},
+      like_type = #{likeType,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      del_time = #{delTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where like_id = #{likeId,jdbcType=BIGINT}
+  </update>
+</mapper>

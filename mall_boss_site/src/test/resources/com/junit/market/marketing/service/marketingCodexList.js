@@ -1,0 +1,1 @@
+    [{"marketingCodexId":"1","marketingId":"1","codexId":"1","createTime":"2015-01-01 12:22:01","modTime":"2015-01-02 12:22:01","flag":"0"}]

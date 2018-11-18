@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.mybatis.mapper.AppAuthMapper" >
+    <resultMap id="BaseResultMap" type="com.ningpai.app.bean.AppAuth" >
+        <id column="app_auth_id" property="appAuthId" jdbcType="BIGINT" />
+        <result column="app_auth_key" property="appAuthKey" jdbcType="VARCHAR" />
+        <result column="app_auth_access_time" property="appAuthAccessTime" jdbcType="TIMESTAMP" />
+        <result column="app_auth_create_time" property="appAuthCreateTime" jdbcType="TIMESTAMP" />
+        <result column="app_auth_end_time" property="appAuthEndTime" jdbcType="TIMESTAMP" />
+        <result column="app_auth_access_count" property="appAuthAccessCount" jdbcType="BIGINT" />
+        <result column="site_name" property="siteName" jdbcType="VARCHAR" />
+        <result column="site_contactor" property="siteContactor" jdbcType="VARCHAR" />
+        <result column="site_contact_email" property="siteContactEmail" jdbcType="VARCHAR" />
+        <result column="site_contactphone" property="siteContactphone" jdbcType="VARCHAR" />
+        <result column="site_web_addr" property="siteWebAddr" jdbcType="VARCHAR" />
+        <result column="site_logo" property="siteLogo" jdbcType="VARCHAR" />
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        app_auth_id,app_auth_key,app_auth_access_time,app_auth_access_count,site_name,site_contact_email,app_auth_create_time,app_auth_end_time,
+        site_contactor,site_contactphone,site_web_addr,site_logo,del_flag
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        from np_app_auth
+        where app_auth_id = #{appAuthId,jdbcType=BIGINT}
+    </select>
+
+    <update id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        update np_app_auth set del_flag = '1'
+        where app_auth_id = #{appAuthId,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insertSelective" parameterType="com.ningpai.app.bean.AppAuth" useGeneratedKeys="true" keyProperty="appAuthId" >
+        insert into np_app_auth
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="appAuthId != null" >
+                app_auth_id,
+            </if>
+            <if test="appAuthKey != null" >
+                app_auth_key,
+            </if>
+            <if test="appAuthAccessTime != null" >
+                app_auth_access_time,
+            </if>
+            <if test="appAuthCreateTime != null" >
+                app_auth_create_time,
+            </if>
+            <if test="appAuthEndTime != null" >
+                app_auth_end_time,
+            </if>
+            <if test="appAuthAccessCount != null" >
+                app_auth_access_count,
+            </if>
+            <if test="siteName != null" >
+                site_name,
+            </if>
+            <if test="siteContactor != null" >
+                site_contactor,
+            </if>
+            <if test="siteContactphone != null" >
+                site_contactphone,
+            </if>
+            <if test="siteContactEmail != null" >
+                site_contact_email,
+            </if>
+            <if test="siteWebAddr != null" >
+                site_web_addr,
+            </if>
+            <if test="siteLogo != null" >
+                site_logo,
+            </if>
+            <if test="delFlag != null" >
+                del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="appAuthId != null" >
+                #{appAuthId,jdbcType=BIGINT},
+            </if>
+            <if test="appAuthKey != null" >
+                #{appAuthKey,jdbcType=VARCHAR},
+            </if>
+            <if test="appAuthAccessTime != null" >
+                #{appAuthAccessTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="appAuthCreateTime != null" >
+                #{appAuthCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="appAuthEndTime != null" >
+                #{appAuthEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="appAuthAccessCount != null" >
+                #{appAuthAccessCount,jdbcType=BIGINT},
+            </if>
+            <if test="siteName != null" >
+                #{siteName,jdbcType=VARCHAR},
+            </if>
+            <if test="siteContactor != null" >
+                #{siteContactor,jdbcType=VARCHAR},
+            </if>
+            <if test="siteContactphone != null" >
+                #{siteContactphone,jdbcType=VARCHAR},
+            </if>
+            <if test="siteContactEmail != null" >
+                #{siteContactEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="siteWebAddr != null" >
+                #{siteWebAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="siteLogo != null" >
+                #{siteLogo,jdbcType=VARCHAR},
+            </if>
+            <if test="delFlag != null" >
+                #{delFlag,jdbcType=CHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.app.bean.AppAuth" >
+        update np_app_auth
+        <set >
+            <if test="appAuthKey != null" >
+                app_auth_key = #{appAuthKey,jdbcType=VARCHAR},
+            </if>
+            <if test="appAuthAccessTime != null" >
+                app_auth_access_time = #{appAuthAccessTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="appAuthCreateTime != null" >
+                app_auth_create_time = #{appAuthCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="appAuthEndTime != null" >
+                app_auth_end_time = #{appAuthEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="appAuthAccessCount != null" >
+                app_auth_access_count = #{appAuthAccessCount,jdbcType=BIGINT},
+            </if>
+            <if test="siteName != null" >
+                site_name = #{siteName,jdbcType=VARCHAR},
+            </if>
+            <if test="siteContactor != null" >
+                site_contactor = #{siteContactor,jdbcType=VARCHAR},
+            </if>
+            <if test="siteContactphone != null" >
+                site_contactphone = #{siteContactphone,jdbcType=VARCHAR},
+            </if>
+            <if test="siteContactEmail != null" >
+                site_contact_email = #{siteContactEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="siteWebAddr != null" >
+                site_web_addr = #{siteWebAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="siteLogo != null" >
+                site_logo = #{siteLogo,jdbcType=VARCHAR},
+            </if>
+            <if test="delFlag != null" >
+                del_flag = #{delFlag,jdbcType=CHAR},
+            </if>
+        </set>
+        where app_auth_id = #{appAuthId,jdbcType=BIGINT}
+    </update>
+
+    <select id="selectLatestByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from np_app_auth
+        where del_flag = '0'
+        <if test="bsetAddress != null and bsetAddress != ''">
+            and site_web_addr = #{bsetAddress,jdbcType=VARCHAR}
+        </if>
+        <if test="appAuthKey != null and appAuthKey != ''">
+            and app_auth_key  = #{appAuthKey,jdbcType=VARCHAR}
+        </if>
+        order by app_auth_create_time desc
+        limit 0,1
+    </select>
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from np_app_auth
+        where del_flag = '0'
+        <if test="pageBean.objectBean.appAuthKey != null and pageBean.objectBean.appAuthKey != ''">
+            and app_auth_key like CONCAT('%',#{pageBean.objectBean.appAuthKey,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.siteName != null and pageBean.objectBean.siteName != ''">
+            and site_name like CONCAT('%',#{pageBean.objectBean.siteName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.siteContactor != null and pageBean.objectBean.siteContactor != ''">
+            and site_contactor like CONCAT('%',#{pageBean.objectBean.siteContactor,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.siteContactphone != null and pageBean.objectBean.siteContactphone != ''">
+            and site_contactphone like CONCAT('%',#{pageBean.objectBean.siteContactphone,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.siteWebAddr != null and pageBean.objectBean.siteWebAddr != ''">
+            and site_web_addr like CONCAT('%',#{pageBean.objectBean.siteWebAddr,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.delFlag != null and pageBean.objectBean.delFlag != ''">
+            and del_flag = #{pageBean.objectBean.delFlag,jdbcType=CHAR}
+        </if>
+        limit #{pageBean.startRowNum},#{pageBean.endRowNum}
+    </select>
+    <select id="selectListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select
+        count(1)
+        from np_app_auth
+        where del_flag = '0'
+        <if test="pageBean.objectBean.appAuthKey != null and pageBean.objectBean.appAuthKey != ''">
+            and app_auth_key like CONCAT('%',#{pageBean.objectBean.appAuthKey,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.siteName != null and pageBean.objectBean.siteName != ''">
+            and site_name like CONCAT('%',#{pageBean.objectBean.siteName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.siteContactor != null and pageBean.objectBean.siteContactor != ''">
+            and site_contactor like CONCAT('%',#{pageBean.objectBean.siteContactor,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.siteContactphone != null and pageBean.objectBean.siteContactphone != ''">
+            and site_contactphone like CONCAT('%',#{pageBean.objectBean.siteContactphone,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.siteWebAddr != null and pageBean.objectBean.siteWebAddr != ''">
+            and site_web_addr like CONCAT('%',#{pageBean.objectBean.siteWebAddr,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.delFlag != null and pageBean.objectBean.delFlag != ''">
+            and del_flag = #{pageBean.objectBean.delFlag,jdbcType=CHAR}
+        </if>
+    </select>
+
+    <update id="deleteMuilti" parameterType="java.lang.Long">
+        update np_app_auth
+        set del_flag = '1'
+        where app_auth_id in
+        <foreach collection="array" item="appAuthId" open="(" separator="," close=")">
+        #{appAuthId,jdbcType=BIGINT}
+        </foreach>
+    </update>
+</mapper>

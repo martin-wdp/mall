@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.ShoppingCartMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.m.shoppingcart.bean.ShoppingCart" >
+    <id column="shopping_cart_id" property="shoppingCartId" jdbcType="BIGINT" />
+    <result column="goods_info_id" property="goodsInfoId" jdbcType="BIGINT" />
+    <result column="goods_pre_price" property="goodsPrePrice" jdbcType="BIGINT" />
+    <result column="goods_price" property="goodsPrice" jdbcType="DECIMAL" />
+    <result column="goods_num" property="goodsNum" jdbcType="BIGINT" />
+    <result column="fit_id" property="fitId" jdbcType="BIGINT" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="marketing_id" property="marketingId" jdbcType="BIGINT" />
+    <result column="marketing_activity_id" property="marketingActivityId" jdbcType="BIGINT" />
+    <result column="order_marketing_id" property="orderMarketingId" jdbcType="BIGINT" />
+    <result column="shopping_cart_time" property="shoppingCartTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+     <result column="distinct_id" property="distinctId" jdbcType="BIGINT" />
+      <result column="goods_info_weight" property="goodsInfoWeight" jdbcType="DECIMAL"/>
+      <result column="freight_template_id" property="freightId" jdbcType="BIGINT"/>
+      <result column="third_id" property="thirdId" jdbcType="BIGINT"/>
+      <result column="codex_type" property="codeType" jdbcType="VARCHAR"/>
+      <result column="market_goodsprice" property="marketgoodsPrice" jdbcType="DECIMAL"/>
+
+  </resultMap>
+
+    <resultMap id="StoreTempMap" type="com.ningpai.m.shoppingcart.bean.StoreTemp">
+
+        <result column="third_id" property="thirdId" jdbcType="BIGINT"/>
+        <result column="third_Name" property="thirdName" jdbcType="VARCHAR"/>
+    </resultMap>
+  <sql id="Base_Column_List" >
+    shopping_cart_id, goods_info_id, goods_pre_price, goods_price, goods_num, fit_id, 
+    customer_id, marketing_id, shopping_cart_time, del_flag,distinct_id,marketing_activity_id,order_marketing_id
+  </sql>
+  	
+  	
+  
+        <!-- 判断是否已经加入购物车 -->
+    <select id="selectCountByReady" resultType="java.lang.Integer" parameterType="com.ningpai.m.shoppingcart.bean.ShoppingCart" >
+    select count(1)
+    from np_shopping_cart
+    where del_flag = '0' and customer_id = #{customerId,jdbcType=BIGINT} and goods_info_id = #{goodsInfoId,jdbcType=BIGINT}
+  </select>
+
+    <!-- 根据促销分组查询得到商品消费 -->
+    <select id="shopCartListGroupByMarkettingId" resultMap="BaseResultMap" parameterType="java.util.List">
+        SELECT sum(sc.goods_num) goods_num, gd.goods_info_weight ,sc.marketing_activity_id ,codex.codex_type,
+        Sum((sc.goods_num*goods_info_prefer_price)) goods_price, SUM(sc.goods_num*pdm.discount_price) market_goodsprice
+        from np_shopping_cart sc LEFT OUTER JOIN
+        np_pre_discount_marketing pdm on sc.marketing_id = pdm.marketing_id and pdm.goods_id=sc.goods_info_id,
+        np_goods_info gd,np_marketing m,
+        np_marketing_codex mc,np_codex codex where gd.goods_info_id =sc.goods_info_id and gd.goods_info_delflag='0'
+        and sc.del_flag='0' and m.marketing_id = mc.marketing_id and mc.codex_id = codex.codex_id and mc.flag='0'and
+        sc.marketing_activity_id=m.marketing_id and
+        <![CDATA[  m.marketing_begin <= now() and m.marketing_end > now() ]]>
+        and sc.shopping_cart_id in
+        <foreach collection="list" item="shopcartIds" open="(" separator="," close=")">
+            #{shopcartIds,jdbcType=BIGINT}
+        </foreach>
+        group by sc.marketing_activity_id
+    </select>
+  
+  <!-- 查询购物车 -->
+    <select id="shoppingCart" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_shopping_cart
+    where del_flag = '0' and customer_id = #{customerId,jdbcType=BIGINT}
+    limit #{startRowNum},#{endRowNum}
+  </select>
+  
+      <!-- 查询购物车 -->
+    <select id="shoppingCartCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select count(*)
+    from np_shopping_cart
+    where del_flag = '0' and customer_id = #{customerId,jdbcType=BIGINT}
+  </select>
+    
+    
+  <!-- 查询购物车 -->
+    <select id="shoppingCartMini" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_shopping_cart
+    where del_flag = '0' and customer_id = #{customerId,jdbcType=BIGINT}
+  </select>
+  
+  <!-- 提交去付款查询购物商品 -->
+   <select id="shoppingCartListByIds" resultMap="BaseResultMap" parameterType="java.util.List" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_shopping_cart
+    where del_flag = '0' and shopping_cart_id in 
+     <foreach collection="list" item="shoppingCartId" open="(" separator="," close=")">
+    		    #{shoppingCartId,jdbcType=BIGINT}
+     </foreach>
+
+  </select>
+
+    <!-- 查询购物车详细信息 -->
+    <select id="shopCartListByIds" resultMap="BaseResultMap" parameterType="java.util.List">
+        SELECT sg.shopping_cart_id, sg.goods_info_weight,sg.goods_info_id, sg.goods_num, sg.fit_id,sg.third_id,
+        sg.customer_id, sg.goods_id,sg.marketing_id, sg.shopping_cart_time,
+        sg.del_flag,sg.distinct_id,sg.marketing_activity_id,sg.order_marketing_id from
+        (select shopping_cart_id, info.goods_info_weight,cart.goods_info_id, goods_num, fit_id,info.third_id,
+        customer_id, info.goods_id,
+        marketing_id, shopping_cart_time, del_flag,distinct_id,marketing_activity_id,order_marketing_id
+        from np_shopping_cart cart LEFT JOIN np_goods_info info on info.goods_info_id = cart.goods_info_id
+        where cart.del_flag = '0' and cart.shopping_cart_id in
+        <foreach collection="list" item="shoppingCartId" open="(" separator="," close=")">
+            #{shoppingCartId,jdbcType=BIGINT}
+        </foreach>
+        ) sg
+        LEFT JOIN np_goods gd on gd.goods_id=sg.goods_id
+
+    </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_shopping_cart
+    where shopping_cart_id = #{shoppingCartId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_shopping_cart
+    where shopping_cart_id = #{shoppingCartId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.m.shoppingcart.bean.ShoppingCart" >
+    insert into np_shopping_cart (shopping_cart_id, goods_info_id, goods_pre_price, 
+      goods_price, goods_num, fit_id, 
+      customer_id, marketing_id, shopping_cart_time, 
+      del_flag)
+    values (#{shoppingCartId,jdbcType=BIGINT}, #{goodsInfoId,jdbcType=BIGINT}, #{goodsPrePrice,jdbcType=BIGINT}, 
+      #{goodsPrice,jdbcType=DECIMAL}, #{goodsNum,jdbcType=BIGINT}, #{fitId,jdbcType=BIGINT}, 
+      #{customerId,jdbcType=BIGINT}, #{marketingId,jdbcType=BIGINT}, #{shoppingCartTime,jdbcType=TIMESTAMP}, 
+      #{delFlag,jdbcType=CHAR})
+  </insert>
+  
+  
+  
+  
+  <insert id="addShoppingCart" parameterType="com.ningpai.m.shoppingcart.bean.ShoppingCart" >
+    insert into np_shopping_cart
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="shoppingCartId != null" >
+        shopping_cart_id,
+      </if>
+      <if test="goodsInfoId != null" >
+        goods_info_id,
+      </if>
+      <if test="goodsPrePrice != null" >
+        goods_pre_price,
+      </if>
+      <if test="goodsPrice != null" >
+        goods_price,
+      </if>
+      <if test="goodsNum != null" >
+        goods_num,
+      </if>
+      <if test="fitId != null" >
+        fit_id,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="marketingId != null" >
+        marketing_id,
+      </if>
+       <if test="marketingActivityId != null" >
+        marketing_activity_id,
+      </if>
+      <if test="orderMarketingId != null" >
+        order_marketing_id,
+      </if>
+      
+      <if test="shoppingCartTime != null" >
+        shopping_cart_time,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+        <if test="distinctId != null" >
+        distinct_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="shoppingCartId != null" >
+        #{shoppingCartId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsInfoId != null" >
+        #{goodsInfoId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsPrePrice != null" >
+        #{goodsPrePrice,jdbcType=BIGINT},
+      </if>
+      <if test="goodsPrice != null" >
+        #{goodsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsNum != null" >
+        #{goodsNum,jdbcType=BIGINT},
+      </if>
+      <if test="fitId != null" >
+        #{fitId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="marketingId != null" >
+        #{marketingId,jdbcType=BIGINT},
+      </if>
+       <if test="marketingActivityId != null" >
+          #{marketingActivityId,jdbcType=BIGINT},
+      </if>
+ 		<if test="orderMarketingId != null" >
+         #{orderMarketingId,jdbcType=BIGINT},
+      </if>
+      <if test="shoppingCartTime != null" >
+        #{shoppingCartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+       <if test="distinctId != null" >
+         #{distinctId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.ningpai.m.shoppingcart.bean.ShoppingCart" >
+    insert into np_shopping_cart
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="shoppingCartId != null" >
+        shopping_cart_id,
+      </if>
+      <if test="goodsInfoId != null" >
+        goods_info_id,
+      </if>
+      <if test="goodsPrePrice != null" >
+        goods_pre_price,
+      </if>
+      <if test="goodsPrice != null" >
+        goods_price,
+      </if>
+      <if test="goodsNum != null" >
+        goods_num,
+      </if>
+      <if test="fitId != null" >
+        fit_id,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="marketingId != null" >
+        marketing_id,
+      </if>
+      <if test="shoppingCartTime != null" >
+        shopping_cart_time,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="shoppingCartId != null" >
+        #{shoppingCartId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsInfoId != null" >
+        #{goodsInfoId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsPrePrice != null" >
+        #{goodsPrePrice,jdbcType=BIGINT},
+      </if>
+      <if test="goodsPrice != null" >
+        #{goodsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsNum != null" >
+        #{goodsNum,jdbcType=BIGINT},
+      </if>
+      <if test="fitId != null" >
+        #{fitId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="marketingId != null" >
+        #{marketingId,jdbcType=BIGINT},
+      </if>
+      <if test="shoppingCartTime != null" >
+        #{shoppingCartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.m.shoppingcart.bean.ShoppingCart" >
+    update np_shopping_cart
+    <set >
+      <if test="goodsInfoId != null" >
+        goods_info_id = #{goodsInfoId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsPrePrice != null" >
+        goods_pre_price = #{goodsPrePrice,jdbcType=BIGINT},
+      </if>
+      <if test="goodsPrice != null" >
+        goods_price = #{goodsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsNum != null" >
+        goods_num = #{goodsNum,jdbcType=BIGINT},
+      </if>
+      <if test="fitId != null" >
+        fit_id = #{fitId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="marketingId != null" >
+        marketing_id = #{marketingId,jdbcType=BIGINT},
+      </if>
+      <if test="orderMarketingId != null" >
+        order_marketing_id = #{orderMarketingId,jdbcType=BIGINT},
+      </if>
+      <if test="shoppingCartTime != null" >
+        shopping_cart_time = #{shoppingCartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where shopping_cart_id = #{shoppingCartId,jdbcType=BIGINT}
+  </update>
+  
+  
+  
+  <update id="delShoppingCartById" parameterType="java.lang.Long" >
+    update np_shopping_cart
+    set 
+      del_flag = '1'
+    where shopping_cart_id = #{shoppingCartId,jdbcType=BIGINT}
+  </update>
+  
+   <update id="changeShoppingCartById" parameterType="com.ningpai.m.shoppingcart.bean.ShoppingCart" >
+    update np_shopping_cart
+    set 
+       goods_num = #{goodsNum,jdbcType=BIGINT}
+    where shopping_cart_id = #{shoppingCartId,jdbcType=BIGINT}
+  </update>
+  
+  
+  
+  
+  
+  <update id="changeShoppingCartMarket" parameterType="com.ningpai.m.shoppingcart.bean.ShoppingCart" >
+    update np_shopping_cart
+    set
+     marketing_id = #{marketingId,jdbcType=BIGINT},marketing_activity_id = #{marketingActivityId,jdbcType=BIGINT}
+     where shopping_cart_id = #{shoppingCartId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 更改选中订单修改 -->
+  <update id="changeShoppingCartOrderMarket" parameterType="com.ningpai.m.shoppingcart.bean.ShoppingCart" >
+    update np_shopping_cart
+    set order_marketing_id = #{orderMarketingId,jdbcType=BIGINT},
+    where shopping_cart_id = #{shoppingCartId,jdbcType=BIGINT}
+  </update>
+  
+
+  
+    
+  <update id="deleteShoppingCartByIds" parameterType="java.util.List" >
+    update np_shopping_cart
+    set 
+      del_flag = '1'
+    where shopping_cart_id in
+       <foreach collection="list" item="shoppingCartId" open="(" separator="," close=")">
+    		    #{shoppingCartId,jdbcType=BIGINT}
+     </foreach>
+  </update>
+  
+  
+  
+  
+    <update id="updateShoppingCart" parameterType="com.ningpai.m.shoppingcart.bean.ShoppingCart" >
+    	update np_shopping_cart
+	    set  goods_num = goods_num +  #{goodsNum,jdbcType=BIGINT}
+	    where goods_info_id = #{goodsInfoId,jdbcType=BIGINT} and customer_id = #{customerId,jdbcType=BIGINT}
+    </update>
+  
+  
+  	<select id="selectShopingByParam" parameterType="com.ningpai.m.shoppingcart.bean.ShoppingCart"  resultMap="BaseResultMap">
+  		select <include refid="Base_Column_List" /> 
+  		from np_shopping_cart 
+  		 where goods_info_id = #{goodsInfoId,jdbcType=BIGINT} and customer_id = #{customerId,jdbcType=BIGINT}
+  		and del_flag = '0'
+  	</select>
+  
+    
+    <select id="selectSumByCustomerId"  resultType="java.lang.Integer"  parameterType="java.lang.Long" >
+     select count(*)
+    from np_shopping_cart  
+    where del_flag = '0' and customer_id = #{customerId,jdbcType=BIGINT}
+    
+  </select>
+  
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.m.shoppingcart.bean.ShoppingCart" >
+   
+    update np_shopping_cart
+    set goods_info_id = #{goodsInfoId,jdbcType=BIGINT},
+      goods_pre_price = #{goodsPrePrice,jdbcType=BIGINT},
+      goods_price = #{goodsPrice,jdbcType=DECIMAL},
+      goods_num = #{goodsNum,jdbcType=BIGINT},
+      fit_id = #{fitId,jdbcType=BIGINT},
+      customer_id = #{customerId,jdbcType=BIGINT},
+      marketing_id = #{marketingId,jdbcType=BIGINT},
+      shopping_cart_time = #{shoppingCartTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where shopping_cart_id = #{shoppingCartId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectPNameByParam" parameterType="java.lang.Long" resultType="java.lang.String">
+  		select  spro.province_name FROM np_sys_province spro,np_sys_district dis,np_sys_city city
+		where spro.province_id=city.province_id and city.city_id=dis.city_id 
+		and dis.district_id=#{districtId}
+  </select>
+  
+ <!-- 查询刚刚插入的Id -->
+  <select id="selectLastId" resultType="java.lang.Long" parameterType="com.ningpai.m.shoppingcart.bean.ShoppingCart" >
+  		select shopping_cart_id  from np_shopping_cart where goods_info_id =#{goodsInfoId} and customer_id=#{customerId} and del_flag='0'
+  </select>
+
+    <select id="selectStoreTempByshopcartIds" parameterType="java.util.List" resultMap="StoreTempMap">
+        select info.third_id,info.third_name from np_shopping_cart cart ,np_goods_info info
+        where cart.goods_info_id = info.goods_info_id and cart.del_flag='0'
+        and cart.shopping_cart_id IN
+        <foreach collection="list" item="shopcartIds" open="(" separator="," close=")">
+            #{shopcartIds,jdbcType=BIGINT}
+        </foreach>
+        group by info.third_id
+    </select>
+
+</mapper>

@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.third.goods.dao.ThirdCateMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.third.goods.bean.ThirdCate" >
+    <id column="cat_id" property="catId" jdbcType="BIGINT" />
+    <result column="cat_name" property="catName" jdbcType="VARCHAR" />
+    <result column="cat_parent_id" property="catParentId" jdbcType="BIGINT" />
+    <result column="cat_sort" property="catSort" jdbcType="INTEGER" />
+    <result column="cat_grade" property="catGrade" jdbcType="INTEGER" />
+    <result column="cat_seo_title" property="catSeoTitle" jdbcType="VARCHAR" />
+    <result column="cat_seo_keyword" property="catSeoKeyword" jdbcType="VARCHAR" />
+    <result column="cat_seo_desc" property="catSeoDesc" jdbcType="VARCHAR" />
+    <result column="cat_is_show" property="catIsShow" jdbcType="CHAR" />
+    <result column="cat_delflag" property="catDelflag" jdbcType="CHAR" />
+    <result column="cat_create_name" property="catCreateName" jdbcType="VARCHAR" />
+    <result column="cat_create_time" property="catCreateTime" jdbcType="TIMESTAMP" />
+    <result column="cat_modified_name" property="catModifiedName" jdbcType="VARCHAR" />
+    <result column="cat_modified_time" property="catModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="cat_del_name" property="catDelName" jdbcType="VARCHAR" />
+    <result column="cat_del_time" property="catDelTime" jdbcType="TIMESTAMP" />
+    <result column="cat_img" property="catImg" jdbcType="VARCHAR" />
+    <result column="third_id" property="thirdId" jdbcType="BIGINT" />
+    <result column="third_name" property="thirdName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap type="com.ningpai.third.goods.vo.ThirdCateVo" id="VoResultMap" extends="BaseResultMap"> 
+  </resultMap>
+  <sql id="Base_Column_List" >
+    cat_id, cat_name, cat_parent_id, cat_sort, cat_grade, cat_seo_title, cat_seo_keyword, 
+    cat_seo_desc, cat_is_show, cat_delflag, cat_create_name, cat_create_time, cat_modified_name, 
+    cat_modified_time, cat_del_name, cat_del_time, cat_img, third_id, third_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="VoResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_third_cate
+    where cat_id = #{catId,jdbcType=BIGINT}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.util.Map" >
+    update np_third_cate set cat_delflag='1',cat_del_name=#{delName},cat_del_time=now()
+    where cat_id = #{catId,jdbcType=BIGINT}
+  </delete>
+
+    <delete id="deleteByPrimaryKeyNew" parameterType="java.util.Map" >
+        update np_third_cate set cat_delflag='1',cat_del_name=#{delName},cat_del_time=now()
+        where cat_id = #{catId,jdbcType=BIGINT}
+        and third_id = #{thirdId,jdbcType=BIGINT}
+    </delete>
+  <insert id="insertSelective" parameterType="com.ningpai.third.goods.bean.ThirdCate" >
+    insert into np_third_cate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="catId != null" >
+        cat_id,
+      </if>
+      <if test="catName != null" >
+        cat_name,
+      </if>
+      <if test="catParentId != null" >
+        cat_parent_id,
+      </if>
+      <if test="catSort != null" >
+        cat_sort,
+      </if>
+      <if test="catGrade != null" >
+        cat_grade,
+      </if>
+      <if test="catSeoTitle != null" >
+        cat_seo_title,
+      </if>
+      <if test="catSeoKeyword != null" >
+        cat_seo_keyword,
+      </if>
+      <if test="catSeoDesc != null" >
+        cat_seo_desc,
+      </if>
+      <if test="catIsShow != null" >
+        cat_is_show,
+      </if>
+      <if test="catDelflag != null" >
+        cat_delflag,
+      </if>
+      <if test="catCreateName != null" >
+        cat_create_name,
+      </if>
+        cat_create_time,
+      <if test="catModifiedName != null" >
+        cat_modified_name,
+      </if>
+      <if test="catModifiedTime != null" >
+        cat_modified_time,
+      </if>
+      <if test="catDelName != null" >
+        cat_del_name,
+      </if>
+      <if test="catDelTime != null" >
+        cat_del_time,
+      </if>
+      <if test="catImg != null" >
+        cat_img,
+      </if>
+      <if test="thirdId != null" >
+        third_id,
+      </if>
+      <if test="thirdName != null" >
+        third_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="catId != null" >
+        #{catId,jdbcType=BIGINT},
+      </if>
+      <if test="catName != null" >
+        #{catName,jdbcType=VARCHAR},
+      </if>
+      <if test="catParentId != null" >
+        #{catParentId,jdbcType=BIGINT},
+      </if>
+      <if test="catSort != null" >
+        #{catSort,jdbcType=INTEGER},
+      </if>
+      <if test="catGrade != null" >
+        #{catGrade,jdbcType=INTEGER},
+      </if>
+      <if test="catSeoTitle != null" >
+        #{catSeoTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="catSeoKeyword != null" >
+        #{catSeoKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="catSeoDesc != null" >
+        #{catSeoDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="catIsShow != null" >
+        #{catIsShow,jdbcType=CHAR},
+      </if>
+      <if test="catDelflag != null" >
+        #{catDelflag,jdbcType=CHAR},
+      </if>
+      <if test="catCreateName != null" >
+        #{catCreateName,jdbcType=VARCHAR},
+      </if>
+        now(),
+      <if test="catModifiedName != null" >
+        #{catModifiedName,jdbcType=VARCHAR},
+      </if>
+      <if test="catModifiedTime != null" >
+        #{catModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="catDelName != null" >
+        #{catDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="catDelTime != null" >
+        #{catDelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="catImg != null" >
+        #{catImg,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdId != null" >
+        #{thirdId,jdbcType=BIGINT},
+      </if>
+      <if test="thirdName != null" >
+        #{thirdName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.third.goods.bean.ThirdCate" >
+    update np_third_cate
+    <set >
+      <if test="catName != null" >
+        cat_name = #{catName,jdbcType=VARCHAR},
+      </if>
+      <if test="catParentId != null" >
+        cat_parent_id = #{catParentId,jdbcType=BIGINT},
+      </if>
+      <if test="catSort != null" >
+        cat_sort = #{catSort,jdbcType=INTEGER},
+      </if>
+      <if test="catGrade != null" >
+        cat_grade = #{catGrade,jdbcType=INTEGER},
+      </if>
+      <if test="catSeoTitle != null" >
+        cat_seo_title = #{catSeoTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="catSeoKeyword != null" >
+        cat_seo_keyword = #{catSeoKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="catSeoDesc != null" >
+        cat_seo_desc = #{catSeoDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="catIsShow != null" >
+        cat_is_show = #{catIsShow,jdbcType=CHAR},
+      </if>
+      <if test="catDelflag != null" >
+        cat_delflag = #{catDelflag,jdbcType=CHAR},
+      </if>
+      <if test="catCreateName != null" >
+        cat_create_name = #{catCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="catCreateTime != null" >
+        cat_create_time = #{catCreateTime,jdbcType=TIMESTAMP},
+      </if>
+        cat_modified_name = now(),
+      <if test="catModifiedTime != null" >
+        cat_modified_time = #{catModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="catDelName != null" >
+        cat_del_name = #{catDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="catDelTime != null" >
+        cat_del_time = #{catDelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="catImg != null" >
+        cat_img = #{catImg,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdId != null" >
+        third_id = #{thirdId,jdbcType=BIGINT},
+      </if>
+      <if test="thirdName != null" >
+        third_name = #{thirdName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cat_id = #{catId,jdbcType=BIGINT}
+  </update>
+  <!-- 查询所有的商品分类 -->
+  <select id="queryAllThirdCate" resultMap="VoResultMap" parameterType="java.util.Map">
+  	select <include refid="Base_Column_List"/> from np_third_cate where cat_delflag='0'
+  	<if test="condition!=null and condition!='' and condition==1">
+  		and cat_name like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  	</if>
+  	<if test="condition==null or condition==''">
+  		 and cat_parent_id='0'
+  	</if>
+  	and third_id = #{thirdId}
+  	order by cat_sort
+  </select>
+  
+  <!-- 根据分类ID查询子分类个数 -->
+  <select id="querySonCountByParentId" parameterType="java.lang.Long" resultType="java.lang.Integer">
+  	select count(*) from np_third_cate where cat_delflag='0' and cat_parent_id=#{cateId}
+  </select>
+  
+  <!-- 根据分类名称查询第三方分类 -->
+  <select id="queryCateByCateName" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/> from np_third_cate where cat_name=#{cateName} and cat_delflag='0' and third_id = #{thirdId}
+  </select>
+  
+  <!-- 根据分类ID的集合查询分类信息 -->
+  <select id="selectProductCateList" parameterType="java.util.Map" resultMap="VoResultMap">
+  	select <include refid="Base_Column_List"/> from np_third_cate where cat_delflag='0' and cat_id in 
+  		<foreach collection="list" item="catId" open="(" close=")" separator="," >
+  			#{catId}
+  		</foreach>
+  </select>
+	
+  <!-- 查询所有的商品分类 -->
+  <select id="queryAllCate" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  	select <include refid="Base_Column_List"/> from np_third_cate 
+  	where cat_delflag='0' 
+  	and third_id = #{thirdId}
+  	order by cat_sort
+  </select>
+  
+  <!-- 查询所有的1级分类 -->
+  <select id="queryAllParentCate" resultMap="VoResultMap" parameterType="java.lang.Long">
+  	select <include refid="Base_Column_List"/> from np_third_cate where cat_delflag='0'
+  	and third_id = #{thirdId}
+  </select>
+  <!-- 根据父分类ID和第三方ID查询所有的子分类集合 -->
+  <select id="queryThirdCateByParentId" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/> from np_third_cate where cat_delflag='0'
+  	and third_id = #{thirdId} and cat_parent_id = #{catId}
+  </select>
+  
+  <!-- 根据父分类ID和第三方ID查询所有的子分类集合 -->
+  <select id="queryThirdCateByParentIdtwo" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/> from np_third_cate where cat_delflag='0'
+  	and third_id = #{thirdId}
+  </select>
+  
+  <!-- 根据分类分类名称,第三方ID,层级标记查询分类集合 -->
+  <select id="queryThirdCateByCatNameAndGrade" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/> from np_third_cate where cat_delflag='0'
+  	and third_id = #{thirdId} and cat_name = #{catName} and cat_grade = #{grade}
+  </select>
+  
+  <!-- 根据父分类ID和第三方ID查询所有的子分类集合 -->
+  <select id="queryThirdSonCateByParam" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/> from np_third_cate where 1=1
+  	<if test="cateName !=null and cateName !=''">
+  	    and cat_name like concat(concat('%',#{cateName}),'%')
+  	</if>
+  	<if test="(cateParentId != null and cateParentId !='') or cateParentId==0">
+  	    and cat_parent_id = #{cateParentId}
+  	</if>
+  	and third_id = #{thirdId} 
+  	and cat_delflag='0'
+  	order by cat_sort
+  </select>
+  
+</mapper>

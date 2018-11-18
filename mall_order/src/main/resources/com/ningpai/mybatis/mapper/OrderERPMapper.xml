@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.OrderERPMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.order.bean.Order" >
+    <id column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="order_price" property="orderPrice" jdbcType="DECIMAL" />
+    <result column="order_pre_price" property="orderPrePrice" jdbcType="DECIMAL" />
+    <result column="order_old_price" property="orderOldPrice" jdbcType="DECIMAL" />
+    <result column="order_status" property="orderStatus" jdbcType="CHAR" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="send_express_time" property="sendExpressTime" jdbcType="TIMESTAMP" />
+    <result column="get_goods_time" property="getGoodsTime" jdbcType="TIMESTAMP" />
+    <result column="shopping_addr_id" property="shoppingAddrId" jdbcType="BIGINT" />
+    <result column="shipping_province" property="shippingProvince" jdbcType="VARCHAR" />
+    <result column="shipping_city" property="shippingCity" jdbcType="VARCHAR" />
+    <result column="shipping_county" property="shippingCounty" jdbcType="VARCHAR" />
+    <result column="shipping_address" property="shippingAddress" jdbcType="VARCHAR" />
+    <result column="shipping_person" property="shippingPerson" jdbcType="VARCHAR" />
+    <result column="shipping_phone" property="shippingPhone" jdbcType="VARCHAR" />
+    <result column="shipping_mobile" property="shippingMobile" jdbcType="VARCHAR" />
+    <result column="shipping_postcode" property="shippingPostcode" jdbcType="VARCHAR" />
+    <result column="invoice_title" property="invoiceTitle" jdbcType="VARCHAR" />
+    <result column="invoice_content" property="invoiceContent" jdbcType="VARCHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="invoice_type" property="invoiceType" jdbcType="CHAR" />
+    <result column="customer_remark" property="customerRemark" jdbcType="VARCHAR" />
+    <result column="pay_id" property="payId" jdbcType="BIGINT" />
+    <result column="order_integral" property="orderIntegral" jdbcType="BIGINT" />
+    <result column="coupon_no" property="couponNo" jdbcType="VARCHAR" />
+    <result column="express_price" property="expressPrice" jdbcType="DECIMAL" />
+    <result column="business_id" property="businessId" jdbcType="BIGINT" /> 
+    <result column="store_name" property="storeName" jdbcType="VARCHAR" />
+     <result column="dealer_type" property="dealerType" jdbcType="CHAR"/>
+     <result column="order_old_code" property="orderOldCode" jdbcType="VARCHAR" />
+     <result column="order_cancel_remark" property="orderCancelRemark" jdbcType="VARCHAR" />
+     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+     <result column="order_cargo_status" property="orderCargoStatus" jdbcType="TIMESTAMP" />
+     <result column="order_m_type" property="orderMType" jdbcType="TIMESTAMP" />
+     <result column="order_express_type" property="orderExpressType" jdbcType="CHAR" />
+  </resultMap>
+ 
+ 
+ <resultMap id="goodsResultMap" type="com.ningpai.order.bean.Order" >
+    <id column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="order_price" property="orderPrice" jdbcType="DECIMAL" />
+    <result column="order_pre_price" property="orderPrePrice" jdbcType="DECIMAL" />
+    <result column="order_old_price" property="orderOldPrice" jdbcType="DECIMAL" />
+    <result column="order_status" property="orderStatus" jdbcType="CHAR" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="send_express_time" property="sendExpressTime" jdbcType="TIMESTAMP" />
+    <result column="get_goods_time" property="getGoodsTime" jdbcType="TIMESTAMP" />
+    <result column="shopping_addr_id" property="shoppingAddrId" jdbcType="BIGINT" />
+    <result column="shipping_province" property="shippingProvince" jdbcType="VARCHAR" />
+    <result column="shipping_city" property="shippingCity" jdbcType="VARCHAR" />
+    <result column="shipping_county" property="shippingCounty" jdbcType="VARCHAR" />
+    <result column="shipping_address" property="shippingAddress" jdbcType="VARCHAR" />
+    <result column="shipping_person" property="shippingPerson" jdbcType="VARCHAR" />
+    <result column="shipping_phone" property="shippingPhone" jdbcType="VARCHAR" />
+    <result column="shipping_mobile" property="shippingMobile" jdbcType="VARCHAR" />
+     <result column="shipping_postcode" property="shippingPostcode" jdbcType="VARCHAR" />
+    <result column="invoice_title" property="invoiceTitle" jdbcType="VARCHAR" />
+    <result column="invoice_content" property="invoiceContent" jdbcType="VARCHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="invoice_type" property="invoiceType" jdbcType="CHAR" />
+    <result column="customer_remark" property="customerRemark" jdbcType="VARCHAR" />
+    <result column="pay_id" property="payId" jdbcType="BIGINT" />
+    <result column="order_integral" property="orderIntegral" jdbcType="BIGINT" />
+    <result column="coupon_no" property="couponNo" jdbcType="VARCHAR" />
+    <result column="express_price" property="expressPrice" jdbcType="DECIMAL" />
+    <result column="business_id" property="businessId" jdbcType="BIGINT" /> 
+    <result column="store_name" property="storeName" jdbcType="VARCHAR" />
+     <result column="dealer_type" property="dealerType" jdbcType="CHAR"/>
+     <result column="order_old_code" property="orderOldCode" jdbcType="VARCHAR" />
+     <result column="order_cancel_remark" property="orderCancelRemark" jdbcType="VARCHAR" />
+     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+     <result column="order_cargo_status" property="orderCargoStatus" jdbcType="TIMESTAMP" />
+     <result column="order_m_type" property="orderMType" jdbcType="TIMESTAMP" />
+     <result column="order_express_type" property="orderExpressType" jdbcType="CHAR" />
+     <collection property="orderGoodsList" column="order_id" javaType="ArrayList"  select="com.ningpai.web.dao.OrderGoodsMapper.selectOrderGoodsList"></collection>
+  </resultMap> 
+  
+  <sql id="Base_Column_List" >
+    order_id, order_code, order_price, order_pre_price, order_old_price, order_status, 
+    customer_id, pay_time, send_express_time, get_goods_time, shopping_addr_id, shipping_province, 
+    shipping_city, shipping_county, shipping_address, shipping_person, shipping_phone, 
+    shipping_mobile, invoice_title, invoice_content, del_flag, invoice_type, customer_remark, 
+    pay_id, order_integral, coupon_no,express_price,shipping_postcode,business_id,dealer_type,create_time,order_cargo_status,order_m_type,order_express_type
+  </sql>
+  
+  <!-- 根据订单状态查询订单列表 -->
+  <select id="queryOrderListByERP" resultMap="goodsResultMap" parameterType="com.ningpai.order.bean.Order">
+    select order_id, order_code, order_price, order_pre_price, order_old_price, order_status, 
+    customer_id, pay_time, send_express_time, get_goods_time, shopping_addr_id, shipping_province, 
+    shipping_city, shipping_county, shipping_address, shipping_person, shipping_phone, 
+    shipping_mobile, invoice_title, invoice_content, del_flag, invoice_type, customer_remark, 
+    pay_id, order_integral, coupon_no,express_price,shipping_postcode,business_id,dealer_type,create_time,order_cargo_status,order_m_type,order_express_type
+    from np_order
+    where 1=1 
+    <if test="orderStatus!=null and orderStatus!=''">
+         and   order_status=#{orderStatus}
+    </if>
+    and del_flag='0'
+  </select>
+  
+  <!-- 修改订单状态 -->
+  <update id="updateOrderStatusByERP"  parameterType="com.ningpai.order.bean.Order">
+    update np_order set order_status=#{orderStatus}
+    where order_code =#{orderCode}
+  </update>
+  
+  
+  
+   <select id="orderERPDetail"  resultMap="goodsResultMap" parameterType="com.ningpai.order.bean.Order">
+    select  order_id, order_code, order_price, order_pre_price, order_old_price, order_status, 
+    customer_id, pay_time, send_express_time, get_goods_time, shopping_addr_id, shipping_province, 
+    shipping_city, shipping_county, shipping_address, shipping_person, shipping_phone, 
+    shipping_mobile, invoice_title, invoice_content, del_flag, invoice_type, customer_remark, 
+    pay_id, order_integral, coupon_no,express_price,shipping_postcode,business_id,dealer_type,create_time,order_cargo_status,order_m_type,order_express_type
+    from np_order
+    where order_code =#{orderCode}
+   </select>  
+</mapper>

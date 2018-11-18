@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.system.dao.ExpressMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.system.bean.Express" >
+    <id column="expid" property="expid" jdbcType="BIGINT" />
+    <result column="exp_company" property="expCompany" jdbcType="VARCHAR" />
+    <result column="exp_price" property="expPrice" jdbcType="DECIMAL" />
+    <result column="exp_accept" property="expAccept" jdbcType="VARCHAR" />
+    <result column="exp_comment" property="expComment" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    expid, exp_company, exp_price, exp_accept, exp_comment, create_time, modify_time, 
+    del_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_sys_express
+    where expid = #{expid,jdbcType=BIGINT}
+  </select>
+  
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    update np_sys_express set del_flag='1'
+    where expid = #{expid,jdbcType=BIGINT}
+  </update>
+  
+  <insert id="insert" parameterType="com.ningpai.system.bean.Express" >
+    insert into np_sys_express (expid, exp_company, exp_price, 
+      exp_accept, exp_comment, create_time, 
+      modify_time, del_flag)
+    values (#{expid,jdbcType=BIGINT}, #{expCompany,jdbcType=VARCHAR}, #{expPrice,jdbcType=DECIMAL}, 
+      #{expAccept,jdbcType=VARCHAR}, #{expComment,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.system.bean.Express" >
+    insert into np_sys_express
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="expid != null" >
+        expid,
+      </if>
+      <if test="expCompany != null" >
+        exp_company,
+      </if>
+      <if test="expPrice != null" >
+        exp_price,
+      </if>
+      <if test="expAccept != null" >
+        exp_accept,
+      </if>
+      <if test="expComment != null" >
+        exp_comment,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="expid != null" >
+        #{expid,jdbcType=BIGINT},
+      </if>
+      <if test="expCompany != null" >
+        #{expCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="expPrice != null" >
+        #{expPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="expAccept != null" >
+        #{expAccept,jdbcType=VARCHAR},
+      </if>
+      <if test="expComment != null" >
+        #{expComment,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.system.bean.Express" >
+    update np_sys_express
+    <set >
+      <if test="expCompany != null" >
+        exp_company = #{expCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="expPrice != null" >
+        exp_price = #{expPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="expAccept != null" >
+        exp_accept = #{expAccept,jdbcType=VARCHAR},
+      </if>
+      <if test="expComment != null" >
+        exp_comment = #{expComment,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where expid = #{expid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.system.bean.Express" >
+    update np_sys_express
+    set exp_company = #{expCompany,jdbcType=VARCHAR},
+      exp_price = #{expPrice,jdbcType=DECIMAL},
+      exp_accept = #{expAccept,jdbcType=VARCHAR},
+      exp_comment = #{expComment,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where expid = #{expid,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findByPageBean" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select <include refid="Base_Column_List"/> 
+  	from np_sys_express where del_flag='0'
+  	<!-- 若为1 按照承运公司名称查询 -->
+  		<if test="condition == 1">
+  			and exp_company like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  		</if>
+  	 order by expid  
+  	limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <select id="findTotalCount" resultType="int"  parameterType="com.ningpai.system.util.SelectBean">
+  	select count(expid) from np_sys_express where del_flag='0'
+  	<!-- 若为1 按照承运公司名称查询 -->
+  		<if test="condition == 1">
+  			and exp_company like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  		</if>
+  </select>
+</mapper>

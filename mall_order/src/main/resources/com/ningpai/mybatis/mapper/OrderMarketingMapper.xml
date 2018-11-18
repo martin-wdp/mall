@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.OrderMarketingMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.order.bean.OrderMarketing" >
+    <id column="order_marketing_id" property="orderMarketingId" jdbcType="BIGINT" />
+    <result column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="marketing_id" property="marketingId" jdbcType="BIGINT" />
+    <result column="marketing_type" property="marketingType" jdbcType="CHAR" />
+    <result column="have_gift_status" property="haveGiftStatus" jdbcType="CHAR" />
+    <result column="have_coupon_status" property="haveCouponStatus" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    order_marketing_id, order_id, marketing_id, marketing_type, have_gift_status, have_coupon_status
+  </sql>
+   
+  
+  <!-- 查询促销信息列表 -->
+  <select id="selectOrderMarketingList" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_order_marketing
+    where order_id = #{order_id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_order_marketing
+    where order_marketing_id = #{orderMarketingId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_order_marketing
+    where order_marketing_id = #{orderMarketingId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.order.bean.OrderMarketing" >
+    insert into np_order_marketing (order_marketing_id, order_id, marketing_id, 
+      marketing_type, have_gift_status, have_coupon_status
+      )
+    values (#{orderMarketingId,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{marketingId,jdbcType=BIGINT}, 
+      #{marketingType,jdbcType=CHAR}, #{haveGiftStatus,jdbcType=CHAR}, #{haveCouponStatus,jdbcType=CHAR}
+      )
+  </insert>
+  
+ 	<select id="selectOrderMarketLastId" resultType="java.lang.Long" >
+  		select LAST_INSERT_ID()
+  </select>
+  
+  <insert id="insertSelective" parameterType="com.ningpai.order.bean.OrderMarketing" >
+    insert into np_order_marketing
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderMarketingId != null" >
+        order_marketing_id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="marketingId != null" >
+        marketing_id,
+      </if>
+      <if test="marketingType != null" >
+        marketing_type,
+      </if>
+      <if test="haveGiftStatus != null" >
+        have_gift_status,
+      </if>
+      <if test="haveCouponStatus != null" >
+        have_coupon_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderMarketingId != null" >
+        #{orderMarketingId,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="marketingId != null" >
+        #{marketingId,jdbcType=BIGINT},
+      </if>
+      <if test="marketingType != null" >
+        #{marketingType,jdbcType=CHAR},
+      </if>
+      <if test="haveGiftStatus != null" >
+        #{haveGiftStatus,jdbcType=CHAR},
+      </if>
+      <if test="haveCouponStatus != null" >
+        #{haveCouponStatus,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.order.bean.OrderMarketing" >
+    update np_order_marketing
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="marketingId != null" >
+        marketing_id = #{marketingId,jdbcType=BIGINT},
+      </if>
+      <if test="marketingType != null" >
+        marketing_type = #{marketingType,jdbcType=CHAR},
+      </if>
+      <if test="haveGiftStatus != null" >
+        have_gift_status = #{haveGiftStatus,jdbcType=CHAR},
+      </if>
+      <if test="haveCouponStatus != null" >
+        have_coupon_status = #{haveCouponStatus,jdbcType=CHAR},
+      </if>
+    </set>
+    where order_marketing_id = #{orderMarketingId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.order.bean.OrderMarketing" >
+    update np_order_marketing
+    set order_id = #{orderId,jdbcType=BIGINT},
+      marketing_id = #{marketingId,jdbcType=BIGINT},
+      marketing_type = #{marketingType,jdbcType=CHAR},
+      have_gift_status = #{haveGiftStatus,jdbcType=CHAR},
+      have_coupon_status = #{haveCouponStatus,jdbcType=CHAR}
+    where order_marketing_id = #{orderMarketingId,jdbcType=BIGINT}
+  </update>
+</mapper>

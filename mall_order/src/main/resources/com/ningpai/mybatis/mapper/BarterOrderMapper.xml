@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.order.dao.BarterOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.order.bean.BarterOrder" >
+    <id column="barter_order_id" property="barterOrderId" jdbcType="BIGINT" />
+    <result column="barter_order_code" property="barterOrderCode" jdbcType="VARCHAR" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="barter_time" property="barterTime" jdbcType="TIMESTAMP" />
+    <result column="barter_remark" property="barterRemark" jdbcType="VARCHAR" />
+    <result column="barter_price" property="barterPrice" jdbcType="DECIMAL" />
+    <result column="barter_check" property="barterCheck" jdbcType="CHAR" />
+    <result column="barter_del_flag" property="barterDelFlag" jdbcType="CHAR" />
+    <result column="barter_real_name" property="barterRealName" jdbcType="VARCHAR" />
+    <result column="barter_bank_name" property="barterBankName" jdbcType="VARCHAR" />
+    <result column="barter_bank_account" property="barterBankAccount" jdbcType="VARCHAR" />
+     <result column="order_goods_id" property="orderGoodsId" jdbcType="BIGINT" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="goods_info_id" property="goodsInfoId" jdbcType="BIGINT" />
+    <result column="goods_info_num" property="goodsInfoNum" jdbcType="BIGINT" />
+    <result column="goods_info_old_price" property="goodsInfoOldPrice" jdbcType="DECIMAL" />
+    <result column="goods_info_price" property="goodsInfoPrice" jdbcType="DECIMAL" />
+    <result column="goods_coupon_price" property="goodsCouponPrice" jdbcType="DECIMAL" />
+    <result column="goods_info_sum_price" property="goodsInfoSumPrice" jdbcType="DECIMAL" />
+    <result column="have_gift_status" property="haveGiftStatus" jdbcType="CHAR" />
+    <result column="have_coupon_status" property="haveCouponStatus" jdbcType="CHAR" />
+    <result column="goods_marketing_id" property="goodsMarketingId" jdbcType="BIGINT" />
+    <result column="buy_time" property="buyTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="evaluate_flag" property="evaluateFlag" jdbcType="CHAR" />
+	<result column="author_name" property="authorName" jdbcType="VARCHAR" />
+	<result column="author_time" property="authorTime" jdbcType="TIMESTAMP" />
+	<result column="author_log" property="authorLog" jdbcType="VARCHAR" />
+    
+    <result column="order_id" property="orderId" jdbcType="BIGINT"/>
+     <result column="order_price" property="orderPrice" jdbcType="DECIMAL" />
+    <result column="order_pre_price" property="orderPrePrice" jdbcType="DECIMAL" />
+    <result column="order_old_price" property="orderOldPrice" jdbcType="DECIMAL" />
+    <result column="order_status" property="orderStatus" jdbcType="CHAR" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="send_express_time" property="sendExpressTime" jdbcType="TIMESTAMP" />
+    <result column="get_goods_time" property="getGoodsTime" jdbcType="TIMESTAMP" />
+    <result column="shopping_addr_id" property="shoppingAddrId" jdbcType="BIGINT" />
+    <result column="shipping_province" property="shippingProvince" jdbcType="VARCHAR" />
+    <result column="shipping_city" property="shippingCity" jdbcType="VARCHAR" />
+    <result column="shipping_county" property="shippingCounty" jdbcType="VARCHAR" />
+    <result column="shipping_address" property="shippingAddress" jdbcType="VARCHAR" />
+    <result column="shipping_person" property="shippingPerson" jdbcType="VARCHAR" />
+    <result column="shipping_phone" property="shippingPhone" jdbcType="VARCHAR" />
+    <result column="shipping_mobile" property="shippingMobile" jdbcType="VARCHAR" />
+     <result column="shipping_postcode" property="shippingPostcode" jdbcType="VARCHAR" />
+    <result column="invoice_title" property="invoiceTitle" jdbcType="VARCHAR" />
+    <result column="invoice_content" property="invoiceContent" jdbcType="VARCHAR" />
+    <result column="invoice_type" property="invoiceType" jdbcType="CHAR" />
+    <result column="customer_remark" property="customerRemark" jdbcType="VARCHAR" />
+    <result column="pay_id" property="payId" jdbcType="BIGINT" />
+    <result column="order_integral" property="orderIntegral" jdbcType="BIGINT" />
+    <result column="coupon_no" property="couponNo" jdbcType="VARCHAR" />
+    <result column="express_price" property="expressPrice" jdbcType="DECIMAL" />
+    <result column="dealer_type" property="dealerType" jdbcType="CHAR" />
+    <result column="business_id" property="businessId" jdbcType="BIGINT" />
+  </resultMap>
+  <!-- 查询换货单字段 -->
+  <sql id="Base_Column_List" >
+    barter_order_id, barter_order_code, order_code, barter_time, barter_remark, barter_price, 
+    barter_check, barter_del_flag, barter_real_name, barter_bank_name, barter_bank_account, 
+    dealer_type, business_id
+  </sql>
+  <!-- 批量删除 -->
+  <delete id="batchBarterOrder"  parameterType="java.util.List">
+  			DELETE FROM np_barter_order  where  barter_order_id  in
+  			<foreach collection="list"   item="barter"  index="index"  open="("   close=")"  separator=",">
+  					#{barter}
+  			</foreach>
+  </delete>
+  
+  <!-- 根据主键查询 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_barter_order
+    where barter_order_id = #{barterOrderId,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_barter_order
+    where barter_order_id = #{barterOrderId,jdbcType=BIGINT} 
+  </delete>
+  
+  <insert id="insert" parameterType="com.ningpai.order.bean.BarterOrder" >
+      insert into np_barter_order (barter_order_id, barter_order_code, order_code, 
+      barter_time, barter_remark, barter_price, 
+      barter_check, barter_del_flag, barter_real_name, 
+      barter_bank_name, barter_bank_account, dealer_type, 
+      business_id,author_name,author_time,author_log)
+       values (#{barterOrderId,jdbcType=BIGINT}, #{barterOrderCode,jdbcType=VARCHAR}, #{orderCode,jdbcType=VARCHAR}, 
+      #{barterTime,jdbcType=TIMESTAMP}, #{barterRemark,jdbcType=VARCHAR}, #{barterPrice,jdbcType=DECIMAL}, 
+      #{barterCheck,jdbcType=CHAR}, #{barterDelFlag,jdbcType=CHAR}, #{barterRealName,jdbcType=VARCHAR}, 
+      #{barterBankName,jdbcType=VARCHAR}, #{barterBankAccount,jdbcType=VARCHAR}, #{dealerType,jdbcType=CHAR}, 
+      #{businessId,jdbcType=BIGINT},#{authorName,jdbcType=VARCHAR},#{authorTime,jdbcType=TIMESTAMP},
+      #{authorLog,jdbcType=VARCHAR})
+  </insert>
+  
+  
+  <select id="selectBarterGetCount"  parameterType="java.util.Map"  resultType="java.lang.Integer">
+  			  select count(*) from  np_barter_order bo,np_order ors , np_order_goods goods 
+              WHERE bo.barter_order_code = goods.barter_order_code AND ors.order_id = goods.order_id
+  			<if test="orderCode!=null">
+  				and bo.order_code = #{orderCode,jdbcType=VARCHAR}
+  			</if>
+  			<if test="barterCheck!=null">
+  				and bo.barter_check = #{barterCheck,jdbcType=CHAR}
+  			</if>
+  </select>
+  
+  <!-- 换单分页 -->
+  <select id="selectBarterPageSize"  resultMap="BaseResultMap"  parameterType="java.util.Map">
+  	select  bo.barter_order_id, bo.barter_order_code, bo.order_code, bo.barter_time, bo.barter_remark, bo.barter_price, 
+    bo.barter_check, bo.barter_del_flag, bo.barter_real_name, bo.barter_bank_name, bo.barter_bank_account, 
+    goods.order_goods_id, goods.goods_id, goods.goods_info_id, goods.goods_info_num, goods.goods_info_old_price, 
+    goods.goods_info_price, goods.goods_coupon_price, goods.goods_info_sum_price, goods.have_gift_status, goods.have_coupon_status, 
+    goods.goods_marketing_id, goods.buy_time, goods.del_flag, goods.evaluate_flag,
+    bo.dealer_type, bo.business_id,ors.pay_time,ors.get_goods_time,ors.order_code,ors.order_id
+  	from np_barter_order bo,np_order ors , np_order_goods goods 
+    WHERE bo.barter_order_code = goods.barter_order_code AND ors.order_id = goods.order_id
+        <if test="barterOrderCode !=null and barterOrderCode !=''">
+    	 and bo.barter_order_code =  #{barterOrderCode,jdbcType=VARCHAR}
+    </if>
+     <if test="barterCheck !=null and barterCheck !=''">
+    	 and bo.barter_check =  #{barterCheck,jdbcType=CHAR}
+    </if>
+    <if test="shippingMobile !=null and shippingMobile !=''">
+    	 and ors.shipping_mobile like CONCAT(CONCAT('%',#{shippingMobile,jdbcType=VARCHAR},'%'))  
+    </if>
+     <if test="shippingPerson !=null and shippingPerson !=''">
+    	 and ors.shipping_person like  CONCAT(CONCAT('%',#{shippingPerson,jdbcType=VARCHAR},'%'))  
+    </if>
+    <if test="businessId !=null">
+    	and ors.business_id = #{businessId,jdbcType=BIGINT}
+    </if>
+    <if test="startTime!=null">
+    	<![CDATA[
+    			and bo.barter_time  >= #{startTime}
+    		]]>
+    </if>
+    <if test="endTime!=null">
+    		<![CDATA[
+    			and bo.barter_time <=#{endTime}
+    		]]>
+    </if>
+    order by bo.barter_order_id
+  	LIMIT  #{startRowNum},#{endRowNum}
+  </select>
+	
+	<select id="selectBarterDetails"  parameterType="java.lang.Long"  resultMap="BaseResultMap">
+	select  bo.barter_order_id, bo.barter_order_code, bo.order_code, bo.barter_time, bo.barter_remark, bo.barter_price, 
+    bo.barter_check, bo.barter_del_flag, bo.barter_real_name, bo.barter_bank_name, bo.barter_bank_account, 
+    goods.order_goods_id, goods.goods_id, goods.goods_info_id, goods.goods_info_num, goods.goods_info_old_price, 
+    goods.goods_info_price, goods.goods_coupon_price, goods.goods_info_sum_price, goods.have_gift_status, goods.have_coupon_status, 
+    goods.goods_marketing_id, goods.buy_time, goods.del_flag, goods.evaluate_flag,
+    bo.dealer_type, bo.business_id,bo.author_name,bo.author_time,bo.author_log,ors.pay_time,ors.get_goods_time,ors.order_code,ors.order_id
+  	from np_barter_order bo,np_order ors , np_order_goods goods 
+    WHERE bo.barter_order_code = goods.barter_order_code AND ors.order_id = goods.order_id
+    and bo.barter_del_flag='0'
+    and bo.barter_order_id = #{barterOrderId,jdbcType=BIGINT}
+    order by bo. barter_order_id
+	</select>  
+  <insert id="insertSelective" parameterType="com.ningpai.order.bean.BarterOrder" >
+    insert into np_barter_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="barterOrderId != null" >
+        barter_order_id,
+      </if>
+      <if test="barterOrderCode != null" >
+        barter_order_code,
+      </if>
+      <if test="orderCode != null" >
+        order_code,
+      </if>
+      <if test="barterTime != null" >
+        barter_time,
+      </if>
+      <if test="barterRemark != null" >
+        barter_remark,
+      </if>
+      <if test="barterPrice != null" >
+        barter_price,
+      </if>
+      <if test="barterCheck != null" >
+        barter_check,
+      </if>
+      <if test="barterDelFlag != null" >
+        barter_del_flag,
+      </if>
+      <if test="barterRealName != null" >
+        barter_real_name,
+      </if>
+      <if test="barterBankName != null" >
+        barter_bank_name,
+      </if>
+      <if test="barterBankAccount != null" >
+        barter_bank_account,
+      </if>
+      <if test="dealerType != null" >
+        dealer_type,
+      </if>
+      <if test="businessId != null" >
+        business_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=","  >
+      <if test="barterOrderId != null" >
+        #{barterOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="barterOrderCode != null" >
+        #{barterOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCode != null" >
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="barterTime != null" >
+        #{barterTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="barterRemark != null" >
+        #{barterRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="barterPrice != null" >
+        #{barterPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="barterCheck != null" >
+        #{barterCheck,jdbcType=CHAR},
+      </if>
+      <if test="barterDelFlag != null" >
+        #{barterDelFlag,jdbcType=CHAR},
+      </if>
+      <if test="barterRealName != null" >
+        #{barterRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="barterBankName != null" >
+        #{barterBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="barterBankAccount != null" >
+        #{barterBankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="dealerType != null" >
+        #{dealerType,jdbcType=CHAR},
+      </if>
+      <if test="businessId != null" >
+        #{businessId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.order.bean.BarterOrder" >
+    update np_barter_order
+    <set >
+      <if test="barterOrderCode != null" >
+        barter_order_code = #{barterOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCode != null" >
+        order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="barterTime != null" >
+        barter_time = #{barterTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="barterRemark != null" >
+        barter_remark = #{barterRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="barterPrice != null" >
+        barter_price = #{barterPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="barterCheck != null" >
+        barter_check = #{barterCheck,jdbcType=CHAR},
+      </if>
+      <if test="barterDelFlag != null" >
+        barter_del_flag = #{barterDelFlag,jdbcType=CHAR},
+      </if>
+      <if test="barterRealName != null" >
+        barter_real_name = #{barterRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="barterBankName != null" >
+        barter_bank_name = #{barterBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="barterBankAccount != null" >
+        barter_bank_account = #{barterBankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="dealerType != null" >
+        dealer_type = #{dealerType,jdbcType=CHAR},
+      </if>
+      <if test="businessId != null" >
+        business_id = #{businessId,jdbcType=BIGINT},
+      </if>
+      <if test="authorName!=null">
+      	author_name = #{authorName,jdbcType=VARCHAR},
+      </if>
+      <if test="authorTime!=null">
+      	author_time = #{authorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authorLog!=null">
+      	author_log = #{authorLog,jdbcType=VARCHAR},
+      </if>
+       author_time = now()
+    </set>
+       where barter_order_id = #{barterOrderId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.order.bean.BarterOrder" >
+	update np_barter_order
+	set barter_order_code = #{barterOrderCode,jdbcType=VARCHAR},
+	order_code = #{orderCode,jdbcType=VARCHAR},
+	barter_time = #{barterTime,jdbcType=TIMESTAMP},
+	barter_remark = #{barterRemark,jdbcType=VARCHAR},
+	barter_price = #{barterPrice,jdbcType=DECIMAL},
+	barter_check = #{barterCheck,jdbcType=CHAR},
+	barter_del_flag = #{barterDelFlag,jdbcType=CHAR},
+	barter_real_name = #{barterRealName,jdbcType=VARCHAR},
+	barter_bank_name = #{barterBankName,jdbcType=VARCHAR},
+	barter_bank_account = #{barterBankAccount,jdbcType=VARCHAR},
+	dealer_type = #{dealerType,jdbcType=CHAR},
+	business_id = #{businessId,jdbcType=BIGINT},
+	author_name = #{authorName,jdbcType=VARCHAR},
+	author_time = #{authorTime,jdbcType=TIMESTAMP},
+	author_log = #{authorLog,jdbcType=VARCHAR}
+	where barter_order_id = #{barterOrderId,jdbcType=BIGINT}
+  </update>
+  <!-- 查询换单数量 -->
+  <select id="queryBarterOrderCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+      select count(*) from np_barter_order where barter_del_flag='0'
+	  and barter_check='0' and order_code in (select order_code from np_order where business_id=#{thirdId})
+  </select>
+  <!-- 查询换单数量 (已买)-->
+  <select id="queryBarterOrderCountBuy" parameterType="java.util.Map" resultType="java.lang.Integer">
+      select count(*) from np_barter_order where barter_del_flag='0'
+	  and barter_check='0' and order_code in (select a.order_code from np_order a ,np_third_store_info b 
+	where a.customer_id=#{customerId} and a.customer_id=b.customerId 
+	and b.is_supplier='0' and a.del_flag='0')
+  </select>
+  
+</mapper>

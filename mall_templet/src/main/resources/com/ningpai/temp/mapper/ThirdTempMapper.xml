@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- @Title: 模板设置的mapper映射配置文件 @Description: @author NINGPAI_xiaomm @since 
+	2014-03-29 17:43:53 @version V1.0 -->
+<mapper namespace="com.ningpai.temp.dao.ThirdTempDao">
+
+	<resultMap id="BaseResultMap" type="com.ningpai.temp.bean.SysTemp">
+		<!-- 记录ID -->
+		<id column="TEMP_ID" jdbcType="BIGINT" property="tempId" />
+		<!-- 模板名称 -->
+		<result column="TEMP_NAME" jdbcType="VARCHAR" property="tempName" />
+		<!-- 模板url -->
+		<result column="TEMP_URL" jdbcType="VARCHAR" property="tempUrl" />
+		<!-- 模板参数 -->
+		<result column="TEMP_PA" jdbcType="VARCHAR" property="tempPa" />
+		<!-- 模板图片url -->
+		<result column="TEMP_IMAGE_URL" jdbcType="VARCHAR" property="tempImageUrl" />
+		<!-- 描述信息 -->
+		<result column="DES" jdbcType="VARCHAR" property="des" />
+		<!-- 版本信息 -->
+		<result column="VERSION" jdbcType="VARCHAR" property="version" />
+		<!-- 模板类型 -->
+		<result column="TEMP_TYPE" jdbcType="BIGINT" property="tempType" />
+		<!-- 头部区域 -->
+		<result column="HEAD_AREA" jdbcType="VARCHAR" property="headArea" />
+		<!-- 页面导航 -->
+		<result column="PAGE_NAV" jdbcType="VARCHAR" property="pageNav" />
+		<!-- 商品分类区域 -->
+		<result column="GOOD_CLASSIFY_AREA" jdbcType="VARCHAR"
+			property="goodClassifyArea" />
+		<!-- 商品分类级数 -->
+		<result column="GOOD_CLASSIFY_LEVEL" jdbcType="BIGINT"
+			property="goodClassifyLevel" />
+		<!-- 轮播大广告图 -->
+		<result column="ROLL_BIG_AD_IMAGE" jdbcType="VARCHAR" property="rollBigAdImage" />
+		<!-- 轮播小广告图 -->
+		<result column="ROLL_SMALL_AD_IMAGE" jdbcType="VARCHAR"
+			property="rollSmallAdImage" />
+		<!-- 新闻公告 -->
+		<result column="NEW_NOTICE" jdbcType="VARCHAR" property="newNotice" />
+		<!-- 首页图片 -->
+		<result column="INDEX_IMAGE" jdbcType="VARCHAR" property="indexImage" />
+		<!-- 品牌 -->
+		<result column="TRADEMARK" jdbcType="VARCHAR" property="trademark" />
+		<!-- 楼层 -->
+		<result column="FLOOR" jdbcType="VARCHAR" property="floor" />
+		<!-- 友情链接 -->
+		<result column="FRIEND_LINK" jdbcType="VARCHAR" property="friendLink" />
+		<!-- 页面底部区域 -->
+		<result column="PAGE_BOTTOM_AREA" jdbcType="VARCHAR" property="pageBottomArea" />
+		<!-- 备用1 -->
+		<result column="STANDBY_1" jdbcType="VARCHAR" property="standby1" />
+		<!-- 备用2 -->
+		<result column="STANDBY_2" jdbcType="VARCHAR" property="standby2" />
+		<!-- 备用3 -->
+		<result column="STANDBY_3" jdbcType="VARCHAR" property="standby3" />
+		<!-- 备用4 -->
+		<result column="STANDBY_4" jdbcType="VARCHAR" property="standby4" />
+		<!-- 备用5 -->
+		<result column="STANDBY_5" jdbcType="VARCHAR" property="standby5" />
+		<!-- 启用 -->
+		<result column="USED_STATUS" jdbcType="VARCHAR" property="usedStatus" />
+		<!-- 扩展字段1 -->
+		<result column="EXP_FLEID_1" jdbcType="VARCHAR" property="expFleid1" />
+		<!-- 扩展字段2 -->
+		<result column="EXP_FLEID_2" jdbcType="VARCHAR" property="expFleid2" />
+		<!-- 扩展字段3 -->
+		<result column="EXP_FLEID_3" jdbcType="VARCHAR" property="expFleid3" />
+		<!-- 扩展字段4 -->
+		<result column="EXP_FLEID_4" jdbcType="VARCHAR" property="expFleid4" />
+		<!-- 扩展字段5 -->
+		<result column="EXP_FLEID_5" jdbcType="VARCHAR" property="expFleid5" />
+		<!-- 添加人 -->
+		<result column="INSERT_ID" jdbcType="BIGINT" property="insertId" />
+		<!-- 添加时间 -->
+		<result column="INSERT_DATE" jdbcType="DATE" property="insertDate" />
+		<!-- 修改人 -->
+		<result column="MODIFY_ID" jdbcType="BIGINT" property="modifyId" />
+		<!-- 修改时间 -->
+		<result column="MODIFY_DATE" jdbcType="DATE" property="modifyDate" />
+		<!-- 删除标识 -->
+		<result column="DELETE_STATUS" jdbcType="BIGINT" property="deleteStatus" />
+	</resultMap>
+
+	<sql id="baseSql">
+		TEMP_ID, TEMP_NAME, TEMP_URL, TEMP_PA, TEMP_IMAGE_URL, DES, VERSION, TEMP_TYPE, HEAD_AREA,
+		PAGE_NAV, GOOD_CLASSIFY_AREA, GOOD_CLASSIFY_LEVEL, ROLL_BIG_AD_IMAGE, ROLL_SMALL_AD_IMAGE,
+		NEW_NOTICE, INDEX_IMAGE, TRADEMARK, FLOOR, FRIEND_LINK, PAGE_BOTTOM_AREA, STANDBY_1,
+		STANDBY_2, STANDBY_3, STANDBY_4, STANDBY_5, USED_STATUS, EXP_FLEID_1, EXP_FLEID_2,
+		EXP_FLEID_3, EXP_FLEID_4, EXP_FLEID_5, INSERT_ID, INSERT_DATE, MODIFY_ID, MODIFY_DATE,
+		DELETE_STATUS
+	</sql>
+	
+	<!-- 查询开始 -->
+	<!-- 根据模板设置对象的id查询模板设置对象 -->
+	<select id="getSysTempById" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="baseSql" />
+		FROM NP_SYS_TEMP
+		WHERE
+		TEMP_ID = #{tempId,
+		jdbcType=BIGINT
+		}
+	</select>
+
+	<!-- 根据模板设置对象的单个字段查询模板设置对象信息 -->
+	<select id="getSysTempByField" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		SELECT
+		<include refid="baseSql" />
+		FROM NP_SYS_TEMP
+		WHERE DELETE_STATUS = 0
+		<!-- 模板类型 -->
+		<if test="tempType != null">
+			and	TEMP_TYPE = #{tempType,
+			jdbcType=BIGINT
+			}
+		</if>
+		<!-- 启用 -->
+		<if test="usedStatus != null and usedStatus !=''">
+			and USED_STATUS =  #{usedStatus,jdbcType=VARCHAR}
+		</if>
+		<!-- 扩展字段1 文章栏目ID -->
+		<if test="expFleid1 != null and expFleid1 !=''">
+			and EXP_FLEID_1 = #{expFleid1,jdbcType=VARCHAR}
+		</if>
+		<!-- 扩展字段2 公告模块名称 -->
+		<if test="expFleid2 != null and expFleid2 !=''">
+			and EXP_FLEID_2 = #{expFleid2,jdbcType=VARCHAR}
+		</if>
+		<!-- 扩展字段3 分类导航是否显示广告 -->
+		<if test="expFleid3 != null and expFleid3 !=''">
+			and EXP_FLEID_3 = #{expFleid3,jdbcType=VARCHAR}
+		</if>
+		<!-- 扩展字段4 分类导航是否显示品牌 -->
+		<if test="expFleid4 != null and expFleid4 !=''">
+			and EXP_FLEID_4 = #{expFleid4,jdbcType=VARCHAR}
+		</if>
+		<!-- 备用2 (第三方商家标示)-->
+		<if test="standby2 != null">
+			and STANDBY_2 = #{standby2, jdbcType=VARCHAR }
+		</if>
+	</select>
+	<!-- 查询结束 -->
+
+
+	
+	<!-- 修改模板设置 -->
+	<update id="updateSysTemp" parameterType="com.ningpai.temp.bean.SysTemp">
+		UPDATE NP_SYS_TEMP
+		<set>
+
+			<!-- 记录ID -->
+			<if test="tempId != null">
+				TEMP_ID = #{tempId,
+				jdbcType=BIGINT
+				},
+			</if>
+			<!-- 模板名称 -->
+			<if test="tempName != null">
+				TEMP_NAME = #{tempName,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 模板url -->
+			<if test="tempUrl != null">
+				TEMP_URL = #{tempUrl,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 模板参数 -->
+			<if test="tempPa != null">
+				TEMP_PA = #{tempPa,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 模板图片url -->
+			<if test="tempImageUrl != null">
+				TEMP_IMAGE_URL = #{tempImageUrl,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 描述信息 -->
+			<if test="des != null">
+				DES = #{des,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 版本信息 -->
+			<if test="version != null">
+				VERSION = #{version,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 模板类型 -->
+			<if test="tempType != null">
+				TEMP_TYPE = #{tempType,
+				jdbcType=BIGINT
+				},
+			</if>
+			<!-- 头部区域 -->
+			<if test="headArea != null">
+				HEAD_AREA = #{headArea,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 页面导航 -->
+			<if test="pageNav != null">
+				PAGE_NAV = #{pageNav,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 商品分类区域 -->
+			<if test="goodClassifyArea != null">
+				GOOD_CLASSIFY_AREA = #{goodClassifyArea,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 商品分类级数 -->
+			<if test="goodClassifyLevel != null">
+				GOOD_CLASSIFY_LEVEL = #{goodClassifyLevel,
+				jdbcType=BIGINT
+				},
+			</if>
+			<!-- 轮播大广告图 -->
+			<if test="rollBigAdImage != null">
+				ROLL_BIG_AD_IMAGE = #{rollBigAdImage,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 轮播小广告图 -->
+			<if test="rollSmallAdImage != null">
+				ROLL_SMALL_AD_IMAGE = #{rollSmallAdImage,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 新闻公告 -->
+			<if test="newNotice != null">
+				NEW_NOTICE = #{newNotice,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 首页图片 -->
+			<if test="indexImage != null">
+				INDEX_IMAGE = #{indexImage,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 品牌 -->
+			<if test="trademark != null">
+				TRADEMARK = #{trademark,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 楼层 -->
+			<if test="floor != null">
+				FLOOR = #{floor,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 友情链接 -->
+			<if test="friendLink != null">
+				FRIEND_LINK = #{friendLink,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 页面底部区域 -->
+			<if test="pageBottomArea != null">
+				PAGE_BOTTOM_AREA = #{pageBottomArea,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 备用1 -->
+			<if test="standby1 != null">
+				STANDBY_1 = #{standby1,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 备用2 -->
+			<if test="standby2 != null">
+				STANDBY_2 = #{standby2,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 备用3 -->
+			<if test="standby3 != null">
+				STANDBY_3 = #{standby3,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 备用4 -->
+			<if test="standby4 != null">
+				STANDBY_4 = #{standby4,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 备用5 -->
+			<if test="standby5 != null">
+				STANDBY_5 = #{standby5,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 启用 -->
+			<if test="usedStatus != null">
+				USED_STATUS = #{usedStatus,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 扩展字段1 -->
+			<if test="expFleid1 != null">
+				EXP_FLEID_1 = #{expFleid1,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 扩展字段2 -->
+			<if test="expFleid2 != null">
+				EXP_FLEID_2 = #{expFleid2,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 扩展字段3 -->
+			<if test="expFleid3 != null">
+				EXP_FLEID_3 = #{expFleid3,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 扩展字段4 -->
+			<if test="expFleid4 != null">
+				EXP_FLEID_4 = #{expFleid4,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 扩展字段5 -->
+			<if test="expFleid5 != null">
+				EXP_FLEID_5 = #{expFleid5,
+				jdbcType=VARCHAR
+				},
+			</if>
+			<!-- 添加人 -->
+			<if test="insertId != null">
+				INSERT_ID = #{insertId,
+				jdbcType=BIGINT
+				},
+			</if>
+			<!-- 添加时间 -->
+			<if test="insertDate != null">
+				INSERT_DATE = #{insertDate,
+				jdbcType=DATE
+				},
+			</if>
+			<!-- 修改人 -->
+			<if test="modifyId != null">
+				MODIFY_ID = #{modifyId,
+				jdbcType=BIGINT
+				},
+			</if>
+			<!-- 修改时间 -->
+			<if test="modifyDate != null">
+				MODIFY_DATE = #{modifyDate,
+				jdbcType=DATE
+				},
+			</if>
+			<!-- 删除标识 -->
+			<if test="deleteStatus != null">
+				DELETE_STATUS = #{deleteStatus,
+				jdbcType=BIGINT
+				},
+			</if>
+		</set>
+		WHERE
+		TEMP_ID = #{tempId,
+		jdbcType=BIGINT
+		}
+	</update>
+
+</mapper>

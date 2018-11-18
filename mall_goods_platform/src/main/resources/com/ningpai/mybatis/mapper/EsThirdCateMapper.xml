@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qianmi.web.dao.EsThirdCateMapper">
+	<resultMap id="BaseResultMap" type="com.ningpai.goods.bean.EsThirdCate">
+		<id column="cat_id" property="catId" jdbcType="BIGINT" />
+		<result column="cat_name" property="catName" jdbcType="VARCHAR" />
+		<result column="cat_parent_id" property="catParentId" jdbcType="BIGINT" />
+
+	</resultMap>
+	<sql id="Base_Column_List">
+		cat_id, cat_name, cat_parent_id
+
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		cat_id, cat_name
+		from np_third_cate
+		where
+		FIND_IN_SET(cat_id, getThirdParentList(#{catId,jdbcType=BIGINT}))
+	</select>
+
+
+	<select id="selectGoodsThirdCateListById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		cat_id, cat_name,cat_parent_id
+		from np_third_cate
+		where cat_id= #{catId,jdbcType=BIGINT}
+	</select>
+
+
+</mapper>

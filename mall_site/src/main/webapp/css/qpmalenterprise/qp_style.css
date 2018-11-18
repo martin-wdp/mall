@@ -1,0 +1,471 @@
+@charset "utf-8";
+body,html{
+	font-family: "微软雅黑";
+}
+/*认证身份页*/
+.qp-content{
+	width: 1000px;
+	margin: 0px auto;
+}
+.qp-header{
+	height: 100px;
+	background: #027cda;
+	width: 100%;
+}
+.qp-header .q_logo{
+	display: block;
+	float: left;
+	margin-top: 25px;
+	width: 108px;
+}
+.qp-header span{ 
+	display: block;
+	line-height: 45px;
+	color: #f5f5f5;
+	font-size: 20px;
+	font-weight: bold;
+	border-left: 3px solid #c4e5ff;
+	padding-left: 24px;
+	margin-left: 30px;
+	margin-top: 28px;
+	float: left;
+}
+.qp-fill-infor{
+	background: #fff;
+	padding:0px 35px;
+    font-family: '\5fae\8f6f\96c5\9ed1';
+}
+.qp-fill-infor .title{
+	font-size: 18px;
+	color: #373737;
+	font-weight: bold;
+}
+.qp-fill-infor .title a{
+    font-size: 16px;
+    color: #fff;
+    background-color: #EC6A1E;
+    padding:5px 8px;
+    border-radius: 2px;
+    margin-left: 4px;
+    cursor: pointer;
+}
+.qp-fill-infor .tit-top{
+	line-height: 32px;
+	color: #606060;
+	font-weight: bold;
+	background: #fff3d9;
+	text-indent: 22px;
+	margin-top: 23px;
+}
+.auther-list{
+	width: 780px;
+	margin: 0px auto;
+	padding-top: 20px;
+}
+.auther-list .qp-name{
+    width: 150px;
+    text-align: right;
+    color: #333;
+    font-weight: bold;
+    padding-right: 20px;
+    vertical-align: top;
+    line-height: 38px;
+}
+.auther-list .qp-name span{
+	color: #ca2f2b;
+}
+.auther-list tr{
+}
+.auther-list td{
+	color: #666;
+	padding-bottom: 5px;
+}
+.auther-list input{
+	vertical-align: middle;
+	text-indent: 10px;
+	color: #666;
+}
+.qLong-text{
+	width: 440px;
+	height: 36px;
+	border: 1px solid #e4e4e4;
+	line-height: 36px;
+}
+.qTip{
+	/*color: #ca2f2b;*/
+    display: none;
+	color: #a6a6a6;
+	line-height: 25px;
+}
+.qTipinit{
+    /*color: #ca2f2b;*/
+    /*display: none;*/
+    color: #a6a6a6;
+    line-height: 25px;
+}
+.qTipred{
+    display: block;
+    color: #ca2f2b;
+    /*color: #a6a6a6;*/
+    line-height: 25px;
+}
+.auther-list label{ display: inline-block;}
+.qg-photo{
+   width: 420px;
+   height: 66px;
+   padding: 10px;
+   border: 1px solid #e4e4e4;
+   position: relative;
+}
+.qg-photo ul li{
+	width: 64px;
+	height: 64px;
+	background: #f3f3f3;
+	border-radius: 5px;
+	position: relative;
+	margin-right: 10px;
+}
+.qg-photo ul li img{
+	border: none;
+	border-radius: 5px;
+}
+.qg-photo ul li a{
+	display: block;
+	width: 16px;
+	height: 16px;
+	background: #ca2f2b;
+	text-align: center;
+	line-height: 16px;
+	font-size: 14px;
+	position: absolute;
+	right:-8px;
+	top:-8px;
+	border-radius: 50%;
+	color: #fff;
+}
+.qgUpload{
+	position: absolute;
+	right:10px;
+	bottom: 10px;
+}
+.qgUpload input{
+	width: 68px;
+	height: 28px;
+	opacity: 0;
+	position: absolute;
+	right:0px;
+	bottom: 0px;
+	cursor: pointer;
+}
+.auther-list select{
+	width: 140px;
+	height: 36px;
+	border: 1px solid #e4e4e4;
+	color: #666;
+	margin-right: 10px;
+	font-family: "微软雅黑";
+}
+.qNomarl-text{
+	width: 250px;
+	height: 36px;
+	border: 1px solid #e4e4e4;
+	line-height: 36px;
+	margin-top: 15px;
+}
+
+.qp-papers input{
+	width: 140px;
+	height: 96px;
+	opacity: 0;
+	filter:alpha(opacity=0);
+	cursor: pointer;
+}
+.qpPap li{
+    width: 142px;
+    float: left;
+    margin-right: 8px;
+}
+.qpPap{
+	margin-top: 15px;
+}
+.qpPap li p{
+	color: #666;
+	line-height: 25px;
+}
+.qpButton{
+	display: block;
+	width: 360px;
+	height: 48px;
+	background-color: #ca2f2b;
+	border-radius: 5px;
+	color: #fff;
+	line-height: 48px;
+	text-align: center;
+	font-size: 18px;
+}
+.qpCustomer{
+	width: 534px;
+	height: 200px;
+	background: #fff;
+	position: fixed;
+	margin-left: -260px;
+	left: 50%;
+	top:200px;
+	display: block;
+	z-index: 99999;
+	display: none;
+}
+
+
+/*账户信息页*/
+.n_head{
+    width: 100%;
+    border-bottom: 2px solid #f6ab02;
+}
+.n_menu ul li{
+	line-height: 65px;
+}
+
+
+.n_menu ul li .n_menu_hide{
+	top:50px;
+}
+.cartfd-mem{
+	top:15px;
+}
+.new_member_left .title{
+	background: #cf4541;
+}
+
+.doorPhoto li {
+	float: left;
+	margin-right: 10px;
+	position: relative;
+	width: 147px;
+	height: 135px;
+}
+.doorPhoto li input{
+	position: absolute;
+	width: 145px;
+	height: 133px;
+	top: 0;
+	left:0;
+	opacity: 0;
+}
+.doorPhoto li img{
+	width: 145px;
+    height: 133px;
+    border: 1px solid #dfdfdf;
+}
+
+/*分类页*/
+.qp-container{
+	width: 1210px;
+	margin: 0px auto;
+}
+.upKeep{
+	border: 1px solid #e6e6e6;
+	margin-top: 20px;
+}
+.upKeep ul li{
+	width: 110px;
+	height: 110px;
+	text-align: center;
+	float: left;
+	margin: 10px 30px;
+}
+.upKeep ul li:hover p{
+	color: #cf4541;
+}
+.upKeep ul li p{
+	font-size: 14px;
+	color: #333;
+	font-weight: bold;
+}
+.qpSearch{
+	height: 40px;
+	border-bottom: 1px solid #e6e6e6;
+	line-height: 40px;
+}
+.qpSearch .sous{
+	width: 450px;
+	float: right;
+	
+}
+.qpSearch .sous span{
+	font-size: 14px;
+	color: #333;
+	display: block;
+	float: left;
+}
+.qpSearch .sous input{
+	height: 40px;
+	width: 245px;
+	border: none;
+	line-height: 40px;
+	text-indent: 10px;
+	float: left;
+	font-size: 14px;
+}
+
+.qpList{
+	border-top: 2px solid #cf4541;
+	margin-top: 30px;
+
+}
+.qpList .title{
+	color: #333333;
+	line-height: 40px;
+	border-bottom: 1px dashed #d3d3d3;
+    font-size: 18px;
+    font-weight: bold;
+}
+.Oil{
+	width: 380px;
+	padding-left: 20px;
+	margin-top: 20px;
+	float: left;
+}
+.Oil .dope{
+	width: 84px;
+	height: 30px;
+	text-align: center;
+	line-height: 30px;
+	color: #fff;
+	font-size: 14px;
+	font-weight: bold;
+	background: #cf4541;
+}
+.Oil ul li{
+	display: inline-block;	
+	margin-top: 10px;
+}
+.Oil ul li a{
+	color: #333;
+	padding-right: 15px;
+}
+.Oil ul li a:hover{
+    color: #cf4541;
+}
+/*搜索页*/
+.qpSea .title{
+	height: 78px;
+	width: 254px;
+	border: 1px solid #e4e4e4;
+	text-align: center;
+	line-height: 78px;
+	border-bottom: none;
+	background: #fff;
+	color: #333;
+	font-size: 18px;
+	position: relative;
+}
+.qpSea .title span{
+	color: #cf4541;
+	font-size: 32px;
+	font-weight: bold;
+	padding-right: 10px;
+}
+.qpSea ul{
+	height: 50px;
+	border: 1px solid #e4e4e4;
+	line-height: 50px;
+	border-left: none;
+	border-right: none;
+	margin-top: -1px;
+	text-align: center;
+}
+.qpSea ul li{
+	padding-left: 30px;
+	display: inline-block;
+}
+.qpSea ul li a{
+	font-size: 18px;
+	color: #333;
+	font-weight: bold;
+
+}
+.qpSea ul li.cur a{
+	color: #cf4541;
+}
+.qpNet {
+	margin-top: 46px;
+}
+.qpNet li{
+	width: 170px;
+	text-align: center;
+	float: left;
+	margin-right: 36px;
+	margin-bottom: 20px;
+}
+.qpNet li a{
+	display: block;
+}
+.qpNet li a p{
+	height: 28px;
+	line-height: 28px;
+	width: 100%;
+	background: #f8f7f8;
+	color: #333;
+	font-size: 14px;
+	margin-top: 8px;	
+}
+.qpNet li a:hover p{
+	background: #cf4541;
+	color: #fff;
+}
+
+/*弹出层*/
+#myHiddenDiv {
+    display: none;
+}
+
+.popup a:hover {
+    text-decoration: none;
+    color: #fff;
+}
+
+.popup-header {
+    height: 24px;
+    padding-top: 20px;
+    height: 38px;
+    line-height: 32px;
+}
+
+.popup-header h2 {
+    font-size: 14px;
+    width: 100%;
+    text-align: center;
+}
+
+.popup-body {
+    width: 100%;
+    padding-top: 8px;
+}
+
+.popup-body strong {
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    font-weight: normal;
+    margin-bottom: 5px;
+}
+
+.con {
+    padding: 10px;
+    width: 692px;
+    height: 247px;
+    margin: 0 auto 20px auto;
+    overflow: auto;
+    border: 1px solid #a4c9e3;
+}
+
+.con p {
+    text-indent: 2em;
+    line-height: 18px;
+    margin-bottom: 10px;
+}
+
+.con b {
+    text-indent: 2em;
+}

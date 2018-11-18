@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ningpai.third.auth.mapper.ThirdPageMapper">
+  <resultMap id="BaseResultMap" type="com.ningpai.third.auth.bean.ThirdPage">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="designation" jdbcType="VARCHAR" property="designation" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
+    <result column="img_url_selected" jdbcType="VARCHAR" property="imgUrlSelected" />
+    <result column="parentId" jdbcType="BIGINT" property="parentId" />
+    <result column="grade" jdbcType="BIGINT" property="grade" />
+    <result column="sort" jdbcType="BIGINT" property="sort" />
+    <result column="type" jdbcType="CHAR" property="type" />
+    <result column="characterization" jdbcType="VARCHAR" property="characterization" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="mod_time" jdbcType="TIMESTAMP" property="modTime" />
+    <result column="flag" jdbcType="CHAR" property="flag" />
+  </resultMap>
+  
+  <resultMap type="com.ningpai.third.auth.bean.ThirdPage" id="allPageInfo" extends="BaseResultMap">
+  	<collection property="menuVos" column="id" select="selectByparentId"></collection>
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    id, designation, url, img_url, img_url_selected, parentId, grade, sort, type, characterization, 
+    create_time, mod_time, flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_third_page
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByparentId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_third_page
+    where parentId = #{id,jdbcType=BIGINT} and flag='0'
+  </select>
+  
+  <select id="selectByAuthorityID" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  	select 
+  	p.id, p.designation,p.parentId, p.url,p.img_url,p.img_url_selected
+  	from np_third_authority_page a left join np_third_page p on a.page_id=p.id
+    where a.authority_id = #{id,jdbcType=BIGINT} and a.type='0' and p.flag='0' and a.flag ='0'
+  </select>
+  <select id="selectAllAuthority" resultMap="allPageInfo">
+  	select 
+  	p.id, p.designation,p.parentId, p.url,p.img_url,p.img_url_selected
+  	from np_third_page p 
+    where p.parentId='0'
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from np_third_page
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.third.auth.bean.ThirdPage">
+    insert into np_third_page (id, designation, url, 
+      img_url, img_url_selected, parentId, 
+      grade, sort, type, characterization, 
+      create_time, mod_time, flag
+      )
+    values (#{id,jdbcType=BIGINT}, #{designation,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{imgUrl,jdbcType=VARCHAR}, #{imgUrlSelected,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, 
+      #{grade,jdbcType=BIGINT}, #{sort,jdbcType=BIGINT}, #{type,jdbcType=CHAR}, #{characterization,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modTime,jdbcType=TIMESTAMP}, #{flag,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.third.auth.bean.ThirdPage">
+    insert into np_third_page
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="designation != null">
+        designation,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="imgUrl != null">
+        img_url,
+      </if>
+      <if test="imgUrlSelected != null">
+        img_url_selected,
+      </if>
+      <if test="parentId != null">
+        parentId,
+      </if>
+      <if test="grade != null">
+        grade,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="characterization != null">
+        characterization,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modTime != null">
+        mod_time,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="designation != null">
+        #{designation,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null">
+        #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrlSelected != null">
+        #{imgUrlSelected,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=BIGINT},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="characterization != null">
+        #{characterization,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modTime != null">
+        #{modTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.third.auth.bean.ThirdPage">
+    update np_third_page
+    <set>
+      <if test="designation != null">
+        designation = #{designation,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null">
+        img_url = #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrlSelected != null">
+        img_url_selected = #{imgUrlSelected,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parentId = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="grade != null">
+        grade = #{grade,jdbcType=BIGINT},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=CHAR},
+      </if>
+      <if test="characterization != null">
+        characterization = #{characterization,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modTime != null">
+        mod_time = #{modTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.third.auth.bean.ThirdPage">
+    update np_third_page
+    set designation = #{designation,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      img_url = #{imgUrl,jdbcType=VARCHAR},
+      img_url_selected = #{imgUrlSelected,jdbcType=VARCHAR},
+      parentId = #{parentId,jdbcType=BIGINT},
+      grade = #{grade,jdbcType=BIGINT},
+      sort = #{sort,jdbcType=BIGINT},
+      type = #{type,jdbcType=CHAR},
+      characterization = #{characterization,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      mod_time = #{modTime,jdbcType=TIMESTAMP},
+      flag = #{flag,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

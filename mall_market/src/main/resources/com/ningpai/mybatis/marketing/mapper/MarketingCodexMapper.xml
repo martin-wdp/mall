@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.marketing.dao.MarketingCodexMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.marketing.bean.MarketingCodex" >
+    <id column="marketing_codex_id" property="marketingCodexId" jdbcType="BIGINT" />
+    <result column="marketing_id" property="marketingId" jdbcType="BIGINT" />
+    <result column="codex_id" property="codexId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+    <result column="flag" property="flag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    marketing_codex_id, marketing_id, codex_id, create_time, mod_time, flag
+  </sql>
+  
+  
+
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_marketing_codex
+    where marketing_codex_id = #{marketingCodexId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_marketing_codex
+    where marketing_codex_id = #{marketingCodexId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.marketing.bean.MarketingCodex" >
+    insert into np_marketing_codex (marketing_codex_id, marketing_id, codex_id, 
+      create_time, mod_time, flag
+      )
+    values (#{marketingCodexId,jdbcType=BIGINT}, #{marketingId,jdbcType=BIGINT}, #{codexId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modTime,jdbcType=TIMESTAMP}, #{flag,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.marketing.bean.MarketingCodex" >
+    insert into np_marketing_codex
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="marketingCodexId != null" >
+        marketing_codex_id,
+      </if>
+      <if test="marketingId != null" >
+        marketing_id,
+      </if>
+      <if test="codexId != null" >
+        codex_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modTime != null" >
+        mod_time,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="marketingCodexId != null" >
+        #{marketingCodexId,jdbcType=BIGINT},
+      </if>
+      <if test="marketingId != null" >
+        #{marketingId,jdbcType=BIGINT},
+      </if>
+      <if test="codexId != null" >
+        #{codexId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modTime != null" >
+        #{modTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.marketing.bean.MarketingCodex" >
+    update np_marketing_codex
+    <set >
+      <if test="marketingId != null" >
+        marketing_id = #{marketingId,jdbcType=BIGINT},
+      </if>
+      <if test="codexId != null" >
+        codex_id = #{codexId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modTime != null" >
+        mod_time = #{modTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=CHAR},
+      </if>
+    </set>
+    where marketing_codex_id = #{marketingCodexId,jdbcType=BIGINT}
+  </update>
+  <update id="deleteMarketingCodex" parameterType="java.lang.Long" >
+    update np_marketing_codex
+    set
+      flag = '1'
+    where marketing_id = #{marketingId,jdbcType=BIGINT}
+  </update>
+
+    <select id="searchMarketRuleByMarketingId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" /> from np_marketing_codex where marketing_id = #{marketingId,jdbcType=BIGINT}
+    </select>
+
+</mapper>

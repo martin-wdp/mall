@@ -1,0 +1,1676 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
+        "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+<urlrewrite >
+	<rule>
+		<note>
+        	登录
+        </note> 
+        <from>^/login(.html)?$</from> 
+        <to type="forward">/customer/login.htm</to> 
+	</rule>
+    <rule>
+        <note>
+            登录
+        </note>
+        <from>^/login(.html);jsessionid=([_a-zA-Z0-9@\.]+)?$</from>
+        <to type="forward">/customer/login.htm</to>
+    </rule>
+	<rule>
+		<note>
+        	QQ
+        </note> 
+        <from>^/afterloginqq(.html)?$</from> 
+        <to type="forward">/afterloginqq.htm</to> 
+	</rule>
+	
+	<rule>
+		<note>
+        	微信
+        </note> 
+        <from>^/loginweixin(.html)?$</from> 
+        <to type="forward">/loginweixin.htm</to> 
+	</rule>
+	
+	<rule>
+		<note>
+        	weibo
+        </note> 
+        <from>^/afterloginsina.html(.html)?$</from> 
+        <to type="forward">/afterloginsina.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	1 跳转找回
+        </note> 
+        <from>^/findpwd(.html)?$</from> 
+        <to type="forward">/findpwd.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	2 验证身份
+        </note> 
+        <from>^/validuser(.html)?$</from> 
+        <to type="forward">/validuser.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	3 重置密码
+        </note> 
+        <from>^/resetpwd(.html)?$</from> 
+        <to type="forward">/resetpwd.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	4 找回成功
+        </note> 
+        <from>^/updatesucess(.html)?$</from> 
+        <to type="forward">/updatesucess.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	5 邮件成功
+        </note> 
+        <from>^/sendsuccess(.html)?$</from> 
+        <to type="forward">/sendsuccess.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	6 验证邮件
+        </note> 
+        <from>^/validate/validpwdemail(.html)?$</from> 
+        <to type="forward">/validpwdemail.htm</to> 
+	</rule>
+    <rule>
+        <note>
+            7 找回密码
+        </note>
+        <from>^/validpwdemail(.html)?$</from>
+        <to type="forward">/validpwdemail.htm</to>
+    </rule>
+	<rule>
+		<note>
+        	退出
+        </note> 
+        <from>^/logout(.html)?$</from> 
+        <to type="forward">/customer/logout.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	验证登录
+        </note>
+		<from>^/checklogin-([_a-zA-Z0-9@\.]+)-([^'\-']+)-([\S]+.html)([0-9]?)(.html)?$</from>
+        <to type="forward">/checklogin.htm?username=$1&amp;password=$2&amp;url=$3&amp;type=$4</to> 
+	</rule>
+	
+	<rule>
+		<note>
+        	跳转注册
+        </note> 
+        <from>^/register(.html)?$</from> 
+        <to type="forward">/customer/register.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	添加会员
+        </note> 
+        <from>^/addcustomer(.html)?$</from>
+        <to type="forward">/customer/addcustomer.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	跳转注册成功页面
+        </note> 
+        <from>^/success(.html)?$</from>
+        <to type="forward">/customer/success.htm</to> 
+	</rule>
+
+
+	<rule>
+        <note>
+        	会员首页
+        </note> 
+        <from>^/customer/index(.html)?$</from> 
+        <to type="forward">/customer/index.htm</to> 
+    </rule>
+    <rule>
+        <note> 
+        	我的订单
+        </note> 
+        <from>^/customer/(myorder)(.html)?$</from> 
+        <to type="forward">/$1.htm</to> 
+    </rule>
+    <rule>
+        <note> 
+        	订单列表 无条件的分页
+        </note> 
+        <from>^/customer/(myorder)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/$1.htm?pageNo=$2</to> 
+    </rule>
+    <rule>
+        <note> 
+        	订单列表 带查询条件的分页
+        </note> 
+        <from>^/customer/(myorder)-([0-9]+)-([0-9]+)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/$1.htm?date=$2&amp;type=$3&amp;pageNo=$4</to>
+    </rule>
+    <rule>
+        <note> 
+        	查询订单
+        </note> 
+        <from>^/customer/(myorder)-([0-9]+)-([0-9]+)-([0-9]+)-([\u4e00-\u9fa5]+[、]?|[0-9]+)(.html)?$</from> 
+        <to type="forward">/$1.htm?date=$2&amp;type=$3&amp;pageNo=$4&amp;paramString=$5</to>
+    </rule>
+    <rule>
+        <note> 
+        	已取消订单列表
+        </note> 
+        <from>^/customer/(refundlist)(.html)?$</from> 
+        <to type="forward">/$1.htm</to>
+    </rule>
+    <rule>
+        <note> 
+        	已取消订单列表 无条件的分页
+        </note> 
+        <from>^/customer/(refundlist)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/$1.htm?pageNo=$2</to> 
+    </rule>
+    <rule>
+        <note>
+        	取消订单
+        </note> 
+        <from>^/customer/delorder-([0-9]+)(.html)?$</from> 
+        <to type="forward">/customer/delorder.htm?orderId=$1</to>
+    </rule>
+    <rule>
+        <note>
+        	晒单
+        </note> 
+        <from>^/share-([0-9]+)(.html)?$</from> 
+        <to type="forward">/toshare.htm?orderId=$1</to>
+    </rule>
+    <rule>
+        <note>
+        	晒单详情
+        </note> 
+        <from>^/share/detail-([0-9]+)(.html)?$</from> 
+        <to type="forward">/share/detail.htm?shareId=$1</to>
+    </rule>
+    <rule>
+        <note> 
+        	填写投诉内容
+        </note> 
+        <from>^/customer/tocomplain-([_a-zA-Z0-9]+)(.html)?$</from> 
+        <to type="forward">/customer/tocomplain.htm?orderNo=$1</to>
+    </rule>
+    <rule>
+        <note> 
+        	添加投诉
+        </note> 
+        <from>^/customer/addcomplain(.html)?$</from> 
+        <to type="forward">/customer/addcomplain.htm</to>
+    </rule>
+    <rule>
+        <note> 
+        	投诉成功条跳转
+        </note> 
+        <from>^/customer/complainsuccess(.html)?$</from> 
+        <to type="forward">/customer/complainsuccess.htm</to>
+    </rule>
+    <rule>
+        <note> 
+        	投诉列表
+        </note> 
+        <from>^/customer/complainlist(.html)?$</from> 
+        <to type="forward">/customer/complainlist.htm</to>
+    </rule>
+      <rule>
+        <note> 
+        	投诉记录 分页
+        </note> 
+        <from>^/customer/(complainlist)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/customer/$1.htm?pageNo=$2</to> 
+    </rule>
+    <rule>
+        <note> 
+        	订单详细
+        </note> 
+        <from>^/customer/(detail)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/order$1s.htm?orderId=$2</to> 
+    </rule>
+    <rule>
+        <note> 
+        	跳转商品评价
+        </note> 
+        <from>^/tradecomment-([0-9]+)-([0-9]+)(.html)?$</from>
+        <to type="forward">/tradecomment.htm?goodsId=$1&amp;orderId=$2</to> 
+    </rule>
+    <rule>
+        <note> 
+        	跳转商品评价
+        </note> 
+        <from>^/comment-([0-9]+)(.html)?$</from>
+        <to type="forward">/tocomment.htm?orderId=$1</to> 
+    </rule>
+    
+    <rule>
+        <note> 
+        	商品对比
+        </note> 
+        <from>^/compare/([0-9]+)-([0-9]+)-([0-9]+)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/compare.htm?goodsIds=$1,$2,$3,$4</to>
+    </rule>
+    
+    <rule>
+        <note> 
+        	所有商品评价
+        </note> 
+        <from>^/comment/([0-9]+)(.html)?$</from> 
+        <to type="forward">/allComment.htm?productId=$1</to>
+    </rule>
+    
+    <rule>
+        <note> 
+        	所有商品咨询
+        </note> 
+        <from>^/cosult/([0-9]+)(.html)?$</from> 
+        <to type="forward">/allCosult.htm?productId=$1</to>
+    </rule>
+    <rule>
+        <note> 
+        	查看商品评价
+        </note> 
+        <from>^/viewcomment-([0-9]+)-([0-9]+)(.html)?$</from>
+        <to type="forward">/viewcomment.htm?goodsId=$1&amp;orderId=$2</to> 
+    </rule>
+    
+    <rule>
+        <note> 
+        	取消订单
+        </note> 
+        <from>^/customer/cancelorder-([_a-zA-Z]+)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/cancelorder.htm?orderId=$2&amp;fromUrl=$1</to>
+    </rule>
+    <rule>
+        <note> 
+        	确认收货
+        </note> 
+        <from>^/customer/comfirmofgoods-([_a-zA-Z]+)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/comfirmofgooods.htm?orderId=$2&amp;fromUrl=$1</to>
+    </rule>
+    <rule>
+        <note>
+        	我的积分
+        </note> 
+        <from>^/customer/(myintegral)(.html)?$</from> 
+        <to type="forward">/$1.htm?pageNo=1&amp;date=1</to> 
+    </rule>
+    <rule>
+        <note>
+        	我的积分
+        </note> 
+        <from>^/customer/(myintegral)(.html)?$</from> 
+        <to type="forward">/$1.htm?pageNo=1&amp;date=1</to> 
+    </rule>
+    <rule>
+        <note>
+        	积分 分页
+        </note> 
+        <from>^/customer/(myintegral)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/$1.htm?pageNo=$2&amp;date=1</to> 
+    </rule>
+    <rule>
+        <note> 
+        	积分 查询分页
+        </note> 
+        <from>^/customer/(myintegral)-([0-9]+)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/$1.htm?pageNo=$3&amp;date=$2</to> 
+    </rule>
+    <rule>
+        <note> 
+        	我的账户信息
+        </note> 
+        <from>^/customer/(myinfo)(.html)?$</from> 
+        <to type="forward">/$1.htm</to> 
+    </rule>
+    <rule>
+        <note> 
+        	安全中心
+        </note> 
+        <from>^/customer/(securitycenter)(.html)?$</from> 
+        <to type="forward">/$1.htm</to> 
+    </rule>
+    <rule>
+        <note> 
+        	邮件验证
+        </note> 
+        <from>^/validate/(valididemail)-([0-9A-Za-z]+)-([a-z]+)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/validate/$1.htm?checkCode=$2&amp;type=$3&amp;d=$4</to>
+    </rule>
+    <rule>
+        <note> 
+        	安全中心
+        </note> 
+        <from>^/validate/([\w]+)(.html)?$</from> 
+        <to type="forward">/validate/$1.htm</to>
+    </rule>
+    <rule>
+        <note> 
+        	修改我的账户信息
+        </note> 
+        <from>^/modifyInfo(.html)?$</from> 
+        <to type="forward">/customer/modifyInfo.htm</to> 
+    </rule>
+    <rule>
+        <note> 
+        	浏览记录
+        </note> 
+        <from>^/customer/(browserecord)(.html)?$</from> 
+        <to type="forward">/$1.htm</to> 
+    </rule>
+    <rule>
+        <note> 
+        	投诉记录
+        </note> 
+        <from>^/customer/(ordercomplain)(.html)?$</from> 
+        <to type="forward">/customer/$1.htm</to> 
+    </rule>
+    <rule>
+        <note> 
+        	投诉记录
+        </note> 
+        <from>^/customer/(ordercomplain)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/customer/$1.htm?pageNo=$2</to> 
+    </rule>
+    
+    <rule>
+    	<note>
+    		用户反馈
+    	</note>
+    	<from>^/customer/(feedback)(.html)?$</from>
+    	<to type="forward">/customer/$1.htm</to>
+    </rule>
+    <rule>
+    	<note>
+    		站内信
+    	</note>
+    	<from>^/customer/(insideletter)(.html)?$</from>
+    	<to type="forward">/customer/$1.htm</to>
+    </rule>
+    <rule>
+    	<note>
+    		站内信
+    	</note>
+    	<from>^/customer/(insideletter)-([0-9]+)(.html)?$</from>
+    	<to type="forward">/customer/$1.htm?pageNo=$2</to>
+    </rule>
+     <rule>
+        <note> 
+        	我的收藏
+        </note> 
+        <from>^/customer/(myfollw)(.html)?$</from> 
+        <to type="forward">/$1.htm</to> 
+    </rule>
+    <rule>
+        <note> 
+        	我的收藏
+        </note> 
+        <from>^/customer/(myfollw)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/$1.htm?pageNo=$2</to> 
+    </rule>
+    <rule>
+        <note> 
+        	取消收藏
+        </note> 
+        <from>^/customer/(cancelfollow)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/$1.htm?followId=$2</to> 
+    </rule>
+    <rule>
+        <note> 
+        	取消浏览
+        </note> 
+        <from>^/customer/(cancelbrowse)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/$1.htm?likeId=$2</to> 
+    </rule>
+    <rule>
+        <note> 
+        	商品咨询 -- 会员中心
+        </note> 
+        <from>^/customer/(consult)(.html)?$</from> 
+        <to type="forward">/$1.htm?flag=2</to> 
+    </rule>
+    <rule>
+        <note> 
+        	商品咨询 -- 会员中心
+        </note> 
+        <from>^/customer/(consult)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/$1.htm?flag=2&amp;pageNo=$2</to> 
+    </rule>
+    <rule>
+        <note> 
+        	商品咨询 -- 会员中心
+        </note> 
+        <from>^/customer/(consult)-([0-9]+)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/$1.htm?flag=$2&amp;pageNo=$3</to> 
+    </rule>
+     <rule>
+        <note> 
+        	商品评论 -- 会员中心
+        </note> 
+        <from>^/customer/(comment)(.html)?$</from> 
+        <to type="forward">/$1.htm</to> 
+    </rule>
+     <rule>
+        <note> 
+        	商品评论 -- 会员中心
+        </note> 
+        <from>^/customer/(comment)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/$1.htm?pageNo=$2</to> 
+    </rule>
+    <!-- 我的消费记录 -->
+    <rule>
+        <note>我的消费记录</note> 
+        <from>^/customer/consume((.html)?)$</from> 
+        <to type="forward">/queryMyConsume.htm?date=1&amp;pageNo=1</to> 
+    </rule>	
+    <rule>
+        <note>我的消费记录：传时间标记</note> 
+        <from>^/customer/consume/(\d+)((.html)?)$</from> 
+        <to type="forward">/queryMyConsume.htm?date=$1&amp;pageNo=1</to> 
+    </rule>	
+    <rule>
+        <note>我的消费记录：传时间标记、页码</note> 
+        <from>^/customer/consume/(\d+)-(\d+)((.html)?)$</from> 
+        <to type="forward">/queryMyConsume.htm?date=$1&amp;pageNo=$2</to> 
+    </rule><!-- 我的消费记录END -->
+    <!-- 我的优惠券 -->
+    <rule> 
+        <note>我的优惠券</note> 
+        <from>^/mycoupon/(\d+)((.html)?)$</from> 
+        <to type="forward">/queryMyCoupon.htm?codeStatus=$1</to> 
+    </rule>
+    <rule> 
+        <note>我的优惠券</note> 
+        <from>^/mycoupon/(\d+)-(\d+)((.html)?)$</from> 
+        <to type="forward">/queryMyCoupon.htm?codeStatus=$1&amp;pageNo=$2</to> 
+    </rule><!-- 我的优惠券END -->
+    <!-- 会员收货地址   -->
+    <rule> 
+        <note>查询会员收货地址</note> 
+        <from>^/customer/address((.html)?)$</from> 
+        <to type="forward">/queryCustomerAddress.htm</to> 
+    </rule>
+    <rule> 
+        <note>添加会员收货地址</note> 
+        <from>^/customer/address/add((.html)?)$</from> 
+        <to type="forward">/addCustomerAddress.htm</to> 
+    </rule>
+    <rule> 
+        <note>修改会员收货地址</note> 
+        <from>^/customer/address/update((.html)?)$</from> 
+        <to type="forward">/modifyCustAddress.htm</to> 
+    </rule>
+    <rule> 
+        <note>修改为默认会员收货地址</note> 
+        <from>^/customer/address/updateDefault/(\d+)-(\d+)((.html)?)$</from> 
+        <to type="forward">/modifyIsDefaultAddress.htm?customerId=$1&amp;addressId=$2</to> 
+    </rule>
+    <rule> 
+        <note>删除会员收货地址</note> 
+        <from>^/customer/address/delete/(\d+)((.html)?)$</from> 
+        <to type="forward">/deleteCustAddress.htm?addressId=$1</to> 
+    </rule>
+    <rule> 
+        <note>ajax查询会员收货地址</note> 
+        <from>^/customer/address/ajaxtoform((.html)?)$</from> 
+        <to type="forward">/queryCustAddress.htm</to> 
+    </rule>
+    <rule> 
+        <note>查询省份</note> 
+        <from>^/customer/address/province((.html)?)$</from> 
+        <to type="forward">/getSiteAllProvince.htm</to> 
+    </rule>
+    <rule> 
+        <note>查询城市</note> 
+        <from>^/customer/address/city((.html)?)$</from> 
+        <to type="forward">/getSiteAllCityByPid.htm</to> 
+    </rule>
+    <rule> 
+        <note>查询区县</note> 
+        <from>^/customer/address/district((.html)?)$</from> 
+        <to type="forward">/getSiteAllDistrictByCid.htm</to> 
+    </rule>
+    <rule> 
+        <note>查询街道</note> 
+        <from>^/customer/address/street((.html)?)$</from> 
+        <to type="forward">/getSiteAllStreetByDid.htm</to> 
+    </rule>
+    <!-- 会员收货地址END -->
+    <rule> 
+        <note> 
+        </note> 
+        <!-- 头部 -->
+        <from>^/([_a-zA-Z]+)_([0-9]+)((.html)?)$</from> 
+        <to type="forward">/$1.htm?flag=$2</to> 
+    </rule>
+    <rule> 
+        <note>
+        	搜索货品 
+        </note> 
+        <!-- 头部 -->
+        <from>^/goods/searchproduct((.html)?)$</from> 
+        <to type="forward">/searchProduct.htm</to> 
+    </rule>
+    <rule> 
+        <note>
+        	搜索货品,并添加搜索记录
+        </note> 
+        <!-- 头部 -->
+        <from>^/goods/searchproduct2((.html)?)$</from> 
+        <to type="forward">/searchProduct2.htm</to> 
+    </rule>
+    <rule> 
+        <note> 
+        	首页
+        </note> 
+        <from>^/index((.html)?)$</from> 
+        <to type="forward">/indexview.htm</to> 
+    </rule>
+
+    <rule>
+        <note>
+            首页
+        </note>
+        <from>^/$</from>
+        <to type="forward">/indexview.htm</to>
+    </rule>
+    <rule> 
+        <note> 
+        	商品列表
+        </note> 
+        <from>^/list/([0-9]+)-([0-9]+)((.html)?)$</from> 
+        <to type="forward">/list.htm?cid=$1&amp;pid=$2</to>
+    </rule>
+    
+    <rule> 
+        <note> 
+        	加载面包屑信息
+        </note> 
+        <from>^/loadgoodsbreadcrumb/([0-9]+)((.html)?)$</from>
+        <to type="forward">/loadGoodsBreadCrumb.htm?catId=$1</to>
+    </rule>
+    
+    <rule> 
+        <note> 
+        	面包屑跳转URL
+        </note> 
+        <from>^/list/jumplist((.html)?)$</from> 
+        <to type="forward">/jumpList.htm</to>
+    </rule>
+    
+     <rule> 
+        <note> 
+        	商品列表
+        </note> 
+        <from>^/goods/(\w+)((.html)?)$</from> 
+        <to type="forward">/$1.htm</to>
+    </rule>
+    <rule> 
+        <note> 
+        	商品详情
+        </note> 
+        <from>^/item/([0-9]+)-([0-9]+)((.html)?)$</from> 
+        <to type="forward">/product.htm?productId=$1&amp;distinctId=$2</to>
+    </rule>
+    
+    <rule> 
+        <note> 
+        	商品详情
+        </note> 
+        <from>^/item/([0-9]+)((.html)?)$</from> 
+        <to type="forward">/product.htm?productId=$1</to>
+    </rule>
+    
+    <rule> 
+        <note> 
+        	查询所有货品
+        </note> 
+        <from>^/all/([0-9]+)((.html)?)$</from> 
+        <to type="forward">/queryProductListByGoodsId.htm?goodsId=$1</to>
+    </rule>
+    
+    <rule> 
+        <note> 
+        	查询商品促销
+        </note> 
+        <from>^/gmarket/([0-9]+)-([0-9]+)-([0-9]+)((.html)?)$</from> 
+        <to type="forward">/queryGoodsMarket.htm?goodsInfoId=$1&amp;brandId=$2&amp;cateId=$3</to>
+    </rule>
+    <rule> 
+        <note>
+        	商品详情页添加商品关注
+        </note> 
+        <from>^/atte/([0-9]+)((.html)?)$</from> 
+        <to type="forward">/saveAtte.htm?productId=$1</to>
+    </rule>
+    <rule>
+        <note>
+            加载频道楼层商品信息
+        </note>
+        <from>^/channel/channelViewByAjax(.html)?$</from>
+        <to type="forward">/channelViewByAjax.htm</to>
+    </rule>
+    <rule> 
+        <note>
+        	根据参数查看文章列表 
+        </note> 
+        <from>^/information/list/((.html)?)$</from>
+        <to type="forward">/queryInfoList.htm</to> 
+    </rule>
+    <rule> 
+        <note>
+        	根据参数查看文章列表 
+        </note> 
+        <from>^/information/list/(\d+)((.html)?)$</from>
+        <to type="forward">/queryInfoList.htm?typeId=$1</to> 
+    </rule>
+    <rule> 
+        <note>
+        	根据参数查看文章列表 
+        </note> 
+        <from>^/information/list/-(\d+)\.html$</from> 
+        <to type="forward">/queryInfoList.htm?pageNo=$1</to> 
+    </rule>
+    <rule> 
+        <note>
+        	根据参数查看文章列表 
+        </note> 
+        <from>^/information/list/(\d+)-(\d+)\.html$</from> 
+        <to type="forward">/queryInfoList.htm?typeId=$1&amp;pageNo=$2</to> 
+    </rule>
+    <rule> 
+        <note>
+
+        	根据参数查看文章列表 
+        </note> 
+        <from>^/information/list/(\d+)-(\w+)((.html)?)$</from>
+        <to type="forward">/queryInfoList.htm?typeId=$1&amp;infoName=$2</to> 
+    </rule>
+     <rule> 
+        <note>
+        	top 
+        </note> 
+       <from>^/([_a-zA-Z]+)_([0-9]+)((.html)?)$</from> 
+        <to type="forward">/$1.htm?flag=$2</to> 
+    </rule>
+    <rule> 
+        <note>
+
+        	查看文章 
+        </note> 
+        <from>^/information/(\d+)((.html)?)$</from>
+        <to type="forward">/showInfo.htm?infoId=$1</to> 
+    </rule>
+    <rule> 
+        <note>
+        	根据帮助分类查看帮助列表
+        </note> 
+        <from>^/help/list/(\d+)(.html)?$</from>
+        <to type="forward">/queryHelpList.htm?typeId=$1</to> 
+    </rule>
+    <rule> 
+        <note>
+        	查看帮助
+        </note> 
+        <from>^/help/(\d+)-(\d+)(.html)?$</from>
+        <to type="forward">/helpcenter.htm?helpId=$1&amp;thirdId=$2</to>
+    </rule>
+    <rule>
+        <note>
+            查看帮助
+        </note>
+        <from>^/help/(\d+)(.html)?$</from>
+        <to type="forward">/helpcenter.htm?helpId=$1</to>
+    </rule>
+     <rule> 
+        <note>
+        	帮助中心首页
+        </note> 
+        <from>^/helpfirstpage.html$</from>
+        <to type="forward">/helpfirstpage.htm</to>
+    </rule>
+    <rule> 
+        <note>
+        	首页 
+        </note> 
+        <from>^/index.html$</from> 
+        <to type="forward">/indexView.htm</to> 
+    </rule>
+    <rule>
+        <note>
+        	频道页 
+        </note> 
+        <from>^/channelview/(\d+)(.html)?$</from> 
+        <to type="forward">/channelView.htm?goodsCateId=$1</to> 
+    </rule>
+    <rule> 
+        <note>
+        	导航频道页 
+        </note> 
+        <from>^/barchannelview/(\d+)(.html)?$</from> 
+        <to type="forward">/barchannelView.htm?barId=$1</to> 
+    </rule>
+    <rule> 
+        <note>
+        	第三方首页 
+        </note> 
+        <from>^/indexthirdview/(\d+)(.html)?$</from> 
+        <to type="forward">/indexThirdView.htm?thirdId=$1</to> 
+    </rule>
+    <rule> 
+        <note>
+
+        	购物车 
+        </note> 
+        <from>^/myshoppingcart.html$</from> 
+        <to type="forward">/myshoppingcart.htm</to> 
+    </rule>
+
+  <rule> 
+        <note>
+        	购物车 
+        </note> 
+        <from>^/myshoppingcart-(\d+)((.html)?)$</from> 
+        <to type="forward">/myshoppingcart.htm?pageNo=$1</to> 
+    </rule>
+    
+  <rule> 
+        <note>
+        	领取优惠券 
+        </note> 
+        <from>^/getOffCoupon-([0-9]+)((.html)?)$</from> 
+        <to type="forward">/getOffCoupon.htm?couponId=$1</to> 
+    </rule>
+
+    <rule>
+        <note>
+            领取优惠券AJAX
+        </note>
+        <from>^/qpgetOffCouponAjax-([0-9]+)((.html)?)$</from>
+        <to type="forward">/qpgetOffCouponAjax.htm?couponId=$1</to>
+    </rule>
+
+
+
+
+    <rule>
+        <note>
+
+        	删除购物车商品
+        </note> 
+        <from>^/delshoppingcartbyid/(\d+)-(\w+)$</from> 
+        <to type="forward">/delshoppingcartbyid.htm?shoppingCartId=$1&amp;goodsInfoId=$2</to> 
+    </rule>
+    
+     <rule> 
+        <note>
+
+        	修改购物车商品个数
+        </note> 
+        <from>^/changeshoppingcartbyid/(\d+)-(\w+)$</from> 
+        <to type="forward">/changeshoppingcartbyid.htm?shoppingCartId=$1&amp;num=$2</to> 
+    </rule>
+    
+    
+    
+        
+     <rule> 
+        <note>
+
+        	修改优惠
+        </note> 
+        <from>^/changeshoppingcartmarket/(\w+)-(\w+)-(\w+)$</from> 
+        <to type="forward">/changeshoppingcartmarket.htm?shoppingCartId=$1&amp;marketingId=$2&amp;marketingActivityId=$3</to> 
+    </rule>
+
+	
+	<rule> 
+        <note>
+
+        	修改优惠
+        </note> 
+        <from>^/changeshoppingcartmarketnoid/(\d+)$</from> 
+        <to type="forward">/changeshoppingcartmarket.htm?shoppingCartId=$1</to> 
+    </rule>
+    
+    <rule> 
+        <note>
+			跳转到确认订单 
+        </note> 
+        <from>^/order/(\w+)\.html$</from> 
+        <to type="forward">/$1.htm</to>
+    </rule>
+    
+    <rule> 
+        <note>
+        	订单优惠修改
+        </note> 
+        <from>^/changeshoppingcartordermarkets/(\w+)-(\w+)$</from> 
+        <to type="forward">/changeshoppingcartordermarkets.htm?shoppingCartId=$1&amp;orderMarketId=$2</to> 
+    </rule>
+    
+       <rule> 
+        <note>
+
+        	第三方登录 
+        </note> 
+        <from>^/loginqq.html$</from> 
+        <to type="forward">/loginqq.htm</to> 
+    </rule>
+    
+    <rule> 
+        <note>
+
+        	第三方登录 
+        </note> 
+        <from>^/loginsina.html$</from> 
+        <to type="forward">/loginsina.htm</to> 
+    </rule>
+   <rule> 
+        <note>
+
+        	第三方QQ登录回调 
+        </note> 
+        <from>^/qqcallback.html$</from> 
+        <to type="forward">/afterloginqq.htm</to> 
+    </rule>
+    
+    
+       <rule> 
+        <note>
+
+        	第三方sina登录回调 
+        </note> 
+        <from>^/sinacallback.html$</from> 
+        <to type="forward">/afterloginsina.htm</to> 
+    </rule>
+    
+    
+    
+	<rule>
+		<note>
+        	支付
+        </note> 
+        <from>^/payorder(.html)?$</from>
+        <to type="forward">/payorder.htm</to> 
+	</rule>
+	
+	  
+	<rule>
+		<note>
+        	支付
+        </note> 
+        <from>^/gopayorder-(\d+)((.html)?)$</from>
+        <to type="forward">/gopayorder.htm?orderId=$1</to> 
+	</rule>
+	
+	   
+	<rule>
+		<note>
+        	支付
+        </note> 
+        <from>^/paysucccess(.html)?$</from>
+        <to type="forward">/paysucccess.htm</to> 
+	</rule>
+	
+	<!-- 小组主页面 -->
+	<rule>
+		<note>
+        	小组
+        </note> 
+        <from>^/group(.html)?$</from> 
+        <to type="forward">/group.htm</to> 
+	</rule>
+	<!-- 全部小组页面 -->
+	<rule>
+		<note>
+        	全部小组
+        </note> 
+        <from>^/grouplist(.html)?$</from> 
+        <to type="forward">/grouplist.htm</to> 
+	</rule>
+	
+	<!-- 创建小组 -->
+	<rule>
+		<note>
+        	创建小组
+        </note> 
+        <from>^/togroupcreate(.html)?$</from> 
+        <to type="forward">/togroupcreate.htm</to> 
+	</rule>
+	
+	<!-- 创建小组类型 -->
+	<rule>
+		<note>
+        	创建小组类型
+        </note> 
+        <from>^/togrouptype(.html)?$</from> 
+        <to type="forward">/togrouptype.htm</to> 
+	</rule>
+	
+	<!-- 保存小组类型 -->
+	<rule>
+		<note>
+        	保存小组类型
+        </note> 
+        <from>^/savegroup(.html)?$</from> 
+        <to type="forward">/savegroup.htm</to> 
+	</rule>
+	
+	<!-- 我加入/管理的小组-->
+	<rule>
+		<note>
+        	我加入/管理的小组
+        </note> 
+        <from>^/myjoinedgroup(.html)?$</from> 
+        <to type="forward">/myjoinedgroup.htm</to> 
+	</rule>
+	
+	<!-- 小组详情-->
+	<rule>
+		<note>
+        	小组详情
+        </note> 
+        <from>^/groupdetail/(\d+)((.html)?)$</from> 
+        <to type="forward">/groupdetail.htm?groupId=$1</to> 
+	</rule>
+	
+	<!-- 加入小组-->
+	<rule>
+		<note>
+        	加入小组
+        </note> 
+        <from>^/addgroup(.html)?$</from> 
+        <to type="forward">/addgroup.htm</to> 
+	</rule>
+	
+	
+	<!-- 小组详情-->
+	<rule>
+		<note>
+        	小组信息
+        </note> 
+        <from>^/groupinfo(.html)?$</from> 
+        <to type="forward">/groupinfo.htm</to> 
+	</rule>
+	
+	
+	<!-- 消息中心-->
+	<rule>
+		<note>
+        	消息中心
+        </note> 
+        <from>^/systemmsg(.html)?$</from> 
+        <to type="forward">/systemmsg.htm</to> 
+	</rule>
+	<!-- 显示专题页面-->
+	<rule>
+		<note>消息中心</note> 
+        <from>^/subject/(\d+)(.html)?$</from> 
+        <to type="forward">/showSubject.htm?subjectId=$1</to> 
+	</rule>
+	<!-- 显示活动页面-->
+	<rule>
+		<note>活动页面</note> 
+        <from>^/onepage/(\d+)(.html)?$</from> 
+        <to type="forward">/showOnePage.htm?infoOPId=$1</to> 
+	</rule>
+	
+	<rule>
+		<note>
+        	团购列表
+        </note> 
+        <from>^/grouponlist-(\d+)(.html)?$</from> 
+        <to type="forward">/selectgrouponlist.htm?pageNo=$1</to> 
+	</rule>
+	<rule>
+		<note>
+        	团购详情
+        </note> 
+        <from>^/groupon/([0-9]+)(.html)?$</from> 
+        <to type="forward">/groupon.htm?productId=$1</to> 
+	</rule>
+	<rule> 
+        <note> 
+        	商品详情
+        </note> 
+        <from>^/groupon/([0-9]+)-([0-9]+)((.html)?)$</from> 
+        <to type="forward">/groupon.htm?productId=$1&amp;distinctId=$2</to>
+    </rule>
+	<rule>
+		<note>
+        	团购详情
+        </note> 
+        <from>^/order/subgrouponorder(.html)?$</from> 
+        <to type="forward">/subgrouponorder.htm</to> 
+	</rule>
+
+	<rule>
+		<note>
+        	抢购秒杀列表
+        </note> 
+        <from>^/marketingrushlist-(\d+)(.html)?$</from> 
+        <to type="forward">/selectmrlist.htm?pageNo=$1</to> 
+	</rule>
+	<rule>
+		<note>
+        	抢购秒杀详情
+        </note> 
+        <from>^/marketingrush/([0-9]+)(.html)?$</from> 
+        <to type="forward">/marketingrush.htm?productId=$1</to> 
+	</rule>
+	<rule> 
+        <note> 
+        	商品详情
+        </note> 
+        <from>^/marketingrush/([0-9]+)-([0-9]+)((.html)?)$</from> 
+        <to type="forward">/marketingrush.htm?productId=$1&amp;distinctId=$2</to>
+    </rule>
+	<rule>
+		<note>
+        	抢购秒杀详情
+        </note> 
+        <from>^/order/submrorder(.html)?$</from> 
+        <to type="forward">/submrorder.htm</to> 
+	</rule>
+	
+    
+      <rule>
+        <note> 
+        	退单
+        </note> 
+        <from>^/returns/saveReturnGoodsTake-([0-9]+)(.html)?$</from> 
+        <to type="forward">/saveReturnGoodsTake.htm?orderId=$1</to>
+    </rule>
+
+
+
+	
+	<!-- <rule> 
+        <note> 
+        	退单
+        </note> 
+        <from>^/returns/saverreturngoodstake(.html)?$</from> 
+        <to type="forward">/saveReturnGoodsTake.htm</to>
+    </rule> -->
+
+	
+	<rule>
+		<note>
+			统计各类未读消息数目
+		</note>
+		<from>^/messagecount(.html)?$</from>
+		<to type="forward">/messagecount.htm</to>
+	</rule>
+	
+	<!-- 消息中心 -->
+	<rule>
+		<note>
+			收到的私信
+		</note>
+		<from>^/lettermsg(.html)?$</from>
+		<to type="forward">/lettermsg.htm</to>
+	</rule>
+
+	<rule>
+		<note>
+			评论
+		</note>
+		<from>^/commentmsg(.html)?$</from>
+		<to type="forward">/commentmsg.htm</to>
+	</rule>
+
+	<rule>
+		<note>
+			已发私信
+		</note>
+		<from>^/sendlettermsg(.html)?$</from>
+		<to type="forward">/sendlettermsg.htm</to>
+	</rule>
+	
+	<!-- 小组搜索列表 -->
+	<rule>
+		<note>
+			小组搜索列表
+		</note>
+		<from>^/groupsearchlist(.html)?$</from>
+		<to type="forward">/groupsearchlist.htm</to>
+	</rule>
+	
+	<!-- 上传小组图片页面 -->
+	<rule>
+		<note>
+			上传小组图片页面
+		</note>
+		<from>^/toaddgroupimg/(\d+)((.html)?)$</from>
+		<to type="forward">/toaddgroupimg.htm?groupId=$1</to>
+	</rule>
+
+	<!-- 上传小组图片 -->
+	<rule>
+		<note>
+			上传小组图片
+		</note>
+		<from>^/uploadgroupimg/(\d+)-(\d+)((.html)?)$</from>
+		<to type="forward">/uploadgroupimg.htm?groupId=$1&amp;customerId=$2</to>
+	</rule>
+
+	<!-- 编辑小组上传图片 -->
+	<rule>
+		<note>
+			编辑小组上传图片
+		</note>
+		<from>^/editgroupnewupload/(\d+)-(\d+)-(\d+)((.html)?)$</from>
+		<to type="forward">/editgroupnewupload.htm?groupId=$1&amp;customerId=$2&amp;count=$3</to>
+	</rule>
+	
+	<!-- 小组图片列表 -->
+	<rule>
+		<note>
+			小组图片列表
+		</note>
+		<from>^/groupimgalbums/(\d+)((.html)?)$</from>
+		<to type="forward">/groupimgalbums.htm?groupId=$1</to>
+	</rule>
+
+	<!-- 我的小组图片列表 -->
+	<rule>
+		<note>
+			我的小组图片列表
+		</note>
+		<from>^/mygroupimg/(\d+)((.html)?)$</from>
+		<to type="forward">/mygroupimg.htm?groupId=$1</to>
+	</rule>
+	
+	<!-- 小组图片详情页 -->
+	<rule>
+		<note>
+			小组图片详情页
+		</note>
+		<from>^/groupimgdetail/(\d+)-(\d+)-(\d+)((.html)?)$</from>
+		<to type="forward">/groupimgdetail.htm?groupId=$1&amp;groupImgId=$2&amp;customerId=$3</to>
+	</rule>
+	
+	<rule>
+		<note>
+			修改小组头像
+		</note>
+		<from>^/grouphead(.html)?$</from>
+		<to type="forward">/grouphead.htm</to>
+	</rule>
+
+	<rule>
+		<note>
+			修改小组背景页面
+		</note>
+		<from>^/background(.html)?$</from>
+		<to type="forward">/background.htm</to>
+	</rule>
+	
+	
+	<rule>
+		<note>
+			访问权限
+		</note>
+		<from>^/accesslimit(.html)?$</from>
+		<to type="forward">/accesslimit.htm</to>
+	</rule>
+	
+	<rule>
+		<note>
+			删除权限
+		</note>
+		<from>^/deletelimit(.html)?$</from>
+		<to type="forward">/deletelimit.htm</to>
+	</rule>
+	
+	<rule>
+		<note>
+			管理员权限
+		</note>
+		<from>^/managerlimit(.html)?$</from>
+		<to type="forward">/managerlimit.htm</to>
+	</rule>
+	
+	<rule>
+		<note>
+			添加管理员页面
+		</note>
+		<from>^/groupaddmanager(.html)?$</from>
+		<to type="forward">/groupaddmanager.htm</to>
+	</rule>
+
+	<rule>
+		<note>
+			解散小组页面
+		</note>
+		<from>^/dissolvedgroup(.html)?$</from>
+		<to type="forward">/dissolvedgroup.htm</to>
+	</rule>
+	
+	<rule>
+		<note>
+			小组成员
+		</note>
+		<from>^/groupmember(.html)?$</from>
+		<to type="forward">/groupmember.htm</to>
+	</rule>
+	
+	<rule>
+		<note>
+			黑名单
+		</note>
+		<from>^/blacklist(.html)?$</from>
+		<to type="forward">/blacklist.htm</to>
+	</rule>
+	
+	<rule>
+		<note>
+			禁止回应的话题
+		</note>
+		<from>^/noresponsetopic(.html)?$</from>
+		<to type="forward">/noresponsetopic.htm</to>
+	</rule>
+
+   <rule>
+		<note>
+			回收站
+		</note>
+		<from>^/topicrecycle(.html)?$</from>
+		<to type="forward">/topicrecycle.htm</to>
+	</rule>
+	
+	  <rule>
+		<note>
+		mini 购物车
+		</note>
+		<from>^/minicat(.html)?$</from>
+		<to type="forward">/minicat.htm</to>
+	</rule>
+	
+	<!--发表话题页面 -->
+	<rule>
+		<note>
+			发表话题页面
+		</note>
+		<from>^/topubtopic(.html)?$</from>
+		<to type="forward">/topubtopic.htm</to>
+	</rule>
+	
+	<!--话题详情页 -->
+	<rule>
+		<note>
+			话题详情页
+		</note>
+		<from>^/topicdetail/(\d+)-(\d+)((.html)?)$</from>
+		<to type="forward">/topicdetail.htm?groupId=$1&amp;topicId=$2</to>
+	</rule>
+
+	<!--修改话题页面 -->
+	<rule>
+		<note>
+			修改话题页面
+		</note>
+		<from>^/updatetopic(.html)?$</from>
+		<to type="forward">/updatetopic.htm</to>
+	</rule>
+	
+	<rule>
+		<note>
+			邀请好友加入
+		</note>
+		<from>^/invitefriends-(\d+)((.html)?)$</from>
+		<to type="forward">/invitefriends.htm?groupId=$1</to>
+	</rule>
+	
+	<rule>
+		<note>
+		 个人主页
+		</note>
+		<from>^/customerhomepage/(\d+)((.html)?)$</from>
+		<to type="forward">/customerhomepage.htm?customerId=$1</to>
+	</rule>
+	
+	<rule>
+		<note>
+		 我的个人主页
+		</note>
+		<from>^/mycustomerhomepage(.html)?$</from>
+		<to type="forward">/mycustomerhomepage.htm</to>
+	</rule>
+	
+	<rule>
+		<note>
+			用户的关注和粉丝
+		</note>
+		<from>^/mymutual/(\d+)-(\d+)(.html)?$</from>
+		<to type="forward">/mymutual.htm?customerId=$1&amp;fansFlag=$2</to>
+	</rule>
+	
+	<rule>
+		<note>
+			我的心情列表
+		</note>
+		<from>^/moodlist/(\d+)(.html)?$</from>
+		<to type="forward">/moodlist.htm?memberId=$1</to>
+	</rule>
+	
+	<rule>
+		<note>
+			话题列表
+		</note>
+		<from>^/topiclist(.html)?$</from>
+		<to type="forward">/topiclist.htm</to>
+	</rule>
+	
+	<rule>
+		<note>
+			积分商城
+		</note>
+		<from>^/giftshop(.html)?$</from>
+		<to type="forward">/giftshop.htm</to>
+	</rule>
+	
+	<rule>
+		<note>
+			积分商城商品详情
+		</note>
+		<from>^/giftdetail/(\d+)(.html)?$</from>
+		<to type="forward">/giftdetail.htm?giftId=$1</to>
+	</rule>
+	
+	<!-- 根据分类Id查询赠品列表 -->
+	<rule>
+		<note>
+			积分商城
+		</note>
+		<from>^/giftshop/([0-9]+)-([0-9]+)((.html)?)$</from>
+		<to type="forward">/giftshop.htm?giftCateId=$1&amp;giftParentId=$2</to>
+	</rule>
+	
+		<rule>
+		<note>
+        	银联支付前台通知
+        </note> 
+        <from>^/unionpaysuccess(.html)?$</from> 
+        <to type="forward">/unionpaysuccess.htm</to> 
+	</rule>
+	
+			<rule>
+		<note>
+        	银联支付后台通知
+        </note> 
+        <from>^/unionpaynotifysuccess(.html)?$</from> 
+        <to type="forward">/unionpaynotifysuccess.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	报错页面
+        </note> 
+        <from>^/querySysErrorByPageName/(\d+)(.html)?$</from> 
+        <to type="forward">/querySysErrorByPageName.htm?pageName=$1</to> 
+	</rule>
+	<rule>
+        <note>
+                                     查询专题
+        </note> 
+        <from>^/third_project/([0-9]+)(.html)?$</from> 
+        <to type="forward">/thirdprojectdetail.htm?thirdProjectId=$1</to>
+    </rule>
+		
+		<!-- 模板预览 -->
+	
+	<rule>
+        <note>
+                                     模板预览
+        </note> 
+        <from>^/preview/([0-9]+)(.html)?$</from> 
+        <to type="forward">/preview.htm?tempId=$1</to>
+    </rule>
+    
+    <!-- 第三方店铺首页 -->
+	  <rule>
+		<note>
+			第三方店铺首页 
+		</note>
+		<from>^/thirdstoreindex/(\d+)(.html)?$</from>
+		<to type="forward">/thirdstoreindex.htm?thirdId=$1</to>
+	</rule>
+	
+	<!-- 第三方店铺列表页 -->
+	  <rule>
+		<note>
+			第三方店铺列表页
+		</note>
+		<from>^/storegoodslist/(\d+)(.html)?$</from>
+		<to type="forward">/storegoodslist.htm?thirdId=$1</to>
+	</rule>
+	
+	<!-- 根据店铺分类查询商品列表 -->
+	  <rule>
+		<note>
+			第三方店铺列表页
+		</note>
+		<from>^/storegoodslist/(\d+)-(\d+)-(\d+)(.html)?$</from>
+		<to type="forward">/storegoodslist.htm?thirdId=$1&amp;cateId=$2&amp;parentCatId=$3</to>
+	</rule>
+	<!-- 根据店铺分类查询商品列表 -->
+	  <rule>
+		<note>
+			第三方店铺列表页
+		</note>
+		<from>^/storegoodslist/(\d+)-(\d+)(.html)?$</from>
+		<to type="forward">/storegoodslist.htm?thirdId=$1&amp;cateId=$2</to>
+	</rule>
+	
+	<!-- 收藏的店铺 -->
+	<rule>
+		<note>
+			收藏商家列表
+		</note>
+		<from>^/customer/sellermyfollw(.html)?$</from>
+		<to type="forward">/sellermyfollw.htm</to>
+	</rule>
+	
+	<rule>
+        <note> 
+        	我的积分兑换订单
+        </note> 
+        <from>^/customer/(giftorder)(.html)?$</from> 
+        <to type="forward">/$1.htm</to> 
+    </rule>
+    <rule>
+        <note> 
+        	订单列表 无条件的分页
+        </note> 
+        <from>^/customer/(giftorder)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/$1.htm?pageNo=$2</to> 
+    </rule>
+    <rule>
+        <note> 
+        	订单列表 带查询条件的分页
+        </note> 
+        <from>^/customer/(giftorder)-([0-9]+)-([0-9]+)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/$1.htm?date=$2&amp;type=$3&amp;pageNo=$4</to>
+    </rule>
+    
+    <rule>
+        <note> 
+        	确认收货
+        </note> 
+        <from>^/customer/comfirmofgiftorder-([_a-zA-Z]+)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/comfirmofgiftorder.htm?giftOrderId=$2&amp;fromUrl=$1</to>
+    </rule>
+    
+    
+    <rule>
+        <note> 
+        	抢购订单
+        </note> 
+        <from>^/customer/(marketorders)(.html)?$</from> 
+        <to type="forward">/$1.htm</to> 
+    </rule>
+    <rule>
+        <note> 
+        	抢购订单列表 无条件的分页
+        </note> 
+        <from>^/customer/(marketorders)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/$1.htm?pageNo=$2</to> 
+    </rule>
+    <rule>
+        <note> 
+        	订单列表 带查询条件的分页
+        </note> 
+        <from>^/customer/(marketorders)-([0-9]+)-([0-9]+)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/$1.htm?date=$2&amp;type=$3&amp;pageNo=$4</to>
+    </rule>
+    <rule>
+        <note> 
+        	订单详细
+        </note> 
+        <from>^/customer/(selectrushdetails)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/$1.htm?orderId=$2</to> 
+    </rule>
+    <rule>
+        <note> 
+        	确认收货
+        </note> 
+        <from>^/customer/comfirmofmarket-([_a-zA-Z]+)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/comfirmofmarkertorder.htm?orderId=$2&amp;fromUrl=$1</to>
+    </rule>
+    <rule>
+        <note> 
+        	团购订单
+        </note> 
+        <from>^/customer/(marketordergrounp)(.html)?$</from> 
+        <to type="forward">/$1.htm</to> 
+    </rule>
+    <rule>
+        <note> 
+        	团购订单列表 无条件的分页
+        </note> 
+        <from>^/customer/(marketordergrounp)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/$1.htm?pageNo=$2</to> 
+    </rule>
+     <rule>
+        <note> 
+        	订单列表 带查询条件的分页
+        </note> 
+        <from>^/customer/(marketordergrounp)-([0-9]+)-([0-9]+)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/$1.htm?date=$2&amp;type=$3&amp;pageNo=$4</to>
+    </rule>
+    
+    <rule>
+        <note> 
+        	积分订单详细
+        </note> 
+        <from>^/customer/(giftorderdetail)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/$1.htm?giftOrderId=$2</to> 
+    </rule>
+    
+    <rule> 
+        <note> 
+        	面包屑跳转URL
+        </note> 
+        <from>^/jumpgift/([0-9]+)(.html)?$</from> 
+        <to type="forward">/jumpgift.htm?cateId=$1</to>
+    </rule>
+    
+    
+      <rule>
+        <note> 
+        	淘宝的登录
+        </note> 
+           <from>^/logintaobao(.html)?$</from>
+        <to type="forward">/logintaobao.htm</to> 
+    </rule>
+    
+         
+      <rule>
+        <note> 
+        	淘宝的登录
+        </note> 
+           <from>^/afterlogintaobao(.html)?$</from> 
+        <to type="forward">/afterlogintaobao.htm</to> 
+    </rule>
+    
+    <rule>
+        <note> 
+        	品牌产品列表
+        </note> 
+        <from>^/brandProductsList/([0-9]+)(.html)?$</from> 
+        <to type="forward">/brandProductsList.htm?brandId=$1</to> 
+    </rule>
+
+    <rule>
+        <note>
+            友情链接
+        </note>
+        <from>^/toFriendLink(.html)?$</from>
+        <to type="forward">/toFriendLink.htm</to>
+    </rule>
+
+    <rule>
+        <note>
+            帮找货首页
+        </note>
+        <from>^/tested(.html)?$</from>
+        <to type="forward">/tested.htm</to>
+    </rule>
+
+    <rule>
+        <note>
+            适配车型
+        </note>
+        <from>^/carstyle(.html)?$</from>
+        <to type="forward">/carstylelist.htm</to>
+    </rule>
+    <rule>
+        <note>
+            根据年款查询适配车型
+        </note>
+        <from>^/GetCarStyleByYear(.html)?$</from>
+        <to type="forward">/carstylelistByYear.htm</to>
+    </rule>
+    <rule>
+        <note>
+            根据分类查找商品
+        </note>
+        <from>^/cate/list(.html)?$</from>
+        <to type="forward">/GetAllGoodsCateList.htm</to>
+    </rule>
+    <rule>
+        <note>
+            根据品牌查找商品
+        </note>
+        <from>^/brand/list(.html)?$</from>
+        <to type="forward">/GetAllGoodsBrandList.htm</to>
+    </rule>
+    <!--ADD BY LY-->
+    <rule>
+        <note>
+            优惠券列表
+        </note>
+        <from>^/coupon/([0-3]{1})((.html)?)$</from>
+        <to type="forward">/coupon/queryCouponList2.htm?couponRulesType=$1</to>
+    </rule>
+
+    <rule>
+        <note>
+            优惠券列表
+        </note>
+        <from>^/coupon/list.html$</from>
+        <to type="forward">/coupon/queryCouponList2.htm</to>
+    </rule>
+
+</urlrewrite>

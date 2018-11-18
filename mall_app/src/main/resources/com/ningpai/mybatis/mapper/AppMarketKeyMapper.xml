@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.mybatis.mapper.AppMarketKeyMapper" >
+    <resultMap id="BaseResultMap" type="com.ningpai.app.bean.AppMarketKey" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="app_market_key" property="appMarketKey" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id,app_market_key,create_time,end_time,del_flag
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        from np_app_market_key
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <update id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        DELETE FROM np_app_market_key
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insertSelective" parameterType="com.ningpai.app.bean.AppMarketKey" useGeneratedKeys="true" keyProperty="id" >
+        insert into np_app_market_key
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="appMarketKey != null" >
+                app_market_key,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="endTime != null" >
+                end_time,
+            </if>
+            <if test="delFlag != null" >
+                del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="appMarketKey != null" >
+                #{appMarketKey,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null" >
+                #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="delFlag != null" >
+                #{delFlag,jdbcType=CHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.app.bean.AppMarketKey" >
+        update np_app_market_key
+        <set >
+            <if test="appMarketKey != null" >
+                app_market_key = #{appMarketKey,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null" >
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="delFlag != null" >
+                del_flag = #{delFlag,jdbcType=CHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from np_app_market_key
+        where del_flag = '0'
+        <if test="pageBean.objectBean.appMarketKey != null and pageBean.objectBean.appMarketKey != ''">
+            and app_market_key like CONCAT('%',#{pageBean.objectBean.appMarketKey,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.delFlag != null and pageBean.objectBean.delFlag != ''">
+            and del_flag = #{pageBean.objectBean.delFlag,jdbcType=CHAR}
+        </if>
+        limit #{pageBean.startRowNum},#{pageBean.endRowNum}
+    </select>
+
+    <select id="selectListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select
+        count(1)
+        from np_app_market_key
+        where del_flag = '0'
+        <if test="pageBean.objectBean.appMarketKey != null and pageBean.objectBean.appMarketKey != ''">
+            and app_market_key like CONCAT('%',#{pageBean.objectBean.appMarketKey,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="pageBean.objectBean.delFlag != null and pageBean.objectBean.delFlag != ''">
+            and del_flag = #{pageBean.objectBean.delFlag,jdbcType=CHAR}
+        </if>
+    </select>
+
+    <update id="deleteMuilti" parameterType="java.lang.Long">
+        update np_app_market_key
+        set del_flag = '1'
+        where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+        #{id,jdbcType=BIGINT}
+        </foreach>
+    </update>
+</mapper>

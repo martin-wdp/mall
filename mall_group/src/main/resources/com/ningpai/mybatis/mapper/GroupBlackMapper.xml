@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.group.mapper.GroupBlackMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.group.bean.GroupBlack" >
+    <id column="black_id" property="blackId" jdbcType="BIGINT" />
+    <result column="group_id" property="groupId" jdbcType="BIGINT" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="black_del_flag" property="blackDelFlag" jdbcType="CHAR" />
+    <result column="customer_nickname" property="blackName" jdbcType="VARCHAR" />
+    <result column="customer_img" property="infoHeadimg" jdbcType="VARCHAR" />
+    <result column="province_name" property="provinceName" jdbcType="VARCHAR" />
+    <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    black_id, group_id, customer_id, black_del_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_group_black
+    where black_id = #{blackId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_group_black
+    where black_id = #{blackId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.group.bean.GroupBlack" useGeneratedKeys="true" keyProperty="blackId" >
+    insert into np_group_black (group_id, customer_id, black_del_flag
+      )
+    values (#{groupId,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, #{blackDelFlag,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.group.bean.GroupBlack" useGeneratedKeys="true" keyProperty="blackId" >
+    insert into np_group_black
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      group_id,
+      customer_id,
+      black_del_flag,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{groupId,jdbcType=BIGINT},
+      #{customerId,jdbcType=BIGINT},
+      #{blackDelFlag,jdbcType=CHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.group.bean.GroupBlack" >
+    update np_group_black
+    <set >
+      <if test="groupId != null" >
+        group_id = #{groupId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="blackDelFlag != null" >
+        black_del_flag = #{blackDelFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where black_id = #{blackId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.group.bean.GroupBlack" >
+    update np_group_black
+    set group_id = #{groupId,jdbcType=BIGINT},
+      customer_id = #{customerId,jdbcType=BIGINT},
+      black_del_flag = #{blackDelFlag,jdbcType=CHAR}
+    where black_id = #{blackId,jdbcType=BIGINT}
+  </update>
+  
+  <!--小组黑名单列表  -->
+  <select id="blackList" parameterType="com.ningpai.group.bean.GroupBlack" resultMap="BaseResultMap">
+   select  b.black_id, b.group_id, b.customer_id, b.black_del_flag,c.customer_nickname, c.customer_img,  info.province_name,info.city_name
+   from np_group_black b
+   left join np_customer c
+   on b.customer_id = c.customer_id
+   LEFT JOIN  
+   (SELECT cin.customer_id,cin.info_province,cin.info_city ,p.province_name,
+   city.city_name from np_customer_info cin left join np_sys_province p on cin.info_province = p.province_id LEFT JOIN np_sys_city city on cin.info_city = city.city_id)info
+	on c.customer_id = info.customer_id
+   where b.black_del_flag='0' and b.group_id=#{groupId,jdbcType=BIGINT} 
+   limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <!--小组黑名单总数  -->
+  <select id="blackListSize" parameterType="com.ningpai.group.bean.GroupBlack" resultType="java.lang.Long">
+   select count(*)
+   from np_group_black b
+   left join np_customer c
+   on b.customer_id = c.customer_id
+   where  b.black_del_flag='0' and b.group_id=#{groupId,jdbcType=BIGINT} 
+  </select>
+  
+  <!-- 解除黑名单 -->
+  <update id="dissolvedBlack" parameterType="com.ningpai.group.bean.GroupBlack">
+    update np_group_black
+    set black_del_flag='1'
+    where customer_id = #{customerId,jdbcType=BIGINT} and group_id = #{groupId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 根据小组Id和用户Id查询黑名单用户 -->
+  <select id="selectBlackById" parameterType="com.ningpai.group.bean.GroupBlack" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_group_black
+    where 1=1 and group_id = #{groupId,jdbcType=BIGINT} 
+    and customer_id = #{customerId,jdbcType=BIGINT} and black_del_flag='0'
+  </select>
+</mapper>

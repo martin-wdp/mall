@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.manager.mapper.PageMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.manager.bean.Page" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="designation" property="designation" jdbcType="VARCHAR" />
+    <result column="parentId" property="parentId" jdbcType="BIGINT" />
+    <result column="grade" property="grade" jdbcType="BIGINT"/>
+    <result column="sort" property="sort" jdbcType="BIGINT"/>
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="characterization" property="characterization" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+    <result column="flag" property="flag" jdbcType="CHAR" />
+     <result column="img_url" property="imgUrl" jdbcType="VARCHAR" />
+    <result column="img_url_selected" property="imgUrlSelected" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap type="com.ningpai.manager.bean.valuebean.MenuVo" id="VoResultMap">
+  	<id column="id" property="id" jdbcType="BIGINT" />
+    <result column="designation" property="designation" jdbcType="VARCHAR" />
+    <result column="parentId" property="parentId" jdbcType="BIGINT" />
+    <result column="grade" property="grade" jdbcType="BIGINT"/>
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="img_url" property="imgUrl" jdbcType="VARCHAR" />
+    <result column="img_url_selected" property="imgUrlSelected" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="BIGINT"/>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, designation,parentId, url,grade,sort, type,characterization, create_time, mod_time, flag,img_url,img_url_selected,sort
+  </sql>
+  <sql id="delFlag">
+  	flag='0'
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_page
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByParentId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from np_page
+    where parentId = #{id,jdbcType=BIGINT}
+    order by sort
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    update np_page set flag='1',mod_time=now()
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective" parameterType="com.ningpai.manager.bean.Page" >
+    insert into np_page
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="parentId != null" >
+        parentId,
+      </if>
+      <if test="designation != null" >
+        designation,
+      </if>
+      <if test="grade != null" >
+        grade,
+      </if>
+      <if test="sort !=null">
+      	sort,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="imgUrl != null" >
+        img_url,
+      </if>
+      <if test="imgUrlSelected != null" >
+        img_url_selected,
+      </if>
+      <if test="characterization != null" >
+        characterization,
+      </if>
+        create_time,
+      <if test="modTime != null" >
+        mod_time,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="designation != null" >
+        #{designation,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=BIGINT},
+      </if>
+      <if test="sort !=null">
+      	#{sort,jdbcType=BIGINT},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null" >
+        #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrlSelected != null" >
+       #{imgUrlSelected,jdbcType=VARCHAR},
+      </if>
+      <if test="characterization != null" >
+        #{characterization,jdbcType=VARCHAR},
+      </if>
+        now(),
+      <if test="modTime != null" >
+        #{modTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=CHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.manager.bean.Page" >
+    update np_page
+    <set >
+      <if test="parentId != null" >
+        parentId=#{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="designation != null" >
+        designation = #{designation,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=BIGINT},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null and imgUrl!=''" >
+        img_url = #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrlSelected != null and imgUrlSelected != ''" >
+        img_url_selected = #{imgUrlSelected,jdbcType=VARCHAR},
+      </if>
+      <if test="sort !=null">
+      	sort=${sort},
+      </if>
+      <if test="characterization != null" >
+        characterization = #{characterization,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+        mod_time =now(),
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=CHAR},
+      </if>
+       <if test="type != null" >
+        type=#{type,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="queryByPageBean" resultMap="VoResultMap" parameterType="java.util.Map">
+  	select 
+  		<include refid="Base_Column_List" />
+  	from np_page where 
+  	<include refid="delFlag"/>
+  	<if test="condition!=null and condition!='' and condition==1">
+  		and designation like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  	</if>
+  	<if test="condition==null or condition==''">
+  		 and parentId='0'
+  	</if>
+  	order by sort 
+  	limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <select id="queryTotalCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+  	select count(*) from np_page where
+  	<include refid="delFlag"/>
+  	<if test="condition!=null and condition!='' and condition==1">
+  		and designation like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  	</if>
+  	<if test="condition==null or condition==''">
+  		 and parentId='0'
+  	</if>
+  </select>
+    <!-- 查询所有的商品分类列表 -->
+    <select id="queryAllMenuVo" resultMap="VoResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from np_page  where
+        <include refid="delFlag"/>
+        order by sort
+    </select>
+
+  <!-- 查询startId和endId之间的所有菜单 -->
+    <select id="queryMenuByBundleName" resultMap="VoResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List" />
+        from np_page  where
+        bundle_name=#{bundleName,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 查询startId和endId之间的所有菜单 -->
+    <delete id="deleteMenuByBundleName" parameterType="java.util.Map">
+        DELETE  from np_page  where
+        bundle_name=#{bundleName,jdbcType=VARCHAR}
+    </delete>
+  <!-- 根据父分类ID查询子分类的个数 -->
+  <select id="querySonCountByParentId" resultType="java.lang.Integer" parameterType="java.lang.Long">
+  	select count(*) from np_page where parentId=#{pageId} and  <include refid="delFlag"/>
+  </select>
+  
+  <select id="queryAllParentMenuVo" resultMap="VoResultMap">
+  	select 
+  		<include refid="Base_Column_List" />
+  	from np_page  where flag='0' order by sort 
+<!--   	 and type='0' -->
+  </select>
+  
+    <select id="queryAllParentMenuVoByLogin" resultMap="VoResultMap">
+select  p.id, p.designation,p.parentId, p.url,p.grade,sort, p.type,p.characterization, p.create_time, p.mod_time, p.flag,p.img_url,p.img_url_selected from np_authority a , np_authority_page b ,np_page  p ,np_manager_authority ma
+where a.id = b.authority_id and b.page_id = p.id and ma.authority_id = a.id
+and ma.manager_id = #{managerId}
+
+ and p.flag='0' order by p.sort 
+  	
+<!--   	 and type='0' -->
+  </select>
+  
+  <select id="queryAllChildrenMenuVo" resultMap="VoResultMap">
+  	select 
+  		<include refid="Base_Column_List" />
+  	from np_page  where flag='0' and type='1' order by sort 
+  </select>
+
+    <select id="selectByPrimaryKeys" resultType="java.lang.Long" parameterType="java.lang.Long" >
+        select id
+        from np_page
+        where flag='0' AND id IN(
+        <foreach collection="list" item="pageId" index="index" separator=",">
+            #{pageId}
+        </foreach>
+        )
+    </select>
+</mapper>

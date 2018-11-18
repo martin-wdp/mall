@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.system.dao.GoodsCateSystemMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.system.bean.GoodsCateSystem" >
+    <id column="cat_id" property="catId" jdbcType="BIGINT" />
+    <result column="cat_name" property="catName" jdbcType="VARCHAR" />
+    <result column="cat_parent_id" property="catParentId" jdbcType="BIGINT" />
+    <result column="type_id" property="typeId" jdbcType="BIGINT" />
+    <result column="cat_sort" property="catSort" jdbcType="INTEGER" />
+    <result column="cat_grade" property="catGrade" jdbcType="INTEGER" />
+    <result column="cat_seo_title" property="catSeoTitle" jdbcType="VARCHAR" />
+    <result column="cat_seo_keyword" property="catSeoKeyword" jdbcType="VARCHAR" />
+    <result column="cat_seo_desc" property="catSeoDesc" jdbcType="VARCHAR" />
+    <result column="cat_is_ show" property="catIsShow" jdbcType="CHAR" />
+    <result column="cat_delflag" property="catDelflag" jdbcType="CHAR" />
+    <result column="cat_create_name" property="catCreateName" jdbcType="VARCHAR" />
+    <result column="cat_create_time" property="catCreateTime" jdbcType="TIMESTAMP" />
+    <result column="cat_modified_name" property="catModifiedName" jdbcType="VARCHAR" />
+    <result column="cat_modified_time" property="catModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="cat_del_name" property="catDelName" jdbcType="VARCHAR" />
+    <result column="cat_del_time" property="catDelTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    cat_id, cat_name, cat_parent_id, type_id, cat_sort, cat_grade, cat_seo_title, cat_seo_keyword, 
+    cat_seo_desc, cat_is_show, cat_delflag, cat_create_name, cat_create_time, cat_modified_name, 
+    cat_modified_time, cat_del_name, cat_del_time
+  </sql>
+  
+  <!-- 查询所有父分类 -->
+ <select id="findParentGoodsCate" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/> from np_goods_category 
+  	where cat_parent_id='0' and cat_delflag='0'
+  </select>
+</mapper>

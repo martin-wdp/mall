@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.OrderGoodsInfo" >
+  <resultMap id="BaseResultMap" type="com.ningpai.order.bean.OrderGoodsInfo" >
+    <id column="goods_info_id" property="goodsInfoId" jdbcType="BIGINT" />
+    <result column="goods_info_num" property="goodsInfoNum" jdbcType="BIGINT" />
+    <result column="goods_info_price" property="goodsInfoPrice" jdbcType="DECIMAL" />
+    <result column="gift_id" property="giftId" jdbcType="BIGINT" />
+    <result column="gift_num" property="giftNum" jdbcType="BIGINT" />
+  </resultMap>
+  
+   <sql id="Base_Column_List" >
+    goods_info_id,goods_info_num,gift_num,gift_id
+  </sql>
+   <!-- 根据订单id查询订单所属商品促销赠品 -->
+  <select id="selectGiftByOrderIdInGoods" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  	 select gi.gift_id,count(gi.gift_id) as gift_num from np_order_goods_info_gift  gift,np_order ord ,np_order_goods goods,np_gift gi
+	 where gift.order_goods_id=goods.order_goods_id and ord.order_id=goods.order_id and gi.gift_id=gift.gift_id
+	 and ord.order_id = #{orderId} 
+	 GROUP BY gi.gift_id
+  </select>
+     <!-- 根据订单id查询订单所属订单促销赠品 -->
+    <select id="selectGiftByOrderIdInOrder" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  	  select gi.gift_id,gi.gift_name,count(gi.gift_id) as gift_num from np_order ord ,np_order_gift ogift,np_order_marketing omarket,np_gift gi
+	  where ogift.order_marketing_id = omarket.order_marketing_id and omarket.order_id=ord.order_id and gi.gift_id=ogift.gift_id
+	  and  ord.order_id = #{orderId} 
+	  GROUP BY gi.gift_id
+  </select>
+ 
+  
+  <!-- 查询货品id和数量 -->
+  <select id="queryByGoodsInfosCount" parameterType="java.util.List" resultMap="BaseResultMap">
+  		select goods_info_id,sum(goods_info_num) as goods_info_num ,goods_info_price
+      from np_order_goods
+  		where order_id in 
+  		 (
+  			<foreach collection="list" separator="," item="orderId" index="index" >  
+        		#{orderId}
+     		</foreach> 
+     	) 
+		GROUP BY goods_info_id,goods_info_price
+  </select>
+  
+  <!-- 查询订单下所属的赠品id和赠品数量 -->
+  <select id="queryGiftCountByOrderIds" parameterType="java.util.List" resultMap="BaseResultMap">
+  	SELECT count(gift.gift_id) as gift_num,gift.gift_id from np_order_gift gift ,np_order_marketing market
+	where gift.order_marketing_id =market.order_marketing_id and market.order_id in 
+  		 (
+  			<foreach collection="list" separator="," item="orderId" index="index" >  
+        		#{orderId}
+     		</foreach> 
+     	) 
+	GROUP BY gift_id
+  </select>
+  
+    <!-- 查询货品下所属的赠品id和赠品数量 -->
+  <select id="queryGiftCountByGoodsIds" parameterType="java.util.List" resultMap="BaseResultMap">
+  	select gift.gift_id,COUNT(gift.gift_id) as gift_num from np_order_goods go ,np_order_goods_info_gift gift
+	WHERE go.order_goods_id=gift.order_goods_id and go.order_id in 
+	 (
+  			<foreach collection="list" separator="," item="orderIds" index="index" >  
+        		#{orderIds}
+     		</foreach> 
+     	) 
+	GROUP BY gift.gift_id
+  </select>
+</mapper>

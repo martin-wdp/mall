@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.goods.dao.WareCityMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.WareCity" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="ware_id" property="wareId" jdbcType="BIGINT" />
+    <result column="city_id" property="cityId" jdbcType="BIGINT" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  	
+  <resultMap type="com.ningpai.goods.bean.FollowAndCityVo" id="cityVoMap">
+  		 <id column="id" property="id" jdbcType="BIGINT" />
+  		<result column="ware_id" property="wareId" jdbcType="BIGINT" />
+	    <result column="city_id" property="cityId" jdbcType="BIGINT" />
+	    
+	    
+	    <result column="follow_id" property="atteId" jdbcType="BIGINT" />
+	    <result column="customer_id" property="custId" jdbcType="BIGINT" />
+	    <result column="goods_id" property="productId" jdbcType="BIGINT" />
+	    <result column="follow_price" property="followPrice" jdbcType="DECIMAL" />
+	    <result column="follow_tag" property="delFlag" jdbcType="VARCHAR" />
+	    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	    <result column="modified_time" property="modifyTime" jdbcType="TIMESTAMP" />
+	    <result column="del_flag" property="flag" jdbcType="CHAR" />
+	    <result column="district_id" property="districtId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, ware_id, city_id, del_flag
+  </sql>
+  <insert id="insertSelective" parameterType="com.ningpai.goods.bean.WareCity" >
+    insert into np_ware_city
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="wareId != null" >
+        ware_id,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+        del_flag,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="wareId != null" >
+        #{wareId,jdbcType=BIGINT},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=BIGINT},
+      </if>
+        '0',
+    </trim>
+  </insert>
+  
+  <!-- 查询已存在的地址i -->
+  <select id="selectCityId" parameterType="java.util.Map"  resultType="java.lang.Long">
+    SELECT city_id from np_ware_city city
+	INNER JOIN  np_warehouse house on city.ware_id=house.ware_id
+	 where 
+	city.del_flag='0' and house.del_flag='0' 
+	<if test="wareId != null">
+		and  house.ware_id!=#{wareId,jdbcType=BIGINT}
+	</if>
+  </select>
+  
+  
+   <select id="selectWareIdByDistinctId" parameterType="java.lang.Long"  resultType="java.lang.Long">
+   select ware_id from np_ware_city where city_id = #{distinctId,jdbcType=BIGINT} and del_flag = '0' limit 1
+   </select>
+    <select id="getAllWareHouseDistrict" resultMap="BaseResultMap">
+    SELECT city_id 
+    from np_ware_city city
+	INNER JOIN  np_warehouse house on city.ware_id=house.ware_id
+	 where 
+	city.del_flag='0' and house.del_flag='0' 
+  </select>
+  <!--该仓库的商品是否被收藏过-->
+  <select id="selectFollow" parameterType="java.util.Map" resultMap="cityVoMap">
+	  	  select * from  np_ware_city wc, np_customer_follow nd
+			  where wc.city_id = nd.district_id 
+			  and ware_id = #{wareId} and nd.goods_id = #{goodsId} and follow_price >#{productPrices} 
+  </select>
+  
+  <!-- 根据仓库ID查询所有的关联记录 -->
+  <select id="queryAllByWareId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/> from np_ware_city
+  	where del_flag='0' and ware_id = #{wareId}
+  </select>
+  
+  <!-- 根据仓库id -->
+  <update id="deleteCityByWareId" parameterType="java.lang.Long">
+        update np_ware_city set del_flag='1' where ware_id = #{wareId}
+  </update>
+ 
+  <!-- 根据选中的参数删除为被选中的记录 -->
+  <update id="delNotInChecked" parameterType="java.util.Map">
+  	update np_ware_city set del_flag='1' where ware_id = #{wareId}
+  	and city_id not in 
+  	<foreach collection="distinctIds" item="distinctId" open="(" close=")" separator=",">
+  		#{distinctId}
+  	</foreach>
+  </update>
+  <!-- 根据仓库ID和城市ID查询行数 -->
+  <select id="queryByWareIdAndDistinctId" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select count(1) from np_ware_city where del_flag='0'
+  	and ware_id = #{wareId}
+  	and city_id = #{distinctId}
+  </select>
+</mapper>

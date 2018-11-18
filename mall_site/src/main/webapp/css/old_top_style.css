@@ -1,0 +1,29 @@
+@charset "utf-8";
+
+
+.logo {margin-top:13px;}
+.search_wp {margin-left:80px;}
+.search_box {position:relative;background:url(../images/search_bg.gif) no-repeat; width:454px; height:34px; padding:3px;}
+.search_btn {background:url(../images/search_btn.gif) no-repeat; width:64px; height:34px; border:none; cursor:pointer;}
+.search_text {width:380px; padding:0 5px; border:0; height:34px;*width:375px;*height:30px; border-radius:3px 0 0 3px;*line-height:34px;}
+.pre_search{width:395px;position:absolute;left:0;top:37px;background:#fff;z-index:99999;}
+.pre_search ul{display:block;width:379px;border:3px solid #EEEEEE;padding:5px;line-height:25px;border-bottom:1px solid #EFEFEF;}
+.pre_search ul li{cursor:pointer;text-indent:10px;}
+.pre_search ul li:hover{background:#f9f9f9;}
+.pre_search .pre_search_bottom{width:395px;height:30px;background:url(../images/pre_search_bottom.png) no-repeat;line-height:30px;}
+.hot_word a {color:#999; margin-right:10px;}
+.hot_word a:hover {color:#ff6600;}
+.shopping_cart dt {background:url(../images/cart_bg.gif) repeat-x; width:145px; height:32px; line-height:32px; border:1px solid #eee; border-radius:2px; text-align:center; z-index:21; cursor:pointer;}
+.shopping_cart dt a {display:inline-block; zoom:1; *display:inline; background:url(../images/cart_img.gif) no-repeat left center; padding-left:35px; margin-left:-5px;}
+.sc_num {position:absolute; background:url(../images/sc_num.gif) no-repeat; width:16px; height:18px; top:-9px; left:35px; line-height:17px; text-align:center; color:#fff; font-weight:700;}
+.shopping_cart dt b {display:inline-block; zoom:1; *display:inline; background:url(../images/cart_arrow.gif) no-repeat; width:6px; height:10px; position:relative; left:10px;}
+.shopping_cart dd {width:350px; border:1px solid #eee; position:absolute; top:32px; right:0; background:#fff; display:none; z-index:20;}
+.shopping_cart .hover dt {background:#fff; border-bottom-color:#fff;}
+.shopping_cart .hover dd {display:block;}
+.shopping_cart dd h4 {height:25px; line-height:25px; padding:6px 8px;}
+
+.pro_sort_close{overflow:hidden;}
+.pro_sort_close:hover{overflow:visible;}
+
+.sort_cont {width:208px; height:509px; border:1px solid #f15e27; background:#fffff8; border-top:none; top:32px; left:0;z-index:9997;}
+

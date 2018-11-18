@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bbw.web.dao.OCustomerFollowMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.third.analysis.bean.OCustomerFollow" >
+    <id column="follow_id" property="followId" jdbcType="BIGINT" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="follow_price" property="followPrice" jdbcType="DECIMAL" />
+    <result column="follow_tag" property="followTag" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modified_time" property="modifiedTime" jdbcType="TIMESTAMP" />
+    <result column="del_time" property="delTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="countsum" property="countSum" jdbcType="BIGINT" />
+    <result column="goodsdowntime" property="goodsDownTime" jdbcType="BIGINT" />
+    <result column="goods_info_name" property="goodsInfoName" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    follow_id, customer_id, goods_id, follow_price, follow_tag, create_time, modified_time, 
+    del_time, del_flag
+  </sql>
+  
+  
+  
+   <select id="selectThirdFollowGoods" resultMap="BaseResultMap" parameterType="java.util.Map" >
+   select  info.goods_info_id as goods_id,info.goods_info_name,count(info.goods_info_id) as countsum, left(follow.create_time,10) as down_time
+	from np_customer_follow follow , np_goods_info info,np_goods goods
+	where follow.goods_id = info.goods_info_id and goods.goods_id = info.goods_id 
+	<if test="thirdId!=null and thirdId !=''">
+		and goods.goods_belo = #{thirdId,jdbcType=BIGINT}
+	</if>
+	<if test="catId!=null and catId!=''">
+	and	goods.cat_id = #{catId}
+	</if>
+	and follow.create_time  BETWEEN  #{startTime} AND #{endTime}
+	group by info.goods_info_id
+	order by countsum desc
+	limit 5
+  </select>
+  
+  
+      <select id="selectThirdFollowGoodsCount" resultMap="BaseResultMap" parameterType="java.util.Map" >
+ 	select  info.goods_info_id as goods_id,info.goods_info_name,count(info.goods_info_id) as countsum,left(follow.create_time,10) as goodsdowntime
+	from np_customer_follow follow , np_goods_info info,np_goods goods
+	where follow.goods_id = info.goods_info_id and goods.goods_id = info.goods_id
+	 and follow.goods_id = #{goodsInfoId,jdbcType=BIGINT}  
+	 <if test="thirdId!=null and thirdId !=''">
+		and goods.goods_belo = #{thirdId,jdbcType=BIGINT}
+	</if>
+	<if test="catId!=null and catId!=''">
+		and goods.cat_id = #{catId}
+	</if>
+	and follow.create_time  BETWEEN  #{startTime} AND #{endTime}
+	group by goodsdowntime
+	order by goodsdowntime asc
+  </select>
+  
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_customer_follow
+    where follow_id = #{followId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_customer_follow
+    where follow_id = #{followId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.third.analysis.bean.OCustomerFollow" >
+    insert into np_customer_follow (follow_id, customer_id, goods_id, 
+      follow_price, follow_tag, create_time, 
+      modified_time, del_time, del_flag
+      )
+    values (#{followId,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, 
+      #{followPrice,jdbcType=DECIMAL}, #{followTag,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifiedTime,jdbcType=TIMESTAMP}, #{delTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.third.analysis.bean.OCustomerFollow" >
+    insert into np_customer_follow
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="followId != null" >
+        follow_id,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="followPrice != null" >
+        follow_price,
+      </if>
+      <if test="followTag != null" >
+        follow_tag,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifiedTime != null" >
+        modified_time,
+      </if>
+      <if test="delTime != null" >
+        del_time,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="followId != null" >
+        #{followId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="followPrice != null" >
+        #{followPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="followTag != null" >
+        #{followTag,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null" >
+        #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delTime != null" >
+        #{delTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.third.analysis.bean.OCustomerFollow" >
+    update np_customer_follow
+    <set >
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null" >
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="followPrice != null" >
+        follow_price = #{followPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="followTag != null" >
+        follow_tag = #{followTag,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null" >
+        modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delTime != null" >
+        del_time = #{delTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where follow_id = #{followId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.third.analysis.bean.OCustomerFollow" >
+    update np_customer_follow
+    set customer_id = #{customerId,jdbcType=BIGINT},
+      goods_id = #{goodsId,jdbcType=BIGINT},
+      follow_price = #{followPrice,jdbcType=DECIMAL},
+      follow_tag = #{followTag,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      del_time = #{delTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where follow_id = #{followId,jdbcType=BIGINT}
+  </update>
+</mapper>

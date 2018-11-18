@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ningpai.comment.dao.CommentReplayMapper">
+  <resultMap id="BaseResultMap" type="com.ningpai.comment.bean.CommentReplay">
+    <id column="replay_id" jdbcType="BIGINT" property="replayId" />
+    <result column="comment_id" jdbcType="BIGINT" property="commentId" />
+    <result column="customer_id" jdbcType="INTEGER" property="customerId" />
+    <result column="comment_content" jdbcType="VARCHAR" property="commentContent" />
+    <result column="publish_time" jdbcType="TIMESTAMP" property="publishTime" />
+    <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
+    <result column="del_time" jdbcType="TIMESTAMP" property="delTime" />
+    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
+    <result column="is_display" jdbcType="CHAR" property="isDisplay" />
+    <result column="replay_ip" jdbcType="CHAR" property="replayIp" />
+    <result column="customer_nickname" jdbcType="CHAR" property="customerNickname" />
+    
+  </resultMap>
+  <sql id="Base_Column_List">
+    replay_id, comment_id, customer_id, comment_content, publish_time, modified_time, 
+    del_time, del_flag, is_display,replay_ip,
+    (SELECT c.customer_nickname from np_customer c where c.customer_id = customer_id) customer_nickname
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    replay_id, comment_id, customer_id, comment_content, publish_time, modified_time, 
+    del_time, del_flag, is_display,replay_ip,
+    (SELECT c.customer_nickname from np_customer c where c.customer_id = r.customer_id) customer_nickname
+    from np_comment_replay r
+    where replay_id = #{replayId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByCommentId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+     replay_id, comment_id, customer_id, comment_content, publish_time, modified_time, 
+    del_time, del_flag, is_display,replay_ip,
+    r.customer_nickname
+    from np_comment_replay r
+    where comment_id = #{commentId,jdbcType=BIGINT}
+    order by  publish_time desc
+  </select>
+  <select id="selectByCommentIdNew" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    replay_id, comment_id, customer_id, comment_content, publish_time, modified_time, 
+    del_time, del_flag, is_display,replay_ip,
+    r.customer_nickname
+    from np_comment_replay r
+    where comment_id = #{commentId,jdbcType=BIGINT} and is_display = '1'
+    order by  publish_time desc
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from np_comment_replay
+    where replay_id = #{replayId,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insertSelective" parameterType="replay">
+    insert into np_comment_replay
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="replayId != null">
+        replay_id,
+      </if>
+      <if test="commentId != null">
+        comment_id,
+      </if>
+      <if test="customerId != null">
+        customer_id,
+      </if>
+      <if test="customerNickname != null">
+        customer_nickname,
+      </if>
+      <if test="replayIp != null">
+        replay_ip,
+      </if>
+      <if test="commentContent != null">
+        comment_content,
+      </if>
+      <if test="publishTime == null">
+        publish_time,
+      </if>
+      <if test="modifiedTime == null">
+        modified_time,
+      </if>
+      <if test="delTime == null">
+        del_time,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="isDisplay != null">
+        is_display,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="replayId != null">
+        #{replayId,jdbcType=BIGINT},
+      </if>
+      <if test="commentId != null">
+        #{commentId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null">
+        #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="customerNickname != null">
+        #{customerNickname,jdbcType=INTEGER},
+      </if>
+      <if test="replayIp != null">
+        #{replayIp,jdbcType=INTEGER},
+      </if>
+      <if test="commentContent != null">
+        #{commentContent,jdbcType=VARCHAR},
+      </if>
+      <if test="publishTime == null">
+        SYSDATE(),
+      </if>
+      <if test="modifiedTime == null">
+        SYSDATE(),
+      </if>
+      <if test="delTime == null">
+        SYSDATE(),
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="isDisplay != null">
+        #{isDisplay,jdbcType=CHAR},
+      </if>
+    </trim>
+      <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="replayId">
+          SELECT LAST_INSERT_ID() AS id
+      </selectKey>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="replay">
+    update np_comment_replay
+    <set>
+      <if test="commentId != null">
+        comment_id = #{commentId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null">
+        customer_id = #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="commentContent != null">
+        comment_content = #{commentContent,jdbcType=VARCHAR},
+      </if>
+      <if test="publishTime != null">
+        publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null">
+        modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delTime != null">
+        del_time = #{delTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="isDisplay != null">
+        is_display = #{isDisplay,jdbcType=CHAR},
+      </if>
+    </set>
+    where replay_id = #{replayId,jdbcType=BIGINT}
+  </update>
+  
+</mapper>

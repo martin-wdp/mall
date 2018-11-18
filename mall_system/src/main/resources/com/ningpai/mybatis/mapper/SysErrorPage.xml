@@ -1,0 +1,665 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+ @Title: 异常页面设置的mapper映射配置文件
+ @Description:
+ @author NINGPAI_xiaomm
+ @since 2014-03-25 10:10:44
+ @version V1.0
+-->
+<mapper namespace="com.ningpai.system.dao.SysErrorPageDaoImpl">
+
+	<resultMap id="BaseResultMap" type="com.ningpai.system.bean.SysErrorPage">
+				<!-- 记录ID -->
+				<id column="ERROR_PAGE_ID" 
+					jdbcType="BIGINT"
+				 property="errorPageId" />
+				<!-- 设置方案标题 -->
+				<result column="TITLE"
+					jdbcType="VARCHAR"
+				property="title" />
+				<!-- 设置方案代码 -->
+				<result column="SET_CODE"
+					jdbcType="VARCHAR"
+				property="setCode" />
+				<!-- 页面名称 -->
+				<result column="PAGE_NAME"
+					jdbcType="VARCHAR"
+				property="pageName" />
+				<!-- 页面标题 -->
+				<result column="PAGE_TITLE"
+					jdbcType="VARCHAR"
+				property="pageTitle" />
+				<!-- 页面描述 -->
+				<result column="PAGE_DES"
+					jdbcType="VARCHAR"
+				property="pageDes" />
+				<!-- 异常页面模板URL -->
+				<result column="PAGE"
+					jdbcType="VARCHAR"
+				property="page" />
+				<!-- 启用 -->
+				<result column="USED_STATUS"
+					jdbcType="VARCHAR"
+				property="usedStatus" />
+				<!-- 扩展字段1 -->
+				<result column="EXP_FLEID_1"
+					jdbcType="VARCHAR"
+				property="expFleid1" />
+				<!-- 扩展字段2 -->
+				<result column="EXP_FLEID_2"
+					jdbcType="VARCHAR"
+				property="expFleid2" />
+				<!-- 添加人 -->
+				<result column="INSERT_ID"
+					jdbcType="BIGINT"
+				property="insertId" />
+				<!-- 添加时间 -->
+				<result column="INSERT_DATE"
+					jdbcType="DATE"
+				property="insertDate" />
+				<!-- 修改人 -->
+				<result column="MODIFY_ID"
+					jdbcType="BIGINT"
+				property="modifyId" />
+				<!-- 修改时间 -->
+				<result column="MODIFY_DATE"
+					jdbcType="DATE"
+				property="modifyDate" />
+				<!-- 删除标识 -->
+				<result column="DELETE_STATUS"
+					jdbcType="BIGINT"
+				property="deleteStatus" />
+	</resultMap>
+	
+	<sql id="baseSql">
+			ERROR_PAGE_ID, 
+			TITLE, 
+			SET_CODE, 
+			PAGE_NAME, 
+			PAGE_TITLE, 
+			PAGE_DES, 
+			PAGE, 
+			USED_STATUS, 
+			EXP_FLEID_1, 
+			EXP_FLEID_2, 
+			INSERT_ID, 
+			INSERT_DATE, 
+			MODIFY_ID, 
+			MODIFY_DATE, 
+			DELETE_STATUS 
+	</sql>
+	<sql id="querySql">
+			ERROR_PAGE_ID, 
+			PAGE_NAME,
+			MODIFY_DATE,
+			PAGE_TITLE, 
+			PAGE
+	</sql>
+	
+	<!-- 保存异常页面设置 -->	
+	<insert id="saveSysErrorPage" parameterType="com.ningpai.system.bean.SysErrorPage">
+		INSERT INTO NP_SYS_ERROR_PAGE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+				<!-- 记录ID
+				<if test="errorPageId != null">
+					ERROR_PAGE_ID,
+				</if>  -->
+				<!-- 设置方案标题 -->
+				<if test="title != null">
+					TITLE,
+				</if>
+				<!-- 设置方案代码 -->
+				<if test="setCode != null">
+					SET_CODE,
+				</if>
+				<!-- 页面名称 -->
+				<if test="pageName != null">
+					PAGE_NAME,
+				</if>
+				<!-- 页面标题 -->
+				<if test="pageTitle != null">
+					PAGE_TITLE,
+				</if>
+				<!-- 页面描述 -->
+				<if test="pageDes != null">
+					PAGE_DES,
+				</if>
+				<!-- 异常页面模板URL -->
+				<if test="page != null">
+					PAGE,
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS,
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1,
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2,
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID,
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE,
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID,
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE,
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS,
+				</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+				<!-- 记录ID 
+						#{errorPageId,
+								jdbcType=BIGINT
+						}, -->
+				<!-- 设置方案标题 -->
+					<if test="title != null">
+						#{title,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 设置方案代码 -->
+					<if test="setCode != null">
+						#{setCode,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 页面名称 -->
+					<if test="pageName != null">
+						#{pageName,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 页面标题 -->
+					<if test="pageTitle != null">
+						#{pageTitle,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 页面描述 -->
+					<if test="pageDes != null">
+						#{pageDes,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 异常页面模板URL -->
+					<if test="page != null">
+						#{page,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 启用 -->
+					<if test="usedStatus != null">
+						#{usedStatus,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null">
+						#{expFleid1,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null">
+						#{expFleid2,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						#{insertId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null">
+						#{insertDate,
+								jdbcType=DATE
+						},
+					</if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						#{modifyId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null">
+						#{modifyDate,
+								jdbcType=DATE
+						},
+					</if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						#{deleteStatus,
+								jdbcType=BIGINT
+						},
+					</if>
+		</trim>
+	</insert>
+	<!-- 修改异常页面设置 -->
+	<update id="updateSysErrorPage" parameterType="com.ningpai.system.bean.SysErrorPage">
+		UPDATE NP_SYS_ERROR_PAGE
+		<set>
+			
+				<!-- 记录ID -->
+				<if test="errorPageId != null">
+					ERROR_PAGE_ID = #{errorPageId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 设置方案标题 -->
+				<if test="title != null">
+					TITLE = #{title,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 设置方案代码 -->
+				<if test="setCode != null">
+					SET_CODE = #{setCode,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 页面名称 -->
+				<if test="pageName != null">
+					PAGE_NAME = #{pageName,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 页面标题 -->
+				<if test="pageTitle != null">
+					PAGE_TITLE = #{pageTitle,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 页面描述 -->
+				<if test="pageDes != null">
+					PAGE_DES = #{pageDes,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 异常页面模板URL -->
+				<if test="page != null">
+					PAGE = #{page,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS = #{usedStatus,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1 = #{expFleid1,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2 = #{expFleid2,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID = #{modifyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE = #{modifyDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS = #{deleteStatus,
+							jdbcType=BIGINT
+					},
+				</if>
+		</set>
+		WHERE 
+				ERROR_PAGE_ID = #{errorPageId,
+							jdbcType=BIGINT
+					}
+	</update>
+	
+	<!-- 根据异常页面设置对象的id查询异常页面设置对象 -->
+	<select id="getSysErrorPageById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_ERROR_PAGE 
+		WHERE 
+				ERROR_PAGE_ID = #{errorPageId,
+							jdbcType=BIGINT
+					}
+	</select>
+	
+	<!-- 根据异常页面设置对象的id字符集合查询异常页面设置对象 -->
+	<select id="getSysErrorPageByIds" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_ERROR_PAGE 
+		WHERE 
+				ERROR_PAGE_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</select>
+	
+	<!-- 根据异常页面设置对象的id字符集合删除异常页面设置对象 -->
+	<update id="deleteSysErrorPage" parameterType="java.util.Map">
+		DELETE FROM NP_SYS_ERROR_PAGE 
+		WHERE 
+				ERROR_PAGE_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+		
+	</update>
+	
+	
+	<!-- 更新异常页面设置对象的单个字段  -->
+	<update id="updateSysErrorPageFieldById" parameterType="java.util.Map">
+		UPDATE NP_SYS_ERROR_PAGE
+		<set>
+				<!-- 记录ID -->
+				<if test="errorPageId != null">
+					ERROR_PAGE_ID = #{errorPageId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 设置方案标题 -->
+				<if test="title != null">
+					TITLE = #{title,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 设置方案代码 -->
+				<if test="setCode != null">
+					SET_CODE = #{setCode,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 页面名称 -->
+				<if test="pageName != null">
+					PAGE_NAME = #{pageName,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 页面标题 -->
+				<if test="pageTitle != null">
+					PAGE_TITLE = #{pageTitle,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 页面描述 -->
+				<if test="pageDes != null">
+					PAGE_DES = #{pageDes,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 异常页面模板URL -->
+				<if test="page != null">
+					PAGE = #{page,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS = #{usedStatus,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1 = #{expFleid1,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2 = #{expFleid2,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID = #{modifyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE = #{modifyDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS = #{deleteStatus,
+							jdbcType=BIGINT
+					},
+				</if>
+		</set>
+		WHERE 
+				ERROR_PAGE_ID IN  
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</update>
+	
+	<!-- 根据异常页面设置对象的单个字段查询异常页面设置对象信息总数 -->
+	<select id="getSysErrorPageByFieldTotal" resultType="java.lang.Integer" parameterType="java.util.Map">
+		   SELECT COUNT(ERROR_PAGE_ID) 
+		   FROM NP_SYS_ERROR_PAGE D 
+		   WHERE 
+				<!-- 记录ID -->
+					<if test="errorPageId != null">
+						D.ERROR_PAGE_ID = #{errorPageId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 设置方案标题 -->
+					<if test="title != null and title != ''">
+						D.TITLE like CONCAT(CONCAT('%', #{title,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 设置方案代码 -->
+					<if test="setCode != null and setCode != ''">
+						D.SET_CODE like CONCAT(CONCAT('%', #{setCode,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 页面名称 -->
+					<if test="pageName != null and pageName != ''">
+						D.PAGE_NAME like CONCAT(CONCAT('%', #{pageName,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 页面标题 -->
+					<if test="pageTitle != null and pageTitle != ''">
+						D.PAGE_TITLE like CONCAT(CONCAT('%', #{pageTitle,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 页面描述 -->
+					<if test="pageDes != null and pageDes != ''">
+						D.PAGE_DES like CONCAT(CONCAT('%', #{pageDes,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 异常页面模板URL -->
+					<if test="page != null and page != ''">
+						D.PAGE like CONCAT(CONCAT('%', #{page,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 启用 -->
+					<if test="usedStatus != null and usedStatus != ''">
+						D.USED_STATUS like CONCAT(CONCAT('%', #{usedStatus,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null and expFleid1 != ''">
+						D.EXP_FLEID_1 like CONCAT(CONCAT('%', #{expFleid1,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null and expFleid2 != ''">
+						D.EXP_FLEID_2 like CONCAT(CONCAT('%', #{expFleid2,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						D.INSERT_ID = #{insertId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null and insertDate !=''" >
+			        	(D.INSERT_DATE between  #{insertDateStart,jdbcType=DATE}  AND  #{insertDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						D.MODIFY_ID = #{modifyId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null and modifyDate !=''" >
+			        	(D.MODIFY_DATE between  #{modifyDateStart,jdbcType=DATE}  AND  #{modifyDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						D.DELETE_STATUS = #{deleteStatus,
+								jdbcType=BIGINT
+						} AND
+					</if>
+        	1=1 
+	</select>
+	
+	<!-- 根据异常页面设置对象的单个字段查询异常页面设置对象信息 -->
+	<select id="getSysErrorPageByField" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM  NP_SYS_ERROR_PAGE D 
+		   WHERE 
+				<!-- 记录ID -->
+					<if test="errorPageId != null">
+						D.ERROR_PAGE_ID = #{errorPageId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 设置方案标题 -->
+					<if test="title != null and title !=''" >
+						D.TITLE like CONCAT(CONCAT('%', #{title,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 设置方案代码 -->
+					<if test="setCode != null and setCode !=''" >
+						D.SET_CODE like CONCAT(CONCAT('%', #{setCode,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 页面名称 -->
+					<if test="pageName != null and pageName !=''" >
+						D.PAGE_NAME like CONCAT(CONCAT('%', #{pageName,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 页面标题 -->
+					<if test="pageTitle != null and pageTitle !=''" >
+						D.PAGE_TITLE like CONCAT(CONCAT('%', #{pageTitle,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 页面描述 -->
+					<if test="pageDes != null and pageDes !=''" >
+						D.PAGE_DES like CONCAT(CONCAT('%', #{pageDes,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 异常页面模板URL -->
+					<if test="page != null and page !=''" >
+						D.PAGE like CONCAT(CONCAT('%', #{page,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 启用 -->
+					<if test="usedStatus != null and usedStatus !=''" >
+						D.USED_STATUS like CONCAT(CONCAT('%', #{usedStatus,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null and expFleid1 !=''" >
+						D.EXP_FLEID_1 like CONCAT(CONCAT('%', #{expFleid1,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null and expFleid2 !=''" >
+						D.EXP_FLEID_2 like CONCAT(CONCAT('%', #{expFleid2,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						D.INSERT_ID = #{insertId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null and insertDate !=''" >
+			        	(D.INSERT_DATE between  #{insertDateStart,jdbcType=DATE}  AND  #{insertDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						D.MODIFY_ID = #{modifyId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null and modifyDate !=''" >
+			        	(D.MODIFY_DATE between  #{modifyDateStart,jdbcType=DATE}  AND  #{modifyDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						D.DELETE_STATUS = #{deleteStatus,
+								jdbcType=BIGINT
+						} AND
+					</if>
+        	1=1 
+		    LIMIT #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询异常页面设置对象信息总数 -->
+	<select id="querySysErrorPageTotal" resultType="java.lang.Integer">
+		SELECT COUNT(ERROR_PAGE_ID) FROM NP_SYS_ERROR_PAGE
+	</select>
+	
+	<!-- 分页查询异常页面设置对象信息 -->
+	<select id="querySysErrorPageByPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM NP_SYS_ERROR_PAGE 
+		LIMIT  #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 分页查询异常页面设置对象信息 -->
+	<select id="querySysErrorByPageName" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT <include refid="baseSql"/> FROM NP_SYS_ERROR_PAGE 
+		WHERE PAGE_NAME = #{pageName,jdbcType=VARCHAR}
+		LIMIT  1
+	</select>
+	
+</mapper>

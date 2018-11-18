@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpaimsite.goods.dao.GoodsSpecMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsSpec" >
+    <id column="spec_id" property="specId" jdbcType="BIGINT" />
+    <result column="spec_name" property="specName" jdbcType="VARCHAR" />
+    <result column="spec_remark" property="specRemark" jdbcType="VARCHAR" />
+    <result column="spec_nickname" property="specNickname" jdbcType="VARCHAR" />
+    <result column="spec_showtype" property="specShowtype" jdbcType="CHAR" />
+    <result column="spec_showmode" property="specShowmode" jdbcType="CHAR" />
+    <result column="spec_delflag" property="specDelflag" jdbcType="CHAR" />
+    <result column="spec_create_name" property="specCreateName" jdbcType="VARCHAR" />
+    <result column="spec_create_time" property="specCreateTime" jdbcType="TIMESTAMP" />
+    <result column="spec_modified_name" property="specModifiedName" jdbcType="VARCHAR" />
+    <result column="spec_modified_time" property="specModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="spec_del_name" property="specDelName" jdbcType="VARCHAR" />
+    <result column="spec_del_time" property="specDelTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <!-- 封装Vo需要的参数 -->
+  <resultMap type="com.ningpai.m.goods.vo.GoodsSpecVo" id="VoResultMap">
+    <id column="spec_id" property="specId" jdbcType="BIGINT" />
+    <result column="spec_name" property="specName" jdbcType="VARCHAR" />
+    <result column="spec_remark" property="specRemark" jdbcType="VARCHAR" />
+    <result column="spec_nickname" property="specNickname" jdbcType="VARCHAR" />
+    <result column="spec_showtype" property="specShowtype" jdbcType="CHAR" />
+    <result column="spec_showmode" property="specShowmode" jdbcType="CHAR" />
+  	<collection property="specDetails" column="spec_id" javaType="ArrayList" ofType="com.ningpai.goods.bean.GoodsSpecDetail"
+  		select="com.ningpaimsite.goods.dao.GoodsSpecDetailMapper.querySpecDeetailBySpecId"
+  	></collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    spec_id, spec_name, spec_remark, spec_nickname, spec_showtype, spec_showmode, spec_delflag, 
+    spec_create_name, spec_create_time, spec_modified_name, spec_modified_time, spec_del_name, 
+    spec_del_time
+  </sql>
+  <sql id="delFlag">
+  	spec_delflag='0'
+  </sql>
+  <!-- 根据商品ID查询关联的规格的列表 -->
+  <select id="querySpecVoByGoodsId" resultMap="VoResultMap" parameterType="java.lang.Long">
+  	select
+  		<include refid="Base_Column_List"/>
+  	from np_goods_spec where spec_id in 
+    (select spec_id from np_goods_type_spec 
+  	where type_id = (select type_id from np_goods where goods_id=#{goodsId}) and type_spec_delflag="0") and spec_delflag='0'
+  </select>
+  <!-- 根据规格ID查询Vo -->
+  <select id="querySpecVoBySpecId" resultMap="VoResultMap" parameterType="java.lang.Long">
+  	select
+  		<include refid="Base_Column_List"/>
+  	from np_goods_spec where
+  	spec_id = #{specId,jdbcType=BIGINT}
+  </select>
+</mapper>

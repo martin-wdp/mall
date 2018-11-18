@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.dao.GroupLabelMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.group.bean.Label" >
+    <id column="group_label_id" property="groupLabelId" jdbcType="BIGINT" />
+    <result column="group_label_name" property="groupLabelName" jdbcType="VARCHAR" />
+    <result column="group_label_create_time" property="groupLabelCreateTime" jdbcType="TIMESTAMP" />
+    <result column="group_label_modify_time" property="groupLabelModifyTime" jdbcType="TIMESTAMP" />
+    <result column="group_label_del_flag" property="groupLabelDelFlag" jdbcType="CHAR" />
+    <result column="group_label_status" property="groupLabelStatus" jdbcType="CHAR" />
+    <result column="group_label_sort" property="groupLabelSort" jdbcType="BIGINT" />
+    <result column="group_label_seo_title" property="groupLabelSeoTitle" jdbcType="VARCHAR" />
+    <result column="group_label_seo_keyword" property="groupLabelSeoKeyword" jdbcType="VARCHAR" />
+    <result column="group_label_seo_remark" property="groupLabelSeoRemark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    group_label_id, group_label_name, group_label_create_time, group_label_modify_time, 
+    group_label_del_flag,group_label_status, group_label_sort, group_label_seo_title, group_label_seo_keyword, 
+    group_label_seo_remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_group_label
+    where group_label_id = #{groupLabelId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_group_label
+    where group_label_id = #{groupLabelId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.group.bean.Label" useGeneratedKeys="true" keyProperty="groupLabelId" >
+    insert into np_group_label (group_label_name, group_label_create_time, 
+      group_label_modify_time, group_label_del_flag, group_label_status,
+      group_label_sort, group_label_seo_title, group_label_seo_keyword, 
+      group_label_seo_remark)
+    values (#{groupLabelName,jdbcType=VARCHAR}, #{groupLabelCreateTime,jdbcType=TIMESTAMP}, 
+      #{groupLabelModifyTime,jdbcType=TIMESTAMP}, #{groupLabelDelFlag,jdbcType=CHAR}, #{groupLabelStatus,jdbcType=CHAR},
+      #{groupLabelSort,jdbcType=BIGINT}, #{groupLabelSeoTitle,jdbcType=VARCHAR}, #{groupLabelSeoKeyword,jdbcType=VARCHAR}, 
+      #{groupLabelSeoRemark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.group.bean.Label" useGeneratedKeys="true" keyProperty="groupLabelId" >
+    insert into np_group_label
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      group_label_name,
+      group_label_create_time,
+      group_label_modify_time,
+      group_label_del_flag,
+      group_label_status,
+      group_label_sort,
+      group_label_seo_title,
+      group_label_seo_keyword,
+      group_label_seo_remark,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{groupLabelName,jdbcType=VARCHAR},
+      #{groupLabelCreateTime,jdbcType=TIMESTAMP},
+      #{groupLabelModifyTime,jdbcType=TIMESTAMP},
+      #{groupLabelDelFlag,jdbcType=CHAR},
+      #{groupLabelStatus,jdbcType=CHAR},
+      #{groupLabelSort,jdbcType=BIGINT},
+      #{groupLabelSeoTitle,jdbcType=VARCHAR},
+      #{groupLabelSeoKeyword,jdbcType=VARCHAR},
+      #{groupLabelSeoRemark,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.group.bean.Label" >
+    update np_group_label
+    <set >
+      <if test="groupLabelName != null" >
+        group_label_name = #{groupLabelName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupLabelCreateTime != null" >
+        group_label_create_time = #{groupLabelCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="groupLabelModifyTime != null" >
+        group_label_modify_time = #{groupLabelModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="groupLabelDelFlag != null" >
+        group_label_del_flag = #{groupLabelDelFlag,jdbcType=CHAR},
+      </if>
+      <if test="groupLabelStatus != null" >
+        group_label_status = #{groupLabelStatus,jdbcType=CHAR},
+      </if>
+      <if test="groupLabelSort != null" >
+        group_label_sort = #{groupLabelSort,jdbcType=BIGINT},
+      </if>
+      <if test="groupLabelSeoTitle != null" >
+        group_label_seo_title = #{groupLabelSeoTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="groupLabelSeoKeyword != null" >
+        group_label_seo_keyword = #{groupLabelSeoKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="groupLabelSeoRemark != null" >
+        group_label_seo_remark = #{groupLabelSeoRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where group_label_id = #{groupLabelId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.group.bean.Label" >
+    update np_group_label
+    set group_label_name = #{groupLabelName,jdbcType=VARCHAR},
+      group_label_create_time = #{groupLabelCreateTime,jdbcType=TIMESTAMP},
+      group_label_modify_time = #{groupLabelModifyTime,jdbcType=TIMESTAMP},
+      group_label_del_flag = #{groupLabelDelFlag,jdbcType=CHAR},
+      group_label_status = #{groupLabelStatus,jdbcType=CHAR},
+      group_label_sort = #{groupLabelSort,jdbcType=BIGINT},
+      group_label_seo_title = #{groupLabelSeoTitle,jdbcType=VARCHAR},
+      group_label_seo_keyword = #{groupLabelSeoKeyword,jdbcType=VARCHAR},
+      group_label_seo_remark = #{groupLabelSeoRemark,jdbcType=VARCHAR}
+    where group_label_id = #{groupLabelId,jdbcType=BIGINT}
+  </update>
+  
+ <!-- 停用或恢复标签 -->
+ <update id="operationlabel" parameterType="java.util.Map">
+   update np_group_label
+   set group_label_status=#{groupLabelStatus,jdbcType=CHAR},group_label_modify_time = #{groupLabelModifyTime,jdbcType=TIMESTAMP}
+   where group_label_id = #{groupLabelId,jdbcType=BIGINT}
+ </update>
+ 
+ <!-- 删除标签 -->
+ <update id="deletelabel" parameterType="java.lang.Long">
+   update np_group_label
+   set group_label_del_flag='1'
+   where group_label_id = #{groupLabelId,jdbcType=BIGINT}
+ </update>
+ 
+ <!-- 查询所有的小组标签 -->
+ <select id="selectAll" resultMap="BaseResultMap">
+   select
+    <include refid="Base_Column_List" />
+    from np_group_label where 1=1 and group_label_status='0' and group_label_del_flag='0'
+ </select>
+ 
+ <!-- 分页查询小组标签列表 -->
+ <select id="labellist" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List" />
+    from np_group_label
+    where 1=1  and group_label_del_flag='0' 
+     <if test="condition == 1">
+  			and group_label_name like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  	</if>
+  	 limit #{startRowNum},#{endRowNum}
+ </select>
+ 
+ <!-- 小组标签数目 -->
+ <select id="labelcount" parameterType="com.ningpai.system.util.SelectBean" resultType="java.lang.Integer">
+  select count(1)
+  from np_group_label
+    <!-- 若为1 按照链接名称查询 -->
+     where 1=1 and group_label_del_flag='0'
+    <if test="condition == 1">
+  			and group_label_name like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  	</if>
+ </select>
+ 
+ 
+   <!-- 根据标签名称搜索 -->
+  <select id="checkLabelName" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/>from np_group_label
+  	 where 1=1 and group_label_del_flag='0' and group_label_name=#{groupLabelName} 
+  </select>
+</mapper>

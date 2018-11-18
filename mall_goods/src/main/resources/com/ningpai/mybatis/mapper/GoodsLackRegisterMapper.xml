@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.goods.dao.GoodsLackRegisterMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsLackRegister" >
+    <id column="lack_register_id" property="lackRegisterId" jdbcType="BIGINT" />
+    <result column="goods_info_id" property="goodsInfoId" jdbcType="BIGINT" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="lack_register_notice_status" property="lackRegisterNoticeStatus" jdbcType="CHAR" />
+    <result column="lack_register_time" property="lackRegisterTime" jdbcType="TIMESTAMP" />
+    <result column="lack_register_notice_time" property="lackRegisterNoticeTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <!-- 封装VO需要的参数 -->
+  <resultMap type="com.ningpai.goods.vo.GoodsLackRegisterVo" id="VoResultMap" extends="BaseResultMap">
+  	<result column="customer_username" property="customerUsername" jdbcType="VARCHAR"/>
+  	<result column="info_mobile" property="infoMobile" jdbcType="VARCHAR"/>
+  	<result column="info_email" property="infoEmail" jdbcType="VARCHAR"/>
+  	<result column="goods_info_stock" property="goodsInfoStock" jdbcType="BIGINT"/>
+  	<result column="goods_info_name" property="goodsName" jdbcType="VARCHAR"/>
+  	<result column="goods_info_item_no" property="goodsInfoItemNo" jdbcType="VARCHAR"/>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    lack_register_id, goods_info_id, customer_id, lack_register_notice_status, lack_register_time, 
+    lack_register_notice_time
+  </sql>
+  <!-- 查询VO需要的数据 -->
+  <sql id="Vo_Column_List">
+  	r.*,c.customer_username,ci.info_email,ci.info_mobile,i.goods_info_name,
+  	i.goods_info_item_no,i.goods_info_stock
+  </sql>
+  <!-- 连接表的语句 -->
+  <sql id="innerJoinTable">
+  	np_goods_lack_register r left join np_goods_info i on r.goods_info_id=i.goods_info_id left join np_goods g on i.goods_id=g.goods_id left join np_customer c on r.customer_id=c.customer_id left join np_customer_info ci on c.customer_id=ci.customer_id
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_goods_lack_register
+    where lack_register_id = #{lackRegisterId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    update np_goods_lack_register set delFlag='1'
+    where lack_register_id = #{lackRegisterId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective" parameterType="com.ningpai.goods.bean.GoodsLackRegister" >
+    insert into np_goods_lack_register
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="lackRegisterId != null" >
+        lack_register_id,
+      </if>
+      <if test="goodsInfoId != null" >
+        goods_info_id,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="lackRegisterNoticeStatus != null" >
+        lack_register_notice_status,
+      </if>
+      <if test="lackRegisterTime != null" >
+        lack_register_time,
+      </if>
+      <if test="lackRegisterNoticeTime != null" >
+        lack_register_notice_time,
+      </if>
+      delFlag
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="lackRegisterId != null" >
+        #{lackRegisterId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsInfoId != null" >
+        #{goodsInfoId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="lackRegisterNoticeStatus != null" >
+        #{lackRegisterNoticeStatus,jdbcType=CHAR},
+      </if>
+      <if test="lackRegisterTime != null" >
+        #{lackRegisterTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lackRegisterNoticeTime != null" >
+        #{lackRegisterNoticeTime,jdbcType=TIMESTAMP},
+      </if>
+      '0'
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.goods.bean.GoodsLackRegister" >
+    update np_goods_lack_register
+    <set >
+      <if test="goodsInfoId != null" >
+        goods_info_id = #{goodsInfoId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="lackRegisterNoticeStatus != null" >
+        lack_register_notice_status = #{lackRegisterNoticeStatus,jdbcType=CHAR},
+      </if>
+      <if test="lackRegisterTime != null" >
+        lack_register_time = #{lackRegisterTime,jdbcType=TIMESTAMP},
+      </if>
+        lack_register_notice_time = NOW(),
+    </set>
+    where lack_register_id = #{lackRegisterId,jdbcType=BIGINT}
+  </update>
+  <!-- 查询所有的行数 -->
+  <select id="queryTotalCount" resultType="java.lang.Integer">
+  	select count(1) from np_goods_lack_register where delFlag='0'
+  </select>
+  <!-- 根据参数 -->
+  <select id="queryAllByPageBean" resultMap="VoResultMap" parameterType="java.util.Map">
+  	select 
+  		<include refid="Vo_Column_List"/>
+  	from
+  		<include refid="innerJoinTable"/> where r.delFlag='0'
+  	limit #{startRowNum},#{endRowNum}
+  </select>
+  <!-- 更新通知状态 -->
+  <update id="updateNoticeStatus" parameterType="java.lang.Long">
+  		update np_goods_lack_register set lack_register_notice_status='1',lack_register_notice_time = NOW()
+  		where lack_register_id=#{lackId}
+  </update>
+  <!-- 根据查询参数查询行数 -->
+  <select id="queryTotalCountBySearchBean" parameterType="com.ningpai.goods.util.LackRegisterSearchBean" resultType="java.lang.Integer">
+  	select count(1) from np_goods_lack_register r left join np_goods_info i on r.goods_info_id=i.goods_info_id left join np_goods g on i.goods_id=g.goods_id left join np_customer c on r.customer_id=c.customer_id left join np_customer_info ci on c.customer_id=ci.customer_id
+  	where 1=1 and r.delFlag='0'
+  	<if test="goodsName!=null and goodsName!=''">
+  		and i.goods_info_name like CONCAT(CONCAT('%',#{goodsName}),'%')
+  	</if>
+  	<if test="productNo!=null and productNo!=''">
+  		and i.goods_info_item_no like CONCAT(CONCAT('%',#{productNo}),'%')
+  	</if>
+  	<if test="status!=null and status!=-1 and status!=''">
+  		and r.lack_register_notice_status like CONCAT(CONCAT('%',#{status}),'%')
+  	</if>
+  	<if test="registerStartTime!=null and registerStartTime!=''">
+  		and r.lack_register_time &gt;=#{registerStartTime}
+  	</if>
+  	<if test="registerEndTime!=null and registerEndTime!=''">
+  		and r.lack_register_time &lt;=#{registerEndTime}
+  	</if>
+  	<if test="condition!=null and condition==1 and searchText!=null and searchText!=''">
+  		and i.goods_info_name like CONCAT(CONCAT('%',#{searchText}),'%')
+  	</if>
+  	<if test="condition!=null and condition==2 and searchText!=null and searchText!=''">
+  		and i.goods_info_item_no like CONCAT(CONCAT('%',#{searchText}),'%')
+  	</if>
+  </select>
+  <!-- 根据查询参数查询 -->
+  <select id="queryByPageBeanAndSearchBean" parameterType="java.util.Map" resultMap="VoResultMap">
+  	select 
+  		<include refid="Vo_Column_List"/>
+  	from
+  		<include refid="innerJoinTable"/>
+  	where 1=1 and r.delFlag='0'
+  	<if test="searchBean.goodsName!=null and searchBean.goodsName!=''">
+  		and i.goods_info_name like CONCAT(CONCAT('%',#{searchBean.goodsName}),'%')
+  	</if>
+  	<if test="searchBean.productNo!=null and searchBean.productNo!=''">
+  		and i.goods_info_item_no like CONCAT(CONCAT('%',#{searchBean.productNo}),'%')
+  	</if>
+  	<if test="searchBean.status!=null and searchBean.status!=-1 and searchBean.status!=''">
+  		and r.lack_register_notice_status like CONCAT(CONCAT('%',#{searchBean.status}),'%')
+  	</if>
+  	<if test="searchBean.registerStartTime!=null and searchBean.registerStartTime!=''">
+  		and r.lack_register_time &gt;=#{searchBean.registerStartTime}
+  	</if>
+  	<if test="searchBean.registerEndTime!=null and searchBean.registerEndTime!=''">
+  		and r.lack_register_time &lt;=#{searchBean.registerEndTime}
+  	</if>
+  	<if test="searchBean.condition!=null and searchBean.condition==1 and searchBean.searchText!=null and searchBean.searchText!=''">
+  		and i.goods_info_name like CONCAT(CONCAT('%',#{searchBean.searchText}),'%')
+  	</if>
+  	<if test="searchBean.condition!=null and searchBean.condition==2 and searchBean.searchText!=null and searchBean.searchText!=''">
+  		and i.goods_info_item_no like CONCAT(CONCAT('%',#{searchBean.searchText}),'%')
+  	</if>
+  	limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <!-- 根据货品ID更新状态 -->
+  <update id="updateStatusByProductId" parameterType="java.lang.Long">
+  		update np_goods_lack_register set lack_register_notice_status='1',lack_register_notice_time = NOW()
+  		where goods_info_id=#{goodsInfoId} and lack_register_notice_status='0'
+  </update>
+</mapper>

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.temp.dao.MegawizardMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.temp.bean.Megawizard" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="temp_id" property="tempId" jdbcType="BIGINT" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="delflag" property="delflag" jdbcType="CHAR" />
+    <result column="reserve1" property="reserve1" jdbcType="VARCHAR" />
+    <result column="reserve2" property="reserve2" jdbcType="VARCHAR" />
+    <result column="reserve3" property="reserve3" jdbcType="VARCHAR" />
+    <result column="reserve4" property="reserve4" jdbcType="VARCHAR" />
+    <result column="reserve5" property="reserve5" jdbcType="VARCHAR" />
+    <result column="megawizard_name" property="megawizardName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.ningpai.temp.bean.Megawizard" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, temp_id, sort, create_user_id, create_time, update_user_id, update_time, delflag, 
+    reserve1, reserve2, reserve3, reserve4, reserve5,megawizard_name
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <!-- 新增 -->
+  <insert id="insert" parameterType="com.ningpai.temp.bean.Megawizard" >
+    insert into np_megawizard
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="tempId != null" >
+        temp_id,
+      </if>
+      <if test="megawizardName != null" >
+        megawizard_name,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="delflag != null" >
+        delflag,
+      </if>
+      <if test="reserve1 != null" >
+        reserve1,
+      </if>
+      <if test="reserve2 != null" >
+        reserve2,
+      </if>
+      <if test="reserve3 != null" >
+        reserve3,
+      </if>
+      <if test="reserve4 != null" >
+        reserve4,
+      </if>
+      <if test="reserve5 != null" >
+        reserve5,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="tempId != null" >
+        #{tempId,jdbcType=BIGINT},
+      </if>
+      <if test="megawizardName != null" >
+      #{megawizardName,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delflag != null" >
+        #{delflag,jdbcType=CHAR},
+      </if>
+      <if test="reserve1 != null" >
+        #{reserve1,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve2 != null" >
+        #{reserve2,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve3 != null" >
+        #{reserve3,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve4 != null" >
+        #{reserve4,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve5 != null" >
+        #{reserve5,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <!-- 根据模板id查询总条数 -->
+  <select id="selectCountByTempId" parameterType="int" resultType="int">
+  	select count(id) from np_megawizard where temp_id =#{tempId,jdbcType=BIGINT} and delflag='0'
+  </select>
+  <!-- 修改删除标记状态 -->
+  <update id="updateById" parameterType="java.util.List">
+  	update np_megawizard 
+  	set delflag = '1' where id in 
+  	<foreach collection="list" item="id"  open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+  </update>
+  <!-- 根据id查询单个页面说明 -->
+  <select id="selectById" parameterType="int" resultMap="ResultMapWithBLOBs">
+  	select 
+  	 <include refid="Base_Column_List" />
+  	 ,<include refid="Blob_Column_List"/> 
+  	 from np_megawizard where id = #{id,jdbcType=BIGINT}
+  </select>
+  <!-- 根据排序查询单个 -->
+  <select id="selectBySort" parameterType="java.util.Map" resultMap="ResultMapWithBLOBs">
+  	select 
+  	 <include refid="Base_Column_List" />
+  	 ,<include refid="Blob_Column_List"/> 
+  	 from np_megawizard where sort = #{sort,jdbcType=BIGINT} and delflag='0' and temp_id = #{tempId,jdbcType=BIGINT}
+  </select>
+  <!-- 根据模板id分页查询 -->
+  <select id="selectByTempId" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List" />
+  	 ,<include refid="Blob_Column_List"/> 
+  	 from np_megawizard where temp_id =#{tempId,jdbcType=BIGINT} and delflag = '0' order by sort 
+  	 limit #{startRowNum},#{endRowNum}
+  </select>
+  <!-- 修改内容 -->
+  <update id="updateByIdToContent" parameterType="com.ningpai.temp.bean.Megawizard" >
+    update np_megawizard
+    <set >
+      <if test="tempId != null" >
+        temp_id = #{tempId,jdbcType=BIGINT},
+      </if>
+      <if test="megawizardName != null" >
+     	megawizard_name = #{megawizardName,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delflag != null" >
+        delflag = #{delflag,jdbcType=CHAR},
+      </if>
+      <if test="reserve1 != null" >
+        reserve1 = #{reserve1,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve2 != null" >
+        reserve2 = #{reserve2,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve3 != null" >
+        reserve3 = #{reserve3,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve4 != null" >
+        reserve4 = #{reserve4,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve5 != null" >
+        reserve5 = #{reserve5,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

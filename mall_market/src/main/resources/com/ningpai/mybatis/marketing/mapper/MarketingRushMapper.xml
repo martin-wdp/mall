@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.marketing.dao.MarketingRushMapper">
+    <resultMap id="BaseResultMap" type="com.ningpai.marketing.bean.MarketingRush">
+        <id column="rush_id" property="rushId" jdbcType="BIGINT"/>
+        <result column="rush_count" property="rushCount" jdbcType="BIGINT"/>
+        <result column="market_id" property="marketId" jdbcType="BIGINT"/>
+        <result column="rush_limitation" property="rushLimitation" jdbcType="INTEGER"/>
+        <result column="rush_image" property="rushImage" jdbcType="VARCHAR"/>
+        <result column="t_id" property="tId" jdbcType="BIGINT"/>
+        <result column="rush_discount" property="rushDiscount" jdbcType="DECIMAL"/>
+        <result column="temp1" property="temp1" jdbcType="VARCHAR"/>
+        <result column="temp2" property="temp2" jdbcType="VARCHAR"/>
+        <result column="temp3" property="temp3" jdbcType="VARCHAR"/>
+        <result column="rush_vip_discount" property="rushVipDiscount" jdbcType="DECIMAL"/>
+        <result column="rush_price" property="rushPrice" jdbcType="DECIMAL"/>
+        <result column="rush_vip_price" property="rushVipPrice" jdbcType="DECIMAL"/>
+        <collection property="rushTimes" column="t_id" javaType="com.ningpai.marketing.bean.MarketingRushTime"
+                    select="com.ningpai.marketing.dao.MarketingRushTimeMapper.selectByPrimaryKey"></collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+    rush_id, rush_count, rush_limitation,rush_image,market_id, t_id, rush_discount, temp1, temp2, temp3,rush_vip_discount,rush_price,rush_vip_price
+  </sql>
+    <!-- 批量插入 -->
+    <insert id="insertRushs" parameterType="java.util.List">
+        insert into np_marketing_rush ( rush_count, market_id, t_id,
+        rush_discount,rush_vip_discount,rush_price,rush_vip_price)
+        values
+        <foreach collection="list" separator="," item="rush" index="index">
+            (#{rush.rushCount,jdbcType=BIGINT}, #{rush.marketId,jdbcType=BIGINT},
+            #{rush.tId,jdbcType=BIGINT}, #{rush.rushDiscount,jdbcType=DECIMAL}
+            ,#{rush.rushVipDiscount,jdbcType=DECIMAL},
+            #{rush.rushPrice,jdbcType=DECIMAL} , #{rush.rushVipPrice,jdbcType=DECIMAL})
+        </foreach>
+    </insert>
+
+
+    <select id="selectByMarketId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from np_marketing_rush
+        where market_id = #{marketId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from np_marketing_rush
+    where rush_id = #{rushId,jdbcType=BIGINT}
+  </delete>
+    <delete id="deleteRushMarketing" parameterType="java.lang.Long">
+        delete from np_marketing_rush
+    where market_id = #{marketId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.ningpai.marketing.bean.MarketingRush">
+    insert into np_marketing_rush (rush_id, rush_count, market_id, 
+      t_id, rush_discount, temp1, 
+      temp2, temp3)
+    values (#{rushId,jdbcType=BIGINT}, #{rushCount,jdbcType=BIGINT}, #{marketId,jdbcType=BIGINT}, 
+      #{tId,jdbcType=BIGINT}, #{rushDiscount,jdbcType=DECIMAL}, #{temp1,jdbcType=VARCHAR}, 
+      #{temp2,jdbcType=VARCHAR}, #{temp3,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.ningpai.marketing.bean.MarketingRush">
+        insert into np_marketing_rush
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="rushId != null">
+                rush_id,
+            </if>
+            <if test="rushCount != null">
+                rush_count,
+            </if>
+            <if test="rushLimitation != null">
+                rush_limitation,
+            </if>
+            <if test="rushImage != null">
+                rush_image,
+            </if>
+            <if test="marketId != null">
+                market_id,
+            </if>
+            <if test="tId != null">
+                t_id,
+            </if>
+            <if test="rushDiscount != null">
+                rush_discount,
+            </if>
+            <if test="temp1 != null">
+                temp1,
+            </if>
+            <if test="temp2 != null">
+                temp2,
+            </if>
+            <if test="temp3 != null">
+                temp3,
+            </if>
+            <if test="rushVipDiscount != null">
+                rush_vip_discount,
+            </if>
+            <if test="rushPrice != null">
+                rush_price,
+            </if>
+            <if test="rushVipPrice != null">
+                rush_vip_price,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="rushId != null">
+                #{rushId,jdbcType=BIGINT},
+            </if>
+            <if test="rushCount != null">
+                #{rushCount,jdbcType=BIGINT},
+            </if>
+
+            <if test="rushLimitation != null">
+                #{rushLimitation,jdbcType=BIGINT},
+            </if>
+            <if test="rushImage != null">
+                #{rushImage,jdbcType=BIGINT},
+            </if>
+
+
+            <if test="marketId != null">
+                #{marketId,jdbcType=BIGINT},
+            </if>
+            <if test="tId != null">
+                #{tId,jdbcType=BIGINT},
+            </if>
+            <if test="rushDiscount != null">
+                #{rushDiscount,jdbcType=DECIMAL},
+            </if>
+            <if test="temp1 != null">
+                #{temp1,jdbcType=VARCHAR},
+            </if>
+            <if test="temp2 != null">
+                #{temp2,jdbcType=VARCHAR},
+            </if>
+            <if test="temp3 != null">
+                #{temp3,jdbcType=VARCHAR},
+            </if>
+            <if test="rushVipDiscount != null">
+                #{rushVipDiscount,jdbcType=DECIMAL},
+            </if>
+            <if test="rushPrice != null">
+                #{rushPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="rushVipPrice != null">
+                #{rushVipPrice,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.marketing.bean.MarketingRush">
+        update np_marketing_rush
+        <set>
+            <if test="rushCount != null">
+                rush_count = #{rushCount,jdbcType=BIGINT},
+            </if>
+            <if test="marketId != null">
+                market_id = #{marketId,jdbcType=BIGINT},
+            </if>
+            <if test="rushLimitation != null">
+                rush_limitation= #{rushLimitation,jdbcType=BIGINT},
+            </if>
+
+            <if test="rushImage != null">
+                rush_image= #{rushImage,jdbcType=VARCHAR},
+            </if>
+            <if test="tId != null">
+                t_id = #{tId,jdbcType=BIGINT},
+            </if>
+            <if test="rushDiscount != null">
+                rush_discount = #{rushDiscount,jdbcType=DECIMAL},
+            </if>
+            <if test="temp1 != null">
+                temp1 = #{temp1,jdbcType=VARCHAR},
+            </if>
+            <if test="temp2 != null">
+                temp2 = #{temp2,jdbcType=VARCHAR},
+            </if>
+            <if test="temp3 != null">
+                temp3 = #{temp3,jdbcType=VARCHAR},
+            </if>
+            <if test="rushVipDiscount != null">
+                rush_vip_discount = #{rushVipDiscount,jdbcType=DECIMAL},
+            </if>
+            <if test="rushPrice != null">
+                rush_price = #{rushPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="rushVipPrice != null">
+                rush_vip_price = #{rushVipPrice,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where rush_id = #{rushId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ningpai.marketing.bean.MarketingRush">
+    update np_marketing_rush
+    set rush_count = #{rushCount,jdbcType=BIGINT},
+      market_id = #{marketId,jdbcType=BIGINT},
+      t_id = #{tId,jdbcType=BIGINT},
+      rush_discount = #{rushDiscount,jdbcType=DECIMAL},
+      temp1 = #{temp1,jdbcType=VARCHAR},
+      temp2 = #{temp2,jdbcType=VARCHAR},
+      temp3 = #{temp3,jdbcType=VARCHAR}
+    where rush_id = #{rushId,jdbcType=BIGINT}
+  </update>
+</mapper>

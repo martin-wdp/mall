@@ -1,0 +1,17 @@
+*{margin:0;padding:0;}
+body{background:#EFEFEF;}
+body,button,input,textarea{font-family:Microsoft YaHei;}
+h3{font-weight:500;}
+li{list-style-type:none;}
+i,em{font-style:normal;}
+input[type="file"]{display:none;}
+
+.feedBox textarea{width:96%;height:100px;margin-top:10px;padding:1% 2%;border:none;resize:none;outline:none;}
+.upload{background:#fff;margin-top:10px;}
+.upload h3{width:94%;margin:0 auto;height:40px;line-height:40px;border-bottom:1px dashed #ccc;text-indent:.6em;}
+.upload ul{width:94%;height:120px;margin:0 auto;}
+.upload li{padding:10px 4px;margin-top:10px;float:left;}
+.upload li span{display:inline-block;width:80px;height:80px;margin-right:0.4em;margin-bottom:0.4em;background-color:#DCDCDC;background-image: url(../images/xj.png); background-repeat:no-repeat;background-position: center;background-size:50%;position:relative;}
+.upload li span em{position:absolute;right:-6px;top:-6px;width:16px;height:16px;line-height:14px;font-size:14px;text-align:center;border-radius:18px;background:#F93E3E;color:#fff;display:none;}
+.btn{margin-top:120px;}
+button{width:90%;margin: 0.5em 5% 1em 5%;height:50px;line-height:50px;border-radius:2px;border:none;background:#F6403F;font-size:18px;color:#fff;outline:none;}

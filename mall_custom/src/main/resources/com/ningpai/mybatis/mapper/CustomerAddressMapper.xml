@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ningpai.customer.dao.CustomerAddressMapper">
+  <resultMap id="BaseResultMap" type="com.ningpai.customer.bean.CustomerAddress">
+    <id column="address_id" jdbcType="BIGINT" property="addressId" />
+    <result column="customer_id" jdbcType="BIGINT" property="customerId" />
+    <result column="address_name" jdbcType="VARCHAR" property="addressName" />
+    <result column="address_province" jdbcType="VARCHAR" property="infoProvince" />
+    <result column="address_city" jdbcType="VARCHAR" property="infoCity" />
+    <result column="address_county" jdbcType="VARCHAR" property="infoCounty" />
+    <result column="address_detail" jdbcType="VARCHAR" property="addressDetail" />
+    <result column="address_moblie" jdbcType="VARCHAR" property="addressMoblie" />
+    <result column="address_phone" jdbcType="VARCHAR" property="addressPhone" />
+    <result column="address_zip" jdbcType="VARCHAR" property="addressZip" />
+    <result column="address_email" jdbcType="VARCHAR" property="addressEmail" />
+    <result column="address_pay" jdbcType="VARCHAR" property="addressPay" />
+    <result column="address_ship" jdbcType="VARCHAR" property="addressShip" />
+    <result column="address_time" jdbcType="VARCHAR" property="addressTime" />
+    <result column="address_bill_type" jdbcType="VARCHAR" property="addressBillType" />
+    <result column="address_bill_title" jdbcType="VARCHAR" property="addressBillTitle" />
+    <result column="address_bill_content" jdbcType="VARCHAR" property="addressBillContent" />
+    <result column="address_confirm" jdbcType="VARCHAR" property="addressConfirm" />
+    <result column="address_alias" jdbcType="VARCHAR" property="addressAlias" />
+    <result column="is_default" jdbcType="CHAR" property="isDefault" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
+    <result column="del_time" jdbcType="TIMESTAMP" property="delTime" />
+    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
+    
+    <association property="province" column="address_province" select="com.ningpai.customer.dao.CustomerMapper.selectProvinceById" ></association>
+   	<association property="city" column="address_city" select="com.ningpai.customer.dao.CustomerMapper.selectCityByPid" ></association>
+   	<association property="district" column="address_county" select="com.ningpai.customer.dao.CustomerMapper.selectDistrictByCid" ></association>
+   	
+  </resultMap>
+  <sql id="Base_Column_List">
+    address_id, customer_id, address_name, address_province, address_city, address_county, 
+    address_detail, address_moblie, address_phone, address_zip,address_email, address_pay, address_ship, 
+    address_time, address_bill_type, address_bill_title, address_bill_content, address_confirm, 
+    address_alias, is_default, create_time, modified_time, del_time, del_flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_customer_address
+    where address_id = #{addressId,jdbcType=BIGINT}
+  </select>
+  <select id="selectByCustomerId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_customer_address
+    where customer_id = #{customerId,jdbcType=BIGINT} and is_default = '1' and del_flag='0'
+  </select>
+
+
+    <select id="selectAllCustomerAddressByCustomerId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from np_customer_address
+        where customer_id = #{customerId,jdbcType=BIGINT}
+    </select>
+    <select id="selectDefaultAddr" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_customer_address
+    where customer_id = #{customerId,jdbcType=BIGINT} and is_default = '1' AND del_flag ='0'
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from np_customer_address
+    where address_id = #{addressId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective" parameterType="com.ningpai.customer.bean.CustomerAddress"  useGeneratedKeys="true" keyProperty="addressId">
+    insert into np_customer_address
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="addressId != null">
+        address_id,
+      </if>
+      <if test="customerId != null">
+        customer_id,
+      </if>
+      <if test="addressName != null">
+        address_name,
+      </if>
+      <if test="infoProvince != null">
+        address_province,
+      </if>
+      <if test="infoCity != null">
+        address_city,
+      </if>
+      <if test="infoCounty != null">
+        address_county,
+      </if>
+      <if test="addressDetail != null">
+        address_detail,
+      </if>
+      <if test="addressMoblie != null">
+        address_moblie,
+      </if>
+      <if test="addressPhone != null">
+        address_phone,
+      </if>
+      <if test="addressZip != null">
+        address_zip,
+      </if>
+      <if test="addressPay != null">
+        address_pay,
+      </if>
+      <if test="addressShip != null">
+        address_ship,
+      </if>
+      <if test="addressTime != null">
+        address_time,
+      </if>
+      <if test="addressBillType != null">
+        address_bill_type,
+      </if>
+      <if test="addressBillTitle != null">
+        address_bill_title,
+      </if>
+      <if test="addressBillContent != null">
+        address_bill_content,
+      </if>
+      <if test="addressConfirm != null">
+        address_confirm,
+      </if>
+      <if test="addressEmail != null">
+        address_email,
+      </if>
+      <if test="addressAlias != null">
+        address_alias,
+      </if>
+      <if test="isDefault != null">
+        is_default,
+      </if>
+      <if test="createTime == null">
+        create_time,
+      </if>
+      <if test="modifiedTime == null">
+        modified_time,
+      </if>
+      <if test="delTime == null">
+        del_time,
+      </if>
+      <if test="delFlag == null">
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="addressId != null">
+        #{addressId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null">
+        #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="addressName != null">
+        #{addressName,jdbcType=VARCHAR},
+      </if>
+      <if test="infoProvince != null">
+        #{infoProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="infoCity != null">
+        #{infoCity,jdbcType=VARCHAR},
+      </if>
+      <if test="infoCounty != null">
+        #{infoCounty,jdbcType=VARCHAR},
+      </if>
+      <if test="addressDetail != null">
+        #{addressDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="addressMoblie != null">
+        #{addressMoblie,jdbcType=VARCHAR},
+      </if>
+      <if test="addressPhone != null">
+        #{addressPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="addressEmail != null">
+        #{addressEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="addressZip != null">
+        #{addressZip,jdbcType=VARCHAR},
+      </if>
+      <if test="addressPay != null">
+        #{addressPay,jdbcType=VARCHAR},
+      </if>
+      <if test="addressShip != null">
+        #{addressShip,jdbcType=VARCHAR},
+      </if>
+      <if test="addressTime != null">
+        #{addressTime,jdbcType=VARCHAR},
+      </if>
+      <if test="addressBillType != null">
+        #{addressBillType,jdbcType=VARCHAR},
+      </if>
+      <if test="addressBillTitle != null">
+        #{addressBillTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="addressBillContent != null">
+        #{addressBillContent,jdbcType=VARCHAR},
+      </if>
+      <if test="addressConfirm != null">
+        #{addressConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="addressAlias != null">
+        #{addressAlias,jdbcType=VARCHAR},
+      </if>
+      <if test="isDefault != null">
+        #{isDefault,jdbcType=CHAR},
+      </if>
+      <if test="createTime == null">
+        SYSDATE(),
+      </if>
+      <if test="modifiedTime == null">
+        SYSDATE(),
+      </if>
+      <if test="delTime == null">
+        SYSDATE(),
+      </if>
+      <if test="delFlag == null">
+       '0',
+      </if>
+    </trim>
+
+  </insert>
+
+    <!-- 查询刚刚插入的Id -->
+    <select id="selectLastId" resultType="java.lang.Long" >
+        select LAST_INSERT_ID()
+    </select>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.customer.bean.CustomerAddress">
+    update np_customer_address
+    <set>
+      <if test="customerId != null">
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="addressName != null">
+        address_name = #{addressName,jdbcType=VARCHAR},
+      </if>
+      <if test="infoProvince != null">
+        address_province = #{infoProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="infoCity != null">
+        address_city = #{infoCity,jdbcType=VARCHAR},
+      </if>
+      <if test="infoCounty != null">
+        address_county = #{infoCounty,jdbcType=VARCHAR},
+      </if>
+      <if test="addressDetail != null">
+        address_detail = #{addressDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="addressMoblie != null">
+        address_moblie = #{addressMoblie,jdbcType=VARCHAR},
+      </if>
+      <if test="addressPhone != null">
+        address_phone = #{addressPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="addressZip != null">
+        address_zip = #{addressZip,jdbcType=VARCHAR},
+      </if>
+      <if test="addressEmail != null">
+        address_email = #{addressEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="addressPay != null">
+        address_pay = #{addressPay,jdbcType=VARCHAR},
+      </if>
+      <if test="addressShip != null">
+        address_ship = #{addressShip,jdbcType=VARCHAR},
+      </if>
+      <if test="addressTime != null">
+        address_time = #{addressTime,jdbcType=VARCHAR},
+      </if>
+      <if test="addressBillType != null">
+        address_bill_type = #{addressBillType,jdbcType=VARCHAR},
+      </if>
+      <if test="addressBillTitle != null">
+        address_bill_title = #{addressBillTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="addressBillContent != null">
+        address_bill_content = #{addressBillContent,jdbcType=VARCHAR},
+      </if>
+      <if test="addressConfirm != null">
+        address_confirm = #{addressConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="addressAlias != null">
+        address_alias = #{addressAlias,jdbcType=VARCHAR},
+      </if>
+      <if test="isDefault != null">
+        is_default = #{isDefault,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delTime != null">
+        del_time = #{delTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP}
+    </set>
+    where address_id = #{addressId,jdbcType=BIGINT}
+  </update>
+
+    <!-- 查询当前用户上一个地址 -->
+    <select id="selectByCIdFirst" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from np_customer_address a
+        where a.customer_id = #{customerId,jdbcType=BIGINT} and del_flag = '0'
+        and is_default='1' and del_time=(select max(b.del_time) from np_customer_address b where
+        b.customer_id= #{customerId,jdbcType=BIGINT} and del_flag = '0'
+        and is_default='1')
+    </select>
+</mapper>

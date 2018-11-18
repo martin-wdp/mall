@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.goods.dao.GoodsProductReleSpecMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsProductReleSpec" >
+    <id column="rele_spec_detail_id" property="releSpecDetailId" jdbcType="BIGINT" />
+    <result column="goods_info_id" property="goodsInfoId" jdbcType="BIGINT" />
+    <result column="spec_detail_id" property="specDetailId" jdbcType="BIGINT" />
+    <result column="spec_id" property="specId" jdbcType="BIGINT" />
+    <result column="spec_value_remark" property="specValueRemark" jdbcType="VARCHAR" />
+  </resultMap>
+  <!-- VoResultMap -->
+  <resultMap type="com.ningpai.goods.vo.GoodsProductReleSpecVo" id="VoResultMap">
+  	<id column="rele_spec_detail_id" property="releSpecDetailId" jdbcType="BIGINT" />
+    <result column="goods_info_id" property="goodsInfoId" jdbcType="BIGINT" />
+    <result column="spec_value_remark" property="specValueRemark" jdbcType="VARCHAR" />
+    <association property="spec" column="spec_id" select="com.ningpai.goods.dao.GoodsSpecMapper.querySpecVoBySpecId"></association>
+    <association property="goodsSpecDetail" column="spec_detail_id" select="com.ningpai.goods.dao.GoodsSpecDetailMapper.selectByPrimaryKey"></association>
+  </resultMap>
+  <!-- VoResultMap -->
+  <resultMap type="com.ningpai.goods.vo.GoodsProductReleSpecVo" id="SimpleVoResultMap">
+  	<id column="rele_spec_detail_id" property="releSpecDetailId" jdbcType="BIGINT" />
+    <result column="goods_info_id" property="goodsInfoId" jdbcType="BIGINT" />
+    <result column="spec_value_remark" property="specValueRemark" jdbcType="VARCHAR" />
+    <association property="spec" column="spec_id" select="com.ningpai.goods.dao.GoodsSpecMapper.querySimpleSpecVoBySpecId"></association>
+      <association property="goodsSpecDetail" column="spec_detail_id" select="com.ningpai.goods.dao.GoodsSpecDetailMapper.selectByPrimaryKey"></association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    rele_spec_detail_id, goods_info_id, spec_detail_id, spec_id,spec_value_remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_goods_info_rele_spec_detail
+    where rele_spec_detail_id = #{releSpecDetailId,jdbcType=BIGINT}
+  </select>
+  <!-- 删除关联记录 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.util.Map" >
+    delete from np_goods_info_rele_spec_detail
+    where rele_spec_detail_id = #{releSpecDetailId,jdbcType=BIGINT}
+  </delete>
+
+    <delete id="deleteByProductId" parameterType="java.lang.Long" >
+        delete from np_goods_info_rele_spec_detail
+        where goods_info_id = #{goodsInfoId,jdbcType=BIGINT}
+    </delete>
+  <insert id="insert" parameterType="com.ningpai.goods.bean.GoodsProductReleSpec" >
+    insert into np_goods_info_rele_spec_detail (rele_spec_detail_id, goods_info_id, spec_detail_id, 
+      spec_id)
+    values (#{releSpecDetailId,jdbcType=BIGINT}, #{goodsInfoId,jdbcType=BIGINT}, #{specDetailId,jdbcType=BIGINT}, 
+      #{specId,jdbcType=BIGINT})
+  </insert>
+  <!-- 插入记录 -->
+  <insert id="insertSelective" parameterType="com.ningpai.goods.bean.GoodsProductReleSpec" >
+    insert into np_goods_info_rele_spec_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="releSpecDetailId != null" >
+        rele_spec_detail_id,
+      </if>
+      <if test="goodsInfoId != null" >
+        goods_info_id,
+      </if>
+      <if test="specDetailId != null" >
+        spec_detail_id,
+      </if>
+      <if test="specId != null" >
+        spec_id,
+      </if>
+      <if test="specValueRemark != null" >
+        spec_value_remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="releSpecDetailId != null" >
+        #{releSpecDetailId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsInfoId != null" >
+        #{goodsInfoId,jdbcType=BIGINT},
+      </if>
+      <if test="specDetailId != null" >
+        #{specDetailId,jdbcType=BIGINT},
+      </if>
+      <if test="specId != null" >
+        #{specId,jdbcType=BIGINT},
+      </if>
+      <if test="specValueRemark != null" >
+        #{specValueRemark},
+      </if>
+    </trim>
+  </insert>
+  <!-- 更新商品信息 -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.goods.bean.GoodsProductReleSpec" >
+    update np_goods_info_rele_spec_detail
+    <set >
+      <if test="goodsInfoId != null" >
+        goods_info_id = #{goodsInfoId,jdbcType=BIGINT},
+      </if>
+      <if test="specDetailId != null" >
+        spec_detail_id = #{specDetailId,jdbcType=BIGINT},
+      </if>
+      <if test="specId != null" >
+        spec_id = #{specId,jdbcType=BIGINT},
+      </if>
+      <if test="specValueRemark != null" >
+        spec_value_remark = #{specValueRemark},
+      </if>
+    </set>
+    where rele_spec_detail_id = #{releSpecDetailId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.goods.bean.GoodsProductReleSpec" >
+    update np_goods_info_rele_spec_detail
+    set goods_info_id = #{goodsInfoId,jdbcType=BIGINT},
+      spec_detail_id = #{specDetailId,jdbcType=BIGINT},
+      spec_id = #{specId,jdbcType=BIGINT},spec_value_remark = #{specValueRemark},
+    where rele_spec_detail_id = #{releSpecDetailId,jdbcType=BIGINT}
+  </update>
+  <!-- 根据货品ID查询所有关联的规格值 -->
+  <select id="queryAllByProductId" parameterType="java.lang.Long" resultMap="VoResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from np_goods_info_rele_spec_detail
+    where goods_info_id=#{productId}
+  </select>
+
+  <!-- 根据货品ID查询所有关联的规格值 -->
+  <select id="queryAllSimpleByProductId" parameterType="java.lang.Long" resultMap="SimpleVoResultMap">
+  	select
+    <include refid="Base_Column_List" />
+    from np_goods_info_rele_spec_detail
+    where goods_info_id=#{productId}
+  </select>
+  <!-- 根据货品ID和规格ID更新关联的规格值ID -->
+  <update id="updateProductReleSpec" parameterType="java.util.Map">
+  	update np_goods_info_rele_spec_detail set spec_detail_id=#{specDetailId},spec_value_remark = #{specValueRemark}
+  	where goods_info_id=#{productId} and spec_id=#{specId}
+  </update>
+</mapper>

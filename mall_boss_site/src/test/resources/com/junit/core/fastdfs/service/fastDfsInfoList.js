@@ -1,0 +1,1 @@
+    [{"fastdfsId":"1","serverPath":"61.11.11.11","httpPort":"8080","resultPath":"resultPath","userd":"1","createDate":"2015-01-01 01:01:01","updateDate":"2015-01-01 01:01:01"}]

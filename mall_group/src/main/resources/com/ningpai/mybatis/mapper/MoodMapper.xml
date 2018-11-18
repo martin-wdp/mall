@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.MoodMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.group.bean.Mood" >
+    <id column="mood_id" property="moodId" jdbcType="BIGINT" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="mood_content" property="moodContent" jdbcType="VARCHAR" />
+    <result column="mood_create_time" property="moodCreateTime" jdbcType="TIMESTAMP" />
+    <result column="mood_del_flag" property="moodDelFlag" jdbcType="CHAR" />
+  </resultMap>
+  
+   <resultMap id="BaseVoMap" type="com.ningpai.group.vo.MoodVo" >
+    <id column="mood_id" property="moodId" jdbcType="BIGINT" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="customer_username" property="memberName" jdbcType="VARCHAR" />
+    <result column="customer_nickname" property="memberNickname" jdbcType="VARCHAR" />
+    <result column="mood_content" property="moodContent" jdbcType="VARCHAR" />
+    <result column="mood_create_time" property="moodCreateTime" jdbcType="TIMESTAMP" />
+    <result column="mood_del_flag" property="moodDelFlag" jdbcType="CHAR" />
+    <result column="customer_img" property="infoHeadimg" jdbcType="VARCHAR" />
+    <collection property="moodReply" column="mood_id" javaType="ArrayList" 
+      ofType="com.ningpai.group.bean.CustomerReply" select="com.ningpai.group.mapper.CustomerReplyMapper.replyList">
+    </collection>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    mood_id, customer_id, mood_content, mood_create_time, mood_del_flag
+  </sql>
+  
+   <sql id="Base_Vo_List" >
+    mood_id, mood.customer_id,member_name, member_nickname,mood_content, mood_create_time, mood_del_flag
+  </sql>
+  <select id="selectOneMood" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+   mood_id, customer_id, mood_content
+  	from np_mood
+  	where customer_id=#{customerId}
+  	and mood_del_flag = '0'
+  	order by mood_create_time desc
+    limit 1
+  </select>
+  
+   <select id="selectMoodDetail" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+  	from np_mood
+  	where mood_id=#{moodId}
+  </select>
+   <select id="selectMoodList" resultMap="BaseVoMap" parameterType="java.util.Map" >
+    select  mood_id, mood.customer_id, mood_content, mood_create_time, mood_del_flag,
+    mem.customer_nickname,mem.customer_img
+  	from np_mood mood,np_customer mem
+  	where mood.customer_id=mem.customer_id 
+  	and mood.mood_del_flag ='0'
+  	and mood.customer_id = #{customerId}
+  	order by mood_create_time desc
+    limit #{start},#{number}
+  </select>
+  
+    <select id="selectMoodCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select count(1)
+  	from np_mood mood 
+  	where 1=1
+  	and mood.mood_del_flag ='0'
+  	and mood.customer_id = #{customerId}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_mood
+    where mood_id = #{moodId,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" parameterType="com.ningpai.group.bean.Mood" >
+    insert into np_mood (mood_id, customer_id, mood_content, 
+      mood_create_time, mood_del_flag)
+    values (#{moodId,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, #{moodContent,jdbcType=VARCHAR}, 
+      #{moodCreateTime,jdbcType=TIMESTAMP}, #{moodDelFlag,jdbcType=CHAR})
+        <selectKey keyProperty="mood_id" resultType="java.lang.Long">
+      		select LAST_INSERT_ID()
+      </selectKey>
+  </insert>
+  
+  <select id="selectLastId" resultType="java.lang.Long" >
+  		select LAST_INSERT_ID()
+  </select>
+  <insert id="insertSelective" parameterType="com.ningpai.group.bean.Mood" >
+    insert into np_mood
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="moodId != null" >
+        mood_id,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="moodContent != null" >
+        mood_content,
+      </if>
+      <if test="moodCreateTime != null" >
+        mood_create_time,
+      </if>
+      <if test="moodDelFlag != null" >
+        mood_del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="moodId != null" >
+        #{moodId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="moodContent != null" >
+        #{moodContent,jdbcType=VARCHAR},
+      </if>
+      <if test="moodCreateTime != null" >
+        #{moodCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="moodDelFlag != null" >
+        #{moodDelFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.group.bean.Mood" >
+    update np_mood
+    <set >
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="moodContent != null" >
+        mood_content = #{moodContent,jdbcType=VARCHAR},
+      </if>
+      <if test="moodCreateTime != null" >
+        mood_create_time = #{moodCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="moodDelFlag != null" >
+        mood_del_flag = #{moodDelFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where mood_id = #{moodId,jdbcType=BIGINT}
+  </update>
+  <update id="delMood" parameterType="java.lang.Long" >
+    update np_mood
+    set  mood_del_flag = '1'
+    where mood_id = #{moodId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="delAllMood" parameterType="java.util.List" >
+    update np_mood
+    set  mood_del_flag = '1'
+    where
+    <foreach collection="list" separator="or" item="moodId" index="index" >  
+             (mood_id = #{moodId,jdbcType=BIGINT})  
+    </foreach>  
+    
+  </update>
+
+  
+</mapper>

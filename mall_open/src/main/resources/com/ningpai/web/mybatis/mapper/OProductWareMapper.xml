@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.goodsproductware.bean.OGoodsProductWare" >
+  <resultMap id="BaseResultMap" type="com.ningpai.api.bean.OGoodsProductWare" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="ware_name" property="wareName" jdbcType="BIGINT" />
+    <result column="ware_price" property="warePrice" jdbcType="BIGINT" />
+    <result column="product_id" property="productId" jdbcType="BIGINT" />
+    <result column="ware_stock" property="waretock" jdbcType="DECIMAL" />
+  </resultMap>
+
+  <!--根据商品编号查询库存信息 2015年09月07日18:22:59 lih-->
+  <select id="get" parameterType="java.lang.String" resultMap="BaseResultMap">
+      select  id,product_id,ware_name,ware_price,product_id,ware_stock from np_product_ware ware
+      inner join np_warehouse  hous on ware.ware_id=hous.ware_id
+      where ware.del_flag='0' and product_id=(select goods_info_id from np_goods_info where goods_info_item_no=#{goodsInfoItemNo})
+  </select>
+    <!--根据商品编号和仓库标识查询库存数量 2015年09月07日18:22:59 lih-->
+    <select id="getCount" resultType="java.lang.Long" parameterType="java.util.Map">
+        select  ware_stock from np_product_ware ware
+        inner join np_warehouse  hous on ware.ware_id=hous.ware_id
+        where ware.del_flag='0' and product_id=(select goods_info_id from np_goods_info where goods_info_item_no=#{goodsInfoItemNo})
+        and hous.ware_id=(select ware_id from np_warehouse where identify_id=#{IdentifyNo})
+    </select>
+    <!--根据商品编号和仓库标识减库存 2015年09月07日18:22:59 lih-->
+    <select id="addStock" parameterType="java.util.Map" >
+        update np_product_ware set ware_stock=ware_stock+#{count} where
+        product_id =
+        (SELECT goods_info_id from np_goods_info  where goods_info_item_no=#{goodsInfoItemNo} and goods_info_delflag='0' limit 0,1)
+        and ware_id =
+        (SELECT ware_id from np_warehouse where identify_id=#{identifyId} and del_flag='0' limit 0,1 )
+    </select>
+
+    <!--根据商品编号和仓库标识加库存 2015年09月07日18:22:59 lih-->
+    <select id="minStock" parameterType="java.util.Map" >
+        update np_product_ware set ware_stock=ware_stock-#{count} where
+        product_id =
+        (SELECT goods_info_id from np_goods_info  where goods_info_item_no=#{goodsInfoItemNo} and goods_info_delflag='0' limit 0,1)
+        and ware_id =
+        (SELECT ware_id from np_warehouse where identify_id=#{identifyId} and del_flag='0' limit 0,1 )
+    </select>
+</mapper>

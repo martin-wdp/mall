@@ -1,0 +1,46 @@
+body {font-size:62.5%;}
+input.text {width:190px; height:auto; line-height:20px; padding:6px; border:1px solid #e5e5e5; border-radius:0;}
+fieldset {padding:0; border:0; margin-top:25px;}
+h1 {font-size:1.2em; margin:.6em 0;}
+div#users-contain table {margin:0; border-collapse:collapse; width:100%;}
+div#users-contain table td, div#users-contain table th {border:1px solid #f2f2f2; padding:.6em 5px; text-align:left;}
+div#users-contain table th {border-color:#298dcc;}
+.ui-dialog .ui-state-error {padding:.3em;}
+.validateTips {border:1px solid transparent; padding:0.3em;}
+.custom-combobox {position:relative; display:inline-block;}
+.custom-combobox-toggle {position:absolute; top:0; bottom:0; margin-left:-1px; padding:0; *height:1.7em; *top:0.1em;}
+.custom-combobox-input {margin:0; padding:0.3em;}
+
+.tit span {color:#999; font-size:12px; font-weight:500; margin-left:5px;}
+.hd_bar {background:#d5efff; padding:8px; border:1px solid #dfdfdf;}
+#users-contain thead th {font-weight:700; color:#fff;}
+.search_box {display:inline-block; zoom:1; *display:inline; background:#fff; height:30px; line-height:30px; border:1px solid #dfdfdf; border-radius:0; position:relative; top:2px;}
+.search_sel {display:inline-block; zoom:1; *display:inline; padding-right:15px; height:23px; line-height:23px; text-indent:6px; position:relative;
+background:url(../images/down.gif) no-repeat right center;}
+.search_sel select {opacity:0; position:absolute; top:0; left:0; height:23px;}
+.search_box input.search_text {width:150px; border:none; height:21px; line-height:21px\9; padding:0 5px; box-shadow:none; margin-bottom:0px; outline:none!important;-webkit-transition:none;}
+.search_word {left:50px;}
+.p_text {border:1px solid #ccc; padding:1px 2px; margin:0 5px;}
+.pages {display:inline-block; zoom:1; *display:inline;}
+#users-contain tfoot {background:#f9f9f9;}
+.pages a {border:1px solid #dfdfdf; background:#f3f3f3; padding:2px 5px; margin:0 2px;color:black}
+.pages .current {background:#336699; color:#fff;}
+.tabs_dl dt {float:left; width:120px; text-align:right; line-height:25px; font-weight:500; color:#333;}
+.tabs_dl dd {margin-left:130px; margin-bottom:10px; line-height:25px;}
+.tb_select {border:1px solid #aaa; padding:3px;}
+.t_tit {font-weight:700; margin-bottom:10px; color:#333;}
+.t_txa {width:50%; height:100px; border:1px solid #e5e5e5; padding:5px;}
+.t_txa:focus {border-color:#aaa;}
+#tabs-3 table th, #tabs-3 table td, #tabs-3-1 table th, #tabs-3-1 table td  {padding:5px 10px;}
+#spec_list th, #spec_list td, #param_list th, #param_list td, #detailparam_list th, #detailparam_list td, #updata_spec_list th, #updata_spec_list td {padding:5px 10px;}
+
+.sec_td {padding:0!important;}
+.sec_td table {margin-bottom:0!important;}
+.open_sec {display:inline-block; zoom:1; *display:inline; background:url(../images/handle-show.gif) no-repeat; width:12px; height:12px; margin-right:10px;}
+.close_sec {display:inline-block; zoom:1; *display:inline; background:url(../images/handle-hide.gif) no-repeat; width:12px; height:12px; margin-right:10px;}
+div#users-contain .no_b td, div#users-contain .no_b th {border-left:none; border-right:none;}
+.sec_tb td {border-bottom:none!important;}
+.sec_tb tr:first-child td {border-top:none!important;}
+.sec_tr {display:none;}
+input.update_specDetailImg, input.specDetailImg {width:60px;}
+#list .ui-button-text-only .ui-button-text {font-size:1.0em;}

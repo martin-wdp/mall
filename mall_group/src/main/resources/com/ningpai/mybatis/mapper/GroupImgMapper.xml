@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.group.mapper.GroupImgMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.group.bean.GroupImg" >
+    <id column="group_img_id" property="groupImgId" jdbcType="BIGINT" />
+    <result column="group_id" property="groupId" jdbcType="BIGINT" />
+    <result column="group_img_url" property="groupImgUrl" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="group_img_title" property="groupImgTitle" jdbcType="VARCHAR" />
+    <result column="group_img_des" property="groupImgDes" jdbcType="VARCHAR" />
+    <result column="group_img_create_time" property="groupImgCreateTime" jdbcType="TIMESTAMP" />
+    <result column="group_img_modify_time" property="groupImgModifyTime" jdbcType="TIMESTAMP" />
+    <result column="group_img_del_flag" property="groupImgDelFlag" jdbcType="CHAR" />
+    <result column="reply_count" property="replyCount" jdbcType="VARCHAR" />
+    <result column="customer_nickname" property="customerName" jdbcType="VARCHAR" />
+    <result column="group_name" property="groupName" jdbcType="VARCHAR" />
+    <result column="group_img_width" property="groupImgWidth" jdbcType="BIGINT" />
+    <result column="group_img_height" property="groupImgHeight" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    group_img_id, group_id, group_img_url, customer_id, group_img_title, group_img_des, 
+    group_img_create_time, group_img_modify_time, group_img_del_flag,group_img_width,group_img_height
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_group_img
+    where group_img_id = #{groupImgId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_group_img
+    where group_img_id = #{groupImgId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.group.bean.GroupImg" useGeneratedKeys="true" keyProperty="groupImgId" >
+    insert into np_group_img (group_id, group_img_url, customer_id, 
+      group_img_title, group_img_des, group_img_create_time, 
+      group_img_modify_time, group_img_del_flag,group_img_width,group_img_height)
+    values (#{groupId,jdbcType=BIGINT}, #{groupImgUrl,jdbcType=VARCHAR}, #{customerId,jdbcType=BIGINT}, 
+      #{groupImgTitle,jdbcType=VARCHAR}, #{groupImgDes,jdbcType=VARCHAR}, #{groupImgCreateTime,jdbcType=TIMESTAMP}, 
+      #{groupImgModifyTime,jdbcType=TIMESTAMP}, #{groupImgDelFlag,jdbcType=CHAR},#{groupImgWidth,jdbcType=BIGINT},#{groupImgHeight,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.group.bean.GroupImg" useGeneratedKeys="true" keyProperty="groupImgId" >
+    insert into np_group_img
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      group_id,
+      group_img_url,
+      customer_id,
+      group_img_title,
+      group_img_des,
+      group_img_create_time,
+      group_img_modify_time,
+      group_img_del_flag,
+      group_img_width,group_img_height
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{groupId,jdbcType=BIGINT},
+      #{groupImgUrl,jdbcType=VARCHAR},
+      #{customerId,jdbcType=BIGINT},
+      #{groupImgTitle,jdbcType=VARCHAR},
+      #{groupImgDes,jdbcType=VARCHAR},
+      #{groupImgCreateTime,jdbcType=TIMESTAMP},
+      #{groupImgModifyTime,jdbcType=TIMESTAMP},
+      #{groupImgDelFlag,jdbcType=CHAR},
+      #{groupImgWidth,jdbcType=BIGINT},#{groupImgHeight,jdbcType=BIGINT}
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.group.bean.GroupImg" >
+    update np_group_img
+    <set >
+      <if test="groupId != null" >
+        group_id = #{groupId,jdbcType=BIGINT},
+      </if>
+      <if test="groupImgUrl != null" >
+        group_img_url = #{groupImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="groupImgTitle != null" >
+        group_img_title = #{groupImgTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="groupImgDes != null" >
+        group_img_des = #{groupImgDes,jdbcType=VARCHAR},
+      </if>
+      <if test="groupImgCreateTime != null" >
+        group_img_create_time = #{groupImgCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="groupImgModifyTime != null" >
+        group_img_modify_time = #{groupImgModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="groupImgDelFlag != null" >
+        group_img_del_flag = #{groupImgDelFlag,jdbcType=CHAR},
+      </if>
+      <if test="group_img_width != null" >
+        group_img_width = #{groupImgWidth,jdbcType=BIGINT},
+      </if>
+      <if test="group_img_height != null" >
+        group_img_height = #{groupImgHeight,jdbcType=BIGINT},
+      </if>
+    </set>
+    where group_img_id = #{groupImgId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.group.bean.GroupImg" >
+    update np_group_img
+    set group_id = #{groupId,jdbcType=BIGINT},
+      group_img_url = #{groupImgUrl,jdbcType=VARCHAR},
+      customer_id = #{customerId,jdbcType=BIGINT},
+      group_img_title = #{groupImgTitle,jdbcType=VARCHAR},
+      group_img_des = #{groupImgDes,jdbcType=VARCHAR},
+      group_img_create_time = #{groupImgCreateTime,jdbcType=TIMESTAMP},
+      group_img_modify_time = #{groupImgModifyTime,jdbcType=TIMESTAMP},
+      group_img_del_flag = #{groupImgDelFlag,jdbcType=CHAR}
+    where group_img_id = #{groupImgId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="editgroupimg" parameterType="com.ningpai.group.bean.GroupImg" >
+    update np_group_img
+    set
+      group_img_title = #{groupImgTitle,jdbcType=VARCHAR},
+      group_img_des = #{groupImgDes,jdbcType=VARCHAR},
+      group_img_modify_time = #{groupImgModifyTime,jdbcType=TIMESTAMP}
+   
+    where group_img_id = #{groupImgId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 查询最新上传的小组图片 -->
+  <select id="selectNewGroupImg" parameterType="com.ningpai.group.bean.GroupImg"  resultMap="BaseResultMap">
+    select  <include refid="Base_Column_List" />
+    from np_group_img
+    where group_img_del_flag ='0' and customer_id = #{customerId,jdbcType=BIGINT} and group_id = #{groupId,jdbcType=BIGINT} 
+    order by group_img_create_time desc
+    limit #{count}
+  </select>
+  
+  
+  <!-- 根据条件查询小组图片 -->
+  <select id="selectGroupImgList" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select  group_img_id, group_id, group_img_url, img.customer_id, group_img_title, group_img_des, 
+ 		group_img_create_time, group_img_modify_time, group_img_del_flag,c.customer_nickname,reply_count,group_img_width,group_img_height
+	from np_group_img img
+	left join np_customer c
+	on img.customer_id = c.customer_id
+	left join 
+	(select count(*) reply_count,r.reply_ship_id 
+	from np_customer_reply r where r.reply_type='1' and r.reply_del_flag='0' 
+	GROUP BY r.reply_ship_id) re
+    on img.group_img_id = re.reply_ship_id
+	where group_img_del_flag='0' and group_id=#{groupId,jdbcType=BIGINT}
+	<if test="customerId !=null and customerId !=''">
+ 	 and img.customer_id = #{customerId,jdbcType=BIGINT}
+   </if>
+   	order by group_img_create_time desc
+   	<if test="pbFlag !=null and pbFlag !='' ">
+	limit #{startRowNum},#{endRowNum}
+	</if>
+  </select>
+  
+  <!-- 根据条件查询小组图片数量-->
+  <select id="selectGroupImgListCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+    select count(*)
+	from np_group_img img
+	left join np_customer c
+	on img.customer_id = c.customer_id
+	left join 
+	(select count(*) reply_count,r.reply_ship_id 
+	from np_customer_reply r where r.reply_type='1' and r.reply_del_flag='0' 
+	GROUP BY r.reply_ship_id) re
+    on img.group_img_id = re.reply_ship_id
+	where group_img_del_flag='0' and group_id=#{groupId,jdbcType=BIGINT}
+	<if test="customerId !=null and customerId !=''">
+ 	 and img.customer_id = #{customerId,jdbcType=BIGINT}
+   </if>
+  </select>
+  
+  <!-- 删除小组图片 -->
+  <update id="deleteGroupImgById" parameterType="java.lang.Long" >
+   update np_group_img  
+	set group_img_del_flag='1'
+	where group_img_id= #{groupImgId,jdbcType=BIGINT}
+  </update>
+  
+  
+  <!-- 前台小组详情显示小组相册 -->
+  <select id="selectGroupImgByLimit" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select  group_img_id, group_id, group_img_url, img.customer_id, group_img_title, group_img_des, 
+ 		group_img_create_time, group_img_modify_time, group_img_del_flag,customer_nickname,group_img_width,group_img_height
+	from np_group_img img
+	left join np_customer c
+	on img.customer_id = c.customer_id
+	where group_img_del_flag='0' and group_id=#{groupId,jdbcType=BIGINT}
+	<if test="customerId !=null and customerId !=''">
+ 	 and img.customer_id = #{customerId,jdbcType=BIGINT}
+   </if>
+   order by group_img_create_time desc
+	limit #{number}
+  </select>
+  
+  <!-- x小组相册中图片数目 -->
+  <select id="groupPhotoCountById" resultType="java.lang.Integer" parameterType="java.util.Map" >
+     select ifnull(count(*),0) as count
+    from np_group_img  
+    where group_id = #{groupId} and group_img_del_flag='0'
+   
+  </select>
+  
+  <!-- 根据小组图片ID查询小组图片详情 -->
+  <select id="groupImgDetail" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select img.group_img_id, img.customer_id,img.group_id,img.group_img_create_time,img.group_img_des,img.group_img_title,img.group_img_url,
+    g.group_name,c.customer_nickname,img.group_img_width,img.group_img_height
+ 	from np_group_img img
+	left join np_group g
+	on img.group_id = g.group_id
+	left join np_customer c
+	on img.customer_id = c.customer_id
+	where img.group_img_id=#{groupImgId,jdbcType=BIGINT}
+  </select>
+</mapper>

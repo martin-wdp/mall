@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.third.seller.mapper.ApplyBrandMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.third.seller.bean.ApplyBrand" >
+    <id column="apply_brand_id" property="applyBrandId" jdbcType="BIGINT" />
+    <result column="apply_brand_name" property="applyBrandName" jdbcType="VARCHAR" />
+    <result column="apply_brand_pic" property="applyBrandPic" jdbcType="VARCHAR" />
+    <result column="apply_brand_del_flag" property="applyBrandDelFlag" jdbcType="CHAR" />
+    <result column="apply_brand_create_time" property="applyBrandCreateTime" jdbcType="TIMESTAMP" />
+    <result column="apply_modify_time" property="applyModifyTime" jdbcType="TIMESTAMP" />
+    <result column="apply_third_id" property="applyThirdId" jdbcType="BIGINT" />
+    <result column="apply_url" property="applyUrl" jdbcType="VARCHAR" />
+    <result column="apply_status" property="applyStatus" jdbcType="CHAR" />
+    <result column="apply_certificate" property="applyCertificate" jdbcType="VARCHAR" />
+    <result column="apply_refusal_reason" property="applyRefusalReason" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    apply_brand_id, apply_brand_name, apply_brand_pic, apply_brand_del_flag, apply_brand_create_time, 
+    apply_modify_time, apply_third_id,apply_url,apply_status,apply_certificate,apply_refusal_reason
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_apply_brand
+    where apply_brand_id = #{applyBrandId,jdbcType=BIGINT}
+  </select>
+  
+  
+    <select id="selectApplyBrand" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_apply_brand
+    where apply_third_id = #{thirdId,jdbcType=BIGINT}
+     and apply_brand_del_flag = '0'
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_apply_brand
+    where apply_brand_id = #{applyBrandId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.third.seller.bean.ApplyBrand" >
+    insert into np_apply_brand (apply_brand_id, apply_brand_name, apply_brand_pic, 
+      apply_brand_del_flag, apply_brand_create_time, 
+      apply_modify_time, apply_third_id)
+    values (#{applyBrandId,jdbcType=BIGINT}, #{applyBrandName,jdbcType=VARCHAR}, #{applyBrandPic,jdbcType=VARCHAR}, 
+      #{applyBrandDelFlag,jdbcType=CHAR}, #{applyBrandCreateTime,jdbcType=TIMESTAMP}, 
+      #{applyModifyTime,jdbcType=TIMESTAMP}, #{applyThirdId,jdbcType=BIGINT})
+  </insert>
+  
+  
+  
+  
+  
+  
+  <insert id="addApplyBrand" parameterType="com.ningpai.third.seller.bean.ApplyBrand" >
+    insert into np_apply_brand
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="applyBrandId != null" >
+        apply_brand_id,
+      </if>
+      <if test="applyBrandName != null" >
+        apply_brand_name,
+      </if>
+      <if test="applyBrandPic != null" >
+        apply_brand_pic,
+      </if>
+      <if test="applyBrandDelFlag != null" >
+        apply_brand_del_flag,
+      </if>
+      <if test="applyBrandCreateTime != null" >
+        apply_brand_create_time,
+      </if>
+      <if test="applyModifyTime != null" >
+        apply_modify_time,
+      </if>
+      <if test="applyThirdId != null" >
+        apply_third_id,
+      </if>
+       <if test="applyUrl != null and applyUrl!=''" >
+        apply_url,
+      </if>
+      <if test="applyCertificate != null and applyCertificate !=''" >
+        apply_certificate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="applyBrandId != null" >
+        #{applyBrandId,jdbcType=BIGINT},
+      </if>
+      <if test="applyBrandName != null" >
+        #{applyBrandName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyBrandPic != null" >
+        #{applyBrandPic,jdbcType=VARCHAR},
+      </if>
+      <if test="applyBrandDelFlag != null" >
+        #{applyBrandDelFlag,jdbcType=CHAR},
+      </if>
+      <if test="applyBrandCreateTime != null" >
+        #{applyBrandCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyModifyTime != null" >
+        #{applyModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyThirdId != null" >
+        #{applyThirdId,jdbcType=BIGINT},
+      </if>
+       <if test="applyUrl != null and applyUrl!=''" >
+        #{applyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="applyCertificate != null and applyCertificate!=''" >
+        #{applyCertificate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  
+     <selectKey keyProperty="apply_brand_id" resultType="java.lang.Long">
+      		select LAST_INSERT_ID()
+      </selectKey>
+  </insert>
+  <!-- 查询刚刚插入的Id -->
+  <select id="selectLastId" resultType="java.lang.Long" >
+  		select LAST_INSERT_ID()
+  </select>
+  
+  
+  <insert id="insertSelective" parameterType="com.ningpai.third.seller.bean.ApplyBrand" >
+    insert into np_apply_brand
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="applyBrandId != null" >
+        apply_brand_id,
+      </if>
+      <if test="applyBrandName != null" >
+        apply_brand_name,
+      </if>
+      <if test="applyBrandPic != null" >
+        apply_brand_pic,
+      </if>
+      <if test="applyBrandDelFlag != null" >
+        apply_brand_del_flag,
+      </if>
+      <if test="applyBrandCreateTime != null" >
+        apply_brand_create_time,
+      </if>
+      <if test="applyModifyTime != null" >
+        apply_modify_time,
+      </if>
+      <if test="applyThirdId != null" >
+        apply_third_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="applyBrandId != null" >
+        #{applyBrandId,jdbcType=BIGINT},
+      </if>
+      <if test="applyBrandName != null" >
+        #{applyBrandName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyBrandPic != null" >
+        #{applyBrandPic,jdbcType=VARCHAR},
+      </if>
+      <if test="applyBrandDelFlag != null" >
+        #{applyBrandDelFlag,jdbcType=CHAR},
+      </if>
+      <if test="applyBrandCreateTime != null" >
+        #{applyBrandCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyModifyTime != null" >
+        #{applyModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyThirdId != null" >
+        #{applyThirdId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.third.seller.bean.ApplyBrand" >
+    update np_apply_brand
+    <set >
+      <if test="applyBrandName != null" >
+        apply_brand_name = #{applyBrandName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyBrandPic != null" >
+        apply_brand_pic = #{applyBrandPic,jdbcType=VARCHAR},
+      </if>
+      <if test="applyBrandDelFlag != null" >
+        apply_brand_del_flag = #{applyBrandDelFlag,jdbcType=CHAR},
+      </if>
+      <if test="applyBrandCreateTime != null" >
+        apply_brand_create_time = #{applyBrandCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyModifyTime != null" >
+        apply_modify_time = #{applyModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyThirdId != null" >
+        apply_third_id = #{applyThirdId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where apply_brand_id = #{applyBrandId,jdbcType=BIGINT}
+  </update>
+  
+  
+  
+  <update id="delApplyBrand" parameterType="java.util.Map" >
+    update np_apply_brand
+    set 
+      apply_brand_del_flag = '1'
+    where apply_brand_id = #{applyBrandId,jdbcType=BIGINT}
+    and apply_third_id = #{applyThirdId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="delApplyBrands" parameterType="java.util.Map" >
+    update np_apply_brand
+    set 
+      apply_brand_del_flag = '1'
+    
+    where apply_brand_id in
+    <foreach collection="applyBrand" index="index" item="applyBrandId" open="(" separator="," close=")">
+        #{applyBrandId,jdbcType=BIGINT}
+    </foreach>
+      and apply_third_id = #{applyThirdId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.third.seller.bean.ApplyBrand" >
+    update np_apply_brand
+    set apply_brand_name = #{applyBrandName,jdbcType=VARCHAR},
+      apply_brand_pic = #{applyBrandPic,jdbcType=VARCHAR},
+      apply_brand_del_flag = #{applyBrandDelFlag,jdbcType=CHAR},
+      apply_brand_create_time = #{applyBrandCreateTime,jdbcType=TIMESTAMP},
+      apply_modify_time = #{applyModifyTime,jdbcType=TIMESTAMP},
+      apply_third_id = #{applyThirdId,jdbcType=BIGINT}
+    where apply_brand_id = #{applyBrandId,jdbcType=BIGINT}
+  </update>
+  <select id="queryApplyBrand" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" /> 
+  	from np_apply_brand
+  	where  apply_brand_del_flag != '1'
+  	<if test="thirdId != null and thirdId != ''">
+	 	and apply_third_id = #{thirdId,jdbcType=BIGINT}
+	 </if>
+  	<if test="applyBrandName != null and applyBrandName != ''" >
+        and apply_brand_name like CONCAT(CONCAT('%',#{applyBrandName,jdbcType=VARCHAR},'%'))
+      </if>
+      <if test="applyStatus != null and applyBrandName != ''" >
+      	<if test="applyStatus == 1">
+        and apply_status = #{applyStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="applyStatus != 1">
+        and (apply_status = '0' or apply_status = '2')
+        </if>
+        order by apply_brand_create_time desc
+      </if>
+      limit #{startRowNum},#{endRowNum}
+  </select>
+  <select id="queryApplyBrandCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select 
+  	count(1)
+  	from np_apply_brand
+  	where  apply_brand_del_flag != '1'
+	 <if test="thirdId != null and thirdId != ''">
+	 	and apply_third_id = #{thirdId,jdbcType=BIGINT}
+	 </if>
+  	 <if test="applyBrandName != null and applyBrandName != ''" >
+        and apply_brand_name like CONCAT(CONCAT('%',#{applyBrandName,jdbcType=VARCHAR},'%'))
+      </if>
+      <if test="applyStatus != null and applyBrandName != ''" >
+      	<if test="applyStatus == 1">
+        and apply_status = #{applyStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="applyStatus != 1">
+        and (apply_status = '0' or apply_status = '2')
+        </if>
+      </if>
+  </select>
+
+    <update id="updateThirdApplyBrand" parameterType="java.util.Map">
+        update np_apply_brand
+        <set>
+            <if test="storeId !=null and ''!=storeId">
+                apply_third_id = #{storeId,jdbcType=BIGINT},
+            </if>
+        </set>
+        where apply_brand_id in
+        <foreach collection="applyBrandIds" index="index" item="applyBrandId" open="(" separator="," close=")">
+            #{applyBrandId,jdbcType=BIGINT}
+        </foreach>
+    </update>
+</mapper>

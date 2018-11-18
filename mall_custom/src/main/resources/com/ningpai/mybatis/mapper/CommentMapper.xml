@@ -1,0 +1,689 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ningpai.comment.dao.CommentMapper">
+	<resultMap id="BaseResultMap" type="comment">
+		<id column="comment_id" jdbcType="BIGINT" property="commentId" />
+		<result column="customer_id" jdbcType="BIGINT" property="customerId" />
+		<result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+		<result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+		<result column="comment_score" jdbcType="DECIMAL" property="commentScore" />
+		<result column="comment_content" jdbcType="VARCHAR" property="commentContent" />
+		<result column="is_display" jdbcType="CHAR" property="isDisplay" />
+		<result column="is_anonymous" jdbcType="CHAR" property="isAnonymous" />
+		<result column="comment_type" jdbcType="CHAR" property="commentType" />
+		<result column="publish_time" jdbcType="TIMESTAMP" property="publishTime" />
+		<result column="publish_ip" jdbcType="VARCHAR" property="publishIp" />
+		<result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
+		<result column="del_time" jdbcType="TIMESTAMP" property="delTime" />
+		<result column="del_flag" jdbcType="CHAR" property="delFlag" />
+		<result column="is_consult" jdbcType="CHAR" property="isConsult" />
+		<result column="consult_item" jdbcType="VARCHAR" property="consultItem" />
+		<result column="customer_nickname" jdbcType="VARCHAR" property="customerNickname" />
+		<result column="goods_img" jdbcType="VARCHAR" property="goodsImg" />
+		<result column="commnet_tag" jdbcType="VARCHAR" property="commentTag" />
+		<result column="customer_img" jdbcType="VARCHAR" property="customerImg" />
+		<result column="buy_time" jdbcType="TIMESTAMP" property="buyTime" />
+		<result column="cscore_avg" jdbcType="DECIMAL" property="cscoreAvg" />
+		<result column="attscote_avg" jdbcType="DECIMAL" property="attscoteAvg" />
+		<result column="dscore_avg" jdbcType="DECIMAL" property="dscoreAvg" />
+        <collection property="specVo" column="goods_id" javaType="ArrayList" ofType="com.ningpai.goods.vo.GoodsProductReleSpecVo"
+                    select="com.ningpai.goods.dao.GoodsProductReleSpecMapper.queryAllByProductId"
+                ></collection>
+	</resultMap>
+	<resultMap id="commMap" type="comment">
+		<result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+		<result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+		<result column="comment_score" jdbcType="DECIMAL" property="commentScore" />
+		<result column="comment_content" jdbcType="VARCHAR" property="commentContent" />
+		<result column="buy_time" jdbcType="TIMESTAMP" property="publishTime" />
+		<result column="goods_img" jdbcType="VARCHAR" property="goodsImg" />
+		<result column="comment_tag" jdbcType="VARCHAR" property="commentTag" />
+	</resultMap>
+	<resultMap type="comment" id="replayMap" extends="BaseResultMap">
+		<collection property="replays" column="comment_id"  select="com.ningpai.comment.dao.CommentReplayMapper.selectByCommentId" ></collection>
+	</resultMap>
+	<resultMap type="comment" id="shareMap" extends="BaseResultMap">
+		<result column="comment_tag" jdbcType="VARCHAR" property="commentTag" />
+		<collection property="imageList" column="share_id"  select="com.ningpai.comment.dao.ShareImgMapper.queryImgsByShareId" ></collection>
+		<collection property="replays" column="comment_id"  select="com.ningpai.comment.dao.CommentReplayMapper.selectByCommentIdNew" ></collection>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		c.comment_id, c.customer_id, c.goods_id, (SELECT goods_info_name from np_goods_info
+		WHERE goods_info_id = c.goods_id ) goods_name, c.comment_score,
+		c.comment_content, c.is_display,
+		c.is_anonymous, c.publish_time, c.publish_ip, c.modified_time, c.del_time,
+		c.del_flag, c.is_consult, c.consult_item ,c.comment_type,
+		(SELECT customer_nickname from np_customer where customer_id = c.customer_id) customer_nickname,
+		(SELECT customer_img from np_customer where customer_id = c.customer_id) customer_img,
+		(SELECT goods_info_img_id from np_goods_info WHERE goods_info_id =
+		c.goods_id) goods_img,comment_tag,sattitude_score,dgoods_score
+	</sql>
+
+	<!-- 查询所有评论信息 -->
+	<select id="selectAllCommentCount" resultType="java.lang.Long">
+		select
+		count(1)
+		from np_comment c
+		where c.del_flag = '0' and
+		c.is_consult ='0'
+	</select>
+	<!-- 查询所有评论的用户数量 -->
+	<select id="selectAllCommentUserCount" resultType="java.lang.Integer" parameterType="Long">
+	SELECT COUNT(DISTINCT customer_id) FROM np_comment c WHERE goods_id=#{goodsId,jdbcType=BIGINT}
+		and c.del_flag = '0' and is_consult ='0'  and is_display ='1'
+	</select>
+    <!-- 根据商品编号和评论类型查找评论数量 -->
+    <select id="selectAllGoodsCommentCount" resultType="java.lang.Long"
+            parameterType="java.util.Map">
+        select
+        count(1)
+        from np_comment c
+        LEFT JOIN np_order_goods g on g.comment_id = c.comment_id
+        LEFT JOIN np_share ns ON g.share_id = ns.share_id AND (ns.is_display = '1' OR ns.is_display = '2' )
+        where c.del_flag = '0' and
+        <if test="commentType != null and commentType !=''">
+            <if test="commentType == '3' ">
+                c.is_consult ='0'
+            </if>
+            <if test="commentType == '0' | commentType == '1' | commentType == '2'">
+                c.is_consult = '0' and comment_type =#{commentType,jdbcType=CHAR}
+            </if>
+        </if>
+        <if test="commentType == null">
+            c.is_consult ='1' and comment_content like
+            CONCAT(CONCAT('%', #{paramString}),'%')
+        </if>
+        <if test="item != null">
+            and c.consult_item = #{item,jdbcType=VARCHAR}
+        </if>
+        <if test="share!=null">
+            and g.share_id = ns.share_id
+        </if>
+        and c.goods_id=#{goodsId,jdbcType=BIGINT} and c.is_display ='1'
+	</select>
+	<select id="selectAllCommentByGoodsId" resultMap="shareMap" parameterType="java.util.Map">
+		select
+        ns.share_id,g.buy_time,<include refid="Base_Column_List" />
+		from np_comment c
+		LEFT JOIN np_order_goods g on g.comment_id = c.comment_id
+        LEFT JOIN np_share ns ON g.share_id = ns.share_id AND (ns.is_display = '1' OR ns.is_display = '2' )
+		where c.del_flag ='0' and
+		<if test="commentType != null">
+			<if test="commentType == '3'">
+				c.is_consult ='0'
+			</if>
+			<if test="commentType == '0' | commentType == '1' | commentType == '2'">
+				c.is_consult ='0' and comment_type =
+				#{commentType,jdbcType=CHAR}
+			</if>
+		</if>
+		<if test="commentType == null">
+			c.is_consult = '1' and comment_content like
+			CONCAT(CONCAT('%', #{paramString}),'%')
+		</if>
+		<if test="item != null">
+			and c.consult_item = #{item,jdbcType=VARCHAR}
+		</if>
+        <if test="share!=null">
+            and g.share_id = ns.share_id
+        </if>
+		and c.goods_id=#{goodsId,jdbcType=BIGINT} and c.is_display ='1'
+		order by
+		publish_time desc
+        <if test="noPage==null">
+            limit   #{startRowNum,jdbcType=BIGINT},#{endRowNum,jdbcType=BIGINT}
+        </if>
+	</select>
+
+	<select id="selectAllConsultCount" resultType="java.lang.Long">
+		select
+		count(1)
+		from np_comment c
+		where c.del_flag = '0' and
+		c.is_consult = '1'
+	</select>
+
+	<select id="selectAllConsult" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from np_comment c
+		where c.del_flag = '0' and c.is_consult = '1'
+		order by publish_time desc
+		limit
+		#{startRowNum,jdbcType=BIGINT},#{endRowNum,jdbcType=BIGINT}
+	</select>
+
+	<select id="selectCommentByLimit" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from np_comment c
+		where c.del_flag ='0' and c.is_consult = '0'
+		order by publish_time desc
+		limit
+		#{startRowNum,jdbcType=BIGINT},#{endRowNum,jdbcType=BIGINT}
+	</select>
+
+
+	<!-- 查询 -->
+	<select id="selectGoodAllCommCount" resultType="java.lang.Long"
+		parameterType="java.lang.Long">
+		select
+		count(c.del_flag)
+		from np_comment c
+		where c.del_flag = '0' and c.is_consult = '0' and c.goods_id
+		=#{goodsId,jdbcType=BIGINT}
+	</select>
+	<!-- 高级搜索 查询评论详细信息 -->
+	<select id="selectCommentCount" resultType="java.lang.Long" parameterType="comment">
+		select
+		count(c.del_flag)
+		from np_comment c
+		inner join np_goods_info i
+		inner join np_customer a
+		where c.del_flag = '0' and c.is_consult = '0' and a.customer_id =
+		c.customer_id and i.goods_info_id = c.goods_id and
+		<if test="goodsName != null and goodsName !=''">
+			i.goods_info_name like CONCAT(CONCAT('%', #{goodsName}),'%') and
+		</if>
+		<if test="customerNickname != null and customerNickname !=''">
+			a.customer_nickname like CONCAT(CONCAT('%', #{customerNickname}),'%')
+			and
+		</if>
+		<if test="isDisplay != null and isDisplay !=''">
+			c.is_display = #{isDisplay} and
+		</if>
+		<if
+			test="publishTime != null and publishTime !='' and publishTimeTo != null and publishTimeTo!=''">
+			c.publish_time between #{publishTime} and #{publishTimeTo} and
+		</if>
+		<if
+			test="publishTime != null and publishTime !='' and publishTimeTo == null or publishTimeTo==''">
+			c.publish_time &gt; #{publishTime} and
+		</if>
+		<if
+			test="publishTimeTo != null and publishTimeTo!='' and publishTime == null or publishTime ==''">
+			c.publish_time &lt; #{publishTimeTo} and
+		</if>
+		1=1
+		order by c.publish_time desc
+	</select>
+
+	<select id="selectCommentByComment" resultMap="BaseResultMap" parameterType="comment">
+		select
+		<include refid="Base_Column_List" />
+		from np_comment c
+		inner join np_goods_info i
+		inner join np_customer a
+		where c.del_flag = '0' and c.is_consult = '0' and a.customer_id =
+		c.customer_id and i.goods_info_id = c.goods_id and
+		<if test="goodsName != null and goodsName !=''">
+			i.goods_info_name like CONCAT(CONCAT('%', #{goodsName}),'%') and
+		</if>
+		<if test="customerNickname != null and customerNickname !=''">
+			a.customer_nickname like CONCAT(CONCAT('%', #{customerNickname}),'%')
+			and
+		</if>
+		<if test="isDisplay != null and isDisplay !=''">
+			c.is_display =#{isDisplay} and
+		</if>
+		<if
+			test="publishTime != null and publishTime !='' and publishTimeTo != null and publishTimeTo!=''">
+			c.publish_time between #{publishTime} and #{publishTimeTo} and
+		</if>
+		<if
+			test="publishTime != null and publishTime !='' and publishTimeTo == null or publishTimeTo==''">
+			c.publish_time &gt; #{publishTime} and
+		</if>
+		<if
+			test="publishTimeTo != null and publishTimeTo!='' and publishTime == null or publishTime ==''">
+			c.publish_time &lt; #{publishTimeTo} and
+		</if>
+		1=1
+		order by c.publish_time desc
+		limit #{startRowNum,jdbcType=BIGINT},#{endRowNum,jdbcType=BIGINT}
+	</select>
+
+	<select id="selectConsultByConsult" resultMap="BaseResultMap" parameterType="comment">
+		select
+		<include refid="Base_Column_List" />
+		from np_comment c
+		inner join np_goods_info i
+		inner join np_customer a
+		where c.del_flag ='0' and c.is_consult = '1' and a.customer_id
+		= c.customer_id and i.goods_info_id = c.goods_id and
+		<if test="goodsName != null and goodsName !=''">
+			i.goods_info_name like CONCAT(CONCAT('%', #{goodsName}),'%') and
+		</if>
+		<if test="customerNickname != null and customerNickname !=''">
+			a.customer_nickname like CONCAT(CONCAT('%', #{customerNickname}),'%')
+			and
+		</if>
+		<if test="isDisplay != null and isDisplay !=''">
+			c.is_display =#{isDisplay} and
+		</if>
+		<if
+			test="publishTime != null and publishTime !='' and publishTimeTo != null and publishTimeTo!=''">
+			c.publish_time between #{publishTime} and #{publishTimeTo} and
+		</if>
+		<if
+			test="publishTime != null and publishTime !='' and publishTimeTo == null or publishTimeTo==''">
+			c.publish_time &gt; #{publishTime} and
+		</if>
+		<if
+			test="publishTimeTo != null and publishTimeTo!='' and publishTime == null or publishTime ==''">
+			c.publish_time &lt; #{publishTimeTo} and
+		</if>
+		1=1
+		order by c.publish_time desc
+		limit #{startRowNum,jdbcType=BIGINT},#{endRowNum,jdbcType=BIGINT}
+	</select>
+
+	<select id="selectConsultCount" resultType="java.lang.Long" parameterType="comment">
+		select
+		count(c.del_flag)
+		from np_comment c
+		inner join np_goods_info i
+		inner join np_customer a
+		where c.del_flag = '0' and c.is_consult = '1' and a.customer_id =
+		c.customer_id and i.goods_info_id = c.goods_id and
+		<if test="goodsName != null and goodsName !=''">
+			i.goods_info_name like CONCAT(CONCAT('%', #{goodsName}),'%') and
+		</if>
+		<if test="customerNickname != null and customerNickname !=''">
+			a.customer_nickname like CONCAT(CONCAT('%', #{customerNickname}),'%')
+			and
+		</if>
+		<if test="isDisplay != null and isDisplay !=''">
+			c.is_display =#{isDisplay} and
+		</if>
+		<if
+			test="publishTime != null and publishTime !='' and publishTimeTo != null and publishTimeTo!=''">
+			c.publish_time between #{publishTime} and #{publishTimeTo} and
+		</if>
+		<if
+			test="publishTime != null and publishTime !='' and publishTimeTo == null or publishTimeTo==''">
+			c.publish_time &gt; #{publishTime} and
+		</if>
+		<if
+			test="publishTimeTo != null and publishTimeTo!='' and publishTime == null or publishTime ==''">
+			c.publish_time &lt; #{publishTimeTo} and
+		</if>
+		1=1
+		order by c.publish_time desc
+	</select>
+
+
+	<select id="selectByCommentId" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from np_comment c
+		where c.comment_id = #{commentId,jdbcType=BIGINT}
+	</select>
+
+	<!-- 根据编号删除评论 -->
+	<update id="deleteCommentById" parameterType="java.lang.Long">
+		update np_comment
+		set del_flag = '1', del_time = SYSDATE()
+		where comment_id = #{parseLong,jdbcType=BIGINT}
+	</update>
+
+	<insert id="insertSelective" parameterType="com.ningpai.comment.bean.Comment">
+		insert into np_comment
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="commentId != null">
+				comment_id,
+			</if>
+			<if test="customerId != null">
+				customer_id,
+			</if>
+			<if test="goodsId != null">
+				goods_id,
+			</if>
+			<if test="goodsName != null">
+				goods_name,
+			</if>
+			<if test="commentScore != null">
+				comment_score,
+			</if>
+			<if test="commentContent != null">
+				comment_content,
+			</if>
+			<if test="isDisplay != null">
+				is_display,
+			</if>
+			<if test="isAnonymous != null">
+				is_anonymous,
+			</if>
+			<if test="publishTime != null">
+				publish_time,
+			</if>
+			<if test="publishIp != null">
+				publish_ip,
+			</if>
+			<if test="modifiedTime != null">
+				modified_time,
+			</if>
+			<if test="delTime != null">
+				del_time,
+			</if>
+			<if test="delFlag != null">
+				del_flag,
+			</if>
+			<if test="isConsult != null">
+				is_consult,
+			</if>
+			<if test="consultItem != null">
+				consult_item,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="commentId != null">
+				#{commentId,jdbcType=BIGINT},
+			</if>
+			<if test="customerId != null">
+				#{customerId,jdbcType=BIGINT},
+			</if>
+			<if test="goodsId != null">
+				#{goodsId,jdbcType=BIGINT},
+			</if>
+			<if test="goodsName != null">
+				#{goodsName,jdbcType=VARCHAR},
+			</if>
+			<if test="commentScore != null">
+				#{commentScore,jdbcType=DECIMAL},
+			</if>
+			<if test="commentContent != null">
+				#{commentContent,jdbcType=VARCHAR},
+			</if>
+			<if test="isDisplay != null">
+				#{isDisplay,jdbcType=CHAR},
+			</if>
+			<if test="isAnonymous != null">
+				#{isAnonymous,jdbcType=CHAR},
+			</if>
+			<if test="publishTime != null">
+				#{publishTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="publishIp != null">
+				#{publishIp,jdbcType=VARCHAR},
+			</if>
+			<if test="modifiedTime != null">
+				#{modifiedTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="delTime != null">
+				#{delTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="delFlag != null">
+				#{delFlag,jdbcType=CHAR},
+			</if>
+			<if test="isConsult != null">
+				#{isConsult,jdbcType=CHAR},
+			</if>
+			<if test="consultItem != null">
+				#{consultItem,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.ningpai.comment.bean.Comment">
+		update np_comment
+		<set>
+			<if test="customerId != null">
+				customer_id = #{customerId,jdbcType=BIGINT},
+			</if>
+			<if test="goodsId != null">
+				goods_id = #{goodsId,jdbcType=BIGINT},
+			</if>
+			<if test="goodsName != null">
+				goods_name = #{goodsName,jdbcType=VARCHAR},
+			</if>
+			<if test="commentScore != null">
+				comment_score = #{commentScore,jdbcType=DECIMAL},
+			</if>
+			<if test="commentContent != null">
+				comment_content = #{commentContent,jdbcType=VARCHAR},
+			</if>
+			<if test="isDisplay != null">
+				is_display = #{isDisplay,jdbcType=CHAR},
+			</if>
+			<if test="isAnonymous != null">
+				is_anonymous = #{isAnonymous,jdbcType=CHAR},
+			</if>
+			<if test="publishTime != null">
+				publish_time = #{publishTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="publishIp != null">
+				publish_ip = #{publishIp,jdbcType=VARCHAR},
+			</if>
+			<if test="modifiedTime != null">
+				modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="delTime != null">
+				del_time = #{delTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="delFlag != null">
+				del_flag = #{delFlag,jdbcType=CHAR},
+			</if>
+			<if test="isConsult != null">
+				is_consult = #{isConsult,jdbcType=CHAR},
+			</if>
+			<if test="consultItem != null">
+				consult_item = #{consultItem,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where comment_id = #{commentId,jdbcType=BIGINT}
+	</update>
+
+	<insert id="addGoodsComment" parameterType="com.ningpai.comment.bean.Comment"
+		useGeneratedKeys="true" keyProperty="commentId">
+		insert into np_comment
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="commentId != null">
+				comment_id,
+			</if>
+			<if test="customerId != null">
+				customer_id,
+			</if>
+			<if test="goodsId != null">
+				goods_id,
+			</if>
+			<if test="goodsName != null">
+				goods_name,
+			</if>
+			<if test="commentScore != null">
+				comment_score,
+			</if>
+			<if test="commentContent != null">
+				comment_content,
+			</if>
+			<if test="isDisplay != null">
+				is_display,
+			</if>
+			<if test="isAnonymous != null">
+				is_anonymous,
+			</if>
+			<if test="publishTime != null">
+				publish_time,
+			</if>
+			<if test="publishIp != null">
+				publish_ip,
+			</if>
+			<if test="modifiedTime != null">
+				modified_time,
+			</if>
+			<if test="delTime != null">
+				del_time,
+			</if>
+			<if test="delFlag != null">
+				del_flag,
+			</if>
+			<if test="isConsult != null">
+				is_consult,
+			</if>
+			<if test="consultItem != null">
+				consult_item,
+			</if>
+			<if test="commentType != null">
+				comment_type,
+			</if>
+			<if test="commentTag != null">
+				comment_tag,
+			</if>
+			<if test="sattitudeScore != null">
+				sattitude_score ,
+			</if>
+			<if test="dgoodsScore != null">
+				dgoods_score,
+			</if>
+            <if test="orderGoodsId != null">
+                order_goods_id,
+            </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="commentId != null">
+				#{commentId,jdbcType=BIGINT},
+			</if>
+			<if test="customerId != null">
+				#{customerId,jdbcType=BIGINT},
+			</if>
+			<if test="goodsId != null">
+				#{goodsId,jdbcType=BIGINT},
+			</if>
+			<if test="goodsName != null">
+				#{goodsName,jdbcType=VARCHAR},
+			</if>
+			<if test="commentScore != null">
+				#{commentScore,jdbcType=DECIMAL},
+			</if>
+			<if test="commentContent != null">
+				#{commentContent,jdbcType=VARCHAR},
+			</if>
+			<if test="isDisplay != null">
+				#{isDisplay,jdbcType=CHAR},
+			</if>
+			<if test="isAnonymous != null">
+				#{isAnonymous,jdbcType=CHAR},
+			</if>
+			<if test="publishTime != null">
+				#{publishTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="publishIp != null">
+				#{publishIp,jdbcType=VARCHAR},
+			</if>
+			<if test="modifiedTime != null">
+				#{modifiedTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="delTime != null">
+				#{delTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="delFlag != null">
+				#{delFlag,jdbcType=CHAR},
+			</if>
+			<if test="isConsult != null">
+				#{isConsult,jdbcType=CHAR},
+			</if>
+			<if test="consultItem != null">
+				#{consultItem,jdbcType=VARCHAR},
+			</if>
+			<if test="commentType != null">
+				#{commentType,jdbcType=CHAR},
+			</if>
+			<if test="commentTag != null">
+				#{commentTag,jdbcType=VARCHAR},
+			</if>
+			<if test="sattitudeScore != null">
+				#{sattitudeScore,jdbcType=DECIMAL},
+			</if>
+			<if test="dgoodsScore != null">
+				#{dgoodsScore,jdbcType=DECIMAL},
+			</if><if test="orderGoodsId != null">
+            #{orderGoodsId,jdbcType=BIGINT},
+        </if>
+
+		</trim>
+	</insert>
+	
+	<select id="queryCustConsultCount" resultType="java.lang.Long" parameterType="comment">
+		select
+		count(c.del_flag)
+		from np_comment c
+		where c.del_flag = '0' and c.is_consult = '1' and
+		<if test="eFlag != null" >
+			<if test="eFlag == 0"  >
+				c.comment_id not in (SELECT re.comment_id from np_comment_replay re where re.comment_id = c.comment_id) and
+			</if>
+			<if test="eFlag == 1"  >
+				c.comment_id  in (SELECT re.comment_id from np_comment_replay re where re.comment_id = c.comment_id) and
+			</if>
+		</if>
+		customer_id = #{customerId,jdbcType=BIGINT}
+		order by c.publish_time desc
+	</select>
+
+	<select id="queryCustConsult" resultMap="replayMap" parameterType="java.util.Map">
+		select
+		c.comment_id, c.customer_id, c.goods_id, (SELECT goods_info_name from np_goods_info
+		WHERE goods_info_id = c.goods_id ) goods_name, 
+		c.comment_content, c.is_display, c.is_anonymous, c.publish_time, c.publish_ip, c.is_consult, 
+		(SELECT goods_info_img_id from np_goods_info WHERE goods_info_id =
+		c.goods_id) goods_img
+		from np_comment c
+		inner join np_goods_info i
+		inner join np_customer a
+		where c.del_flag ='0' and c.is_consult = '1' and a.customer_id = c.customer_id and i.goods_info_id = c.goods_id and
+		<if test="comment.eFlag != null" >
+			<if test="comment.eFlag == 0"  >
+				c.comment_id not in (SELECT re.comment_id from np_comment_replay re where re.comment_id = c.comment_id) and
+			</if>
+			<if test="comment.eFlag == 1"  >
+				c.comment_id  in (SELECT re.comment_id from np_comment_replay re where re.comment_id = c.comment_id) and
+			</if>
+		</if>
+		c.customer_id = #{comment.customerId,jdbcType=BIGINT}
+		order by c.publish_time desc
+		limit #{startRowNum,jdbcType=BIGINT},#{endRowNum,jdbcType=BIGINT}
+	</select>
+
+
+	<select id="queryCustCommentCount" resultType="java.lang.Long" parameterType="comment">
+		SELECT 
+		count(1)
+		from np_order_goods g
+		inner join np_comment m on g.comment_id=m.comment_id
+		where m.customer_id = #{customerId,jdbcType=BIGINT} and m.del_flag= '0' and m.is_consult = '0' 
+	</select>
+
+	<select id="queryCustComment" resultMap="commMap" parameterType="java.util.Map">
+		SELECT 
+		 m.comment_id,m.goods_id,g.buy_time,comment_content,
+		(SELECT goods_info_name from np_goods_info WHERE goods_info_id = m.goods_id ) goods_name,
+		(SELECT goods_info_img_id from np_goods_info WHERE goods_info_id = m.goods_id) goods_img
+		from np_order_goods g
+		inner join np_comment m on g.comment_id=m.comment_id
+		where   m.del_flag= '0' and m.is_consult = '0'
+		and m.customer_id  = #{comment.customerId,jdbcType=BIGINT}
+		order by g.buy_time desc
+		limit #{startRowNum,jdbcType=BIGINT},#{endRowNum,jdbcType=BIGINT}
+	</select>
+	<select id="queryAllComment" resultMap="BaseResultMap">
+	  select
+        <include refid="Base_Column_List" />
+        from np_comment c
+        inner join np_goods_info i on i.goods_info_id = c.goods_id
+        inner join np_customer a on a.customer_id = c.customer_id 
+        where c.del_flag = '0' and c.is_consult = '0'
+	</select>
+	
+	<select id="selectGoodsInfoIdByNo" resultType="java.lang.Long" parameterType="java.lang.String">
+	   select i.goods_info_id as id from np_goods_info i where i.goods_info_item_no = #{goodsNo,jdbcType=VARCHAR} limit 0,1
+	</select>
+	
+	<!-- 根据订单评分获取店铺商品的评级 -->
+	<select id="goodscommentavg" resultMap="BaseResultMap" parameterType="java.lang.Long">
+   select (select AVG(comment_score) from np_comment com  left join np_goods_info ginfo on com.goods_id = ginfo.goods_info_id where 1=1 and ginfo.third_id =#{thirdId} and del_flag = '0' and comment_score !=0) cscore_avg,
+   (select avg(sattitude_score) from np_comment com  left join np_goods_info ginfo on com.goods_id = ginfo.goods_info_id where 1=1 and ginfo.third_id =#{thirdId} and del_flag = '0' and sattitude_score !=0 ) attscote_avg,
+   (select avg(dgoods_score) from  np_comment com  left join np_goods_info ginfo on com.goods_id = ginfo.goods_info_id where 1=1 and ginfo.third_id =#{thirdId} and del_flag = '0' and dgoods_score !=0)dscore_avg 
+   from dual
+	</select>
+</mapper>

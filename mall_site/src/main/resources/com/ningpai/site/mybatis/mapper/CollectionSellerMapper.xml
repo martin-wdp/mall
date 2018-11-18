@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.site.dao.CollectionSellerMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.site.thirdseller.bean.CollectionSeller" >
+    <id column="collection_seller_id" property="collectionSellerId" jdbcType="BIGINT" />
+    <result column="collection_third_id" property="collectionThirdId" jdbcType="BIGINT" />
+    <result column="collection_customer_id" property="collectionCustomerId" jdbcType="BIGINT" />
+    <result column="collection_del_flag" property="collectionDelFlag" jdbcType="CHAR" />
+    <result column="collection_create_time" property="collectionCreateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+    <!--店铺信息映射-->
+  <resultMap id="storeMap" type="com.ningpai.site.thirdseller.bean.ThirdStoreInfo">
+     <id jdbcType="BIGINT" property="storeId" column="store_id" />
+      <result  jdbcType="VARCHAR" property="storeName" column="store_name"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    collection_seller_id, collection_third_id, collection_customer_id, collection_del_flag, 
+    collection_create_time
+  </sql>
+  
+  
+  <!-- -查询是否收藏过此商家 -->
+  <select id="selectCollectionSeller" resultType="java.lang.Integer" parameterType="com.ningpai.site.thirdseller.bean.CollectionSeller" >
+    select count(1)
+    from np_collection_seller
+    where collection_third_id = #{collectionThirdId,jdbcType=BIGINT} and collection_customer_id = #{collectionCustomerId,jdbcType=BIGINT}
+    and collection_del_flag = '0'
+  </select>
+  
+    <!-- -收藏商家-->
+    <insert id="addCollectionSeller" parameterType="com.ningpai.site.thirdseller.bean.CollectionSeller" >
+    insert into np_collection_seller (collection_seller_id, collection_third_id, 
+      collection_customer_id, collection_del_flag, collection_create_time
+      )
+    values (#{collectionSellerId,jdbcType=BIGINT}, #{collectionThirdId,jdbcType=BIGINT}, 
+      #{collectionCustomerId,jdbcType=BIGINT}, #{collectionDelFlag,jdbcType=CHAR}, #{collectionCreateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  
+  
+  <!--根据会员ID获取店铺信息-->
+  <select id="selectStoreByCustomerId" resultMap="storeMap" parameterType="java.util.Map" >
+    select store_name  from np_third_store_info  where store_id = #{storeId,jdbcType=BIGINT}
+  </select>
+  
+  
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_collection_seller
+    where collection_seller_id = #{collectionSellerId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_collection_seller
+    where collection_seller_id = #{collectionSellerId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.site.thirdseller.bean.CollectionSeller" >
+    insert into np_collection_seller (collection_seller_id, collection_third_id, 
+      collection_customer_id, collection_del_flag, collection_create_time
+      )
+    values (#{collectionSellerId,jdbcType=BIGINT}, #{collectionThirdId,jdbcType=BIGINT}, 
+      #{collectionCustomerId,jdbcType=BIGINT}, #{collectionDelFlag,jdbcType=CHAR}, #{collectionCreateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.site.thirdseller.bean.CollectionSeller" >
+    insert into np_collection_seller
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="collectionSellerId != null" >
+        collection_seller_id,
+      </if>
+      <if test="collectionThirdId != null" >
+        collection_third_id,
+      </if>
+      <if test="collectionCustomerId != null" >
+        collection_customer_id,
+      </if>
+      <if test="collectionDelFlag != null" >
+        collection_del_flag,
+      </if>
+      <if test="collectionCreateTime != null" >
+        collection_create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="collectionSellerId != null" >
+        #{collectionSellerId,jdbcType=BIGINT},
+      </if>
+      <if test="collectionThirdId != null" >
+        #{collectionThirdId,jdbcType=BIGINT},
+      </if>
+      <if test="collectionCustomerId != null" >
+        #{collectionCustomerId,jdbcType=BIGINT},
+      </if>
+      <if test="collectionDelFlag != null" >
+        #{collectionDelFlag,jdbcType=CHAR},
+      </if>
+      <if test="collectionCreateTime != null" >
+        #{collectionCreateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.site.thirdseller.bean.CollectionSeller" >
+    update np_collection_seller
+    <set >
+      <if test="collectionThirdId != null" >
+        collection_third_id = #{collectionThirdId,jdbcType=BIGINT},
+      </if>
+      <if test="collectionCustomerId != null" >
+        collection_customer_id = #{collectionCustomerId,jdbcType=BIGINT},
+      </if>
+      <if test="collectionDelFlag != null" >
+        collection_del_flag = #{collectionDelFlag,jdbcType=CHAR},
+      </if>
+      <if test="collectionCreateTime != null" >
+        collection_create_time = #{collectionCreateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where collection_seller_id = #{collectionSellerId,jdbcType=BIGINT}
+  </update>
+  
+  
+  
+  <update id="delMyFollw" parameterType="java.util.Map" >
+    update np_collection_seller
+    set 
+      collection_del_flag = '1'
+    where collection_seller_id = #{collectionSellerId,jdbcType=BIGINT} 
+    and  collection_customer_id = #{collectionCustomerId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.site.thirdseller.bean.CollectionSeller" >
+    update np_collection_seller
+    set collection_third_id = #{collectionThirdId,jdbcType=BIGINT},
+      collection_customer_id = #{collectionCustomerId,jdbcType=BIGINT},
+      collection_del_flag = #{collectionDelFlag,jdbcType=CHAR},
+      collection_create_time = #{collectionCreateTime,jdbcType=TIMESTAMP}
+    where collection_seller_id = #{collectionSellerId,jdbcType=BIGINT}
+  </update>
+</mapper>

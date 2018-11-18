@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ningpai.customer.dao.OCustomerMapper">
+	<resultMap id="BaseResultMap" type="com.ningpai.api.bean.OCustomer">
+		<id column="customer_id" jdbcType="BIGINT" property="customerId" />
+		<result column="customer_username" jdbcType="VARCHAR" property="customerUsername" />
+		<result column="customer_nickname" jdbcType="VARCHAR" property="customerNickname" />
+		<result column="customer_img" jdbcType="VARCHAR" property="customerImg" />
+		<result column="point_level_name" jdbcType="VARCHAR" property="pointLvelName" />
+		<result column="is_mobile" jdbcType="CHAR" property="isMobile" />
+		<result column="is_email" jdbcType="CHAR" property="isEmail" />
+		<result column="is_seller" jdbcType="CHAR" property="isSeller" />
+		<result column="third_id" jdbcType="BIGINT" property="thirdId" />
+	</resultMap>
+
+	<resultMap type="com.ningpai.api.bean.OCustomerAllInfo" id="cusinfoMap" extends="BaseResultMap">
+		<result column="info_mobile" jdbcType="VARCHAR" property="infoMobile" />
+		<result column="info_email" jdbcType="VARCHAR" property="infoEmail" />
+		<result column="info_province" jdbcType="VARCHAR" property="infoProvince" />
+		<result column="info_city" jdbcType="VARCHAR" property="infoCity" />
+		<result column="info_county" jdbcType="VARCHAR" property="infoCounty" />
+		<result column="info_street" jdbcType="VARCHAR" property="infoStreet" />
+		<result column="is_flag" jdbcType="CHAR" property="isFlag" />
+		<result column="del_flag" jdbcType="CHAR" property="delFlag" />
+	</resultMap>
+
+	<sql id="customer_sql">
+		cus.customer_id,customer_username,customer_nickname,customer_img,info.point_level_name,third_id,is_mobile,is_seller,is_email
+	</sql>
+	<!--查询会员列表 2015年08月26日16:59:23 lih-->
+	<select id="list" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="customer_sql"/>
+		from np_customer cus
+		INNER JOIN np_customer_info info on cus.customer_id=info.customer_id
+		where cus.del_flag='0'
+		limit #{start},#{end}
+	</select>
+
+	<!--查询总行数-->
+	<select id="count" resultType="java.lang.Integer">
+		select count(1)
+		from np_customer cus
+		INNER JOIN np_customer_info info on cus.customer_id=info.customer_id
+		where cus.del_flag='0'
+	</select>
+
+	<!--获取客户id lih 2015年08月26日19:20:42-->
+	<select id="get" resultMap="cusinfoMap" parameterType="java.lang.String">
+		select cus.customer_id,customer_username,customer_nickname,customer_img,info.point_level_name,third_id,is_mobile
+		,is_seller,is_email,info_email,info_mobile,info_province,info_city,info_county,infoStreet
+		from np_customer cus
+		inner join np_customer_info info on cus.customer_id=info.customer_id
+		where cus.del_flag='0' and cus.customer_username=#{customerUserName}
+	</select>
+
+
+	<!-- 检测手机存在性 -->
+	<select id="checkMobileExist" parameterType="java.lang.String" resultType="java.lang.Long">
+		select
+		count(1)
+		from np_customer_info i
+		INNER JOIN np_customer c on c.customer_id = i.customer_id
+		where  i.info_mobile= #{mobile} and i.del_flag ='0' and c.del_flag = '0'
+	</select>
+
+	<!-- 检测邮箱存在性 -->
+	<select id="checkEmailExist" parameterType="java.lang.String" resultType="java.lang.Long">
+		select
+		count(1)
+		from np_customer_info i
+		INNER JOIN np_customer c on c.customer_id = i.customer_id
+		where  i.info_email= #{email} and i.del_flag ='0' and c.del_flag = '0'
+	</select>
+	<insert id="insertSelective" parameterType="com.ningpai.api.bean.OCustomerAllInfo">
+		insert into np_customer
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="customerId != null">
+				customer_id,
+			</if>
+			<if test="thirdId != null">
+				third_id,
+			</if>
+			<if test="isSeller != null">
+				is_seller,
+			</if>
+			<if test="customerUsername != null">
+				customer_username,
+			</if>
+			<if test="customerPassword != null">
+				customer_password,
+			</if>
+			<if test="customerNickname != null">
+				customer_nickname,
+			</if>
+			<if test="isMobile == null">
+				is_mobile,
+			</if>
+			<if test="isEmail == null">
+				is_email,
+			</if>
+			<if test="isMobile != null">
+				is_mobile,
+			</if>
+			<if test="isEmail != null">
+				is_email,
+			</if>
+			<if test="isFlag == null">
+				is_flag,
+			</if>
+			<if test="loginTime == null">
+				login_time,
+			</if>
+			<if test="createTime == null">
+				create_time,
+			</if>
+			<if test="modifiedTime == null">
+				modified_time,
+			</if>
+			<if test="delFlag == null">
+				del_flag,
+			</if>
+			<if test="delTime == null">
+				del_time,
+			</if>
+			<if test="aeadTime == null">
+				aead_time,
+			</if>
+			<if test="customerImg != null">
+				customer_img,
+			</if>
+			<if test="thirdId == null">
+				third_id
+			</if>
+
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="customerId != null">
+				#{customerId,jdbcType=BIGINT},
+			</if>
+			<if test="thirdId != null">
+				#{thirdId,jdbcType=BIGINT},
+			</if>
+			<if test="isSeller != null">
+				#{isSeller,jdbcType=BIGINT},
+			</if>
+			<if test="customerUsername != null">
+				#{customerUsername,jdbcType=VARCHAR},
+			</if>
+			<if test="customerPassword != null">
+				md5(#{customerPassword,jdbcType=VARCHAR}),
+			</if>
+			<if test="customerNickname != null">
+				#{customerNickname,jdbcType=VARCHAR},
+			</if>
+			<if test="isMobile == null">
+				'0',
+			</if>
+			<if test="isEmail == null">
+				'0',
+			</if>
+			<if test="isMobile != null">
+				#{isMobile,jdbcType=CHAR},
+			</if>
+			<if test="isEmail != null">
+				#{isEmail,jdbcType=CHAR},
+			</if>
+			<if test="isFlag == null">
+				'0',
+			</if>
+			<if test="loginTime == null">
+				SYSDATE(),
+			</if>
+			<if test="createTime == null">
+				SYSDATE(),
+			</if>
+			<if test="modifiedTime == null">
+				SYSDATE(),
+			</if>
+			<if test="delFlag == null">
+				'0',
+			</if>
+			<if test="delTime == null">
+				SYSDATE(),
+			</if>
+			<if test="aeadTime == null">
+				date_sub(now(), INTERVAL 1 DAY),
+			</if>
+			<if test="customerImg != null">
+				#{customerImg,jdbcType=VARCHAR},
+			</if>
+			<if test="thirdId == null">
+				'0'
+			</if>
+
+		</trim>
+	</insert>
+
+	<!-- 根据会员名和类型检验会员是否存在 -->
+	<select id="checkExistsByCustNameAndType" parameterType="java.util.Map" resultType="java.lang.Long">
+		<if test="uType == 'username'">
+			select
+			count(1)
+			from np_customer c
+			where c.customer_username = #{username} and c.del_flag ='0'
+		</if>
+		<if test="uType == 'mobile'">
+			select
+			count(1)
+			from np_customer_info i
+			INNER JOIN np_customer c on c.customer_id = i.customer_id
+			where i.info_mobile= #{username} and i.del_flag ='0' and c.del_flag = '0'
+		</if>
+		<if test="uType == 'email'">
+			select
+			count(1)
+			from np_customer_info i
+			INNER JOIN np_customer c on c.customer_id = i.customer_id
+			where i.info_email= #{username} and i.del_flag ='0' and c.del_flag = '0'
+		</if>
+	</select>
+
+
+	<insert id="insertSelectiveAllInfo" parameterType="com.ningpai.api.bean.OCustomerAllInfo">
+		insert into np_customer_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="infoId != null">
+				info_id,
+			</if>
+			<if test="customerId != null">
+				customer_id,
+			</if>
+			<if test="infoRealname != null">
+				info_realname,
+			</if>
+			<if test="infoCardid != null">
+				info_cardid,
+			</if>
+			<if test="infoGender != null">
+				info_gender,
+			</if>
+
+			<if test="infoBirthday != null">
+				info_birthday,
+			</if>
+			<if test="infoRegip != null">
+				info_regip,
+			</if>
+			<if test="infoProvince != null and infoProvince != ''">
+				info_province,
+			</if>
+			<if test="infoCity != null">
+				info_city,
+			</if>
+			<if test="infoCounty != null">
+				info_county,
+			</if>
+			<if test="infoStreet != null">
+				infoStreet,
+			</if>
+			<if test="infoAddress != null">
+				info_address,
+			</if>
+			<if test="infoMarital != null">
+				info_marital,
+			</if>
+			<if test="infoSalary != null">
+				info_salary,
+			</if>
+			<if test="infoInterest != null">
+				info_interest,
+			</if>
+			<if test="infoEmail != null">
+				info_email,
+			</if>
+			<if test="infoMobile != null">
+				info_mobile,
+			</if>
+			<if test="balanceSum == null">
+				balance_sum,
+			</if>
+			<if test="infoPointSum == null">
+				info_point_sum,
+			</if>
+			<if test="infoType == null">
+				info_type,
+			</if>
+			<if test="infoRegisterTime == null">
+				info_register_time,
+			</if>
+			<if test="modifiedTime == null">
+				modified_time,
+			</if>
+			<if test="delFlag == null">
+				del_flag,
+			</if>
+			<if test="infoPhone != null">
+				info_phone,
+			</if>
+			<if test="infoZip != null">
+				info_zip,
+			</if>
+			<if test="delTime == null">
+				del_time,
+			</if>
+			<if test="pointLevelName == null">
+				point_level_name,
+			</if>
+			<if test="pointLevelId != null">
+				point_level_id
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="infoId != null">
+				#{infoId,jdbcType=BIGINT},
+			</if>
+			<if test="customerId != null">
+				#{customerId,jdbcType=BIGINT},
+			</if>
+			<if test="infoRealname != null">
+				#{infoRealname,jdbcType=VARCHAR},
+			</if>
+			<if test="infoCardid != null">
+				#{infoCardid,jdbcType=VARCHAR},
+			</if>
+			<if test="infoGender != null">
+				#{infoGender,jdbcType=CHAR},
+			</if>
+
+
+			<if test="infoBirthday != null">
+				#{infoBirthday,jdbcType=VARCHAR},
+			</if>
+			<if test="infoRegip != null">
+				#{infoRegip,jdbcType=VARCHAR},
+			</if>
+			<if test="infoProvince != null and infoProvince != ''">
+				#{infoProvince,jdbcType=VARCHAR},
+			</if>
+			<if test="infoCity != null">
+				#{infoCity,jdbcType=VARCHAR},
+			</if>
+			<if test="infoCounty != null">
+				#{infoCounty,jdbcType=VARCHAR},
+			</if>
+			<if test="infoStreet != null">
+				#{infoStreet,jdbcType=VARCHAR},
+			</if>
+			<if test="infoAddress != null">
+				#{infoAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="infoMarital != null">
+				#{infoMarital,jdbcType=CHAR},
+			</if>
+			<if test="infoSalary != null">
+				#{infoSalary,jdbcType=VARCHAR},
+			</if>
+			<if test="infoInterest != null">
+				#{infoInterest,jdbcType=VARCHAR},
+			</if>
+			<if test="infoEmail != null">
+				#{infoEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="infoMobile != null">
+				#{infoMobile,jdbcType=VARCHAR},
+			</if>
+			<if test="balanceSum == null">
+				0,
+			</if>
+			<if test="infoPointSum == null">
+				0,
+			</if>
+			<if test="infoType == null">
+				'1',
+			</if>
+			<if test="infoRegisterTime == null">
+				SYSDATE(),
+			</if>
+			<if test="modifiedTime == null">
+				SYSDATE(),
+			</if>
+			<if test="delFlag == null">
+				'0',
+			</if>
+			<if test="infoPhone != null">
+				#{infoPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="infoZip != null">
+				#{infoZip,jdbcType=VARCHAR},
+			</if>
+			<if test="delTime == null">
+				SYSDATE(),
+			</if>
+			<if test="pointLevelName == null">
+				(select p.point_level_name from np_customer_point_level p where p.point_lelvel_id=#{pointLevelId,jdbcType=VARCHAR}),
+			</if>
+			<if test="pointLevelId != null">
+				#{pointLevelId,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<select id="selectLastId" resultType="java.lang.Long">
+		select LAST_INSERT_ID()
+	</select>
+</mapper>

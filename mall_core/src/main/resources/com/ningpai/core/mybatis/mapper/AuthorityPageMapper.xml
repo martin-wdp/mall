@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.manager.mapper.AuthorityPageMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.manager.bean.AuthorityPage" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="authority_id" property="authorityId" jdbcType="BIGINT" />
+    <result column="page_id" property="pageId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+    <result column="flag" property="flag" jdbcType="CHAR" />
+  </resultMap>
+  
+  <resultMap id="menuMap" type="com.ningpai.manager.bean.valuebean.MenuVo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="parentId" property="parentId" jdbcType="BIGINT" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="img_url" property="imgUrl" jdbcType="VARCHAR" />
+    <result column="img_url_selected" property="imgUrlSelected" jdbcType="VARCHAR" />
+    <result column="bundle_name" property="bundleName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, authority_id, page_id, create_time, mod_time, flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from np_authority_page 
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <!-- 根据权限编号查询所有菜单 -->
+  <select id="selectByAuthorityID" resultMap="menuMap" parameterType="java.lang.Long" >
+    select 
+    p.id, p.designation,p.parentId, p.url,p.img_url,p.img_url_selected,p.bundle_name
+    from np_authority_page a inner join np_page p on a.page_id=p.id
+    where a.authority_id = #{authorityId,jdbcType=BIGINT} and a.type='1' and p.flag='0'
+    order by   parentId,p.sort
+  </select>
+  
+  <select id="selectAuthorityByAId" resultMap="menuMap" parameterType="java.lang.Long" >
+    select 
+    p.id, p.designation,p.parentId, p.url,p.img_url,p.img_url_selected,p.bundle_name
+    from np_authority_page a inner join np_page p on a.page_id=p.id
+    where a.authority_id = #{authorityId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectAllMenuVos" resultMap="menuMap" parameterType="java.lang.Long" >
+   	select  p.id, p.designation,p.parentId, p.url,p.img_url,p.img_url_selected,p.bundle_name
+	from np_page p inner join np_authority_page ap on ap.page_id=p.id  
+    where  p.flag ='0' and ap.authority_id=#{authorityId,jdbcType=BIGINT} and ap.type='0'
+  </select>
+  <select id="selectAllMenuVo" resultMap="menuMap" parameterType="java.lang.Long" >
+   	select  p.id, p.designation,p.parentId, p.url ,p.img_url,p.img_url_selected,p.bundle_name
+	from np_page p inner join np_authority_page ap on ap.page_id=p.id  
+    where  p.flag ='0' and ap.authority_id=#{authorityId,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_authority_page
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteAuthorityPageById" parameterType="java.lang.Long" >
+    delete from np_authority_page
+    where authority_id = #{id,jdbcType=BIGINT}
+  </delete>
+    <delete id="deleteAuthByParam" parameterType="java.util.Map" >
+        delete from np_authority_page
+        where page_id in(select id from np_page where bundle_name=#{bundleName,jdbcType=VARCHAR})
+    </delete>
+  <insert id="insert" parameterType="com.ningpai.manager.bean.AuthorityPage" >
+    insert into np_authority_page (id, authority_id, page_id, 
+      create_time, mod_time, flag
+      )
+    values (#{id,jdbcType=BIGINT}, #{authorityId,jdbcType=BIGINT}, #{pageId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modTime,jdbcType=TIMESTAMP}, #{flag,jdbcType=CHAR}
+      )
+  </insert>
+
+
+    <insert id="addAuthorityPageBatch" parameterType="java.util.Map" >
+        insert into np_authority_page ( authority_id, page_id,
+        create_time,  flag,type
+        )
+        values
+        <foreach collection="menuVos" item="menu"  open="" close="" separator=",">
+        (#{authorityId,jdbcType=BIGINT}, #{menu.id,jdbcType=BIGINT},now(), '0','1')
+        </foreach>
+    </insert>
+  <insert id="insertSelective" parameterType="java.util.Map" >
+    insert into np_authority_page ( authority_id, page_id,create_time, flag,type)
+    values ( #{authorityId,jdbcType=BIGINT}, #{pageId,jdbcType=BIGINT}, SYSDATE(),'0','#{type,jdbcType=BIGINT}')
+  </insert>
+  <insert id="insertAAndPage" parameterType="java.util.Map" >
+    insert into np_authority_page
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="authorityId != null" >
+        authority_id,
+      </if>
+      <if test="pageId != null" >
+        page_id,
+      </if>
+      <if test="createTime == null" >
+        create_time,
+      </if>
+      <if test="modTime != null" >
+        mod_time,
+      </if>
+      <if test="flag == null" >
+        flag,
+      </if>
+      <if test="type != null">
+      	type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="authorityId != null" >
+        #{authorityId,jdbcType=BIGINT},
+      </if>
+      <if test="pageId != null" >
+        #{pageId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime == null" >
+        SYSDATE(),
+      </if>
+      <if test="modTime != null" >
+        #{modTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag == null" >
+       '0',
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.manager.bean.AuthorityPage" >
+    update np_authority_page
+    <set >
+      <if test="authorityId != null" >
+        authority_id = #{authorityId,jdbcType=BIGINT},
+      </if>
+      <if test="pageId != null" >
+        page_id = #{pageId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modTime != null" >
+        mod_time = #{modTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.manager.bean.AuthorityPage" >
+    update np_authority_page
+    set authority_id = #{authorityId,jdbcType=BIGINT},
+      page_id = #{pageId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      mod_time = #{modTime,jdbcType=TIMESTAMP},
+      flag = #{flag,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+    <!-- 批量插入权限 fengb  2015年8月7日 18:11:07 -->
+    <insert id="insertAuthorities" parameterType="ArrayList">
+        insert into np_authority_page ( authority_id, page_id, create_time, flag, type )
+        values
+        <foreach collection="list" item="obj" index="index" separator="," >
+            (#{obj.authorityId},#{obj.pageId},SYSDATE(),'0',#{obj.type})
+        </foreach>
+    </insert>
+</mapper>

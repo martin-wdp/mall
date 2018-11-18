@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.RegisterMarketingMapper" >
+    <resultMap id="BaseResultMap" type="com.ningpai.marketing.bean.RegisterMarketing" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="register_num" property="registerNum" jdbcType="BIGINT" />
+        <result column="is_used" property="isUsed" jdbcType="VARCHAR" />
+        <result column="register_coupon_id" property="registerCouponId" jdbcType="BIGINT" />
+        <result column="register_integral" property="registerIntegral" jdbcType="BIGINT" />
+        <result column="del_flag" property="delFlag" jdbcType="VARCHAR" />
+        <result column="start_time" property="startTime" jdbcType="VARCHAR" />
+        <result column="end_time" property="endTime" jdbcType="VARCHAR" />
+        <result column="coupon_name" property="couponName" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id,register_num, is_used, register_coupon_id, register_integral,del_flag,start_time,end_time
+    </sql>
+
+    <select id="findRegisterMarketing" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" />
+        from np_register_marketing
+    </select>
+
+    <insert id="insertSelective" parameterType="com.ningpai.marketing.bean.RegisterMarketing">
+         insert into np_register_marketing
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null">
+                id,
+            </if>
+            <if test="registerNum != null">
+                register_num,
+            </if>
+            <if test="isUsed != null">
+                is_used,
+            </if>
+            <if test="registerCouponId != null">
+                register_coupon_id,
+            </if>
+            <if test="registerIntegral != null">
+                register_integral,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="startTime != null">
+                start_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="registerNum != null">
+                #{registerNum,jdbcType=BIGINT},
+            </if>
+            <if test="isUsed != null">
+                #{isUsed,jdbcType=VARCHAR},
+            </if>
+            <if test="registerCouponId != null">
+                #{registerCouponId,jdbcType=BIGINT},
+            </if>
+            <if test="registerIntegral != null">
+                #{registerIntegral,jdbcType=BIGINT},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null">
+                #{startTime,jdbcType=VARCHAR},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateRegisterCoupon" parameterType="com.ningpai.marketing.bean.RegisterMarketing">
+        update np_register_marketing
+        <set>
+            <if test="registerNum != null">
+                register_num = #{registerNum,jdbcType=BIGINT},
+            </if>
+            <if test="isUsed != null">
+                is_used = #{isUsed,jdbcType=VARCHAR},
+            </if>
+            <if test="registerCouponId != null">
+                register_coupon_id = #{registerCouponId,jdbcType=BIGINT},
+            </if>
+            <if test="registerIntegral != null">
+                register_integral = #{registerIntegral,jdbcType=BIGINT},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime,jdbcType=VARCHAR},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=VARCHAR},
+            </if>
+        </set>
+    </update>
+
+</mapper>

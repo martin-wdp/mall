@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.system.dao.EmpowerMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.system.bean.Empower" >
+      <id column="app_id" property="appId" jdbcType="INTEGER" />
+      <result column="app_key" property="appKey" jdbcType="VARCHAR" />
+      <result column="app_username" property="appUserName" jdbcType="VARCHAR" />
+      <result column="begin_time" property="beginTime" jdbcType="TIMESTAMP" />
+      <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+      <result column="status" property="status" jdbcType="CHAR" />
+      <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+      <result column="token" property="token" jdbcType="VARCHAR" />
+      <result  column="token_time"  property="tokenTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+  <sql id="Base_Column_List" >
+      app_id, app_key,app_username,end_time,status,begin_time
+    </sql>
+
+    <!--获取key-->
+    <select id="list" resultMap="BaseResultMap">
+      select app_id, app_key,app_username,end_time,status,begin_time from np_empower
+      where del_flag='0'
+      limit #{start},#{end}
+    </select>
+
+    <!--查询集合数量 2015年09月09日20:40:07 lih-->
+    <select id="listCount" resultType="java.lang.Integer">
+        select count(1) from np_empower where del_flag='0'
+    </select>
+    <!--新建用户 2015年09月09日14:37:40 lih-->
+    <insert id="insertEmpower" parameterType="com.ningpai.system.bean.Empower" >
+      insert into np_empower
+      <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="appId != null" >
+          app_id,
+        </if>
+        <if test="appKey != null" >
+          app_key,
+        </if>
+        <if test="appUserName != null" >
+          app_username,
+        </if>
+        <if test="beginTime != null" >
+          begin_time,
+        </if>
+        <if test="endTime != null" >
+          end_time,
+        </if>
+        <if test="status != null" >
+          status,
+        </if>
+        <if test="delFlag != null" >
+          del_flag,
+        </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="appId != null" >
+          #{appId,jdbcType=INTEGER},
+        </if>
+        <if test="appKey != null" >
+          #{appKey,jdbcType=VARCHAR},
+        </if>
+        <if test="appUserName != null" >
+          #{appUserName,jdbcType=VARCHAR},
+        </if>
+        <if test="beginTime != null" >
+          #{beginTime},
+        </if>
+        <if test="endTime != null" >
+          #{endTime},
+        </if>
+        <if test="appKey != null" >
+          #{status,jdbcType=CHAR},
+        </if>
+        <if test="delFlag != null" >
+          #{del_flag,delFlag=CHAR},
+        </if>
+
+      </trim>
+    </insert>
+  <!--修改开放接口权限-->
+  <update id="updateEmpower" parameterType="java.util.Map">
+    update np_empower set status=#{status}
+    where app_id=#{appId}
+  </update>
+
+  <!--删除角色 lih 2015年09月11日15:41:43-->
+  <update id="delEmpower" parameterType="java.lang.Long">
+    update np_empower set del_flag='1' where app_id=#{appId}
+  </update>
+
+  <select id="checkName" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(app_id) from np_empower
+    where del_flag='0' and app_username=#{appUserName}
+  </select>
+  </mapper>

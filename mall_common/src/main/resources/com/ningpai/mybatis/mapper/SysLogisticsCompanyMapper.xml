@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qpmall.web.dao.SysLogisticsCompanyMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.freighttemplate.bean.SysLogisticsCompany" >
+    <id column="LOG_COM_ID" property="logComId" jdbcType="BIGINT" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="KUAIDI100_CODE" property="kuaidi100Code" jdbcType="VARCHAR" />
+    <result column="COM_URL" property="comUrl" jdbcType="VARCHAR" />
+    <result column="QUERY_URL" property="queryUrl" jdbcType="VARCHAR" />
+    <result column="SORT" property="sort" jdbcType="BIGINT" />
+    <result column="USED_STATUS" property="usedStatus" jdbcType="CHAR" />
+    <result column="INSERT_ID" property="insertId" jdbcType="BIGINT" />
+    <result column="INSERT_DATE" property="insertDate" jdbcType="TIMESTAMP" />
+    <result column="MODIFY_ID" property="modifyId" jdbcType="BIGINT" />
+    <result column="MODIFY_DATE" property="modifyDate" jdbcType="TIMESTAMP" />
+    <result column="DELETE_STATUS" property="deleteStatus" jdbcType="SMALLINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    LOG_COM_ID, NAME, CODE, KUAIDI100_CODE, COM_URL, QUERY_URL, SORT, USED_STATUS, INSERT_ID, 
+    INSERT_DATE, MODIFY_ID, MODIFY_DATE, DELETE_STATUS
+  </sql>
+  
+  
+  
+  
+    
+  	<!-- 查询所有快递公司 -->
+  <select id="selectAllCompnay" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_sys_logistics_company
+    where USED_STATUS = '1' and DELETE_STATUS = '0'
+  </select>
+  
+<!-- 查询快递公司 -->
+    <select id="selectCompanyById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_sys_logistics_company
+    where LOG_COM_ID = #{logComId,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_sys_logistics_company
+    where LOG_COM_ID = #{logComId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.freighttemplate.bean.SysLogisticsCompany" >
+    insert into np_sys_logistics_company (LOG_COM_ID, NAME, CODE, 
+      KUAIDI100_CODE, COM_URL, QUERY_URL, 
+      SORT, USED_STATUS, INSERT_ID, 
+      INSERT_DATE, MODIFY_ID, MODIFY_DATE, 
+      DELETE_STATUS)
+    values (#{logComId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{kuaidi100Code,jdbcType=VARCHAR}, #{comUrl,jdbcType=VARCHAR}, #{queryUrl,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=BIGINT}, #{usedStatus,jdbcType=CHAR}, #{insertId,jdbcType=BIGINT}, 
+      #{insertDate,jdbcType=TIMESTAMP}, #{modifyId,jdbcType=BIGINT}, #{modifyDate,jdbcType=TIMESTAMP}, 
+      #{deleteStatus,jdbcType=SMALLINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.freighttemplate.bean.SysLogisticsCompany" >
+    insert into np_sys_logistics_company
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="logComId != null" >
+        LOG_COM_ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="kuaidi100Code != null" >
+        KUAIDI100_CODE,
+      </if>
+      <if test="comUrl != null" >
+        COM_URL,
+      </if>
+      <if test="queryUrl != null" >
+        QUERY_URL,
+      </if>
+      <if test="sort != null" >
+        SORT,
+      </if>
+      <if test="usedStatus != null" >
+        USED_STATUS,
+      </if>
+      <if test="insertId != null" >
+        INSERT_ID,
+      </if>
+      <if test="insertDate != null" >
+        INSERT_DATE,
+      </if>
+      <if test="modifyId != null" >
+        MODIFY_ID,
+      </if>
+      <if test="modifyDate != null" >
+        MODIFY_DATE,
+      </if>
+      <if test="deleteStatus != null" >
+        DELETE_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="logComId != null" >
+        #{logComId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="kuaidi100Code != null" >
+        #{kuaidi100Code,jdbcType=VARCHAR},
+      </if>
+      <if test="comUrl != null" >
+        #{comUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="queryUrl != null" >
+        #{queryUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=BIGINT},
+      </if>
+      <if test="usedStatus != null" >
+        #{usedStatus,jdbcType=CHAR},
+      </if>
+      <if test="insertId != null" >
+        #{insertId,jdbcType=BIGINT},
+      </if>
+      <if test="insertDate != null" >
+        #{insertDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyId != null" >
+        #{modifyId,jdbcType=BIGINT},
+      </if>
+      <if test="modifyDate != null" >
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteStatus != null" >
+        #{deleteStatus,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.freighttemplate.bean.SysLogisticsCompany" >
+    update np_sys_logistics_company
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="kuaidi100Code != null" >
+        KUAIDI100_CODE = #{kuaidi100Code,jdbcType=VARCHAR},
+      </if>
+      <if test="comUrl != null" >
+        COM_URL = #{comUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="queryUrl != null" >
+        QUERY_URL = #{queryUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        SORT = #{sort,jdbcType=BIGINT},
+      </if>
+      <if test="usedStatus != null" >
+        USED_STATUS = #{usedStatus,jdbcType=CHAR},
+      </if>
+      <if test="insertId != null" >
+        INSERT_ID = #{insertId,jdbcType=BIGINT},
+      </if>
+      <if test="insertDate != null" >
+        INSERT_DATE = #{insertDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyId != null" >
+        MODIFY_ID = #{modifyId,jdbcType=BIGINT},
+      </if>
+      <if test="modifyDate != null" >
+        MODIFY_DATE = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteStatus != null" >
+        DELETE_STATUS = #{deleteStatus,jdbcType=SMALLINT},
+      </if>
+    </set>
+    where LOG_COM_ID = #{logComId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.freighttemplate.bean.SysLogisticsCompany" >
+    update np_sys_logistics_company
+    set NAME = #{name,jdbcType=VARCHAR},
+      CODE = #{code,jdbcType=VARCHAR},
+      KUAIDI100_CODE = #{kuaidi100Code,jdbcType=VARCHAR},
+      COM_URL = #{comUrl,jdbcType=VARCHAR},
+      QUERY_URL = #{queryUrl,jdbcType=VARCHAR},
+      SORT = #{sort,jdbcType=BIGINT},
+      USED_STATUS = #{usedStatus,jdbcType=CHAR},
+      INSERT_ID = #{insertId,jdbcType=BIGINT},
+      INSERT_DATE = #{insertDate,jdbcType=TIMESTAMP},
+      MODIFY_ID = #{modifyId,jdbcType=BIGINT},
+      MODIFY_DATE = #{modifyDate,jdbcType=TIMESTAMP},
+      DELETE_STATUS = #{deleteStatus,jdbcType=SMALLINT}
+    where LOG_COM_ID = #{logComId,jdbcType=BIGINT}
+  </update>
+</mapper>

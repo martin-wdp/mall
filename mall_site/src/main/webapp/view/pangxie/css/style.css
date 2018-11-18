@@ -1,0 +1,23 @@
+@charset "utf-8";
+
+html {overflow-x:hidden;}
+a:hover {text-decoration:none;}
+
+.header {background:#fff; height:120px; line-height:120px;}
+.header_wp {width:1200px; margin:0 auto;}
+.logo span {display:block; width:90px; height:105px; overflow:hidden; text-indent:-9999px; background:url(../images/logo.png) no-repeat;}
+.sc_bt, .od_bt, .lg_bt {font-family:microsoft YaHei; font-size:18px; color:#333; margin-left:50px; background:url(../images/hd_icons.gif) no-repeat; padding-left:30px;}
+.lg_bt {background-position:left top;}
+.od_bt {background-position:left -36px;}
+.sc_bt {background-position:left -77px;}
+.intro_box {height:900px; background:url(../images/images_01.jpg) no-repeat center top;}
+.intro_wp {width:1200px; margin:0 auto;}
+.intro_cont {top:150px; right:0; font-family:microsoft YaHei; width:300px;}
+.intro_cont h2 {font-size:30px; color:#333;}
+.intro_cont p {font-size:18px; color:#333; line-height:180%; margin:10px 0 20px 0;}
+.intro_cont strong {font-size:30px; font-weight:500; color:#e16434;}
+.buy_btn {display:block; width:180px; height:50px; text-align:center; line-height:50px; background:#e16434; color:#fff; font-size:18px; margin-top:20px;}
+.rec_screen {position:absolute; left:0; top:1040px; z-index:99;}
+.left_screen, .right_screen {position:relative; background:rgba(0,0,0,.7); font-family:Microsoft JhengHei, microsoft YaHei; font-size:200px; color:rgba(255,255,255,.8); letter-spacing:50px;}
+.content img {display:block; width:100%;}
+.footer {height:80px; line-height:80px; text-align:center;}

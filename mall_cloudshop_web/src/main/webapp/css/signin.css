@@ -1,0 +1,22 @@
+body {
+  padding-top: 120px;
+  padding-bottom: 40px;
+  overflow-y:auto;
+    background: #eee url(../images/login_bg.png) repeat;
+}
+.form-signin {
+  max-width: 400px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {position: relative;height: auto;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding: 10px;font-size: 16px;}
+.form-signin .form-control:focus {z-index: 2;}
+.login_box{position:relative;width:480px;padding:70px 40px 0 40px;margin:0 auto;background:#fff;border-radius:5px;}
+.login_box .form-signin-heading{position:absolute;left:0;top:0;margin:0;display:block;width:480px;height:60px;line-height:60px;text-indent:40px;background:#4196f5;border-radius:5px 5px 0 0;}
+.bottom_links{position:fixed;bottom:0;left:0;padding:20px 20px 0;width:100%;background:#fff; text-align: right;margin-top:100px;}
+.bottom_links ul li{display:inline;margin:0 0 0 20px;}
+.bottom_links ul li a{color:#555;}
+.bottom_links p{color:#999;}

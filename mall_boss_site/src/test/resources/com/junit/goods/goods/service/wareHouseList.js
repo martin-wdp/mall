@@ -1,0 +1,2 @@
+[{"wareId":"1","wareName":"南方仓","wareRemark":"单元测试","wareAdmin":"1","wareAddress":"江苏","createTime":"2015-9-14 20:53:02","modifiedTime":"2015-9-14 20:53:02","delFlag":"0","execName":"fb","identifyId":"11"},
+    {"wareId":"2","wareName":"北方仓","wareRemark":"单元测试","wareAdmin":"1","wareAddress":"江苏","createTime":"2015-9-14 20:53:02","modifiedTime":"2015-9-14 20:53:02","delFlag":"0","execName":"fb","identifyId":"11"}]

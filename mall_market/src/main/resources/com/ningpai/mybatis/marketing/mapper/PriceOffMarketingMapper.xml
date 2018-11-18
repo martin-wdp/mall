@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.PriceOffMarketingMapper">
+    <resultMap id="BaseResultMap" type="com.ningpai.marketing.bean.PriceOffMarketing">
+        <id column="price_off_id" property="priceOffId" jdbcType="BIGINT"/>
+        <result column="marketing_id" property="marketingId" jdbcType="BIGINT"/>
+        <result column="off_value" property="offValue" jdbcType="DECIMAL"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR"/>
+        <result column="off_vip_value" property="offVipValue" jdbcType="DECIMAL"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    price_off_id, marketing_id, off_value, del_flag,off_vip_value
+  </sql>
+
+
+    <!-- 查询直降信息 -->
+    <select id="selectPriceOffMarketingByMarketingId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from np_price_off_marketing
+        where marketing_id = #{marketingId,jdbcType=BIGINT} and del_flag = '0'
+    </select>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from np_price_off_marketing
+        where price_off_id = #{priceOffId,jdbcType=BIGINT}
+    </select>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from np_price_off_marketing
+    where price_off_id = #{priceOffId,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.ningpai.marketing.bean.PriceOffMarketing">
+    insert into np_price_off_marketing (price_off_id, marketing_id, off_value, 
+      del_flag,off_vip_value)
+    values (#{priceOffId,jdbcType=BIGINT}, #{marketingId,jdbcType=BIGINT}, #{offValue,jdbcType=DECIMAL}, 
+      #{delFlag,jdbcType=CHAR}, #{offVipValue,jdbcType=DECIMAL})
+  </insert>
+    <insert id="insertSelective" parameterType="com.ningpai.marketing.bean.PriceOffMarketing">
+        insert into np_price_off_marketing
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="priceOffId != null">
+                price_off_id,
+            </if>
+            <if test="marketingId != null">
+                marketing_id,
+            </if>
+            <if test="offValue != null">
+                off_value,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="offVipValue != null">
+                off_vip_value,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="priceOffId != null">
+                #{priceOffId,jdbcType=BIGINT},
+            </if>
+            <if test="marketingId != null">
+                #{marketingId,jdbcType=BIGINT},
+            </if>
+            <if test="offValue != null">
+                #{offValue,jdbcType=DECIMAL},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=CHAR},
+            </if>
+            <if test="offVipValue != null">
+                #{offVipValue,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.marketing.bean.PriceOffMarketing">
+        update np_price_off_marketing
+        <set>
+            <if test="marketingId != null">
+                marketing_id = #{marketingId,jdbcType=BIGINT},
+            </if>
+            <if test="offValue != null">
+                off_value = #{offValue,jdbcType=DECIMAL},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=CHAR},
+            </if>
+            <if test="offVipValue != null">
+                off_vip_value = #{offVipValue,jdbcType=CHAR},
+            </if>
+        </set>
+        where price_off_id = #{priceOffId,jdbcType=BIGINT}
+    </update>
+
+
+    <update id="deletePriceOffMarketing" parameterType="java.lang.Long">
+    update np_price_off_marketing
+    set del_flag = '1'
+    where marketing_id = #{marketingId,jdbcType=BIGINT}
+  </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.ningpai.marketing.bean.PriceOffMarketing">
+    update np_price_off_marketing
+    set marketing_id = #{marketingId,jdbcType=BIGINT},
+      off_value = #{offValue,jdbcType=DECIMAL},
+      del_flag = #{delFlag,jdbcType=CHAR},
+       off_vip_value = #{offVipValue,jdbcType=CHAR}
+    where price_off_id = #{priceOffId,jdbcType=BIGINT}
+  </update>
+
+    <update id="modifyPriceOffMarketing" parameterType="com.ningpai.marketing.bean.PriceOffMarketing">
+        update np_price_off_marketing
+        <set>
+            <if test="offValue != null">
+                off_value = #{offValue,jdbcType=DECIMAL}
+            </if>
+            <if test="offVipValue != null">
+                off_vip_value = #{offVipValue,jdbcType=DECIMAL}
+            </if>
+        </set>
+        where marketing_id = #{marketingId,jdbcType=BIGINT}
+    </update>
+</mapper>

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.system.dao.BasicSetMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.system.bean.BasicSet" >
+    <id column="bset_id" property="bsetId" jdbcType="BIGINT" />
+    <result column="bset_name" property="bsetName" jdbcType="VARCHAR" />
+    <result column="bset_desc" property="bsetDesc" jdbcType="VARCHAR" />
+    <result column="bset_address" property="bsetAddress" jdbcType="VARCHAR" />
+    <result column="bset_phone" property="bsetPhone" jdbcType="VARCHAR" />
+    <result column="bset_admin" property="bsetAdmin" jdbcType="VARCHAR" />
+    <result column="bset_email" property="bsetEmail" jdbcType="VARCHAR" />
+    <result column="bset_logo" property="bsetLogo" jdbcType="VARCHAR" />
+    <result column="best_logo_third" property="bsetThirdLogo" jdbcType="VARCHAR" />
+    <result column="bset_hotline" property="bsetHotline" jdbcType="VARCHAR" />
+    <result column="bset_copyright" property="bsetCopyright" jdbcType="VARCHAR" />
+    <result column="bset_useragreement" property="bsetUseragreement" jdbcType="VARCHAR" />
+    <result column="third_userument" property="thirdUserment" jdbcType="VARCHAR" />
+    <result column="bset_useragreementuser" property="bsetUseragreementuser" jdbcType="VARCHAR" />
+    <result column="bset_thirdaddress" property="bsetThirdAddress" jdbcType="VARCHAR" />
+    <result column="bset_domain" property="bsetDomain" jdbcType="VARCHAR" />
+      <result column="site_login_img" property="siteLoginImg" jdbcType="VARCHAR" />
+      <result column="site_regist_succ_img" property="siteRegSuccImg" jdbcType="VARCHAR" />
+      <result column="third_register_img" property="thirdRegImg" jdbcType="VARCHAR" />
+      <result column="site_reg_img" property="siteRegImg" jdbcType="VARCHAR" />
+      <result column="third_login_img" property="thirdLoginImg" jdbcType="VARCHAR" />
+    <result column="login_patcha" property="loginPatcha" jdbcType="VARCHAR" />  
+    <result column="third_copyright" property="thirdCopyright" jdbcType="VARCHAR" />
+    <result column="bset_enterpriseagreement" property="bsetEnterpriseagreement" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    bset_id, bset_name, bset_desc, bset_address, bset_phone, bset_admin, bset_email, site_login_img,third_login_img,third_userument,site_regist_succ_img,third_register_img,
+    bset_logo, bset_hotline, bset_copyright,bset_useragreement,bset_thirdaddress,bset_domain,bset_useragreementuser,best_logo_third,login_patcha,third_copyright,bset_enterpriseagreement
+  </sql>
+
+  <select id="getStoreStatus" resultType="java.lang.String">
+    select store_status from np_sys_basicset
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />,site_reg_img
+      from np_sys_basicset
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_sys_basicset
+    where bset_id = #{bsetId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.system.bean.BasicSet" >
+    insert into np_sys_basicset (bset_id, bset_name, bset_desc, 
+      bset_address, bset_phone, bset_admin, 
+      bset_email, bset_logo, bset_hotline, 
+      bset_copyright,bset_useragreement,bset_enterpriseagreement)
+    values (#{bsetId,jdbcType=BIGINT}, #{bsetName,jdbcType=VARCHAR}, #{bsetDesc,jdbcType=VARCHAR}, 
+      #{bsetAddress,jdbcType=VARCHAR}, #{bsetPhone,jdbcType=VARCHAR}, #{bsetAdmin,jdbcType=VARCHAR}, 
+      #{bsetEmail,jdbcType=VARCHAR}, #{bsetLogo,jdbcType=VARCHAR}, #{bsetHotline,jdbcType=VARCHAR}, 
+      #{bsetCopyright,jdbcType=VARCHAR},#{bsetUseragreement,jdbcType=VARCHAR},#{bsetEnterpriseagreement,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.system.bean.BasicSet" >
+    insert into np_sys_basicset
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bsetId != null" >
+        bset_id,
+      </if>
+      <if test="bsetName != null" >
+        bset_name,
+      </if>
+      <if test="bsetDesc != null" >
+        bset_desc,
+      </if>
+      <if test="bsetAddress != null" >
+        bset_address,
+      </if>
+      <if test="bsetPhone != null" >
+        bset_phone,
+      </if>
+      <if test="bsetAdmin != null" >
+        bset_admin,
+      </if>
+      <if test="bsetEmail != null" >
+        bset_email,
+      </if>
+      <if test="bsetLogo != null" >
+        bset_logo,
+      </if>
+      <if test="bsetHotline != null" >
+        bset_hotline,
+      </if>
+      <if test="bsetCopyright != null" >
+        bset_copyright,
+      </if>
+      <if test="bsetUseragreement != null" >
+        bset_useragreement,
+      </if>
+      <if test="bsetThirdAddress != null" >
+        bset_thirdaddress,
+      </if>
+      <if test="bsetDomain != null" >
+        bset_domain,
+      </if>
+        <if test="siteLoginImg != null" >
+            site_login_img,,
+        </if>
+        <if test="thirdLoginImg != null" >
+            third_login_img,
+        </if>
+        <if test="bsetEnterpriseagreement != null" >
+            bset_enterpriseagreement,
+        </if>
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bsetId != null" >
+        #{bsetId,jdbcType=BIGINT},
+      </if>
+      <if test="bsetName != null" >
+        #{bsetName,jdbcType=VARCHAR},
+      </if>
+      <if test="bsetDesc != null" >
+        #{bsetDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="bsetAddress != null" >
+        #{bsetAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="bsetPhone != null" >
+        #{bsetPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="bsetAdmin != null" >
+        #{bsetAdmin,jdbcType=VARCHAR},
+      </if>
+      <if test="bsetEmail != null" >
+        #{bsetEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="bsetLogo != null" >
+        #{bsetLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="bsetHotline != null" >
+        #{bsetHotline,jdbcType=VARCHAR},
+      </if>
+      <if test="bsetCopyright != null" >
+        #{bsetCopyright,jdbcType=VARCHAR},
+      </if>
+      <if test="bsetUseragreement != null" >
+        #{bsetUseragreement,jdbcType=VARCHAR},
+      </if>
+      <if test="bsetThirdAddress != null" >
+        #{bsetThirdAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="bsetDomain != null" >
+        #{bsetDomain,jdbcType=VARCHAR},
+      </if>
+        <if test="siteLoginImg != null" >
+            #{siteLoginImg,jdbcType=VARCHAR},
+        </if>
+        <if test="thirdLoginImg != null" >
+            #{thirdLoginImg,jdbcType=VARCHAR},
+        </if>
+        <if test="bsetEnterpriseagreement != null" >
+            #{bsetEnterpriseagreement,jdbcType=VARCHAR},
+        </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.system.bean.BasicSet" >
+    update np_sys_basicset
+    <set>
+      <if test="bsetName != null" >
+        bset_name = #{bsetName,jdbcType=VARCHAR},
+      </if>
+      <if test="bsetDesc != null" >
+        bset_desc = #{bsetDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="bsetAddress != null" >
+        bset_address = #{bsetAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="bsetPhone != null" >
+        bset_phone = #{bsetPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="bsetAdmin != null" >
+        bset_admin = #{bsetAdmin,jdbcType=VARCHAR},
+      </if>
+      <if test="bsetEmail != null" >
+        bset_email = #{bsetEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="bsetLogo != null and bsetLogo !=''" >
+        bset_logo = #{bsetLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="bsetThirdLogo != null and bsetThirdLogo !=''" >
+          best_logo_third = #{bsetThirdLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="bsetHotline != null and bsetHotline!=''" >
+        bset_hotline = #{bsetHotline,jdbcType=VARCHAR},
+      </if>
+      <if test="bsetCopyright != null" >
+        bset_copyright = #{bsetCopyright,jdbcType=VARCHAR},
+      </if>
+      <if test="bsetUseragreement != null" >
+        bset_useragreement = #{bsetUseragreement,jdbcType=VARCHAR},
+      </if>
+        <if test="thirdUserment != null" >
+            third_userument = #{thirdUserment,jdbcType=VARCHAR},
+      </if>
+
+        <if test="siteRegSuccImg != null" >
+            site_regist_succ_img = #{siteRegSuccImg,jdbcType=VARCHAR},
+      </if>
+        <if test="thirdRegImg != null" >
+            third_register_img = #{thirdRegImg,jdbcType=VARCHAR},
+      </if>
+      <if test="bsetUseragreementuser != null" >
+          bset_useragreementuser = #{bsetUseragreementuser,jdbcType=VARCHAR},
+      </if>
+      <if test="bsetThirdAddress != null" >
+       bset_thirdaddress = #{bsetThirdAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="bsetDomain != null" >
+       bset_domain=#{bsetDomain,jdbcType=VARCHAR},
+      </if>
+        <if test="siteLoginImg != null" >
+           site_login_img = #{siteLoginImg,jdbcType=VARCHAR},
+        </if>
+        <if test="thirdLoginImg != null" >
+           third_login_img = #{thirdLoginImg,jdbcType=VARCHAR},
+        </if>
+        <if test="thirdCopyright != null" >
+            third_copyright = #{thirdCopyright,jdbcType=VARCHAR},
+        </if>
+        <if test="loginPatcha != null" >
+           login_patcha = #{loginPatcha,jdbcType=VARCHAR},
+        </if>
+        <if test="siteRegImg != null" >
+            site_reg_img = #{siteRegImg,jdbcType=VARCHAR},
+        </if>
+        <if test="bsetEnterpriseagreement != null" >
+            bset_enterpriseagreement = #{bsetEnterpriseagreement,jdbcType=VARCHAR},
+        </if>
+    </set>
+    where bset_id = #{bsetId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.system.bean.BasicSet" >
+    update np_sys_basicset
+    set bset_name = #{bsetName,jdbcType=VARCHAR},
+      bset_desc = #{bsetDesc,jdbcType=VARCHAR},
+      bset_address = #{bsetAddress,jdbcType=VARCHAR},
+      bset_phone = #{bsetPhone,jdbcType=VARCHAR},
+      bset_admin = #{bsetAdmin,jdbcType=VARCHAR},
+      bset_email = #{bsetEmail,jdbcType=VARCHAR},
+      bset_logo = #{bsetLogo,jdbcType=VARCHAR},
+      bset_hotline = #{bsetHotline,jdbcType=VARCHAR},
+      bset_copyright = #{bsetCopyright,jdbcType=VARCHAR},
+      bset_useragreement = #{bsetUseragreement,jdbcType=VARCHAR},
+      bset_enterpriseagreement = #{bsetEnterpriseagreement,jdbcType=VARCHAR}
+    where bset_id = #{bsetId,jdbcType=BIGINT}
+  </update>
+</mapper>

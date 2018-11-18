@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.goods.dao.GoodsProductSuppMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsProductSupp" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="product_id" property="productId" jdbcType="BIGINT" />
+    <result column="supp_id" property="suppId" jdbcType="BIGINT" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  
+  <resultMap id="VoResultMap" type="com.ningpai.goods.vo.GoodsProductSuppVo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="product_id" property="productId" jdbcType="BIGINT" />
+    <result column="supp_id" property="suppId" jdbcType="BIGINT" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <association property="serviceSupp" column="supp_id" select="com.ningpai.system.dao.ServiceSupportMapper.selectByPrimaryKey"></association>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, product_id, supp_id, del_flag
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_product_supp
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insertSelective" parameterType="com.ningpai.goods.bean.GoodsProductSupp" >
+    insert into np_product_supp
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="suppId != null" >
+        supp_id,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="suppId != null" >
+        #{suppId,jdbcType=BIGINT},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.goods.bean.GoodsProductSupp" >
+    update np_product_supp
+    <set >
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="suppId != null" >
+        supp_id = #{suppId,jdbcType=BIGINT},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 根据货品ID查询所有的关联记录 -->
+  <select id="queryAllByProductId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List"/> from np_product_supp where product_id=#{productId}
+      and del_flag='0'
+  </select>
+  <!-- 根据货品ID删除所有的关联信息 -->
+  <update id="delAllProductSupp" parameterType="java.lang.Long">
+      update np_product_supp set del_flag='1' where product_id=#{productId}
+  </update>
+  
+  <!-- 批量保存关联信息 -->
+  <insert id="batchInsertSupp" parameterType="java.util.Map">
+      insert into np_product_supp (product_id,supp_id,del_flag)
+      values 
+      <foreach collection="suppId" separator="," item="supp" index="index">
+          (#{productId},#{supp},'0')
+      </foreach>
+  </insert>
+  
+  <!-- 根据货品ID查询所有的关联记录 -->
+  <select id="queryAllVoByProductId" parameterType="java.lang.Long" resultMap="VoResultMap">
+      select <include refid="Base_Column_List"/> from np_product_supp where product_id=#{productId}
+      and del_flag='0'
+  </select>
+</mapper>

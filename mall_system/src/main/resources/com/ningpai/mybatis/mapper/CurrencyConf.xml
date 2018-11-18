@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+ @Title: 货币设置的mapper映射配置文件
+ @Description:
+ @author NINGPAI_xiaomm
+ @since 2014-03-25 13:17:21
+ @version V1.0
+-->
+<mapper namespace="com.ningpai.system.dao.CurrencyConfDaoImpl">
+
+	<resultMap id="BaseResultMap" type="com.ningpai.system.bean.CurrencyConf">
+				<!-- 记录ID -->
+				<id column="CURRENCY_ID" 
+					jdbcType="BIGINT"
+				 property="currencyId" />
+				<!-- 货币名称 -->
+				<result column="CURRENCY_NAME"
+					jdbcType="VARCHAR"
+				property="currencyName" />
+				<!-- 货币符号 -->
+				<result column="SYMBOL"
+					jdbcType="VARCHAR"
+				property="symbol" />
+				<!-- 汇率 -->
+				<result column="EXCHANGE_RATE"
+					jdbcType="DOUBLE"
+				property="exchangeRate" />
+				<!-- 货币代码 -->
+				<result column="CURRENCY_CODE"
+					jdbcType="VARCHAR"
+				property="currencyCode" />
+				<!-- 默认货币 -->
+				<result column="DEFAULT_CURRENCY"
+					jdbcType="VARCHAR"
+				property="defaultCurrency" />
+				<!-- 启用 -->
+				<result column="USED_STATUS"
+					jdbcType="VARCHAR"
+				property="usedStatus" />
+				<!-- 扩展字段1 -->
+				<result column="EXP_FLEID_1"
+					jdbcType="VARCHAR"
+				property="expFleid1" />
+				<!-- 扩展字段2 -->
+				<result column="EXP_FLEID_2"
+					jdbcType="VARCHAR"
+				property="expFleid2" />
+				<!-- 添加人 -->
+				<result column="INSERT_ID"
+					jdbcType="BIGINT"
+				property="insertId" />
+				<!-- 添加时间 -->
+				<result column="INSERT_DATE"
+					jdbcType="DATE"
+				property="insertDate" />
+				<!-- 修改人 -->
+				<result column="MODIFY_ID"
+					jdbcType="BIGINT"
+				property="modifyId" />
+				<!-- 修改时间 -->
+				<result column="MODIFY_DATE"
+					jdbcType="DATE"
+				property="modifyDate" />
+				<!-- 删除标识 -->
+				<result column="DELETE_STATUS"
+					jdbcType="BIGINT"
+				property="deleteStatus" />
+	</resultMap>
+	
+	<sql id="baseSql">
+			CURRENCY_ID, 
+			CURRENCY_NAME, 
+			SYMBOL, 
+			EXCHANGE_RATE, 
+			CURRENCY_CODE, 
+			DEFAULT_CURRENCY, 
+			USED_STATUS, 
+			EXP_FLEID_1, 
+			EXP_FLEID_2, 
+			INSERT_ID, 
+			INSERT_DATE, 
+			MODIFY_ID, 
+			MODIFY_DATE, 
+			DELETE_STATUS 
+	</sql>
+	<sql id="querySql">
+			CURRENCY_ID, 
+			CURRENCY_NAME, 
+			SYMBOL, 
+			EXCHANGE_RATE, 
+			CURRENCY_CODE, 
+			DEFAULT_CURRENCY, 
+			USED_STATUS 
+	</sql>
+	
+	<!-- 保存货币设置 -->	
+	<insert id="saveCurrencyConf" parameterType="com.ningpai.system.bean.CurrencyConf">
+		INSERT INTO NP_SYS_CURRENCY_CONF
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+				<!-- 记录ID 
+				<if test="currencyId != null">
+					CURRENCY_ID,
+				</if> -->
+				<!-- 货币名称 -->
+				<if test="currencyName != null">
+					CURRENCY_NAME,
+				</if>
+				<!-- 货币符号 -->
+				<if test="symbol != null">
+					SYMBOL,
+				</if>
+				<!-- 汇率 -->
+				<if test="exchangeRate != null">
+					EXCHANGE_RATE,
+				</if>
+				<!-- 货币代码 -->
+				<if test="currencyCode != null">
+					CURRENCY_CODE,
+				</if>
+				<!-- 默认货币 -->
+				<if test="defaultCurrency != null">
+					DEFAULT_CURRENCY,
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS,
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1,
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2,
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID,
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE,
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID,
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE,
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS,
+				</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+				<!-- 记录ID
+						#{currencyId,
+								jdbcType=BIGINT
+						}, -->
+				<!-- 货币名称 -->
+					<if test="currencyName != null">
+						#{currencyName,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 货币符号 -->
+					<if test="symbol != null">
+						#{symbol,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 汇率 -->
+					<if test="exchangeRate != null">
+						#{exchangeRate,
+								jdbcType=DOUBLE
+						},
+					</if>
+				<!-- 货币代码 -->
+					<if test="currencyCode != null">
+						#{currencyCode,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 默认货币 -->
+					<if test="defaultCurrency != null">
+						#{defaultCurrency,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 启用 -->
+					<if test="usedStatus != null">
+						#{usedStatus,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null">
+						#{expFleid1,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null">
+						#{expFleid2,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						#{insertId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null">
+						#{insertDate,
+								jdbcType=DATE
+						},
+					</if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						#{modifyId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null">
+						#{modifyDate,
+								jdbcType=DATE
+						},
+					</if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						#{deleteStatus,
+								jdbcType=BIGINT
+						},
+					</if>
+		</trim>
+	</insert>
+	<!-- 修改货币设置 -->
+	<update id="updateCurrencyConf" parameterType="com.ningpai.system.bean.CurrencyConf">
+		UPDATE NP_SYS_CURRENCY_CONF
+		<set>
+			
+				<!-- 记录ID -->
+				<if test="currencyId != null">
+					CURRENCY_ID = #{currencyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 货币名称 -->
+				<if test="currencyName != null">
+					CURRENCY_NAME = #{currencyName,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 货币符号 -->
+				<if test="symbol != null">
+					SYMBOL = #{symbol,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 汇率 -->
+				<if test="exchangeRate != null">
+					EXCHANGE_RATE = #{exchangeRate,
+							jdbcType=DOUBLE
+					},
+				</if>
+				<!-- 货币代码 -->
+				<if test="currencyCode != null">
+					CURRENCY_CODE = #{currencyCode,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 默认货币 -->
+				<if test="defaultCurrency != null">
+					DEFAULT_CURRENCY = #{defaultCurrency,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS = #{usedStatus,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1 = #{expFleid1,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2 = #{expFleid2,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID = #{modifyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE = #{modifyDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS = #{deleteStatus,
+							jdbcType=BIGINT
+					},
+				</if>
+		</set>
+		WHERE 
+				CURRENCY_ID = #{currencyId,
+							jdbcType=BIGINT
+					}
+	</update>
+	
+	<!-- 根据货币设置对象的id查询货币设置对象 -->
+	<select id="getCurrencyConfById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_CURRENCY_CONF 
+		WHERE 
+				CURRENCY_ID = #{currencyId,
+							jdbcType=BIGINT
+					}
+	</select>
+	
+	<!-- 根据货币设置对象的id字符集合查询货币设置对象 -->
+	<select id="getCurrencyConfByIds" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_CURRENCY_CONF 
+		WHERE 
+				CURRENCY_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</select>
+	
+	<!-- 根据货币设置对象的id字符集合删除货币设置对象 -->
+	<update id="deleteCurrencyConf" parameterType="java.util.Map">
+		DELETE FROM NP_SYS_CURRENCY_CONF 
+		WHERE 
+				CURRENCY_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+		
+	</update>
+	
+	
+	<!-- 更新货币设置对象的单个字段  -->
+	<update id="updateCurrencyConfFieldById" parameterType="java.util.Map">
+		UPDATE NP_SYS_CURRENCY_CONF
+		<set>
+				<!-- 记录ID -->
+				<if test="currencyId != null">
+					CURRENCY_ID = #{currencyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 货币名称 -->
+				<if test="currencyName != null">
+					CURRENCY_NAME = #{currencyName,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 货币符号 -->
+				<if test="symbol != null">
+					SYMBOL = #{symbol,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 汇率 -->
+				<if test="exchangeRate != null">
+					EXCHANGE_RATE = #{exchangeRate,
+							jdbcType=DOUBLE
+					},
+				</if>
+				<!-- 货币代码 -->
+				<if test="currencyCode != null">
+					CURRENCY_CODE = #{currencyCode,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 默认货币 -->
+				<if test="defaultCurrency != null">
+					DEFAULT_CURRENCY = #{defaultCurrency,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS = #{usedStatus,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1 = #{expFleid1,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2 = #{expFleid2,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID = #{modifyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE = #{modifyDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS = #{deleteStatus,
+							jdbcType=BIGINT
+					},
+				</if>
+		</set>
+		WHERE 
+				CURRENCY_ID IN  
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</update>
+	
+	<!-- 根据货币设置对象的单个字段查询货币设置对象信息总数 -->
+	<select id="getCurrencyConfByFieldTotal" resultType="java.lang.Integer" parameterType="java.util.Map">
+		   SELECT COUNT(CURRENCY_ID) 
+		   FROM NP_SYS_CURRENCY_CONF D 
+		   WHERE 
+				<!-- 记录ID -->
+					<if test="currencyId != null">
+						D.CURRENCY_ID = #{currencyId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 货币名称 -->
+					<if test="currencyName != null and currencyName != ''">
+						D.CURRENCY_NAME like CONCAT(CONCAT('%', #{currencyName,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 货币符号 -->
+					<if test="symbol != null and symbol != ''">
+						D.SYMBOL like CONCAT(CONCAT('%', #{symbol,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 汇率 -->
+					<if test="exchangeRate != null">
+						D.EXCHANGE_RATE = #{exchangeRate,
+								jdbcType=DOUBLE
+						} AND
+					</if>
+				<!-- 货币代码 -->
+					<if test="currencyCode != null and currencyCode != ''">
+						D.CURRENCY_CODE like CONCAT(CONCAT('%', #{currencyCode,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 默认货币 -->
+					<if test="defaultCurrency != null and defaultCurrency != ''">
+						D.DEFAULT_CURRENCY like CONCAT(CONCAT('%', #{defaultCurrency,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 启用 -->
+					<if test="usedStatus != null and usedStatus != ''">
+						D.USED_STATUS like CONCAT(CONCAT('%', #{usedStatus,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null and expFleid1 != ''">
+						D.EXP_FLEID_1 like CONCAT(CONCAT('%', #{expFleid1,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null and expFleid2 != ''">
+						D.EXP_FLEID_2 like CONCAT(CONCAT('%', #{expFleid2,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						D.INSERT_ID = #{insertId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null and insertDate !=''" >
+			        	(D.INSERT_DATE between  #{insertDateStart,jdbcType=DATE}  AND  #{insertDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						D.MODIFY_ID = #{modifyId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null and modifyDate !=''" >
+			        	(D.MODIFY_DATE between  #{modifyDateStart,jdbcType=DATE}  AND  #{modifyDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						D.DELETE_STATUS = #{deleteStatus,
+								jdbcType=BIGINT
+						} AND
+					</if>
+        	1=1 
+	</select>
+	
+	<!-- 根据货币设置对象的单个字段查询货币设置对象信息 -->
+	<select id="getCurrencyConfByField" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM  NP_SYS_CURRENCY_CONF D 
+		   WHERE 
+				<!-- 记录ID -->
+					<if test="currencyId != null">
+						D.CURRENCY_ID = #{currencyId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 货币名称 -->
+					<if test="currencyName != null and currencyName !=''" >
+						D.CURRENCY_NAME like CONCAT(CONCAT('%', #{currencyName,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 货币符号 -->
+					<if test="symbol != null and symbol !=''" >
+						D.SYMBOL like CONCAT(CONCAT('%', #{symbol,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 汇率 -->
+					<if test="exchangeRate != null">
+						D.EXCHANGE_RATE = #{exchangeRate,
+								jdbcType=DOUBLE
+						} AND
+					</if>
+				<!-- 货币代码 -->
+					<if test="currencyCode != null and currencyCode !=''" >
+						D.CURRENCY_CODE like CONCAT(CONCAT('%', #{currencyCode,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 默认货币 -->
+					<if test="defaultCurrency != null and defaultCurrency !=''" >
+						D.DEFAULT_CURRENCY like CONCAT(CONCAT('%', #{defaultCurrency,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 启用 -->
+					<if test="usedStatus != null and usedStatus !=''" >
+						D.USED_STATUS like CONCAT(CONCAT('%', #{usedStatus,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null and expFleid1 !=''" >
+						D.EXP_FLEID_1 like CONCAT(CONCAT('%', #{expFleid1,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null and expFleid2 !=''" >
+						D.EXP_FLEID_2 like CONCAT(CONCAT('%', #{expFleid2,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						D.INSERT_ID = #{insertId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null and insertDate !=''" >
+			        	(D.INSERT_DATE between  #{insertDateStart,jdbcType=DATE}  AND  #{insertDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						D.MODIFY_ID = #{modifyId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null and modifyDate !=''" >
+			        	(D.MODIFY_DATE between  #{modifyDateStart,jdbcType=DATE}  AND  #{modifyDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						D.DELETE_STATUS = #{deleteStatus,
+								jdbcType=BIGINT
+						} AND
+					</if>
+        	1=1 
+		    LIMIT #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询货币设置对象信息总数 -->
+	<select id="queryCurrencyConfTotal" resultType="java.lang.Integer">
+		SELECT COUNT(CURRENCY_ID) FROM NP_SYS_CURRENCY_CONF
+	</select>
+	
+	<!-- 分页查询货币设置对象信息 -->
+	<select id="queryCurrencyConfByPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM NP_SYS_CURRENCY_CONF 
+		LIMIT  #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+</mapper>

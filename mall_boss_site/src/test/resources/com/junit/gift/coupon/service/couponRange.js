@@ -1,0 +1,1 @@
+[{"couponRangeId":101,"couponId":255,"couponRangeFkId":3906,"couponRangeType":2,"delFlag":1}]

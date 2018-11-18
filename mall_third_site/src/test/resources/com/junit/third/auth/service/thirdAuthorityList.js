@@ -1,0 +1,1 @@
+[{"id":"1","storeId":"0","designation":"test","characterization":"test","flag":"0"}]

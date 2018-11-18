@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.version.mapper.VersionMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.version.bean.Version" >
+    <id column="version_id" property="versionId" jdbcType="BIGINT" />
+    <result column="version_code" property="versionCode" jdbcType="VARCHAR" />
+    <result column="version_content" property="versionContent" jdbcType="VARCHAR" />
+    <result column="version_time" property="versionTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    version_id, version_code, version_content, version_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_version
+    where version_id = #{versionId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_version
+    where version_id = #{versionId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.version.bean.Version" >
+    insert into np_version (version_id, version_code, version_content, 
+      version_time)
+    values (#{versionId,jdbcType=BIGINT}, #{versionCode,jdbcType=VARCHAR}, #{versionContent,jdbcType=VARCHAR}, 
+      #{versionTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.version.bean.Version" >
+    insert into np_version
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="versionId != null" >
+        version_id,
+      </if>
+      <if test="versionCode != null" >
+        version_code,
+      </if>
+      <if test="versionContent != null" >
+        version_content,
+      </if>
+      <if test="versionTime != null" >
+        version_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="versionId != null" >
+        #{versionId,jdbcType=BIGINT},
+      </if>
+      <if test="versionCode != null" >
+        #{versionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="versionContent != null" >
+      	<![CDATA[
+        #{versionContent,jdbcType=VARCHAR},
+        ]]>
+      </if>
+      <if test="versionTime != null" >
+        #{versionTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.version.bean.Version" >
+    update np_version
+    <set >
+      <if test="versionCode != null" >
+        version_code = #{versionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="versionContent != null" >
+        version_content = #{versionContent,jdbcType=VARCHAR},
+      </if>
+      <if test="versionTime != null" >
+        version_time = #{versionTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where version_id = #{versionId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.version.bean.Version" >
+    update np_version
+    set version_code = #{versionCode,jdbcType=VARCHAR},
+      version_content = #{versionContent,jdbcType=VARCHAR},
+      version_time = #{versionTime,jdbcType=TIMESTAMP}
+    where version_id = #{versionId,jdbcType=BIGINT}
+  </update>
+  <select id="seleceVersion" resultMap="BaseResultMap" >
+  	 select 
+     <include refid="Base_Column_List" />
+     from np_version
+     order by version_time desc
+  </select>
+  <select id="selectVersionSize" resultType="java.lang.Long"  parameterType="com.ningpai.version.bean.Version">
+  	 select 
+     count(1)
+     from np_version
+     where 1= 1
+     
+  </select>
+  
+  <select id="selectAllVersion" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	 select 
+     <include refid="Base_Column_List" />
+     from np_version
+     order by version_time desc
+     limit #{startRowNum},#{endRowNum}
+  </select>
+  <select id="showNewVersion" resultMap="BaseResultMap">
+  	 select 
+     <include refid="Base_Column_List" />
+     from np_version
+     order by version_time desc
+     limit 0,1
+  </select>
+</mapper>

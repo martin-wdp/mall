@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+ @Title: 在线客服项的mapper映射配置文件
+ @Description:
+ @author NINGPAI_xiaomm
+ @since 2014-03-27 17:44:30
+ @version V1.0
+-->
+<mapper namespace="com.ningpai.system.dao.OnLineServiceItemDaoImpl">
+
+	<resultMap id="BaseResultMap" type="com.ningpai.system.bean.OnLineServiceItem">
+				<!-- 记录ID -->
+				<id column="ON_LINE_SERVICE_ITEM_ID" 
+					jdbcType="BIGINT"
+				 property="onLineServiceItemId" />
+				<!-- 在线客服记录ID -->
+				<result column="ON_LINE_SERVICE_ID"
+					jdbcType="BIGINT"
+				property="onLineServiceId" />
+				<!-- 客服名称 -->
+				<result column="NAME"
+					jdbcType="VARCHAR"
+				property="name" />
+				<!-- 联系号码 -->
+				<result column="CONTACT_NUMBER"
+					jdbcType="VARCHAR"
+				property="contactNumber" />
+				<!-- 联系类型 -->
+				<result column="CONTACT_TYPE"
+					jdbcType="BIGINT"
+				property="contactType" />
+				<!-- 员工ID -->
+				<result column="EMP_ID"
+					jdbcType="BIGINT"
+				property="empId" />
+				<!-- 排序 -->
+				<result column="ONLINE_SORT"
+					jdbcType="BIGINT"
+				property="onlineSort" />
+				<!-- 扩展字段1 -->
+				<result column="EXP_FLEID_1"
+					jdbcType="VARCHAR"
+				property="expFleid1" />
+				<!-- 扩展字段2 -->
+				<result column="EXP_FLEID_2"
+					jdbcType="VARCHAR"
+				property="expFleid2" />
+				<!-- 添加人 -->
+				<result column="INSERT_ID"
+					jdbcType="BIGINT"
+				property="insertId" />
+				<!-- 添加时间 -->
+				<result column="INSERT_DATE"
+					jdbcType="DATE"
+				property="insertDate" />
+	</resultMap>
+	
+	<sql id="baseSql">
+			ON_LINE_SERVICE_ITEM_ID, 
+			ON_LINE_SERVICE_ID, 
+			NAME, 
+			CONTACT_NUMBER, 
+			CONTACT_TYPE, 
+			EMP_ID, 
+			ONLINE_SORT, 
+			EXP_FLEID_1, 
+			EXP_FLEID_2, 
+			INSERT_ID, 
+			INSERT_DATE 
+	</sql>
+	<sql id="querySql">
+			ON_LINE_SERVICE_ITEM_ID, 
+			ON_LINE_SERVICE_ID, 
+			NAME, 
+			CONTACT_NUMBER, 
+			CONTACT_TYPE, 
+			EMP_ID, 
+			ONLINE_SORT 
+	</sql>
+	
+	<!-- 保存在线客服项 -->	
+	<insert id="saveOnLineServiceItem" parameterType="com.ningpai.system.bean.OnLineServiceItem">
+		INSERT INTO NP_SYS_ON_LINE_SERVICE_ITEM
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+				<!-- 记录ID 
+				<if test="onLineServiceItemId != null">
+					ON_LINE_SERVICE_ITEM_ID,
+				</if> -->
+				<!-- 在线客服记录ID -->
+				<if test="onLineServiceId != null">
+					ON_LINE_SERVICE_ID,
+				</if>
+				<!-- 客服名称 -->
+				<if test="name != null">
+					NAME,
+				</if>
+				<!-- 联系号码 -->
+				<if test="contactNumber != null">
+					CONTACT_NUMBER,
+				</if>
+				<!-- 联系类型 -->
+				<if test="contactType != null">
+					CONTACT_TYPE,
+				</if>
+				<!-- 员工ID -->
+				<if test="empId != null">
+					EMP_ID,
+				</if>
+				<!-- 排序 -->
+				<if test="onlineSort != null">
+					ONLINE_SORT,
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1,
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2,
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID,
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE,
+				</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+				<!-- 记录ID 
+						#{onLineServiceItemId,
+								jdbcType=BIGINT
+						}, -->
+				<!-- 在线客服记录ID -->
+					<if test="onLineServiceId != null">
+						#{onLineServiceId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 客服名称 -->
+					<if test="name != null">
+						#{name,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 联系号码 -->
+					<if test="contactNumber != null">
+						#{contactNumber,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 联系类型 -->
+					<if test="contactType != null">
+						#{contactType,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 员工ID -->
+					<if test="empId != null">
+						#{empId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 排序 -->
+					<if test="onlineSort != null">
+						#{onlineSort,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null">
+						#{expFleid1,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null">
+						#{expFleid2,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						#{insertId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null">
+						#{insertDate,
+								jdbcType=DATE
+						},
+					</if>
+		</trim>
+	</insert>
+	<!-- 修改在线客服项 -->
+	<update id="updateOnLineServiceItem" parameterType="com.ningpai.system.bean.OnLineServiceItem">
+		UPDATE NP_SYS_ON_LINE_SERVICE_ITEM
+		<set>
+			
+				<!-- 记录ID -->
+				<if test="onLineServiceItemId != null">
+					ON_LINE_SERVICE_ITEM_ID = #{onLineServiceItemId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 在线客服记录ID -->
+				<if test="onLineServiceId != null">
+					ON_LINE_SERVICE_ID = #{onLineServiceId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 客服名称 -->
+				<if test="name != null">
+					NAME = #{name,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 联系号码 -->
+				<if test="contactNumber != null">
+					CONTACT_NUMBER = #{contactNumber,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 联系类型 -->
+				<if test="contactType != null">
+					CONTACT_TYPE = #{contactType,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 员工ID -->
+				<if test="empId != null">
+					EMP_ID = #{empId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 排序 -->
+				<if test="onlineSort != null">
+					ONLINE_SORT = #{onlineSort,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1 = #{expFleid1,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2 = #{expFleid2,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=DATE
+					},
+				</if>
+		</set>
+		WHERE 
+				ON_LINE_SERVICE_ITEM_ID = #{onLineServiceItemId,
+							jdbcType=BIGINT
+					}
+	</update>
+	
+	<!-- 根据在线客服项对象的id查询在线客服项对象 -->
+	<select id="getOnLineServiceItemById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_ON_LINE_SERVICE_ITEM 
+		WHERE 
+				ON_LINE_SERVICE_ITEM_ID = #{onLineServiceItemId,
+							jdbcType=BIGINT
+					}
+	</select>
+	
+	<!-- 根据在线客服项对象的id字符集合查询在线客服项对象 -->
+	<select id="getOnLineServiceItemByIds" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_ON_LINE_SERVICE_ITEM 
+		WHERE 
+				ON_LINE_SERVICE_ITEM_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</select>
+	
+	<!-- 根据在线客服项对象的id字符集合删除在线客服项对象 -->
+	<update id="deleteOnLineServiceItem" parameterType="java.util.Map">
+		DELETE FROM NP_SYS_ON_LINE_SERVICE_ITEM 
+		WHERE 
+				ON_LINE_SERVICE_ITEM_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+		
+	</update>
+	
+	
+	<!-- 更新在线客服项对象的单个字段  -->
+	<update id="updateOnLineServiceItemFieldById" parameterType="java.util.Map">
+		UPDATE NP_SYS_ON_LINE_SERVICE_ITEM
+		<set>
+				<!-- 记录ID -->
+				<if test="onLineServiceItemId != null">
+					ON_LINE_SERVICE_ITEM_ID = #{onLineServiceItemId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 在线客服记录ID -->
+				<if test="onLineServiceId != null">
+					ON_LINE_SERVICE_ID = #{onLineServiceId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 客服名称 -->
+				<if test="name != null">
+					NAME = #{name,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 联系号码 -->
+				<if test="contactNumber != null">
+					CONTACT_NUMBER = #{contactNumber,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 联系类型 -->
+				<if test="contactType != null">
+					CONTACT_TYPE = #{contactType,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 员工ID -->
+				<if test="empId != null">
+					EMP_ID = #{empId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 排序 -->
+				<if test="onlineSort != null">
+					ONLINE_SORT = #{onlineSort,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1 = #{expFleid1,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2 = #{expFleid2,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=DATE
+					},
+				</if>
+		</set>
+		WHERE 
+				ON_LINE_SERVICE_ITEM_ID IN  
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</update>
+	
+	<!-- 根据在线客服项对象的单个字段查询在线客服项对象信息总数 -->
+	<select id="getOnLineServiceItemByFieldTotal" resultType="java.lang.Integer" parameterType="java.util.Map">
+		   SELECT COUNT(ON_LINE_SERVICE_ITEM_ID) 
+		   FROM NP_SYS_ON_LINE_SERVICE_ITEM D 
+		   WHERE 
+				<!-- 记录ID -->
+					<if test="onLineServiceItemId != null">
+						D.ON_LINE_SERVICE_ITEM_ID = #{onLineServiceItemId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 在线客服记录ID -->
+					<if test="onLineServiceId != null">
+						D.ON_LINE_SERVICE_ID = #{onLineServiceId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 客服名称 -->
+					<if test="name != null and name != ''">
+						D.NAME like CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 联系号码 -->
+					<if test="contactNumber != null and contactNumber != ''">
+						D.CONTACT_NUMBER like CONCAT(CONCAT('%', #{contactNumber,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 联系类型 -->
+					<if test="contactType != null">
+						D.CONTACT_TYPE = #{contactType,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 员工ID -->
+					<if test="empId != null">
+						D.EMP_ID = #{empId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 排序 -->
+					<if test="onlineSort != null">
+						D.ONLINE_SORT = #{onlineSort,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null and expFleid1 != ''">
+						D.EXP_FLEID_1 like CONCAT(CONCAT('%', #{expFleid1,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null and expFleid2 != ''">
+						D.EXP_FLEID_2 like CONCAT(CONCAT('%', #{expFleid2,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						D.INSERT_ID = #{insertId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null and insertDate !=''" >
+			        	(D.INSERT_DATE between  #{insertDateStart,jdbcType=DATE}  AND  #{insertDateEnd,jdbcType=DATE}) and
+			        </if>
+        	1=1 
+	</select>
+	
+	<!-- 根据在线客服项对象的单个字段查询在线客服项对象信息 -->
+	<select id="getOnLineServiceItemByField" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM  NP_SYS_ON_LINE_SERVICE_ITEM D 
+		   WHERE 
+				<!-- 记录ID -->
+					<if test="onLineServiceItemId != null">
+						D.ON_LINE_SERVICE_ITEM_ID = #{onLineServiceItemId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 在线客服记录ID -->
+					<if test="onLineServiceId != null">
+						D.ON_LINE_SERVICE_ID = #{onLineServiceId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 客服名称 -->
+					<if test="name != null and name !=''" >
+						D.NAME like CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 联系号码 -->
+					<if test="contactNumber != null and contactNumber !=''" >
+						D.CONTACT_NUMBER like CONCAT(CONCAT('%', #{contactNumber,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 联系类型 -->
+					<if test="contactType != null">
+						D.CONTACT_TYPE = #{contactType,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 员工ID -->
+					<if test="empId != null">
+						D.EMP_ID = #{empId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 排序 -->
+					<if test="onlineSort != null">
+						D.ONLINE_SORT = #{onlineSort,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null and expFleid1 !=''" >
+						D.EXP_FLEID_1 like CONCAT(CONCAT('%', #{expFleid1,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null and expFleid2 !=''" >
+						D.EXP_FLEID_2 like CONCAT(CONCAT('%', #{expFleid2,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						D.INSERT_ID = #{insertId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null and insertDate !=''" >
+			        	(D.INSERT_DATE between  #{insertDateStart,jdbcType=DATE}  AND  #{insertDateEnd,jdbcType=DATE}) and
+			        </if>
+        	1=1 
+		    LIMIT #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询在线客服项对象信息总数 -->
+	<select id="queryOnLineServiceItemTotal" resultType="java.lang.Integer">
+		SELECT COUNT(ON_LINE_SERVICE_ITEM_ID) FROM NP_SYS_ON_LINE_SERVICE_ITEM
+	</select>
+	
+	<!-- 分页查询在线客服项对象信息 -->
+	<select id="queryOnLineServiceItemByPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM NP_SYS_ON_LINE_SERVICE_ITEM 
+		LIMIT  #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 根据在线客服id删除在线客服项 -->
+	<update id="deleteOnLineServiceItem2" parameterType="java.lang.Integer">
+		DELETE FROM NP_SYS_ON_LINE_SERVICE_ITEM 
+		WHERE ON_LINE_SERVICE_ID = #{onLineServiceId,jdbcType=BIGINT}
+		
+	</update>
+	
+	<!-- 根据在线客服对象的id查询在线客服项对象 -->
+	<select id="getOnLineServiceItem" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_ON_LINE_SERVICE_ITEM 
+		WHERE ON_LINE_SERVICE_ID = #{onLineServiceId,jdbcType=BIGINT}
+		ORDER BY ONLINE_SORT
+	</select>
+	<!-- 查询在线客服项对象信息总数 -->
+	<select id="selectCountByOnLineService" resultType="java.lang.Integer">
+		SELECT COUNT(ON_LINE_SERVICE_ITEM_ID) FROM NP_SYS_ON_LINE_SERVICE_ITEM 
+		WHERE ON_LINE_SERVICE_ID = #{onLineServiceId,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 根据在线客服项对象的id字符集合删除在线客服项对象 -->
+	<delete id="delOnLineServiceItem" parameterType="java.lang.Integer">
+		DELETE FROM NP_SYS_ON_LINE_SERVICE_ITEM 
+		WHERE ON_LINE_SERVICE_ITEM_ID = #{onLineServiceItemId,jdbcType=BIGINT}
+		
+	</delete>
+	
+	<!-- 根据在线客服对象的id查询在线客服项对象 -->
+    <select id="selectItemsByType" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+        <include refid="baseSql"/>
+        FROM NP_SYS_ON_LINE_SERVICE_ITEM
+        WHERE CONTACT_TYPE = #{contactType,jdbcType=BIGINT}
+
+    </select>
+</mapper>

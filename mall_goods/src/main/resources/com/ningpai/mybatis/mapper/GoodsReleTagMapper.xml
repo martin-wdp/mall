@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.goods.dao.GoodsReleTagMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsReleTag" >
+    <id column="rela_tag_id" property="relaTagId" jdbcType="BIGINT" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="tag_id" property="tagId" jdbcType="BIGINT" />
+    <result column="rela_tag_delflag" property="relaTagDelflag" jdbcType="CHAR" />
+    <result column="rela_tag_create_name" property="relaTagCreateName" jdbcType="VARCHAR" />
+    <result column="rela_tag_create_time" property="relaTagCreateTime" jdbcType="TIMESTAMP" />
+    <result column="rela_tag_del_name" property="relaTagDelName" jdbcType="VARCHAR" />
+    <result column="rela_tag_del_time" property="relaTagDelTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap type="com.ningpai.goods.vo.GoodsReleTagVo" id="VoResultMap">
+  	<id column="rela_tag_id" property="relaTagId" jdbcType="BIGINT" />
+  	<result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="rela_tag_delflag" property="relaTagDelflag" jdbcType="CHAR" />
+    <association property="goodsTag" column="tag_id" select="com.ningpai.goods.dao.GoodsTagMapper.selectByPrimaryKey"></association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    rela_tag_id, goods_id, tag_id, rela_tag_delflag, rela_tag_create_name, rela_tag_create_time, 
+    rela_tag_del_name, rela_tag_del_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_goods_rela_tag
+    where rela_tag_id = #{relaTagId,jdbcType=BIGINT}
+  </select>
+  <!-- 删除关联记录 更新字段 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.util.Map" >
+    update np_goods_rela_tag  set rela_tag_delflag='1',rela_tag_del_name=#{delName},
+    rela_tag_del_time=NOW()
+    where rela_tag_id = #{relaTagId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.goods.bean.GoodsReleTag" >
+    insert into np_goods_rela_tag (rela_tag_id, goods_id, tag_id, 
+      rela_tag_delflag, rela_tag_create_name, rela_tag_create_time, 
+      rela_tag_del_name, rela_tag_del_time)
+    values (#{relaTagId,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, #{tagId,jdbcType=BIGINT}, 
+      #{relaTagDelflag,jdbcType=CHAR}, #{relaTagCreateName,jdbcType=VARCHAR}, #{relaTagCreateTime,jdbcType=TIMESTAMP}, 
+      #{relaTagDelName,jdbcType=VARCHAR}, #{relaTagDelTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.goods.bean.GoodsReleTag" >
+    insert into np_goods_rela_tag
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="relaTagId != null" >
+        rela_tag_id,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="tagId != null" >
+        tag_id,
+      </if>
+      <if test="relaTagDelflag != null" >
+        rela_tag_delflag,
+      </if>
+      <if test="relaTagCreateName != null" >
+        rela_tag_create_name,
+      </if>
+        rela_tag_create_time,
+      <if test="relaTagDelName != null" >
+        rela_tag_del_name,
+      </if>
+      <if test="relaTagDelTime != null" >
+        rela_tag_del_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="relaTagId != null" >
+        #{relaTagId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="tagId != null" >
+        #{tagId,jdbcType=BIGINT},
+      </if>
+      <if test="relaTagDelflag != null" >
+        #{relaTagDelflag,jdbcType=CHAR},
+      </if>
+      <if test="relaTagCreateName != null" >
+        #{relaTagCreateName,jdbcType=VARCHAR},
+      </if>
+        NOW(),
+      <if test="relaTagDelName != null" >
+        #{relaTagDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="relaTagDelTime != null" >
+        #{relaTagDelTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.goods.bean.GoodsReleTag" >
+    update np_goods_rela_tag
+    <set >
+      <if test="goodsId != null" >
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="tagId != null" >
+        tag_id = #{tagId,jdbcType=BIGINT},
+      </if>
+      <if test="relaTagDelflag != null" >
+        rela_tag_delflag = #{relaTagDelflag,jdbcType=CHAR},
+      </if>
+      <if test="relaTagCreateName != null" >
+        rela_tag_create_name = #{relaTagCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="relaTagCreateTime != null" >
+        rela_tag_create_time = #{relaTagCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="relaTagDelName != null" >
+        rela_tag_del_name = #{relaTagDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="relaTagDelTime != null" >
+        rela_tag_del_time = #{relaTagDelTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where rela_tag_id = #{relaTagId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.goods.bean.GoodsReleTag" >
+    update np_goods_rela_tag
+    set goods_id = #{goodsId,jdbcType=BIGINT},
+      tag_id = #{tagId,jdbcType=BIGINT},
+      rela_tag_delflag = #{relaTagDelflag,jdbcType=CHAR},
+      rela_tag_create_name = #{relaTagCreateName,jdbcType=VARCHAR},
+      rela_tag_create_time = #{relaTagCreateTime,jdbcType=TIMESTAMP},
+      rela_tag_del_name = #{relaTagDelName,jdbcType=VARCHAR},
+      rela_tag_del_time = #{relaTagDelTime,jdbcType=TIMESTAMP}
+    where rela_tag_id = #{relaTagId,jdbcType=BIGINT}
+  </update>
+  <!-- 根据商品ID查询所有的关联记录 -->
+  <select id="queryAllByGoodsId" parameterType="java.lang.Long" resultMap="VoResultMap">
+  	select 
+  		<include refid="Base_Column_List" />
+    from np_goods_rela_tag where goods_id=#{goodsId}
+    and rela_tag_delflag='0'
+  </select>
+  <!-- 根据商品ID和标签ID查询实体 -->
+  <select id="queryByGoodsIdAndTagId" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select 
+  		<include refid="Base_Column_List" />
+    from np_goods_rela_tag where goods_id=#{goodsId} and tag_id=#{tagId}
+  </select>
+  
+  <!-- 根据货品ID查询关联的标签集合 -->
+  <select id="queryAllByProductId" parameterType="java.lang.Long" resultMap="VoResultMap">
+      	select 
+  		<include refid="Base_Column_List" />
+	    from np_goods_rela_tag where goods_id=(select goods_id from np_goods_info where goods_info_id=#{productId})
+	    and rela_tag_delflag='0'
+  </select>
+  
+</mapper>

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.goods.dao.GoodsTypeExpandParamValueMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsTypeExpandParamValue" >
+    <id column="expandparam_value_id" property="expandparamValueId" jdbcType="BIGINT" />
+    <result column="expandparam_id" property="expandparamId" jdbcType="BIGINT" />
+    <result column="expandparam_value_name" property="expandparamValueName" jdbcType="VARCHAR" />
+    <result column="expandparam_value_sort" property="expandparamValueSort" jdbcType="INTEGER" />
+    <result column="expandparam_value_delflag" property="expandparamValueDelflag" jdbcType="CHAR" />
+    <result column="expandparam_value_create_name" property="expandparamValueCreateName" jdbcType="VARCHAR" />
+    <result column="expandparam_value_create_time" property="expandparamValueCreateTime" jdbcType="TIMESTAMP" />
+    <result column="expandparam_value_modified_name" property="expandparamValueModifiedName" jdbcType="VARCHAR" />
+    <result column="expandparam_value_modified_time" property="expandparamValueModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="expandparam_value_del_name" property="expandparamValueDelName" jdbcType="VARCHAR" />
+    <result column="expandparam_value_del_time" property="expandparamValueDelTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    expandparam_value_id, expandparam_id, expandparam_value_name, expandparam_value_sort, 
+    expandparam_value_delflag, expandparam_value_create_name, expandparam_value_create_time, 
+    expandparam_value_modified_name, expandparam_value_modified_time, expandparam_value_del_name, 
+    expandparam_value_del_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_goods_type_expandparam_value
+    where expandparam_value_id = #{expandparamValueId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.util.Map" >
+    update np_goods_type_expandparam_value set expandparam_value_delflag='1',
+    expandparam_value_del_name=#{delName},expandparam_value_del_time=NOW()
+    where expandparam_value_id = #{expandparamValueId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.goods.bean.GoodsTypeExpandParamValue" >
+    insert into np_goods_type_expandparam_value (expandparam_value_id, expandparam_id, 
+      expandparam_value_name, expandparam_value_sort, 
+      expandparam_value_delflag, expandparam_value_create_name, 
+      expandparam_value_create_time, expandparam_value_modified_name, 
+      expandparam_value_modified_time, expandparam_value_del_name, 
+      expandparam_value_del_time)
+    values (#{expandparamValueId,jdbcType=BIGINT}, #{expandparamId,jdbcType=BIGINT}, 
+      #{expandparamValueName,jdbcType=VARCHAR}, #{expandparamValueSort,jdbcType=INTEGER}, 
+      #{expandparamValueDelflag,jdbcType=CHAR}, #{expandparamValueCreateName,jdbcType=VARCHAR}, 
+      #{expandparamValueCreateTime,jdbcType=TIMESTAMP}, #{expandparamValueModifiedName,jdbcType=VARCHAR}, 
+      #{expandparamValueModifiedTime,jdbcType=TIMESTAMP}, #{expandparamValueDelName,jdbcType=VARCHAR}, 
+      #{expandparamValueDelTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.goods.bean.GoodsTypeExpandParamValue" >
+    insert into np_goods_type_expandparam_value
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="expandparamValueId != null" >
+        expandparam_value_id,
+      </if>
+      <if test="expandparamId != null" >
+        expandparam_id,
+      </if>
+      <if test="expandparamValueName != null" >
+        expandparam_value_name,
+      </if>
+      <if test="expandparamValueSort != null" >
+        expandparam_value_sort,
+      </if>
+      <if test="expandparamValueDelflag != null" >
+        expandparam_value_delflag,
+      </if>
+      <if test="expandparamValueCreateName != null" >
+        expandparam_value_create_name,
+      </if>
+      <if test="expandparamValueCreateTime != null" >
+        expandparam_value_create_time,
+      </if>
+      <if test="expandparamValueModifiedName != null" >
+        expandparam_value_modified_name,
+      </if>
+      <if test="expandparamValueModifiedTime != null" >
+        expandparam_value_modified_time,
+      </if>
+      <if test="expandparamValueDelName != null" >
+        expandparam_value_del_name,
+      </if>
+      <if test="expandparamValueDelTime != null" >
+        expandparam_value_del_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="expandparamValueId != null" >
+        #{expandparamValueId,jdbcType=BIGINT},
+      </if>
+      <if test="expandparamId != null" >
+        #{expandparamId,jdbcType=BIGINT},
+      </if>
+      <if test="expandparamValueName != null" >
+        #{expandparamValueName,jdbcType=VARCHAR},
+      </if>
+      <if test="expandparamValueSort != null" >
+        #{expandparamValueSort,jdbcType=INTEGER},
+      </if>
+      <if test="expandparamValueDelflag != null" >
+        #{expandparamValueDelflag,jdbcType=CHAR},
+      </if>
+      <if test="expandparamValueCreateName != null" >
+        #{expandparamValueCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="expandparamValueCreateTime != null" >
+        #{expandparamValueCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expandparamValueModifiedName != null" >
+        #{expandparamValueModifiedName,jdbcType=VARCHAR},
+      </if>
+      <if test="expandparamValueModifiedTime != null" >
+        #{expandparamValueModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expandparamValueDelName != null" >
+        #{expandparamValueDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="expandparamValueDelTime != null" >
+        #{expandparamValueDelTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.goods.bean.GoodsTypeExpandParamValue" >
+    update np_goods_type_expandparam_value
+    <set >
+      <if test="expandparamId != null" >
+        expandparam_id = #{expandparamId,jdbcType=BIGINT},
+      </if>
+      <if test="expandparamValueName != null" >
+        expandparam_value_name = #{expandparamValueName,jdbcType=VARCHAR},
+      </if>
+      <if test="expandparamValueSort != null" >
+        expandparam_value_sort = #{expandparamValueSort,jdbcType=INTEGER},
+      </if>
+      <if test="expandparamValueDelflag != null" >
+        expandparam_value_delflag = #{expandparamValueDelflag,jdbcType=CHAR},
+      </if>
+      <if test="expandparamValueCreateName != null" >
+        expandparam_value_create_name = #{expandparamValueCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="expandparamValueCreateTime != null" >
+        expandparam_value_create_time = #{expandparamValueCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expandparamValueModifiedName != null" >
+        expandparam_value_modified_name = #{expandparamValueModifiedName,jdbcType=VARCHAR},
+      </if>
+      <if test="expandparamValueModifiedTime != null" >
+        expandparam_value_modified_time = #{expandparamValueModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expandparamValueDelName != null" >
+        expandparam_value_del_name = #{expandparamValueDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="expandparamValueDelTime != null" >
+        expandparam_value_del_time = #{expandparamValueDelTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where expandparam_value_id = #{expandparamValueId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.goods.bean.GoodsTypeExpandParamValue" >
+    update np_goods_type_expandparam_value
+    set expandparam_id = #{expandparamId,jdbcType=BIGINT},
+      expandparam_value_name = #{expandparamValueName,jdbcType=VARCHAR},
+      expandparam_value_sort = #{expandparamValueSort,jdbcType=INTEGER},
+      expandparam_value_delflag = #{expandparamValueDelflag,jdbcType=CHAR},
+      expandparam_value_create_name = #{expandparamValueCreateName,jdbcType=VARCHAR},
+      expandparam_value_create_time = #{expandparamValueCreateTime,jdbcType=TIMESTAMP},
+      expandparam_value_modified_name = #{expandparamValueModifiedName,jdbcType=VARCHAR},
+      expandparam_value_modified_time = #{expandparamValueModifiedTime,jdbcType=TIMESTAMP},
+      expandparam_value_del_name = #{expandparamValueDelName,jdbcType=VARCHAR},
+      expandparam_value_del_time = #{expandparamValueDelTime,jdbcType=TIMESTAMP}
+    where expandparam_value_id = #{expandparamValueId,jdbcType=BIGINT}
+  </update>
+  <!-- 根据属性ID查询属性值 -->
+  <select id="queryParamValueByParamId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  	select 
+    <include refid="Base_Column_List" />
+    from np_goods_type_expandparam_value
+    where expandparam_id = #{paramId,jdbcType=BIGINT} and expandparam_value_delflag='0' 
+    order by expandparam_value_sort
+  </select>
+</mapper>

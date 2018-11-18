@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.group.mapper.GroupTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.group.bean.GroupType" >
+    <id column="group_type_id" property="groupTypeId" jdbcType="BIGINT" />
+    <result column="group_type_name" property="groupTypeName" jdbcType="VARCHAR" />
+    <result column="group_type_remark" property="groupTypeRemark" jdbcType="VARCHAR" />
+    <result column="group_type_create_time" property="groupTypeCreateTime" jdbcType="TIMESTAMP" />
+    <result column="group_type_modify_time" property="groupTypeModifyTime" jdbcType="TIMESTAMP" />
+    <result column="group_type_del_flag" property="groupTypeDelFlag" jdbcType="CHAR" />
+    <result column="group_type_status" property="groupTypeStatus" jdbcType="CHAR" />
+    <result column="group_type_sort" property="groupTypeSort" jdbcType="BIGINT" />
+    <result column="group_type_seo_title" property="seoTitle" jdbcType="VARCHAR" />
+    <result column="group_type_seo_keyword" property="seoKeyWord" jdbcType="VARCHAR" />
+    <result column="group_type_seo_remark" property="seoRemark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    group_type_id, group_type_name, group_type_create_time, group_type_modify_time, 
+    group_type_del_flag,group_type_status,group_type_remark,group_type_sort,group_type_seo_title,
+    group_type_seo_keyword,group_type_seo_remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_group_type
+    where group_type_id = #{groupTypeId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_group_type
+    where group_type_id = #{groupTypeId,jdbcType=BIGINT}
+  </delete>
+  
+  <!-- 删除小组分类-->
+  <update id="deleteByGroupTypeId" parameterType="java.lang.Long" >
+     update np_group_type
+     set group_type_del_flag = '1' , group_type_modify_time = sysdate()
+     where group_type_id = #{groupTypeId,jdbcType=BIGINT}
+  </update>
+  
+  <!--恢复小组分类  -->
+  <update id="recoveryGroupById" parameterType="java.lang.Long" >
+     update np_group_type
+     set group_type_status = '0' 
+     where group_type_id = #{groupTypeId,jdbcType=BIGINT}
+  </update>
+  
+  <!--停用小组分类  -->
+  <update id="disableGroupById" parameterType="java.lang.Long" >
+     update np_group_type
+     set group_type_status = '1'
+     where group_type_id = #{groupTypeId,jdbcType=BIGINT}
+  </update>
+  
+  <insert id="insert" parameterType="com.ningpai.group.bean.GroupType" useGeneratedKeys="true" keyProperty="groupTypeId" >
+    insert into np_group_type (group_type_name, group_type_create_time, 
+      group_type_modify_time, group_type_del_flag,group_type_status,group_type_remark,
+      group_type_sort,group_type_seo_title,group_type_seo_keyword,group_type_seo_remark)
+    values (#{groupTypeName,jdbcType=VARCHAR}, #{groupTypeCreateTime,jdbcType=TIMESTAMP}, 
+      #{groupTypeModifyTime,jdbcType=TIMESTAMP}, #{groupTypeDelFlag,jdbcType=CHAR},
+      #{groupTypeStatus,jdbcType=CHAR},#{groupTypeRemark,jdbcType=VARCHAR},
+      #{groupTypeSort,jdbcType=BIGINT},#{seoTitle,jdbcType=VARCHAR},#{seoKeyWord,jdbcType=VARCHAR},
+      #{seoRemark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.group.bean.GroupType" useGeneratedKeys="true" keyProperty="groupTypeId" >
+    insert into np_group_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      group_type_name,
+      group_type_create_time,
+      group_type_modify_time,
+      group_type_del_flag,
+      group_type_status,
+      group_type_remark,
+      group_type_sort,
+      group_type_seo_title,
+      group_type_seo_keyword,
+      group_type_seo_remark
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{groupTypeName,jdbcType=VARCHAR},
+      #{groupTypeCreateTime,jdbcType=TIMESTAMP},
+      #{groupTypeModifyTime,jdbcType=TIMESTAMP},
+      #{groupTypeDelFlag,jdbcType=CHAR},
+      #{groupTypeStatus,jdbcType=CHAR},
+      #{groupTypeRemark,jdbcType=VARCHAR},
+      #{groupTypeSort,jdbcType=BIGINT},
+      #{seoTitle,jdbcType=VARCHAR},
+      #{seoKeyWord,jdbcType=VARCHAR},
+      #{seoRemark,jdbcType=VARCHAR}
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.group.bean.GroupType" >
+    update np_group_type
+    <set >
+      <if test="groupTypeName != null" >
+        group_type_name = #{groupTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupTypeCreateTime != null" >
+        group_type_create_time = #{groupTypeCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="groupTypeModifyTime != null" >
+        group_type_modify_time = #{groupTypeModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="groupTypeDelFlag != null" >
+        group_type_del_flag = #{groupTypeDelFlag,jdbcType=CHAR},
+      </if>
+      <if test="groupTypeStatus != null" >
+        group_type_status = #{groupTypeStatus,jdbcType=CHAR},
+      </if>
+      <if test="groupTypeRemark != null" >
+        group_type_remark = #{groupTypeRemark,jdbcType=CHAR},
+      </if>
+      <if test="groupTypeSort != null">
+     	 group_type_sort = #{groupTypeSort,jdbcType=BIGINT},
+      </if>
+      <if test="seoTitle != null">
+     	 group_type_seo_title = #{seoTitle,jdbcType=BIGINT},
+      </if>
+      <if test="seoKeyWord != null">
+     	 group_type_seo_keyword = #{seoKeyWord,jdbcType=BIGINT},
+      </if>
+      <if test="seoRemark != null">
+     	 group_type_seo_remark = #{seoRemark,jdbcType=BIGINT},
+      </if>
+    </set>
+    where group_type_id = #{groupTypeId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.group.bean.GroupType" >
+    update np_group_type
+    set group_type_name = #{groupTypeName,jdbcType=VARCHAR},
+      group_type_create_time = #{groupTypeCreateTime,jdbcType=TIMESTAMP},
+      group_type_modify_time = #{groupTypeModifyTime,jdbcType=TIMESTAMP},
+      group_type_del_flag = #{groupTypeDelFlag,jdbcType=CHAR},
+      group_type_status = #{groupTypeStatus,jdbcType=CHAR},
+      group_type_remark = #{groupTypeRemark,jdbcType=CHAR},
+      group_type_sort = #{groupTypeSort,jdbcType=BIGINT},
+      group_type_seo_title = #{seoTitle,jdbcType=BIGINT},
+      group_type_seo_keyword = #{seoKeyWord,jdbcType=BIGINT},
+      group_type_seo_remark = #{seoRemark,jdbcType=BIGINT},
+    where group_type_id = #{groupTypeId,jdbcType=BIGINT}
+  </update>
+  
+ 
+  
+  <select id="selectAllType" resultMap="BaseResultMap">
+   select
+   <include refid="Base_Column_List" />
+     from np_group_type
+     where 1=1 and group_type_del_flag = '0' and group_type_status = "0"
+  </select>
+  
+  <!--查询小组分类  -->
+  <select id="selectGroupTypeByLimit" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+     <include refid="Base_Column_List" />
+     from np_group_type
+     where 1=1 and group_type_del_flag = '0'
+     order by  group_type_create_time asc
+     limit #{startRowNum,jdbcType=BIGINT},#{endRowNum,jdbcType=BIGINT}
+  </select>
+  
+  <!-- -根据分页条件查询小组分类分页列表 -->
+   <select id="selectgrouptype"  parameterType="com.ningpai.group.bean.GroupType" resultMap="BaseResultMap">
+     select
+     <include refid="Base_Column_List" />
+     from np_group_type
+     where 1=1 and group_type_del_flag = '0'
+     <if test="groupTypeName != null and groupTypeName != '' ">
+      and group_type_name like CONCAT('%',#{groupTypeName},'%')
+     </if>
+     order by  group_type_create_time asc
+     limit #{startRowNum,jdbcType=BIGINT},#{endRowNum,jdbcType=BIGINT}
+  </select>
+  
+  <!--按条件查询小组分类数量  -->
+  <select id="selectGroupTypeSize" resultType="java.lang.Long" parameterType="com.ningpai.group.bean.GroupType">
+  select count(*) 
+  from np_group_type
+  where 1=1 and group_type_del_flag = '0'
+  <if test="groupTypeName != null and groupTypeName != '' ">
+      and group_type_name like CONCAT('%',#{groupTypeName},'%')
+  </if>
+  </select>
+  
+   <!-- 根据分类名称搜索 -->
+  <select id="queryTypeByTypeName" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/>from np_group_type
+  	where 1=1 and group_type_del_flag = '0' and group_type_name=#{groupTypeName} 
+  </select>
+  
+</mapper>

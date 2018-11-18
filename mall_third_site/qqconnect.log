@@ -1,0 +1,200 @@
+0    INFO  [2018-07-08 23:46:26]  No local configuration file unitils-local.properties found.
+200  DEBUG [2018-07-08 23:46:26]  Skipping module easymock. Module class not found in classpath. Module class name: org.unitils.easymock.EasyMockModule
+202  DEBUG [2018-07-08 23:46:26]  Skipping module hibernate. Module class not found in classpath. Module class name: org.unitils.orm.hibernate.HibernateModule
+250  DEBUG [2018-07-08 23:46:26]  Creating instance of interface org.unitils.io.filecontent.FileContentReaderFactory. Implementation class org.unitils.io.filecontent.impl.DefaultFileContentReaderFactory
+258  DEBUG [2018-07-08 23:46:26]  Creating instance of interface org.unitils.io.reader.ReadingStrategyFactory. Implementation class org.unitils.io.reader.impl.FileReadingStrategyFactory
+266  DEBUG [2018-07-08 23:46:26]  Creating instance of interface org.unitils.io.reader.FileResolvingStrategyFactory. Implementation class org.unitils.io.reader.impl.DefaultFileResolvingStrategyFactory
+286  DEBUG [2018-07-08 23:46:26]  Creating instance of interface org.unitils.io.temp.TempServiceFactory. Implementation class org.unitils.io.temp.impl.DefaultTempServiceFactory
+297  DEBUG [2018-07-08 23:46:26]  Skipping module jpa. Module class not found in classpath. Module class name: org.unitils.orm.jpa.JpaModule
+448  DEBUG [2018-07-08 23:46:27]  Creating instance of interface org.unitils.database.transaction.UnitilsTransactionManager. Implementation class org.unitils.database.transaction.impl.DefaultUnitilsTransactionManager
+1987 WARN  [2018-07-08 23:46:28]  Could not create initialized instance of type BigDecimal$$EnhancerByCGLIB$$1e6e37e6. No no-arg constructor found. All fields in the instance will have the java default values. Add a default constructor (can be private) if the fields should be initialized. If this concerns an innerclass, make sure it is declared static. Partial mocking of non-static innerclasses is not supported.
+7415 INFO  [2018-07-08 23:46:34]  
+
+Observed scenario:
+
+1. registerMapperMock.selectSms() -> sms1  .....  at com.ningpai.third.register.service.impl.RegisterServiceImpl.newsendPost(RegisterServiceImpl.java:53)
+
+
+Detailed scenario:
+
+1. registerMapperMock.selectSms() -> sms1
+- sms1 -> Sms<loginName=null, password=null, smsKind=null, sendSim=null, expSmsId=null, msgContext=null, httpUrl=null>
+- Observed at com.ningpai.third.register.service.impl.RegisterServiceImpl.newsendPost(RegisterServiceImpl.java:53)
+- Behavior defined at com.junit.third.register.service.RegisterServiceTest.testNewsendPost(RegisterServiceTest.java:50)
+
+
+7440 INFO  [2018-07-08 23:46:34]  
+
+Observed scenario:
+
+1. registerMapperMock.selectSms() -> sms1  .....  at com.ningpai.third.register.service.impl.RegisterServiceImpl.sendPost(RegisterServiceImpl.java:30)
+
+
+Detailed scenario:
+
+1. registerMapperMock.selectSms() -> sms1
+- sms1 -> Sms<loginName=null, password=null, smsKind=null, sendSim=null, expSmsId=null, msgContext=null, httpUrl=null>
+- Observed at com.ningpai.third.register.service.impl.RegisterServiceImpl.sendPost(RegisterServiceImpl.java:30)
+- Behavior defined at com.junit.third.register.service.RegisterServiceTest.testSendPost(RegisterServiceTest.java:40)
+
+
+0    INFO  [2018-07-11 00:02:33]  No local configuration file unitils-local.properties found.
+219  DEBUG [2018-07-11 00:02:33]  Skipping module easymock. Module class not found in classpath. Module class name: org.unitils.easymock.EasyMockModule
+222  DEBUG [2018-07-11 00:02:33]  Skipping module hibernate. Module class not found in classpath. Module class name: org.unitils.orm.hibernate.HibernateModule
+277  DEBUG [2018-07-11 00:02:33]  Creating instance of interface org.unitils.io.filecontent.FileContentReaderFactory. Implementation class org.unitils.io.filecontent.impl.DefaultFileContentReaderFactory
+285  DEBUG [2018-07-11 00:02:33]  Creating instance of interface org.unitils.io.reader.ReadingStrategyFactory. Implementation class org.unitils.io.reader.impl.FileReadingStrategyFactory
+295  DEBUG [2018-07-11 00:02:33]  Creating instance of interface org.unitils.io.reader.FileResolvingStrategyFactory. Implementation class org.unitils.io.reader.impl.DefaultFileResolvingStrategyFactory
+328  DEBUG [2018-07-11 00:02:33]  Creating instance of interface org.unitils.io.temp.TempServiceFactory. Implementation class org.unitils.io.temp.impl.DefaultTempServiceFactory
+337  DEBUG [2018-07-11 00:02:33]  Skipping module jpa. Module class not found in classpath. Module class name: org.unitils.orm.jpa.JpaModule
+648  DEBUG [2018-07-11 00:02:34]  Creating instance of interface org.unitils.database.transaction.UnitilsTransactionManager. Implementation class org.unitils.database.transaction.impl.DefaultUnitilsTransactionManager
+2276 WARN  [2018-07-11 00:02:35]  Could not create initialized instance of type BigDecimal$$EnhancerByCGLIB$$2956bd55. No no-arg constructor found. All fields in the instance will have the java default values. Add a default constructor (can be private) if the fields should be initialized. If this concerns an innerclass, make sure it is declared static. Partial mocking of non-static innerclasses is not supported.
+10007 INFO  [2018-07-11 00:02:43]  
+
+Observed scenario:
+
+1. registerMapperMock.selectSms() -> sms1  .....  at com.ningpai.third.register.service.impl.RegisterServiceImpl.newsendPost(RegisterServiceImpl.java:53)
+
+
+Detailed scenario:
+
+1. registerMapperMock.selectSms() -> sms1
+- sms1 -> Sms<loginName=null, password=null, smsKind=null, sendSim=null, expSmsId=null, msgContext=null, httpUrl=null>
+- Observed at com.ningpai.third.register.service.impl.RegisterServiceImpl.newsendPost(RegisterServiceImpl.java:53)
+- Behavior defined at com.junit.third.register.service.RegisterServiceTest.testNewsendPost(RegisterServiceTest.java:50)
+
+
+10059 INFO  [2018-07-11 00:02:43]  
+
+Observed scenario:
+
+1. registerMapperMock.selectSms() -> sms1  .....  at com.ningpai.third.register.service.impl.RegisterServiceImpl.sendPost(RegisterServiceImpl.java:30)
+
+
+Detailed scenario:
+
+1. registerMapperMock.selectSms() -> sms1
+- sms1 -> Sms<loginName=null, password=null, smsKind=null, sendSim=null, expSmsId=null, msgContext=null, httpUrl=null>
+- Observed at com.ningpai.third.register.service.impl.RegisterServiceImpl.sendPost(RegisterServiceImpl.java:30)
+- Behavior defined at com.junit.third.register.service.RegisterServiceTest.testSendPost(RegisterServiceTest.java:40)
+
+
+0    INFO  [2018-07-11 23:30:43]  No local configuration file unitils-local.properties found.
+89   DEBUG [2018-07-11 23:30:43]  Skipping module easymock. Module class not found in classpath. Module class name: org.unitils.easymock.EasyMockModule
+90   DEBUG [2018-07-11 23:30:43]  Skipping module hibernate. Module class not found in classpath. Module class name: org.unitils.orm.hibernate.HibernateModule
+125  DEBUG [2018-07-11 23:30:43]  Creating instance of interface org.unitils.io.filecontent.FileContentReaderFactory. Implementation class org.unitils.io.filecontent.impl.DefaultFileContentReaderFactory
+128  DEBUG [2018-07-11 23:30:43]  Creating instance of interface org.unitils.io.reader.ReadingStrategyFactory. Implementation class org.unitils.io.reader.impl.FileReadingStrategyFactory
+129  DEBUG [2018-07-11 23:30:43]  Creating instance of interface org.unitils.io.reader.FileResolvingStrategyFactory. Implementation class org.unitils.io.reader.impl.DefaultFileResolvingStrategyFactory
+134  DEBUG [2018-07-11 23:30:43]  Creating instance of interface org.unitils.io.temp.TempServiceFactory. Implementation class org.unitils.io.temp.impl.DefaultTempServiceFactory
+137  DEBUG [2018-07-11 23:30:43]  Skipping module jpa. Module class not found in classpath. Module class name: org.unitils.orm.jpa.JpaModule
+224  DEBUG [2018-07-11 23:30:43]  Creating instance of interface org.unitils.database.transaction.UnitilsTransactionManager. Implementation class org.unitils.database.transaction.impl.DefaultUnitilsTransactionManager
+722  WARN  [2018-07-11 23:30:43]  Could not create initialized instance of type BigDecimal$$EnhancerByCGLIB$$fa729648. No no-arg constructor found. All fields in the instance will have the java default values. Add a default constructor (can be private) if the fields should be initialized. If this concerns an innerclass, make sure it is declared static. Partial mocking of non-static innerclasses is not supported.
+2115 INFO  [2018-07-11 23:30:45]  
+
+Observed scenario:
+
+1. registerMapperMock.selectSms() -> sms1  .....  at com.ningpai.third.register.service.impl.RegisterServiceImpl.newsendPost(RegisterServiceImpl.java:53)
+
+
+Detailed scenario:
+
+1. registerMapperMock.selectSms() -> sms1
+- sms1 -> Sms<loginName=null, password=null, smsKind=null, sendSim=null, expSmsId=null, msgContext=null, httpUrl=null>
+- Observed at com.ningpai.third.register.service.impl.RegisterServiceImpl.newsendPost(RegisterServiceImpl.java:53)
+- Behavior defined at com.junit.third.register.service.RegisterServiceTest.testNewsendPost(RegisterServiceTest.java:50)
+
+
+2123 INFO  [2018-07-11 23:30:45]  
+
+Observed scenario:
+
+1. registerMapperMock.selectSms() -> sms1  .....  at com.ningpai.third.register.service.impl.RegisterServiceImpl.sendPost(RegisterServiceImpl.java:30)
+
+
+Detailed scenario:
+
+1. registerMapperMock.selectSms() -> sms1
+- sms1 -> Sms<loginName=null, password=null, smsKind=null, sendSim=null, expSmsId=null, msgContext=null, httpUrl=null>
+- Observed at com.ningpai.third.register.service.impl.RegisterServiceImpl.sendPost(RegisterServiceImpl.java:30)
+- Behavior defined at com.junit.third.register.service.RegisterServiceTest.testSendPost(RegisterServiceTest.java:40)
+
+
+0    INFO  [2018-07-12 16:03:01]  No local configuration file unitils-local.properties found.
+74   DEBUG [2018-07-12 16:03:01]  Skipping module easymock. Module class not found in classpath. Module class name: org.unitils.easymock.EasyMockModule
+74   DEBUG [2018-07-12 16:03:01]  Skipping module hibernate. Module class not found in classpath. Module class name: org.unitils.orm.hibernate.HibernateModule
+83   DEBUG [2018-07-12 16:03:01]  Creating instance of interface org.unitils.io.filecontent.FileContentReaderFactory. Implementation class org.unitils.io.filecontent.impl.DefaultFileContentReaderFactory
+85   DEBUG [2018-07-12 16:03:01]  Creating instance of interface org.unitils.io.reader.ReadingStrategyFactory. Implementation class org.unitils.io.reader.impl.FileReadingStrategyFactory
+86   DEBUG [2018-07-12 16:03:01]  Creating instance of interface org.unitils.io.reader.FileResolvingStrategyFactory. Implementation class org.unitils.io.reader.impl.DefaultFileResolvingStrategyFactory
+93   DEBUG [2018-07-12 16:03:01]  Creating instance of interface org.unitils.io.temp.TempServiceFactory. Implementation class org.unitils.io.temp.impl.DefaultTempServiceFactory
+98   DEBUG [2018-07-12 16:03:01]  Skipping module jpa. Module class not found in classpath. Module class name: org.unitils.orm.jpa.JpaModule
+165  DEBUG [2018-07-12 16:03:01]  Creating instance of interface org.unitils.database.transaction.UnitilsTransactionManager. Implementation class org.unitils.database.transaction.impl.DefaultUnitilsTransactionManager
+781  WARN  [2018-07-12 16:03:01]  Could not create initialized instance of type BigDecimal$$EnhancerByCGLIB$$22f8650c. No no-arg constructor found. All fields in the instance will have the java default values. Add a default constructor (can be private) if the fields should be initialized. If this concerns an innerclass, make sure it is declared static. Partial mocking of non-static innerclasses is not supported.
+3269 INFO  [2018-07-12 16:03:04]  
+
+Observed scenario:
+
+1. registerMapperMock.selectSms() -> sms1  .....  at com.ningpai.third.register.service.impl.RegisterServiceImpl.newsendPost(RegisterServiceImpl.java:53)
+
+
+Detailed scenario:
+
+1. registerMapperMock.selectSms() -> sms1
+- sms1 -> Sms<loginName=null, password=null, smsKind=null, sendSim=null, expSmsId=null, msgContext=null, httpUrl=null>
+- Observed at com.ningpai.third.register.service.impl.RegisterServiceImpl.newsendPost(RegisterServiceImpl.java:53)
+- Behavior defined at com.junit.third.register.service.RegisterServiceTest.testNewsendPost(RegisterServiceTest.java:50)
+
+
+3277 INFO  [2018-07-12 16:03:04]  
+
+Observed scenario:
+
+1. registerMapperMock.selectSms() -> sms1  .....  at com.ningpai.third.register.service.impl.RegisterServiceImpl.sendPost(RegisterServiceImpl.java:30)
+
+
+Detailed scenario:
+
+1. registerMapperMock.selectSms() -> sms1
+- sms1 -> Sms<loginName=null, password=null, smsKind=null, sendSim=null, expSmsId=null, msgContext=null, httpUrl=null>
+- Observed at com.ningpai.third.register.service.impl.RegisterServiceImpl.sendPost(RegisterServiceImpl.java:30)
+- Behavior defined at com.junit.third.register.service.RegisterServiceTest.testSendPost(RegisterServiceTest.java:40)
+
+
+1    INFO  [2018-07-12 16:12:10]  No local configuration file unitils-local.properties found.
+75   DEBUG [2018-07-12 16:12:10]  Skipping module easymock. Module class not found in classpath. Module class name: org.unitils.easymock.EasyMockModule
+75   DEBUG [2018-07-12 16:12:10]  Skipping module hibernate. Module class not found in classpath. Module class name: org.unitils.orm.hibernate.HibernateModule
+84   DEBUG [2018-07-12 16:12:10]  Creating instance of interface org.unitils.io.filecontent.FileContentReaderFactory. Implementation class org.unitils.io.filecontent.impl.DefaultFileContentReaderFactory
+86   DEBUG [2018-07-12 16:12:10]  Creating instance of interface org.unitils.io.reader.ReadingStrategyFactory. Implementation class org.unitils.io.reader.impl.FileReadingStrategyFactory
+89   DEBUG [2018-07-12 16:12:10]  Creating instance of interface org.unitils.io.reader.FileResolvingStrategyFactory. Implementation class org.unitils.io.reader.impl.DefaultFileResolvingStrategyFactory
+95   DEBUG [2018-07-12 16:12:10]  Creating instance of interface org.unitils.io.temp.TempServiceFactory. Implementation class org.unitils.io.temp.impl.DefaultTempServiceFactory
+100  DEBUG [2018-07-12 16:12:10]  Skipping module jpa. Module class not found in classpath. Module class name: org.unitils.orm.jpa.JpaModule
+160  DEBUG [2018-07-12 16:12:10]  Creating instance of interface org.unitils.database.transaction.UnitilsTransactionManager. Implementation class org.unitils.database.transaction.impl.DefaultUnitilsTransactionManager
+746  WARN  [2018-07-12 16:12:11]  Could not create initialized instance of type BigDecimal$$EnhancerByCGLIB$$53b5fce6. No no-arg constructor found. All fields in the instance will have the java default values. Add a default constructor (can be private) if the fields should be initialized. If this concerns an innerclass, make sure it is declared static. Partial mocking of non-static innerclasses is not supported.
+3201 INFO  [2018-07-12 16:12:13]  
+
+Observed scenario:
+
+1. registerMapperMock.selectSms() -> sms1  .....  at com.ningpai.third.register.service.impl.RegisterServiceImpl.newsendPost(RegisterServiceImpl.java:53)
+
+
+Detailed scenario:
+
+1. registerMapperMock.selectSms() -> sms1
+- sms1 -> Sms<loginName=null, password=null, smsKind=null, sendSim=null, expSmsId=null, msgContext=null, httpUrl=null>
+- Observed at com.ningpai.third.register.service.impl.RegisterServiceImpl.newsendPost(RegisterServiceImpl.java:53)
+- Behavior defined at com.junit.third.register.service.RegisterServiceTest.testNewsendPost(RegisterServiceTest.java:50)
+
+
+3211 INFO  [2018-07-12 16:12:13]  
+
+Observed scenario:
+
+1. registerMapperMock.selectSms() -> sms1  .....  at com.ningpai.third.register.service.impl.RegisterServiceImpl.sendPost(RegisterServiceImpl.java:30)
+
+
+Detailed scenario:
+
+1. registerMapperMock.selectSms() -> sms1
+- sms1 -> Sms<loginName=null, password=null, smsKind=null, sendSim=null, expSmsId=null, msgContext=null, httpUrl=null>
+- Observed at com.ningpai.third.register.service.impl.RegisterServiceImpl.sendPost(RegisterServiceImpl.java:30)
+- Behavior defined at com.junit.third.register.service.RegisterServiceTest.testSendPost(RegisterServiceTest.java:40)
+
+

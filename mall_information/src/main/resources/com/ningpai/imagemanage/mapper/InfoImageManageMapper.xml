@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.imagemanage.dao.InfoImageManageMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.imagemanage.bean.InfoImageManage" >
+    <id column="image_manage_id" property="imageManageId" jdbcType="BIGINT" />
+    <result column="image_manage_name" property="imageManageName" jdbcType="VARCHAR" />
+    <result column="image_manage_url" property="imageManageUrl" jdbcType="VARCHAR" />
+      <result column="big_img_url" property="bigImgUrl" jdbcType="VARCHAR" />
+      <result column="middle_img_url" property="middleImgUrl" jdbcType="VARCHAR" />
+      <result column="small_img_url" property="smallImgUrl" jdbcType="VARCHAR" />
+    <result column="classify_id" property="classifyId" jdbcType="BIGINT" />
+    <result column="image_online_date" property="imageOnlineDate" jdbcType="TIMESTAMP" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="delflag" property="delflag" jdbcType="CHAR" />
+    <result column="third_id" property="thirdId" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap id="BaseResultMapVo" type="com.ningpai.imagemanage.vo.InfoImageManageVo" >
+    <id column="image_manage_id" property="imageManageId" jdbcType="BIGINT" />
+    <result column="image_manage_name" property="imageManageName" jdbcType="VARCHAR" />
+    <result column="image_manage_url" property="imageManageUrl" jdbcType="VARCHAR" />
+    <result column="classify_id" property="classifyId" jdbcType="BIGINT" />
+    <result column="image_online_date" property="imageOnlineDate" jdbcType="TIMESTAMP" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="delflag" property="delflag" jdbcType="CHAR" />
+    <result column="third_id" property="thirdId" jdbcType="CHAR" />
+    <association column="classify_id" property="imgClassify" 
+			select="com.ningpai.imagemanage.dao.InfoImageClassifyMapper.selectByPrimaryKey"></association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    image_manage_id, image_manage_name, image_manage_url, classify_id, image_online_date, 
+    create_date, update_date, delflag, third_id,big_img_url,middle_img_url,small_img_url
+  </sql>
+  <!-- 查询开始 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_information_image_manage
+    where image_manage_id = #{imageManageId,jdbcType=BIGINT}
+  </select>
+  <!-- 根据图片分类查询图片信息总行数 -->
+  <select id="selectImageManageCountByParam" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select count(image_manage_id) from np_information_image_manage
+    where delflag = '0' 
+    <if test="classifyId != null" >
+		and classify_id = #{classifyId,jdbcType=BIGINT}
+	</if>
+      <if test="startDate != null and startDate!=''" >
+          <![CDATA[ and image_online_date >= #{startDate,jdbcType=TIMESTAMP}]]>
+      </if>
+      <if test="endDate != null and endDate!=''" >
+          <![CDATA[ and image_online_date <= CONCAT(#{endDate,jdbcType=TIMESTAMP},' 23:59:59')]]>
+      </if>
+	<if test="thirdId != null">
+		and third_id = #{thirdId,jdbcType=CHAR}
+	</if>
+  </select>
+  <!-- 根据图片分类查询图片信息 -->
+  <select id="selectImageManageByParam" resultMap="BaseResultMapVo" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_information_image_manage
+    where delflag = '0'
+    <if test="classifyId != null" >
+		and classify_id = #{classifyId,jdbcType=BIGINT}
+	</if>
+	<if test="thirdId != null">
+		and third_id = #{thirdId,jdbcType=CHAR}
+	</if>
+      <if test="startDate != null and startDate!=''" >
+          <![CDATA[ and image_online_date >= #{startDate,jdbcType=TIMESTAMP}]]>
+      </if>
+      <if test="endDate != null and endDate!=''" >
+          <![CDATA[ and image_online_date <= CONCAT(#{endDate,jdbcType=TIMESTAMP},' 23:59:59')]]>
+      </if>
+	order by image_online_date desc
+	LIMIT #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+  </select>
+  <!-- 查询结束 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_information_image_manage
+    where image_manage_id = #{imageManageId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.imagemanage.bean.InfoImageManage" >
+    insert into np_information_image_manage (image_manage_id, image_manage_name, image_manage_url, 
+      classify_id, image_online_date, create_date, 
+      update_date, delflag)
+    values (#{imageManageId,jdbcType=BIGINT}, #{imageManageName,jdbcType=VARCHAR}, #{imageManageUrl,jdbcType=VARCHAR}, 
+      #{classifyId,jdbcType=BIGINT}, #{imageOnlineDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{delflag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.imagemanage.bean.InfoImageManage" >
+    insert into np_information_image_manage
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="imageManageId != null" >
+        image_manage_id,
+      </if>
+      <if test="imageManageName != null" >
+        image_manage_name,
+      </if>
+      <if test="imageManageUrl != null" >
+        image_manage_url,
+      </if>
+      <if test="classifyId != null" >
+        classify_id,
+      </if>
+      <if test="imageOnlineDate != null" >
+        image_online_date,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="delflag != null" >
+        delflag,
+      </if>
+      <if test="thirdId != null">
+      	third_id,
+      </if>
+        <if test="bigImgUrl != null">
+            big_img_url,
+        </if>
+        <if test="middleImgUrl != null">
+            middle_img_url,
+        </if>
+        <if test="smallImgUrl != null">
+            small_img_url,
+        </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="imageManageId != null" >
+        #{imageManageId,jdbcType=BIGINT},
+      </if>
+      <if test="imageManageName != null" >
+        #{imageManageName,jdbcType=VARCHAR},
+      </if>
+      <if test="imageManageUrl != null" >
+        #{imageManageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="classifyId != null" >
+        #{classifyId,jdbcType=BIGINT},
+      </if>
+      <if test="imageOnlineDate != null" >
+        #{imageOnlineDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delflag != null" >
+        #{delflag,jdbcType=CHAR},
+      </if>
+      <if test="thirdId != null">
+      	#{thirdId,jdbcType=CHAR},
+      </if>
+        <if test="bigImgUrl != null">
+            #{bigImgUrl,jdbcType=VARCHAR},
+        </if>
+        <if test="middleImgUrl != null">
+            #{middleImgUrl,jdbcType=VARCHAR},
+        </if>
+        <if test="smallImgUrl != null">
+            #{smallImgUrl,jdbcType=VARCHAR},
+        </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.imagemanage.bean.InfoImageManage" >
+    update np_information_image_manage
+    <set >
+      <if test="imageManageName != null" >
+        image_manage_name = #{imageManageName,jdbcType=VARCHAR},
+      </if>
+      <if test="imageManageUrl != null" >
+        image_manage_url = #{imageManageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="classifyId != null" >
+        classify_id = #{classifyId,jdbcType=BIGINT},
+      </if>
+      <if test="imageOnlineDate != null" >
+        image_online_date = #{imageOnlineDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delflag != null" >
+        delflag = #{delflag,jdbcType=CHAR},
+      </if>
+    </set>
+    where image_manage_id = #{imageManageId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.imagemanage.bean.InfoImageManage" >
+    update np_information_image_manage
+    set image_manage_name = #{imageManageName,jdbcType=VARCHAR},
+      image_manage_url = #{imageManageUrl,jdbcType=VARCHAR},
+      classify_id = #{classifyId,jdbcType=BIGINT},
+      image_online_date = #{imageOnlineDate,jdbcType=TIMESTAMP},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      delflag = #{delflag,jdbcType=CHAR}
+    where image_manage_id = #{imageManageId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateImage" parameterType="java.util.Map">
+  	update np_information_image_manage
+  	set delflag = '1'
+  	where image_manage_id = #{imageManageId,jdbcType=BIGINT} and third_id = #{thirdId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateImages" parameterType="java.util.Map">
+  	update np_information_image_manage
+  	set delflag = '1'
+  	where image_manage_id in 
+  	 <foreach collection="imageId" index="index" item="imageManageId" open="(" separator="," close=")">   
+        #{imageManageId}   
+    </foreach> 
+    and third_id = #{thirdId,jdbcType=BIGINT}
+  </update>
+</mapper>

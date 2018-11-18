@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.third.seller.mapper.ExpressInfoMapper">
+	<resultMap id="BaseResultMap" type="com.ningpai.freighttemplate.bean.Express">
+		<id column="shore_exp_id" property="shoreExpId" jdbcType="BIGINT" />
+		<result column="store_id" property="storeId" jdbcType="BIGINT" />
+		<result column="exp_name" property="expName" jdbcType="VARCHAR" />
+		<result column="exp_price" property="expPrice" jdbcType="DECIMAL" />
+		<result column="exp_company" property="expCompany" jdbcType="VARCHAR" />
+		<result column="is_default" property="isDefault" jdbcType="CHAR" />
+		<result column="se_create_time" property="seCreateTime"
+			jdbcType="TIMESTAMP" />
+		<result column="se_mod_time" property="seModTime" jdbcType="TIMESTAMP" />
+		<result column="se_del_time" property="seDelTime" jdbcType="TIMESTAMP" />
+		<result column="del_flag" property="delFlag" jdbcType="CHAR" />
+        <result column="kudi100_code" property="kudi100code" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		shore_exp_id, store_id, exp_name, exp_price, exp_company,
+		is_default,
+		se_create_time,
+		se_mod_time, se_del_time, del_flag
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from np_third_shore_express
+		where shore_exp_id =
+		#{shoreExpId,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		np_third_shore_express
+		where shore_exp_id =
+		#{shoreExpId,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.ningpai.freighttemplate.bean.Express">
+		insert into
+		np_third_shore_express (shore_exp_id, store_id, exp_name,
+		exp_price,
+		exp_company, is_default,
+		se_create_time, se_mod_time, se_del_time,
+		del_flag)
+		values (#{shoreExpId,jdbcType=BIGINT},
+		#{storeId,jdbcType=BIGINT},
+		#{expName,jdbcType=VARCHAR},
+		#{expPrice,jdbcType=DECIMAL}, #{expCompany,jdbcType=VARCHAR},
+		#{isDefault,jdbcType=CHAR},
+		#{seCreateTime,jdbcType=TIMESTAMP},
+		#{seModTime,jdbcType=TIMESTAMP},
+		#{seDelTime,jdbcType=TIMESTAMP},
+		#{delFlag,jdbcType=CHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.ningpai.freighttemplate.bean.Express">
+		insert into np_third_shore_express
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="shoreExpId != null">
+				shore_exp_id,
+			</if>
+			<if test="storeId != null">
+				store_id,
+			</if>
+			<if test="expName != null">
+				exp_name,
+			</if>
+			<if test="expPrice != null">
+				exp_price,
+			</if>
+			<if test="expCompany != null">
+				exp_company,
+			</if>
+			<if test="isDefault != null">
+				is_default,
+			</if>
+			<if test="seCreateTime != null">
+				se_create_time,
+			</if>
+			<if test="seModTime != null">
+				se_mod_time,
+			</if>
+			<if test="seDelTime != null">
+				se_del_time,
+			</if>
+			<if test="delFlag != null">
+				del_flag,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="shoreExpId != null">
+				#{shoreExpId,jdbcType=BIGINT},
+			</if>
+			<if test="storeId != null">
+				#{storeId,jdbcType=BIGINT},
+			</if>
+			<if test="expName != null">
+				#{expName,jdbcType=VARCHAR},
+			</if>
+			<if test="expPrice != null">
+				#{expPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="expCompany != null">
+				#{expCompany,jdbcType=VARCHAR},
+			</if>
+			<if test="isDefault != null">
+				#{isDefault,jdbcType=CHAR},
+			</if>
+			<if test="seCreateTime != null">
+				#{seCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="seModTime != null">
+				#{seModTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="seDelTime != null">
+				#{seDelTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="delFlag != null">
+				#{delFlag,jdbcType=CHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.ningpai.freighttemplate.bean.Express">
+		update np_third_shore_express
+		<set>
+			<if test="storeId != null">
+				store_id = #{storeId,jdbcType=BIGINT},
+			</if>
+			<if test="expName != null">
+				exp_name = #{expName,jdbcType=VARCHAR},
+			</if>
+			<if test="expPrice != null">
+				exp_price = #{expPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="expCompany != null">
+				exp_company = #{expCompany,jdbcType=VARCHAR},
+			</if>
+			<if test="isDefault != null">
+				is_default = #{isDefault,jdbcType=CHAR},
+			</if>
+			<if test="seCreateTime != null">
+				se_create_time = #{seCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="seModTime != null">
+				se_mod_time = #{seModTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="seDelTime != null">
+				se_del_time = #{seDelTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="delFlag != null">
+				del_flag = #{delFlag,jdbcType=CHAR},
+			</if>
+		</set>
+		where shore_exp_id = #{shoreExpId,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.ningpai.freighttemplate.bean.Express">
+		update
+		np_third_shore_express
+		set store_id = #{storeId,jdbcType=BIGINT},
+		exp_name = #{expName,jdbcType=VARCHAR},
+		exp_price =
+		#{expPrice,jdbcType=DECIMAL},
+		exp_company =
+		#{expCompany,jdbcType=VARCHAR},
+		is_default =
+		#{isDefault,jdbcType=CHAR},
+		se_create_time =
+		#{seCreateTime,jdbcType=TIMESTAMP},
+		se_mod_time =
+		#{seModTime,jdbcType=TIMESTAMP},
+		se_del_time =
+		#{seDelTime,jdbcType=TIMESTAMP},
+		del_flag = #{delFlag,jdbcType=CHAR}
+		where shore_exp_id = #{shoreExpId,jdbcType=BIGINT}
+	</update>
+
+	<select id="selectByStoreId" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		shore_exp_id, store_id, exp_name, exp_price,
+		exp_company, is_default, del_flag
+		from
+		np_third_shore_express
+		where
+		store_id = #{storeId,jdbcType=BIGINT}
+		and del_flag ='0'
+	</select>
+	<select id="selectByshoreExpId" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		shore_exp_id, store_id, exp_name, exp_price,
+		exp_company, is_default, del_flag,kudi100_code
+		from
+		np_third_shore_express
+		where
+		shore_exp_id =
+		#{shoreExpId,jdbcType=BIGINT}
+	</select>
+
+	<insert id="insertExpress" parameterType="com.ningpai.freighttemplate.bean.Express">
+		insert into np_third_shore_express
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="shoreExpId != null">
+				shore_exp_id,
+			</if>
+			<if test="storeId != null">
+				store_id,
+			</if>
+			<if test="expName != null">
+				exp_name,
+			</if>
+			<if test="expPrice != null">
+				exp_price,
+			</if>
+			<if test="expCompany != null">
+				exp_company,
+			</if>
+			<if test="isDefault != null">
+				is_default,
+			</if>
+			<if test="seCreateTime != null">
+				se_create_time,
+			</if>
+			<if test="seModTime != null">
+				se_mod_time,
+			</if>
+			<if test="seDelTime != null">
+				se_del_time,
+			</if>
+			del_flag,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="shoreExpId != null">
+				#{shoreExpId,jdbcType=BIGINT},
+			</if>
+			<if test="storeId != null">
+				#{storeId,jdbcType=BIGINT},
+			</if>
+			<if test="expName != null">
+				#{expName,jdbcType=VARCHAR},
+			</if>
+			<if test="expPrice != null">
+				#{expPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="expCompany != null">
+				#{expCompany,jdbcType=VARCHAR},
+			</if>
+			<if test="isDefault != null">
+				#{isDefault,jdbcType=CHAR},
+			</if>
+			<if test="seCreateTime != null">
+				#{seCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="seModTime != null">
+				#{seModTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="seDelTime != null">
+				#{seDelTime,jdbcType=TIMESTAMP},
+			</if>
+			'0',
+		</trim>
+	</insert>
+
+	<select id="selectDefaultRows" resultType="java.lang.Integer"
+		parameterType="java.lang.Long">
+		select count(*)
+		from np_third_shore_express
+		WHERE
+		store_id
+		= #{shoreExpId,jdbcType=BIGINT}
+		and is_default = '1'
+		and
+		del_flag = '0'
+	</select>
+
+	<update id="updateExpress" parameterType="com.ningpai.freighttemplate.bean.Express">
+		update np_third_shore_express
+		<set>
+			<if test="storeId != null">
+				store_id = #{storeId,jdbcType=BIGINT},
+			</if>
+			<if test="expName != null">
+				exp_name = #{expName,jdbcType=VARCHAR},
+			</if>
+			<if test="expPrice != null">
+				exp_price = #{expPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="expCompany != null">
+				exp_company = #{expCompany,jdbcType=VARCHAR},
+			</if>
+			<if test="isDefault != null">
+				is_default = #{isDefault,jdbcType=CHAR},
+			</if>
+			<if test="seCreateTime != null">
+				se_create_time = #{seCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="seModTime != null">
+				se_mod_time = NOW(),
+			</if>
+			<if test="seDelTime != null">
+				se_del_time = #{seDelTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="delFlag != null">
+				del_flag = #{delFlag,jdbcType=CHAR},
+			</if>
+		</set>
+		where shore_exp_id = #{shoreExpId,jdbcType=BIGINT}
+	</update>
+
+	<update id="updateStateByShoreExpId" parameterType="com.ningpai.freighttemplate.bean.Express">
+		update
+		np_third_shore_express
+		<set>
+			se_mod_time = NOW(),
+			is_default = '1'
+		</set>
+		where shore_exp_id = #{shoreExpId,jdbcType=BIGINT};
+	</update>
+	<update id="updateStateBackByShoreExpId" parameterType="com.ningpai.freighttemplate.bean.Express">
+		update
+		np_third_shore_express
+		<set>
+			se_mod_time = NOW(),
+			is_default = '0'
+		</set>
+		where shore_exp_id = #{shoreExpId,jdbcType=BIGINT}
+	</update>
+
+	<update id="deleteByShoreExpIdUpdate" parameterType="com.ningpai.freighttemplate.bean.Express">
+		update
+		np_third_shore_express
+		<set>
+			se_del_time = NOW(),
+			del_flag = '1'
+		</set>
+		where shore_exp_id = #{shoreExpId,jdbcType=BIGINT}
+	</update>
+	
+	<update id="updateBatch" parameterType="list">
+		UPDATE np_third_shore_express
+		SET is_default = '0'
+		WHERE del_flag = '0'
+		and is_default = '1'
+		and shore_exp_id IN
+		<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+</mapper>

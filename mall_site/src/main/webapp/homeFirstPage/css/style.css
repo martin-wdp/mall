@@ -1,0 +1,66 @@
+@charset "utf-8";
+/* CSS Document */
+
+.container{ width:1200px; margin:0px auto;}
+a{color:#666;}
+.red_btn{padding:5px 15px;background:#EB6123;color:#fff;border-radius:3px;border:1px solid #f00;}
+
+/*帮助中心首页*/
+.help_page_title{font-size:20px;font-weight:bold;color:#666;font-family:"微软雅黑", "宋体";margin:10px 0;text-indent:5px; line-height:20px;}
+.help_page_title a{ font-size:12px; font-family:"宋体"; font-weight:400; line-height:20px;}
+.help_right{width:340px;}
+.help_left{width:850px;}
+.safe_set{border:1px solid #EB6123;}
+.safe_set h2{display:block;height:36px;line-height:36px;border-bottom:1px solid #dddddd; background:#eeeeee; text-indent:10px; font-size:16px; font-family:"微软雅黑";}
+.safe_set ul{padding:10px 0 10px 20px;}
+.safe_set ul li{float:left;display:block;width:50px; text-align:center;line-height:25px;margin:0 10px;}
+.quick_link{border:1px solid #EB6123;padding:15px 0 0 20px;}
+.quick_link ul li{display:block;width:130px;float:left;margin-bottom:15px; margin-left:20px;}
+.quick_link ul li img{ vertical-align:middle;margin-right:5px;}
+.faq{border:1px solid #EB6123;}
+.faq h2{display:block; background:#eeeeee; text-indent:10px; font-size:16px; font-family:"微软雅黑"; color:#666666;height:36px;line-height:36px;border-bottom:1px solid #dddddd;}
+.faq .body{padding:10px 30px;}
+.faq .faq_search{height:26px;margin-bottom:10px;}
+.faq .faq_search .text{width:180px;height:16px;}
+.faq .faq_list li{position:relative;display:block;height:14px;line-height:14px;padding:5px 0 5px 20px; background:url(../images/quanquan.jpg) no-repeat left center;}
+.faq .faq_list li span{position:absolute;left:0;top:5px;display:block;width:14px;height:14px;background:url(../images/faq_num.png) no-repeat left top;line-height:14px; text-align:center;background:#ddd;border-radius:3px;}
+.faq .faq_list .top span{background:#f60;color:#fff;}
+.self_service{border:1px solid #EB6123;}
+.self_service h2{display:block;height:36px;background:#eeeeee;line-height:36px;text-indent:10px;font-size:16px;font-weight:bold;color:#666666;font-family:"微软雅黑"; border-bottom:1px solid #cccccc;}
+.self_service .body{padding-left:40px;}
+.self_service li{float:left;display:block;width:140px;height:100px;margin:25px;}
+.novice_teach{border:1px solid #EB6123;}
+.novice_teach h2{display:block;height:36px;background:#eeeeee;line-height:36px;text-indent:10px;font-size:16px;font-weight:bold;color:#666666;font-family:"微软雅黑"; border-bottom:1px solid #dddddd;}
+.novice_teach .body{padding-left:100px;}
+.novice_teach ul li{float:left;display:block;width:56px;padding-right:45px;background:url(../images/novice_teach_icon.png) no-repeat right center; text-align:center;margin:10px 45px 10px 0;}
+.novice_teach ul li a{font-size:14px;font-family:"微软雅黑", "宋体";}
+.novice_teach ul li a img{margin-bottom:10px;}
+.novice_teach ul .last{background:none;}
+.human_service{border:1px solid #EB6123;}
+.human_service h2{display:block;height:36px;background:#eeeeee;line-height:36px;text-indent:10px;font-size:16px;font-weight:bold;color:#666666;font-family:"微软雅黑", "宋体"; border-bottom:1px solid #dddddd;}
+.human_service ul li{float:left;width:105px;padding:37px 30px;border-right:1px solid #dddddd;}
+.human_service ul li img{margin-bottom:10px;}
+.human_service ul .last{border:0;}
+.help_list{padding:10px;border:1px solid #ddd;}
+.help_list .help_item{margin-bottom:30px;}
+.help_list .help_item h4{font-size:14px;font-weight:bold;color:#A62B39;margin-bottom:10px;}
+.help_list .help_item p{line-height:20px; color:#5e5e5e;}
+.help_menu{width:208px;border:1px solid #ccc;}
+.help_menu .help_menu_item .top_link{display:block;height:30px;line-height:30px;text-indent:10px;font-size:14px;background:#FAFAFA; border-bottom:1px solid #cccccc;}
+.help_menu .help_menu_item ul li{ height:32px; line-height:32px; border-bottom:1px solid #cccccc; font-size:14px;}
+.help_menu .help_menu_item ul li a{display:block;height:32px;line-height:32px;text-indent:10px; font-size:14px;}
+.help_menu .help_menu_item ul .cur a{font-weight:bold;color:#A72B39;}
+.help_cont{width:978px;border:1px solid #cccccc;}
+.help_cont .title{height:30px;line-height:30px;background:#F2F2F2;border-bottom:1px solid #e4e4e4;}
+.help_cont .title h2{font-size:14px;font-weight:bold;text-indent:10px;}
+.help_cont .body{padding:20px;}
+.help_cont .body h4{ font-size:18px; color:#333333;}
+.help_cont .body p{line-height:20px;margin-bottom:10px; padding-left:20px; font-size:14px; font-family:"微软雅黑"; color:#333333; font-weight:400; margin-top:10px;}
+
+
+
+
+
+
+
+

@@ -1,0 +1,1512 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ningpai.customer.dao.CustomerMapper">
+
+    <resultMap type="com.ningpai.customer.bean.RegisterPoint" id="RegisterPointMap">
+        <id column="register_point_id" property="regPointId" jdbcType="BIGINT"/>
+        <result column="register_point_referee" property="regPointReferee" jdbcType="VARCHAR"/>
+        <result column="register_point_Recommended" property="regPointRecom" jdbcType="VARCHAR"/>
+        <result column="register_point_time" property="regPointTime" jdbcType="TIMESTAMP"/>
+        <result column="register_point_number" property="regPointNumber" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap" type="com.ningpai.customer.bean.Customer">
+        <id column="customer_id" jdbcType="BIGINT" property="customerId"/>
+        <result column="customer_username" jdbcType="VARCHAR" property="customerUsername"/>
+        <result column="customer_password" jdbcType="VARCHAR" property="customerPassword"/>
+        <result column="customer_nickname" jdbcType="VARCHAR" property="customerNickname"/>
+        <result column="is_mobile" jdbcType="CHAR" property="isMobile"/>
+        <result column="is_email" jdbcType="CHAR" property="isEmail"/>
+        <result column="is_flag" jdbcType="CHAR" property="isFlag"/>
+        <result column="is_seller" jdbcType="CHAR" property="isSeller"/>
+        <result column="login_ip" jdbcType="VARCHAR" property="loginIp"/>
+        <result column="login_time" jdbcType="TIMESTAMP" property="loginTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime"/>
+        <result column="del_flag" jdbcType="CHAR" property="delFlag"/>
+        <result column="is_seller" jdbcType="CHAR" property="isSeller"/>
+        <result column="third_id" jdbcType="BIGINT" property="thirdId"/>
+        <result column="del_time" jdbcType="TIMESTAMP" property="delTime"/>
+        <result column="login_key" jdbcType="VARCHAR" property="loginKey"/>
+        <result column="is_site_manager" jdbcType="CHAR" property="isSiteManager"/>
+        <result column="ordernumber" jdbcType="BIGINT" property="orderNumber"/>
+        <result column="ordermoney" jdbcType="DECIMAL" property="orderMoney"/>
+        <result column="login_error_count" jdbcType="BIGINT" property="loginErrorCount"/>
+        <result column="login_lock_time" jdbcType="TIMESTAMP" property="loginLockTime"/>
+        <result column="isEnterprise" jdbcType="CHAR" property="isEnterprise"/>
+    </resultMap>
+
+    <!--根据用户名得到用户的信息,以及用户的收货地址信息-->
+    <resultMap type="com.ningpai.customer.bean.Customer" id="getCustomerByname" extends="BaseResultMap">
+        <result column="customer_username" jdbcType="VARCHAR" property="customerUsername"/>
+        <collection property="customerAddressList" column="customer_id"
+                    select="com.ningpai.customer.dao.CustomerAddressMapper.selectAllCustomerAddressByCustomerId">
+        </collection>
+    </resultMap>
+    <resultMap type="com.ningpai.customer.bean.Customer" id="captchaMap">
+        <result column="customer_username" jdbcType="VARCHAR" property="customerUsername"/>
+        <result column="captcha" jdbcType="VARCHAR" property="captcha"/>
+        <result column="aead_time" jdbcType="TIMESTAMP" property="aeadTime"/>
+        <result column="pwd_captcha" jdbcType="VARCHAR" property="pwdCaptcha"/>
+        <result column="pwd_aead_time" jdbcType="TIMESTAMP" property="pwdAeadTime"/>
+    </resultMap>
+    <resultMap type="com.ningpai.other.bean.CustomerAllInfo" id="cusinfoMap" extends="BaseResultMap">
+        <result column="info_mobile" jdbcType="VARCHAR" property="infoMobile"/>
+        <result column="info_email" jdbcType="VARCHAR" property="infoEmail"/>
+        <result column="info_realname" jdbcType="VARCHAR" property="infoRealname"/>
+        <result column="info_cardid" jdbcType="VARCHAR" property="infoCardid"/>
+        <result column="info_gender" jdbcType="CHAR" property="infoGender"/>
+        <result column="point_level_name" jdbcType="VARCHAR" property="pointLevelName"/>
+        <result column="point_level_id" jdbcType="BIGINT" property="pointLevelId"/>
+        <result column="info_birthday" jdbcType="VARCHAR" property="infoBirthday"/>
+        <result column="info_regip" jdbcType="VARCHAR" property="infoRegip"/>
+        <result column="info_province" jdbcType="VARCHAR" property="infoProvince"/>
+        <result column="info_city" jdbcType="VARCHAR" property="infoCity"/>
+        <result column="info_county" jdbcType="VARCHAR" property="infoCounty"/>
+        <result column="infoStreet" jdbcType="VARCHAR" property="infoStreet"/>
+        <result column="info_marital" jdbcType="CHAR" property="infoMarital"/>
+        <result column="info_salary" jdbcType="VARCHAR" property="infoSalary"/>
+        <result column="info_interest" jdbcType="VARCHAR" property="infoInterest"/>
+        <result column="balance_sum" jdbcType="DECIMAL" property="balanceSum"/>
+        <result column="info_point_sum" jdbcType="INTEGER" property="infoPointSum"/>
+        <result column="info_address" jdbcType="VARCHAR" property="infoAddress"/>
+        <result column="customer_img" jdbcType="VARCHAR" property="customerImg"/>
+        <result column="salesman_name" jdbcType="VARCHAR" property="salesmanName"/>
+        <result column="company_type" jdbcType="CHAR" property="companyType"/>
+        <result column="company_capital" jdbcType="DECIMAL" property="companyCapital"/>
+        <result column="buss_legal_name" jdbcType="VARCHAR" property="bussLegalName"/>
+        <result column="buss_legal_card_id" jdbcType="VARCHAR" property="bussLegalCardId"/>
+        <result column="buss_range" jdbcType="VARCHAR" property="bussRange"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="audit_time" jdbcType="TIMESTAMP" property="auditTime"/>
+        <!--add by ly-->
+        <result column="company_address" jdbcType="VARCHAR" property="companyAddress"/>
+        <result column="company_contact_addr" jdbcType="VARCHAR" property="companyContactAddr"/>
+        <result column="company_contact_name" jdbcType="VARCHAR" property="companyContactName"/>
+        <result column="company_contact_moble" jdbcType="VARCHAR" property="companyContactMoble"/>
+        <!--add by ly-->
+        <association property="province" column="info_province" select="selectProvinceById"></association>
+        <association property="city" column="info_city" select="selectCityByPid"></association>
+        <association property="district" column="info_county" select="selectDistrictByCid"></association>
+        <association property="customerAddress" column="customer_id"
+                     select="com.ningpai.customer.dao.CustomerAddressMapper.selectByCustomerId"></association>
+    </resultMap>
+
+    <!--会员消费排行-->
+    <resultMap type="com.ningpai.customer.vo.CustomerRankVo" id="customerRankMap" extends="BaseResultMap">
+        <result column="address_name" jdbcType="VARCHAR" property="addressName"/>
+        <result column="address_moblie" jdbcType="VARCHAR" property="addressPhone"/>
+    </resultMap>
+
+    <resultMap type="com.ningpai.other.bean.CustomerAllInfo" id="allInfo" extends="cusinfoMap">
+        <result column="order_no" property="orderNo" jdbcType="VARCHAR"/>
+        <result column="money_paid" property="moneyPaid" jdbcType="DECIMAL"/>
+        <result column="pay_time" property="payTime" jdbcType="TIMESTAMP"/>
+        <result column="coupons_delfag" jdbcType="CHAR" property="couponsDelfag"/>
+        <collection property="orders" column="customer_id" javaType="ArrayList"
+                    select="selectOrderByCustomerId"></collection>
+        <collection property="coupons" column="customer_id" javaType="ArrayList"
+                    select="selectCouponByCustomerId"></collection>
+    </resultMap>
+
+    <!-- province -->
+    <resultMap id="proviceMap" type="com.ningpai.other.bean.ProvinceBean">
+        <id column="province_id" property="provinceId" jdbcType="BIGINT"/>
+        <result column="province_name" property="provinceName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!-- city -->
+    <resultMap id="cityMap" type="com.ningpai.other.bean.CityBean">
+        <id column="city_id" property="cityId" jdbcType="BIGINT"/>
+        <result column="city_name" property="cityName" jdbcType="VARCHAR"/>
+        <result column="province_id" property="provinceId" jdbcType="BIGINT"/>
+    </resultMap>
+    <!-- district -->
+    <resultMap id="districtMap" type="com.ningpai.other.bean.DistrictBean">
+        <id column="district_id" property="districtId" jdbcType="BIGINT"/>
+        <result column="district_name" property="districtName" jdbcType="VARCHAR"/>
+        <result column="city_id" property="cityId" jdbcType="BIGINT"/>
+    </resultMap>
+    <!-- district -->
+    <resultMap id="streetMap" type="com.ningpai.other.bean.StreetBean">
+        <id column="street_id" property="streetId" jdbcType="BIGINT"/>
+        <result column="street_name" property="streetName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!-- order  -->
+    <resultMap type="com.ningpai.other.bean.OrderInfoBean" id="orderMap">
+
+        <result column="business_id" jdbcType="BIGINT" property="businessId"/>
+        <result column="express_price" property="shippingFee" jdbcType="DECIMAL"/>
+        <result column="send_express_time" property="shippingTime" jdbcType="TIMESTAMP"/>
+        <result column="order_id" property="orderId" jdbcType="BIGINT"/>
+        <result column="customer_id" property="customerId" jdbcType="BIGINT"/>
+        <result column="shopping_addr_id" property="addressId" jdbcType="BIGINT"/>
+        <result column="order_code" property="orderNo" jdbcType="VARCHAR"/>
+        <result column="order_status" property="orderStatus" jdbcType="BIGINT"/>
+        <result column="order_price" property="moneyPaid" jdbcType="DECIMAL"/>
+        <result column="pay_time" property="payTime" jdbcType="TIMESTAMP"/>
+        <result column="create_time" property="addTime" jdbcType="TIMESTAMP"/>
+        <result column="order_cancel_time" property="cancelTime" jdbcType="TIMESTAMP"/>
+        <result column="express_price" property="shippingFee" jdbcType="DECIMAL"/>
+        <result column="invoice_type" property="invoiceType" jdbcType="VARCHAR"/>
+        <result column="order_cancel_remark" property="cancelRemark" jdbcType="VARCHAR"/>
+        <result column="invoice_title" property="invoiceTitle" jdbcType="VARCHAR"/>
+        <result column="invoice_content" property="invoiceContent" jdbcType="VARCHAR"/>
+        <result column="pay_id" property="payId" jdbcType="BIGINT"/>
+        <collection property="goods" column="order_id" javaType="ArrayList"
+                    select="com.ningpai.customer.dao.CustomerMapper.selectGoodsByOrderId"></collection>
+    </resultMap>
+
+    <!-- order  -->
+    <resultMap type="com.ningpai.other.bean.OrderInfoBean" id="neworderMap">
+        <result column="order_id" property="orderId" jdbcType="BIGINT"/>
+        <result column="customer_id" property="customerId" jdbcType="BIGINT"/>
+        <result column="shopping_addr_id" property="addressId" jdbcType="BIGINT"/>
+        <result column="order_code" property="orderNo" jdbcType="VARCHAR"/>
+        <result column="order_status" property="orderStatus" jdbcType="BIGINT"/>
+        <result column="order_price" property="moneyPaid" jdbcType="DECIMAL"/>
+        <result column="pay_time" property="payTime" jdbcType="TIMESTAMP"/>
+        <result column="create_time" property="addTime" jdbcType="TIMESTAMP"/>
+        <result column="order_cancel_time" property="cancelTime" jdbcType="TIMESTAMP"/>
+        <result column="express_price" property="shippingFee" jdbcType="DECIMAL"/>
+        <result column="invoice_type" property="invoiceType" jdbcType="VARCHAR"/>
+        <result column="order_cancel_remark" property="cancelRemark" jdbcType="VARCHAR"/>
+        <result column="invoice_title" property="invoiceTitle" jdbcType="VARCHAR"/>
+        <result column="invoice_content" property="invoiceContent" jdbcType="VARCHAR"/>
+        <collection property="goods" column="order_id" javaType="ArrayList"
+                    select="newselectGoodsByOrderId"></collection>
+    </resultMap>
+
+
+    <resultMap id="expressMap" type="com.ningpai.other.bean.ExpressBean">
+        <id column="expid" property="expid" jdbcType="BIGINT"/>
+        <result column="exp_company" property="expCompany" jdbcType="VARCHAR"/>
+        <result column="exp_price" property="expPrice" jdbcType="DECIMAL"/>
+        <result column="exp_accept" property="expAccept" jdbcType="VARCHAR"/>
+        <result column="exp_comment" property="expComment" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="payMap" type="com.ningpai.other.bean.PayBean">
+        <id column="pay_id" property="payId" jdbcType="BIGINT"/>
+        <result column="pay_name" property="payName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- goods -->
+    <resultMap type="com.ningpai.other.bean.GoodsBean" id="goodsMap">
+        <result column="goods_info_id" property="goodsId" jdbcType="BIGINT"/>
+        <result column="goods_info_num" property="goodsNum" jdbcType="BIGINT"/>
+        <result column="goods_info_name" property="goodsName" jdbcType="VARCHAR"/>
+        <result column="goods_info_price" property="goodsPrice" jdbcType="DECIMAL"/>
+        <result column="goods_info_img_id" property="goodsImg" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- goods -->
+    <resultMap type="com.ningpai.other.bean.GoodsBean" id="newgoodsMap">
+        <result column="goods_info_id" property="goodsId" jdbcType="BIGINT"/>
+        <result column="goods_info_num" property="goodsNum" jdbcType="BIGINT"/>
+        <result column="share_id" property="shareId" jdbcType="BIGINT"/>
+        <result column="goods_info_name" property="goodsName" jdbcType="VARCHAR"/>
+        <result column="goods_info_price" property="goodsPrice" jdbcType="DECIMAL"/>
+        <result column="goods_info_img_id" property="goodsImg" jdbcType="VARCHAR"/>
+        <result column="goods_info_item_no" property="goodsNo" jdbcType="VARCHAR"/>
+        <result column="evaluate_flag" property="evaluateFlag" jdbcType="CHAR"/>
+        <result column="share_flag" property="shareFlag" jdbcType="CHAR"/>
+        <result column="buy_time" property="buyTime" jdbcType="TIMESTAMP"/>
+        <collection property="imageList" column="share_id" javaType="ArrayList"
+                    ofType="com.ningpai.comment.bean.ShareImg"
+                    select="com.ningpai.comment.dao.ShareImgMapper.queryImgsByShareId"></collection>
+    </resultMap>
+
+    <!-- Fgoods -->
+    <resultMap type="com.ningpai.other.bean.GoodsBean" id="goodsMapF">
+        <result column="goods_info_name" property="goodsName" jdbcType="VARCHAR"/>
+        <result column="goods_info_market_price" property="goodsPrice" jdbcType="DECIMAL"/>
+        <result column="goods_info_img_id" property="goodsImg" jdbcType="VARCHAR"/>
+        <result column="goods_info_prefer_price" property="goodsPreferPrice" jdbcType="VARCHAR"/>
+        <result column="goods_info_vip_price" property="goodsVipPrice" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- counpon -->
+    <resultMap type="com.ningpai.customer.bean.CustomerCoupon" id="couponMap">
+        <result column="coupon_id" property="couponId" jdbcType="BIGINT"/>
+        <result column="code_no" property="couponNo" jdbcType="VARCHAR"/>
+        <result column="code_status" property="codeStatus" jdbcType="CHAR"/>
+        <result column="code_use_order_id" property="orderNo" jdbcType="VARCHAR"/>
+        <result column="coupon_rules_type" property="ruleType" jdbcType="VARCHAR"/>
+        <result column="reduction_price" property="reductionPrice" jdbcType="DECIMAL"/>
+        <result column="full_price" property="fullPrice" jdbcType="DECIMAL"/>
+        <result column="down_price" property="downPrice" jdbcType="DECIMAL"/>
+    </resultMap>
+    <resultMap type="com.ningpai.customer.vo.CustomerStatisticVo" id="custstatistic" extends="cusinfoMap">
+        <result column="countsum" property="countSum" jdbcType="BIGINT"/>
+        <result column="address" property="address" jdbcType="BIGINT"/>
+        <collection property="provinceList" column="address" javaType="ArrayList" select="selectProvinceById"
+                    ofType="com.ningpai.other.bean.ProvinceBean"></collection>
+    </resultMap>
+
+    <resultMap type="com.ningpai.customer.bean.Customer" id="levelResult">
+        <id column="customerId" jdbcType="BIGINT" property="customerId"/>
+        <result column="customer_username" jdbcType="VARCHAR" property="customerUsername"/>
+        <result column="pointLevelName" jdbcType="VARCHAR" property="pointLevelName"/>
+        <result column="point_level_id" jdbcType="BIGINT" property="pointLevelId"/>
+        <result column="levelCount" jdbcType="BIGINT" property="levelCount"/>
+        <result column="levelRate" jdbcType="DECIMAL" property="levelRate"/>
+        <result column="countOrder" jdbcType="BIGINT" property="countOrder"/>
+        <result column="sumPrice" jdbcType="DECIMAL" property="sumPrice"/>
+        <result column="maxtime" jdbcType="TIMESTAMP" property="maxtime"/>
+        <result column="point_level_id" jdbcType="BIGINT" property="pointLevelId"/>
+    </resultMap>
+
+    <!-- espress -->
+    <sql id="espresssql">
+	    expid, exp_company, exp_price, exp_accept, exp_comment, create_time, modify_time, 
+	    del_flag
+  	</sql>
+    <sql id="Base_Column_List">
+		c.customer_id, c.customer_username, c.customer_password, c.customer_nickname,
+		c.is_mobile,c.is_email, c.is_flag, c.login_ip, c.login_time, c.create_time, 
+		c.modified_time,c.del_flag, c.del_time,is_seller,third_id,login_key,login_error_count,
+		login_lock_time,isEnterprise
+	</sql>
+    <sql id="cusSql">
+		
+		c.customer_id, c.customer_username, c.customer_password, c.customer_nickname,
+		c.is_mobile, c.is_email, c.is_flag, c.login_ip, c.login_time, c.create_time, 
+		c.modified_time, c.del_flag, c.del_time,c.is_seller,c.login_key,c.third_id,
+		c.is_site_manager,c.isEnterprise,
+		i.info_realname,i.info_mobile,i.info_email,i.info_cardid,i.info_gender,
+		i.point_level_name,i.point_level_id,i.info_birthday ,i.info_regip,i.info_province,
+		i.info_city,i.info_county,i.infoStreet,i.info_marital,i.info_salary,i.info_interest,
+		i.balance_sum,i.info_point_sum,i.info_address,c.customer_img
+	</sql>
+    <sql id="cusSql1">
+
+		c.customer_id, c.customer_username, c.customer_password, c.customer_nickname,
+		c.is_mobile, c.is_email, c.is_flag, c.login_ip, c.login_time, c.create_time,
+		c.modified_time, c.del_flag, c.del_time,c.is_seller,c.login_key,c.third_id,
+		c.is_site_manager,c.isEnterprise,
+		i.info_realname,i.info_mobile,i.info_email,i.info_cardid,i.info_gender,
+		i.point_level_name,i.point_level_id,i.info_birthday ,i.info_regip,i.info_province,
+		i.info_city,i.info_county,i.infoStreet,i.info_marital,i.info_salary,i.info_interest,
+		i.balance_sum,i.info_point_sum,i.info_address,c.customer_img,salesman_name
+	</sql>
+    <sql id="cusSql2">
+
+		c.customer_id, c.customer_username, c.customer_password, c.customer_nickname,
+		c.is_mobile, c.is_email, c.is_flag, c.login_ip, c.login_time, c.create_time,
+		c.modified_time, c.del_flag, c.del_time,c.is_seller,c.login_key,c.third_id,
+		c.is_site_manager,c.isEnterprise,
+		i.info_realname,i.info_mobile,i.info_email,i.info_cardid,i.info_gender,
+		i.point_level_name,i.point_level_id,i.info_birthday ,i.info_regip,i.info_province,
+		i.info_city,i.info_county,i.infoStreet,i.info_marital,i.info_salary,i.info_interest,
+		i.balance_sum,i.info_point_sum,i.info_address,c.customer_img,salesman_name,enter.company_name,
+		enter.buss_legal_name,enter.buss_legal_card_id,enter.buss_range,enter.company_capital,enter.audit_time,enter.company_type,
+		enter.company_address,enter.company_contact_addr,enter.company_contact_name,enter.company_contact_moble
+	</sql>
+
+    <sql id="ordersql">
+		o.order_id,o.order_code,o.order_price,o.pay_time,o.create_time,o.create_time,
+		o.order_status,o.customer_id ,o.shopping_addr_id,o.pay_id,o.express_price, 
+		o.invoice_type,o.invoice_title,o.invoice_content,o.order_cancel_time,o.order_cancel_remark,o.business_id
+	</sql>
+    <select id="findStoreId" parameterType="java.lang.String" resultType="java.lang.String">
+      select store_id from np_third_store_info where customerId = #{customerId,jdbcType=VARCHAR} AND del_flag='0'
+    </select>
+    <select id="selectStatus" parameterType="java.lang.String" resultType="java.lang.String">
+        select is_seller from np_customer where customer_id=#{customerId,jdbcType=VARCHAR}
+    </select>
+    <update id="updateGoods" parameterType="java.lang.String">
+        update np_goods_info set goods_info_delflag = '1' where third_id = (select store_id from np_third_store_info where customerId = #{customerId,jdbcType=VARCHAR} AND del_flag='0')
+    </update>
+    <update id="deleteStore" parameterType="java.util.Map">
+        update np_customer set is_seller='0' where customer_id IN
+        <foreach item="item" index="index" collection="id" open="(" separator="," close=")">
+            select customerId FROM  np_third_store_info where store_id in (#{item})
+        </foreach>
+    </update>
+    <select id="updateStatus" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+      update np_customer set is_seller='1' WHERE  customer_id = #{customerId,jdbcType=BIGINT} AND del_flag = '0'
+    </select>
+    <!-- 查询订单 -->
+    <select id="selectOrderByCustomerId" parameterType="java.lang.Long" resultMap="orderMap">
+        select
+        <include refid="ordersql"/>
+        from np_order o
+        where o.customer_id= #{customerId,jdbcType=BIGINT} and o.del_flag = '0' and o.del_flag = '0' order by o.pay_time desc
+    </select>
+    <select id="queryByDetail" parameterType="java.lang.Long" resultMap="orderMap">
+        select
+        <include refid="ordersql"/>
+        from np_order o
+        where o.order_id= #{orderId,jdbcType=BIGINT} and o.del_flag = '0'
+    </select>
+
+    <!-- 分页查询会员详细信息 -->
+    <select id="selectCustomerAll" resultMap="cusinfoMap" parameterType="java.util.Map">
+        select
+        <include refid="cusSql"/>
+        from np_customer c left join np_customer_info i on
+        i.customer_id=c.customer_id
+        where c.del_flag = '0' and (c.is_seller = '0' or c.is_seller = '1')
+        order by c.login_time desc
+    </select>
+
+
+
+    <select id="selectCustomerAllInfomation" resultMap="cusinfoMap">
+        select
+        <include refid="cusSql2"/>
+        from np_customer c left join np_customer_info i on
+        i.customer_id=c.customer_id
+        <!--add by luyong-->
+        left join qp_customer_rela_salesman reasala on reasala.customer_id = c.customer_id and reasala.del_flag='0'
+        left join qp_salesman sala on reasala.salesman_id = sala.salesman_id and sala.del_flag='0' AND  sala.is_enabled='0'
+        left join qp_enterprise_certification_info enter on enter.customerId = c.customer_id and enter.del_flag='0' AND  enter.check_status='1'
+        <!--add by luyong-->
+        where c.del_flag = '0' and (c.is_seller = '0' or c.is_seller = '1')
+        order by c.login_time desc
+    </select>
+    <!-- 查询配送方式 -->
+    <select id="selectEspress" resultMap="expressMap" parameterType="java.lang.Long">
+        select
+        <include refid="espresssql"/>
+        from np_sys_express
+        where expid = #{expid,jdbcType=BIGINT}
+    </select>
+    <!-- 查询支付方式 -->
+    <select id="selectpay" resultMap="payMap" parameterType="java.lang.Long">
+	    select 
+	    pay_id, pay_name
+	    from np_sys_pay
+	    where pay_id = #{payId,jdbcType=BIGINT}
+	  </select>
+
+    <!-- 查询订单内商品 -->
+    <select id="selectGoodsByOrderId" parameterType="java.lang.Long" resultMap="goodsMap">
+		select
+		gi.goods_info_id ,gi.goods_info_name,o.goods_info_price,o.goods_info_num,gi.goods_info_img_id
+		from np_order_goods o 
+		inner join np_goods_info gi on gi.goods_info_id =o.goods_info_id
+		inner join np_goods g on gi.goods_id=g.goods_id
+		where o.order_id=#{orderId,jdbcType=BIGINT} and o.del_flag = '0'
+		order by o.goods_info_price desc
+	</select>
+    <!-- 查询关注商品 -->
+    <select id="selectGoodsByGoodsId" parameterType="java.lang.Long" resultMap="goodsMapF">
+		select
+		g.goods_info_name,g.goods_info_market_price,g.goods_info_img_id,g.goods_info_prefer_price,g.goods_info_vip_price
+		from np_goods_info g 
+		where g.goods_info_id=#{goodsId} and g.goods_info_delflag = '0'
+		order by g.goods_info_market_price desc
+	</select>
+    <!-- 	查询优惠劵 -->
+    <select id="selectCouponByCustomerId" parameterType="java.lang.Long" resultMap="couponMap">
+		select 
+		c.coupon_id, 
+		c.coupon_name,
+		f.reduction_price,
+		f.full_price,
+		str.down_price, 
+		c.del_flag, 
+		c.business_id, 
+		c.coupon_integral, 
+		c.coupon_is_show, 
+		c.coupon_pic,
+		c.coupon_rules_type,
+		n.code_id,  
+		n.code_no, 
+		n.customer_id, 
+		n.code_status, 
+		n.code_get_time, 
+		n.code_use_order_id 
+		from np_coupon c ,
+		np_coupon_no n 
+		LEFT  JOIN np_coupon_full_reduction f  on f.coupon_id=n.coupon_id
+		left JOIN np_coupon_straight_down str on str.coupon_id = n.coupon_id
+		where c.coupon_id = n.coupon_id and c.del_flag = '0' 
+		and n.customer_id = #{customerId}
+		and (n.code_status = '1' or n.code_status = '2')
+		and  <![CDATA[ c.coupon_start_time <= now() and  c.coupon_end_time  > now()
+        ]]>
+    </select>
+    <!--  -->
+    <select id="queryCustomerInfo" parameterType="java.lang.Long" resultMap="cusinfoMap">
+        select
+        <include refid="cusSql"/>
+        from np_customer c left join np_customer_info i on
+        i.customer_id=c.customer_id
+        where c.customer_id = #{customerId,jdbcType=BIGINT}
+    </select>
+    <!--  -->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="allInfo">
+        select
+        <include refid="cusSql"/>
+        from np_customer c left join np_customer_info i on
+        i.customer_id=c.customer_id
+        where c.customer_id = #{customerId,jdbcType=BIGINT}
+    </select>
+
+    <!--根据会员id查询出所有订单信息-->
+    <select id="selectBycustomerIds" parameterType="java.util.Map" resultMap="allInfo">
+        select
+        <include refid="cusSql"/>
+        from np_customer c left join np_customer_info i on
+        i.customer_id=c.customer_id
+        where c.customer_id in
+        <foreach item="item" index="index" collection="customerIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+    <!-- 查询验证码和失效时间 -->
+    <select id="selectCaptcha" parameterType="java.lang.Long" resultMap="captchaMap">
+		select
+		c.captcha,c.aead_time,c.pwd_captcha,c.pwd_aead_time,customer_username
+		from np_customer c
+		where c.customer_id = #{customerId,jdbcType=BIGINT}
+	</select>
+
+    <update id="updateSmsCaptcha" parameterType="com.ningpai.customer.bean.Customer">
+        update np_customer set
+        <if test="captcha != null">
+            captcha=#{captcha}
+        </if>
+        <if test="aeadTime != null">
+            <if test="captcha != null">
+                ,
+            </if>
+            aead_time=#{aeadTime}
+        </if>
+        <if test="pwdCaptcha != null">
+            <if test="aeadTime != null">
+                ,
+            </if>
+            pwd_captcha=#{pwdCaptcha}
+        </if>
+        <if test="pwdAeadTime != null">
+            <if test="pwdCaptcha != null">
+                ,
+            </if>
+            pwd_aead_time=#{pwdAeadTime}
+        </if>
+        where customer_id = #{customerId,jdbcType=BIGINT}
+    </update>
+
+    <!-- selectByUserName -->
+    <select id="selectByUserName" parameterType="java.lang.String" resultType="java.lang.Long">
+		select count(c.customer_username)
+		from np_customer c
+		where c.customer_username =  #{customerName} and del_flag='0'
+	</select>
+
+
+    <!--第三方忘记密码判断用户名是否存在时使用-->
+    <select id="selectCustomerByNameForThird" parameterType="java.lang.String" resultType="java.lang.Long">
+		select count(c.customer_username)
+		from np_customer c
+		where c.customer_username =  #{customerName} and del_flag='0' and (c.is_seller = '1' or c.is_seller = '2' or c.is_seller='3')
+	</select>
+    <!-- 查询所有会员信息 -->
+    <select id="selectAllCustmer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from np_customer c
+        where c.del_flag = '0'
+    </select>
+    <!--查询最近注册的会员信息-->
+    <select id="selectCustmerNewLimit" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from np_customer c
+        where c.del_flag = '0'
+        order by create_time desc
+        limit 0,5
+    </select>
+    <select id="selectAllCustmerCount" resultType="java.lang.Integer">
+		select
+		count(1)
+		from np_customer c
+		where c.del_flag =  '0' 
+	</select>
+    <!-- 查询所有会员详细信息 -->
+    <select id="selectAllCustmerInfo" resultMap="cusinfoMap">
+        select
+        <include refid="cusSql"/>
+        from np_customer c left join np_customer_info i on
+        i.customer_id=c.customer_id
+        where c.del_flag = '0'
+        order by c.login_time desc
+    </select>
+
+    <!-- 分页查询会员详细信息 -->
+    <select id="selectCustomerByLimit" resultMap="cusinfoMap" parameterType="java.util.Map">
+        select
+        <include refid="cusSql"/>
+        from np_customer c left join np_customer_info i on
+        i.customer_id=c.customer_id
+        where c.del_flag = '0' and (c.is_seller = '0' or c.is_seller = '1')
+        order by c.login_time desc
+        limit #{startRowNum,jdbcType=BIGINT},#{endRowNum,jdbcType=BIGINT}
+    </select>
+
+
+    <!-- 分页查询会员详细信息 过滤掉第三方商家-->
+    <select id="selectCustomerByLimitFilterThird" resultMap="cusinfoMap" parameterType="java.util.Map">
+        select
+        <include refid="cusSql1"/> , enter.company_name
+        from np_customer c left join np_customer_info i on
+        i.customer_id=c.customer_id
+        <!--add by luyong-->
+        left join qp_customer_rela_salesman reasala on reasala.customer_id = c.customer_id and reasala.del_flag='0'
+        left join qp_salesman sala on reasala.salesman_id = sala.salesman_id and sala.del_flag='0' AND  sala.is_enabled='0'
+        left join qp_enterprise_certification_info enter on enter.customerId = c.customer_id and enter.check_status='1' AND  enter.del_flag='0'
+        <!--add by luyong-->
+        where c.del_flag = '0' and (c.is_seller = '0')
+        order by c.login_time desc
+        limit #{startRowNum,jdbcType=BIGINT},#{endRowNum,jdbcType=BIGINT}
+    </select>
+
+
+    <!-- 高级搜索 查询会员详细信息 -->
+    <select id="selectCustmerSize" resultType="java.lang.Long" parameterType="com.ningpai.other.bean.CustomerAllInfo">
+        select
+        count(c.customer_id)
+        from np_customer c left join np_customer_info i on
+        i.customer_id=c.customer_id
+        where c.del_flag = '0' and
+        <if test="customerUsername != null and customerUsername !=''">
+            c.customer_username like CONCAT(CONCAT('%', #{customerUsername}),'%') and
+        </if>
+        <if test="infoRealname != null and infoRealname !=''">
+            i.info_realname like CONCAT(CONCAT('%', #{infoRealname}),'%') and
+        </if>
+        <if test="infoMobile != null and infoMobile !=''">
+            i.info_mobile like CONCAT(CONCAT('%', #{infoMobile}),'%') and
+        </if>
+        <if test="infoEmail != null and infoEmail !=''">
+            i.info_email like CONCAT(CONCAT('%', #{infoEmail}),'%') and
+        </if>
+        <if test="isMobile != null and isMobile !=''">
+            c.is_mobile = #{isMobile} and
+        </if>
+        <if test="isSeller != null and isSeller !=''">
+            c.is_seller = #{isSeller} and
+        </if>
+        <if test="isEmail != null and isEmail !=''">
+            c.is_email = #{isEmail} and
+        </if>
+        <if test="isFlag != null and isFlag !=''">
+            c.is_flag = #{isFlag} and
+        </if>
+        <if test="loginTime != null and loginTime !='' and loginTimeTo != null and loginTimeTo!=''">
+            c.login_time between #{loginTime} and #{loginTimeTo} and
+        </if>
+
+        <if test="loginTime != null and loginTime !='' and loginTimeTo == null or loginTimeTo==''">
+            c.login_time &gt; #{loginTime} and
+        </if>
+        <if test="loginTimeTo != null and loginTimeTo !='' and loginTime == null or loginTime ==''">
+            c.login_time &lt; #{loginTimeTo} and
+        </if>
+        1=1 and (c.is_seller = '0' or c.is_seller = '1')
+    </select>
+
+    <!-- 高级搜索 查询会员详细信息 -->
+    <select id="selectCustmerSizeFilterThird" resultType="java.lang.Long" parameterType="com.ningpai.other.bean.CustomerAllInfo">
+        select
+        count(c.customer_id)
+        from np_customer c left join np_customer_info i on
+        i.customer_id=c.customer_id
+        <!--add by luyong-->
+        <if test="salesmanId!=null and salesmanId!=0">
+            join qp_customer_rela_salesman reasala on reasala.customer_id = c.customer_id and reasala.del_flag='0' and reasala.salesman_id=#{salesmanId}
+        </if>
+        <!--add by luyong-->
+        where c.del_flag = '0' and
+        <if test="customerUsername != null and customerUsername !=''">
+            c.customer_username like CONCAT(CONCAT('%', #{customerUsername}),'%') and
+        </if>
+        <if test="infoRealname != null and infoRealname !=''">
+            i.info_realname like CONCAT(CONCAT('%', #{infoRealname}),'%') and
+        </if>
+        <if test="infoMobile != null and infoMobile !=''">
+            i.info_mobile like CONCAT(CONCAT('%', #{infoMobile}),'%') and
+        </if>
+        <if test="infoEmail != null and infoEmail !=''">
+            i.info_email like CONCAT(CONCAT('%', #{infoEmail}),'%') and
+        </if>
+        <if test="isMobile != null and isMobile !=''">
+            c.is_mobile = #{isMobile} and
+        </if>
+        <if test="isSeller != null and isSeller !=''">
+            c.is_seller = #{isSeller} and
+        </if>
+        <if test="isEmail != null and isEmail !=''">
+            c.is_email = #{isEmail} and
+        </if>
+        <if test="isFlag != null and isFlag !=''">
+            c.is_flag = #{isFlag} and
+        </if>
+        <if test="loginTime != null and loginTime !='' and loginTimeTo != null and loginTimeTo!=''">
+            c.login_time between #{loginTime} and #{loginTimeTo} and
+        </if>
+
+        <if test="loginTime != null and loginTime !='' and loginTimeTo == null or loginTimeTo==''">
+            c.login_time &gt; #{loginTime} and
+        </if>
+        <if test="loginTimeTo != null and loginTimeTo !='' and loginTime == null or loginTime ==''">
+            c.login_time &lt; #{loginTimeTo} and
+        </if>
+        1=1 and (c.is_seller = '0')
+    </select>
+
+    <!-- 高级搜索 查询会员详细信息 -->
+    <select id="selectCustmerByAllInfo" resultMap="cusinfoMap" parameterType="com.ningpai.other.bean.CustomerAllInfo">
+        select
+        <include refid="cusSql"/>
+        from np_customer c left join np_customer_info i on
+        i.customer_id=c.customer_id
+        where c.del_flag = '0' and
+        <if test="customerUsername != null and customerUsername !=''">
+            c.customer_username like CONCAT(CONCAT('%', #{customerUsername}),'%') and
+        </if>
+        <if test="infoRealname != null and infoRealname !=''">
+            i.info_realname like CONCAT(CONCAT('%', #{infoRealname}),'%') and
+        </if>
+        <if test="infoMobile != null and infoMobile !=''">
+            i.info_mobile like CONCAT(CONCAT('%', #{infoMobile}),'%') and
+        </if>
+        <if test="infoEmail != null and infoEmail !=''">
+            i.info_email like CONCAT(CONCAT('%', #{infoEmail}),'%') and
+        </if>
+        <if test="isMobile != null and isMobile !=''">
+            c.is_mobile = #{isMobile} and
+        </if>
+        <if test="isEmail != null and isEmail !=''">
+            c.is_email = #{isEmail} and
+        </if>
+        <if test="isFlag != null and isFlag !=''">
+            c.is_flag = #{isFlag} and
+        </if>
+        <if test="isSeller != null and isSeller !=''">
+            c.is_seller = #{isSeller} and
+        </if>
+        <if test="loginTime != null and loginTime !='' and loginTimeTo != null and loginTimeTo!=''">
+            c.login_time between #{loginTime} and #{loginTimeTo} and
+        </if>
+        <if test="loginTime != null and loginTime !='' and loginTimeTo == null or loginTimeTo==''">
+            c.login_time &gt; #{loginTime} and
+        </if>
+        <if test="loginTimeTo != null and loginTimeTo !='' and loginTime == null or loginTime ==''">
+            c.login_time &lt; #{loginTimeTo} and
+        </if>
+        1=1 and (c.is_seller = '0' or c.is_seller = '1')
+        order by c.login_time desc
+        limit #{startRowNum,jdbcType=BIGINT},#{endRowNum,jdbcType=BIGINT}
+    </select>
+
+    <!-- 高级搜索 查询会员详细信息过滤掉第三方商家 -->
+    <select id="selectCustmerByAllInfoFilterThird" resultMap="cusinfoMap" parameterType="com.ningpai.other.bean.CustomerAllInfo">
+        select
+        <include refid="cusSql1"/> , enter.company_name
+        from np_customer c left join np_customer_info i on
+        i.customer_id=c.customer_id
+        left join qp_enterprise_certification_info enter on enter.customerId = c.customer_id and enter.check_status='1' AND  enter.del_flag='0'
+        <!--add by luyong-->
+        <if test="salesmanId!=null and salesmanId!=0">
+            join qp_customer_rela_salesman reasala on reasala.customer_id = c.customer_id and reasala.del_flag='0' and reasala.salesman_id=#{salesmanId}
+            left join qp_salesman sala on reasala.salesman_id = sala.salesman_id and sala.del_flag='0' AND  sala.is_enabled='0'
+        </if>
+        <if test="salesmanId==null or salesmanId==0">
+            left join qp_customer_rela_salesman reasala on reasala.customer_id = c.customer_id and reasala.del_flag='0'
+            left join qp_salesman sala on reasala.salesman_id = sala.salesman_id and sala.del_flag='0' AND  sala.is_enabled='0'
+        </if>
+        <!--add by luyong-->
+        where c.del_flag = '0' and
+        <if test="customerUsername != null and customerUsername !=''">
+            c.customer_username like CONCAT(CONCAT('%', #{customerUsername}),'%') and
+        </if>
+        <if test="infoRealname != null and infoRealname !=''">
+            i.info_realname like CONCAT(CONCAT('%', #{infoRealname}),'%') and
+        </if>
+        <if test="infoMobile != null and infoMobile !=''">
+            i.info_mobile like CONCAT(CONCAT('%', #{infoMobile}),'%') and
+        </if>
+        <if test="infoEmail != null and infoEmail !=''">
+            i.info_email like CONCAT(CONCAT('%', #{infoEmail}),'%') and
+        </if>
+        <if test="isMobile != null and isMobile !=''">
+            c.is_mobile = #{isMobile} and
+        </if>
+        <if test="isEmail != null and isEmail !=''">
+            c.is_email = #{isEmail} and
+        </if>
+        <if test="isFlag != null and isFlag !=''">
+            c.is_flag = #{isFlag} and
+        </if>
+        <if test="isSeller != null and isSeller !=''">
+            c.is_seller = #{isSeller} and
+        </if>
+        <if test="loginTime != null and loginTime !='' and loginTimeTo != null and loginTimeTo!=''">
+            c.login_time between #{loginTime} and #{loginTimeTo} and
+        </if>
+        <if test="loginTime != null and loginTime !='' and loginTimeTo == null or loginTimeTo==''">
+            c.login_time &gt; #{loginTime} and
+        </if>
+        <if test="loginTimeTo != null and loginTimeTo !='' and loginTime == null or loginTime ==''">
+            c.login_time &lt; #{loginTimeTo} and
+        </if>
+        1=1 and (c.is_seller = '0')
+        order by c.login_time desc
+        limit #{startRowNum,jdbcType=BIGINT},#{endRowNum,jdbcType=BIGINT}
+    </select>
+
+    <!-- 查询会员详细信息 订单 商品 -->
+    <select id="selectCustomerOrder" resultMap="cusinfoMap" parameterType="java.lang.Long">
+        select
+        o.order_no,o.money_paid,o.pay_time,o.coupons_delfag
+        from np_order_info o
+        where o.order_id=#{orderId,jdbcType=BIGINT}
+    </select>
+    <!-- 查询所有省份-->
+    <select id="selectAllProvince" resultMap="proviceMap">
+        select
+        p.province_id,p.province_name
+        from np_sys_province p
+        where p.del_flag = '0'
+    </select>
+
+    <select id="selectProvinceById" resultMap="proviceMap" parameterType="java.lang.Long">
+        select
+        p.province_id,p.province_name
+        from np_sys_province p
+        where p.province_id=#{provinceId,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectCityByPid" resultMap="cityMap" parameterType="java.lang.Long">
+        select
+        c.city_id,c.city_name
+        from np_sys_city c
+        where c.city_id = #{cityId,jdbcType=BIGINT}
+    </select>
+    <select id="selectDistrictByCid" resultMap="districtMap" parameterType="java.lang.Long">
+        select
+        d.district_id,d.district_name
+        from np_sys_district d
+        where d.district_id = #{districtId,jdbcType=BIGINT}
+    </select>
+    <!-- 查询所有城市根据省份编号-->
+    <select id="selectAllCityByPid" resultMap="cityMap" parameterType="java.lang.Long">
+        select
+        c.city_id,c.city_name
+        from np_sys_city c
+        where c.province_id = #{provinceId,jdbcType=BIGINT}
+        and c.del_flag = '0'
+    </select>
+
+    <!-- 查询所有的城市 by yuankk -->
+    <select id="selectAllCity" resultMap="cityMap">
+        select
+        c.city_id,c.city_name,c.province_id
+        from np_sys_city c
+        where  c.del_flag = '0'
+    </select>
+
+    <select id="selectAllCityByDistrict" resultMap="cityMap" parameterType="java.util.List">
+        select city.city_id,city.city_name,city.province_id from np_sys_city city
+        INNER JOIN np_sys_district dir on city.city_id=dir.city_id
+        where district_id not in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id,jdbcType=BIGINT}
+        </foreach>
+        GROUP BY dir.city_id
+    </select>
+
+    <!-- 查询所有区县根据城市编号-->
+    <select id="selectAllDistrictByCid" resultMap="districtMap" parameterType="java.lang.Long">
+        select
+        d.district_id,d.district_name
+        from np_sys_district d
+        where d.city_id = #{cityId,jdbcType=BIGINT}
+        and d.del_flag = '0'
+    </select>
+
+    <!-- 查询所有区县根据城市编号-->
+    <select id="selectAllDistrict" resultMap="districtMap">
+        select
+        d.district_id,d.district_name,d.city_id
+        from np_sys_district d
+        where 1=1
+        and d.del_flag = '0'
+    </select>
+
+    <!-- 查询所有可用区县-->
+    <select id="selectDistrictInId" resultMap="districtMap" parameterType="java.util.List">
+        select
+        d.district_id,d.district_name,d.city_id
+        from np_sys_district d
+        where 1=1 and d.district_id not in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id,jdbcType=BIGINT}
+        </foreach>
+        and d.del_flag = '0'
+    </select>
+
+    <!-- 根据区县编号查询所有街道-->
+    <select id="getAllStreetByDid" resultMap="streetMap" parameterType="java.lang.Long">
+        select
+        s.street_id,s.street_name
+        from np_sys_street s
+        where s.district_id = #{dId,jdbcType=BIGINT}
+        and s.del_flag = '0'
+    </select>
+
+    <update id="deleteCustomerById" parameterType="java.lang.Long">
+        update np_customer
+        set del_flag = '1', del_time = SYSDATE()
+        where customer_id = #{customerId,jdbcType=BIGINT}
+    </update>
+
+    <!--删除商家员工-->
+    <update id="deleteCustomerThird" parameterType="java.util.Map">
+        delete from np_customer
+        where third_id = #{thirdId,jdbcType=BIGINT} AND  customer_id in
+        <foreach item="item" index="index" collection="customerId" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+
+
+    <update id="deleteCustomerByIds" parameterType="java.util.Map">
+        update np_customer
+        set del_flag = '1', del_time = SYSDATE()
+        where customer_id in
+        <foreach item="item" index="index" collection="customerId" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <select id="selectLastId" resultType="java.lang.Long">
+        select LAST_INSERT_ID()
+    </select>
+
+    <insert id="insertSelective" parameterType="com.ningpai.other.bean.CustomerAllInfo">
+        insert into np_customer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">
+                customer_id,
+            </if>
+            <if test="thirdId != null">
+                third_id,
+            </if>
+            <if test="isSeller != null">
+                is_seller,
+            </if>
+            <if test="customerUsername != null">
+                customer_username,
+            </if>
+            <if test="customerPassword != null">
+                customer_password,
+            </if>
+            <if test="customerNickname != null">
+                customer_nickname,
+            </if>
+            <if test="isMobile == null">
+                is_mobile,
+            </if>
+            <if test="isEmail == null">
+                is_email,
+            </if>
+            <if test="isMobile != null">
+                is_mobile,
+            </if>
+            <if test="isEmail != null">
+                is_email,
+            </if>
+            <if test="isFlag == null">
+                is_flag,
+            </if>
+            <if test="loginIp != null">
+                login_ip,
+            </if>
+            <if test="loginTime == null">
+                login_time,
+            </if>
+            <if test="createTime == null">
+                create_time,
+            </if>
+            <if test="modifiedTime == null">
+                modified_time,
+            </if>
+            <if test="delFlag == null">
+                del_flag,
+            </if>
+            <if test="delTime == null">
+                del_time,
+            </if>
+            <if test="aeadTime == null">
+                aead_time,
+            </if>
+            <if test="customerImg != null">
+                customer_img,
+            </if>
+            <if test="thirdId == null">
+                third_id,
+            </if>
+            <if test="loginKey != null">
+                login_key,
+            </if>
+            <if test="isEnterprise != null">
+                isEnterprise,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">
+                #{customerId,jdbcType=BIGINT},
+            </if>
+            <if test="thirdId != null">
+                #{thirdId,jdbcType=BIGINT},
+            </if>
+            <if test="isSeller != null">
+                #{isSeller,jdbcType=BIGINT},
+            </if>
+            <if test="customerUsername != null">
+                #{customerUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="customerPassword != null">
+                md5(#{customerPassword,jdbcType=VARCHAR}),
+            </if>
+            <if test="customerNickname != null">
+                #{customerNickname,jdbcType=VARCHAR},
+            </if>
+            <if test="isMobile == null">
+                '0',
+            </if>
+            <if test="isEmail == null">
+                '0',
+            </if>
+            <if test="isMobile != null">
+                #{isMobile,jdbcType=CHAR},
+            </if>
+            <if test="isEmail != null">
+                #{isEmail,jdbcType=CHAR},
+            </if>
+            <if test="isFlag == null">
+                '0',
+            </if>
+            <if test="loginIp != null">
+                #{loginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="loginTime == null">
+                SYSDATE(),
+            </if>
+            <if test="createTime == null">
+                SYSDATE(),
+            </if>
+            <if test="modifiedTime == null">
+                SYSDATE(),
+            </if>
+            <if test="delFlag == null">
+                '0',
+            </if>
+            <if test="delTime == null">
+                SYSDATE(),
+            </if>
+            <if test="aeadTime == null">
+                date_sub(now(), INTERVAL 1 DAY),
+            </if>
+            <if test="customerImg != null">
+                #{customerImg,jdbcType=VARCHAR},
+            </if>
+            <if test="thirdId == null">
+                '0',
+            </if>
+            <if test="loginKey != null">
+                #{loginKey,jdbcType=VARCHAR},
+            </if>
+            <if test="isEnterprise != null">
+                #{isEnterprise,jdbcType=CHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.other.bean.CustomerAllInfo">
+        update np_customer
+        <set>
+            <if test="customerUsername != null">
+                customer_username = #{customerUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="customerPassword != null">
+                customer_password = #{customerPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="customerNickname != null">
+                customer_nickname = #{customerNickname,jdbcType=VARCHAR},
+            </if>
+            <if test="isMobile != null">
+                is_mobile = #{isMobile,jdbcType=CHAR},
+            </if>
+            <if test="isEmail != null">
+                is_email = #{isEmail,jdbcType=CHAR},
+            </if>
+            <if test="isFlag != null">
+                is_flag = #{isFlag,jdbcType=CHAR},
+            </if>
+            <if test="loginIp != null">
+                login_ip = #{loginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="loginTime != null">
+                login_time = #{loginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=CHAR},
+            </if>
+            <if test="delTime != null">
+                del_time = #{delTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="customerImg != null">
+                customer_img =#{customerImg,jdbcType=VARCHAR},
+            </if>
+            <if test="thirdId != null">
+                third_id =#{thirdId,jdbcType=VARCHAR},
+            </if>
+            <if test="isSeller != null">
+                is_seller =#{isSeller,jdbcType=VARCHAR},
+            </if>
+            <if test="loginKey != null">
+                #{loginKey,jdbcType=VARCHAR},
+            </if>
+            <if test="isSiteManager != null">
+                is_site_manager=#{isSiteManager,jdbcType=CHAR},
+            </if>
+            modified_time = SYSDATE()
+        </set>
+        where customer_id = #{customerId,jdbcType=BIGINT}
+    </update>
+
+    <!--更新第三方的密码-->
+    <update id="updateThirdPassword" parameterType="java.util.Map">
+        update np_customer
+        <set>
+            <if test="customerPassword != null">
+                customer_password =  md5(#{customerPassword,jdbcType=VARCHAR}),
+            </if>
+            modified_time = SYSDATE()
+        </set>
+        where customer_id = #{customerId,jdbcType=BIGINT}
+    </update>
+    <!-- 根据会员id修改头像 -->
+    <update id="updateImgByPrimaryKeySelective" parameterType="com.ningpai.other.bean.CustomerAllInfo">
+        update np_customer
+        <set>
+            <if test="customerImg != null">
+                customer_img =#{customerImg,jdbcType=VARCHAR},
+            </if>
+            modified_time = SYSDATE()
+        </set>
+        where customer_id = #{customerId,jdbcType=BIGINT}
+    </update>
+
+
+    <!-- 根据会员名检验会员是否存在 -->
+    <select id="checkexistsByCustName" parameterType="java.lang.String" resultType="java.lang.Long">
+        select
+        count(1)
+        from np_customer c
+        where c.customer_username = #{username,jdbcType=BIGINT} and c.del_flag ='0'
+    </select>
+
+    <select id="selectCustomerByNamePwd" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from np_customer c
+        where
+        <if test="username != null and username!=''">
+            c.customer_username = #{username}
+        </if>
+        <if test="password != null and password !=''">
+            and c.customer_password = md5(#{password})
+        </if>
+        and del_flag = '0' and (c.is_seller = '0' or c.is_seller = '1' or c.is_seller = '2' or c.is_seller ='3')
+    </select>
+
+    <!-- 修改登录状态 -->
+    <update id="updateCustomerLoginTime" parameterType="com.ningpai.customer.bean.Customer">
+        update np_customer
+        <set>
+            <if test="loginIp != null">
+                login_ip = #{loginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="loginTime != null">
+                login_time = #{loginTime,jdbcType=TIMESTAMP},
+            </if>
+            modified_time = SYSDATE()
+        </set>
+        where customer_id = #{customerId,jdbcType=BIGINT}
+    </update>
+    <!-- 修改禁用状态 -->
+    <update id="modifyEmpToDisableThird" parameterType="java.util.Map">
+        update np_customer
+        set is_flag =
+        <if test="flag != 'disable' ">
+            '0'
+        </if>
+        <if test="flag == 'disable' ">
+            '1'
+        </if>
+        where third_id = #{thirdId,jdbcType=BIGINT} AND customer_id = #{custId,jdbcType=BIGINT}
+    </update>
+
+
+    <!-- 修改禁用状态 -->
+    <update id="modifyEmpToDisable" parameterType="java.util.Map">
+        update np_customer
+        set is_flag =
+        <if test="flag != 'disable' ">
+            '0'
+        </if>
+        <if test="flag == 'disable' ">
+            '1'
+        </if>
+        where customer_id = #{custId,jdbcType=BIGINT}
+    </update>
+
+    <!-- 根据订单编号查找订单 -->
+    <select id="queryOrderByOrderId" parameterType="java.lang.Long" resultMap="neworderMap">
+        select
+        <include refid="ordersql"/>
+        from np_order o
+        where o.order_id= #{orderId,jdbcType=BIGINT} and o.del_flag = '0'
+    </select>
+    <!-- 查询订单内商品 -->
+    <select id="newselectGoodsByOrderId" parameterType="java.lang.Long" resultMap="newgoodsMap">
+        select
+        gi.goods_info_id ,gi.goods_info_name,o.goods_info_price,o.goods_info_num,gi.goods_info_img_id,o.evaluate_flag,gi.goods_info_item_no,o.buy_time,o.share_flag,o.share_id
+        from np_order_goods o
+        inner join np_goods_info gi on gi.goods_info_id =o.goods_info_id
+        where o.order_id=#{orderId,jdbcType=BIGINT} and o.del_flag = '0'
+        order by o.goods_info_price desc
+    </select>
+
+
+    <select id="selectCustomerByUname" resultMap="cusinfoMap" parameterType="java.util.Map">
+        select
+        <include refid="cusSql"/>
+        from np_customer c left join np_customer_info i on i.customer_id=c.customer_id
+        where
+        <if test="username != null and username!=''">
+            c.customer_username = #{username}
+        </if>
+        and c.del_flag = '0' and (c.is_seller = '0' or c.is_seller = '1' or c.is_seller = '2')
+    </select>
+    <!-- 检测邮箱存在性 -->
+    <select id="checkEmailExist" parameterType="java.lang.String" resultType="java.lang.Long">
+        select
+        count(1)
+        from np_customer_info i
+        INNER JOIN np_customer c on c.customer_id = i.customer_id
+        where  i.info_email= #{email} and i.del_flag ='0' and c.del_flag = '0'
+    </select>
+    <!-- 检测手机存在性 -->
+    <select id="checkMobileExist" parameterType="java.lang.String" resultType="java.lang.Long">
+        select
+        count(1)
+        from np_customer_info i
+        INNER JOIN np_customer c on c.customer_id = i.customer_id
+        where  i.info_mobile= #{mobile} and i.del_flag ='0' and c.del_flag = '0'
+    </select>
+
+    <!-- 根据会员名和类型检验会员是否存在 -->
+    <select id="checkExistsByCustNameAndType" parameterType="java.util.Map" resultType="java.lang.Long">
+        <if test="uType == 'username'">
+            select
+            count(1)
+            from np_customer c
+            where c.customer_username = #{username} and c.del_flag ='0'
+        </if>
+        <if test="uType == 'mobile'">
+            select
+            count(1)
+            from np_customer_info i
+            INNER JOIN np_customer c on c.customer_id = i.customer_id
+            where i.info_mobile= #{username} and i.del_flag ='0' and c.del_flag = '0'
+        </if>
+        <if test="uType == 'email'">
+            select
+            count(1)
+            from np_customer_info i
+            INNER JOIN np_customer c on c.customer_id = i.customer_id
+            where i.info_email= #{username} and i.del_flag ='0' and c.del_flag = '0'
+        </if>
+    </select>
+
+    <!-- selectByName -->
+    <select id="selectByName" parameterType="java.lang.String" resultMap="cusinfoMap">
+        select
+        <include refid="Base_Column_List"/>
+        from np_customer c
+        where c.customer_nickname = #{customerUsername} and c.del_flag='0'
+    </select>
+
+    <!-- 根据用户名补全用户名 -->
+    <select id="customerlist" resultMap="cusinfoMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from np_customer c
+        where 1=1 and c.del_flag = '0' and c.customer_nickname like CONCAT(CONCAT('%',#{customerUsername},'%'))
+    </select>
+
+    <!-- 根据用户名补全用户名 -->
+    <select id="selectCustomerByUserName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from np_customer c
+        where c.del_flag = '0' and c.customer_username = #{userName} limit 0,1
+    </select>
+    <!-- 根据时间统计会员 -->
+    <select id="selectCountByTime" resultMap="custstatistic">
+        select  count(customer_id) as countSum,left(create_time,10) as ctime  from np_customer c
+        where  c.del_flag = '0' and create_time is not NULL
+        GROUP  by DATE_FORMAT(create_time,'%Y-%m-%d')
+    </select>
+
+    <!-- 根据地点统计会员 -->
+    <select id="selectCountByAddress" resultMap="custstatistic">
+        select  count(1) as countSum,IFNULL(i.info_province,'0')  as address  from np_customer c
+        inner join np_customer_info i on c.customer_id = i.customer_id
+        where  c.del_flag = '0'
+        GROUP  by info_province
+    </select>
+    <select id="selectCusById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select customer_username from np_customer where  customer_id = #{customerId,jdbcType=BIGINT}
+    </select>
+    <!-- 保存推广注册的信息 -->
+    <insert id="insertRegisterPoint" parameterType="com.ningpai.customer.bean.RegisterPoint">
+        insert into np_point_register
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            register_point_id,
+            <if test="regPointReferee != null">
+                register_point_referee,
+            </if>
+            <if test="regPointRecom != null">
+                register_point_Recommended,
+            </if>
+            <if test="regPointTime != null">
+                register_point_time,
+            </if>
+            <if test="regPointNumber != null">
+                register_point_number,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            0,
+            <if test="regPointReferee != null">
+                #{regPointReferee,jdbcType=VARCHAR},
+            </if>
+            <if test="regPointRecom != null">
+                #{regPointRecom,jdbcType=VARCHAR},
+            </if>
+            <if test="regPointTime != null">
+                #{regPointTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="regPointNumber != null">
+                #{regPointNumber,jdbcType=BIGINT},
+            </if>
+        </trim>
+
+    </insert>
+
+    <update id="setCustomerByIds" parameterType="java.util.Map">
+        update np_customer set
+        <if test="isSiteManager != null">
+            is_site_manager=#{isSiteManager,jdbcType=CHAR},
+        </if>
+        modified_time = SYSDATE()
+        where customer_id in
+        <foreach item="item" index="index" collection="customerId" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+    <!-- 查询会员消费额排行 -->
+    <select id="queryCustomerRank" parameterType="java.util.Map" resultMap="customerRankMap">
+        SELECT
+        c.customer_id,
+        c.customer_username,
+        c.customer_nickname,
+        ca.address_name,
+        ca.address_moblie,
+        COUNT(o.order_id) as
+        ordernumber,
+        sum(o.order_price) as ordermoney
+        FROM
+        np_customer c
+        LEFT JOIN
+        np_order o ON o.customer_id = c.customer_id
+        LEFT JOIN
+        np_customer_address ca ON ca.customer_id=c.customer_id
+        where o.business_id='0'
+        and(order_status = '3' or order_status = '1' )
+        <if
+                test="startTime != null and startTime!='' ">
+            AND o.pay_time &gt;= #{startTime}
+        </if>
+        <if test="endTime != null and endTime!=''">
+            AND o.pay_time &lt;= #{endTime}
+        </if>
+        GROUP BY c.customer_id
+        ORDER BY
+        <if test='condition=="0"'>
+            ordernumber desc
+        </if>
+        <if test='condition=="1"'>
+            ordermoney desc
+        </if>
+        <if test='condition=="2"'>
+            ordernumber asc
+        </if>
+        <if test='condition=="3"'>
+            ordermoney asc
+        </if>
+        limit #{startRowNum},#{endRowNum}
+    </select>
+    <!-- 条数 -->
+    <select id="selectAllSize" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1) from
+        (SELECT
+        c.customer_id,
+        c.customer_username,
+        COUNT(o.order_id) as ordernumber,
+        sum(o.order_price) as ordermoney
+        FROM
+        np_customer c
+        LEFT JOIN np_order o ON o.customer_id = c.customer_id
+        where o.business_id='0' and order_status IN ('1','3')
+        <if
+                test="startTime != null and startTime!='' ">
+            AND o.pay_time &gt;= #{startTime}
+        </if>
+        <if test="endTime != null and endTime!=''">
+            AND o.pay_time &lt;= #{endTime}
+        </if>
+        GROUP BY c.customer_id)a
+    </select>
+
+    <select id="queryCusLevleInfo" resultMap="levelResult">
+        select a.point_level_name  as pointLevelName  ,a.count as levelCount,a.count/a.total*100 as levelRate from
+        (SELECT
+        cuin.point_level_name,cuin.point_level_id,
+        count(1) as count,
+        (
+        SELECT count(1) FROM np_customer c,np_customer_info cuin
+        WHERE c.customer_id = cuin.customer_id and (c.is_seller = '0' or c.is_seller = '1')
+        AND c.del_flag = '0'
+        AND cuin.del_flag = '0'
+        ) AS total
+        FROM
+        np_customer c,
+        np_customer_info cuin
+        WHERE
+        c.customer_id = cuin.customer_id and (c.is_seller = '0' or c.is_seller = '1')
+        AND c.del_flag = '0'
+        AND cuin.del_flag = '0'
+        GROUP BY
+        cuin.point_level_id
+        ) a
+
+    </select>
+
+    <select id="queryCusAndOrderInfo" resultMap="levelResult" parameterType="java.util.Map">
+        select cuin.customer_id as customerId , customer_username ,
+        cuin.point_level_name as pointLevelName ,a.countOrder as countOrder,a.sumPrice as sumPrice,b.maxtime as maxtime
+        from np_customer cu
+        LEFT JOIN np_customer_info cuin
+        on cu.customer_id=cuin.customer_id
+        LEFT JOIN (select customer_id,count(1) countOrder ,sum(order_price) sumPrice from np_order o
+        where o.order_status='3' GROUP BY o.customer_id ) a
+        on a.customer_id=cu.customer_id
+        LEFT JOIN (select customer_id ,max(pay_time) as maxtime FROM np_order
+        group by customer_id) b
+        on b.customer_id=cu.customer_id
+        where cu.del_flag='0'
+
+        <if test="pointLevelId != null and pointLevelId!=''">
+            and point_level_id = #{pointLevelId}
+        </if>
+        <if test="customerNickname != null and customerNickname!=''">
+            and customer_username like CONCAT(CONCAT('%', #{customerNickname}),'%')
+        </if>
+        limit #{startRowNum,jdbcType=BIGINT},#{endRowNum,jdbcType=BIGINT}
+    </select>
+
+
+    <select id="selectCusCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1) from np_customer cu
+        LEFT JOIN np_customer_info cuin
+        on cu.customer_id=cuin.customer_id
+        where cu.del_flag='0'
+        <if test="pointLevelId != null and pointLevelId!=''">
+            and point_level_id = #{pointLevelId}
+        </if>
+        <if test="customerNickname != null and customerNickname!=''">
+            and customer_username like CONCAT(CONCAT('%', #{customerNickname}),'%')
+        </if>
+    </select>
+
+    <!-- 手动升级会员等级 -->
+    <update id="upCusLevel" parameterType="java.util.Map">
+        update  np_customer_info SET point_level_id=#{pointLevelId} ,point_level_name=#{pointLevelName}
+        where customer_id=#{customerId,jdbcType=BIGINT}
+    </update>
+
+    <select id="checkUsernameExitOrNot" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(*) from np_customer where customer_username=#{customerUsername,jdbcType=VARCHAR} and third_id = #{thirdId,jdbcType=BIGINT} and is_seller = '2'
+    </select>
+    <!-- 根据主键 获取单个会员信息-->
+    <select id="getCustomerByCusId" parameterType="java.util.Map"  resultMap="BaseResultMap">
+        select  <include refid="Base_Column_List" />
+        from np_customer c  where 1=1
+        <if test="customerId != null">
+            and c.customer_id = #{customerId}
+        </if>
+
+    </select>
+
+    <!--修改会员信息 用于删除店铺-->
+    <update id="updateCustomer" parameterType="com.ningpai.customer.bean.Customer" >
+        UPDATE np_customer
+        SET
+        <if test="isSeller != null">
+            is_seller = #{isSeller,jdbcType=CHAR},
+        </if>
+        third_id = #{thirdId,jdbcType=BIGINT}
+        where
+        customer_id = #{customerId,jdbcType=BIGINT}
+    </update>
+    <update id="deleteEmp" parameterType="java.lang.Long">
+        update np_customer
+        set del_flag = '1'
+        where third_id=#{thirId,jdbcType=BIGINT} AND is_seller = '2'
+    </update>
+
+
+    <!-- 根据用户名 获取单个会员信息-->
+    <select id="getCustomerByUsername" parameterType="java.lang.String"  resultMap="getCustomerByname">
+        select  <include refid="Base_Column_List" />
+        from np_customer c
+        where c.customer_username = #{customerUsername} and c.del_flag='0'
+    </select>
+    <!-- 根据用户名 前台 获取单个会员信息-->
+    <select id="getCustomerByUsernamestie" parameterType="java.lang.String"  resultMap="BaseResultMap">
+        select  <include refid="Base_Column_List" />
+        from np_customer c
+        where c.customer_username = #{customerUsername} and c.del_flag='0'
+    </select>
+
+    <update id="updataIsEnterprise" parameterType="Long">
+        update np_customer
+        set isEnterprise = '1'
+        where customer_id=#{customerId,jdbcType=BIGINT}
+    </update>
+</mapper>

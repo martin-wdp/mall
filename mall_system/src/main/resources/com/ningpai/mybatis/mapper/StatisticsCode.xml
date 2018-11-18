@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+ @Title: 统计代码的mapper映射配置文件
+ @Description:
+ @author NINGPAI_xiaomm
+ @since 2014-03-21 17:03:45
+ @version V1.0
+-->
+<mapper namespace="com.ningpai.system.dao.StatisticsCodeDaoImpl">
+
+	<resultMap id="BaseResultMap" type="com.ningpai.system.bean.StatisticsCode">
+				<!-- 记录ID -->
+				<id column="STA_CODE_ID" 
+					jdbcType="BIGINT"
+				 property="staCodeId" />
+				<!-- 统计方案标题 -->
+				<result column="STA_TITLE"
+					jdbcType="VARCHAR"
+				property="staTitle" />
+				<!-- 统计方案代码 -->
+				<result column="STA_STYLE"
+					jdbcType="VARCHAR"
+				property="staStyle" />
+				<!-- 模块名 -->
+				<result column="MODULE"
+					jdbcType="VARCHAR"
+				property="module" />
+				<!-- 代码块 -->
+				<result column="CODE"
+					jdbcType="VARCHAR"
+				property="code" />
+				<!-- 启用 -->
+				<result column="USED_STATUS"
+					jdbcType="VARCHAR"
+				property="usedStatus" />
+				<!-- 添加人 -->
+				<result column="INSERT_ID"
+					jdbcType="BIGINT"
+				property="insertId" />
+				<!-- 添加时间 -->
+				<result column="INSERT_DATE"
+					jdbcType="DATE"
+				property="insertDate" />
+				<!-- 修改人 -->
+				<result column="MODIFY_ID"
+					jdbcType="BIGINT"
+				property="modifyId" />
+				<!-- 修改时间 -->
+				<result column="MODIFY_DATE"
+					jdbcType="DATE"
+				property="modifyDate" />
+				<!-- 删除标识 -->
+				<result column="DELETE_STATUS"
+					jdbcType="BIGINT"
+				property="deleteStatus" />
+	</resultMap>
+	
+	<sql id="baseSql">
+			STA_CODE_ID, 
+			STA_TITLE, 
+			STA_STYLE, 
+			MODULE, 
+			CODE, 
+			USED_STATUS, 
+			INSERT_ID, 
+			INSERT_DATE, 
+			MODIFY_ID, 
+			MODIFY_DATE, 
+			DELETE_STATUS 
+	</sql>
+	<sql id="querySql">
+			STA_CODE_ID, 
+			STA_TITLE, 
+			STA_STYLE, 
+			MODULE, 
+			USED_STATUS 
+	</sql>
+	
+	<!-- 保存统计代码 -->	
+	<insert id="saveStatisticsCode" parameterType="com.ningpai.system.bean.StatisticsCode">
+		INSERT INTO NP_SYS_STA_CODE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+				<!-- 记录ID -->
+				<if test="staCodeId != null">
+					STA_CODE_ID,
+				</if>
+				<!-- 统计方案标题 -->
+				<if test="staTitle != null">
+					STA_TITLE,
+				</if>
+				<!-- 统计方案代码 -->
+				<if test="staStyle != null">
+					STA_STYLE,
+				</if>
+				<!-- 模块名 -->
+				<if test="module != null">
+					MODULE,
+				</if>
+				<!-- 代码块 -->
+				<if test="code != null">
+					CODE,
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS,
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID,
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE,
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID,
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE,
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS,
+				</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+				<!-- 记录ID -->
+					<!-- 记录ID -->
+						#{staCodeId,
+								jdbcType=BIGINT
+						},
+				<!-- 统计方案标题 -->
+					<if test="staTitle != null">
+						#{staTitle,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 统计方案代码 -->
+					<if test="staStyle != null">
+						#{staStyle,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 模块名 -->
+					<if test="module != null">
+						#{module,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 代码块 -->
+					<if test="code != null">
+						#{code,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 启用 -->
+					<if test="usedStatus != null">
+						#{usedStatus,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						#{insertId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null">
+						#{insertDate,
+								jdbcType=DATE
+						},
+					</if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						#{modifyId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null">
+						#{modifyDate,
+								jdbcType=DATE
+						},
+					</if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						#{deleteStatus,
+								jdbcType=BIGINT
+						},
+					</if>
+		</trim>
+	</insert>
+	<!-- 修改统计代码 -->
+	<update id="updateStatisticsCode" parameterType="com.ningpai.system.bean.StatisticsCode">
+		UPDATE NP_SYS_STA_CODE
+		<set>
+			
+				<!-- 记录ID -->
+				<if test="staCodeId != null">
+					STA_CODE_ID = #{staCodeId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 统计方案标题 -->
+				<if test="staTitle != null">
+					STA_TITLE = #{staTitle,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 统计方案代码 -->
+				<if test="staStyle != null">
+					STA_STYLE = #{staStyle,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 模块名 -->
+				<if test="module != null">
+					MODULE = #{module,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 代码块 -->
+				<if test="code != null">
+					CODE = #{code,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS = #{usedStatus,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID = #{modifyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE = #{modifyDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS = #{deleteStatus,
+							jdbcType=BIGINT
+					},
+				</if>
+		</set>
+		WHERE 
+				STA_CODE_ID = #{staCodeId,
+							jdbcType=BIGINT
+					}
+	</update>
+	
+	<!-- 根据统计代码对象的id查询统计代码对象 -->
+	<select id="getStatisticsCodeById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_STA_CODE 
+		WHERE 
+				STA_CODE_ID = #{staCodeId,
+							jdbcType=BIGINT
+					}
+	</select>
+	
+	<!-- 根据统计代码对象的id字符集合查询统计代码对象 -->
+	<select id="getStatisticsCodeByIds" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_STA_CODE 
+		WHERE 
+				STA_CODE_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</select>
+	
+	<!-- 根据统计代码对象的id字符集合删除统计代码对象 -->
+	<update id="deleteStatisticsCode" parameterType="java.util.Map">
+		DELETE FROM NP_SYS_STA_CODE 
+		WHERE 
+				STA_CODE_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+		
+	</update>
+	
+	
+	<!-- 更新统计代码对象的单个字段  -->
+	<update id="updateStatisticsCodeFieldById" parameterType="java.util.Map">
+		UPDATE NP_SYS_STA_CODE
+		<set>
+				<!-- 记录ID -->
+				<if test="staCodeId != null">
+					STA_CODE_ID = #{staCodeId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 统计方案标题 -->
+				<if test="staTitle != null">
+					STA_TITLE = #{staTitle,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 统计方案代码 -->
+				<if test="staStyle != null">
+					STA_STYLE = #{staStyle,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 模块名 -->
+				<if test="module != null">
+					MODULE = #{module,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 代码块 -->
+				<if test="code != null">
+					CODE = #{code,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS = #{usedStatus,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID = #{modifyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE = #{modifyDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS = #{deleteStatus,
+							jdbcType=BIGINT
+					},
+				</if>
+		</set>
+		WHERE 
+				STA_CODE_ID IN  
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</update>
+	
+	<!-- 根据统计代码对象的单个字段查询统计代码对象信息总数 -->
+	<select id="getStatisticsCodeByFieldTotal" resultType="java.lang.Integer" parameterType="java.util.Map">
+		   SELECT COUNT(STA_CODE_ID) 
+		   FROM NP_SYS_STA_CODE D 
+		   WHERE 
+				<!-- 记录ID -->
+					<if test="staCodeId != null">
+						D.STA_CODE_ID = #{staCodeId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 统计方案标题 -->
+					<if test="staTitle != null and staTitle != ''">
+						D.STA_TITLE like CONCAT(CONCAT('%', #{staTitle,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 统计方案代码 -->
+					<if test="staStyle != null and staStyle != ''">
+						D.STA_STYLE like CONCAT(CONCAT('%', #{staStyle,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 模块名 -->
+					<if test="module != null and module != ''">
+						D.MODULE like CONCAT(CONCAT('%', #{module,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 代码块 -->
+					<if test="code != null and code != ''">
+						D.CODE like CONCAT(CONCAT('%', #{code,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 启用 -->
+					<if test="usedStatus != null and usedStatus != ''">
+						D.USED_STATUS like CONCAT(CONCAT('%', #{usedStatus,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						D.INSERT_ID = #{insertId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null and insertDate !=''" >
+			        	(D.INSERT_DATE between  #{insertDateStart,jdbcType=DATE}  AND  #{insertDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						D.MODIFY_ID = #{modifyId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null and modifyDate !=''" >
+			        	(D.MODIFY_DATE between  #{modifyDateStart,jdbcType=DATE}  AND  #{modifyDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						D.DELETE_STATUS = #{deleteStatus,
+								jdbcType=BIGINT
+						} AND
+					</if>
+        	1=1 
+	</select>
+	
+	<!-- 根据统计代码对象的单个字段查询统计代码对象信息 -->
+	<select id="getStatisticsCodeByField" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM  NP_SYS_STA_CODE D 
+		   WHERE 
+				<!-- 记录ID -->
+					<if test="staCodeId != null">
+						D.STA_CODE_ID = #{staCodeId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 统计方案标题 -->
+					<if test="staTitle != null and staTitle !=''" >
+						D.STA_TITLE like CONCAT(CONCAT('%', #{staTitle,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 统计方案代码 -->
+					<if test="staStyle != null and staStyle !=''" >
+						D.STA_STYLE like CONCAT(CONCAT('%', #{staStyle,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 模块名 -->
+					<if test="module != null and module !=''" >
+						D.MODULE like CONCAT(CONCAT('%', #{module,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 代码块 -->
+					<if test="code != null and code !=''" >
+						D.CODE like CONCAT(CONCAT('%', #{code,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 启用 -->
+					<if test="usedStatus != null and usedStatus !=''" >
+						D.USED_STATUS like CONCAT(CONCAT('%', #{usedStatus,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						D.INSERT_ID = #{insertId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null and insertDate !=''" >
+			        	(D.INSERT_DATE between  #{insertDateStart,jdbcType=DATE}  AND  #{insertDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						D.MODIFY_ID = #{modifyId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null and modifyDate !=''" >
+			        	(D.MODIFY_DATE between  #{modifyDateStart,jdbcType=DATE}  AND  #{modifyDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						D.DELETE_STATUS = #{deleteStatus,
+								jdbcType=BIGINT
+						} AND
+					</if>
+        	1=1 
+		    LIMIT #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询统计代码对象信息总数 -->
+	<select id="queryStatisticsCodeTotal" resultType="java.lang.Integer">
+		SELECT COUNT(STA_CODE_ID) FROM NP_SYS_STA_CODE
+	</select>
+	
+	<!-- 查询所有统计代码 -->
+	<select id="selectAllStatisticsCode" resultMap="BaseResultMap">
+		SELECT <include refid="baseSql"/> FROM NP_SYS_STA_CODE 
+		where DELETE_STATUS = 0 and USED_STATUS = '1'
+	</select>
+	
+	<!-- 修改所有统计代码为不启用  -->
+	<update id="updateUserdStatusToNo">
+		UPDATE NP_SYS_STA_CODE set USED_STATUS = '0'
+	</update>
+	
+	<!-- 分页查询统计代码对象信息 -->
+	<select id="queryStatisticsCodeByPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM NP_SYS_STA_CODE 
+		LIMIT  #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+</mapper>

@@ -1,0 +1,125 @@
+.order-info, .order-pay{
+    width:990px;
+    margin-left: 100px;
+}
+
+.order-info{
+    margin-top: 30px;
+    padding-left: 30px;
+}
+
+.order-info .tip{
+    height:60px;
+}
+
+.order-info .tip .order-title{
+    width: 670px;
+    color:#666666;
+    font-size: 16px;
+}
+
+.order-info .tip .order-price{
+    width: 190px;
+    color:#666666;
+    font-size: 14px;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.order-info .tip .order-detail{
+    height: 30px;
+    line-height: 30px;
+    color: #2EA7E7;
+    padding: auto;
+    vertical-align: middle;
+    text-align: right;
+}
+
+.order-info .tip .order-price strong{
+    color:red;
+    font-size: 16px;
+}
+
+.order-info .order-detail-content{
+    display: none;
+}
+
+.order-pay{
+    height: 525px;
+    border-top:5px solid #4B5B78;
+    border-left: 1px solid #EDEDED;
+    border-right: 1px solid #EDEDED;
+    border-bottom: 1px solid #EDEDED;
+    padding: 12px 30px 0px;
+}
+
+.pay-type-title{
+    height: 30px;
+    line-height: 30px;
+    padding: auto;
+    font-family: Microsoft YaHei;
+    font-size: 18px;
+}
+
+.pay-content{
+    padding-left: 120px;
+    padding-right: 160px;
+    padding-top: 10px;
+    height: 450px;
+    max-height: 450px;
+}
+
+.pay-content-box{
+    float: left;
+}
+
+.pay-content-wxm{
+    border:1px solid #DBDBDB;
+    padding:23px 22px;
+    width:260px;
+    height:260px;
+    margin-bottom: 20px;
+}
+
+.pay-content-wxm-tip{
+
+}
+
+.pay-content-wxm-tip img{
+    width: 100%;
+    height: 100%;
+}
+
+.pay-content-sidebar{
+    float: right;
+    width: 306px;
+    height: 402px;
+}
+
+.pay-content-sidebar img{
+    width: 100%;
+    height: 100%;
+}
+
+.other-pay-type{
+    padding-left: 20px;
+    vertical-align: middle;
+}
+
+.other-pay-type i{
+    width: 25px;
+    height: 28px;
+    background-image: url(../../images/orderpay/other-pay.png);
+    background-position: center center ;
+    background-repeat: no-repeat;
+}
+
+.other-pay-type strong{
+    font-family: Microsoft YaHei;
+    font-size: 14px;
+    color: #2EA7E7;
+    cursor: pointer;
+    padding: auto;
+    vertical-align: middle;
+    margin-left: 20px;
+}

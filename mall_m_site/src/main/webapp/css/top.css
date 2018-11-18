@@ -1,0 +1,10 @@
+.login_title{background-color:#fff;width:100%;position:fixed;z-index:1000;}
+.login_title nav{padding:0.5em;height:3.6em;}
+.login_title header{height:50px;line-height:46px;background:#F6AB00;color:#fff;font-size:1.2em;position:relative;text-align:center;}
+.login_title nav li{list-style-type: none;}
+.login_title nav li:nth-child(1){float:left;}
+.login_title nav li:nth-child(2){float:right;padding-top:0.8em;position:relative;}
+.login_title nav li span{position:absolute;left:0;top:5px;width:92px;height:28px;}
+.login_title nav li span:nth-child(3){width:78px;left:95px;}
+.login_box{padding:0.5em;margin-top:3em;}
+.text-center img{width:1.2em;height:1.8em;vertical-align: top;}

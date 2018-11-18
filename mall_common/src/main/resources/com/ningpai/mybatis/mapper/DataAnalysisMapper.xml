@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.dataanalysis.dao.DataAnalysisMapper">
+	<resultMap id="BaseResultMap" type="com.ningpai.dataanalysis.util.DataAnalysisUtil">
+	    <id column="thirdId" property="thirdId" jdbcType="BIGINT"  />
+		<result column="storeName" property="storeName" jdbcType="VARCHAR" />		
+		<result column="sumPrice" property="sumPrice" jdbcType="DECIMAL" />
+		<result column="orderCount" property="orderCount" jdbcType="BIGINT"  />
+		<result column="followCount" property="followCount" jdbcType="BIGINT"  />
+		<result column="allCount" property="allCount" jdbcType="BIGINT"  />
+		<result column="sumPro" property="sumPro" jdbcType="BIGINT"  />
+	</resultMap>
+	<sql id="BaseColumnList">
+		thirdId,storeName,sumPrice,orderCount,followCount,allCount,takeRates,sumPro
+	</sql>
+	
+    
+    <select id="selectAllData" resultMap="BaseResultMap" parameterType="java.util.Map">
+     select info.store_id as thirdId ,info.store_name as storeName,o.sumPrice,b.orderCount,c.followCount ,e.sumPro as sumPro,(b.orderCount/d.allCount)*100 as takeRates  from np_third_store_info info
+     left join (select sum(order_price) as sumPrice,business_id from np_order where order_status='3'  and left(pay_time,10) <![CDATA[ BETWEEN #{startTime} AND  #{endTime}  ]]> group by business_id ) as o
+     on o.business_id = info.store_id
+     
+     left join (select count(1) as orderCount,business_id from np_order where order_status='3'  and left(pay_time,10) <![CDATA[ BETWEEN #{startTime} AND  #{endTime}  ]]> group by business_id ) as b
+     on b.business_id = info.store_id
+     
+     left join (
+           select count(1) as followCount,ifo.third_id  from np_customer_follow f ,np_goods_info ifo
+            where f.goods_id = ifo.goods_info_id 
+            and f.del_flag = '0'
+            and left(f.create_time,10) <![CDATA[ BETWEEN #{startTime} AND  #{endTime}  ]]>
+            group by ifo.third_id ) c
+     on c.third_id = info.store_id
+
+    left join  (
+    select count(1) as allCount,business_id from np_order  
+    where 1=1 and left(pay_time,10) <![CDATA[ BETWEEN #{startTime} AND  #{endTime}  ]]>
+     group by business_id
+    ) d
+    on d.business_id = info.store_id
+    
+    left join(
+    select sum(goods_info_num) as sumPro,ord.business_id from np_order_goods goods , np_order ord 
+    where goods.order_id = ord.order_id and ord.order_status ='3'
+    and  left(pay_time,10) <![CDATA[ BETWEEN #{startTime} AND  #{endTime}  ]]>
+    group by ord.business_id     
+    )e
+    on e.business_id=info.store_id
+        where 1 = 1
+    <if test="condition!=null and condition!='' and condition==1">
+      AND (info.store_name) LIKE  CONCAT(CONCAT('%', #{searchText},'%'))
+    </if>
+        AND info.del_flag = '0'
+    limit #{startRowNum},#{endRowNum}    
+    </select>
+    
+    
+    
+    <select id="selectAllSize" resultType="java.lang.Integer" parameterType="java.util.Map" >
+        select count(1) from np_third_store_info info where 1=1
+     <if test="condition!=null and condition!='' and condition==1">
+      AND (info.store_name) LIKE  CONCAT(CONCAT('%', #{searchText},'%'))
+    </if>
+      and info.del_flag = '0'
+    </select>
+</mapper>

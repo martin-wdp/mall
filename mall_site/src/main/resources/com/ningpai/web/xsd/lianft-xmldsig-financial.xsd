@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://www.w3.org/2000/09/xmldsig#" elementFormDefault="qualified" version="0.1">
+	<!-- Start Signature -->
+	<element name="Signature" type="ds:SignatureType"/>
+	<complexType name="SignatureType">
+		<sequence>
+			<element ref="ds:SignedInfo"/>
+			<element ref="ds:SignatureValue"/>
+			<element ref="ds:KeyInfo" minOccurs="0"/>
+		</sequence>
+		<attribute name="Id" type="ID" use="optional"/>
+	</complexType>
+	<element name="SignatureValue" type="ds:SignatureValueType"/>
+	<complexType name="SignatureValueType">
+		<simpleContent>
+			<extension base="base64Binary">
+				<attribute name="Id" type="ID" use="optional"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<!-- Start SignedInfo -->
+	<element name="SignedInfo" type="ds:SignedInfoType"/>
+	<complexType name="SignedInfoType">
+		<sequence>
+			<element ref="ds:CanonicalizationMethod"/>
+			<element ref="ds:SignatureMethod"/>
+			<element ref="ds:Reference" maxOccurs="unbounded"/>
+		</sequence>
+		<attribute name="Id" type="ID" use="optional"/>
+	</complexType>
+	<element name="CanonicalizationMethod" type="ds:CanonicalizationMethodType"/>
+	<complexType name="CanonicalizationMethodType" mixed="true">
+		<attribute name="Algorithm" type="anyURI" use="required"/>
+	</complexType>
+	<element name="SignatureMethod" type="ds:SignatureMethodType"/>
+	<complexType name="SignatureMethodType" mixed="true">
+		<sequence>
+			<element name="HMACOutputLength" type="ds:HMACOutputLengthType" minOccurs="0"/>
+			<any namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
+			<!-- (0,unbounded) elements from (1,1) external namespace -->
+		</sequence>
+		<attribute name="Algorithm" type="anyURI" use="required"/>
+	</complexType>
+	<!-- Start Reference -->
+	<element name="Reference" type="ds:ReferenceType"/>
+	<complexType name="ReferenceType">
+		<sequence>
+			<element ref="ds:Transforms" minOccurs="0"/>
+			<element ref="ds:DigestMethod"/>
+			<element ref="ds:DigestValue"/>
+		</sequence>
+		<attribute name="Id" type="ID" use="optional"/>
+		<attribute name="URI" type="anyURI" use="optional"/>
+		<attribute name="Type" type="anyURI" use="optional"/>
+	</complexType>
+	<element name="Transforms" type="ds:TransformsType"/>
+	<complexType name="TransformsType">
+		<sequence>
+			<element ref="ds:Transform" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	<element name="Transform" type="ds:TransformType"/>
+	<complexType name="TransformType">
+		<attribute name="Algorithm" type="anyURI" use="required"/>
+	</complexType>
+	<!-- End Reference -->
+	<element name="DigestMethod" type="ds:DigestMethodType"/>
+	<complexType name="DigestMethodType">
+		<attribute name="Algorithm" type="anyURI" use="required"/>
+	</complexType>
+	<element name="DigestValue" type="ds:DigestValueType"/>
+	<simpleType name="DigestValueType">
+		<restriction base="base64Binary"/>
+	</simpleType>
+	<!-- End SignedInfo -->
+	<!-- Start KeyInfo -->
+	<element name="KeyInfo" type="ds:KeyInfoType"/>
+	<complexType name="KeyInfoType" mixed="true">
+		<choice maxOccurs="unbounded">
+			<element ref="ds:X509Data"/>
+			<!-- (1,1) elements from (0,unbounded) namespaces -->
+		</choice>
+		<attribute name="Id" type="ID" use="optional"/>
+	</complexType>
+	<element name="RetrievalMethod" type="ds:RetrievalMethodType"/>
+	<complexType name="RetrievalMethodType">
+		<sequence>
+			<element ref="ds:Transforms" minOccurs="0"/>
+		</sequence>
+		<attribute name="URI" type="anyURI"/>
+		<attribute name="Type" type="anyURI" use="optional"/>
+	</complexType>
+	<!-- Start X509Data -->
+	<element name="X509Data" type="ds:X509DataType"/>
+	<complexType name="X509DataType">
+		<sequence maxOccurs="unbounded">
+			<choice>
+				<element name="X509IssuerSerial" type="ds:X509IssuerSerialType"/>
+				<element name="X509SKI" type="base64Binary"/>
+				<element name="X509SubjectName" type="string"/>
+				<element name="X509Certificate" type="base64Binary"/>
+				<element name="X509CRL" type="base64Binary"/>
+			</choice>
+		</sequence>
+	</complexType>
+	<complexType name="X509IssuerSerialType">
+		<sequence>
+			<element name="X509IssuerName" type="string"/>
+			<element name="X509SerialNumber" type="string"/>
+		</sequence>
+	</complexType>
+	<!-- End X509Data -->
+	<!-- End KeyInfo -->
+	<!-- Start Algorithm Parameters -->
+	<simpleType name="HMACOutputLengthType">
+		<restriction base="integer"/>
+	</simpleType>
+	<!-- End Signature -->
+</schema>

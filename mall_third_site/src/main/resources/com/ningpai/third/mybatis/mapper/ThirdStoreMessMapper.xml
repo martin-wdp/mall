@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.third.seller.mapper.ThirdStoreMessMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.third.seller.bean.ThirdStoreMess" >
+    <id column="rela_id" property="relaId" jdbcType="BIGINT" />
+    <result column="store_id" property="storeId" jdbcType="BIGINT" />
+    <result column="mess_mod_id" property="messModId" jdbcType="BIGINT" />
+    <result column="mess_rec_type" property="messRecType" jdbcType="VARCHAR" />
+    <result column="rela_create_time" property="relaCreateTime" jdbcType="TIMESTAMP" />
+    <result column="rela_mod_time" property="relaModTime" jdbcType="TIMESTAMP" />
+    <result column="rela_del_time" property="relaDelTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="rela_email" property="relaEmail" jdbcType="VARCHAR" />
+    <result column="rela_mobile" property="relaMobile" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    rela_id, store_id, mess_mod_id, mess_rec_type, rela_create_time, rela_mod_time, rela_del_time, 
+    del_flag, rela_email, rela_mobile
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_third_store_mess
+    where rela_id = #{relaId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_third_store_mess
+    where rela_id = #{relaId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.third.seller.bean.ThirdStoreMess" >
+    insert into np_third_store_mess (rela_id, store_id, mess_mod_id, 
+      mess_rec_type, rela_create_time, rela_mod_time, 
+      rela_del_time, del_flag, rela_email, 
+      rela_mobile)
+    values (#{relaId,jdbcType=BIGINT}, #{storeId,jdbcType=BIGINT}, #{messModId,jdbcType=BIGINT}, 
+      #{messRecType,jdbcType=VARCHAR}, #{relaCreateTime,jdbcType=TIMESTAMP}, #{relaModTime,jdbcType=TIMESTAMP}, 
+      #{relaDelTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR}, #{relaEmail,jdbcType=VARCHAR}, 
+      #{relaMobile,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.third.seller.bean.ThirdStoreMess" >
+    insert into np_third_store_mess
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="storeId != null" >
+        store_id,
+      </if>
+      <if test="messModId != null" >
+        mess_mod_id,
+      </if>
+      <if test="messRecType != null" >
+        mess_rec_type,
+      </if>
+        rela_create_time,
+        rela_mod_time,
+        rela_del_time,
+        del_flag,
+      <if test="relaEmail != null" >
+        rela_email,
+      </if>
+      <if test="relaMobile != null" >
+        rela_mobile,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="relaId != null" >
+        #{relaId,jdbcType=BIGINT},
+      </if>
+      <if test="storeId != null" >
+        #{storeId,jdbcType=BIGINT},
+      </if>
+      <if test="messModId != null" >
+        #{messModId,jdbcType=BIGINT},
+      </if>
+      <if test="messRecType != null" >
+        #{messRecType,jdbcType=VARCHAR},
+      </if>
+        SYSDATE(),
+       	SYSDATE(),
+       	SYSDATE(),
+       	'0',
+      <if test="relaEmail != null" >
+        #{relaEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="relaMobile != null" >
+        #{relaMobile,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.third.seller.bean.ThirdStoreMess" >
+    update np_third_store_mess
+    <set >
+      <if test="storeId != null" >
+        store_id = #{storeId,jdbcType=BIGINT},
+      </if>
+      <if test="messModId != null" >
+        mess_mod_id = #{messModId,jdbcType=BIGINT},
+      </if>
+      <if test="messRecType != null" >
+        mess_rec_type = #{messRecType,jdbcType=VARCHAR},
+      </if>
+      <if test="relaCreateTime != null" >
+        rela_create_time = #{relaCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="relaModTime != null" >
+        rela_mod_time = #{relaModTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="relaDelTime != null" >
+        rela_del_time = #{relaDelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="relaEmail != null" >
+        rela_email = #{relaEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="relaMobile != null" >
+        rela_mobile = #{relaMobile,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where rela_id = #{relaId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.third.seller.bean.ThirdStoreMess" >
+    update np_third_store_mess
+    set store_id = #{storeId,jdbcType=BIGINT},
+      mess_mod_id = #{messModId,jdbcType=BIGINT},
+      mess_rec_type = #{messRecType,jdbcType=VARCHAR},
+      rela_create_time = #{relaCreateTime,jdbcType=TIMESTAMP},
+      rela_mod_time = #{relaModTime,jdbcType=TIMESTAMP},
+      rela_del_time = #{relaDelTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR},
+      rela_email = #{relaEmail,jdbcType=VARCHAR},
+      rela_mobile = #{relaMobile,jdbcType=VARCHAR}
+    where rela_id = #{relaId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="queryStoreMessBySidAndMid" resultMap="BaseResultMap" parameterType="java.util.Map" >
+  	select 
+    m.mess_rec_type,m.rela_email,m.rela_mobile
+    from np_third_message_model mm
+    left join np_third_store_mess m on mm.mess_mod_id =m.mess_mod_id
+    where m.store_id =#{storeId,jdbcType=BIGINT} and mm.mess_mod_id=#{messModId,jdbcType=BIGINT}
+  </select>
+  
+  <update id="updateStoreMess" parameterType="com.ningpai.third.seller.bean.ThirdStoreMess" >
+    update np_third_store_mess
+    <set >
+      <if test="storeId != null" >
+        store_id = #{storeId,jdbcType=BIGINT},
+      </if>
+      <if test="messModId != null" >
+        mess_mod_id = #{messModId,jdbcType=BIGINT},
+      </if>
+      <if test="messRecType != null" >
+        mess_rec_type = #{messRecType,jdbcType=VARCHAR},
+      </if>
+      <if test="relaCreateTime != null" >
+        rela_create_time = #{relaCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="relaModTime != null" >
+        rela_mod_time = #{relaModTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="relaDelTime != null" >
+        rela_del_time = #{relaDelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="relaEmail != null" >
+        rela_email = #{relaEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="relaMobile != null" >
+        rela_mobile = #{relaMobile,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where store_id = #{storeId,jdbcType=BIGINT} and  mess_mod_id=#{messModId,jdbcType=BIGINT} and del_flag='0'
+  </update>
+  
+</mapper>

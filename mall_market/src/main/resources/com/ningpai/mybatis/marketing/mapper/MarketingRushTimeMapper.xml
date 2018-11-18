@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.marketing.dao.MarketingRushTimeMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.marketing.bean.MarketingRushTime" >
+    <id column="t_id" property="tId" jdbcType="BIGINT" />
+    <result column="t_date" property="tDate" jdbcType="BIGINT" />
+    <result column="flag" property="flag" jdbcType="CHAR" />
+    <result column="deflag" property="deflag" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="temp1" property="temp1" jdbcType="VARCHAR" />
+    <result column="temp2" property="temp2" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    t_id, t_date, flag, deflag, create_time, temp1, temp2
+  </sql>
+  
+  
+  <!-- 查询总数量 -->
+ <select id="queryRushTimeCount" resultType="java.lang.Integer">
+ 	select count(1) from np_marketing_rush_time 
+ 	where deflag='0'
+ </select>
+ 
+  <select id="queryRustTimeListByFlag" resultMap="BaseResultMap">
+  	 SELECT t_id, t_date, flag, deflag, create_time, temp1, temp2 
+  	 from np_marketing_rush_time
+  	 where flag='0' and deflag='0'
+  </select>
+  
+ <!-- 查询集合 -->
+ <select id="queryRustTimeList" parameterType="java.util.Map" resultMap="BaseResultMap">
+ 	select t_id, t_date, flag, deflag, create_time, temp1, temp2 
+ 	FROM np_marketing_rush_time
+ 	where deflag='0'
+ 	order by create_time desc
+ 	limit #{start},#{number}
+  </select>
+  
+  
+ 
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_marketing_rush_time
+    where t_id = #{tId,jdbcType=BIGINT}
+  </select>
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    update np_marketing_rush_time set deflag='1'
+    where t_id = #{tId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="delRushTimes"  parameterType="java.util.List">
+ 	  update np_marketing_rush_time set deflag='1'	 
+ 	  where t_id  in
+  	 <foreach collection="list" item="tId" open="(" separator="," close=")">
+    		 #{tId,jdbcType=BIGINT}
+   	</foreach>
+  </update>
+  
+  <insert id="insert" parameterType="com.ningpai.marketing.bean.MarketingRushTime" >
+    insert into np_marketing_rush_time (t_id, t_date, flag, 
+      deflag, create_time, temp1, 
+      temp2)
+    values (#{tId,jdbcType=BIGINT}, #{tDate,jdbcType=BIGINT}, #{flag,jdbcType=CHAR}, 
+      #{deflag,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{temp1,jdbcType=VARCHAR}, 
+      #{temp2,jdbcType=VARCHAR})
+  </insert>
+  <!-- 插入 -->
+  <insert id="insertSelective" parameterType="com.ningpai.marketing.bean.MarketingRushTime" >
+    insert into np_marketing_rush_time
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tId != null" >
+        t_id,
+      </if>
+      <if test="tDate != null" >
+        t_date,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+      <if test="deflag != null" >
+        deflag,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="temp1 != null" >
+        temp1,
+      </if>
+      <if test="temp2 != null" >
+        temp2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tId != null" >
+        #{tId,jdbcType=BIGINT},
+      </if>
+      <if test="tDate != null" >
+        #{tDate,jdbcType=BIGINT},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=CHAR},
+      </if>
+      <if test="deflag != null" >
+        #{deflag,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temp1 != null" >
+        #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null" >
+        #{temp2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.marketing.bean.MarketingRushTime" >
+    update np_marketing_rush_time
+    <set >
+      <if test="tDate != null" >
+        t_date = #{tDate,jdbcType=BIGINT},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=CHAR},
+      </if>
+      <if test="deflag != null" >
+        deflag = #{deflag,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temp1 != null" >
+        temp1 = #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null" >
+        temp2 = #{temp2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where t_id = #{tId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.marketing.bean.MarketingRushTime" >
+    update np_marketing_rush_time
+    set t_date = #{tDate,jdbcType=BIGINT},
+      flag = #{flag,jdbcType=CHAR},
+      deflag = #{deflag,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      temp1 = #{temp1,jdbcType=VARCHAR},
+      temp2 = #{temp2,jdbcType=VARCHAR}
+    where t_id = #{tId,jdbcType=BIGINT}
+  </update>
+</mapper>

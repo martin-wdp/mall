@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpaimsite.goods.dao.GoodsReleExpandParamMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsReleExpandParam" >
+    <id column="rele_expandparam_id" property="releExpandparamId" jdbcType="BIGINT" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="expandparam_id" property="expandparamId" jdbcType="BIGINT" />
+    <result column="expangparam_value_id" property="expangparamValueId" jdbcType="BIGINT" />
+    <result column="expandparam_value_name" property="expandparamValueName" jdbcType="VARCHAR" />
+    <result column="rele_expandparam_create_name" property="releExpandparamCreateName" jdbcType="VARCHAR" />
+    <result column="rele_expandparam_create_time" property="releExpandparamCreateTime" jdbcType="TIMESTAMP" />
+    <result column="rele_expandparam_modified_name" property="releExpandparamModifiedName" jdbcType="VARCHAR" />
+    <result column="rele_expandparam_modified_time" property="releExpandparamModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="rele_expandparam_del_name" property="releExpandparamDelName" jdbcType="VARCHAR" />
+    <result column="rele_expandparam_del_time" property="releExpandparamDelTime" jdbcType="TIMESTAMP" />
+    <result column="rele_expandparam_delflag" property="releExpandparamDelflag" jdbcType="CHAR" />
+  </resultMap>
+  <!-- VoResult -->
+  <resultMap type="com.ningpai.m.goods.vo.GoodsReleExpandParamVo" id="VoResultMap">
+  	<id column="rele_expandparam_id" property="releExpandparamId" jdbcType="BIGINT" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <association property="expandParamVo" column="expandparam_id" select="com.ningpaimsite.goods.dao.GoodsTypeExpandParamMapper.queryByExpandParamId"></association>
+    <association property="expangparamValue" column="expangparam_value_id" select="com.ningpaimsite.goods.dao.GoodsTypeExpandParamValueMapper.selectByPrimaryKey"></association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    rele_expandparam_id, goods_id, expandparam_id, expangparam_value_id, expandparam_value_name, 
+    rele_expandparam_create_name, rele_expandparam_create_time, rele_expandparam_modified_name, 
+    rele_expandparam_modified_time, rele_expandparam_del_name, rele_expandparam_del_time, 
+    rele_expandparam_delflag 
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_goods_rele_expandparam
+    where rele_expandparam_id = #{releExpandparamId,jdbcType=BIGINT}
+  </select>
+  <!-- 根据商品ID查询列表 -->
+  <select id="queryAllByGoodsId" resultMap="VoResultMap" parameterType="java.lang.Long">
+  	select 
+    	<include refid="Base_Column_List" />
+    from np_goods_rele_expandparam
+    where goods_id = #{goodsId,jdbcType=BIGINT}
+    and rele_expandparam_delflag='0'
+  </select>
+  
+</mapper>

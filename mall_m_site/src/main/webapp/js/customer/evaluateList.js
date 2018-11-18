@@ -1,0 +1,1 @@
+var n=0;$(".myMes").each(function(){for(i=1;i<=arr[n];i++){$($(this).find("ol li")[i-1]).css("background-image","url(images/qp_xqpl.png)")}n++});

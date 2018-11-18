@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.ningpai</groupId>
+    <artifactId>mall</artifactId>
+    <packaging>pom</packaging>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <modules>
+         <!-- 基础包 -->
+        <module>mall_core</module>
+        <module>mall_common</module>
+        <module>mall_data</module>
+        <!-- E店宝同步订单同步模块 -->
+        <module>mall_centaur</module>      
+
+        <!-- 开放给外部的API -->
+        <module>mall_open</module>
+
+        
+        <module>mall_custom</module>
+        <module>mall_goods</module>
+        <module>mall_order</module>
+        <module>mall_templet</module>
+        <module>mall_market</module>
+        <module>mall_system</module>
+        <module>mall_group</module>
+        <module>mall_gift</module>
+        <module>mall_searchplatform</module>
+        <module>mall_goods_platform</module>
+        <module>mall_information</module>
+        
+       <!-- <module>mall_cloudshop_core</module>
+        <module>mall_cloudshop_web</module>-->
+
+
+        <!-- 店铺端管理模块 -->
+        <module>mall_third_site</module>
+        <!-- 平台管理模块 -->
+        <module>mall_boss_site</module>
+        <!-- 移动端商城模块 -->
+        <module>mall_m_site</module>
+      <!--  <module>mall_mobile_site</module>-->
+        <!-- 移动端接口模块 -->
+        <module>mall_mobile_api</module>
+         <!-- pc商城模块 -->
+        <module>mall_site_common</module> <!-- 前台共通模块 -->
+        <module>mall_site</module>
+
+
+        <!-- 应用市场 -->
+        <module>mall_app</module>
+        <module>mall_osgi</module>
+        <module>mall_service</module>
+        <!-- 直营店铺 -->
+        <!-- 
+                <module>mall_directshop</module>
+                <module>mall_directshop_boss</module>
+                <module>mall_directshop_site</module>-->
+    </modules>
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <name>Nexus Releases Repository</name>
+            <url>http://127.0.0.1:8081/nexus/content/groups/public/</url>
+            <uniqueVersion>false</uniqueVersion>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>Nexus Snapshots Repository</name>
+            <url>http://127.0.0.1:8081/nexus/content/groups/public/</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+    </distributionManagement>
+    <!--<repositories>
+        <repository>
+            <id>nexus</id>
+            <name>local private nexus</name>
+            <url>http://127.0.0.1:8081/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>nexus repository</id>
+            <name>intranet public groups</name>
+            <url>http://nexus.dev.ofpay.com/nexus/content/groups/public</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>-->
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.sonar</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>4.4</version>
+                <executions>
+                    <execution>
+                        <id>sonar</id>
+                        <phase>site</phase>
+                        <goals>
+                            <goal>sonar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

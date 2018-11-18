@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.api.dao.AuthMapper">
+	<resultMap id="BaseResultMap" type="auth">
+		<id column="auth_id" property="authId" />
+		<result column="auth_name" property="authName" />
+		<result column="auth_client_id" property="authClientId" />
+		<result column="auth_client_secret" property="authClientSecret" />
+		<result column="auth_redirect_uri" property="authRedirectUri" />
+		<result column="auth_sort" property="authSort" />
+		<result column="auth_show" property="authShow" />
+		<result column="auth_create_name" property="authCreateName" />
+		<result column="auth_created" property="authCreated" />
+		<result column="auth_update_name" property="authUpdateName" />
+		<result column="auth_updated" property="authUpdated" />
+		<result column="auth_deleted" property="authDeleted" />
+		<result column="auth_delete_flag" property="authDeleteFlag" />
+	</resultMap>
+	<sql id="BaseColumnList">
+		auth_id, auth_name, auth_client_id, auth_client_secret,
+		auth_redirect_uri,
+		auth_sort,
+		auth_show, auth_create_name, auth_created,
+		auth_update_name, auth_updated,
+		auth_deleted,
+		auth_delete_flag
+	</sql>
+	<!-- 根据ID查询单条记录 -->
+	<select id="findAuthById" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="BaseColumnList" />
+		from np_auth
+		where auth_id = #{authId}
+	</select>
+	<!-- 根据Name查询单条启用的第三方授权记录 -->
+	<select id="findAuthByName" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="BaseColumnList" />
+		from np_auth
+		where auth_name = #{authName} and auth_show = '0'
+	</select>
+	<!-- 查询全部启用的Author信息 -->
+	<select id="findAuths" resultMap="BaseResultMap">
+		select
+		<include refid="BaseColumnList" />
+		from np_auth WHERE auth_delete_flag = '0' ORDER BY auth_sort
+	</select>
+	<!-- 添加一条记录 -->
+	<insert id="saveAuth" parameterType="auth">
+		INSERT INTO np_auth VALUES (NULL,#{authName},#{authClientId},#{authClientSecret},#{authRedirectUri},0,'0',#{authCreateName},now(),null,null,null,null,'0');
+	</insert>
+	
+</mapper>

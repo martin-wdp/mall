@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.dao.GiftOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.site.giftshop.bean.GiftOrder" >
+    <id column="gift_order_id" property="giftOrderId" jdbcType="BIGINT" />
+    <result column="gift_order_code" property="giftOrderCode" jdbcType="VARCHAR" />
+    <result column="gift_order_status" property="giftOrderStatus" jdbcType="CHAR" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="send_express_time" property="sendExpressTime" jdbcType="TIMESTAMP" />
+    <result column="get_goods_time" property="getGoodsTime" jdbcType="TIMESTAMP" />
+    <result column="shopping_addr_id" property="shoppingAddrId" jdbcType="BIGINT" />
+    <result column="shopping_province" property="shoppingProvince" jdbcType="BIGINT" />
+    <result column="shopping_city" property="shoppingCity" jdbcType="BIGINT" />
+    <result column="shopping_county" property="shoppingCounty" jdbcType="BIGINT" />
+    <result column="shopping_address" property="shoppingAddress" jdbcType="VARCHAR" />
+    <result column="shopping_person" property="shoppingPerson" jdbcType="VARCHAR" />
+    <result column="shopping_phone" property="shoppingPhone" jdbcType="VARCHAR" />
+    <result column="shopping_mobile" property="shoppingMobile" jdbcType="VARCHAR" />
+    <result column="shopping_postcode" property="shoppingPostcode" jdbcType="VARCHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="order_integral" property="orderIntegral" jdbcType="BIGINT" />
+    <result column="express_price" property="expressPrice" jdbcType="DECIMAL" />
+    <result column="temp1" property="temp1" jdbcType="VARCHAR" />
+    <result column="temp2" property="temp2" jdbcType="VARCHAR" />
+    <result column="temp3" property="temp3" jdbcType="VARCHAR" />
+    <result column="NAME" property="temp4" jdbcType="VARCHAR" />
+    <result column="order_num" property="orderNum" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+   <resultMap id="BaseResulVotMap" type="com.ningpai.site.giftshop.vo.GiftOrderVo" extends="BaseResultMap">
+    <result column="gift_name" property="giftName" jdbcType="VARCHAR" />
+    <result column="gift_integral" property="giftIntegral" jdbcType="BIGINT" />
+    <result column="district_name" property="districtName" jdbcType="VARCHAR" />
+    <result column="province_name" property="provinceName" jdbcType="VARCHAR" />
+    <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+     <collection property="giftPicList" column="temp1" javaType="ArrayList"
+    ofType="com.ningpai.site.giftshop.bean.GiftPic" select="com.ningpai.web.dao.GiftPicSiteMapper.selectGiftPicByGiftId">
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    gift_order_id, gift_order_code, gift_order_status, customer_id, pay_time, send_express_time, 
+    get_goods_time, shopping_addr_id, shopping_province, shopping_city, shopping_county, 
+    shopping_address, shopping_person, shopping_phone, shopping_mobile, shopping_postcode, 
+    del_flag, order_integral, express_price, temp1, temp2, temp3, create_time,order_num
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_gift_order
+    where gift_order_id = #{giftOrderId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_gift_order
+    where gift_order_id = #{giftOrderId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.site.giftshop.bean.GiftOrder" useGeneratedKeys="true" keyProperty="giftOrderId" >
+    insert into np_gift_order (gift_order_code, gift_order_status, customer_id, 
+      pay_time, send_express_time, get_goods_time, 
+      shopping_addr_id, shopping_province, shopping_city, 
+      shopping_county, shopping_address, shopping_person, 
+      shopping_phone, shopping_mobile, shopping_postcode, 
+      del_flag, order_integral, express_price, 
+      temp1, temp2, temp3,create_time,order_num)
+    values (#{giftOrderCode,jdbcType=VARCHAR}, #{giftOrderStatus,jdbcType=CHAR}, #{customerId,jdbcType=BIGINT}, 
+      #{payTime,jdbcType=TIMESTAMP}, #{sendExpressTime,jdbcType=TIMESTAMP}, #{getGoodsTime,jdbcType=TIMESTAMP}, 
+      #{shoppingAddrId,jdbcType=BIGINT}, #{shoppingProvince,jdbcType=BIGINT}, #{shoppingCity,jdbcType=BIGINT}, 
+      #{shoppingCounty,jdbcType=BIGINT}, #{shoppingAddress,jdbcType=VARCHAR}, #{shoppingPerson,jdbcType=VARCHAR}, 
+      #{shoppingPhone,jdbcType=VARCHAR}, #{shoppingMobile,jdbcType=VARCHAR}, #{shoppingPostcode,jdbcType=VARCHAR}, 
+      #{delFlag,jdbcType=CHAR}, #{orderIntegral,jdbcType=BIGINT}, #{expressPrice,jdbcType=DECIMAL}, 
+      #{temp1,jdbcType=VARCHAR}, #{temp2,jdbcType=VARCHAR}, #{temp3,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP},#{orderNum,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.site.giftshop.bean.GiftOrder" useGeneratedKeys="true" keyProperty="giftOrderId" >
+    insert into np_gift_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      gift_order_code,
+      gift_order_status,
+      customer_id,
+      pay_time,
+      send_express_time,
+      get_goods_time,
+      shopping_addr_id,
+      shopping_province,
+      shopping_city,
+      shopping_county,
+      shopping_address,
+      shopping_person,
+      shopping_phone,
+      shopping_mobile,
+      shopping_postcode,
+      del_flag,
+      order_integral,
+      express_price,
+      temp1,
+      temp2,
+      temp3,
+      create_time,
+      order_num,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{giftOrderCode,jdbcType=VARCHAR},
+      #{giftOrderStatus,jdbcType=CHAR},
+      #{customerId,jdbcType=BIGINT},
+      #{payTime,jdbcType=TIMESTAMP},
+      #{sendExpressTime,jdbcType=TIMESTAMP},
+      #{getGoodsTime,jdbcType=TIMESTAMP},
+      #{shoppingAddrId,jdbcType=BIGINT},
+      #{shoppingProvince,jdbcType=BIGINT},
+      #{shoppingCity,jdbcType=BIGINT},
+      #{shoppingCounty,jdbcType=BIGINT},
+      #{shoppingAddress,jdbcType=VARCHAR},
+      #{shoppingPerson,jdbcType=VARCHAR},
+      #{shoppingPhone,jdbcType=VARCHAR},
+      #{shoppingMobile,jdbcType=VARCHAR},
+      #{shoppingPostcode,jdbcType=VARCHAR},
+      #{delFlag,jdbcType=CHAR},
+      #{orderIntegral,jdbcType=BIGINT},
+      #{expressPrice,jdbcType=DECIMAL},
+      #{temp1,jdbcType=VARCHAR},
+      #{temp2,jdbcType=VARCHAR},
+      #{temp3,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP},
+      #{orderNum,jdbcType=BIGINT},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.site.giftshop.bean.GiftOrder" >
+    update np_gift_order
+    <set >
+      <if test="giftOrderCode != null" >
+        gift_order_code = #{giftOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="giftOrderStatus != null" >
+        gift_order_status = #{giftOrderStatus,jdbcType=CHAR},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendExpressTime != null" >
+        send_express_time = #{sendExpressTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="getGoodsTime != null" >
+        get_goods_time = #{getGoodsTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shoppingAddrId != null" >
+        shopping_addr_id = #{shoppingAddrId,jdbcType=BIGINT},
+      </if>
+      <if test="shoppingProvince != null" >
+        shopping_province = #{shoppingProvince,jdbcType=BIGINT},
+      </if>
+      <if test="shoppingCity != null" >
+        shopping_city = #{shoppingCity,jdbcType=BIGINT},
+      </if>
+      <if test="shoppingCounty != null" >
+        shopping_county = #{shoppingCounty,jdbcType=BIGINT},
+      </if>
+      <if test="shoppingAddress != null" >
+        shopping_address = #{shoppingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="shoppingPerson != null" >
+        shopping_person = #{shoppingPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="shoppingPhone != null" >
+        shopping_phone = #{shoppingPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="shoppingMobile != null" >
+        shopping_mobile = #{shoppingMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="shoppingPostcode != null" >
+        shopping_postcode = #{shoppingPostcode,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="orderIntegral != null" >
+        order_integral = #{orderIntegral,jdbcType=BIGINT},
+      </if>
+      <if test="expressPrice != null" >
+        express_price = #{expressPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="temp1 != null" >
+        temp1 = #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null" >
+        temp2 = #{temp2,jdbcType=VARCHAR},
+      </if>
+      <if test="temp3 != null" >
+        temp3 = #{temp3,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderNum != null" >
+        order_num = #{orderNum,jdbcType=BIGINT},
+      </if>
+    </set>
+    where gift_order_id = #{giftOrderId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.site.giftshop.bean.GiftOrder" >
+    update np_gift_order
+    set gift_order_code = #{giftOrderCode,jdbcType=VARCHAR},
+      gift_order_status = #{giftOrderStatus,jdbcType=CHAR},
+      customer_id = #{customerId,jdbcType=BIGINT},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      send_express_time = #{sendExpressTime,jdbcType=TIMESTAMP},
+      get_goods_time = #{getGoodsTime,jdbcType=TIMESTAMP},
+      shopping_addr_id = #{shoppingAddrId,jdbcType=BIGINT},
+      shopping_province = #{shoppingProvince,jdbcType=BIGINT},
+      shopping_city = #{shoppingCity,jdbcType=BIGINT},
+      shopping_county = #{shoppingCounty,jdbcType=BIGINT},
+      shopping_address = #{shoppingAddress,jdbcType=VARCHAR},
+      shopping_person = #{shoppingPerson,jdbcType=VARCHAR},
+      shopping_phone = #{shoppingPhone,jdbcType=VARCHAR},
+      shopping_mobile = #{shoppingMobile,jdbcType=VARCHAR},
+      shopping_postcode = #{shoppingPostcode,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=CHAR},
+      order_integral = #{orderIntegral,jdbcType=BIGINT},
+      express_price = #{expressPrice,jdbcType=DECIMAL},
+      temp1 = #{temp1,jdbcType=VARCHAR},
+      temp2 = #{temp2,jdbcType=VARCHAR},
+      temp3 = #{temp3,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      order_num = #{orderNum,jdbcType=BIGINT}
+    where gift_order_id = #{giftOrderId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 查询积分排行 -->
+  <select id="rankgiftorder" resultMap="BaseResulVotMap">
+    SELECT gift_order_id,temp1,count(temp1),gift.gift_name,gift.gift_integral FROM `np_gift_order` o
+    left join np_gift gift on gift.gift_id = o.temp1 WHERE gift.del_flag='0' and gift.gift_issue='1'
+     GROUP BY temp1 ORDER BY count(temp1) DESC limit 10;
+  </select>
+  
+  <!-- 查询积分兑换订单数目 -->
+  <select id="giftordercount" resultType="java.lang.Integer" parameterType="java.util.Map">
+     select count(1) from np_gift_order 
+    where 1=1 and del_flag='0' and customer_id=#{customerId,jdbcType=BIGINT}
+     <if test="giftOrderStatus !=null and giftOrderStatus !=''">
+     and gift_order_status = #{giftOrderStatus}
+	</if>
+	<if test="type == 0" >
+       and (gift_order_status = '0' or gift_order_status = '1' or gift_order_status = '2') 
+    </if>
+	<if test="type == 1" >
+     	and gift_order_status ='0' 
+   	</if>
+   	<if test="type == 2" >
+     	and gift_order_status = '1'  
+   	</if>
+	<if test="type == 3" >
+     	and gift_order_status ='2' 
+   	</if>
+   	<if test="date != null" >
+      		<if test="date == 0" >
+		    	<![CDATA[
+		    		and create_time>= date_sub(now(), INTERVAL  30 DAY)  AND create_time<= now() 
+		    	]]>
+		    </if>
+		    <if test="date == 1">
+		    	<![CDATA[
+		    		and create_time<= date_sub(now(), INTERVAL  30 DAY) 
+		    	]]>
+		    </if>
+      	</if>
+  </select>
+  
+  <!-- 查询积分兑换订单 -->
+  <select id="giftorderlist" resultMap="BaseResulVotMap" parameterType="java.util.Map">
+     select  gift_order_id, gift_order_code, gift_order_status, customer_id, pay_time, send_express_time, 
+    get_goods_time, shopping_addr_id, shopping_province, shopping_city, shopping_county, 
+    shopping_address, shopping_person, shopping_phone, shopping_mobile, shopping_postcode, 
+    o.del_flag, order_integral, express_price, temp1, temp2, temp3, o.create_time,gift_name
+      from np_gift_order o
+      left join np_gift gift on
+      gift.gift_id = o.temp1
+    where 1=1 and o.del_flag='0' and o.customer_id=#{customerId,jdbcType=BIGINT}
+     <if test="giftOrderStatus !=null and giftOrderStatus !=''">
+     and o.gift_order_status = #{giftOrderStatus}
+	</if>
+	<if test="type == 0" >
+       and (o.gift_order_status = '0' or o.gift_order_status = '1' or o.gift_order_status = '2') 
+    </if>
+	<if test="type == 1" >
+     	and o.gift_order_status ='0' 
+   	</if>
+   	<if test="type == 2" >
+     	and o.gift_order_status = '1'  
+   	</if>
+	<if test="type == 3" >
+     	and o.gift_order_status ='2' 
+   	</if>
+   	<if test="date != null" >
+      		<if test="date == 0" >
+		    	<![CDATA[
+		    		and o.create_time>= date_sub(now(), INTERVAL  30 DAY)  AND o.create_time<= now() 
+		    	]]>
+		    </if>
+		    <if test="date == 1">
+		    	<![CDATA[
+		    		and o.create_time<= date_sub(now(), INTERVAL  30 DAY) 
+		    	]]>
+		    </if>
+   	</if>
+   	order by o.create_time desc
+   	limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <select id="giftorderById" resultMap="BaseResulVotMap" parameterType="java.lang.Long">
+     select  gift_order_id, gift_order_code, gift_order_status, customer_id, pay_time, send_express_time, 
+    get_goods_time, shopping_addr_id, shopping_province, shopping_city, shopping_county, 
+    shopping_address, shopping_person, shopping_phone, shopping_mobile, shopping_postcode, 
+    o.del_flag, order_integral, express_price, temp1, temp2, temp3,o.create_time,gift_name,gift.gift_price,
+    com.NAME,province_name,district_name,city_name,gift.gift_integral,order_num
+      from np_gift_order o
+      left join np_gift gift on
+      gift.gift_id = o.temp1
+      left join np_sys_city city
+      on city.city_id = o.shopping_city
+      left join np_sys_province pro
+      on pro.province_id = o.shopping_province
+      left join np_sys_district dis
+      on dis.district_id = o.shopping_county
+       left join NP_SYS_LOGISTICS_COMPANY com
+      on com.LOG_COM_ID = o.temp2
+    where 1=1 and o.del_flag='0' 
+     and  gift_order_id =#{giftOrderId}
+  </select>
+</mapper>

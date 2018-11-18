@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.manager.mapper.AuthorityMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.manager.bean.Authority" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="designation" property="designation" jdbcType="VARCHAR" />
+    <result column="characterization" property="characterization" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+    <result column="flag" property="flag" jdbcType="CHAR" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, designation, characterization, create_time, mod_time, flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_authority
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAllAuthority" resultMap="BaseResultMap"  parameterType="java.util.Map">
+    select 
+    <include refid="Base_Column_List" />
+    from np_authority
+    where flag='0' 
+    <if test="createId!=null and createId!=''">
+    	and create_id = #{createId,jdbcType=BIGINT}
+    </if>
+  </select>
+  <select id="selectLastId" resultType="java.lang.Long" >
+  		select LAST_INSERT_ID()
+  	</select>
+  <select id="queryAuthoritySize" parameterType="com.ningpai.manager.bean.Authority" resultType="java.lang.Long">
+  	select 
+    count(flag)
+    from np_authority
+    where flag in ('0') and
+	<if test="designation != null and designation !=''" >
+        designation like  CONCAT(CONCAT('%', #{designation}),'%')  and
+    </if>
+      <if test="createId !=null and createId !=''">
+		 create_id = #{createId,jdbcType=BIGINT} and    
+	  </if>
+	
+    1=1
+  </select>
+  
+ <select id="querySupperAuthor" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_authority
+     where designation = '管理员' and flag = '0'
+  </select>
+  <select id="selectAuthorityByLimit" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	 select 
+    <include refid="Base_Column_List" />
+    from np_authority
+    where flag='0' 
+    <if test="createId !=null and createId !=''">
+	and create_id = #{createId,jdbcType=BIGINT}        
+    </if>
+     limit #{startRowNum,jdbcType=BIGINT},#{endRowNum,jdbcType=BIGINT}
+  </select>
+  <select id="selectAuthorityByAuthority" parameterType="com.ningpai.manager.bean.Authority" resultMap="BaseResultMap">
+  	select
+		<include refid="Base_Column_List"/>
+		from np_authority
+		where flag in ('0') and
+		<if test="designation != null and designation !=''" >
+        	designation like  CONCAT(CONCAT('%', #{designation}),'%')  and
+        </if>
+         <if test="createId !=null and createId !=''">
+		 create_id = #{createId,jdbcType=BIGINT} and    
+	    </if>
+        1=1
+		limit #{startRowNum,jdbcType=BIGINT},#{endRowNum,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_authority
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <delete id="deleteAuthorityById" parameterType="java.lang.Long" >
+   	 update np_authority set flag='1'
+     where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <!-- 根据Map中的权限编号批量删除权限 -->
+  <delete id="deleteAuthorityByIds" parameterType="java.util.Map" >
+   	 update np_authority set flag='1'
+     where id in
+     <foreach item="item" index="index" collection="parameterValues" open="(" separator="," close=")">
+          #{item}
+     </foreach>
+  </delete>
+  
+  <insert id="insert" parameterType="com.ningpai.manager.bean.Authority" >
+    insert into np_authority (id, designation, characterization, 
+      create_time, mod_time, flag
+      )
+    values (#{id,jdbcType=BIGINT}, #{designation,jdbcType=VARCHAR}, #{characterization,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modTime,jdbcType=TIMESTAMP}, #{flag,jdbcType=CHAR}
+      )
+  </insert>
+  
+  <insert id="insertByDesignation" parameterType="java.util.Map" >
+    insert into np_authority
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="designation != null" >
+        designation,
+      </if>
+      <if test="characterization !=null">
+	    characterization,          
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="flag == null" >
+        flag,
+      </if>
+      <if test="createId != null" >
+        create_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      
+      <if test="designation != null" >
+        #{designation,jdbcType=VARCHAR},
+      </if>
+       <if test="characterization != null" >
+        #{characterization,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+       SYSDATE(),
+      </if>
+      <if test="flag == null" >
+       '0',
+      </if>
+       <if test="createId != null" >
+        #{createId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.ningpai.manager.bean.Authority" >
+    insert into np_authority
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="designation != null" >
+        designation,
+      </if>
+      <if test="characterization != null" >
+        characterization,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modTime != null" >
+        mod_time,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="designation != null" >
+        #{designation,jdbcType=VARCHAR},
+      </if>
+      <if test="characterization != null" >
+        #{characterization,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modTime != null" >
+        #{modTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.manager.bean.Authority" >
+    update np_authority
+    <set >
+      <if test="designation != null" >
+        designation = #{designation,jdbcType=VARCHAR},
+      </if>
+      <if test="characterization != null" >
+        characterization = #{characterization,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modTime != null" >
+        mod_time = #{modTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.manager.bean.Authority" >
+    update np_authority
+    set designation = #{designation,jdbcType=VARCHAR},
+      characterization = #{characterization,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      mod_time = #{modTime,jdbcType=TIMESTAMP},
+      flag = #{flag,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="checkAuthExist" parameterType="java.lang.String" resultType="java.lang.Long">
+  	select
+  	count(0)
+  	from np_authority
+  	where designation = #{authName,jdbcType=VARCHAR} and flag = '0'
+  </select>
+
+    <select id="checkManagerExist" parameterType="java.lang.String" resultType="com.ningpai.manager.bean.Authority">
+        select
+        username,id
+        from np_manager
+        where username = #{username,jdbcType=VARCHAR} and flag = '0'
+    </select>
+  
+    <select id="selectAuthByManagerId" parameterType="java.lang.Long" resultType="com.ningpai.manager.bean.Authority">
+  	select designation from np_authority au , np_manager_authority mau 
+  	where au.id = mau.authority_id and manager_id = #{id,jdbcType=BIGINT}
+  </select>
+  
+    
+  
+</mapper>

@@ -1,0 +1,1 @@
+[{"companyName" : "qianmi", "applyBrandPic" :"qianmi", "applyBrandId": 1 ,"storeName":"qianmi","storeId":1}]

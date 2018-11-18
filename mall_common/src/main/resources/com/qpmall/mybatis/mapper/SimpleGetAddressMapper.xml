@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qpmall.address.dao.SimpleGetAddressMapper">
+
+    <resultMap id="baseResultMap" type="com.qpmall.address.bean.AddressBean">
+        <result column="del_flag" property="delFlag" jdbcType="CHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap id="provinceMap" type="com.qpmall.address.bean.AddressBean" extends="baseResultMap">
+        <result column="province_id" property="addressId" jdbcType="BIGINT"/>
+        <result column="province_name" property="addressName" jdbcType="VARCHAR"/>
+        <result column="province_sort" property="addressSort" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="cityMap" type="com.qpmall.address.bean.AddressBean" extends="baseResultMap">
+        <result column="city_id" property="addressId" jdbcType="BIGINT"/>
+        <result column="province_id" property="parentId" jdbcType="BIGINT"/>
+        <result column="city_name" property="addressName" jdbcType="VARCHAR"/>
+        <result column="city_sort" property="addressSort" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="districtMap" type="com.qpmall.address.bean.AddressBean" extends="baseResultMap">
+        <result column="district_id" property="addressId" jdbcType="BIGINT"/>
+        <result column="city_id" property="parentId" jdbcType="BIGINT"/>
+        <result column="district_name" property="addressName" jdbcType="VARCHAR"/>
+        <result column="district_sort" property="addressSort" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <sql id="province_List">
+        province_id,province_name,province_sort,create_time,modify_time,del_flag
+    </sql>
+    <sql id="city_List">
+        city_id,city_name,city_sort,province_id,create_time,modify_time,del_flag
+    </sql>
+    <sql id="district_List">
+        district_id,district_name,district_sort,city_id,create_time,modify_time,del_flag
+    </sql>
+
+
+    <!--查询省份  start-->
+    <select id="selectAllProvince" resultMap="provinceMap">
+        SELECT
+        <include refid="province_List"/>
+        FROM np_sys_province WHERE del_flag = '0'
+    </select>
+
+    <!--查询根据省份ID查询身份-->
+    <select id="selectProvinceByPid" resultMap="provinceMap" parameterType="Long">
+        SELECT
+        <include refid="province_List"/>
+        FROM np_sys_province WHERE del_flag = '0'
+        and province_id = #{addressId,jdbcType=BIGINT}
+    </select>
+    <!--查询省份  end-->
+
+    <!--查询市  start-->
+    <select id="selectAllCity" resultMap="cityMap">
+        SELECT
+        <include refid="city_List"/>
+        FROM np_sys_city WHERE del_flag = '0'
+    </select>
+
+    <!--查询根据省份ID查询所属市-->
+    <select id="selectCityByPid" resultMap="cityMap" parameterType="Long">
+        SELECT
+        <include refid="city_List"/>
+        FROM np_sys_city WHERE del_flag = '0'
+        and province_id = #{parentId,jdbcType=BIGINT}
+    </select>
+
+    <!--查询根据市ID查询市-->
+    <select id="selectCityByCid" resultMap="cityMap" parameterType="Long">
+        SELECT
+        <include refid="city_List"/>
+        FROM np_sys_city WHERE del_flag = '0'
+        and city_id = #{addressId,jdbcType=BIGINT}
+    </select>
+    <!--查询市  end-->
+
+
+    <!--查询区  start-->
+    <select id="selectAllDistrict" resultMap="districtMap">
+        SELECT
+        <include refid="district_List"/>
+        FROM np_sys_district WHERE del_flag = '0'
+    </select>
+
+    <!--查询根据城市ID查询所属区-->
+    <select id="selectDistrictByCid" resultMap="districtMap" parameterType="Long">
+        SELECT
+        <include refid="district_List"/>
+        FROM np_sys_district WHERE del_flag = '0'
+        and city_id = #{parentId,jdbcType=BIGINT}
+    </select>
+
+    <!--查询根据区ID查询区-->
+    <select id="selectDistrictById" resultMap="districtMap" parameterType="Long">
+        SELECT
+        <include refid="district_List"/>
+        FROM np_sys_district WHERE del_flag = '0'
+        and district_id = #{addressId,jdbcType=BIGINT}
+    </select>
+    <!--查询区  end-->
+
+
+</mapper>

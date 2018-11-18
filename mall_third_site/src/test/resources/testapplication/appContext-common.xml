@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+						http://www.springframework.org/schema/context
+						http://www.springframework.org/schema/context/spring-context-3.0.xsd
+						http://www.springframework.org/schema/tx
+						http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+						http://www.springframework.org/schema/mvc
+						http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+                        http://www.springframework.org/schema/task
+                        http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+<!-- Spring上下文获取工具类 配置在所有的类最上面 -->
+<bean id="ctxTool1" class="com.ningpai.system.util.SpringContextTool"/>
+
+<!-- jdbc.properties文件路径,es服务器地址配置  -->
+<bean
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+    <property name="ignoreResourceNotFound" value="false"/>
+    <property name="ignoreUnresolvablePlaceholders" value="true"/>
+    <property name="locations">
+        <list>
+            <value>classpath:testapplication/config.properties</value>
+        </list>
+    </property>
+</bean>
+<!-- 数据源的配置 -->
+<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+      destroy-method="close">
+    <property name="driverClassName">
+        <value>${jdbc.driverClassName}</value>
+    </property>
+    <property name="url">
+        <value>${jdbc.url}</value>
+    </property>
+    <property name="username">
+        <value>${jdbc.username}</value>
+    </property>
+    <property name="password">
+        <value>${jdbc.password}</value>
+    </property>
+    <property name="maxActive">
+        <value>${jdbc.maxActive}</value>
+    </property>
+    <property name="maxIdle">
+        <value>${jdbc.maxIdle}</value>
+    </property>
+    <property name="initialSize">
+        <value>${jdbc.maxIdle}</value>
+    </property>
+    <property name="maxWait">
+        <value>18000</value>
+    </property>
+    <property name="defaultAutoCommit">
+        <value>false</value>
+    </property>
+</bean>
+<!--事务相关控制-->
+<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="dataSource" />
+</bean>
+
+
+<context:component-scan  base-package="com.ningpai"/>
+
+<!--启动注解 @Transactional -->
+<tx:annotation-driven/>
+
+<mvc:annotation-driven />
+
+<!-- MyBatis sqlSessionFactory 配置 mybatis-->
+<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <property name="configLocation"
+              value="classpath:/com/ningpai/web/mybatis/SqlMapConfig.xml" />
+    <property name="dataSource" ref="dataSource" />
+</bean>
+<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+    <constructor-arg index="0" ref="sqlSessionFactory" />
+</bean>
+<!-- 设置字段内容长度，这里不做限定   -->
+<bean id="mappingJacksonHttpMessageConverter"
+      class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+
+<!--esClientManager,设置为单例-->
+<bean id="esClientManager" class="com.ningpai.searchplatform.client.ESClientManager" scope="singleton">
+    <constructor-arg>
+        <value>${es.hosts}</value>
+    </constructor-arg>
+</bean>
+
+
+<!-- 定时任务 -->
+<task:scheduled-tasks>
+    <task:scheduled ref="ReportService" method="generateTodayReport" cron="0 20 14 ? * *"/>
+    <task:scheduled ref="OrderService" method="cancelOrderByTime" cron="59 59 23 ? * *"/>
+    <task:scheduled ref="managerService" method="stopCloudAccountByTime" cron="59 59 23 ? * *"/>
+</task:scheduled-tasks>
+</beans>
+

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.third.seller.mapper.ThirdMessageModelMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.third.seller.bean.ThirdMessageModel" >
+    <id column="mess_mod_id" property="messModId" jdbcType="BIGINT" />
+    <result column="parent_page_id" property="parentPageId" jdbcType="BIGINT" />
+    <result column="mess_mod_name" property="messModName" jdbcType="VARCHAR" />
+    <result column="mess_mod_com" property="messModCom" jdbcType="VARCHAR" />
+    <result column="mess_rec_type" property="messRecType" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    mess_mod_id, parent_page_id, mess_mod_name, mess_mod_com, mess_rec_type, create_time,  del_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_third_message_model
+    where mess_mod_id = #{messModId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_third_message_model
+    where mess_mod_id = #{messModId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.third.seller.bean.ThirdMessageModel" >
+    insert into np_third_message_model (mess_mod_id, parent_page_id, mess_mod_name, 
+      mess_mod_com, mess_rec_type, create_time, 
+      mod_time, del_time, del_flag
+      )
+    values (#{messModId,jdbcType=BIGINT}, #{parentPageId,jdbcType=BIGINT}, #{messModName,jdbcType=VARCHAR}, 
+      #{messModCom,jdbcType=VARCHAR}, #{messRecType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modTime,jdbcType=TIMESTAMP}, #{delTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.third.seller.bean.ThirdMessageModel" >
+    insert into np_third_message_model
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="messModId != null" >
+        mess_mod_id,
+      </if>
+      <if test="parentPageId != null" >
+        parent_page_id,
+      </if>
+      <if test="messModName != null" >
+        mess_mod_name,
+      </if>
+      <if test="messModCom != null" >
+        mess_mod_com,
+      </if>
+      <if test="messRecType != null" >
+        mess_rec_type,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="messModId != null" >
+        #{messModId,jdbcType=BIGINT},
+      </if>
+      <if test="parentPageId != null" >
+        #{parentPageId,jdbcType=BIGINT},
+      </if>
+      <if test="messModName != null" >
+        #{messModName,jdbcType=VARCHAR},
+      </if>
+      <if test="messModCom != null" >
+        #{messModCom,jdbcType=VARCHAR},
+      </if>
+      <if test="messRecType != null" >
+        #{messRecType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.third.seller.bean.ThirdMessageModel" >
+    update np_third_message_model
+    <set >
+      <if test="parentPageId != null" >
+        parent_page_id = #{parentPageId,jdbcType=BIGINT},
+      </if>
+      <if test="messModName != null" >
+        mess_mod_name = #{messModName,jdbcType=VARCHAR},
+      </if>
+      <if test="messModCom != null" >
+        mess_mod_com = #{messModCom,jdbcType=VARCHAR},
+      </if>
+      <if test="messRecType != null" >
+        mess_rec_type = #{messRecType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where mess_mod_id = #{messModId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.third.seller.bean.ThirdMessageModel" >
+    update np_third_message_model
+    set parent_page_id = #{parentPageId,jdbcType=BIGINT},
+      mess_mod_name = #{messModName,jdbcType=VARCHAR},
+      mess_mod_com = #{messModCom,jdbcType=VARCHAR},
+      mess_rec_type = #{messRecType,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where mess_mod_id = #{messModId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectAllMessModel" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  	select 
+    mm.mess_mod_id, parent_page_id, mess_mod_name, mess_mod_com, m.mess_rec_type, create_time,  mm.del_flag
+    from np_third_message_model mm
+    left join np_third_store_mess m on mm.mess_mod_id =m.mess_mod_id
+    and m.store_id =#{storeId,jdbcType=BIGINT}
+  </select>
+  
+</mapper>

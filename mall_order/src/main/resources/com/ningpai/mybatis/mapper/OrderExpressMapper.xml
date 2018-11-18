@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.OrderExpressMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.order.bean.OrderExpress" >
+    <id column="order_express_id" property="orderExpressId" jdbcType="BIGINT" />
+    <result column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="express_name" property="expressName" jdbcType="VARCHAR" />
+    <result column="express_no" property="expressNo" jdbcType="VARCHAR" />
+    <result column="express_type_name" property="expressTypeName" jdbcType="VARCHAR" />
+    <result column="express_id" property="expressId" jdbcType="BIGINT" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="express_type_id" property="expressTypeId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    order_express_id, order_id, express_name, express_no, express_id, del_flag ,express_type_id
+  </sql>
+  
+  
+  <!-- 查询订单物流信息 -->
+  <select id="selectOrderExpress" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_order_express
+    where order_id = #{orderId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_order_express
+    where order_express_id = #{orderExpressId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_order_express
+    where order_express_id = #{orderExpressId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.order.bean.OrderExpress" >
+    insert into np_order_express (order_express_id, order_id, express_name, 
+      express_no, express_id, del_flag
+      )
+    values (#{orderExpressId,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{expressName,jdbcType=VARCHAR}, 
+      #{expressNo,jdbcType=VARCHAR}, #{expressId,jdbcType=BIGINT}, #{delFlag,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertOrderExpress" parameterType="com.ningpai.order.bean.OrderExpress" >
+    insert into np_order_express
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderExpressId != null" >
+        order_express_id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="expressName != null" >
+        express_name,
+      </if>
+        <if test="expressTypeName != null" >
+            express_type_name,
+      </if>
+      <if test="expressNo != null" >
+        express_no,
+      </if>
+      <if test="expressId != null" >
+        express_id,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="expressTypeId != null" >
+        express_type_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderExpressId != null" >
+        #{orderExpressId,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="expressName != null" >
+        #{expressName,jdbcType=VARCHAR},
+      </if>
+        <if test="expressTypeName != null" >
+            #{expressTypeName,jdbcType=VARCHAR},
+        </if>
+      <if test="expressNo != null" >
+        #{expressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="expressId != null" >
+        #{expressId,jdbcType=BIGINT},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="expressTypeId != null" >
+        #{expressTypeId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  
+  <insert id="insertSelective" parameterType="com.ningpai.order.bean.OrderExpress" >
+    insert into np_order_express
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderExpressId != null" >
+        order_express_id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="expressName != null" >
+        express_name,
+      </if>
+      <if test="expressNo != null" >
+        express_no,
+      </if>
+      <if test="expressId != null" >
+        express_id,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderExpressId != null" >
+        #{orderExpressId,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="expressName != null" >
+        #{expressName,jdbcType=VARCHAR},
+      </if>
+      <if test="expressNo != null" >
+        #{expressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="expressId != null" >
+        #{expressId,jdbcType=BIGINT},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.order.bean.OrderExpress" >
+    update np_order_express
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="expressName != null" >
+        express_name = #{expressName,jdbcType=VARCHAR},
+      </if>
+      <if test="expressNo != null" >
+        express_no = #{expressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="expressId != null" >
+        express_id = #{expressId,jdbcType=BIGINT},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where order_express_id = #{orderExpressId,jdbcType=BIGINT}
+  </update>
+  
+  
+  
+  
+  <update id="updateExpress" parameterType="com.ningpai.order.bean.OrderExpress" >
+    update np_order_express
+    <set >
+      <if test="expressName != null" >
+        express_name = #{expressName,jdbcType=VARCHAR},
+      </if>
+      <if test="expressNo != null" >
+        express_no = #{expressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="expressId != null" >
+        express_id = #{expressId,jdbcType=BIGINT},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.order.bean.OrderExpress" >
+    update np_order_express
+    set order_id = #{orderId,jdbcType=BIGINT},
+      express_name = #{expressName,jdbcType=VARCHAR},
+      express_no = #{expressNo,jdbcType=VARCHAR},
+      express_id = #{expressId,jdbcType=BIGINT},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where order_express_id = #{orderExpressId,jdbcType=BIGINT}
+  </update>
+</mapper>

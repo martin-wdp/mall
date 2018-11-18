@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.RegisterCouponMapper" >
+    <resultMap id="BaseResultMap" type="com.qpmall.marketing.bean.RegisterCoupon" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="register_id" property="registerId" jdbcType="BIGINT" />
+        <result column="coupon_id" property="couponId" jdbcType="BIGINT" />
+        <result column="coupon_name" property="couponName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id,register_id, coupon_id
+    </sql>
+
+    <insert id="insertRegisterCoupon" parameterType="java.util.List" >
+    insert into np_register_coupon (id, register_id, coupon_id)
+    values
+    <foreach collection="list" separator="," item="cm" index="index" >
+        (#{cm.id,jdbcType=BIGINT}, #{cm.registerId,jdbcType=BIGINT}, #{cm.couponId,jdbcType=BIGINT})
+    </foreach>
+    </insert>
+    <delete id="deleteRegisterCoupon">
+        delete from np_register_coupon
+    </delete>
+
+    <select id="findRegisterCoupon" resultMap="BaseResultMap">
+         select
+        nrc.id as id,
+        nrc.register_id as register_id,
+        nrc.coupon_id as coupon_id,
+        nc.coupon_name as coupon_name
+        from np_register_coupon nrc
+        left join np_coupon nc on nc.coupon_id=nrc.coupon_id
+    </select>
+
+</mapper>

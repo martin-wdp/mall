@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.system.dao.ReceivablesMapper" >
+    <resultMap id="BaseResultMap" type="com.ningpai.system.bean.Receivables" >
+        <id column="cash_register_id" property="cashRegisterId" jdbcType="BIGINT" />
+        <result column="pay_ip" property="payIp" jdbcType="VARCHAR" />
+        <result column="cash_register_code" property="cashRegisterCode" jdbcType="VARCHAR" />
+        <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+        <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+        <result column="pay_mode" property="payMode" jdbcType="VARCHAR" />
+        <result column="pay_money" property="payMoney" jdbcType="DECIMAL" />
+        <result column="pay_type" property="payType" jdbcType="VARCHAR" />
+        <result column="pay_status" property="payStatus" jdbcType="CHAR" />
+        <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+        <result column="pay_account" property="payAccount" jdbcType="VARCHAR"/>
+        <result column="receivables_time" property="receivablesTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="sql_Bsdr" >
+        cash_register_id, pay_ip, cash_register_code, pay_time, customer_id, pay_mode, pay_money, pay_type,
+        pay_status, order_code,pay_account,receivables_time
+    </sql>
+    <!-- 查询付款单信息 houyichang 2015/8/17 -->
+    <select id="queryReceivables" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select <include refid="sql_Bsdr" /> from np_order_receivables
+        where 1=1
+        <if test="status != null and status != ''" >
+            and pay_status =  #{status,jdbcType=VARCHAR}
+        </if>
+        <if test="condition == 1 and searchText != null and searchText != ''" >
+            and order_code =  #{searchText,jdbcType=VARCHAR}
+        </if>
+        <if test="condition == 2 and searchText != null and searchText != ''" >
+            and cash_register_code =  #{searchText,jdbcType=VARCHAR}
+        </if>
+        order by pay_time desc
+        limit #{start},#{number}
+    </select>
+
+    <!--  根据条件查询行数-->
+    <select id="queryCountByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1) from np_order_receivables
+        where 1=1
+        <if test="status != null and status != ''" >
+            and pay_status =  #{status,jdbcType=VARCHAR}
+        </if>
+        <if test="condition == 1 and searchText != null and searchText != ''" >
+            and order_code =  #{searchText,jdbcType=VARCHAR}
+        </if>
+        <if test="condition == 2 and searchText != null and searchText != ''" >
+            and cash_register_code =  #{searchText,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!-- 根据订单编号查询是否有记录 -->
+    <select id="queryByOrderCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select <include refid="sql_Bsdr" /> from np_order_receivables
+        where order_code = #{orderCode,jdbcType=VARCHAR}
+    </select>
+
+    <!--  根据收款单id查询收款单详细信息  -->
+    <select id="queryReceivablesDetail" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select <include refid="sql_Bsdr"/> from np_order_receivables
+        where cash_register_id = #{cashRegisterId,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据订单编号修改支付状态为支付成功 -->
+    <update id="updateByOrderCode" parameterType="com.ningpai.system.bean.Receivables">
+        UPDATE np_order_receivables set pay_status = '0',receivables_time = #{receivablesTime,jdbcType=TIMESTAMP} WHERE order_code = #{orderCode,jdbcType=VARCHAR}
+    </update>
+
+
+    <insert id="insert" parameterType="com.ningpai.system.bean.Receivables">
+        insert into np_order_receivables
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="payIp != null" >
+                pay_ip,
+            </if>
+            <if test="cashRegisterCode != null" >
+                cash_register_code,
+            </if>
+            <if test="payTime != null" >
+                pay_time,
+            </if>
+            <if test="customerId != null" >
+                customer_id,
+            </if>
+            <if test="payMode != null" >
+                pay_mode,
+            </if>
+            <if test="payMoney != null" >
+                pay_money,
+            </if>
+            <if test="payType != null" >
+                pay_type,
+            </if>
+            <if test="payStatus != null" >
+                pay_status,
+            </if>
+            <if test="orderCode != null" >
+                order_code,
+            </if>
+            <if test="payAccount != null" >
+                pay_account,
+            </if>
+            <if test="receivablesTime != null">
+                receivables_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="payIp != null" >
+                #{payIp,jdbcType=VARCHAR},
+            </if>
+            <if test="cashRegisterCode != null" >
+                #{cashRegisterCode,jdbcType=VARCHAR},
+            </if>
+            <if test="payTime != null" >
+                #{payTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="customerId != null" >
+                #{customerId,jdbcType=VARCHARsss},
+            </if>
+            <if test="payMode != null" >
+                #{payMode,jdbcType=VARCHAR},
+            </if>
+            <if test="payMoney != null" >
+                #{payMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="payType != null" >
+                #{payType,jdbcType=VARCHAR},
+            </if>
+            <if test="payStatus != null" >
+                #{payStatus,jdbcType=CHAR},
+            </if>
+            <if test="orderCode != null" >
+                #{orderCode,jdbcType=VARCHAR},
+            </if>
+            <if test="payAccount != null" >
+                #{payAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="receivablesTime != null">
+                #{receivablesTime,jdbcType=TIMESTAMP}
+            </if>
+        </trim>
+    </insert>
+
+</mapper>

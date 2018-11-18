@@ -1,0 +1,857 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.CouponMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.coupon.bean.Coupon" >
+    <id column="coupon_id" property="couponId" jdbcType="BIGINT" />
+    <result column="coupon_name" property="couponName" jdbcType="VARCHAR" />
+    <result column="coupon_remark" property="couponRemark" jdbcType="VARCHAR" />
+    <result column="coupon_start_time" property="couponStartTime" jdbcType="TIMESTAMP" />
+    <result column="coupon_end_time" property="couponEndTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="business_id" property="businessId" jdbcType="BIGINT" />
+    <result column="coupon_integral" property="couponIntegral" jdbcType="BIGINT" />
+    <result column="coupon_is_show" property="couponIsShow" jdbcType="CHAR" />
+    <result column="coupon_rules_type" property="couponRulesType" jdbcType="CHAR" />
+    <result column="coupon_pic" property="couponPic" jdbcType="VARCHAR" />
+    <result column="code_id" property="codeId" jdbcType="BIGINT" />
+    <result column="store_name" property="thirdName" jdbcType="VARCHAR" />
+      <result column="code_no" property="codeNo" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="code_status" property="codeStatus" jdbcType="CHAR" />
+    <result column="code_get_type" property="codeGetType" jdbcType="CHAR" />
+    <result column="code_get_time" property="codeGetTime" jdbcType="TIMESTAMP" />
+    <result column="code_use_order_id" property="codeUseOrderId" jdbcType="BIGINT" />
+    <result column="coupon_get_no" property="couponGetNo" jdbcType="BIGINT" />
+    <result column="coupon_getted_no" property="couponGettedNo" jdbcType="BIGINT" />
+    <result column="coupon_count" property="couponCount" jdbcType="BIGINT" />
+    <result column="coupon_price" property="reductionPrice" jdbcType="DECIMAL" />
+    <result column="active_site_type" property="activeSiteType" jdbcType="CHAR" />
+    <result column="coupon_get_type" property="couponGetType" jdbcType="CHAR" />
+    <result column="is_all" property="isAll" jdbcType="CHAR" />
+    <result column="received_count" property="receivedCount" jdbcType="INTEGER" />
+    <result column="remainder_count" property="remainderCount" jdbcType="INTEGER" />
+
+    <collection property="couponrangList" column="coupon_id" javaType="ArrayList"
+     ofType="com.ningpai.coupon.bean.CouponRange" select="com.ningpai.web.dao.CouponRangeMapper.selectCouponRangeBycouponId"></collection>
+
+    <!--查询优惠劵对应的满减信息-->
+    <collection property="couponFullReduction" column="coupon_id" javaType="com.ningpai.coupon.bean.CouponFullReduction"
+                  ofType="com.ningpai.coupon.bean.CouponFullReduction" select="selectFullByCouponId"></collection>
+
+  </resultMap>
+
+    <!--满减信息的字段关系映射-->
+  <resultMap id="CouponFullReductionMap" type="com.ningpai.coupon.bean.CouponFullReduction">
+      <id column="reduction_id" property="reductionId" jdbcType="BIGINT" />
+      <result column="coupon_id" property="couponId" jdbcType="BIGINT" />
+      <result column="full_price" property="fullPrice" jdbcType="DECIMAL" />
+      <result column="reduction_price" property="reductionPrice" jdbcType="DECIMAL" />
+      <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+      <result column="del_flag" property="delFlag" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+
+  <select id="selectFullByCouponId" parameterType="java.lang.Long"  resultMap="CouponFullReductionMap" >
+        SELECT
+            reduction_id,
+            coupon_id,
+            full_price,
+            reduction_price
+        FROM
+            np_coupon_full_reduction
+        WHERE
+            coupon_id = #{couponId}
+  </select>
+  
+  <!--会员积分-->
+   <resultMap type="com.ningpai.customer.bean.CustomerPoint" id="pointMap">
+   	<id column="info_id" property="pointId" jdbcType="BIGINT"/>
+   	<result column="customer_id" property="customerId" jdbcType="BIGINT"/>
+   	<result column="info_point_sum" property="pointSum" jdbcType="BIGINT"/>
+   </resultMap>
+   
+  <!--积分消费规则-->
+  <resultMap type="com.ningpai.system.bean.PointSet" id="pointSetMap">
+  	<id column="pset_id" property="psetId" jdbcType="BIGINT"/>
+  	<result column="consumption" property="consumption" jdbcType="DECIMAL"/>
+  	<result column="is_open" property="isOpen" jdbcType="VARCHAR"/>
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List" >
+    coupon_id, coupon_name, coupon_remark, coupon_start_time, coupon_end_time, create_time, 
+    modify_time, del_flag, business_id, coupon_integral, coupon_is_show, coupon_pic,coupon_rules_type,coupon_get_no,
+    coupon_count,coupon_price,active_site_type,coupon_get_type,is_all
+  </sql>
+  	
+  	<!--修改指定会员总积分 -->
+  	<update id="updateCustomerPoint" parameterType="com.ningpai.customer.bean.CustomerPoint" >
+  		update np_customer_info 
+  			<set>
+  				<if test="pointSum != null" >
+			         info_point_sum = #{pointSum,jdbcType=DECIMAL}
+			    </if>
+  			</set>
+  		 where customer_id = #{customerId,jdbcType=BIGINT}
+  	</update>
+  	
+  	<!--获取积分消费规则-->
+  	<select id="selectPointSet" resultType="com.ningpai.system.bean.PointSet" resultMap="pointSetMap">
+  		select pset_id,is_open,consumption from  np_sys_pointset
+  	</select>
+    <!--获取所有优惠卷信息-->
+    <select id="selectCouponList_site" resultMap="BaseResultMap" >
+        select
+            <include refid="Base_Column_List"/>
+         from
+            np_coupon
+         where del_flag = '0'
+         and coupon_end_time &gt; sysdate()
+    </select>
+    <!--ADD BY LY -->
+    <!--获取所有满减优惠卷信息-->
+    <select id="selectCouponListByType" resultMap="BaseResultMap" parameterType="Map">
+        select
+        <include refid="Base_Column_List"/>,
+        (SELECT COUNT(1) FROM np_coupon_no b WHERE a.`coupon_id`=b.coupon_id AND b.customer_id=#{customerId}) received_count ,
+
+        (SELECT COUNT(1) FROM np_coupon_no b WHERE a.`coupon_id`=b.coupon_id AND b.code_status='0') remainder_count
+        from
+        np_coupon a
+        where del_flag = '0'
+        <if test="couponRulesType!=null">
+            AND  coupon_rules_type = #{couponRulesType}
+        </if>
+        and coupon_end_time &gt; sysdate()
+    </select>
+
+    <!--ADD 付陈林 Date:2015年12月2日-->
+    <!--获取所有在活动期间内的优惠券且未参与注册营销活动的优惠劵
+        满足条件，
+                1、coupon_end_time  >= sysdate()  活动的结束时间大于等于当前日期 即活动未结束
+                2、coupon_start_time <= sysdate() 活动的开始日期小于等于当前日期 即活动已开始
+                3、coupon_id not ()                活动的ID不在不在注册营销中
+    -->
+    <select id="selectCouponListBySite" resultMap="BaseResultMap" parameterType="Map">
+        select
+        <include refid="Base_Column_List"/>,
+        (SELECT COUNT(1) FROM np_coupon_no b WHERE a.`coupon_id`=b.coupon_id AND b.customer_id=#{customerId}) received_count ,
+
+        (SELECT COUNT(1) FROM np_coupon_no b WHERE a.`coupon_id`=b.coupon_id AND b.code_status='0') remainder_count
+        from
+        np_coupon a
+        where del_flag = '0'
+        <if test="couponRulesType!=null">
+            AND  coupon_rules_type = #{couponRulesType}
+        </if>
+        and <![CDATA[ coupon_start_time <= sysdate() and coupon_end_time  > sysdate() ]]>
+        and coupon_id not in (select coupon_id from np_register_coupon)
+        and coupon_id not in (select coupon_id from np_send_coupon )
+    </select>
+    <!--add end 付陈林-->
+
+
+  	<!--获取会员总积分-->
+  	  <select id="selectCustomerPointByCustomerId" resultMap="pointMap" parameterType="java.util.Map" >
+  	  	 select  info_id,customer_id, info_point_sum from np_customer_info  where customer_id = #{customerId,jdbcType=BIGINT}
+  	  </select>
+  
+    <!-- 下单可使用的优惠券 -->
+    
+    
+       <select id="selectCouponListByIds" resultMap="BaseResultMap" parameterType="java.util.Map" >
+        select 
+         coupon.coupon_id, coupon.coupon_name, coupon.coupon_remark, coupon.coupon_start_time, coupon.coupon_end_time, coupon.create_time, 
+        coupon.modify_time, coupon.del_flag, coupon.business_id, coupon.coupon_integral, coupon.coupon_is_show, coupon.coupon_pic,coupon.coupon_rules_type
+        ,cno.code_id,  cno.code_no, cno.customer_id, cno.code_status, cno.code_get_type, cno.code_get_time, 
+        cno.code_use_order_id
+     FROM np_coupon_no cno , np_coupon coupon  
+            ,(
+            SELECT coupon_id FROM np_coupon_range WHERE del_flag = '0'
+             and 
+                <foreach collection="list" item="co" open="" separator="or" close="">
+                    (coupon_range_fk_id = #{co.couponRangeFkId} AND coupon_range_type=#{co.couponRangeType}) 
+                </foreach>
+                
+                GROUP BY coupon_id
+        ) AS c
+
+            WHERE cno.coupon_id = coupon.coupon_id AND customer_id = #{customerId} AND c.coupon_id = coupon.coupon_id 
+             AND <![CDATA[  coupon.coupon_start_time <= now() and  coupon.coupon_end_time  > now() ]]>
+            AND   cno.code_status = '1'
+       
+       </select>
+
+    <!-- 下单时商品可使用的未领取的优惠券 -->
+    <select id="selectCouponListByIdsNew" resultMap="BaseResultMap" parameterType="java.util.Map" >
+        select
+        coupon.coupon_id, coupon.coupon_name, coupon.coupon_remark, coupon.coupon_start_time, coupon.coupon_end_time, coupon.create_time,
+        coupon.modify_time, coupon.del_flag, coupon.business_id, coupon.coupon_integral, coupon.coupon_is_show, coupon.coupon_pic,coupon.coupon_rules_type
+        ,cno.code_id,  cno.code_no, cno.customer_id, cno.code_status, cno.code_get_type, cno.code_get_time,
+        cno.code_use_order_id
+        FROM np_coupon_no cno , np_coupon coupon
+        ,(
+        SELECT coupon_id FROM np_coupon_range WHERE del_flag = '0'
+        and
+        <foreach collection="list" item="co" open="" separator="or" close="">
+            (coupon_range_fk_id = #{co.couponRangeFkId} AND coupon_range_type=#{co.couponRangeType})
+        </foreach>
+
+        GROUP BY coupon_id
+        ) AS c
+
+        WHERE cno.coupon_id = coupon.coupon_id  AND c.coupon_id = coupon.coupon_id
+        AND <![CDATA[  coupon.coupon_start_time <= now() and  coupon.coupon_end_time  > now() ]]>
+        AND   cno.code_status = '0'
+
+    </select>
+    
+    
+    
+    
+    <!-- 根据优惠券编号查询优惠券 -->
+    <select id="selectCouponByCodeNo" resultMap="BaseResultMap" parameterType="com.ningpai.coupon.bean.Coupon">
+        select  coupon.coupon_id,nos.code_no, coupon.coupon_name, coupon.coupon_remark, coupon.coupon_start_time, coupon.coupon_end_time, coupon.create_time,
+    coupon.modify_time, coupon.del_flag, coupon.business_id, coupon.coupon_integral, coupon.coupon_is_show, coupon.coupon_pic,coupon.coupon_rules_type
+    from np_coupon coupon , np_coupon_no nos
+    where coupon.coupon_id = nos.coupon_id 
+    and nos.code_no = #{codeNo}
+    </select>
+    
+    <!-- 根据优惠券ID查询一个卷码出来 -->
+    <select id="selectOneCouponNoByCouponId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select  coupon.coupon_id, coupon.coupon_name, coupon.coupon_remark, coupon.coupon_start_time, coupon.coupon_end_time, coupon.create_time, 
+        coupon.modify_time, coupon.del_flag, coupon.business_id, coupon.coupon_integral, coupon.coupon_is_show, coupon.coupon_pic,coupon.coupon_rules_type,
+         nos.code_id,  nos.code_no, nos.customer_id, nos.code_status, nos.code_get_type, nos.code_get_time,
+        nos.code_use_order_id
+        from np_coupon coupon , np_coupon_no nos
+        where coupon.coupon_id = nos.coupon_id 
+        and    coupon.coupon_id = #{couponId,jdbcType=BIGINT} and nos.code_status='0'
+        ORDER BY RAND() 
+        limit 1
+    </select>
+    
+  <!-- 查询我的优惠券 -->
+    <select id="myCouponList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+
+        select
+        coupon.coupon_id, coupon.coupon_name, coupon.coupon_remark, coupon.coupon_start_time, coupon.coupon_end_time, coupon.create_time,
+        coupon.modify_time, coupon.del_flag, coupon.business_id, coupon.coupon_integral, coupon.coupon_is_show, coupon.coupon_pic,coupon.coupon_rules_type
+        ,no.code_id,  no.code_no, no.customer_id, no.code_status, no.code_get_type, no.code_get_time,
+        no.code_use_order_id,store.store_name
+
+        from np_coupon coupon
+        INNER JOIN np_coupon_no no on coupon.coupon_id = no.coupon_id
+        left join  np_third_store_info store on store.store_id=coupon.business_id
+        where  coupon.del_flag = '0'
+    and no.customer_id = #{customerId} and no.code_status != 0
+    <if test="codeStatus!=null and codeStatus!=''">
+            and no.code_status = #{codeStatus}
+    </if>
+            and <![CDATA[  coupon.coupon_start_time <= now() and  coupon.coupon_end_time  > now() ]]>
+        limit  #{start},#{number}
+        
+  </select>
+  
+  
+   <!-- 查询我的优惠券 -->
+    <select id="myCouponListThree" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    
+    select 
+     coupon.coupon_id, coupon.coupon_name, coupon.coupon_remark, coupon.coupon_start_time, coupon.coupon_end_time, coupon.create_time, 
+    coupon.modify_time, coupon.del_flag, coupon.business_id, coupon.coupon_integral, coupon.coupon_is_show, coupon.coupon_pic,coupon.coupon_rules_type
+    ,no.code_id,  no.code_no, no.customer_id, no.code_status, no.code_get_type, no.code_get_time, 
+    no.code_use_order_id,store.store_name
+        from np_coupon coupon
+        INNER JOIN np_coupon_no no on coupon.coupon_id = no.coupon_id
+        left join  np_third_store_info store on store.store_id=coupon.business_id
+    where  coupon.del_flag = '0'
+    and no.customer_id = #{customerId} and no.code_status != 0
+    <if test="codeStatus!=null and codeStatus!=''">
+            and <![CDATA[  coupon.coupon_end_time  < now() ]]>
+    </if>
+        
+        limit  #{start},#{number}
+        
+  </select>
+  
+      
+          
+  <!-- 查询我的优惠券 总数-->
+    <select id="myCouponListCountThree" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    
+    select count(1)
+  
+    from np_coupon coupon ,np_coupon_no no 
+    where coupon.coupon_id = no.coupon_id and coupon.del_flag = '0' 
+    and no.customer_id = #{customerId} 
+    <if test="codeStatus!=null and codeStatus!=''">
+            and <![CDATA[ coupon.coupon_end_time  < now() ]]>
+    </if>
+        
+  </select>
+  
+  <!-- 查询我的优惠券 总数-->
+    <select id="myCouponListCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    
+    select count(*)
+  
+    from np_coupon coupon ,np_coupon_no no 
+    where coupon.coupon_id = no.coupon_id and coupon.del_flag = '0' 
+    and no.customer_id = #{customerId} 
+    <if test="codeStatus!=null and codeStatus!=''">
+            and no.code_status = #{codeStatus}
+    </if>
+            and <![CDATA[  coupon.coupon_start_time <= now() and  coupon.coupon_end_time  > now() ]]>
+        
+  </select>
+  
+  
+  
+  
+  
+        
+  <!-- 查询我的优惠券 总数-->
+    <select id="myCouponNoCount" resultType="java.lang.Integer" parameterType="java.lang.Long" >
+    
+    select count(1)
+  
+    from np_coupon coupon ,np_coupon_no no 
+    where coupon.coupon_id = no.coupon_id and coupon.del_flag = '0' 
+    and no.customer_id = #{customerId} 
+    and no.code_status = '1'
+    and <![CDATA[  coupon.coupon_start_time <= now() and  coupon.coupon_end_time  > now() ]]>
+        
+  </select>
+  
+  <!-- 查询优惠券列表根据List -->
+    <select id="selectCouponByListId" resultMap="BaseResultMap" parameterType="java.util.List" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_coupon
+    where del_flag = '0' and   coupon_is_show = '1' and coupon_id in 
+      <foreach collection="list" item="couponId" open="(" separator="," close=")">
+       #{couponId,jdbcType=BIGINT}
+    </foreach>
+  </select>
+  
+  
+  <!-- 查询优惠券详细 -->
+    <select id="searchCouponById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_coupon
+    where coupon_id = #{couponId,jdbcType=BIGINT}
+  </select>
+    <!-- 查询优惠券总数 -->
+    <select id="selectCouponListCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select count(1)
+    from np_coupon
+    where 1=1 
+      and del_flag = '0'
+      <if test="couponName != null and couponName!=''" >
+      and coupon_name like CONCAT(CONCAT('%',#{couponName,jdbcType=VARCHAR},'%'))  
+      </if>
+      <if test="businessId != null and businessId!=''" >
+        and business_id  =  #{businessId,jdbcType=BIGINT}
+      </if>
+      <if test="couponStartTime !=null and couponStartTime!=''">
+        and coupon_start_time  &gt; '#{couponStartTime}'
+    </if>
+            
+    <if test="couponEndTime !=null and couponEndTime!=''">
+        and coupon_end_time   &lt; '#{couponEndTime}'
+    </if>
+        <if test="businessId == null or businessId==''" >
+        and business_id=0
+    </if>
+
+  </select>
+  
+    <!-- 查询优惠券列表 -->
+    <select id="selectCouponList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />,
+    (select count(1)  from np_coupon_no no where no.coupon_id = n.coupon_id and no.code_status = '1') coupon_getted_no
+    from np_coupon n
+    where 1=1 
+     <if test="delFlag != null" >
+      and n.del_flag = #{delFlag,jdbcType=CHAR}
+      </if>
+      <if test="couponName != null  and couponName!='' " >
+      and n.coupon_name like CONCAT(CONCAT('%',#{couponName,jdbcType=VARCHAR},'%'))  
+      </if>
+       <if test="businessId != null and businessId!=''" >
+      and n.business_id  =  #{businessId,jdbcType=BIGINT}
+      </if>
+      <if test="couponIsShow != null" >
+      and n.coupon_is_show  =  #{couponIsShow,jdbcType=CHAR}
+      </if>
+      <if test="couponStartTime !=null and couponStartTime!=''">
+        and n.coupon_start_time  &gt; '#{couponStartTime}'
+    </if>
+            
+    <if test="couponEndTime !=null and couponEndTime!=''">
+        and n.coupon_end_time   &lt; '#{couponEndTime}'
+    </if>
+    <if test="businessId != null and businessId!=''" >
+        and business_id  =  #{businessId,jdbcType=BIGINT}
+    </if>
+    <if test="businessId == null or businessId==''" >
+        and business_id=0
+    </if>
+     <!-- and n.business_id=0-->
+
+    order by n.create_time desc
+    limit #{start},#{number}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_coupon
+    where coupon_id = #{couponId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_coupon
+    where coupon_id = #{couponId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.coupon.bean.Coupon" >
+    insert into np_coupon (coupon_id, coupon_name, coupon_remark, 
+      coupon_start_time, coupon_end_time, create_time, 
+      modify_time, del_flag, business_id, 
+      coupon_integral, coupon_is_show, coupon_pic
+      )
+    values (#{couponId,jdbcType=BIGINT}, #{couponName,jdbcType=VARCHAR}, #{couponRemark,jdbcType=VARCHAR}, 
+      #{couponStartTime,jdbcType=TIMESTAMP}, #{couponEndTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR}, #{businessId,jdbcType=BIGINT}, 
+      #{couponIntegral,jdbcType=BIGINT}, #{couponIsShow,jdbcType=CHAR}, #{couponPic,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.coupon.bean.Coupon" >
+    insert into np_coupon
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="couponId != null" >
+        coupon_id,
+      </if>
+      <if test="couponName != null" >
+        coupon_name,
+      </if>
+      <if test="couponRemark != null" >
+        coupon_remark,
+      </if>
+      <if test="couponStartTime != null" >
+        coupon_start_time,
+      </if>
+      <if test="couponEndTime != null" >
+        coupon_end_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="businessId != null" >
+        business_id,
+      </if>
+      <if test="couponIntegral != null" >
+        coupon_integral,
+      </if>
+      <if test="couponIsShow != null" >
+        coupon_is_show,
+      </if>
+      <if test="couponPic != null" >
+        coupon_pic,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="couponId != null" >
+        #{couponId,jdbcType=BIGINT},
+      </if>
+      <if test="couponName != null" >
+        #{couponName,jdbcType=VARCHAR},
+      </if>
+      <if test="couponRemark != null" >
+        #{couponRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="couponStartTime != null" >
+        #{couponStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="couponEndTime != null" >
+        #{couponEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="businessId != null" >
+        #{businessId,jdbcType=BIGINT},
+      </if>
+      <if test="couponIntegral != null" >
+        #{couponIntegral,jdbcType=BIGINT},
+      </if>
+      <if test="couponIsShow != null" >
+        #{couponIsShow,jdbcType=CHAR},
+      </if>
+      <if test="couponPic != null" >
+        #{couponPic,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  
+   <insert id="doAddCoupon" parameterType="com.ningpai.coupon.bean.Coupon" >
+    insert into np_coupon
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="couponId != null" >
+        coupon_id,
+      </if>
+      <if test="couponName != null" >
+        coupon_name,
+      </if>
+      <if test="couponRemark != null" >
+        coupon_remark,
+      </if>
+      <if test="couponStartTime != null" >
+        coupon_start_time,
+      </if>
+      <if test="couponEndTime != null" >
+        coupon_end_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="businessId != null" >
+        business_id,
+      </if>
+      <if test="couponIntegral != null" >
+        coupon_integral,
+      </if>
+      <if test="couponIsShow != null" >
+        coupon_is_show,
+      </if>
+      <if test="couponPic != null" >
+        coupon_pic,
+      </if>
+       <if test="couponRulesType != null" >
+        coupon_rules_type,
+      </if>
+      <if test="couponGetNo != null">
+      	coupon_get_no,
+      </if>
+      <if test="reductionPrice != null">
+      	coupon_price,
+      </if>
+      <if test="activeSiteType != null">
+      	active_site_type,
+      </if>
+      <if test="couponGetType != null">
+      	coupon_get_type,
+      </if>
+      <if test="couponCount != null">
+      	coupon_count,
+      </if>
+      <if test="isAll != null">
+      	is_all,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="couponId != null" >
+        #{couponId,jdbcType=BIGINT},
+      </if>
+      <if test="couponName != null" >
+        #{couponName,jdbcType=VARCHAR},
+      </if>
+      <if test="couponRemark != null" >
+        #{couponRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="couponStartTime != null" >
+        #{couponStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="couponEndTime != null" >
+        #{couponEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="businessId != null" >
+        #{businessId,jdbcType=BIGINT},
+      </if>
+      <if test="couponIntegral != null" >
+        #{couponIntegral,jdbcType=BIGINT},
+      </if>
+      <if test="couponIsShow != null" >
+        #{couponIsShow,jdbcType=CHAR},
+      </if>
+      <if test="couponPic != null" >
+        #{couponPic,jdbcType=VARCHAR},
+      </if>
+        <if test="couponRulesType != null" >
+         #{couponRulesType,jdbcType=CHAR},
+      </if>
+      <if test="couponGetNo != null">
+      	#{couponGetNo,jdbcType=BIGINT},
+      </if>
+       <if test="reductionPrice != null">
+      	#{reductionPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="activeSiteType != null">
+      	#{activeSiteType,jdbcType=CHAR},
+      </if>
+      <if test="couponGetType != null">
+      	#{couponGetType,jdbcType=CHAR},
+      </if>
+      <if test="couponCount != null">
+      	#{couponCount,jdbcType=BIGINT},
+      </if>
+       <if test="isAll != null">
+      	#{isAll,jdbcType=BIGINT},
+      </if>
+    </trim>
+     <selectKey keyProperty="coupon_id" resultType="java.lang.Long">
+            select LAST_INSERT_ID()
+      </selectKey>
+  </insert>
+  <!-- 查询刚刚插入的Id -->
+  <select id="selectLastId" resultType="java.lang.Long" >
+        select LAST_INSERT_ID()
+  </select>
+  
+  
+  
+  <!-- 修改优惠券 -->
+  <update id="doUpdateCouponById" parameterType="com.ningpai.coupon.bean.Coupon" >
+    update np_coupon
+    <set >
+      <if test="couponName != null" >
+        coupon_name = #{couponName,jdbcType=VARCHAR},
+      </if>
+      <if test="couponRemark != null" >
+        coupon_remark = #{couponRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="couponStartTime != null" >
+        coupon_start_time = #{couponStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="couponEndTime != null" >
+        coupon_end_time = #{couponEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="businessId != null" >
+        business_id = #{businessId,jdbcType=BIGINT},
+      </if>
+      <if test="couponIntegral != null" >
+        coupon_integral = #{couponIntegral,jdbcType=BIGINT},
+      </if>
+      <if test="couponIsShow != null" >
+        coupon_is_show = #{couponIsShow,jdbcType=CHAR},
+      </if>
+      <if test="couponPic != null and couponPic !=''" >
+        coupon_pic = #{couponPic,jdbcType=VARCHAR},
+      </if>
+      <if test="couponRulesType != null and couponRulesType !=''" >
+        coupon_rules_type = #{couponRulesType,jdbcType=VARCHAR},
+      </if>
+      <if test="couponGetNo != null">
+      	coupon_get_no = #{couponGetNo,jdbcType=BIGINT},
+      </if>
+      <if test="reductionPrice != null">
+      	coupon_price=#{reductionPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="activeSiteType != null">
+      	active_site_type=#{activeSiteType,jdbcType=CHAR},
+      </if>
+      <if test="couponGetType != null">
+      	coupon_get_type=#{couponGetType,jdbcType=CHAR},
+      </if>
+      <if test="couponCount != null">
+      	coupon_count=#{couponCount,jdbcType=BIGINT},
+      </if>
+      <if test="isAll != null">
+      	is_all=#{isAll,jdbcType=BIGINT},
+      </if>
+    </set>
+    where coupon_id = #{couponId,jdbcType=BIGINT} 
+    <if test="businessId !=null and businessId  !=''">
+    and business_id = #{businessId,jdbcType=BIGINT}
+    </if>
+  </update>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.coupon.bean.Coupon" >
+    update np_coupon
+    <set >
+      <if test="couponName != null" >
+        coupon_name = #{couponName,jdbcType=VARCHAR},
+      </if>
+      <if test="couponRemark != null" >
+        coupon_remark = #{couponRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="couponStartTime != null" >
+        coupon_start_time = #{couponStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="couponEndTime != null" >
+        coupon_end_time = #{couponEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="businessId != null" >
+        business_id = #{businessId,jdbcType=BIGINT},
+      </if>
+      <if test="couponIntegral != null" >
+        coupon_integral = #{couponIntegral,jdbcType=BIGINT},
+      </if>
+      <if test="couponIsShow != null" >
+        coupon_is_show = #{couponIsShow,jdbcType=CHAR},
+      </if>
+      <if test="couponPic != null" >
+        coupon_pic = #{couponPic,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where coupon_id = #{couponId,jdbcType=BIGINT}
+  </update>
+  
+  
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.coupon.bean.Coupon" >
+    update np_coupon
+    set coupon_name = #{couponName,jdbcType=VARCHAR},
+      coupon_remark = #{couponRemark,jdbcType=VARCHAR},
+      coupon_start_time = #{couponStartTime,jdbcType=TIMESTAMP},
+      coupon_end_time = #{couponEndTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR},
+      business_id = #{businessId,jdbcType=BIGINT},
+      coupon_integral = #{couponIntegral,jdbcType=BIGINT},
+      coupon_is_show = #{couponIsShow,jdbcType=CHAR},
+      coupon_pic = #{couponPic,jdbcType=VARCHAR}
+    where coupon_id = #{couponId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 删除优惠券 -->
+  <update id="delCoupon" parameterType="java.lang.Long" >
+    update np_coupon
+    set del_flag = '1'
+    where coupon_id = #{couponId,jdbcType=BIGINT}
+  </update>
+  
+    <!-- 批量删除优惠券 -->
+  <update id="delAllCoupon" parameterType="java.util.List" >
+    update np_coupon
+    set del_flag = '1'
+    where coupon_id in 
+     <foreach collection="list" item="couponId" open="(" separator="," close=")">
+       #{couponId,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  
+  <select id="selectCouponTimeByCodeId" parameterType="java.lang.Long" resultType="java.sql.Timestamp">
+  	select c.coupon_end_time from np_coupon c where c.coupon_id = (select no.coupon_id from np_coupon_no no where no.code_id = #{codeId,jdbcType=BIGINT})
+  </select>
+
+   <select id="queryCouponList" resultMap="BaseResultMap">
+       select <include refid="Base_Column_List" /> from np_coupon
+       where del_flag = '0'
+       and <![CDATA[ coupon_start_time <= now() and  coupon_end_time  > now() ]]>
+   </select>
+
+    <!--查询boss的优惠卷信息
+    说明添加，by 付陈林 2015年12月4号，
+    查询条件：
+    1、未删除的
+    2、商家id为零的。表示自营
+    3、开始时间小于等于当前时间，表示活动已开始
+    4、结束时间大于等于当前时间，表示活动未结束。
+    -->
+    <select id="queryCouponListToBoss" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" /> from np_coupon
+        where del_flag = '0' and business_id = '0'
+        and <![CDATA[ coupon_start_time <= now() and  coupon_end_time  > now() ]]>
+    </select>
+
+
+
+
+    <!-- 查询可使用的优惠券 -->
+     <select id="selectCouponListByAble" resultMap="BaseResultMap"  >
+      select 
+       coupon.coupon_id, coupon.coupon_name, coupon.coupon_remark, coupon.coupon_start_time, coupon.coupon_end_time, coupon.create_time, 
+       coupon.modify_time, coupon.del_flag, coupon.business_id, coupon.coupon_integral, coupon.coupon_is_show, coupon.coupon_pic,coupon.coupon_rules_type
+      FROM np_coupon coupon  
+       WHERE 1=1
+       AND <![CDATA[  coupon.coupon_start_time <= now() and  coupon.coupon_end_time  > now() ]]>
+       AND   coupon_is_show = '1'
+     </select>
+
+    <!-- 根据店铺Id查询优惠券 -->
+    <select id="selectCouponListByStoreId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+        select
+        coupon.coupon_id, coupon.coupon_name, coupon.coupon_remark, coupon.coupon_start_time, coupon.coupon_end_time, coupon.create_time,
+        coupon.modify_time, coupon.del_flag, coupon.business_id, coupon.coupon_integral, coupon.coupon_is_show, coupon.coupon_pic,coupon.coupon_rules_type
+        FROM np_coupon coupon
+        WHERE 1=1
+        AND <![CDATA[  coupon.coupon_start_time <= now() and  coupon.coupon_end_time  > now() ]]>
+        AND   business_id = '1008'
+    </select>
+     
+     
+     <!-- 新删除优惠券 -->
+  <update id="newdelCoupon" parameterType="java.util.Map" >
+    update np_coupon
+    set del_flag = '1'
+    where coupon_id = #{couponId,jdbcType=BIGINT} 
+    <if test="businessId !=null and businessId  !=''">
+    and business_id = #{businessId,jdbcType=BIGINT}
+    </if>
+  </update>
+  
+    <!-- 新批量删除优惠券 -->
+  <update id="newdelAllCoupon" parameterType="java.util.Map" >
+    update np_coupon
+    set del_flag = '1'
+    where coupon_id in 
+     <foreach collection="list" item="couponId" open="(" separator="," close=")">
+       #{couponId,jdbcType=BIGINT}
+    </foreach>
+     <if test="businessId !=null and businessId  !=''">
+    and business_id = #{businessId,jdbcType=BIGINT}
+    </if>
+  </update>
+</mapper>

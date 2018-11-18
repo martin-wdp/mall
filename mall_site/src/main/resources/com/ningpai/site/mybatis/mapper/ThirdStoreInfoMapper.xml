@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.third.seller.mapper.ThirdSotreInfoMapper">
+	<resultMap id="BaseResultMap" type="com.ningpai.site.thirdseller.bean.ThirdStoreInfo">
+		<id column="store_id" property="storeId" jdbcType="BIGINT" />
+		<result column="customerId" property="customerid" jdbcType="BIGINT" />
+		<result column="store_name" property="storeName" jdbcType="VARCHAR" />
+		<result column="store_status" property="storeStatus" jdbcType="CHAR" />
+		<result column="company_name" property="companyName" jdbcType="VARCHAR" />
+		<result column="company_cre_time" property="companyCreTime" jdbcType="VARCHAR" />
+		<result column="company_addr" property="companyAddr" jdbcType="VARCHAR" />
+		<result column="company_addr_id" property="companyAddrId" jdbcType="VARCHAR" />
+		<result column="buss_addr_id" property="bussAddrId" jdbcType="VARCHAR" />
+		<result column="bank_addr_id" property="bankAddrId" jdbcType="VARCHAR" />
+		<result column="company_addr_del" property="companyAddrDel" jdbcType="VARCHAR" />
+		<result column="company_tel" property="companyTel" jdbcType="VARCHAR" />
+		<result column="company_emp_num" property="companyEmpNum" jdbcType="BIGINT" />
+		<result column="company_capital" property="companyCapital" jdbcType="DECIMAL" />
+		<result column="company_email" property="companyEmail" jdbcType="VARCHAR" />
+		<result column="company_type" property="companyType" jdbcType="CHAR" />
+		<result column="company_contact_name" property="companyContactName" jdbcType="VARCHAR" />
+		<result column="company_contact_tel" property="companyContactTel" jdbcType="VARCHAR" />
+		<result column="company_research_url" property="companyResearchUrl" jdbcType="VARCHAR" />
+		<result column="bank_url" property="bankUrl" jdbcType="VARCHAR" />
+		<result column="card_url" property="cardUrl" jdbcType="VARCHAR" />
+		<result column="company_sku" property="companySku" jdbcType="DECIMAL" />
+		<result column="company_avg" property="companyAvg" jdbcType="CHAR" />
+		<result column="return_addr" property="returnAddr" jdbcType="VARCHAR" />
+		<result column="return_mail" property="returnMail" jdbcType="VARCHAR" />
+		<result column="return_contact_name" property="returnContactName" jdbcType="VARCHAR" />
+		<result column="return_contact_tel" property="returnContactTel" jdbcType="VARCHAR" />
+		<result column="buss_id" property="bussId" jdbcType="VARCHAR" />
+		<result column="buss_addr" property="bussAddr" jdbcType="VARCHAR" />
+		<result column="BUSS_DATE" property="bussDate" jdbcType="VARCHAR" />
+		<result column="buss_dept_no" property="bussDeptNo" jdbcType="VARCHAR" />
+		<result column="buss_tax_regist_id" property="bussTaxRegistId" jdbcType="VARCHAR" />
+		<result column="buss_tax_regist_url" property="bussTaxRegistUrl" jdbcType="VARCHAR" />
+		<result column="buss_tax_payer_id" property="bussTaxPayerId" jdbcType="VARCHAR" />
+		<result column="buss_tax_cred_url" property="bussTaxCredUrl" jdbcType="VARCHAR" />
+		<result column="buss_tax_type" property="bussTaxType" jdbcType="VARCHAR" />
+		<result column="buss_tax_type_id" property="bussTaxTypeId" jdbcType="VARCHAR" />
+		<result column="buss_legal_name" property="bussLegalName" jdbcType="VARCHAR" />
+		<result column="buss_url" property="bussUrl" jdbcType="VARCHAR" />
+		<result column="buss_range" property="bussRange" jdbcType="VARCHAR" />
+		<result column="bank_username" property="bankUsername" jdbcType="VARCHAR" />
+		<result column="bank_card_id" property="bankCardId" jdbcType="VARCHAR" />
+		<result column="bank_addr" property="bankAddr" jdbcType="VARCHAR" />
+		<result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+		<result column="bank_id" property="bankId" jdbcType="VARCHAR" />
+		<result column="check_status" property="checkStatus" jdbcType="CHAR" />
+		<result column="contract_url" property="contractUrl" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+		<result column="del_flag" property="delFlag" jdbcType="CHAR" />
+		<result column="buss_legal_card_id" property="bussLegalCardId" jdbcType="VARCHAR" />
+		<result column="is_submit" property="isSubmit" jdbcType="VARCHAR" />
+		<result column="is_store_index" property="isStoreIndex" jdbcType="VARCHAR" />
+		<result column="refuse_content" property="refuseContent" jdbcType="VARCHAR" />
+		<result column="store_promise" property="storePromise" jdbcType="VARCHAR"/>
+		<result column="store_qi" property="storeQi" jdbcType="CHAR" />
+		<result column="customer_nickname" property="customerName" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		store_id, customerId, store_name, store_status, company_name, company_cre_time,
+		company_addr, company_addr_del,
+		company_tel, company_emp_num, company_capital, company_email, company_type,
+		company_contact_name,
+		company_contact_tel, company_research_url, company_sku, company_avg, return_addr,
+		return_mail, return_contact_name, return_contact_tel, buss_id,
+		buss_addr, BUSS_DATE,
+		buss_dept_no, buss_tax_regist_id, buss_tax_regist_url, buss_tax_cred_url,
+		buss_tax_payer_id, buss_tax_type, buss_tax_type_id,
+		buss_legal_name, buss_url, buss_range, bank_username, bank_card_id, bank_addr,
+		bank_name,
+		bank_id, check_status, contract_url, create_time, mod_time,
+		del_flag,company_addr_id,buss_addr_id,bank_addr_id,bank_url,card_url,buss_legal_card_id,
+		is_submit,is_store_index,refuse_content,store_promise,store_qi
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from np_third_store_info
+		where store_id = #{storeId,jdbcType=BIGINT}
+	</select>
+
+	<select id="selectByCustomerId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from np_third_store_info
+		where customerId = #{customerId,jdbcType=BIGINT}
+	</select>
+	
+   	<select resultMap="BaseResultMap" id="selectAll">
+   		select store_id, customerId, store_name
+		from np_third_store_info
+		where store_status='1'
+   	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from np_third_store_info
+		where store_id = #{storeId,jdbcType=BIGINT}
+	</delete>
+	<insert id="insertSelective" parameterType="com.ningpai.site.thirdseller.bean.ThirdStoreInfo"
+		useGeneratedKeys="true" keyProperty="storeId">
+		insert into np_third_store_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="storeId != null">
+				store_id,
+			</if>
+			<if test="customerid != null">
+				customerId,
+			</if>
+			<if test="storeName != null">
+				store_name,
+			</if>
+			store_status,
+			<if test="companyName != null">
+				company_name,
+			</if>
+			<if test="companyCreTime != null">
+				company_cre_time,
+			</if>
+			<if test="companyAddr != null">
+				company_addr,
+			</if>
+			<if test="companyAddrDel != null">
+				company_addr_del,
+			</if>
+			<if test="companyTel != null">
+				company_tel,
+			</if>
+			<if test="companyEmpNum != null">
+				company_emp_num,
+			</if>
+			<if test="companyCapital != null">
+				company_capital,
+			</if>
+			<if test="companyEmail != null">
+				company_email,
+			</if>
+			<if test="companyType != null">
+				company_type,
+			</if>
+			<if test="companyContactName != null">
+				company_contact_name,
+			</if>
+			<if test="companyContactTel != null">
+				company_contact_tel,
+			</if>
+			<if test="companyResearchUrl != null">
+				company_research_url,
+			</if>
+			<if test="companySku != null">
+				company_sku,
+			</if>
+			<if test="companyAvg != null">
+				company_avg,
+			</if>
+			<if test="returnAddr != null">
+				return_addr,
+			</if>
+			<if test="returnMail != null">
+				return_mail,
+			</if>
+			<if test="returnContactName != null">
+				return_contact_name,
+			</if>
+			<if test="returnContactTel != null">
+				return_contact_tel,
+			</if>
+			<if test="bussId != null">
+				buss_id,
+			</if>
+			<if test="bussAddr != null">
+				buss_addr,
+			</if>
+			<if test="bussDate != null">
+				BUSS_DATE,
+			</if>
+			<if test="bussDeptNo != null">
+				buss_dept_no,
+			</if>
+			<if test="bussTaxRegistId != null">
+				buss_tax_regist_id,
+			</if>
+			<if test="bussTaxRegistUrl != null">
+				buss_tax_regist_url,
+			</if>
+			<if test="bussTaxCredUrl != null">
+				buss_tax_cred_url,
+			</if>
+			<if test="bussTaxPayerId != null">
+				buss_tax_payer_id,
+			</if>
+			<if test="bussTaxType != null">
+				buss_tax_type,
+			</if>
+			<if test="bussTaxTypeId != null">
+				buss_tax_type_id,
+			</if>
+			<if test="bussLegalName != null">
+				buss_legal_name,
+			</if>
+			<if test="bussUrl != null">
+				buss_url,
+			</if>
+			<if test="bussRange != null">
+				buss_range,
+			</if>
+			<if test="bankUsername != null">
+				bank_username,
+			</if>
+			<if test="bankCardId != null">
+				bank_card_id,
+			</if>
+			<if test="bankAddr != null">
+				bank_addr,
+			</if>
+			<if test="bankName != null">
+				bank_name,
+			</if>
+			<if test="bankId != null">
+				bank_id,
+			</if>
+			check_status,
+			<if test="contractUrl != null">
+				contract_url,
+			</if>
+			create_time,
+			mod_time,
+			del_flag,
+			<if test="bussLegalCardId != null">
+				buss_legal_card_id,
+			</if>
+			<if test="isSubmit != null">
+				is_submit,
+			</if>
+			 <if test="storePromise != null" >
+		        store_promise,
+		    </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="storeId != null">
+				#{storeId,jdbcType=BIGINT},
+			</if>
+			<if test="customerid != null">
+				#{customerid,jdbcType=BIGINT},
+			</if>
+			<if test="storeName != null">
+				#{storeName,jdbcType=VARCHAR},
+			</if>
+			'0',
+			<if test="companyName != null">
+				#{companyName,jdbcType=VARCHAR},
+			</if>
+			<if test="companyCreTime != null">
+				#{companyCreTime,jdbcType=VARCHAR},
+			</if>
+			<if test="companyAddr != null">
+				#{companyAddr,jdbcType=VARCHAR},
+			</if>
+			<if test="companyAddrDel != null">
+				#{companyAddrDel,jdbcType=VARCHAR},
+			</if>
+			<if test="companyTel != null">
+				#{companyTel,jdbcType=VARCHAR},
+			</if>
+			<if test="companyEmpNum != null">
+				#{companyEmpNum,jdbcType=BIGINT},
+			</if>
+			<if test="companyCapital != null">
+				#{companyCapital,jdbcType=DECIMAL},
+			</if>
+			<if test="companyEmail != null">
+				#{companyEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="companyType != null">
+				#{companyType,jdbcType=CHAR},
+			</if>
+			<if test="companyContactName != null">
+				#{companyContactName,jdbcType=VARCHAR},
+			</if>
+			<if test="companyContactTel != null">
+				#{companyContactTel,jdbcType=VARCHAR},
+			</if>
+			<if test="companyResearchUrl != null">
+				#{companyResearchUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="companySku != null">
+				#{companySku,jdbcType=DECIMAL},
+			</if>
+			<if test="companyAvg != null">
+				#{companyAvg,jdbcType=CHAR},
+			</if>
+			<if test="returnAddr != null">
+				#{returnAddr,jdbcType=VARCHAR},
+			</if>
+			<if test="returnMail != null">
+				#{returnMail,jdbcType=VARCHAR},
+			</if>
+			<if test="returnContactName != null">
+				#{returnContactName,jdbcType=VARCHAR},
+			</if>
+			<if test="returnContactTel != null">
+				#{returnContactTel,jdbcType=VARCHAR},
+			</if>
+			<if test="bussId != null">
+				#{bussId,jdbcType=VARCHAR},
+			</if>
+			<if test="bussAddr != null">
+				#{bussAddr,jdbcType=VARCHAR},
+			</if>
+			<if test="bussDate != null">
+				#{bussDate,jdbcType=VARCHAR},
+			</if>
+			<if test="bussDeptNo != null">
+				#{bussDeptNo,jdbcType=VARCHAR},
+			</if>
+			<if test="bussTaxRegistId != null">
+				#{bussTaxRegistId,jdbcType=VARCHAR},
+			</if>
+			<if test="bussTaxRegistUrl != null">
+				#{bussTaxRegistUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="bussTaxCredUrl != null">
+				#{bussTaxCredUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="bussTaxPayerId != null">
+				#{bussTaxPayerId,jdbcType=VARCHAR},
+			</if>
+			<if test="bussTaxType != null">
+				#{bussTaxType,jdbcType=VARCHAR},
+			</if>
+			<if test="bussTaxTypeId != null">
+				#{bussTaxTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="bussLegalName != null">
+				#{bussLegalName,jdbcType=VARCHAR},
+			</if>
+			<if test="bussUrl != null">
+				#{bussUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="bussRange != null">
+				#{bussRange,jdbcType=VARCHAR},
+			</if>
+			<if test="bankUsername != null">
+				#{bankUsername,jdbcType=VARCHAR},
+			</if>
+			<if test="bankCardId != null">
+				#{bankCardId,jdbcType=VARCHAR},
+			</if>
+			<if test="bankAddr != null">
+				#{bankAddr,jdbcType=VARCHAR},
+			</if>
+			<if test="bankName != null">
+				#{bankName,jdbcType=VARCHAR},
+			</if>
+			<if test="bankId != null">
+				#{bankId,jdbcType=VARCHAR},
+			</if>
+			'0',
+			<if test="contractUrl != null">
+				#{contractUrl,jdbcType=VARCHAR},
+			</if>
+			SYSDATE(),
+			SYSDATE(),
+			'0',
+			<if test="bussLegalCardId != null">
+				#{bussLegalCardId,jdbcType=VARCHAR},
+			</if>
+			<if test="isSubmit != null">
+				#{isSubmit,jdbcType=VARCHAR},
+			</if>
+			<if test="storePromise != null" >
+	       		#{storePromise,jdbcType=VARCHAR},
+	       </if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.ningpai.site.thirdseller.bean.ThirdStoreInfo">
+		update np_third_store_info
+		<set>
+			<if test="customerid != null">
+				customerId = #{customerid,jdbcType=BIGINT},
+			</if>
+			<if test="storeName != null">
+				store_name = #{storeName,jdbcType=VARCHAR},
+			</if>
+			<if test="storeStatus != null">
+				store_status = #{storeStatus,jdbcType=CHAR},
+			</if>
+			<if test="companyName != null">
+				company_name = #{companyName,jdbcType=VARCHAR},
+			</if>
+			<if test="companyCreTime != null">
+				company_cre_time = #{companyCreTime,jdbcType=VARCHAR},
+			</if>
+			<if test="companyAddr != null">
+				company_addr = #{companyAddr,jdbcType=VARCHAR},
+			</if>
+			<if test="companyAddrId != null">
+				company_addr_id = #{companyAddrId,jdbcType=VARCHAR},
+			</if>
+			<if test="companyAddrDel != null">
+				company_addr_del = #{companyAddrDel,jdbcType=VARCHAR},
+			</if>
+			<if test="companyTel != null">
+				company_tel = #{companyTel,jdbcType=VARCHAR},
+			</if>
+			<if test="companyEmpNum != null">
+				company_emp_num = #{companyEmpNum,jdbcType=BIGINT},
+			</if>
+			<if test="companyCapital != null">
+				company_capital = #{companyCapital,jdbcType=DECIMAL},
+			</if>
+			<if test="companyEmail != null">
+				company_email = #{companyEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="companyType != null">
+				company_type = #{companyType,jdbcType=CHAR},
+			</if>
+			<if test="companyContactName != null">
+				company_contact_name = #{companyContactName,jdbcType=VARCHAR},
+			</if>
+			<if test="companyContactTel != null">
+				company_contact_tel = #{companyContactTel,jdbcType=VARCHAR},
+			</if>
+			<if test="companyResearchUrl != null">
+				company_research_url = #{companyResearchUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="companySku != null">
+				company_sku = #{companySku,jdbcType=DECIMAL},
+			</if>
+			<if test="companyAvg != null">
+				company_avg = #{companyAvg,jdbcType=CHAR},
+			</if>
+			<if test="returnAddr != null">
+				return_addr = #{returnAddr,jdbcType=VARCHAR},
+			</if>
+			<if test="returnMail != null">
+				return_mail = #{returnMail,jdbcType=VARCHAR},
+			</if>
+			<if test="returnContactName != null">
+				return_contact_name = #{returnContactName,jdbcType=VARCHAR},
+			</if>
+			<if test="returnContactTel != null">
+				return_contact_tel = #{returnContactTel,jdbcType=VARCHAR},
+			</if>
+			<if test="bussId != null">
+				buss_id = #{bussId,jdbcType=VARCHAR},
+			</if>
+			<if test="bussAddr != null">
+				buss_addr = #{bussAddr,jdbcType=VARCHAR},
+			</if>
+			<if test="bussAddrId != null">
+				buss_addr_id = #{bussAddrId,jdbcType=VARCHAR},
+			</if>
+			<if test="bussDate != null">
+				BUSS_DATE = #{bussDate,jdbcType=VARCHAR},
+			</if>
+			<if test="bussDeptNo != null">
+				buss_dept_no = #{bussDeptNo,jdbcType=VARCHAR},
+			</if>
+			<if test="bussTaxRegistId != null">
+				buss_tax_regist_id = #{bussTaxRegistId,jdbcType=VARCHAR},
+			</if>
+			<if test="bussTaxPayerId != null">
+				buss_tax_payer_id = #{bussTaxPayerId,jdbcType=VARCHAR},
+			</if>
+			<if test="bussTaxType != null">
+				buss_tax_type = #{bussTaxType,jdbcType=VARCHAR},
+			</if>
+			<if test="bussTaxTypeId != null">
+				buss_tax_type_id = #{bussTaxTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="bussLegalName != null">
+				buss_legal_name = #{bussLegalName,jdbcType=VARCHAR},
+			</if>
+			<if test="bussUrl != null">
+				buss_url = #{bussUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="bussRange != null">
+				buss_range = #{bussRange,jdbcType=VARCHAR},
+			</if>
+			<if test="bankUsername != null">
+				bank_username = #{bankUsername,jdbcType=VARCHAR},
+			</if>
+			<if test="bankCardId != null">
+				bank_card_id = #{bankCardId,jdbcType=VARCHAR},
+			</if>
+			<if test="bankAddr != null">
+				bank_addr = #{bankAddr,jdbcType=VARCHAR},
+			</if>
+			<if test="bankName != null">
+				bank_name = #{bankName,jdbcType=VARCHAR},
+			</if>
+			<if test="bankId != null">
+				bank_id = #{bankId,jdbcType=VARCHAR},
+			</if>
+			<if test="checkStatus != null">
+				check_status = #{checkStatus,jdbcType=CHAR},
+			</if>
+			<if test="contractUrl != null">
+				contract_url = #{contractUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			mod_time = SYSDATE(),
+			<if test="delFlag != null">
+				del_flag = #{delFlag,jdbcType=CHAR},
+			</if>
+			<if test="cardUrl != null">
+				card_url = #{cardUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="companyResearchUrl != null">
+				company_research_url = #{companyResearchUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="bussTaxCredUrl != null">
+				buss_tax_cred_url = #{bussTaxCredUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="bussTaxRegistUrl != null">
+				buss_tax_regist_url = #{bussTaxRegistUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="bankUrl != null">
+				bank_url = #{bankUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="bussLegalCardId != null">
+				buss_legal_card_id = #{bussLegalCardId,jdbcType=VARCHAR},
+			</if>
+			<if test="isSubmit != null">
+				is_submit = #{isSubmit,jdbcType=CHAR},
+			</if>
+			<if test="isStoreIndex != null">
+				is_store_index = #{isStoreIndex,jdbcType=CHAR},
+			</if>
+			<if test="bankAddrId != null">
+				bank_addr_id = #{bankAddrId,jdbcType=VARCHAR},
+			</if>
+			<if test="storePromise != null" >
+	            store_promise = #{storePromise,jdbcType=VARCHAR},
+	        </if>
+		</set>
+		where store_id = #{storeId,jdbcType=BIGINT}
+	</update>
+	
+	<select id="selectRefuseInfo" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		store_id, customerId,refuse_content
+		from np_third_store_info
+		where customerId = #{customerId,jdbcType=BIGINT} and del_flag = '0'
+	</select>
+	
+	<update id="updateRefuseInfo" parameterType="com.ningpai.site.thirdseller.bean.ThirdStoreInfo">
+		update np_third_store_info
+		<set>
+			<if test="refuseContent != null">
+				refuse_content = #{refuseContent,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where store_id = #{customerid,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 根据店铺Id 查询店铺信息 -->
+	<select id="selectByThirdId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select store_id, sinfo.customerId, sinfo.store_name, sinfo.store_status, company_name, company_cre_time,
+		company_addr, company_addr_del,
+		company_tel, company_emp_num, company_capital, company_email, company_type,
+		company_contact_name,company_contact_tel, company_research_url, company_sku, company_avg, return_addr,
+		return_mail, return_contact_name, return_contact_tel, buss_id,
+		buss_addr, BUSS_DATE,buss_dept_no, buss_tax_regist_id, buss_tax_regist_url, buss_tax_cred_url,
+		buss_tax_payer_id, buss_tax_type, buss_tax_type_id,
+		buss_legal_name, buss_url, buss_range, bank_username, bank_card_id, bank_addr,
+		bank_name,bank_id, sinfo.check_status, sinfo.contract_url, sinfo.create_time, sinfo.mod_time,
+		sinfo.del_flag,sinfo.company_addr_id,sinfo.buss_addr_id,sinfo.bank_addr_id,sinfo.bank_url,sinfo.card_url,sinfo.buss_legal_card_id,
+		sinfo.is_submit,sinfo.is_store_index,sinfo.refuse_content,sinfo.store_promise,sinfo.store_qi,customer_nickname
+		from np_third_store_info  sinfo
+		left join np_customer c on sinfo.customerId = c.customer_id
+		where store_id = #{storeId,jdbcType=BIGINT}
+	</select>
+</mapper>

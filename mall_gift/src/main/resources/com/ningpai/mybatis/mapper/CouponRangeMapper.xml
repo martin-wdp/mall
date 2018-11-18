@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.CouponRangeMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.coupon.bean.CouponRange" >
+    <id column="coupon_range_id" property="couponRangeId" jdbcType="BIGINT" />
+    <result column="coupon_id" property="couponId" jdbcType="BIGINT" />
+    <result column="coupon_range_fk_id" property="couponRangeFkId" jdbcType="BIGINT" />
+    <result column="coupon_range_type" property="couponRangeType" jdbcType="CHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    coupon_range_id, coupon_id, coupon_range_fk_id, coupon_range_type, del_flag
+  </sql>
+  
+  <!-- 查询优惠券范围 -->
+    <select id="selectCouponRangeList" resultMap="BaseResultMap" parameterType="com.ningpai.coupon.bean.CouponRange" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_coupon_range
+    where coupon_range_type = #{couponRangeType,jdbcType=CHAR} and  del_flag =  #{delFlag,jdbcType=CHAR}
+  </select>
+  
+  
+   <select id="selectCouponRange" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_coupon_range
+    where coupon_range_type = #{couponRangeType,jdbcType=CHAR} and  del_flag = '0' 
+    and    coupon_id = #{couponId,jdbcType=BIGINT}
+  </select>
+
+   <select id="selectCouponRangeBycouponId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from np_coupon_range
+    where  del_flag = '0'
+    and    coupon_id = #{couponId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_coupon_range
+    where coupon_range_id = #{couponRangeId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_coupon_range
+    where coupon_range_id = #{couponRangeId,jdbcType=BIGINT}
+  </delete>
+  	<!-- 批量增加优惠券范围 -->
+    <insert id="createCouponRange" parameterType="java.util.List" >
+    insert into np_coupon_range (coupon_range_id, coupon_id, coupon_range_fk_id, 
+      coupon_range_type, del_flag)
+    values 
+     <foreach collection="list" separator="," item="range" index="index" >  
+          (#{range.couponRangeId,jdbcType=BIGINT}, #{range.couponId,jdbcType=BIGINT}, #{range.couponRangeFkId,jdbcType=BIGINT}, 
+         #{range.couponRangeType,jdbcType=CHAR}, #{range.delFlag,jdbcType=CHAR})
+     </foreach>  
+   
+  </insert>
+  
+  
+  <insert id="insert" parameterType="com.ningpai.coupon.bean.CouponRange" >
+    insert into np_coupon_range (coupon_range_id, coupon_id, coupon_range_fk_id, 
+      coupon_range_type, del_flag)
+    values (#{couponRangeId,jdbcType=BIGINT}, #{couponId,jdbcType=BIGINT}, #{couponRangeFkId,jdbcType=BIGINT}, 
+      #{couponRangeType,jdbcType=CHAR}, #{delFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.coupon.bean.CouponRange" >
+    insert into np_coupon_range
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="couponRangeId != null" >
+        coupon_range_id,
+      </if>
+      <if test="couponId != null" >
+        coupon_id,
+      </if>
+      <if test="couponRangeFkId != null" >
+        coupon_range_fk_id,
+      </if>
+      <if test="couponRangeType != null" >
+        coupon_range_type,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="couponRangeId != null" >
+        #{couponRangeId,jdbcType=BIGINT},
+      </if>
+      <if test="couponId != null" >
+        #{couponId,jdbcType=BIGINT},
+      </if>
+      <if test="couponRangeFkId != null" >
+        #{couponRangeFkId,jdbcType=BIGINT},
+      </if>
+      <if test="couponRangeType != null" >
+        #{couponRangeType,jdbcType=CHAR},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.coupon.bean.CouponRange" >
+    update np_coupon_range
+    <set >
+      <if test="couponId != null" >
+        coupon_id = #{couponId,jdbcType=BIGINT},
+      </if>
+      <if test="couponRangeFkId != null" >
+        coupon_range_fk_id = #{couponRangeFkId,jdbcType=BIGINT},
+      </if>
+      <if test="couponRangeType != null" >
+        coupon_range_type = #{couponRangeType,jdbcType=CHAR},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where coupon_range_id = #{couponRangeId,jdbcType=BIGINT}
+  </update>
+  
+  
+  
+  <!-- 删除优惠券范围 -->
+  <update id="delAllCouponRange" parameterType="java.lang.Long" >
+    update np_coupon_range
+    set del_flag = '1'
+    where coupon_id = #{couponId,jdbcType=BIGINT}
+  </update>
+  
+  
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.coupon.bean.CouponRange" >
+    update np_coupon_range
+    set coupon_id = #{couponId,jdbcType=BIGINT},
+      coupon_range_fk_id = #{couponRangeFkId,jdbcType=BIGINT},
+      coupon_range_type = #{couponRangeType,jdbcType=CHAR},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where coupon_range_id = #{couponRangeId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ningpai.manager.index.IndexCountBeanMapper">
+	  <resultMap type="com.ningpai.manager.bean.EchartsTimeCount" id="returnMap">
+	  		<result column="ecount"  property="ecount" jdbcType="BIGINT"/>
+	 	 	<result column="etime"  property="etime" jdbcType="VARCHAR"/>
+	  </resultMap>
+  
+	
+	
+		<!--  昨日下单数 subOrderCount; -->
+		<select id="selectSubOrderCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+			select count(1) from np_order where del_flag = '0'
+		    <if test="startTime!=null and startTime!=''">
+		         <![CDATA[ AND create_time >= #{startTime,jdbcType=TIMESTAMP} ]]>
+		     </if>
+		     <if test="startTime!=null and startTime!=''">
+			 	 <![CDATA[ AND create_time <= #{endTime,jdbcType=TIMESTAMP} ]]>  
+			 </if>
+		</select>
+		
+		
+		<!--昨日付款订单数 payOrderCount;-->
+		<select id="selectPayOrderCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+			select count(1) from np_order where del_flag = '0' and order_status IN ('1','2','3')
+			<if test="startTime!=null and startTime!=''">
+		         <![CDATA[ AND create_time >= #{startTime,jdbcType=TIMESTAMP} ]]>
+		     </if>
+		     <if test="startTime!=null and startTime!=''">
+			 	 <![CDATA[ AND create_time <= #{endTime,jdbcType=TIMESTAMP} ]]>
+			 </if>
+		</select>
+		
+		
+		
+		<!--昨日发货订单数量 sendOrderCount;-->
+		<select id="selectSendOrderCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+			select count(1) from np_order where del_flag = '0' and  order_status  in('2','3')
+			<if test="startTime!=null and startTime!=''">
+		         <![CDATA[ AND create_time >= #{startTime,jdbcType=TIMESTAMP} ]]>
+		     </if>
+		     <if test="startTime!=null and startTime!=''">
+			 	 <![CDATA[ AND create_time <= #{endTime,jdbcType=TIMESTAMP} ]]>  
+			 </if>
+		</select>
+		
+		
+		<!--昨日交易额BigDecimal yesterdayTurnover;-->
+		<select id="selectYesterdayTurnover" resultType="java.math.BigDecimal" parameterType="java.util.Map">
+			select ifnull(sum(order_price),0) as order_price from  np_order where del_flag = '0' and  order_status IN ('1','2','3')
+			<if test="startTime!=null and startTime!=''">
+		         <![CDATA[ AND create_time >= #{startTime,jdbcType=TIMESTAMP} ]]>
+		     </if>
+		     <if test="startTime!=null and startTime!=''">
+			 	 <![CDATA[ AND create_time <= #{endTime,jdbcType=TIMESTAMP} ]]>
+			 </if>
+		</select>
+		
+		
+		
+		<!--总交易额 BigDecimal sumTunover;-->
+		<select id="selectSumTunover" resultType="java.math.BigDecimal">
+				select ifnull(sum(order_price),0) from  np_order where del_flag = '0' and  order_status in('1','2','3')
+		</select>
+		
+		
+	
+	
+		<!--库存预警数量 warningCount;-->
+		<select id="selectWarningCount" resultType="java.lang.Integer">
+		 select count(th.id)
+			 from (select goods_info_name as goodname,goods_info_item_no as number,ware_id as wareid,ware_name as warename,ware_stock  as stock,
+			 pp.third_id as third, pp.goods_info_id as id,g.goods_belo_name as storename ,id as stockid from 
+			(select infos.third_id, infos.goods_info_id ,infos.goods_info_name,infos.goods_id,wares.id,
+			wares.ware_id,wares.ware_name,infos.goods_info_item_no,wares.ware_stock 
+			from np_goods_info infos,
+			(select product_id,ware.ware_id,house.ware_name,ware.ware_stock ,ware.id
+			from np_product_ware ware,np_warehouse house where ware.ware_id=house.ware_id and ware.del_flag='0')
+			 wares
+			where infos.goods_info_id = wares.product_id
+			and infos.goods_info_delflag='0'
+			) as pp
+			left join np_goods g
+			on g.goods_id = pp.goods_id
+			where (select sw_value from np_sys_stockwarning)>ware_stock and ware_stock>0
+			   GROUP BY number
+			) th
+		</select>	
+		
+		
+		
+		
+		<!--缺货outOfStock;-->
+		<select id="selectOutOfStock" resultType="java.lang.Integer">
+	 select count(th.id)
+			 from (select goods_info_name as goodname,goods_info_item_no as number,ware_id as wareid,ware_name as warename,ware_stock  as stock,
+			 pp.third_id as third, pp.goods_info_id as id,g.goods_belo_name as storename ,id as stockid from 
+			(select infos.third_id, infos.goods_info_id ,infos.goods_info_name,infos.goods_id,wares.id,
+			wares.ware_id,wares.ware_name,infos.goods_info_item_no,wares.ware_stock 
+			from np_goods_info infos,
+			(select product_id,ware.ware_id,house.ware_name,ware.ware_stock ,ware.id
+			from np_product_ware ware,np_warehouse house where ware.ware_id=house.ware_id and ware.del_flag='0')
+			 wares
+			where infos.goods_info_id = wares.product_id
+			and infos.goods_info_delflag='0'
+			) as pp
+			left join np_goods g
+			on g.goods_id = pp.goods_id
+			where  ware_stock=0
+			   GROUP BY number
+			) th
+		</select>
+		
+		
+		
+		
+		<!--下架数量shelvesCount;-->
+		<select id="selectShelvesCount" resultType="java.lang.Integer">
+			select count(1) from np_goods g ,np_goods_info info 
+			where g.goods_id = info.goods_id
+			and info.goods_info_added = '0'
+			and g.goods_delflag = '0' and info.goods_info_delflag = '0'
+		</select>
+		
+		
+		
+		
+		<!--总数量 sumProduct;-->
+		<select id="selectSumProduct" resultType="java.lang.Integer">
+		select count(1) from np_goods g ,np_goods_info info 
+			where g.goods_id = info.goods_id
+			and g.goods_delflag = '0' and info.goods_info_delflag = '0'
+		</select>
+
+
+	
+		<!--会员新增会员（昨日） newCustomerCount;-->
+		<select id="selectNewCustomerCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+			select count(1) from np_customer cus , np_customer_info info where cus.del_flag = '0' and cus.customer_id = info.customer_id
+			<if test="startTime!=null and startTime!=''">
+		         <![CDATA[ AND create_time >= #{startTime,jdbcType=TIMESTAMP} ]]>
+		     </if>
+		     <if test="startTime!=null and startTime!=''">
+			 	 <![CDATA[ AND create_time <= #{endTime,jdbcType=TIMESTAMP} ]]>  
+			 </if>
+			 and (cus.is_seller = '0' or cus.is_seller = '1')
+		</select>
+		
+		
+		<!--会员总数sumCustomerCount;-->
+		<select id="selectSumCustomerCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select count(1) from np_customer cus , np_customer_info info where cus.customer_id = info.customer_id and cus.del_flag = '0'
+		and (cus.is_seller = '0' or cus.is_seller = '1') 
+		</select>
+		
+		
+		<!--新咨询newConsulting;-->
+		<select id="selectNewConsulting" resultType="java.lang.Integer" parameterType="java.util.Map">
+			select count(1) from  np_comment c where  comment_type!='0' and
+			c.comment_id  not in (SELECT re.comment_id from np_comment_replay re where re.comment_id = c.comment_id) and del_flag='0'
+			<if test="startTime!=null and startTime!=''">
+		         <![CDATA[ AND publish_time >= #{startTime,jdbcType=TIMESTAMP} ]]>
+		     </if>
+		     <if test="startTime!=null and startTime!=''">
+			 	 <![CDATA[ AND publish_time <= #{endTime,jdbcType=TIMESTAMP} ]]>  
+			 </if> 
+			 
+		</select>
+		
+		
+		<!-- 新评论 newComments;--> 
+		<select id="selectNewComments" resultType="java.lang.Integer" parameterType="java.util.Map">
+			select count(1) from  np_comment c where  comment_type='0' and
+			c.comment_id  not in (SELECT re.comment_id from np_comment_replay re where re.comment_id = c.comment_id) and del_flag='0'
+			<if test="startTime!=null and startTime!=''">
+		         <![CDATA[ AND publish_time >= #{startTime,jdbcType=TIMESTAMP} ]]>
+		     </if>
+		     <if test="startTime!=null and startTime!=''">
+			 	 <![CDATA[ AND publish_time <= #{endTime,jdbcType=TIMESTAMP} ]]>  
+			</if>
+		</select>
+		
+		
+		
+		    
+		
+		<select id="selectSubOrderList" parameterType="java.util.Map" resultMap="returnMap">
+		    select left(create_time,10) as etime,count(order_id) as ecount
+		     from np_order  
+		     where 1=1 and del_flag = '0'
+		     <if test="startTime!=null and startTime!=''">
+		         <![CDATA[ AND create_time >= #{startTime} ]]>
+		     </if>
+		     <if test="startTime!=null and startTime!=''">
+			 	 <![CDATA[ AND create_time < #{endTime} ]]>  
+			</if>
+			 group by etime
+		</select>
+		
+		<select id="payorderlist" parameterType="java.util.Map" resultMap="returnMap">
+		     select left(create_time,10) as etime,count(order_id) as ecount
+		     from np_order   
+		     where 1=1  and  order_status in('1','2','3') and del_flag = '0'
+		     <if test="startTime!=null and startTime!=''">
+		         <![CDATA[ AND create_time >= #{startTime} ]]>
+		     </if>
+		     <if test="startTime!=null and startTime!=''">
+			 	 <![CDATA[ AND create_time < #{endTime} ]]>  
+			</if>
+			 group by etime
+		</select>
+		
+		<select id="sendorderlist" parameterType="java.util.Map" resultMap="returnMap">
+		      select left(create_time,10) as etime,count(order_id) as ecount
+		     from np_order  
+		     where 1=1  and  order_status  in('2','3') and del_flag = '0'
+		     <if test="startTime!=null and startTime!=''">
+		         <![CDATA[ AND create_time >= #{startTime} ]]>
+		     </if>
+		     <if test="startTime!=null and startTime!=''">
+			 	 <![CDATA[ AND create_time < #{endTime} ]]>  
+			</if>
+			 group by etime
+		    
+		</select>
+</mapper>

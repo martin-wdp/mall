@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.third.mybatis.mapper.DomainCustomMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.third.sld.bean.DomainCustom" >
+    <id column="dm_cu_id" property="dmCuId" jdbcType="BIGINT" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="domain" property="domain" jdbcType="VARCHAR" />
+    <result column="introduce" property="introduce" jdbcType="VARCHAR" />
+    <result column="use_flag" property="useFlag" jdbcType="CHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="del_time" property="delTime" jdbcType="TIMESTAMP" />
+    <result column="emp01" property="emp01" jdbcType="VARCHAR" />
+    <result column="emp02" property="emp02" jdbcType="VARCHAR" />
+    <result column="emp03" property="emp03" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    dm_cu_id, customer_id, domain, introduce, use_flag, del_flag, create_time, update_time, 
+    del_time, emp01, emp02, emp03
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_domain_custom
+    where dm_cu_id = #{dmCuId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_domain_custom
+    where dm_cu_id = #{dmCuId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.third.sld.bean.DomainCustom" >
+    insert into np_domain_custom (dm_cu_id, customer_id, domain, 
+      introduce, use_flag, del_flag, 
+      create_time, update_time, del_time, 
+      emp01, emp02, emp03
+      )
+    values (#{dmCuId,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, #{domain,jdbcType=VARCHAR}, 
+      #{introduce,jdbcType=VARCHAR}, #{useFlag,jdbcType=CHAR}, #{delFlag,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{delTime,jdbcType=TIMESTAMP}, 
+      #{emp01,jdbcType=VARCHAR}, #{emp02,jdbcType=VARCHAR}, #{emp03,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.third.sld.bean.DomainCustom" >
+    insert into np_domain_custom
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dmCuId != null" >
+        dm_cu_id,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="domain != null" >
+        domain,
+      </if>
+      <if test="introduce != null" >
+        introduce,
+      </if>
+      <if test="useFlag != null" >
+        use_flag,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="delTime != null" >
+        del_time,
+      </if>
+      <if test="emp01 != null" >
+        emp01,
+      </if>
+      <if test="emp02 != null" >
+        emp02,
+      </if>
+      <if test="emp03 != null" >
+        emp03,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dmCuId != null" >
+        #{dmCuId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="domain != null" >
+        #{domain,jdbcType=VARCHAR},
+      </if>
+      <if test="introduce != null" >
+        #{introduce,jdbcType=VARCHAR},
+      </if>
+      <if test="useFlag != null" >
+        #{useFlag,jdbcType=CHAR},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delTime != null" >
+        #{delTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="emp01 != null" >
+        #{emp01,jdbcType=VARCHAR},
+      </if>
+      <if test="emp02 != null" >
+        #{emp02,jdbcType=VARCHAR},
+      </if>
+      <if test="emp03 != null" >
+        #{emp03,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.third.sld.bean.DomainCustom" >
+    update np_domain_custom
+    <set >
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="domain != null" >
+        domain = #{domain,jdbcType=VARCHAR},
+      </if>
+      <if test="introduce != null" >
+        introduce = #{introduce,jdbcType=VARCHAR},
+      </if>
+      <if test="useFlag != null" >
+        use_flag = #{useFlag,jdbcType=CHAR},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delTime != null" >
+        del_time = #{delTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="emp01 != null" >
+        emp01 = #{emp01,jdbcType=VARCHAR},
+      </if>
+      <if test="emp02 != null" >
+        emp02 = #{emp02,jdbcType=VARCHAR},
+      </if>
+      <if test="emp03 != null" >
+        emp03 = #{emp03,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where dm_cu_id = #{dmCuId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.third.sld.bean.DomainCustom" >
+    update np_domain_custom
+    set customer_id = #{customerId,jdbcType=BIGINT},
+      domain = #{domain,jdbcType=VARCHAR},
+      introduce = #{introduce,jdbcType=VARCHAR},
+      use_flag = #{useFlag,jdbcType=CHAR},
+      del_flag = #{delFlag,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      del_time = #{delTime,jdbcType=TIMESTAMP},
+      emp01 = #{emp01,jdbcType=VARCHAR},
+      emp02 = #{emp02,jdbcType=VARCHAR},
+      emp03 = #{emp03,jdbcType=VARCHAR}
+    where dm_cu_id = #{dmCuId,jdbcType=BIGINT}
+  </update>
+
+  <select id="findAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_domain_custom
+    where del_flag = '0'
+  </select>
+  
+  <select id="findByCustId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  	select
+  	<include refid="Base_Column_List" />
+    from np_domain_custom
+    where  del_flag = '0'
+    and customer_id = #{customerId,jdbcType=BIGINT}
+  </select>
+  
+  <!-- 检查是否存在域名名称 -->
+  <select id="findByDomain" parameterType="java.lang.String" resultType="java.lang.Long">
+  	select count(1)
+    from np_domain_custom
+    where  del_flag = '0'
+    and domain = #{domain,jdbcType=VARCHAR}
+  </select>
+</mapper>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.GrandBrandMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.thirdaudit.bean.GrandBrand" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="third_id" property="thirdId" jdbcType="BIGINT" />
+    <result column="brand_id" property="brandId" jdbcType="BIGINT" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="rate_status" property="rateStatus" jdbcType="CHAR" />
+    <result column="rate_time" property="rateTime" jdbcType="TIMESTAMP" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, third_id, brand_id, del_flag, modify_time, rate_status, rate_time, reason
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_third_grandbrand
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_third_grandbrand
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.thirdaudit.bean.GrandBrand" >
+    insert into np_third_grandbrand (id, third_id, brand_id, 
+      del_flag, modify_time, rate_status, 
+      rate_time, reason)
+    values (#{id,jdbcType=BIGINT}, #{thirdId,jdbcType=BIGINT}, #{brandId,jdbcType=BIGINT}, 
+      #{delFlag,jdbcType=CHAR}, #{modifyTime,jdbcType=TIMESTAMP}, #{rateStatus,jdbcType=CHAR}, 
+      #{rateTime,jdbcType=TIMESTAMP}, #{reason,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertGrandBrand" parameterType="com.ningpai.thirdaudit.bean.GrandBrand" >
+    insert into np_third_grandbrand
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="thirdId != null" >
+        third_id,
+      </if>
+      <if test="brandId != null" >
+        brand_id,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="rateStatus != null" >
+        rate_status,
+      </if>
+      <if test="rateTime != null" >
+        rate_time,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="thirdId != null" >
+        #{thirdId,jdbcType=BIGINT},
+      </if>
+      <if test="brandId != null" >
+        #{brandId,jdbcType=BIGINT},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rateStatus != null" >
+        #{rateStatus,jdbcType=CHAR},
+      </if>
+      <if test="rateTime != null" >
+        #{rateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.thirdaudit.bean.GrandBrand" >
+    update np_third_grandbrand
+    <set >
+      <if test="thirdId != null" >
+        third_id = #{thirdId,jdbcType=BIGINT},
+      </if>
+      <if test="brandId != null" >
+        brand_id = #{brandId,jdbcType=BIGINT},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rateStatus != null" >
+        rate_status = #{rateStatus,jdbcType=CHAR},
+      </if>
+      <if test="rateTime != null" >
+        rate_time = #{rateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.thirdaudit.bean.GrandBrand" >
+    update np_third_grandbrand
+    set third_id = #{thirdId,jdbcType=BIGINT},
+      brand_id = #{brandId,jdbcType=BIGINT},
+      del_flag = #{delFlag,jdbcType=CHAR},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      rate_status = #{rateStatus,jdbcType=CHAR},
+      rate_time = #{rateTime,jdbcType=TIMESTAMP},
+      reason = #{reason,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

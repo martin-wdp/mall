@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.customer.dao.PunishRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.customer.bean.PunishRecord" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="third_id" property="thirdId" jdbcType="BIGINT" />
+    <result column="punish_id" property="punishId" jdbcType="BIGINT" />
+    <result column="punish_reason" property="punishReason" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="operator_id" property="operatorId" jdbcType="BIGINT" />
+    <result column="operator_name" property="operatorName" jdbcType="VARCHAR" />
+    <result column="close_stime" property="closeStime" jdbcType="TIMESTAMP" />
+    <result column="close_etime" property="closeEtime" jdbcType="TIMESTAMP" />
+    <result column="reduce_point" property="reducePoint" jdbcType="INTEGER" />
+    <result column="reduce_money" property="reduceMoney" jdbcType="DECIMAL" />
+    <result column="rmoney_state" property="rmoneyState" jdbcType="CHAR" />
+    <result column="limit_count" property="limitCount" jdbcType="INTEGER" />
+    <result column="limit_stime" property="limitStime" jdbcType="TIMESTAMP" />
+    <result column="limit_etime" property="limitEtime" jdbcType="TIMESTAMP" />
+    <result column="storeName" property="storeName" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, third_id, punish_id, punish_reason, create_time, operator_id, operator_name, 
+    close_stime, close_etime, reduce_point, reduce_money, rmoney_state, limit_count, 
+    limit_stime, limit_etime
+  </sql>
+  
+  <sql id="Punished_Column_List">
+  store.store_name storeName ,re.punish_id,re.punish_reason,re.create_time,re.close_stime,re.close_etime,re.reduce_money,re.rmoney_state,re.limit_stime,re.limit_etime  
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_customer_punish_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_customer_punish_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.customer.bean.PunishRecord" >
+    insert into np_customer_punish_record (id, third_id, punish_id, 
+      punish_reason, create_time, operator_id, 
+      operator_name, close_stime, close_etime, 
+      reduce_point, reduce_money, rmoney_state, 
+      limit_count, limit_stime, limit_etime
+      )
+    values (#{id,jdbcType=BIGINT}, #{thirdId,jdbcType=BIGINT}, #{punishId,jdbcType=BIGINT}, 
+      #{punishReason,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{operatorId,jdbcType=BIGINT}, 
+      #{operatorName,jdbcType=VARCHAR}, #{closeStime,jdbcType=TIMESTAMP}, #{closeEtime,jdbcType=TIMESTAMP}, 
+      #{reducePoint,jdbcType=INTEGER}, #{reduceMoney,jdbcType=DECIMAL}, #{rmoneyState,jdbcType=CHAR}, 
+      #{limitCount,jdbcType=INTEGER}, #{limitStime,jdbcType=TIMESTAMP}, #{limitEtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.customer.bean.PunishRecord" >
+    insert into np_customer_punish_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="thirdId != null" >
+        third_id,
+      </if>
+      <if test="punishId != null" >
+        punish_id,
+      </if>
+      <if test="punishReason != null" >
+        punish_reason,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="operatorId != null" >
+        operator_id,
+      </if>
+      <if test="operatorName != null" >
+        operator_name,
+      </if>
+      <if test="closeStime != null" >
+        close_stime,
+      </if>
+      <if test="closeEtime != null" >
+        close_etime,
+      </if>
+      <if test="reducePoint != null" >
+        reduce_point,
+      </if>
+      <if test="reduceMoney != null" >
+        reduce_money,
+      </if>
+      <if test="rmoneyState != null" >
+        rmoney_state,
+      </if>
+      <if test="limitCount != null" >
+        limit_count,
+      </if>
+      <if test="limitStime != null" >
+        limit_stime,
+      </if>
+      <if test="limitEtime != null" >
+        limit_etime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="thirdId != null" >
+        #{thirdId,jdbcType=BIGINT},
+      </if>
+      <if test="punishId != null" >
+        #{punishId,jdbcType=BIGINT},
+      </if>
+      <if test="punishReason != null" >
+        #{punishReason,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operatorId != null" >
+        #{operatorId,jdbcType=BIGINT},
+      </if>
+      <if test="operatorName != null" >
+        #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="closeStime != null" >
+        #{closeStime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="closeEtime != null" >
+        #{closeEtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reducePoint != null" >
+        #{reducePoint,jdbcType=INTEGER},
+      </if>
+      <if test="reduceMoney != null" >
+        #{reduceMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="rmoneyState != null" >
+        #{rmoneyState,jdbcType=CHAR},
+      </if>
+      <if test="limitCount != null" >
+        #{limitCount,jdbcType=INTEGER},
+      </if>
+      <if test="limitStime != null" >
+        #{limitStime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="limitEtime != null" >
+        #{limitEtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.customer.bean.PunishRecord" >
+    update np_customer_punish_record
+    <set >
+      <if test="thirdId != null" >
+        third_id = #{thirdId,jdbcType=BIGINT},
+      </if>
+      <if test="punishId != null" >
+        punish_id = #{punishId,jdbcType=BIGINT},
+      </if>
+      <if test="punishReason != null" >
+        punish_reason = #{punishReason,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operatorId != null" >
+        operator_id = #{operatorId,jdbcType=BIGINT},
+      </if>
+      <if test="operatorName != null" >
+        operator_name = #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="closeStime != null" >
+        close_stime = #{closeStime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="closeEtime != null" >
+        close_etime = #{closeEtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reducePoint != null" >
+        reduce_point = #{reducePoint,jdbcType=INTEGER},
+      </if>
+      <if test="reduceMoney != null" >
+        reduce_money = #{reduceMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="rmoneyState != null" >
+        rmoney_state = #{rmoneyState,jdbcType=CHAR},
+      </if>
+      <if test="limitCount != null" >
+        limit_count = #{limitCount,jdbcType=INTEGER},
+      </if>
+      <if test="limitStime != null" >
+        limit_stime = #{limitStime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="limitEtime != null" >
+        limit_etime = #{limitEtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.customer.bean.PunishRecord" >
+    update np_customer_punish_record
+    set third_id = #{thirdId,jdbcType=BIGINT},
+      punish_id = #{punishId,jdbcType=BIGINT},
+      punish_reason = #{punishReason,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      operator_id = #{operatorId,jdbcType=BIGINT},
+      operator_name = #{operatorName,jdbcType=VARCHAR},
+      close_stime = #{closeStime,jdbcType=TIMESTAMP},
+      close_etime = #{closeEtime,jdbcType=TIMESTAMP},
+      reduce_point = #{reducePoint,jdbcType=INTEGER},
+      reduce_money = #{reduceMoney,jdbcType=DECIMAL},
+      rmoney_state = #{rmoneyState,jdbcType=CHAR},
+      limit_count = #{limitCount,jdbcType=INTEGER},
+      limit_stime = #{limitStime,jdbcType=TIMESTAMP},
+      limit_etime = #{limitEtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="queryInfoByThirdId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+   select 
+  <include refid="Base_Column_List" />  
+   from np_customer_punish_record
+   where third_id = #{thirdId,jdbcType=BIGINT}  
+  </select>
+  
+  <select id="queryInfoByTidandDate" resultMap="BaseResultMap" parameterType="java.lang.Long">
+   select 
+  <include refid="Base_Column_List" />  
+   from np_customer_punish_record
+   where third_id = #{thirdId,jdbcType=BIGINT} 
+   and ((SYSDATE() BETWEEN close_stime  AND close_etime)OR (SYSDATE() BETWEEN limit_stime  AND limit_etime)) 
+  </select>
+  
+  
+  <select id="selectRecordByPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+  select 
+  <include refid="Base_Column_List" />  
+   from np_customer_punish_record
+   where third_id=#{thirdId}
+   ORDER BY id desc
+   limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <select id="selectAllCountByTid" resultType="java.lang.Integer"  parameterType="java.lang.Long">
+  select count(1)  from np_customer_punish_record where third_id=#{thirdId}
+  </select>
+  
+  <select id="selectPunishedRecordByPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+   select
+   <include refid="Punished_Column_List" />
+   from np_customer_punish_record  re
+   LEFT JOIN  np_third_store_info store
+   on store.store_id=re.third_id
+   <if test="condition!=null and condition!='' and condition==1">
+  		where store.store_name like  CONCAT(CONCAT('%', #{searchText},'%'))
+  	</if>
+  	ORDER BY id desc
+   limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <select id="selectPunishedAllCountByTid" resultType="java.lang.Integer" parameterType="java.util.Map" >
+  select count(1) from np_customer_punish_record re
+  LEFT JOIN  np_third_store_info store
+  on store.store_id=re.third_id
+  <if test="condition!=null and condition!='' and condition==1">
+  		where store.store_name like  CONCAT(CONCAT('%', #{searchText},'%'))
+  </if>
+  
+  
+  </select>
+  
+  
+  
+  
+</mapper>

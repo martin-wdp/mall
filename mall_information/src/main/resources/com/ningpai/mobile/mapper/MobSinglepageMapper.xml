@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.mobile.mapper.MobSinglepageMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.mobile.bean.MobSinglepage" >
+    <id column="singlepage_id" property="singlepageId" jdbcType="BIGINT" />
+    <result column="merchant_id" property="merchantId" jdbcType="BIGINT" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="keyword" property="keyword" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="mark_id" property="markId" jdbcType="BIGINT" />
+    <result column="is_show" property="isShow" jdbcType="CHAR" />
+    <result column="delflag" property="delflag" jdbcType="CHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="temp1" property="temp1" jdbcType="VARCHAR" />
+    <result column="temp2" property="temp2" jdbcType="VARCHAR" />
+    <result column="temp3" property="temp3" jdbcType="VARCHAR" />
+    <result column="temp4" property="temp4" jdbcType="VARCHAR" />
+    <result column="temp5" property="temp5" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="QueryResultMap" type="com.ningpai.mobile.vo.MobSinglepageVo" >
+    <id column="singlepage_id" property="singlepageId" jdbcType="BIGINT" />    
+    <result column="title" property="title" jdbcType="VARCHAR" />    
+    <result column="is_show" property="isShow" jdbcType="CHAR" />  
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="ResultMapWithBLOBs" type="com.ningpai.mobile.bean.MobSinglepage" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    singlepage_id, merchant_id, title, keyword, description, mark_id, is_show, delflag, create_user_id, 
+    create_date, update_user_id, update_date, temp1, temp2, temp3, temp4, temp5
+  </sql>
+  
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from np_mob_singlepage
+    where singlepage_id = #{singlepageId,jdbcType=BIGINT}
+  </select>
+  
+  <!-- 条件分页查询 -->
+  <select id="queryMobByPage" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map">
+   select 
+    <include refid="Base_Column_List" />    
+    from np_mob_singlepage   
+    where delflag = '0'
+    <if test="condition!=null and condition!='' and condition==1">
+  		and title like  CONCAT(CONCAT('%', #{searchText},'%'))
+  	</if>
+    order by create_date desc,update_date desc
+    limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <!-- 左连接查询 -->
+  <select id="newQueryMobByPage" resultMap="QueryResultMap" parameterType="java.util.Map">
+  	select mp.singlepage_id,mp.title,mm.name, mp.is_show,mp.update_date  from np_mob_singlepage mp 
+  	left JOIN np_mob_singlepage_mark mm 
+	on mp.mark_id=mm.mark_id
+	where mp.delflag='0'
+	<if test="condition!=null and condition!='' and condition==1">
+  		and (mp.title like  CONCAT(CONCAT('%', #{searchText},'%'))
+  		or mm.name like CONCAT(CONCAT('%', #{searchText},'%')))
+  	</if>
+ 	order by mp.create_date desc,mp.update_date desc
+  	limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <!-- 条件查询总条数 -->
+  <select id="queryMobAllCount" resultType="java.lang.Integer"  parameterType="java.util.Map">
+  select count(1) from np_mob_singlepage where delflag='0'
+  <if test="condition!=null and condition!='' and condition==1">
+  		and title like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  </if>  
+  </select>
+  
+  <!--新条件查询总条数  -->
+  <select id="newQueryMobAllCount" resultType="java.lang.Integer"  parameterType="java.util.Map">
+  select count(1)  from np_mob_singlepage mp 
+  left JOIN np_mob_singlepage_mark mm on mp.mark_id=mm.mark_id
+  where mp.delflag='0'  
+  <if test="condition!=null and condition!='' and condition==1">
+  		and (mp.title like  CONCAT(CONCAT('%', #{searchText},'%'))
+  		or mm.name like CONCAT(CONCAT('%', #{searchText},'%')))
+  </if>  
+  </select>
+  
+  <!-- 查询某个标签的总数 -->
+  <select id="queryCountByMarkId" resultType="java.lang.Integer" parameterType="java.lang.Long">
+ 	 select count(singlepage_id) from np_mob_singlepage where mark_id= #{markId,jdbcType=BIGINT} and delflag='0'
+  </select>
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_mob_singlepage
+    where singlepage_id = #{singlepageId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.mobile.bean.MobSinglepage" >
+    insert into np_mob_singlepage (singlepage_id, merchant_id, title, 
+      keyword, description, mark_id, 
+      is_show, delflag, create_user_id, 
+      create_date, update_user_id, update_date, 
+      temp1, temp2, temp3, 
+      temp4, temp5, content
+      )
+    values (#{singlepageId,jdbcType=BIGINT}, #{merchantId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, 
+      #{keyword,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{markId,jdbcType=BIGINT}, 
+      #{isShow,jdbcType=CHAR}, #{delflag,jdbcType=CHAR}, #{createUserId,jdbcType=BIGINT}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{temp1,jdbcType=VARCHAR}, #{temp2,jdbcType=VARCHAR}, #{temp3,jdbcType=VARCHAR}, 
+      #{temp4,jdbcType=VARCHAR}, #{temp5,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.mobile.bean.MobSinglepage" >
+  	<selectKey keyProperty="singlepageId" resultType="long">
+		select LAST_INSERT_ID() 
+	</selectKey> 
+    insert into np_mob_singlepage
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="singlepageId != null" >
+        singlepage_id,
+      </if>
+      <if test="merchantId != null" >
+        merchant_id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="keyword != null" >
+        keyword,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="markId != null" >
+        mark_id,
+      </if>
+      <if test="isShow != null" >
+        is_show,
+      </if>
+      <if test="delflag != null" >
+        delflag,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="temp1 != null" >
+        temp1,
+      </if>
+      <if test="temp2 != null" >
+        temp2,
+      </if>
+      <if test="temp3 != null" >
+        temp3,
+      </if>
+      <if test="temp4 != null" >
+        temp4,
+      </if>
+      <if test="temp5 != null" >
+        temp5,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="singlepageId != null" >
+        #{singlepageId,jdbcType=BIGINT},
+      </if>
+      <if test="merchantId != null" >
+        #{merchantId,jdbcType=BIGINT},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="keyword != null" >
+        #{keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="markId != null" >
+        #{markId,jdbcType=BIGINT},
+      </if>
+      <if test="isShow != null" >
+        #{isShow,jdbcType=CHAR},
+      </if>
+      <if test="delflag != null" >
+        #{delflag,jdbcType=CHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temp1 != null" >
+        #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null" >
+        #{temp2,jdbcType=VARCHAR},
+      </if>
+      <if test="temp3 != null" >
+        #{temp3,jdbcType=VARCHAR},
+      </if>
+      <if test="temp4 != null" >
+        #{temp4,jdbcType=VARCHAR},
+      </if>
+      <if test="temp5 != null" >
+        #{temp5,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <!-- 更新 -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.mobile.bean.MobSinglepage" >
+    update np_mob_singlepage
+    <set >
+      <if test="merchantId != null" >
+        merchant_id = #{merchantId,jdbcType=BIGINT},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="keyword != null" >
+        keyword = #{keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="markId != null" >
+        mark_id = #{markId,jdbcType=BIGINT},
+      </if>
+      <if test="isShow != null" >
+        is_show = #{isShow,jdbcType=CHAR},
+      </if>
+      <if test="delflag != null" >
+        delflag = #{delflag,jdbcType=CHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temp1 != null" >
+        temp1 = #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null" >
+        temp2 = #{temp2,jdbcType=VARCHAR},
+      </if>
+      <if test="temp3 != null" >
+        temp3 = #{temp3,jdbcType=VARCHAR},
+      </if>
+      <if test="temp4 != null" >
+        temp4 = #{temp4,jdbcType=VARCHAR},
+      </if>
+      <if test="temp5 != null" >
+        temp5 = #{temp5,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where singlepage_id = #{singlepageId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ningpai.mobile.bean.MobSinglepage" >
+    update np_mob_singlepage
+    set merchant_id = #{merchantId,jdbcType=BIGINT},
+      title = #{title,jdbcType=VARCHAR},
+      keyword = #{keyword,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      mark_id = #{markId,jdbcType=BIGINT},
+      is_show = #{isShow,jdbcType=CHAR},
+      delflag = #{delflag,jdbcType=CHAR},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      temp1 = #{temp1,jdbcType=VARCHAR},
+      temp2 = #{temp2,jdbcType=VARCHAR},
+      temp3 = #{temp3,jdbcType=VARCHAR},
+      temp4 = #{temp4,jdbcType=VARCHAR},
+      temp5 = #{temp5,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where singlepage_id = #{singlepageId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.mobile.bean.MobSinglepage" >
+    update np_mob_singlepage
+    set merchant_id = #{merchantId,jdbcType=BIGINT},
+      title = #{title,jdbcType=VARCHAR},
+      keyword = #{keyword,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      mark_id = #{markId,jdbcType=BIGINT},
+      is_show = #{isShow,jdbcType=CHAR},
+      delflag = #{delflag,jdbcType=CHAR},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      temp1 = #{temp1,jdbcType=VARCHAR},
+      temp2 = #{temp2,jdbcType=VARCHAR},
+      temp3 = #{temp3,jdbcType=VARCHAR},
+      temp4 = #{temp4,jdbcType=VARCHAR},
+      temp5 = #{temp5,jdbcType=VARCHAR}
+    where singlepage_id = #{singlepageId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 逻辑删除-->
+  <update id="updatedelstatus" parameterType="java.lang.Long">
+  	update np_mob_singlepage set delflag='1' where singlepage_id = #{singlepageId,jdbcType=BIGINT}
+  </update>
+  
+</mapper>

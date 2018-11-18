@@ -1,0 +1,35 @@
+#jSuggestContainer {
+position:absolute;
+font: 12px Tahoma;
+border:1px solid #ffb931;
+border-top:0;
+background:#FFF;
+}
+
+.jSuggestLoading {
+font-style:italic;
+padding: 10px;
+}
+
+#jSuggestContainer ul, #jSuggestContainer ul li{
+margin: 0;
+padding:0;
+list-style:none;
+}
+
+#jSuggestContainer ul li{
+padding: 2px 4px;
+border-bottom: 1px dotted #ffe594;
+color:#666;
+background:#fff9e7;
+cursor:pointer
+}
+
+#jSuggestContainer ul li.last{
+border-bottom: 0;
+}
+
+#jSuggestContainer ul li.jSuggestHover{
+background:#ffeaaa;
+color:#333;
+}

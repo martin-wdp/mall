@@ -1,0 +1,224 @@
+@charset "utf-8";
+
+.wp {
+    width: 1200px;
+    margin: 0 auto;
+    color:#ddd;
+}
+
+.service {
+    border-top: 1px solid #272727;
+    padding: 20px 20px;
+}
+
+.svc_box {
+    padding-left: 40px;
+    width: 150px;
+   /* padding-top: 20px;*/
+    padding-bottom: 20px;
+    min-height: 50px;
+}
+
+.svc_box dt {
+    font-size: 14px;
+    font-weight: 700;
+    font-family: Microsoft YaHei;
+}
+
+.svc_box dd {
+    margin-top: 5px;
+}
+
+.svc_box dd div {
+    line-height: 20px;
+}
+.svc_box dd div a{color:#B1B1B1;font-family: Microsoft YaHei;}
+.svc_box dd div a:hover{color:#FFBA15;}
+/* 2015.10.26 wuyanbo add 网站右下角客服电话 */
+.foot_tel{
+    float: left;
+    width:160px;
+    height:120px;
+    background: url(icons/foot_telphone.png) no-repeat center 0px;
+}
+
+.svc_01 {
+    background: url(../images/svc_01.gif) no-repeat left top;
+}
+
+.svc_02 {
+    background: url(../images/svc_02.gif) no-repeat left top;
+}
+
+.svc_03 {
+    background: url(../images/svc_03.gif) no-repeat left top;
+}
+
+.svc_04 {
+    background: url(../images/svc_04.gif) no-repeat left top;
+}
+
+.svc_05 {
+    background: url(../images/svc_05.gif) no-repeat left top;
+}
+
+.service_intro {
+    width: 205px;
+    height: 150px;
+    background: url(../images/map_img.gif) no-repeat;
+    padding-top: 5px;
+}
+
+.service_intro h3 {
+    font-size: 14px;
+    font-weight: 700;
+    font-family: Microsoft YaHei;
+}
+
+.service_intro p {
+    line-height: 20px;
+    margin-top: 5px;
+}
+
+.service_intro .view_more {
+    color: #005ea7;
+}
+
+.footer {
+    height:60px;
+    padding-top: 20px;
+    background-color: #262626;
+    color:#656565;
+    text-align:center;
+}
+#cnzz_stat_icon_1257347068{ display: none;}
+.ft_links_tc{width:800px;margin:0 auto;}
+.ft_links li {
+    /*display: inline-block;
+    zoom: 1;
+    *display: inline !important;
+    margin: 0 5px;*/
+    float:left;
+    padding:0 10px;
+    font-family: Microsoft YaHei;
+}
+.ft_links li:nth-child(2){border-left:1px solid #656565;border-right:1px solid #656565;height:12px;line-height:12px;margin-top:4px;}
+.ft_links li:nth-child(4){width:100%;}
+.auth_wp a {
+    margin: 0 5px;
+}
+
+.side_tools {
+    width: 40px;
+    background: none;
+    position: fixed;
+    right: 20px;
+    display: none;
+}
+
+.side_tools li {
+    float: left;
+    width: 38px;
+    border-style: solid;
+    border-width: 0 1px;
+    border-color: #ddd;
+    text-align: center;
+    cursor: pointer;
+}
+
+.side_tools li span {
+    display: block;
+    height: 30px;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #eee;
+}
+
+.side_tools .first_tool span {
+    border-top: 1px solid #ddd;
+}
+
+.side_tools .last_tool span {
+    border-bottom-color: #ddd;
+}
+
+.side_tools li em {
+    display: none;
+    padding: 0 5px;
+    line-height: 14px;
+    padding: 2px 5px;
+    *padding: 2px 5px;
+}
+
+.side_tools li img {
+    padding: 5px 0;
+}
+
+.side_tools .hover em {
+    display: block;
+}
+
+.side_tools .hover img {
+    display: none;
+}
+
+.side_tools .cur em {
+    display: block;
+    color: #fff;
+}
+
+.side_tools .cur img {
+    display: none;
+}
+
+ .feedback, .customer_service {
+    margin-top: 0px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    display: block;
+    width: 70px;
+    height: 110px;
+    text-align: center;
+}
+
+.customer_service {
+    border-top: 0px;
+}
+
+.backtotop em, .feedback em, .customer_service em {
+    display: none;
+}
+
+.backtotop b {
+    display: block;
+    width: 38px;
+    height: 33px;
+    background: url(../../images/backtotop.gif) no-repeat;
+}
+
+.backtotop:hover b, .feedback:hover b, .customer_service:hover b {
+   /* display: none;*/
+}
+
+.backtotop:hover em, .feedback:hover em, .customer_service:hover em {
+   /* display: block;
+    padding: 0 5px;
+    margin-top: 2px;
+    line-height: 14px;
+    color: #fff !important;*/
+}
+
+.feedback b {
+    display: block;
+    width: 70px;
+    height: 50px;
+    background: url(../css/icons/icon_Feedback.png) no-repeat center center;
+}
+
+.customer_service b {
+    display: block;
+    width: 70px;
+    height: 110px;
+    background: url(../css/icons/icon_service.png) #efefef no-repeat center center;
+}
+
+

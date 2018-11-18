@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.third.seller.mapper.StoreContactMapper">
+	<resultMap id="BaseResultMap" type="com.ningpai.third.seller.bean.StoreContact">
+		<id column="con_id" property="conId" jdbcType="BIGINT" />
+		<result column="store_id" property="storeId" jdbcType="BIGINT" />
+		<result column="type" property="type" jdbcType="CHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="pho" property="pho" jdbcType="VARCHAR" />
+		<result column="tel" property="tel" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="qq" property="qq" jdbcType="VARCHAR" />
+		<result column="del_flag" property="delFlag" jdbcType="CHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		con_id, store_id, type, name, pho, tel, email, qq, del_flag
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from np_store_contact
+		where con_id = #{conId,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		np_store_contact
+		where con_id = #{conId,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.ningpai.third.seller.bean.StoreContact">
+		insert into np_store_contact
+		(con_id, store_id, type,
+		name, pho, tel, email,
+		qq, del_flag)
+		values
+		(#{conId,jdbcType=BIGINT}, #{storeId,jdbcType=BIGINT},
+		#{type,jdbcType=CHAR},
+		#{name,jdbcType=VARCHAR},
+		#{pho,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR},
+		#{email,jdbcType=VARCHAR},
+		#{qq,jdbcType=VARCHAR},
+		#{delFlag,jdbcType=CHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.ningpai.third.seller.bean.StoreContact">
+		insert into np_third_store_contact
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="conId != null">
+				con_id,
+			</if>
+			<if test="storeId != null">
+				store_id,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="pho != null">
+				pho,
+			</if>
+			<if test="tel != null">
+				tel,
+			</if>
+			<if test="email != null">
+				email,
+			</if>
+			<if test="qq != null">
+				qq,
+			</if>
+			<if test="delFlag != null">
+				del_flag,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="conId != null">
+				#{conId,jdbcType=BIGINT},
+			</if>
+			<if test="storeId != null">
+				#{storeId,jdbcType=BIGINT},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=CHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="pho != null">
+				#{pho,jdbcType=VARCHAR},
+			</if>
+			<if test="tel != null">
+				#{tel,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+			<if test="qq != null">
+				#{qq,jdbcType=VARCHAR},
+			</if>
+			<if test="delFlag != null">
+				#{delFlag,jdbcType=CHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.ningpai.third.seller.bean.StoreContact">
+		update np_third_store_contact
+		<set>
+			<if test="conId != null">
+				con_id = #{conId,jdbcType=BIGINT},
+			</if>
+			<if test="storeId != null">
+				store_id = #{storeId,jdbcType=BIGINT},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=CHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="pho != null">
+				pho = #{pho,jdbcType=VARCHAR},
+			</if>
+			<if test="tel != null">
+				tel = #{tel,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				email = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="qq != null">
+				qq = #{qq,jdbcType=VARCHAR},
+			</if>
+			<if test="delFlag != null">
+				del_flag = #{delFlag,jdbcType=CHAR},
+			</if>
+		</set>
+		where con_id = #{conId,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.ningpai.third.seller.bean.StoreContact">
+		update
+		np_store_contact
+		set store_id = #{storeId,jdbcType=BIGINT},
+		type =
+		#{type,jdbcType=CHAR},
+		name = #{name,jdbcType=VARCHAR},
+		pho =
+		#{pho,jdbcType=VARCHAR},
+		tel = #{tel,jdbcType=VARCHAR},
+		email =
+		#{email,jdbcType=VARCHAR},
+		qq = #{qq,jdbcType=VARCHAR},
+		del_flag =
+		#{delFlag,jdbcType=CHAR}
+		where con_id = #{conId,jdbcType=BIGINT}
+	</update>
+
+	<select id="selectByStoreId" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from np_third_store_contact
+		where store_id =#{storeId,jdbcType=BIGINT}
+		and del_flag = '0'
+		ORDER BY type
+	</select>
+	<insert id="insertStoreSelective" parameterType="com.ningpai.third.seller.bean.StoreContact">
+		insert into np_third_store_contact
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="conId != null">
+				con_id,
+			</if>
+			<if test="storeId != null">
+				store_id,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="pho != null">
+				pho,
+			</if>
+			<if test="tel != null">
+				tel,
+			</if>
+			<if test="email != null">
+				email,
+			</if>
+			<if test="qq != null">
+				qq,
+			</if>
+				del_flag,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="conId != null">
+				#{conId,jdbcType=BIGINT},
+			</if>
+			<if test="storeId != null">
+				#{storeId,jdbcType=BIGINT},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=CHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="pho != null">
+				#{pho,jdbcType=VARCHAR},
+			</if>
+			<if test="tel != null">
+				#{tel,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+			<if test="qq != null">
+				#{qq,jdbcType=VARCHAR},
+			</if>
+				'0',
+		</trim>
+	</insert>
+</mapper>

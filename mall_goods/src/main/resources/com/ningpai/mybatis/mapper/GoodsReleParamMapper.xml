@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.goods.dao.GoodsReleParamMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsReleParam" >
+    <id column="rele_param_id" property="releParamId" jdbcType="BIGINT" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="param_id" property="paramId" jdbcType="BIGINT" />
+    <result column="param_value" property="paramValue" jdbcType="VARCHAR" />
+    <result column="param_create_name" property="paramCreateName" jdbcType="VARCHAR" />
+    <result column="param_create_time" property="paramCreateTime" jdbcType="TIMESTAMP" />
+    <result column="param_modified_name" property="paramModifiedName" jdbcType="VARCHAR" />
+    <result column="param_modified_time" property="paramModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="param_del_name" property="paramDelName" jdbcType="VARCHAR" />
+    <result column="param_del_time" property="paramDelTime" jdbcType="TIMESTAMP" />
+    <result column="param_delflag" property="paramDelflag" jdbcType="CHAR" />
+  </resultMap>
+  <!-- VoresultMap -->
+  <resultMap type="com.ningpai.goods.vo.GoodsReleParamVo" id="VoResultMap">
+  	<id column="rele_param_id" property="releParamId" jdbcType="BIGINT" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="param_value" property="paramValue" jdbcType="VARCHAR" />
+    <association property="param" column="param_id" select="com.ningpai.goods.dao.GoodsTypeParamMapper.selectByPrimaryKey"></association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    rele_param_id, goods_id, param_id, param_value, param_create_name, param_create_time, 
+    param_modified_name, param_modified_time, param_del_name, param_del_time, param_delflag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_goods_rele_param
+    where rele_param_id = #{releParamId,jdbcType=BIGINT}
+  </select>
+  <!-- 删除记录，实际上就是更新字段 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.util.Map" >
+    update np_goods_rele_param set param_delflag='1',param_del_name=#{delName},
+    param_del_time=NOW()
+    where rele_param_id = #{releParamId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.goods.bean.GoodsReleParam" >
+    insert into np_goods_rele_param (rele_param_id, goods_id, param_id, 
+      param_value, param_create_name, param_create_time, 
+      param_modified_name, param_modified_time, 
+      param_del_name, param_del_time, param_delflag
+      )
+    values (#{releParamId,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, #{paramId,jdbcType=BIGINT}, 
+      #{paramValue,jdbcType=VARCHAR}, #{paramCreateName,jdbcType=VARCHAR}, #{paramCreateTime,jdbcType=TIMESTAMP}, 
+      #{paramModifiedName,jdbcType=VARCHAR}, #{paramModifiedTime,jdbcType=TIMESTAMP}, 
+      #{paramDelName,jdbcType=VARCHAR}, #{paramDelTime,jdbcType=TIMESTAMP}, #{paramDelflag,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.goods.bean.GoodsReleParam" >
+    insert into np_goods_rele_param
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="releParamId != null" >
+        rele_param_id,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="paramId != null" >
+        param_id,
+      </if>
+      <if test="paramValue != null" >
+        param_value,
+      </if>
+      <if test="paramCreateName != null" >
+        param_create_name,
+      </if>
+        param_create_time,
+      <if test="paramModifiedName != null" >
+        param_modified_name,
+      </if>
+      <if test="paramModifiedTime != null" >
+        param_modified_time,
+      </if>
+      <if test="paramDelName != null" >
+        param_del_name,
+      </if>
+      <if test="paramDelTime != null" >
+        param_del_time,
+      </if>
+      <if test="paramDelflag != null" >
+        param_delflag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="releParamId != null" >
+        #{releParamId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="paramId != null" >
+        #{paramId,jdbcType=BIGINT},
+      </if>
+      <if test="paramValue != null" >
+        #{paramValue,jdbcType=VARCHAR},
+      </if>
+      <if test="paramCreateName != null" >
+        #{paramCreateName,jdbcType=VARCHAR},
+      </if>
+        NOW(),
+      <if test="paramModifiedName != null" >
+        #{paramModifiedName,jdbcType=VARCHAR},
+      </if>
+      <if test="paramModifiedTime != null" >
+        #{paramModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paramDelName != null" >
+        #{paramDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="paramDelTime != null" >
+        #{paramDelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paramDelflag != null" >
+        #{paramDelflag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.goods.bean.GoodsReleParam" >
+    update np_goods_rele_param
+    <set >
+      <if test="goodsId != null" >
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="paramId != null" >
+        param_id = #{paramId,jdbcType=BIGINT},
+      </if>
+      <if test="paramValue != null" >
+        param_value = #{paramValue,jdbcType=VARCHAR},
+      </if>
+      <if test="paramCreateName != null" >
+        param_create_name = #{paramCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="paramCreateTime != null" >
+        param_create_time = #{paramCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paramModifiedName != null" >
+        param_modified_name = #{paramModifiedName,jdbcType=VARCHAR},
+      </if>
+        param_modified_time = NOW(),
+      <if test="paramDelName != null" >
+        param_del_name = #{paramDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="paramDelTime != null" >
+        param_del_time = #{paramDelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paramDelflag != null" >
+        param_delflag = #{paramDelflag,jdbcType=CHAR},
+      </if>
+    </set>
+    where rele_param_id = #{releParamId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.goods.bean.GoodsReleParam" >
+    update np_goods_rele_param
+    set goods_id = #{goodsId,jdbcType=BIGINT},
+      param_id = #{paramId,jdbcType=BIGINT},
+      param_value = #{paramValue,jdbcType=VARCHAR},
+      param_create_name = #{paramCreateName,jdbcType=VARCHAR},
+      param_create_time = #{paramCreateTime,jdbcType=TIMESTAMP},
+      param_modified_name = #{paramModifiedName,jdbcType=VARCHAR},
+      param_modified_time = #{paramModifiedTime,jdbcType=TIMESTAMP},
+      param_del_name = #{paramDelName,jdbcType=VARCHAR},
+      param_del_time = #{paramDelTime,jdbcType=TIMESTAMP},
+      param_delflag = #{paramDelflag,jdbcType=CHAR}
+    where rele_param_id = #{releParamId,jdbcType=BIGINT}
+  </update>
+  <!-- 根据商品ID查询关联的记录 -->
+  <select id="queryAllByGoodsId" resultMap="VoResultMap" parameterType="java.lang.Long">
+  	select 
+    <include refid="Base_Column_List" />
+    from np_goods_rele_param
+    where goods_id = #{goodsId,jdbcType=BIGINT}
+    and param_delflag='0'
+  </select>
+  <!-- 根据商品ID和详细参数ID查询记录 -->
+  <select id="queryByGoodsIdAndParamId" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from np_goods_rele_param
+    where goods_id = #{goodsId,jdbcType=BIGINT} and param_id=#{paramId}
+    and param_delflag='0'
+  </select>
+  <!-- 根据商品ID删除所有的关联的记录 -->
+  <update id="delAllReleParamByGoodsId" parameterType="java.util.Map">
+  	update np_goods_rele_param set param_delflag='1',param_del_name=#{delName},
+    param_del_time=NOW()
+    where goods_id = #{goodsId}
+  </update>
+</mapper>

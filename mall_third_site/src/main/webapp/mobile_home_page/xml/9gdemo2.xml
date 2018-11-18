@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE ip_cont SYSTEM "../dtd/9gdemo.dtd">
+<ip_cont>
+<app_cont id="1">
+<a href="">
+<img class="imgapp" height="160.0" id="img1_3_2_2" src="http://img0.bdstatic.com/img/image/b9f7fcb2026469a741d890f0ac44e8291412736122.jpg" style="position:absolute;left:159px;top:0px;" width="160.0"/>
+</a>
+<a href="">
+<img class="imgapp" height="320.0" id="img1_1_4_2" src="http://img0.bdstatic.com/img/image/b9f7fcb2026469a741d890f0ac44e8291412736122.jpg" style="position:absolute;left:-1px;top:0px;" width="160.0"/>
+</a>
+</app_cont>
+<img_adv id="1">
+	<a href="http://www.baidu.com"><img width="100%" widthB="100%" src="http://img0.bdstatic.com/img/image/b9f7fcb2026469a741d890f0ac44e8291412736122.jpg"/></a>
+</img_adv>
+
+<roll_adv id="1">
+	<roll_a href="http://www.baidu.com"><img width="100%" src="http://img0.bdstatic.com/img/image/b9f7fcb2026469a741d890f0ac44e8291412736122.jpg"/></roll_a>
+	<roll_a href="http://www.baidu.com"><img width="100%" src="http://img0.bdstatic.com/img/image/b9f7fcb2026469a741d890f0ac44e8291412736122.jpg"/></roll_a>
+</roll_adv>
+
+</ip_cont>

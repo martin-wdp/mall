@@ -1,0 +1,33 @@
+*{margin:0;padding: 0;}
+body{background:#fff;}
+body,input,textarea,button,select{font-family:Microsoft YaHei;}
+ol,ul{list-style-type: none;} 
+i,em{font-style:normal;}
+a,a:link,a:visited,a:hover,a:active{text-decoration: none;color: #333;}
+input,button,select,textarea{outline:none;}
+table{border-top:1px solid #000;border-left:1px solid #000;}
+th,td{border-bottom:1px solid #000;border-right:1px solid #000;text-align:center;}
+tr{height:40px;}
+td{font-size:12px;}
+
+.printBox{width:860px;margin:0 auto;padding:10px 20px;}
+.printBox h2,.printBox h3{margin:0;padding:0;}
+.printBox .top{width:100%;height:190px;}
+.printBox .logo:after{content:"";display:block;clear:both;}
+.printBox .logo li{float:left;width:33.3%;height:120px;position:relative;}
+.printBox .logo li p{width:100%;position:absolute;left:0;bottom:0;}
+.printBox .logo li label{font-weight:600;}
+
+.printBox .top .mes{margin-top:20px;font-size:14px;}
+.printBox .top .mes:after{content:"";display:block;clear:both;}
+.printBox .top .mes li{float:left;width:25%;margin-top:10px;}
+
+.printBox .table{margin-top:30px;}
+.printBox .table .tdcont{width:290px;text-align:left;padding-left:0.5em;}
+.printBox .bottom{margin-top:20px;}
+.printBox .bottom:after{content:"";display:block;clear:both;}
+.printBox .bottom li{height:26px;line-height:26px;}
+.printBox .left{float:left;margin-top:76px;}
+.printBox .right{float:right;width:220px;}
+
+.printBox .right label{display:inline-block;width:160px;text-align:right;margin:0;padding:0;}

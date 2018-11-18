@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.channel.dao.ChannelBarMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.channel.bean.ChannelBar" >
+    <id column="BAR_ID" property="barId" jdbcType="BIGINT" />
+    <result column="TEMP_ID" property="tempId" jdbcType="BIGINT" />
+    <result column="BAR_NAME" property="barName" jdbcType="VARCHAR" />
+    <result column="BAR_POSITION" property="barPosition" jdbcType="INTEGER" />
+    <result column="BAR_URL" property="barUrl" jdbcType="VARCHAR" />
+    <result column="BAR_SORT" property="barSort" jdbcType="INTEGER" />
+    <result column="BAR_TYPE" property="barType" jdbcType="BIGINT" />
+    <result column="DES" property="des" jdbcType="VARCHAR" />
+    <result column="OPEN_CHANNEL" property="openChannel" jdbcType="CHAR" />
+    <result column="USED_STATUS" property="usedStatus" jdbcType="CHAR" />
+    <result column="EXP_FLEID_1" property="expFleid1" jdbcType="VARCHAR" />
+    <result column="EXP_FLEID_2" property="expFleid2" jdbcType="VARCHAR" />
+    <result column="INSERT_ID" property="insertId" jdbcType="BIGINT" />
+    <result column="INSERT_DATE" property="insertDate" jdbcType="TIMESTAMP" />
+    <result column="MODIFY_ID" property="modifyId" jdbcType="BIGINT" />
+    <result column="MODIFY_DATE" property="modifyDate" jdbcType="TIMESTAMP" />
+    <result column="DELETE_STATUS" property="deleteStatus" jdbcType="INTEGER" />
+    <result column="CHANNEL_ID" property="channelId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    BAR_ID, TEMP_ID, BAR_NAME, BAR_POSITION, BAR_URL, BAR_SORT, BAR_TYPE, DES, OPEN_CHANNEL, USED_STATUS, 
+    EXP_FLEID_1, EXP_FLEID_2, INSERT_ID, INSERT_DATE, MODIFY_ID, MODIFY_DATE, DELETE_STATUS, 
+    CHANNEL_ID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_sys_bar_conf
+    where BAR_ID = #{barId,jdbcType=BIGINT}
+  </select>
+  <!-- 根据分页参数和频道ID、模板ID查询频道导航总行数 -->
+  <select id="selectchannelBarCountByParam" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select count(BAR_ID) from np_sys_bar_conf
+    where DELETE_STATUS = '0'
+    <if test="channelId != null" >
+		and CHANNEL_ID = #{channelId,jdbcType=BIGINT}
+	</if>
+    <if test="tempId != null" >
+		and TEMP_ID = #{tempId,jdbcType=BIGINT}
+	</if>
+    <if test="expFleid1 != null and expFleid1 != ''" >
+		and EXP_FLEID_1 = #{expFleid1}
+	</if>
+  </select>
+  <!-- 根据分页参数和频道ID、模板ID查询频道导航 -->
+  <select id="selectchannelBarByParam" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_sys_bar_conf
+    where DELETE_STATUS = '0'
+    <if test="channelId != null" >
+		and CHANNEL_ID = #{channelId,jdbcType=BIGINT}
+	</if>
+    <if test="tempId != null" >
+		and TEMP_ID = #{tempId,jdbcType=BIGINT}
+	</if>
+	<if test="expFleid1 != null and expFleid1 != ''" >
+		and EXP_FLEID_1 = #{expFleid1}
+	</if>
+	order by BAR_SORT
+	LIMIT #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+  </select>
+  <!-- 根据频道ID、模板ID查询频道导航 -->
+  <select id="selectAllchannelBarByParam" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_sys_bar_conf
+    where DELETE_STATUS = '0' and USED_STATUS = '1'
+    <if test="channelId != null" >
+		and CHANNEL_ID = #{channelId,jdbcType=BIGINT}
+	</if>
+    <if test="tempId != null" >
+		and TEMP_ID = #{tempId,jdbcType=BIGINT}
+	</if>
+	<if test="expFleid1 != null and expFleid1 != ''" >
+		and EXP_FLEID_1 = #{expFleid1}
+	</if>
+	order by BAR_SORT
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_sys_bar_conf
+    where BAR_ID = #{barId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.channel.bean.ChannelBar" >
+    insert into np_sys_bar_conf (BAR_ID, TEMP_ID, BAR_NAME, 
+      BAR_POSITION, BAR_URL, BAR_SORT, 
+      BAR_TYPE, DES, OPEN_CHANNEL, USED_STATUS, 
+      EXP_FLEID_1, EXP_FLEID_2, INSERT_ID, 
+      INSERT_DATE, MODIFY_ID, MODIFY_DATE, 
+      DELETE_STATUS, CHANNEL_ID)
+    values (#{barId,jdbcType=BIGINT}, #{tempId,jdbcType=BIGINT}, #{barName,jdbcType=VARCHAR}, 
+      #{barPosition,jdbcType=INTEGER}, #{barUrl,jdbcType=VARCHAR}, #{barSort,jdbcType=INTEGER}, 
+      #{barType,jdbcType=BIGINT}, #{des,jdbcType=VARCHAR}, #{openChannel,jdbcType=CHAR},#{usedStatus,jdbcType=CHAR}, 
+      #{expFleid1,jdbcType=VARCHAR}, #{expFleid2,jdbcType=VARCHAR}, #{insertId,jdbcType=BIGINT}, 
+      #{insertDate,jdbcType=TIMESTAMP}, #{modifyId,jdbcType=BIGINT}, #{modifyDate,jdbcType=TIMESTAMP}, 
+      #{deleteStatus,jdbcType=INTEGER}, #{channelId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="barId" parameterType="com.ningpai.channel.bean.ChannelBar" >
+    insert into np_sys_bar_conf
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="barId != null" >
+        BAR_ID,
+      </if>
+      <if test="tempId != null" >
+        TEMP_ID,
+      </if>
+      <if test="barName != null" >
+        BAR_NAME,
+      </if>
+      <if test="barPosition != null" >
+        BAR_POSITION,
+      </if>
+      <if test="barUrl != null" >
+        BAR_URL,
+      </if>
+      <if test="barSort != null" >
+        BAR_SORT,
+      </if>
+      <if test="barType != null" >
+        BAR_TYPE,
+      </if>
+      <if test="des != null" >
+        DES,
+      </if>
+      <if test="openChannel != null" >
+        OPEN_CHANNEL,
+      </if>
+      <if test="usedStatus != null" >
+        USED_STATUS,
+      </if>
+      <if test="expFleid1 != null" >
+        EXP_FLEID_1,
+      </if>
+      <if test="expFleid2 != null" >
+        EXP_FLEID_2,
+      </if>
+      <if test="insertId != null" >
+        INSERT_ID,
+      </if>
+      <if test="insertDate != null" >
+        INSERT_DATE,
+      </if>
+      <if test="modifyId != null" >
+        MODIFY_ID,
+      </if>
+      <if test="modifyDate != null" >
+        MODIFY_DATE,
+      </if>
+      <if test="deleteStatus != null" >
+        DELETE_STATUS,
+      </if>
+      <if test="channelId != null" >
+        CHANNEL_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="barId != null" >
+        #{barId,jdbcType=BIGINT},
+      </if>
+      <if test="tempId != null" >
+        #{tempId,jdbcType=BIGINT},
+      </if>
+      <if test="barName != null" >
+        #{barName,jdbcType=VARCHAR},
+      </if>
+      <if test="barPosition != null" >
+        #{barPosition,jdbcType=INTEGER},
+      </if>
+      <if test="barUrl != null" >
+        #{barUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="barSort != null" >
+        #{barSort,jdbcType=INTEGER},
+      </if>
+      <if test="barType != null" >
+        #{barType,jdbcType=BIGINT},
+      </if>
+      <if test="des != null" >
+        #{des,jdbcType=VARCHAR},
+      </if>
+      <if test="openChannel != null" >
+        #{openChannel,jdbcType=CHAR},
+      </if>
+      <if test="usedStatus != null" >
+        #{usedStatus,jdbcType=CHAR},
+      </if>
+      <if test="expFleid1 != null" >
+        #{expFleid1,jdbcType=VARCHAR},
+      </if>
+      <if test="expFleid2 != null" >
+        #{expFleid2,jdbcType=VARCHAR},
+      </if>
+      <if test="insertId != null" >
+        #{insertId,jdbcType=BIGINT},
+      </if>
+      <if test="insertDate != null" >
+        #{insertDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyId != null" >
+        #{modifyId,jdbcType=BIGINT},
+      </if>
+      <if test="modifyDate != null" >
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteStatus != null" >
+        #{deleteStatus,jdbcType=INTEGER},
+      </if>
+      <if test="channelId != null" >
+        #{channelId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.channel.bean.ChannelBar" >
+    update np_sys_bar_conf
+    <set >
+      <if test="tempId != null" >
+        TEMP_ID = #{tempId,jdbcType=BIGINT},
+      </if>
+      <if test="barName != null" >
+        BAR_NAME = #{barName,jdbcType=VARCHAR},
+      </if>
+      <if test="barPosition != null" >
+        BAR_POSITION = #{barPosition,jdbcType=INTEGER},
+      </if>
+      <if test="barUrl != null" >
+        BAR_URL = #{barUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="barSort != null" >
+        BAR_SORT = #{barSort,jdbcType=INTEGER},
+      </if>
+      <if test="barType != null" >
+        BAR_TYPE = #{barType,jdbcType=BIGINT},
+      </if>
+      <if test="des != null" >
+        DES = #{des,jdbcType=VARCHAR},
+      </if>
+      <if test="openChannel != null" >
+        OPEN_CHANNEL = #{openChannel,jdbcType=CHAR},
+      </if>
+      <if test="usedStatus != null" >
+        USED_STATUS = #{usedStatus,jdbcType=CHAR},
+      </if>
+      <if test="expFleid1 != null" >
+        EXP_FLEID_1 = #{expFleid1,jdbcType=VARCHAR},
+      </if>
+      <if test="expFleid2 != null" >
+        EXP_FLEID_2 = #{expFleid2,jdbcType=VARCHAR},
+      </if>
+      <if test="insertId != null" >
+        INSERT_ID = #{insertId,jdbcType=BIGINT},
+      </if>
+      <if test="insertDate != null" >
+        INSERT_DATE = #{insertDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyId != null" >
+        MODIFY_ID = #{modifyId,jdbcType=BIGINT},
+      </if>
+      <if test="modifyDate != null" >
+        MODIFY_DATE = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteStatus != null" >
+        DELETE_STATUS = #{deleteStatus,jdbcType=INTEGER},
+      </if>
+      <if test="channelId != null" >
+        CHANNEL_ID = #{channelId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where BAR_ID = #{barId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.channel.bean.ChannelBar" >
+    update np_sys_bar_conf
+    set TEMP_ID = #{tempId,jdbcType=BIGINT},
+      BAR_NAME = #{barName,jdbcType=VARCHAR},
+      BAR_POSITION = #{barPosition,jdbcType=INTEGER},
+      BAR_URL = #{barUrl,jdbcType=VARCHAR},
+      BAR_SORT = #{barSort,jdbcType=INTEGER},
+      BAR_TYPE = #{barType,jdbcType=BIGINT},
+      DES = #{des,jdbcType=VARCHAR},
+      OPEN_CHANNE = #{openChannel,jdbcType=CHAR},
+      USED_STATUS = #{usedStatus,jdbcType=CHAR},
+      EXP_FLEID_1 = #{expFleid1,jdbcType=VARCHAR},
+      EXP_FLEID_2 = #{expFleid2,jdbcType=VARCHAR},
+      INSERT_ID = #{insertId,jdbcType=BIGINT},
+      INSERT_DATE = #{insertDate,jdbcType=TIMESTAMP},
+      MODIFY_ID = #{modifyId,jdbcType=BIGINT},
+      MODIFY_DATE = #{modifyDate,jdbcType=TIMESTAMP},
+      DELETE_STATUS = #{deleteStatus,jdbcType=INTEGER},
+      CHANNEL_ID = #{channelId,jdbcType=BIGINT}
+    where BAR_ID = #{barId,jdbcType=BIGINT}
+  </update>
+</mapper>

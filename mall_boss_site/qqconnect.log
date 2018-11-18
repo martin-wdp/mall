@@ -1,0 +1,19 @@
+9158 DEBUG [2018-07-13 09:46:23]  Creating instance of bean 'wXActivityServicec'
+9161 DEBUG [2018-07-13 09:46:23]  Found injected element on class [com.ningpai.weixin.service.impl.WXActivityServiceImpl]: ResourceElement for public void com.ningpai.weixin.service.impl.WXActivityServiceImpl.setWxGroupMapper(com.ningpai.weixin.mapper.WXGroupMapper)
+9162 DEBUG [2018-07-13 09:46:23]  Eagerly caching bean 'wXActivityServicec' to allow for resolving potential circular references
+9162 DEBUG [2018-07-13 09:46:23]  Processing injected method of bean 'wXActivityServicec': ResourceElement for public void com.ningpai.weixin.service.impl.WXActivityServiceImpl.setWxGroupMapper(com.ningpai.weixin.mapper.WXGroupMapper)
+9163 DEBUG [2018-07-13 09:46:23]  Creating shared instance of singleton bean 'wXGroupMapperc'
+9163 DEBUG [2018-07-13 09:46:23]  Creating instance of bean 'wXGroupMapperc'
+9165 DEBUG [2018-07-13 09:46:23]  Found injected element on class [com.ningpai.weixin.mapper.impl.WXGroupMapperImpl]: ResourceElement for private org.apache.ibatis.session.SqlSession com.ningpai.manager.base.BasicSqlSupport.session
+9165 DEBUG [2018-07-13 09:46:23]  Found injected element on class [com.ningpai.weixin.mapper.impl.WXGroupMapperImpl]: ResourceElement for private org.apache.ibatis.session.SqlSessionFactory com.ningpai.manager.base.BasicSqlSupport.sqlSessionFactory
+9165 DEBUG [2018-07-13 09:46:23]  Eagerly caching bean 'wXGroupMapperc' to allow for resolving potential circular references
+9169 DEBUG [2018-07-13 09:46:23]  Processing injected method of bean 'wXGroupMapperc': ResourceElement for private org.apache.ibatis.session.SqlSession com.ningpai.manager.base.BasicSqlSupport.session
+9169 DEBUG [2018-07-13 09:46:23]  Creating shared instance of singleton bean 'sqlSession'
+9169 DEBUG [2018-07-13 09:46:23]  Creating instance of bean 'sqlSession'
+9174 DEBUG [2018-07-13 09:46:23]  Creating shared instance of singleton bean 'sqlSessionFactory'
+9174 DEBUG [2018-07-13 09:46:23]  Creating instance of bean 'sqlSessionFactory'
+9192 DEBUG [2018-07-13 09:46:23]  Logging initialized using 'org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+9198 DEBUG [2018-07-13 09:46:24]  Eagerly caching bean 'sqlSessionFactory' to allow for resolving potential circular references
+9203 DEBUG [2018-07-13 09:46:24]  Returning cached instance of singleton bean 'dataSource'
+9203 DEBUG [2018-07-13 09:46:24]  Invoking afterPropertiesSet() on bean with name 'sqlSessionFactory'
+13067 DEBUG [2018-07-13 09:46:27]  Parsed configuration file: 'class path resource [com/ningpai/web/mybatis/SqlMapConfig.xml]'

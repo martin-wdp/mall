@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.manager.mapper.NoticeMapper" >
+  <resultMap type="com.ningpai.util.OrderInfoBean" id="baseMap">
+  		<result column="order_id"  property="orderId" jdbcType="BIGINT"/>
+ 	 	<result column="order_code"  property="orderNo" jdbcType="VARCHAR"/>
+ 	 	<result column="create_time"  property="payTime" jdbcType="TIMESTAMP"/>
+ 	 	<result column="order_price"  property="moneyPaid" jdbcType="DECIMAL"/>
+      <result column="shipping_address" property="shippingAddress" jdbcType="VARCHAR" />
+      <result column="shipping_person" property="shippingPerson" jdbcType="VARCHAR" />
+      <result column="shipping_phone" property="shippingPhone" jdbcType="VARCHAR" />
+      <result column="shipping_mobile" property="shippingMobile" jdbcType="VARCHAR" />
+      <result column="shipping_province" property="shippingProvince" jdbcType="VARCHAR" />
+      <result column="shipping_city" property="shippingCity" jdbcType="VARCHAR" />
+      <result column="shipping_county" property="shippingCounty" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    o.order_id,o.order_code,o.order_price,o.create_time,o.shipping_address,o.shipping_person,o.shipping_phone,o.shipping_mobile,o.shipping_county,o.shipping_province,o.shipping_city
+  </sql>
+  
+  <select id="selectNotice" resultMap="baseMap" parameterType="java.util.Map" >
+   	select
+	<include refid="Base_Column_List"/>
+	from np_order o
+	where o.del_flag = '0' and order_new_status='0'
+	order by create_time desc
+	<if test="qFlag == 1 ">
+		limit 0,10
+	</if>
+	<if test="qFlag == 0 ">
+		limit 0,#{count,jdbcType=BIGINT}
+	</if>
+  </select>
+  <select id="selectNoticeNum" resultType="java.lang.Long" >
+   	select
+	count(1)
+	from np_order o
+	where o.del_flag = '0' and order_new_status='0' and 
+	<![CDATA[
+		o.create_time>= date_sub(now(), INTERVAL  30 DAY)  AND o.create_time<= now()
+	]]>
+	order by create_time desc
+  </select>
+  <update id="updateNotice">
+     update np_order set order_new_status = '1' WHERE  order_new_status = '0'
+  </update>
+
+    <update id="updateById" parameterType="java.lang.Long">
+      update np_order set order_new_status = '1' where order_id = #{orderId,jdbcType=BIGINT}
+    </update>
+
+</mapper>

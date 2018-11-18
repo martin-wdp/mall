@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.system.dao.ProvinceDefaultMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.system.bean.ProvinceDefault" >
+    <id column="d_id" property="dId" jdbcType="BIGINT" />
+    <result column="district_id" property="districtId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="de_falg" property="deFalg" jdbcType="CHAR" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    d_id, district_id, create_time, de_falg, modify_time
+  </sql>
+  <select id="selectDefaultId" resultType="java.lang.Long">
+    select 
+   district_id 
+    from np_province_default
+    where de_falg='0'
+    limit 0,1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_province_default
+    where d_id = #{dId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.system.bean.ProvinceDefault" >
+    insert into np_province_default (d_id, district_id, create_time, 
+      de_falg, modify_time)
+    values (#{dId,jdbcType=BIGINT}, #{districtId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{deFalg,jdbcType=CHAR}, #{modifyTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.system.bean.ProvinceDefault" >
+    insert into np_province_default
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dId != null" >
+        d_id,
+      </if>
+      <if test="districtId != null" >
+        district_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="deFalg != null" >
+        de_falg,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dId != null" >
+        #{dId,jdbcType=BIGINT},
+      </if>
+      <if test="districtId != null" >
+        #{districtId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deFalg != null" >
+        #{deFalg,jdbcType=CHAR},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="deleteAllDefault" >
+    update np_province_default
+    set de_falg='1'
+    where de_falg='0'
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.system.bean.ProvinceDefault" >
+    update np_province_default
+    set district_id = #{districtId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      de_falg = #{deFalg,jdbcType=CHAR},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+    where d_id = #{dId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.VisitorsMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.group.bean.Visitors" >
+    <id column="visitors_id" property="visitorsId" jdbcType="BIGINT" />
+    <result column="visitors_customer_id" property="visitorscustomerId" jdbcType="BIGINT" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="visitors_time" property="visitorsTime" jdbcType="TIMESTAMP" />
+    <result column="visitors_ip" property="visitorsIp" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="BaseVoMap" type="com.ningpai.group.bean.Visitors" extends="BaseResultMap" >
+    <result column="customer_img" property="infoHeadimg" jdbcType="VARCHAR" />
+    <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+    <result column="customer_name" property="memberName" jdbcType="VARCHAR" />
+    <result column="customer_nickname" property="memberNickname" jdbcType="VARCHAR" />
+  	<result column="provinceName" property="province_name" jdbcType="VARCHAR" />
+  </resultMap>
+   
+  <sql id="Base_Column_List" >
+    visitors_id, visitors_customer_id, customer_id, visitors_time, visitors_ip
+  </sql>
+  
+  
+    <!-- 查询最近访客 -->
+  <select id="selectVisitors" resultMap="BaseVoMap" parameterType="java.util.Map" >
+  select visitors_id, visitors_customer_id, vi.customer_id, visitors_time, visitors_ip,mem.customer_nickname,customer_img,province_name,city_name
+	 from np_visitors vi
+	LEFT JOIN np_customer mem
+	on mem.customer_id = vi.visitors_customer_id
+	LEFT JOIN np_customer_info info
+	on info.customer_id =  vi.visitors_customer_id
+	LEFT JOIN np_sys_province pro 
+	on pro.province_id = info.info_province
+	LEFT JOIN np_sys_city city 
+	on city.city_id = info.info_city 
+	where vi.customer_id = #{customerId}
+	order by visitors_time desc
+	limit #{number}
+  </select>
+  
+  
+   <select id="selectOneVisitors" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_visitors
+    where  customer_id= #{visitorsCustomerId,jdbcType=BIGINT}
+    and visitors_customer_id = #{customerId,,jdbcType=BIGINT}
+    order by visitors_time desc
+    limit 1
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_visitors
+    where visitors_id = #{visitorsId,jdbcType=BIGINT}
+  </select>
+
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_visitors
+    where visitors_id = #{visitorsId,jdbcType=BIGINT}
+  </delete>
+  
+  
+  
+  
+  <insert id="insertVisitors" parameterType="com.ningpai.group.bean.Visitors" >
+    insert into np_visitors (visitors_customer_id, customer_id, 
+      visitors_time, visitors_ip)
+    values (#{visitorscustomerId,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, 
+      #{visitorsTime,jdbcType=TIMESTAMP}, #{visitorsIp,jdbcType=VARCHAR})
+  </insert>
+  
+  
+  <insert id="insert" parameterType="com.ningpai.group.bean.Visitors" >
+    insert into np_visitors (visitors_customer_id, customer_id, 
+      visitors_time, visitors_ip)
+    values (#{visitorscustomerId,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, 
+      #{visitorsTime,jdbcType=TIMESTAMP}, #{visitorsIp,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.group.bean.Visitors" >
+    insert into np_visitors
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    
+      <if test="visitorscustomerId != null" >
+        visitors_customer_id,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="visitorsTime != null" >
+        visitors_time,
+      </if>
+      <if test="visitorsIp != null" >
+        visitors_ip,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+     
+      <if test="visitorscustomerId != null" >
+        #{visitorscustomerId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="visitorsTime != null" >
+        #{visitorsTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="visitorsIp != null" >
+        #{visitorsIp,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.group.bean.Visitors" >
+    update np_visitors
+    <set >
+      <if test="visitorscustomerId != null" >
+        visitors_customer_id = #{visitorscustomerId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="visitorsTime != null" >
+        visitors_time = #{visitorsTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="visitorsIp != null" >
+        visitors_ip = #{visitorsIp,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where visitors_id = #{visitorsId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.group.bean.Visitors" >
+    update np_visitors
+    set visitors_customer_id = #{visitorscustomerId,jdbcType=BIGINT},
+      customer_id = #{customerId,jdbcType=BIGINT},
+      visitors_time = #{visitorsTime,jdbcType=TIMESTAMP},
+      visitors_ip = #{visitorsIp,jdbcType=VARCHAR}
+    where visitors_id = #{visitorsId,jdbcType=BIGINT}
+  </update>
+</mapper>

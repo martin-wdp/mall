@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.group.mapper.GroupCustomerMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.group.bean.GroupCustomer" >
+    <id column="group_customer_id" property="groupCustomerId" jdbcType="BIGINT" />
+    <result column="group_id" property="groupId" jdbcType="BIGINT" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="customer_power" property="customerPower" jdbcType="CHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="cus_name" property="customerName" jdbcType="VARCHAR" />
+    <result column="customer_img" property="infoHeadimg" jdbcType="VARCHAR" />
+    <result column="province_name" property="provinceName" jdbcType="VARCHAR" />
+    <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+    <result column="customer_create_time" property="customerCreateTime" jdbcType="TIMESTAMP" />
+    <result column="fans_flag" property="fansFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    group_customer_id, group_id, customer_id, customer_power, del_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_group_customer
+    where group_customer_id = #{groupCustomerId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_group_customer
+    where group_customer_id = #{groupCustomerId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.group.bean.GroupCustomer" useGeneratedKeys="true" keyProperty="groupCustomerId" >
+    insert into np_group_customer (group_id, customer_id, customer_power,
+      del_flag, customer_create_time)
+    values (#{groupId,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, #{customerPower,jdbcType=CHAR}, 
+      #{delFlag,jdbcType=CHAR},#{customerCreateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.group.bean.GroupCustomer" useGeneratedKeys="true" keyProperty="groupCustomerId" >
+    insert into np_group_customer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      group_id,
+      customer_id,
+      customer_power,
+      del_flag,
+      customer_create_time
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{groupId,jdbcType=BIGINT},
+      #{customerId,jdbcType=BIGINT},
+      #{customerPower,jdbcType=CHAR},
+      #{delFlag,jdbcType=CHAR},
+      #{customerCreateTime,jdbcType=TIMESTAMP}  
+      
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.group.bean.GroupCustomer" >
+    update np_group_customer
+    <set >
+      <if test="groupId != null" >
+        group_id = #{groupId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="customerPower != null" >
+        customer_power = #{customerPower,jdbcType=CHAR},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where group_customer_id = #{groupCustomerId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.group.bean.GroupCustomer" >
+    update np_group_customer
+    set group_id = #{groupId,jdbcType=BIGINT},
+      customer_id = #{customerId,jdbcType=BIGINT},
+      customer_power = #{customerPower,jdbcType=CHAR},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where group_customer_id = #{groupCustomerId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 根据登陆用户查询用户角色 -->
+  <select id="searchByCustomerId" parameterType="com.ningpai.group.bean.GroupCustomer" resultMap="BaseResultMap">
+    select  group_customer_id, group_id, g.customer_id, customer_power, g.del_flag,c.customer_nickname cus_name,c.customer_img
+    from np_group_customer g
+    left join np_customer c
+    on g.customer_id = c.customer_id
+    WHERE group_id = #{groupId,jdbcType=BIGINT} and g.customer_id= #{customerId,jdbcType=BIGINT} and g.del_flag=#{delFlag,jdbcType=CHAR}
+  </select>
+  
+  <!--根据小组ID查询小组成员  -->
+  <select id="searchByGroupId" parameterType="com.ningpai.group.bean.GroupCustomer" resultMap="BaseResultMap">
+   SELECT group_customer_id, group_id, gc.customer_id, customer_power, gc.del_flag, c.customer_nickname cus_name,c.customer_img,
+   info.province_name,info.city_name
+    FROM `np_group_customer` gc
+   left join np_customer c 
+   on gc.customer_id = c.customer_id 
+   LEFT JOIN  (SELECT cin.customer_id,cin.info_province,cin.info_city ,p.province_name,city.city_name from np_customer_info cin left join np_sys_province p on cin.info_province = p.province_id LEFT JOIN np_sys_city city on cin.info_city = city.city_id)info
+	on c.customer_id = info.customer_id
+   where  gc.del_flag='0' 
+   and gc.group_id= #{groupId,jdbcType=BIGINT}  
+   and gc.customer_id not in (select b.customer_id from np_group_black b where b.group_id= #{groupId,jdbcType=BIGINT} and b.black_del_flag='0')
+    <if test="customerPower !=null and customerPower !='' ">
+      and customer_power =#{customerPower}
+   </if>
+   <if test="customerName !=null and customerName !='' ">
+      and c.customer_nickname like CONCAT('%',#{customerName},'%')
+   </if>
+   <if test="pageFlag !=null and pageFlag !='' " >
+   limit #{startRowNum},#{endRowNum}
+    </if>
+  </select> 
+   
+  <!--根据小组ID查询小组成员  -->
+  <select id="searchmemByGroupId" parameterType="com.ningpai.group.bean.GroupCustomer" resultMap="BaseResultMap">
+   SELECT group_customer_id, group_id, gc.customer_id, customer_power, gc.del_flag, c.customer_nickname cus_name,
+   c.customer_img,info.province_name,info.city_name
+   FROM `np_group_customer` gc
+   left join np_customer c 
+   on gc.customer_id = c.customer_id
+    LEFT JOIN  (SELECT cin.customer_id,cin.info_province,cin.info_city,
+    p.province_name,c.city_name from np_customer_info cin 
+    left join np_sys_province p on cin.info_province = p.province_id LEFT JOIN np_sys_city c on cin.info_city = c.city_id)info
+	on c.customer_id = info.customer_id 
+   where  gc.del_flag='0' 
+   and gc.group_id= #{groupId,jdbcType=BIGINT}  
+   <if test="customerPower !=null and customerPower !='' ">
+      and customer_power =#{customerPower}
+   </if>
+   order by customer_create_time desc
+   <if test="limitNum !=null and limitNum !=''">
+     limit #{limitNum}
+   </if>
+  </select>  
+  
+  <select id="searchByGroupIdSize" parameterType="com.ningpai.group.bean.GroupCustomer" resultType="java.lang.Long">
+   SELECT count(*) from np_group_customer gc
+   left join np_customer c 
+   on gc.customer_id = c.customer_id 
+    LEFT JOIN  (SELECT cin.customer_id,cin.info_province,cin.info_city ,p.province_name,c.city_name from np_customer_info cin left join np_sys_province p on cin.info_province = p.province_id LEFT JOIN np_sys_city c on cin.info_city = c.city_id)info
+	on c.customer_id = info.customer_id
+   where  gc.del_flag='0' and gc.customer_power='0'
+   and gc.group_id= #{groupId,jdbcType=BIGINT}
+   and gc.customer_id not in (select b.customer_id from np_group_black b where b.group_id= #{groupId,jdbcType=BIGINT} and b.black_del_flag='0')
+   <if test="customerPower !=null and customerPower !='' ">
+      and customer_power =#{customerPower}
+   </if>
+   <if test="customerName !=null and customerName !='' ">
+      and c.customer_nickname like CONCAT('%',#{customerName},'%')
+   </if>
+  </select>  
+  
+  <!-- 踢出or解除黑名单小组 -->
+  <update id="delGroupcustomer" parameterType="com.ningpai.group.bean.GroupCustomer">
+    update  np_group_customer
+    set 
+    <if test="delFlag !=null and delFlag !='' ">
+	    del_flag = #{delFlag,jdbcType=CHAR}
+   </if>
+    <if test="customerPower !=null and customerPower !='' ">
+	    ,customer_power = #{customerPower,jdbcType=CHAR}
+   </if>
+    where customer_id = #{customerId,jdbcType=BIGINT} and group_id = #{groupId,jdbcType=BIGINT}
+  </update>
+   
+  <!-- 我管理或我创建的小组 --> 
+  <select id="mygroup" resultType="java.lang.Integer" parameterType="java.util.Map">
+   select count('') from np_group ng where exists( select '' from np_group_customer ngm where   ng.group_id = ngm.group_id
+    and del_flag = '0' and customer_power in('1','2')
+   <if test="customerId != null and customerId !=''">
+    and customer_id = #{customerId}
+   </if>
+   ) and ng.group_dissolve = '0' AND ng.group_check_flag='1'
+  </select>
+  
+  <!-- 成为管理员 -->
+  <update id="manager" parameterType="java.util.Map">
+   update  np_group_customer
+    set 
+    <if test="customerPower !=null and customerPower !='' ">
+	    customer_power = #{customerPower,jdbcType=CHAR}
+   </if>
+    where customer_id = #{customerId,jdbcType=BIGINT} and group_id = #{groupId,jdbcType=BIGINT}
+  </update>
+  
+  <!--批量免去管理员  -->
+  <update id="removemanager" parameterType="java.util.Map">
+   update  np_group_customer
+    set 
+    <if test="customerPower !=null and customerPower !='' ">
+	    customer_power = #{customerPower,jdbcType=CHAR}
+   </if>
+    where 
+    <foreach collection="array" separator="or" item="customerId" index="index" >
+    customer_id = #{customerId,jdbcType=BIGINT} and group_id = #{groupId,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  
+  <!-- 查询共同小组 -->
+  <select id="groupRecommended" resultMap="BaseResultMap" parameterType="java.util.Map">
+	select * from (
+	select mem.customer_id, mem.customer_nickname cus_name,fans_flag 
+	from np_customer mem LEFT JOIN np_fans fans 
+	on fans_customer_id=mem.customer_id and fans.customer_id = #{customerId,jdbcType=BIGINT}
+	) as c , (	select  a1.customer_id from  np_group_customer a1 , np_group_customer a2
+		where a1.group_id = a2.group_id  and  a2.customer_id = #{customerId,jdbcType=BIGINT}
+		and a1.customer_id not in(select fans_customer_id from np_fans where customer_id =#{customerId,jdbcType=BIGINT} and fans_flag in ('1','2')) and a1.customer_id !=#{customerId,jdbcType=BIGINT}
+	) as b
+	where c.customer_id = b.customer_id
+   <if test="clist!=null and clist!=''">
+	 and b.customer_id not in
+	 <foreach collection="clist" index="index" item="customer_id" open="(" separator="," close=")">
+	   #{customer_id}
+	 </foreach>
+	</if>
+   ORDER BY RAND()
+   limit 2
+  </select>
+  
+  <!-- 查询共同城市-->
+  <select id="cityRecommended" resultMap="BaseResultMap" parameterType="java.util.Map">
+   select  c.customer_id,  c.customer_nickname cus_name,c.customer_img,info.info_province,info.info_city,f.fans_flag
+   FROM np_customer c
+   left join np_customer_info info 
+   on c.customer_id = c.customer_id
+    left join np_fans f 
+   on f.fans_customer_id =c.customer_id and f.customer_id=#{customerId,jdbcType=BIGINT} 
+   where 1=1 and info.info_city in (
+   SELECT info_city from np_customer_info where customer_id = #{customerId} and del_flag='0')
+   and c.customer_id not in (select customer_id from np_fans where fans_customer_id =#{customerId,jdbcType=BIGINT} and fans_flag in('1','2'))
+    <if test="clist!=null and clist!=''">
+	 and c.customer_id not in
+	 <foreach collection="clist" index="index" item="customer_id" open="(" separator="," close=")">
+	   #{customer_id}
+	 </foreach>
+	</if>
+   ORDER BY RAND()
+   limit 2
+  </select>
+  
+  <!--共同好友  -->
+   <select id="friendRecommended" resultMap="BaseResultMap" parameterType="java.util.Map">
+   select * from (
+		select mem.customer_id, mem.customer_nickname cus_name,mem.customer_img,fans.fans_flag 
+		from np_customer mem 
+		left join np_fans fans 
+		on fans_customer_id = mem.customer_id and fans.customer_id = #{customerId,jdbcType=BIGINT} 
+		) as m ,(select customer_id from np_fans 
+		where fans_customer_id in (select fans_customer_id from np_fans where customer_id =#{customerId,jdbcType=BIGINT} and fans_flag in ('1','2')) 
+		and customer_id !=#{customerId,jdbcType=BIGINT}
+		GROUP BY customer_id )as s
+		where m.customer_id=s.customer_id and m.customer_id not in(select fans_customer_id
+		from np_fans where customer_id =#{customerId,jdbcType=BIGINT} and fans_flag in ('1','2'))
+     <if test="clist!=null and clist!=''">
+	 and f.customer_id not in
+	 <foreach collection="clist" index="index" item="customer_id" open="(" separator="," close=")">
+	   #{customer_id}
+	 </foreach>
+	</if>
+    ORDER BY RAND()
+   limit 2
+  </select>
+  
+  
+</mapper>

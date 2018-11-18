@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.DiscountMarketingMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.marketing.bean.DiscountMarketing" >
+    <id column="discount_marketing_id" property="discountMarketingId" jdbcType="BIGINT" />
+    <result column="marketing_id" property="marketingId" jdbcType="BIGINT" />
+    <result column="discount_value" property="discountValue" jdbcType="DECIMAL" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    discount_marketing_id, marketing_id, discount_value, del_flag
+  </sql>
+  
+  
+  
+  <!-- 查询折扣 -->
+  <select id="selectDiscountMarketingByMarketingId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_discount_marketing
+    where marketing_id = #{marketingId,jdbcType=BIGINT} and  del_flag = '0' 
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_discount_marketing
+    where discount_marketing_id = #{discountMarketingId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_discount_marketing
+    where discount_marketing_id = #{discountMarketingId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.marketing.bean.DiscountMarketing" >
+    insert into np_discount_marketing (discount_marketing_id, marketing_id, discount_value, 
+      del_flag)
+    values (#{discountMarketingId,jdbcType=BIGINT}, #{marketingId,jdbcType=BIGINT}, #{discountValue,jdbcType=DECIMAL}, 
+      #{delFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.marketing.bean.DiscountMarketing" >
+    insert into np_discount_marketing
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="discountMarketingId != null" >
+        discount_marketing_id,
+      </if>
+      <if test="marketingId != null" >
+        marketing_id,
+      </if>
+      <if test="discountValue != null" >
+        discount_value,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="discountMarketingId != null" >
+        #{discountMarketingId,jdbcType=BIGINT},
+      </if>
+      <if test="marketingId != null" >
+        #{marketingId,jdbcType=BIGINT},
+      </if>
+      <if test="discountValue != null" >
+        #{discountValue,jdbcType=DECIMAL},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.marketing.bean.DiscountMarketing" >
+    update np_discount_marketing
+    <set >
+      <if test="marketingId != null" >
+        marketing_id = #{marketingId,jdbcType=BIGINT},
+      </if>
+      <if test="discountValue != null" >
+        discount_value = #{discountValue,jdbcType=DECIMAL},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where discount_marketing_id = #{discountMarketingId,jdbcType=BIGINT}
+  </update>
+  
+  
+  
+  
+  <update id="deleteDiscountMarketing" parameterType="java.lang.Long" >
+    update np_discount_marketing
+    set del_flag = '1'
+    where marketing_id = #{marketingId,jdbcType=BIGINT}
+  </update>
+
+    <update id="modifyDiscountMarketing" parameterType="com.ningpai.marketing.bean.DiscountMarketing">
+        update np_discount_marketing
+        <set>
+            <if test="discountValue != null">
+                discount_value = #{discountValue,jdbcType=DECIMAL}
+            </if>
+        </set>
+        where marketing_id = #{marketingId,jdbcType=BIGINT}
+    </update>
+</mapper>

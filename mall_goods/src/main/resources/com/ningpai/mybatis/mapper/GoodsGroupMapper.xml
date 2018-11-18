@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.goods.dao.GoodsGroupMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsGroup" >
+    <id column="group_id" property="groupId" jdbcType="BIGINT" />
+    <result column="group_name" property="groupName" jdbcType="VARCHAR" />
+    <result column="group_prefertype" property="groupPrefertype" jdbcType="CHAR" />
+    <result column="group_preferamount" property="groupPreferamount" jdbcType="DECIMAL" />
+    <result column="group_delflag" property="groupDelflag" jdbcType="CHAR" />
+    <result column="group_create_name" property="groupCreateName" jdbcType="VARCHAR" />
+    <result column="group_create_time" property="groupCreateTime" jdbcType="TIMESTAMP" />
+    <result column="group_modified_name" property="groupModifiedName" jdbcType="VARCHAR" />
+    <result column="group_modified_time" property="groupModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="group_del_name" property="groupDelName" jdbcType="VARCHAR" />
+    <result column="group_del_time" property="groupDelTime" jdbcType="TIMESTAMP" />
+    <result column="is_third" property="isThird" jdbcType="CHAR" />
+    <result column="third_id" property="thirdId" jdbcType="BIGINT" />
+    <result column="third_name" property="thirdName" jdbcType="VARCHAR" />
+  </resultMap>
+  <!-- 添加商品组合时需要用到的Vo -->
+  <resultMap type="com.ningpai.goods.vo.GoodsGroupVo" id="VoResultMap" extends="BaseResultMap">
+     <collection property="productList" column="group_id" javaType="ArrayList" ofType="com.ningpai.goods.vo.GoodsGroupReleProductVo"
+  		select="com.ningpai.goods.dao.GoodsGroupReleProductMapper.queryListByGoodsGroupId"
+  	></collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    group_id, group_name, group_prefertype, group_preferamount, group_delflag, group_create_name, 
+    group_create_time, group_modified_name, group_modified_time, group_del_name, group_del_time,is_third,third_id,
+    third_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_goods_group
+    where group_id = #{groupId,jdbcType=BIGINT}
+  </select>
+  <!-- 删除组合信息 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.util.Map" >
+    update np_goods_group set group_delflag='1',group_del_name=#{delName},group_del_time=NOW()
+    where group_id = #{groupId,jdbcType=BIGINT}
+  </delete>
+
+    <!--新 删除组合信息 -->
+    <delete id="deleteByPrimaryKeyNew" parameterType="java.util.Map" >
+        update np_goods_group set group_delflag='1',group_del_name=#{delName},group_del_time=NOW()
+        where group_id = #{groupId,jdbcType=BIGINT}
+        and third_Id = #{thirdId,jdbcType=BIGINT}
+    </delete>
+  <!-- 插入组合信息 -->
+  <insert id="insertSelective" parameterType="com.ningpai.goods.bean.GoodsGroup" >
+    insert into np_goods_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="groupId != null" >
+        group_id,
+      </if>
+      <if test="groupName != null" >
+        group_name,
+      </if>
+      <if test="groupPrefertype != null" >
+        group_prefertype,
+      </if>
+      <if test="groupPreferamount != null" >
+        group_preferamount,
+      </if>
+        group_delflag,
+      <if test="groupCreateName != null" >
+        group_create_name,
+      </if>
+        group_create_time,
+      <if test="groupModifiedName != null" >
+        group_modified_name,
+      </if>
+      <if test="groupModifiedTime != null" >
+        group_modified_time,
+      </if>
+      <if test="groupDelName != null" >
+        group_del_name,
+      </if>
+      <if test="groupDelTime != null" >
+        group_del_time,
+      </if>
+      <if test="isThird != null" >
+        is_third,
+      </if>
+      <if test="thirdId != null" >
+        third_id,
+      </if>
+      <if test="thirdName != null" >
+        third_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="groupId != null" >
+        #{groupId,jdbcType=BIGINT},
+      </if>
+      <if test="groupName != null" >
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupPrefertype != null" >
+        #{groupPrefertype,jdbcType=CHAR},
+      </if>
+      <if test="groupPreferamount != null" >
+        #{groupPreferamount,jdbcType=DECIMAL},
+      </if>
+        '0',
+      <if test="groupCreateName != null" >
+        #{groupCreateName,jdbcType=VARCHAR},
+      </if>
+        NOW(),
+      <if test="groupModifiedName != null" >
+        #{groupModifiedName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupModifiedTime != null" >
+        #{groupModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="groupDelName != null" >
+        #{groupDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupDelTime != null" >
+        #{groupDelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isThird != null" >
+        #{isThird},
+      </if>
+      <if test="thirdId != null" >
+        #{thirdId},
+      </if>
+      <if test="thirdName != null" >
+        #{thirdName},
+      </if>
+    </trim>
+  </insert>
+  <!-- 更新组合信息 -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.goods.bean.GoodsGroup" >
+    update np_goods_group
+    <set >
+      <if test="groupName != null" >
+        group_name = #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupPrefertype != null" >
+        group_prefertype = #{groupPrefertype,jdbcType=CHAR},
+      </if>
+      <if test="groupPreferamount != null" >
+        group_preferamount = #{groupPreferamount,jdbcType=DECIMAL},
+      </if>
+      <if test="groupDelflag != null" >
+        group_delflag = #{groupDelflag,jdbcType=CHAR},
+      </if>
+      <if test="groupCreateName != null" >
+        group_create_name = #{groupCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupCreateTime != null" >
+        group_create_time = #{groupCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="groupModifiedName != null" >
+        group_modified_name = #{groupModifiedName,jdbcType=VARCHAR},
+      </if>
+        group_modified_time = NOW(),
+      <if test="groupDelName != null" >
+        group_del_name = #{groupDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupDelTime != null" >
+        group_del_time = #{groupDelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isThird != null" >
+        is_third = #{isThird},
+      </if>
+      <if test="thirdId != null" >
+        third_id = #{thirdId},
+      </if>
+      <if test="thirdName != null" >
+       third_name = #{thirdName}
+      </if>
+    </set>
+    where group_id = #{groupId,jdbcType=BIGINT}
+  </update>
+  <!-- 根据分页参数查询列表 -->
+  <select id="queryAllByPageBean" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	 select 
+    <include refid="Base_Column_List" />
+    from np_goods_group
+    where group_delflag='0'
+    order by group_create_time desc
+    limit #{startRowNum},#{endRowNum}
+  </select>
+  <!-- 查询所有的行数 -->
+  <select id="queryTotalAcount" resultType="java.lang.Integer">
+  	 select count(1)
+    from np_goods_group
+    where group_delflag='0'
+  </select>
+  <!-- 根据组合ID查询组合Vo信息 -->
+  <select id="queryVoByPrimaryKey" resultMap="VoResultMap" parameterType="java.lang.Long">
+  	select
+  	<include refid="Base_Column_List" />
+    from np_goods_group
+    where group_id = #{groupId,jdbcType=BIGINT}
+    and group_delflag='0'
+  </select>
+  <!-- 搜索-->
+  <select id="queryAllByPageBeanAndSelBean" resultMap="BaseResultMap">
+  	 select 
+    <include refid="Base_Column_List" />
+    from np_goods_group
+    where group_delflag='0'
+    <if test="condition == 1">
+  			and group_name like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  	</if>
+      and is_third='0'
+    order by group_create_time desc
+    limit #{startRowNum},#{endRowNum}
+  </select>
+  <!-- 根据参数查询行数 -->
+  <select id="searchTotalCount" resultType="java.lang.Integer" parameterType="com.ningpai.goods.util.SelectBean">
+  	select count(1) from np_goods_group
+    where group_delflag='0'
+    <if test="condition == 1">
+  			and group_name like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  	</if>
+  </select>
+  <!-- 查询最新插入的主键ID -->
+	<select id="selectLastId" resultType="java.lang.Long">
+		select LAST_INSERT_ID()
+	</select>
+	
+	<!-- 根据货品ID查询组合或者是套装集合 -->
+	<select id="queryGroupVoByProductId" parameterType="java.lang.Long" resultMap="VoResultMap">
+		select <include refid="Base_Column_List" /> from np_goods_group where group_id in (select group_id from np_goods_group_rele_product where product_id=#{productId}  and rele_product_delflag='0')
+		and group_delflag='0'
+	</select>
+</mapper>

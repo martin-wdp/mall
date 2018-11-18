@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.GiftPicSiteMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.site.giftshop.bean.GiftPic" >
+    <id column="pic_id" property="picId" jdbcType="BIGINT" />
+    <result column="gift_id" property="giftId" jdbcType="BIGINT" />
+    <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+     <result column="pic_little" property="picLittle" jdbcType="VARCHAR" />
+     <result column="pic_middle" property="picMiddle" jdbcType="VARCHAR" />
+     <result column="pic_big" property="picBig" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    pic_id, gift_id, pic_url, del_flag,pic_little,pic_middle,pic_big
+  </sql>
+  
+ <!-- 查询赠品图片 -->
+  <select id="selectGiftPicByGiftId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_gift_pic
+    where gift_id = #{giftId,jdbcType=BIGINT} and del_flag = '0'
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_gift_pic
+    where pic_id = #{picId,jdbcType=BIGINT}
+  </select>
+
+</mapper>

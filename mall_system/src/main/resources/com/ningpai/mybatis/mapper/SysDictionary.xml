@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+ @Title: 系统字典的mapper映射配置文件
+ @Description:
+ @author NINGPAI_xiaomm
+ @since 2014-03-20 11:03:23
+ @version V1.0
+-->
+<mapper namespace="com.ningpai.system.dao.SysDictionaryDaoImpl">
+
+	<resultMap id="BaseResultMap" type="com.ningpai.system.bean.SysDictionary">
+				<!-- 记录ID -->
+				<id column="DIC_ID" 
+					jdbcType="BIGINT"
+				 property="dicId" />
+				<!-- 父节点ID -->
+				<result column="PARENT_ID"
+					jdbcType="BIGINT"
+				property="parentId" />
+				<!-- 字典名称 -->
+				<result column="NAME"
+					jdbcType="VARCHAR"
+				property="name" />
+				<!-- 字典代码 -->
+				<result column="CODE"
+					jdbcType="VARCHAR"
+				property="code" />
+				<!-- 启用状态 -->
+				<result column="STATUS"
+					jdbcType="VARCHAR"
+				property="status" />
+				<!-- 字典类型 -->
+				<result column="TYPE"
+					jdbcType="VARCHAR"
+				property="type" />
+				<!-- 描述信息 -->
+				<result column="DES"
+					jdbcType="VARCHAR"
+				property="des" />
+				<!-- 添加人 -->
+				<result column="INSERT_ID"
+					jdbcType="BIGINT"
+				property="insertId" />
+				<!-- 添加时间 -->
+				<result column="INSERT_DATE"
+					jdbcType="DATE"
+				property="insertDate" />
+				<!-- 修改人 -->
+				<result column="MODIFY_ID"
+					jdbcType="BIGINT"
+				property="modifyId" />
+				<!-- 修改时间 -->
+				<result column="MODIFY_DATE"
+					jdbcType="DATE"
+				property="modifyDate" />
+	</resultMap>
+	
+	<sql id="baseSql">
+			DIC_ID, 
+			PARENT_ID, 
+			NAME, 
+			CODE, 
+			STATUS, 
+			TYPE, 
+			DES, 
+			INSERT_ID, 
+			INSERT_DATE, 
+			MODIFY_ID, 
+			MODIFY_DATE 
+	</sql>
+	<sql id="querySql">
+			DIC_ID, 
+			PARENT_ID, 
+			NAME, 
+			CODE, 
+			STATUS, 
+			TYPE 
+	</sql>
+	
+	<!-- 保存系统字典 -->	
+	<insert id="saveSysDictionary" parameterType="com.ningpai.system.bean.SysDictionary">
+		INSERT INTO NP_SYS_DIC
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+				<!-- 记录ID 
+				<if test="dicId != null">
+					DIC_ID,
+				</if> -->
+				<!-- 父节点ID -->
+				<if test="parentId != null">
+					PARENT_ID,
+				</if>
+				<!-- 字典名称 -->
+				<if test="name != null">
+					NAME,
+				</if>
+				<!-- 字典代码 -->
+				<if test="code != null">
+					CODE,
+				</if>
+				<!-- 启用状态 -->
+				<if test="status != null">
+					STATUS,
+				</if>
+				<!-- 字典类型 -->
+				<if test="type != null">
+					TYPE,
+				</if>
+				<!-- 描述信息 -->
+				<if test="des != null">
+					DES,
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID,
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE,
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID,
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE,
+				</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+				<!-- 记录ID -->
+					<!-- 记录ID 
+						#{dicId,
+								jdbcType=BIGINT
+						}, -->
+				<!-- 父节点ID -->
+					<if test="parentId != null">
+						#{parentId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 字典名称 -->
+					<if test="name != null">
+						#{name,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 字典代码 -->
+					<if test="code != null">
+						#{code,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 启用状态 -->
+					<if test="status != null">
+						#{status,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 字典类型 -->
+					<if test="type != null">
+						#{type,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 描述信息 -->
+					<if test="des != null">
+						#{des,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						#{insertId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null">
+						#{insertDate,
+								jdbcType=DATE
+						},
+					</if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						#{modifyId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null">
+						#{modifyDate,
+								jdbcType=DATE
+						},
+					</if>
+		</trim>
+	</insert>
+	<!-- 修改系统字典 -->
+	<update id="updateSysDictionary" parameterType="com.ningpai.system.bean.SysDictionary">
+		UPDATE NP_SYS_DIC
+		<set>
+			
+				<!-- 记录ID -->
+				<if test="dicId != null">
+					DIC_ID = #{dicId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 父节点ID -->
+				<if test="parentId != null">
+					PARENT_ID = #{parentId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 字典名称 -->
+				<if test="name != null">
+					NAME = #{name,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 字典代码 -->
+				<if test="code != null">
+					CODE = #{code,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 启用状态 -->
+				<if test="status != null">
+					STATUS = #{status,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 字典类型 -->
+				<if test="type != null">
+					TYPE = #{type,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 描述信息 -->
+				<if test="des != null">
+					DES = #{des,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID = #{modifyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE = #{modifyDate,
+							jdbcType=DATE
+					},
+				</if>
+		</set>
+		WHERE 
+				DIC_ID = #{dicId,
+							jdbcType=BIGINT
+					}
+	</update>
+	
+	<!-- 根据系统字典对象的id查询系统字典对象 -->
+	<select id="getSysDictionaryById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_DIC 
+		WHERE 
+				DIC_ID = #{dicId,
+							jdbcType=BIGINT
+					}
+	</select>
+	
+	<!-- 根据系统字典对象的id字符集合查询系统字典对象 -->
+	<select id="getSysDictionaryByIds" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_DIC 
+		WHERE 
+				DIC_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</select>
+	
+	<!-- 根据系统字典对象的id字符集合删除系统字典对象 -->
+	<update id="deleteSysDictionary" parameterType="java.util.Map">
+		DELETE FROM NP_SYS_DIC 
+		WHERE 
+				DIC_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+		
+	</update>
+	
+	
+	<!-- 更新系统字典对象的单个字段  -->
+	<update id="updateSysDictionaryFieldById" parameterType="java.util.Map">
+		UPDATE NP_SYS_DIC
+		<set>
+				<!-- 记录ID -->
+				<if test="dicId != null">
+					DIC_ID = #{dicId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 父节点ID -->
+				<if test="parentId != null">
+					PARENT_ID = #{parentId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 字典名称 -->
+				<if test="name != null">
+					NAME = #{name,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 字典代码 -->
+				<if test="code != null">
+					CODE = #{code,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 启用状态 -->
+				<if test="status != null">
+					STATUS = #{status,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 字典类型 -->
+				<if test="type != null">
+					TYPE = #{type,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 描述信息 -->
+				<if test="des != null">
+					DES = #{des,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID = #{modifyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE = #{modifyDate,
+							jdbcType=DATE
+					},
+				</if>
+		</set>
+		WHERE 
+				DIC_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</update>
+	
+	<!-- 根据系统字典对象的单个字段查询系统字典对象信息总数 -->
+	<select id="getSysDictionaryByFieldTotal" resultType="java.lang.Integer" parameterType="java.util.Map">
+		   SELECT COUNT(DIC_ID) 
+		   FROM NP_SYS_DIC D 
+		   WHERE 
+				<!-- 记录ID -->
+					<if test="dicId != null">
+						D.DIC_ID = #{dicId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 父节点ID -->
+					<if test="parentId != null">
+						D.PARENT_ID = #{parentId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 字典名称 -->
+					<if test="name != null and name != ''">
+						D.NAME like CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 字典代码 -->
+					<if test="code != null and code != ''">
+						D.CODE like CONCAT(CONCAT('%', #{code,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 启用状态 -->
+					<if test="status != null and status != ''">
+						D.STATUS like CONCAT(CONCAT('%', #{status,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 字典类型 -->
+					<if test="type != null and type != ''">
+						D.TYPE like CONCAT(CONCAT('%', #{type,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 描述信息 -->
+					<if test="des != null and des != ''">
+						D.DES like CONCAT(CONCAT('%', #{des,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						D.INSERT_ID = #{insertId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null and insertDate !=''" >
+			        	(D.INSERT_DATE between  #{insertDateStart,jdbcType=DATE}  AND  #{insertDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						D.MODIFY_ID = #{modifyId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null and modifyDate !=''" >
+			        	(D.MODIFY_DATE between  #{modifyDateStart,jdbcType=DATE}  AND  #{modifyDateEnd,jdbcType=DATE}) and
+			        </if>
+        	1=1 
+	</select>
+	
+	<!-- 根据系统字典对象的单个字段查询系统字典对象信息 -->
+	<select id="getSysDictionaryByField" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM  NP_SYS_DIC D 
+		   WHERE 
+				<!-- 记录ID -->
+					<if test="dicId != null">
+						D.DIC_ID = #{dicId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 父节点ID -->
+					<if test="parentId != null">
+						D.PARENT_ID = #{parentId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 字典名称 -->
+					<if test="name != null and name !=''" >
+						D.NAME like CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 字典代码 -->
+					<if test="code != null and code !=''" >
+						D.CODE like CONCAT(CONCAT('%', #{code,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 启用状态 -->
+					<if test="status != null and status !=''" >
+						D.STATUS like CONCAT(CONCAT('%', #{status,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 字典类型 -->
+					<if test="type != null and type !=''" >
+						D.TYPE like CONCAT(CONCAT('%', #{type,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 描述信息 -->
+					<if test="des != null and des !=''" >
+						D.DES like CONCAT(CONCAT('%', #{des,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						D.INSERT_ID = #{insertId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null and insertDate !=''" >
+			        	(D.INSERT_DATE between  #{insertDateStart,jdbcType=DATE}  AND  #{insertDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						D.MODIFY_ID = #{modifyId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null and modifyDate !=''" >
+			        	(D.MODIFY_DATE between  #{modifyDateStart,jdbcType=DATE}  AND  #{modifyDateEnd,jdbcType=DATE}) and
+			        </if>
+        	1=1 
+        	
+		    LIMIT #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询系统字典对象信息总数 -->
+	<select id="querySysDictionaryTotal" resultType="java.lang.Integer">
+		SELECT COUNT(DIC_ID) FROM NP_SYS_DIC
+	</select>
+	
+	<!-- 分页查询系统字典对象信息 -->
+	<select id="querySysDictionaryByPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM NP_SYS_DIC 
+		LIMIT  #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+</mapper>

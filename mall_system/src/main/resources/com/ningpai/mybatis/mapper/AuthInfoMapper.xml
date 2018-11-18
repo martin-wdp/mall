@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.system.dao.AuthMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.system.bean.Auth" >
+    <id column="auth_id" property="authId" jdbcType="BIGINT" />
+    <result column="auth_name" property="authName" jdbcType="VARCHAR" />
+    <result column="auth_client_id" property="authClientId" jdbcType="VARCHAR" />
+    <result column="auth_client_secret" property="authClientSecret" jdbcType="VARCHAR" />
+    <result column="auth_redirect_uri" property="authRedirectUri" jdbcType="VARCHAR" />
+    <result column="auth_sort" property="authSort" jdbcType="SMALLINT" />
+    <result column="auth_show" property="authShow" jdbcType="CHAR" />
+    <result column="auth_create_name" property="authCreateName" jdbcType="VARCHAR" />
+    <result column="auth_created" property="authCreated" jdbcType="TIMESTAMP" />
+    <result column="auth_update_name" property="authUpdateName" jdbcType="VARCHAR" />
+    <result column="auth_updated" property="authUpdated" jdbcType="TIMESTAMP" />
+    <result column="auth_deleted" property="authDeleted" jdbcType="TIMESTAMP" />
+    <result column="auth_delete_flag" property="authDeleteFlag" jdbcType="CHAR" />
+     <result column="auth_type" property="authType" jdbcType="CHAR" />
+      <result column="auth_pic" property="authPic" jdbcType="VARCHAR" />
+        <result column="auth_login" property="authLogin" jdbcType="VARCHAR" />  
+  </resultMap>
+  <sql id="Base_Column_List" >
+    auth_id, auth_name, auth_client_id, auth_client_secret, auth_redirect_uri, auth_sort, 
+    auth_show, auth_create_name, auth_created, auth_update_name, auth_updated, auth_deleted, 
+    auth_delete_flag,auth_type,auth_pic,auth_login
+  </sql>
+  
+  
+    <select id="findAuthByAuthType" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_auth
+    where auth_type = #{authType,jdbcType=CHAR}
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_auth
+    where auth_id = #{authId,jdbcType=BIGINT}
+  </select>
+  
+  <update id="deleteByPrimaryKey" parameterType="com.ningpai.system.bean.Auth" >
+    update np_auth set auth_delete_flag='1',auth_deleted = #{authDeleted} 
+    where auth_id = #{authId,jdbcType=BIGINT}
+  </update>
+  
+  <insert id="insert" parameterType="com.ningpai.system.bean.Auth" >
+    insert into np_auth (auth_id, auth_name, auth_client_id, 
+      auth_client_secret, auth_redirect_uri, auth_sort, 
+      auth_show, auth_create_name, auth_created, 
+      auth_update_name, auth_updated, auth_deleted, 
+      auth_delete_flag)
+    values (#{authId,jdbcType=BIGINT}, #{authName,jdbcType=VARCHAR}, #{authClientId,jdbcType=VARCHAR}, 
+      #{authClientSecret,jdbcType=VARCHAR}, #{authRedirectUri,jdbcType=VARCHAR}, #{authSort,jdbcType=SMALLINT}, 
+      #{authShow,jdbcType=CHAR}, #{authCreateName,jdbcType=VARCHAR}, #{authCreated,jdbcType=TIMESTAMP}, 
+      #{authUpdateName,jdbcType=VARCHAR}, #{authUpdated,jdbcType=TIMESTAMP}, #{authDeleted,jdbcType=TIMESTAMP}, 
+      #{authDeleteFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.system.bean.Auth" >
+    insert into np_auth
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="authId != null" >
+        auth_id,
+      </if>
+      <if test="authName != null" >
+        auth_name,
+      </if>
+      <if test="authClientId != null" >
+        auth_client_id,
+      </if>
+      <if test="authClientSecret != null" >
+        auth_client_secret,
+      </if>
+      <if test="authRedirectUri != null" >
+        auth_redirect_uri,
+      </if>
+      <if test="authSort != null" >
+        auth_sort,
+      </if>
+      <if test="authShow != null" >
+        auth_show,
+      </if>
+      <if test="authCreateName != null" >
+        auth_create_name,
+      </if>
+      <if test="authCreated != null" >
+        auth_created,
+      </if>
+      <if test="authUpdateName != null" >
+        auth_update_name,
+      </if>
+      <if test="authUpdated != null" >
+        auth_updated,
+      </if>
+      <if test="authDeleted != null" >
+        auth_deleted,
+      </if>
+      <if test="authDeleteFlag != null" >
+        auth_delete_flag,
+      </if>
+       <if test="authPic != null and authPic!=''" >
+        auth_pic,
+      </if>
+       <if test="authType != null" >
+        auth_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="authId != null" >
+        #{authId,jdbcType=BIGINT},
+      </if>
+      <if test="authName != null" >
+        #{authName,jdbcType=VARCHAR},
+      </if>
+      <if test="authClientId != null" >
+        #{authClientId,jdbcType=VARCHAR},
+      </if>
+      <if test="authClientSecret != null" >
+        #{authClientSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="authRedirectUri != null" >
+        #{authRedirectUri,jdbcType=VARCHAR},
+      </if>
+      <if test="authSort != null" >
+        #{authSort,jdbcType=SMALLINT},
+      </if>
+      <if test="authShow != null" >
+        #{authShow,jdbcType=CHAR},
+      </if>
+      <if test="authCreateName != null" >
+        #{authCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="authCreated != null" >
+        #{authCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authUpdateName != null" >
+        #{authUpdateName,jdbcType=VARCHAR},
+      </if>
+      <if test="authUpdated != null" >
+        #{authUpdated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authDeleted != null" >
+        #{authDeleted,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authDeleteFlag != null" >
+        #{authDeleteFlag,jdbcType=CHAR},
+      </if>
+         <if test="authPic != null and authPic!=''" >
+        #{authPic,jdbcType=VARCHAR},
+      </if>
+       <if test="authType != null" >
+        #{authType,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.system.bean.Auth" >
+    update np_auth
+    <set >
+      <if test="authName != null" >
+        auth_name = #{authName,jdbcType=VARCHAR},
+      </if>
+      <if test="authClientId != null" >
+        auth_client_id = #{authClientId,jdbcType=VARCHAR},
+      </if>
+      <if test="authClientSecret != null" >
+        auth_client_secret = #{authClientSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="authRedirectUri != null" >
+        auth_redirect_uri = #{authRedirectUri,jdbcType=VARCHAR},
+      </if>
+      <if test="authSort != null" >
+        auth_sort = #{authSort,jdbcType=SMALLINT},
+      </if>
+      <if test="authShow != null" >
+        auth_show = #{authShow,jdbcType=CHAR},
+      </if>
+      <if test="authCreateName != null" >
+        auth_create_name = #{authCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="authCreated != null" >
+        auth_created = #{authCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authUpdateName != null" >
+        auth_update_name = #{authUpdateName,jdbcType=VARCHAR},
+      </if>
+      <if test="authUpdated != null" >
+        auth_updated = #{authUpdated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authDeleted != null" >
+        auth_deleted = #{authDeleted,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authDeleteFlag != null" >
+        auth_delete_flag = #{authDeleteFlag,jdbcType=CHAR},
+      </if>
+      
+       <if test="authType != null" >
+        auth_type = #{authType,jdbcType=CHAR},
+      </if>
+      
+       <if test="authPic != null and authPic!=''" >
+        auth_pic = #{authPic,jdbcType=CHAR},
+      </if>
+    </set>
+    where auth_id = #{authId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.system.bean.Auth" >
+    update np_auth
+    set auth_name = #{authName,jdbcType=VARCHAR},
+      auth_client_id = #{authClientId,jdbcType=VARCHAR},
+      auth_client_secret = #{authClientSecret,jdbcType=VARCHAR},
+      auth_redirect_uri = #{authRedirectUri,jdbcType=VARCHAR},
+      auth_sort = #{authSort,jdbcType=SMALLINT},
+      auth_show = #{authShow,jdbcType=CHAR},
+      auth_create_name = #{authCreateName,jdbcType=VARCHAR},
+      auth_created = #{authCreated,jdbcType=TIMESTAMP},
+      auth_update_name = #{authUpdateName,jdbcType=VARCHAR},
+      auth_updated = #{authUpdated,jdbcType=TIMESTAMP},
+      auth_deleted = #{authDeleted,jdbcType=TIMESTAMP},
+      auth_delete_flag = #{authDeleteFlag,jdbcType=CHAR}
+    where auth_id = #{authId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findByPageBean" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select <include refid="Base_Column_List"/> 
+  	from np_auth where auth_delete_flag='0' and auth_type!='7'
+  	<!-- 若为1 按照链接名称查询 -->
+  		<if test="condition == 1">
+  			and auth_name like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  		</if>
+  	 order by auth_sort 
+  	limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <!-- 查询为微信登录的记录 -->
+  <select id="findByWxLogin" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select <include refid="Base_Column_List"/> 
+  	from np_auth where auth_delete_flag='0' and auth_type='7'
+  	<!-- 若为1 按照链接名称查询 -->
+  		<if test="condition == 1">
+  			and auth_name like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  		</if>
+  	 order by auth_sort 
+  	limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <select id="findTotalCount" resultType="int" parameterType="com.ningpai.system.util.SelectBean">
+  	select count(auth_id) from np_auth where auth_delete_flag='0' and auth_type!='7'
+  	<!-- 若为1 按照链接名称查询 -->
+  		<if test="condition == 1">
+  			and auth_name like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  		</if>
+  </select>
+  
+  <select id="findTotalwxCount" resultType="int" parameterType="com.ningpai.system.util.SelectBean">
+  	select count(auth_id) from np_auth where auth_delete_flag='0' and auth_type='7'
+  	<!-- 若为1 按照链接名称查询 -->
+  		<if test="condition == 1">
+  			and auth_name like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  		</if>
+  </select>
+  
+  <select id="findByShow" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/> 
+  	from np_auth where auth_delete_flag='0' 
+  	and auth_show = '1'
+  	order by auth_sort 
+  </select>
+</mapper>

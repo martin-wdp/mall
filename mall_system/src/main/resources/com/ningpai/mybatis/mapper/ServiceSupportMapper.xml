@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.system.dao.ServiceSupportMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.system.bean.ServiceSupport" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="service_name" property="serviceName" jdbcType="VARCHAR" />
+    <result column="service_image_url" property="serviceImageUrl" jdbcType="VARCHAR" />
+    <result column="help_id" property="helpId" jdbcType="BIGINT" />
+    <result column="delfalg" property="delfalg" jdbcType="CHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="reserve1" property="reserve1" jdbcType="VARCHAR" />
+    <result column="reserve2" property="reserve2" jdbcType="VARCHAR" />
+    <result column="reserve3" property="reserve3" jdbcType="VARCHAR" />
+    <result column="reserve4" property="reserve4" jdbcType="VARCHAR" />
+    <result column="reserve5" property="reserve5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, service_name, service_image_url, help_id, delfalg, create_user_id, create_time, 
+    update_user_id, update_time, reserve1, reserve2, reserve3, reserve4, reserve5
+  </sql>
+  <!-- 根据id查询单个 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_service_support
+    where id = #{id,jdbcType=BIGINT} and delfalg = '0'
+  </select>
+  
+  <!-- 添加单个 -->
+  <insert id="insertSelective" parameterType="com.ningpai.system.bean.ServiceSupport" >
+    insert into np_service_support
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="serviceName != null" >
+        service_name,
+      </if>
+      <if test="serviceImageUrl != null" >
+        service_image_url,
+      </if>
+      <if test="helpId != null" >
+        help_id,
+      </if>
+      <if test="delfalg != null" >
+        delfalg,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="reserve1 != null" >
+        reserve1,
+      </if>
+      <if test="reserve2 != null" >
+        reserve2,
+      </if>
+      <if test="reserve3 != null" >
+        reserve3,
+      </if>
+      <if test="reserve4 != null" >
+        reserve4,
+      </if>
+      <if test="reserve5 != null" >
+        reserve5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="serviceName != null" >
+        #{serviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceImageUrl != null" >
+        #{serviceImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="helpId != null" >
+        #{helpId,jdbcType=BIGINT},
+      </if>
+      <if test="delfalg != null" >
+        #{delfalg,jdbcType=CHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reserve1 != null" >
+        #{reserve1,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve2 != null" >
+        #{reserve2,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve3 != null" >
+        #{reserve3,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve4 != null" >
+        #{reserve4,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve5 != null" >
+        #{reserve5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 修改 -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.system.bean.ServiceSupport" >
+    update np_service_support
+    <set >
+      <if test="serviceName != null" >
+        service_name = #{serviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceImageUrl != null" >
+        service_image_url = #{serviceImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="helpId != null" >
+        help_id = #{helpId,jdbcType=BIGINT},
+      </if>
+      <if test="delfalg != null" >
+        delfalg = #{delfalg,jdbcType=CHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reserve1 != null" >
+        reserve1 = #{reserve1,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve2 != null" >
+        reserve2 = #{reserve2,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve3 != null" >
+        reserve3 = #{reserve3,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve4 != null" >
+        reserve4 = #{reserve4,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve5 != null" >
+        reserve5 = #{reserve5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 列表显示分页查询 -->
+  <select id="selectAllServiceSupport" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List" /> from np_service_support where delfalg = '0' order by id 
+  	 limit #{startRowNum},#{endRowNum}
+  </select>
+  <!-- 查询总条数 -->
+  <select id="selectCount" resultType="int">
+  	select count(id) from np_service_support where delfalg = '0'
+  </select>
+  
+  <!-- 查询所有 -->
+  <select id="selectAll" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List" /> from np_service_support where delfalg = '0' order by id 
+  </select>
+  <!-- 修改删除标记 -->
+  <update id="updateServiceSupportByDelfalg" parameterType="java.util.List">
+  	update np_service_support set delfalg ='1' where id in 
+  	<foreach collection="list" item="id"  open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+  </update>
+</mapper>

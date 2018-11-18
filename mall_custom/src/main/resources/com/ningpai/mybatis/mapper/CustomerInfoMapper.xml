@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ningpai.customer.dao.CustomerInfoMapper">
+  <resultMap id="BaseResultMap" type="com.ningpai.customer.bean.CustomerInfo">
+    <id column="info_id" jdbcType="BIGINT" property="infoId" />
+    <result column="customer_id" jdbcType="BIGINT" property="customerId" />
+    <result column="info_realname" jdbcType="VARCHAR" property="infoRealname" />
+    <result column="info_cardid" jdbcType="VARCHAR" property="infoCardid" />
+    <result column="info_gender" jdbcType="CHAR" property="infoGender" />
+    <result column="point_level_name" jdbcType="VARCHAR" property="pointLevelName" />
+    <result column="info_birthday" jdbcType="VARCHAR" property="infoBirthday" />
+    <result column="info_regip" jdbcType="VARCHAR" property="infoRegip" />
+    <result column="info_province" jdbcType="VARCHAR" property="infoProvince" />
+    <result column="info_city" jdbcType="VARCHAR" property="infoCity" />
+    <result column="info_county" jdbcType="VARCHAR" property="infoCounty" />
+    <result column="infoStreet" jdbcType="VARCHAR" property="infoStreet" />
+    <result column="info_address" jdbcType="VARCHAR" property="infoAddress" />
+    <result column="info_marital" jdbcType="CHAR" property="infoMarital" />
+    <result column="info_salary" jdbcType="VARCHAR" property="infoSalary" />
+    <result column="info_interest" jdbcType="VARCHAR" property="infoInterest" />
+    <result column="info_email" jdbcType="VARCHAR" property="infoEmail" />
+    <result column="info_mobile" jdbcType="VARCHAR" property="infoMobile" />
+    <result column="balance_sum" jdbcType="DECIMAL" property="balanceSum" />
+    <result column="info_point_sum" jdbcType="INTEGER" property="infoPointSum" />
+    <result column="info_type" jdbcType="INTEGER" property="infoType" />
+    <result column="info_register_time" jdbcType="TIMESTAMP" property="infoRegisterTime" />
+    <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
+    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
+    <result column="info_phone" jdbcType="VARCHAR" property="infoPhone" />
+    <result column="info_zip" jdbcType="VARCHAR" property="infoZip" />
+    <result column="del_time" jdbcType="TIMESTAMP" property="delTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    info_id, customer_id, info_realname, info_cardid, info_gender, point_level_name, 
+    info_birthday, info_regip, info_province, info_city, info_county, info_address, info_marital, 
+    info_salary, info_interest, info_email, info_mobile, balance_sum, info_point_sum, 
+    info_type, info_register_time, modified_time, del_flag, info_phone, info_zip, del_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_customer_info
+    where info_id = #{infoId,jdbcType=BIGINT}
+  </select>
+
+    <select id="selectByCustomerId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from np_customer_info
+    where customer_id = #{customerId,jdbcType=BIGINT}
+  </select>
+    <!--根据手机号获取用户，add by 付陈林 2015年12月25日-->
+    <select id="selectByMobile" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from np_customer_info
+        where info_mobile = #{infoMobile,jdbcType=VARCHAR}
+    </select>
+  
+  <select id="selectemail" resultMap="BaseResultMap"  parameterType="java.lang.Long">
+    select 
+    info_email
+    from np_customer_info 
+    where customer_id = #{customerId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectmobile" resultMap="BaseResultMap"  parameterType="java.lang.Long">
+    select 
+    info_mobile
+    from np_customer_info
+    where customer_id = #{customerId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectCustInfoById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    info_point_sum
+    from np_customer_info
+    where customer_id = #{infoId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from np_customer_info
+    where info_id = #{infoId,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insertSelective" parameterType="com.ningpai.other.bean.CustomerAllInfo">
+    insert into np_customer_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="infoId != null">
+        info_id,
+      </if>
+      <if test="customerId != null">
+        customer_id,
+      </if>
+      <if test="infoRealname != null">
+        info_realname,
+      </if>
+      <if test="infoCardid != null">
+        info_cardid,
+      </if>
+      <if test="infoGender != null">
+        info_gender,
+      </if>
+      <if test="pointLevelName == null">
+        point_level_name,
+      </if>
+      <if test="pointLevelId != null">
+        point_level_id,
+      </if>
+      <if test="infoBirthday != null">
+        info_birthday,
+      </if>
+      <if test="infoRegip != null">
+        info_regip,
+      </if>
+      <if test="infoProvince != null and infoProvince != ''">
+        info_province,
+      </if>
+      <if test="infoCity != null">
+        info_city,
+      </if>
+      <if test="infoCounty != null">
+        info_county,
+      </if>
+      <if test="infoStreet != null">
+        infoStreet,
+      </if>
+      <if test="infoAddress != null">
+        info_address,
+      </if>
+      <if test="infoMarital != null">
+        info_marital,
+      </if>
+      <if test="infoSalary != null">
+        info_salary,
+      </if>
+      <if test="infoInterest != null">
+        info_interest,
+      </if>
+      <if test="infoEmail != null">
+        info_email,
+      </if>
+      <if test="infoMobile != null">
+        info_mobile,
+      </if>
+      <if test="balanceSum == null">
+        balance_sum,
+      </if>
+      <if test="infoPointSum == null">
+        info_point_sum,
+      </if>
+      <if test="infoType == null">
+        info_type,
+      </if>
+      <if test="infoRegisterTime == null">
+        info_register_time,
+      </if>
+      <if test="modifiedTime == null">
+        modified_time,
+      </if>
+      <if test="delFlag == null">
+        del_flag,
+      </if>
+      <if test="infoPhone != null">
+        info_phone,
+      </if>
+      <if test="infoZip != null">
+        info_zip,
+      </if>
+      <if test="delTime == null">
+        del_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="infoId != null">
+        #{infoId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null">
+        #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="infoRealname != null">
+        #{infoRealname,jdbcType=VARCHAR},
+      </if>
+      <if test="infoCardid != null">
+        #{infoCardid,jdbcType=VARCHAR},
+      </if>
+      <if test="infoGender != null">
+        #{infoGender,jdbcType=CHAR},
+      </if>
+      <if test="pointLevelName == null">
+        (select p.point_level_name from np_customer_point_level p where p.point_lelvel_id=#{pointLevelId,jdbcType=VARCHAR}),
+      </if>
+      <if test="pointLevelId != null">
+       #{pointLevelId,jdbcType=VARCHAR},
+      </if>
+      <if test="infoBirthday != null">
+        #{infoBirthday,jdbcType=VARCHAR},
+      </if>
+      <if test="infoRegip != null">
+        #{infoRegip,jdbcType=VARCHAR},
+      </if>
+      <if test="infoProvince != null and infoProvince != ''">
+       	#{infoProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="infoCity != null">
+        #{infoCity,jdbcType=VARCHAR},
+      </if>
+      <if test="infoCounty != null">
+        #{infoCounty,jdbcType=VARCHAR},
+      </if>
+      <if test="infoStreet != null">
+        #{infoStreet,jdbcType=VARCHAR},
+      </if>
+      <if test="infoAddress != null">
+        #{infoAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="infoMarital != null">
+        #{infoMarital,jdbcType=CHAR},
+      </if>
+      <if test="infoSalary != null">
+        #{infoSalary,jdbcType=VARCHAR},
+      </if>
+      <if test="infoInterest != null">
+        #{infoInterest,jdbcType=VARCHAR},
+      </if>
+      <if test="infoEmail != null">
+        #{infoEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="infoMobile != null">
+        #{infoMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="balanceSum == null">
+       	0,
+      </if>
+      <if test="infoPointSum == null">
+        0,
+      </if>
+      <if test="infoType == null">
+       '1',
+      </if>
+      <if test="infoRegisterTime == null">
+        SYSDATE(),
+      </if>
+      <if test="modifiedTime == null">
+         SYSDATE(),
+      </if>
+      <if test="delFlag == null">
+        '0',
+      </if>
+      <if test="infoPhone != null">
+        #{infoPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="infoZip != null">
+        #{infoZip,jdbcType=VARCHAR},
+      </if>
+      <if test="delTime == null">
+       SYSDATE(),
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateInfoByCustId" parameterType="com.ningpai.customer.bean.CustomerInfo">
+  	 update np_customer_info
+    <set>
+      <if test="balanceSum != null">
+        balance_sum = #{balanceSum,jdbcType=DECIMAL},
+      </if>
+      <if test="infoPointSum != null">
+        info_point_sum = #{infoPointSum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where customer_id = #{customerId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.other.bean.CustomerAllInfo">
+    update np_customer_info
+    <set>
+<!--       <if test="customerId != null"> -->
+<!--         customer_id = #{customerId,jdbcType=BIGINT}, -->
+<!--       </if> -->
+      <if test="infoRealname != null">
+        info_realname = #{infoRealname,jdbcType=VARCHAR},
+      </if>
+      <if test="infoCardid != null">
+        info_cardid = #{infoCardid,jdbcType=VARCHAR},
+      </if>
+      <if test="infoGender != null">
+        info_gender = #{infoGender,jdbcType=CHAR},
+      </if>
+      <if test="pointLevelId != null">
+       point_level_name=(select p.point_level_name from np_customer_point_level p where p.point_lelvel_id=#{pointLevelId,jdbcType=VARCHAR}),
+      </if>
+      <if test="pointLevelId != null">
+       point_level_id=#{pointLevelId,jdbcType=VARCHAR},
+      </if>
+      <if test="infoBirthday != null">
+        info_birthday = #{infoBirthday,jdbcType=VARCHAR},
+      </if>
+      <if test="infoRegip != null">
+        info_regip = #{infoRegip,jdbcType=VARCHAR},
+      </if>
+      <if test="infoProvince != null and infoProvince != ''">
+        info_province = #{infoProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="infoCity != null">
+        info_city = #{infoCity,jdbcType=VARCHAR},
+      </if>
+      <if test="infoCounty != null">
+        info_county = #{infoCounty,jdbcType=VARCHAR},
+      </if>
+      <if test="infoStreet != null">
+        infoStreet = #{infoStreet,jdbcType=VARCHAR},
+      </if>
+      <if test="infoAddress != null">
+        info_address = #{infoAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="infoMarital != null">
+        info_marital = #{infoMarital,jdbcType=CHAR},
+      </if>
+      <if test="infoSalary != null">
+        info_salary = #{infoSalary,jdbcType=VARCHAR},
+      </if>
+      <if test="infoInterest != null">
+        info_interest = #{infoInterest,jdbcType=VARCHAR},
+      </if>
+      <if test="infoEmail != null">
+        info_email = #{infoEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="infoMobile != null">
+        info_mobile = #{infoMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="balanceSum != null">
+        balance_sum = #{balanceSum,jdbcType=DECIMAL},
+      </if>
+      <if test="infoPointSum != null">
+        info_point_sum = #{infoPointSum,jdbcType=INTEGER},
+      </if>
+      <if test="infoType != null">
+        info_type = #{infoType,jdbcType=INTEGER},
+      </if>
+      <if test="infoRegisterTime != null">
+        info_register_time = #{infoRegisterTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null">
+        modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="infoPhone != null">
+        info_phone = #{infoPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="infoZip != null">
+        info_zip = #{infoZip,jdbcType=VARCHAR},
+      </if>
+      <if test="delTime != null">
+        del_time = #{delTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where customer_id = #{customerId,jdbcType=BIGINT}
+  </update>
+  
+ <!--  <update id="updateCusSumPoint" parameterType="java.util.Map" >
+  update np_customer_info set info_point_sum=info_point_sum-#{reducePoint,jdbcType=BIGINT}
+  where customer_id=(select customerId from np_third_store_info where store_id=#{storeId,jdbcType=BIGINT})
+  </update> -->
+</mapper>

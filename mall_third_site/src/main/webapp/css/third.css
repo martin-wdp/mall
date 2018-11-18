@@ -1,0 +1,83 @@
+.alertTip {
+     color: green !important
+ }
+
+.alertTipError {
+    border-color: #ffc4c4;
+    color: red !important;
+}
+
+.close_add {
+    position: absolute;
+    background: url(../images/close_add.gif) no-repeat;
+    width: 10px;
+    height: 10px;
+    top: 10px;
+    right: 10px;
+}
+
+.add_dialog .blu_bt {
+    margin: 0 5px;
+}
+
+.blu_bt {
+    display: inline-block;
+    zoom: 1;
+    height: 32px;
+    line-height: 32px;
+    color: #fff;
+    font-weight: 700;
+    padding: 0 17px;
+    background: #3092e6;
+    font-size: 14px;
+}
+
+.bdbox {
+    border-bottom: 1px solid #dcdcdc;
+    padding-bottom: 10px;
+    margin-top: 10px;
+}
+
+
+.add_dialog {
+    width: 276px;
+    padding: 10px;
+    background: #fff;
+    border: 2px solid #3092e6;
+    position: absolute;
+    top: 35px;
+    left: 10px;
+    display: none;
+    z-index: 9999;
+}
+.tip_Brand{
+    color: red;
+    font-size: 12px;
+}
+.tb_error {
+    background: url(../images/tb_error.png) no-repeat;
+    width: 21px;
+    height: 16px;
+    display: inline-block;
+}
+
+.tb_right {
+    background: url(../images/tb_right.png) no-repeat;
+    width: 21px;
+    height: 16px;
+    display: inline-block;
+}
+.ui-state-error{border-color:#e31515;}
+
+.step_wp {display:none;}
+
+input.error {color:#a94442;border-color:#a94442;}
+
+label.error{color:#a94442;margin-top:5px;}
+
+div.meneame{padding:10px 0 10px 13px;font-size:80%;margin:3px;color:#555;text-align:right}
+div.meneame a{border:#ddd 1px solid;padding:10px 12px 10px 17px;background-position:50% bottom;color:#555;margin-right:3px;text-decoration:none}
+div.meneame a:hover{border:#ddd 1px solid;color: #555;background:#F9F9F9}
+div.meneame a:active{border:#ddd 1px solid;color:#555;background-image:url(../images/meneame.jpg);}
+div.meneame span.current{border:#ddd 1px solid;padding:10px 12px 10px 17px;font-weight:bold;color:#555;margin-right:3px;background-image:url(../images/meneame.jpg);}
+div.meneame span.disabled{border:#eee 1px solid;padding:10px 12px 10px 17px;color:#555;margin-right:3px;background:#F9F9F9;}

@@ -1,0 +1,1 @@
+function changeSearch(obj,objName,valu){$("#pageBeanShowPage").val(valu);$("#searchForm").submit()}$(function(){$(".acSide dl dt").each(function(){var cur=$(this);cur.find("a").click(function(){cur.next("dd").slideToggle("fast");if(cur.find("a").hasClass("un")){cur.find("a").removeClass("un")}else{cur.find("a").addClass("un")}})})});

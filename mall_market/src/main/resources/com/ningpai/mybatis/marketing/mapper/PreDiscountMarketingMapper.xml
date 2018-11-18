@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.marketing.dao.PreDiscountMarketingMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.marketing.bean.PreDiscountMarketing" >
+    <id column="discount_id" property="discountId" jdbcType="BIGINT" />
+    <result column="marketing_id" property="marketingId" jdbcType="BIGINT" />
+    <result column="discount_info" property="discountInfo" jdbcType="DECIMAL" />
+    <result column="del_flag" property="delFlag" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="discount_flag" property="discountFlag" jdbcType="VARCHAR" />
+    <result column="discount_price" property="discountPrice" jdbcType="DECIMAL" />
+    <result column="vip_discount_info" property="vipdiscountInfo" jdbcType="DECIMAL" />
+    <result column="vip_discount_price" property="vipdiscountPrice" jdbcType="DECIMAL" />
+    <association property="goodsProduct" column="goods_id" select="com.ningpai.goods.dao.GoodsProductMapper.queryDetailProductByPrimaryKey">
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    discount_id, marketing_id, discount_info, del_flag, goods_id,discount_flag, discount_price,vip_discount_info,vip_discount_price
+  </sql>
+  
+  <insert id="insertSelective" parameterType="java.util.List">
+  	insert into np_pre_discount_marketing (discount_id, marketing_id, 
+      discount_info, del_flag, goods_id,discount_flag,discount_price,vip_discount_info,vip_discount_price
+      )
+    values
+       <foreach collection="list" separator="," item="pdm" index="index" >  
+          (#{pdm.discountId,jdbcType=BIGINT}, #{pdm.marketingId,jdbcType=BIGINT}, 
+      #{pdm.discountInfo,jdbcType=DECIMAL}, #{pdm.delFlag,jdbcType=VARCHAR}, #{pdm.goodsId,jdbcType=BIGINT}, #{pdm.discountFlag,jdbcType=VARCHAR},#{pdm.discountPrice,jdbcType=DECIMAL}
+           ,#{pdm.vipdiscountInfo,jdbcType=DECIMAL},#{pdm.vipdiscountPrice,jdbcType=DECIMAL}
+      )
+     </foreach>  
+  </insert>
+  
+  <select id="selectByMarketId" parameterType="java.util.Map" resultMap="BaseResultMap">
+    	select <include refid="Base_Column_List" /> from np_pre_discount_marketing
+      where marketing_id = #{marketingId,jdbcType=BIGINT} and goods_id = #{goodsId,jdbcType=BIGINT} and del_flag = '0'
+    </select>
+
+    <select id="queryByGoodsIdAndMarketingId" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1) from  np_pre_discount_marketing where marketing_id = #{marketingId,jdbcType=BIGINT} and goods_id = #{goodsId,jdbcType=BIGINT}
+    </select>
+
+    <update id="modifySelective" parameterType="com.ningpai.marketing.bean.PreDiscountMarketing">
+        update np_pre_discount_marketing
+        <set>
+            <if test="discountInfo != null">
+                discount_info = #{discountInfo,jdbcType=DECIMAL},
+            </if>
+            <if test="discountFlag != null and discountFlag != ''">
+                discount_flag = #{discountFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="discountPrice != null">
+                discount_price = #{discountPrice,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where marketing_id = #{marketingId,jdbcType=BIGINT} and goods_id = #{goodsId,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insertSelectiveSingle" parameterType="com.ningpai.marketing.bean.PreDiscountMarketing">
+        insert into np_pre_discount_marketing
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="discountId != null" >
+                discount_id,
+            </if>
+            <if test="marketingId != null" >
+                marketing_id,
+            </if>
+            <if test="discountInfo != null" >
+                discount_info,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="goodsId != null" >
+                goods_id,
+            </if>
+            <if test="discountFlag != null" >
+                discount_flag,
+            </if>
+            <if test="discountPrice != null">
+                discount_price,
+            </if>
+            <if test="vipdiscountInfo != null">
+                vip_discount_info,
+            </if>
+            <if test="vipdiscountPrice != null">
+                vip_discount_price,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="discountId != null" >
+                #{discountId,jdbcType=BIGINT},
+            </if>
+            <if test="marketingId != null" >
+                #{marketingId,jdbcType=BIGINT},
+            </if>
+            <if test="discountInfo != null" >
+                #{discountInfo,jdbcType=DECIMAL},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsId != null" >
+                #{goodsId,jdbcType=BIGINT},
+            </if>
+            <if test="discountFlag != null" >
+                #{discountFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="discountPrice != null">
+                #{discountPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="vipdiscountInfo != null">
+                #{vipdiscountInfo,jdbcType=DECIMAL},
+            </if>
+            <if test="vipdiscountPrice != null">
+                #{vipdiscountPrice,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="countPreGoodsByMidAndGid" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1) from np_pre_discount_marketing where marketing_id = #{marketingId,jdbcType=BIGINT} and goods_id = #{goodsId,jdbcType=BIGINT}
+    </select>
+
+    <update id="removePreGoodsByMidAndGid" parameterType="java.util.Map">
+        update np_pre_discount_marketing set del_flag = '1' where marketing_id = #{marketingId,jdbcType=BIGINT} and goods_id = #{goodsId,jdbcType=BIGINT}
+    </update>
+    
+     <select id="newselectByMarketId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    	select <include refid="Base_Column_List" /> from np_pre_discount_marketing 
+    	where del_flag = '0' and marketing_id = #{marketingId,jdbcType=BIGINT} 
+    </select>
+    
+    <update id="removePreGoodsByMid" parameterType="java.lang.Long">
+        update np_pre_discount_marketing set del_flag = '1' where marketing_id = #{marketingId,jdbcType=BIGINT} 
+    </update>
+</mapper>  

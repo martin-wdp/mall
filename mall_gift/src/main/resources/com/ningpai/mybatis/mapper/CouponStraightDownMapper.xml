@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.CouponStraightDownMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.coupon.bean.CouponStraightDown" >
+    <id column="down_id" property="downId" jdbcType="BIGINT" />
+    <result column="coupon_id" property="couponId" jdbcType="BIGINT" />
+    <result column="down_price" property="downPrice" jdbcType="DECIMAL" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+     <result column="del_flag" property="delFlag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    down_id, coupon_id, down_price, update_time,del_flag
+  </sql>
+  
+  
+  
+   <select id="selectCouponStraightDown" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_coupon_straight_down
+    where coupon_id = #{couponId,jdbcType=BIGINT} and del_flag = '0'
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_coupon_straight_down
+    where down_id = #{downId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_coupon_straight_down
+    where down_id = #{downId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertStraightDown" parameterType="com.ningpai.coupon.bean.CouponStraightDown" >
+    insert into np_coupon_straight_down (down_id, coupon_id, down_price, 
+      update_time)
+    values (#{downId,jdbcType=BIGINT}, #{couponId,jdbcType=BIGINT}, #{downPrice,jdbcType=DECIMAL}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.coupon.bean.CouponStraightDown" >
+    insert into np_coupon_straight_down
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="downId != null" >
+        down_id,
+      </if>
+      <if test="couponId != null" >
+        coupon_id,
+      </if>
+      <if test="downPrice != null" >
+        down_price,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="downId != null" >
+        #{downId,jdbcType=BIGINT},
+      </if>
+      <if test="couponId != null" >
+        #{couponId,jdbcType=BIGINT},
+      </if>
+      <if test="downPrice != null" >
+        #{downPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.coupon.bean.CouponStraightDown" >
+    update np_coupon_straight_down
+    <set >
+      <if test="couponId != null" >
+        coupon_id = #{couponId,jdbcType=BIGINT},
+      </if>
+      <if test="downPrice != null" >
+        down_price = #{downPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where down_id = #{downId,jdbcType=BIGINT}
+  </update>
+  <update id="deleteStraightDown" parameterType="java.lang.Long" >
+    update np_coupon_straight_down
+    set 
+      del_flag = '1'
+    where coupon_id = #{couponId,jdbcType=BIGINT}
+  </update>
+</mapper>

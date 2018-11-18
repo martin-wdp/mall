@@ -1,0 +1,818 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.group.mapper.GroupMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.group.bean.Group" >
+    <id column="group_id" property="groupId" jdbcType="BIGINT" />
+    <result column="group_type_id" property="groupTypeId" jdbcType="BIGINT" />
+    <result column="group_name" property="groupName" jdbcType="VARCHAR" />
+    <result column="group_remark" property="groupRemark" jdbcType="VARCHAR" />
+    <result column="group_head" property="groupHead" jdbcType="VARCHAR" />
+    <result column="group_create_time" property="groupCreateTime" jdbcType="TIMESTAMP" />
+    <result column="group_modify_time" property="groupModifyTime" jdbcType="TIMESTAMP" />
+    <result column="group_create_author_id" property="groupCreateAuthorId" jdbcType="BIGINT" />
+    <result column="group_secret" property="groupSecret" jdbcType="CHAR" />
+    <result column="group_dissolve" property="groupDissolve" jdbcType="CHAR" />
+    <result column="group_background" property="groupBackground" jdbcType="VARCHAR" />
+    <result column="group_background_type" property="groupBackgroundType" jdbcType="CHAR" />
+    <result column="group_check_flag" property="groupCheckFlag" jdbcType="CHAR" />
+    <result column="group_is_hot" property="groupIsHot" jdbcType="CHAR" />
+    <result column="group_is_active" property="groupIsActive" jdbcType="CHAR" />
+    <result column="group_recommend" property="groupRecommend" jdbcType="CHAR" />
+    <result column="group_recommend_time" property="groupRecommendTime" jdbcType="TIMESTAMP" />
+    <result column="group_status" property="groupStatus" jdbcType="CHAR"></result>
+    <result column="group_limit_member" property="groupLimitMember" jdbcType="BIGINT"></result>
+    <result column="group_label" property="groupLabel" jdbcType="VARCHAR"></result>
+    <result column="refuse_reason" property="refuseReason" jdbcType="VARCHAR"></result>
+    
+  </resultMap>
+  <resultMap id="GroupPermissionsResultMap" type="com.ningpai.group.bean.GroupPermissions" >
+    <id column="limit_id" property="limitId" jdbcType="BIGINT" />
+    <result column="group_id" property="groupId" jdbcType="BIGINT" />
+    <result column="limit_add_type" property="limitAddType" jdbcType="CHAR" />
+    <result column="limit_reply_type" property="limitReplyType" jdbcType="CHAR" />
+    <result column="limit_reply_del_type" property="limitReplyDelType" jdbcType="CHAR" />
+    <result column="limit_access_type" property="limitAccessType" jdbcType="CHAR" />
+    <result column="limit_create_topic_type" property="limitCreateTopicType" jdbcType="CHAR" />
+    <result column="limit_modify_topic_type" property="limitModifyTopicType" jdbcType="CHAR" />
+    <result column="limit_del_topic_type" property="limitDelTopicType" jdbcType="CHAR" />
+    <result column="limit_create_pic_type" property="limitCreatePicType" jdbcType="CHAR" />
+    <result column="limit_del_pic_type" property="limitDelPicType" jdbcType="CHAR" />
+    <result column="limit_del_flag" property="limitDelFlag" jdbcType="CHAR" />
+    <result column="limit_condition" property="limitCondition" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap id="GroupVoResultMap" type="com.ningpai.group.vo.GroupVo" extends="GroupPermissionsResultMap">
+    <id column="group_id" property="groupId" jdbcType="BIGINT" />
+    <result column="group_type_id" property="groupTypeId" jdbcType="BIGINT" />
+    <result column="group_name" property="groupName" jdbcType="VARCHAR" />
+    <result column="group_head" property="groupHead" jdbcType="VARCHAR" />
+    <result column="group_background" property="groupBackground" jdbcType="VARCHAR" />
+    <result column="group_background_type" property="groupBackgroundType" jdbcType="CHAR" />
+    <result column="group_type_id" property="groupTypeId" jdbcType="VARCHAR" />
+    <result column="group_type_name" property="groupTypeName" jdbcType="VARCHAR" />
+    <result column="group_create_time" property="groupCreateTime" jdbcType="TIMESTAMP" />
+    <result column="group_modify_time" property="groupModifyTime" jdbcType="TIMESTAMP" />
+    <result column="group_remark" property="groupRemark" jdbcType="VARCHAR" />
+    <result column="group_create_author_id" property="groupCreateAuthorId" jdbcType="BIGINT" />
+    <result column="customer_nickname" property="groupCreateAuthorName" jdbcType="VARCHAR" />
+    <result column="group_secret" property="groupSecret" jdbcType="CHAR" />
+    <result column="group_dissolve" property="groupDissolve" jdbcType="CHAR" />
+    <result column="group_check_flag" property="groupCheckFlag" jdbcType="CHAR" />
+    <result column="group_is_hot" property="groupIsHot" jdbcType="CHAR" />
+    <result column="group_is_active" property="groupIsActive" jdbcType="CHAR" />
+     <result column="group_recommend" property="groupRecommend" jdbcType="CHAR" />
+    <result column="group_status" property="groupStatus" jdbcType="CHAR"></result>
+    <result column="group_limit_member" property="groupLimitMember" jdbcType="BIGINT"></result>
+    <result column="groupmember" property="groupmember" jdbcType="BIGINT"></result>
+    <result column="customer_power" property="customerPower" jdbcType="CHAR"></result>
+    <result column="topic_count" property="topicCount" jdbcType="BIGINT"></result>
+    <result column="customer_flag" property="customerFlag" jdbcType="BIGINT"></result>
+    <result column="group_label" property="groupLabel" jdbcType="VARCHAR"></result>
+    <result column="create_id" property="createId" jdbcType="BIGINT"></result>
+  </resultMap>
+  
+  
+  <resultMap type="com.ningpai.group.bean.GroupLabel" id="GroupLabelResultMap">
+   	<result column="label" property="label" jdbcType="VARCHAR"></result>
+    <result column="num" property="labelNum" jdbcType="BIGINT"></result>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    group_id, group_type_id, group_name, group_remark, group_head, group_create_time, 
+    group_modify_time, group_create_author_id, group_secret, group_dissolve, group_background, 
+    group_background_type, group_check_flag, group_is_hot, group_is_active, 
+    group_recommend_time,group_status, group_limit_member,group_label
+  </sql>
+  
+  <sql id="GroupVo_Column_List">
+    group_type_name,customer_nickname
+  </sql>
+  
+  <sql id="Permissions_Column_List" >
+    limit_id, limit_add_type, limit_reply_type, limit_reply_del_type, limit_access_type, 
+    limit_create_topic_type, limit_modify_topic_type, limit_del_topic_type, limit_create_pic_type, 
+    limit_del_pic_type, limit_del_flag,limit_condition
+  </sql>
+  
+  <select id="selectByGroupTypeId" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List" /> from np_group where group_type_id =#{group_type_id}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_group
+    where group_id = #{groupId,jdbcType=BIGINT} 
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_group
+    where group_id = #{groupId,jdbcType=BIGINT}
+  </delete>
+  
+  <update id="deleteGroupId" parameterType="java.lang.Long" >
+    update np_group
+    set group_dissolve = "1"
+    where group_id = #{groupId,jdbcType=BIGINT}
+  </update>
+  
+  <insert id="insert" parameterType="com.ningpai.group.bean.Group" useGeneratedKeys="true" keyProperty="groupId" >
+    insert into np_group (group_type_id, group_name, group_remark, 
+      group_head, group_create_time, group_modify_time, 
+      group_create_author_id, group_secret, group_dissolve, 
+      group_background, group_background_type, group_check_flag, 
+      group_is_hot, group_is_active, group_recommend_time,group_status, group_limit_member,group_label
+      )
+    values (#{groupTypeId,jdbcType=BIGINT}, #{groupName,jdbcType=VARCHAR}, #{groupRemark,jdbcType=VARCHAR}, 
+      #{groupHead,jdbcType=VARCHAR}, #{groupCreateTime,jdbcType=TIMESTAMP}, #{groupModifyTime,jdbcType=TIMESTAMP}, 
+      #{groupCreateAuthorId,jdbcType=BIGINT}, #{groupSecret,jdbcType=CHAR}, #{groupDissolve,jdbcType=CHAR}, 
+      #{groupBackground,jdbcType=VARCHAR}, #{groupBackgroundType,jdbcType=CHAR}, #{groupCheckFlag,jdbcType=CHAR}, 
+      #{groupIsHot,jdbcType=CHAR}, #{groupIsActive,jdbcType=CHAR}, #{groupRecommendTime,jdbcType=TIMESTAMP},
+      #{groupStatus,jdbcType=CHAR},#{groupLimitMember,jdbcType=BIGINT,#{groupLabel,jdbcType=VARCHAR}}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.group.bean.Group" useGeneratedKeys="true" keyProperty="groupId" >
+    insert into np_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      group_type_id,
+      group_name,
+      group_remark,
+      group_head,
+      group_create_time,
+      group_modify_time,
+      group_create_author_id,
+      group_secret,
+      group_dissolve,
+      group_background,
+      group_background_type,
+      group_check_flag,
+      group_is_hot,
+      group_is_active,
+      group_recommend_time,
+      group_status,
+      group_limit_member,
+      group_label,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{groupTypeId,jdbcType=BIGINT},
+      #{groupName,jdbcType=VARCHAR},
+      #{groupRemark,jdbcType=VARCHAR},
+      #{groupHead,jdbcType=VARCHAR},
+      #{groupCreateTime,jdbcType=TIMESTAMP},
+      #{groupModifyTime,jdbcType=TIMESTAMP},
+      #{groupCreateAuthorId,jdbcType=BIGINT},
+      #{groupSecret,jdbcType=CHAR},
+      #{groupDissolve,jdbcType=CHAR},
+      #{groupBackground,jdbcType=VARCHAR},
+      #{groupBackgroundType,jdbcType=CHAR},
+      #{groupCheckFlag,jdbcType=CHAR},
+      #{groupIsHot,jdbcType=CHAR},
+      #{groupIsActive,jdbcType=CHAR},
+      #{groupRecommendTime,jdbcType=TIMESTAMP},
+      #{groupStatus,jdbcType=CHAR},
+      #{groupLimitMember,jdbcType=BIGINT},
+      #{groupLabel,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.group.bean.Group" >
+    update np_group
+    <set >
+      <if test="groupTypeId != null" >
+        group_type_id = #{groupTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="groupName != null" >
+        group_name = #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupRemark != null" >
+        group_remark = #{groupRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="groupHead != null" >
+        group_head = #{groupHead,jdbcType=VARCHAR},
+      </if>
+      <if test="groupCreateTime != null" >
+        group_create_time = #{groupCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="groupModifyTime != null" >
+        group_modify_time = #{groupModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="groupCreateAuthorId != null" >
+        group_create_author_id = #{groupCreateAuthorId,jdbcType=BIGINT},
+      </if>
+      <if test="groupSecret != null" >
+        group_secret = #{groupSecret,jdbcType=CHAR},
+      </if>
+      <if test="groupDissolve != null" >
+        group_dissolve = #{groupDissolve,jdbcType=CHAR},
+      </if>
+      <if test="groupBackground != null" >
+        group_background = #{groupBackground,jdbcType=VARCHAR},
+      </if>
+      <if test="groupBackgroundType != null" >
+        group_background_type = #{groupBackgroundType,jdbcType=CHAR},
+      </if>
+      <if test="groupBackgroundType == null" >
+        group_background_type = '0',
+      </if>
+      <if test="groupCheckFlag != null" >
+        group_check_flag = #{groupCheckFlag,jdbcType=CHAR},
+      </if>
+      <if test="groupIsHot != null" >
+        group_is_hot = #{groupIsHot,jdbcType=CHAR},
+      </if>
+      <if test="groupIsActive != null" >
+        group_is_active = #{groupIsActive,jdbcType=CHAR},
+      </if>
+      <if test="groupRecommendTime != null" >
+        group_recommend_time = #{groupRecommendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="groupStatus != null">
+          group_status = #{groupStatus,jdbcType=CHAR},
+      </if>
+      <if test="groupLabel != null">
+          group_label = #{groupLabel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where group_id = #{groupId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.group.bean.Group" >
+    update np_group
+    set group_type_id = #{groupTypeId,jdbcType=BIGINT},
+      group_name = #{groupName,jdbcType=VARCHAR},
+      group_remark = #{groupRemark,jdbcType=VARCHAR},
+      group_head = #{groupHead,jdbcType=VARCHAR},
+      group_create_time = #{groupCreateTime,jdbcType=TIMESTAMP},
+      group_modify_time = #{groupModifyTime,jdbcType=TIMESTAMP},
+      group_create_author_id = #{groupCreateAuthorId,jdbcType=BIGINT},
+      group_secret = #{groupSecret,jdbcType=CHAR},
+      group_dissolve = #{groupDissolve,jdbcType=CHAR},
+      group_background = #{groupBackground,jdbcType=VARCHAR},
+      group_background_type = #{groupBackgroundType,jdbcType=CHAR},
+      group_check_flag = #{groupCheckFlag,jdbcType=CHAR},
+      group_is_hot = #{groupIsHot,jdbcType=CHAR},
+      group_is_active = #{groupIsActive,jdbcType=CHAR},
+      group_recommend_time = #{groupRecommendTime,jdbcType=TIMESTAMP},
+      group_status = #{groupStatus,jdbcType=CHAR},
+      group_limit_member = #{groupLimitMember,jdbcType=BIGINT},
+      group_label = #{groupLabel,jdbcType=VARCHAR}
+    where group_id = #{groupId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="queryTotalCount" resultType="java.lang.Integer">
+     select count(*)  from np_group
+     where 1=1 and group_dissolve = '0'
+  </select>
+  
+  <select id="queryByPageBean" parameterType="java.util.Map">
+    select
+     <include refid="Base_Column_List" /> 
+     from np_group
+     where 1=1 and group_dissolve = '0'
+     limit  #{startRowNum},#{endRowNum}
+  </select>
+  <!--查询全部小组  -->
+  <select id="findAllGroup" resultMap="GroupVoResultMap">
+     select count(*) groupmember,
+     <include refid="Base_Column_List" /> 
+     from np_group
+     where 1=1 and group_dissolve = '0' 
+     group by group_id
+  </select>
+  
+  <!-- 查询小组 -->
+  <select id="findGroupList" resultMap="GroupVoResultMap">
+     select  groupmember,topic_count,
+   	 g.group_id, group_type_id, group_name, group_remark, group_head, group_create_time, group_recommend,
+     group_modify_time, group_create_author_id, group_secret, group_dissolve, group_background, 
+     group_background_type, group_check_flag, group_is_hot, group_is_active, 
+     group_recommend_time,group_status, group_limit_member,customer_flag
+     from np_group g
+     left join
+     (select group_id,customer_id customer_flag ,customer_power,count(*) groupmember from np_group_customer where 1=1 
+      and del_flag='0' group by group_id)gc
+      on g.group_id = gc.group_id
+      left join
+     (SELECT group_id, COUNT(*) topic_count FROM np_group_topic WHERE topic_del_flag ='0' GROUP BY group_id)tp
+     on tp.group_id = g.group_id
+     where 1=1 and group_dissolve = '0' and group_check_flag = '1' 
+     <if test="groupIsActive != null and groupIsActive !='' ">
+     and group_is_active = #{groupIsActive,jdbcType=CHAR}
+     </if>
+     <if test="groupIsHot != null and groupIsHot !='' ">
+     and group_is_hot = #{groupIsHot,jdbcType=CHAR}
+     </if>
+     <if test="groupRecommend != null and groupRecommend !='' ">
+     and group_recommend = #{groupRecommend,jdbcType=CHAR}
+     </if>
+     <if test="groupSecret != null and groupSecret !='' ">
+     and group_secret = #{groupSecret,jdbcType=CHAR}
+     </if>
+     group by group_id 
+     <if test="limitNum !=null and limitNum !='' ">
+     limit #{limitNum}
+     </if>
+  </select>
+  
+ 
+  
+  <!-- 按小组分类查询小组 -->
+   <select id="findGroupByGroupType" parameterType="java.lang.Long">
+     select
+     <include refid="Base_Column_List" /> 
+     from np_group
+     where 1=1 and group_dissolve = '0' and group_type_id = #{groupTypeId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="searchTotalCount" resultType="java.lang.Integer" >
+   select count(*) 
+   from np_group
+     where 1=1 and group_dissolve = '0' 
+  </select>
+  
+  <!--后台设置通过小组  -->
+  <update id="passGroupById" parameterType="java.lang.Long" >
+     update np_group
+     set group_check_flag = '1' 
+     where group_id = #{groupId,jdbcType=BIGINT}
+  </update>
+  
+  <!--后台设置拒绝小组  -->
+  <update id="refuseGroupById" parameterType="java.util.Map" >
+     update np_group
+     set group_check_flag = '2'
+     <if test="refuseReason !=null and refuseReason !=''">
+      , refuse_reason = #{refuseReason}
+     </if>
+     where group_id = #{groupId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 后台解散小组 -->
+  <update id="dissolveGroupById" parameterType="java.lang.Long" >
+     update np_group
+     set  group_dissolve = '1'
+     where group_id = #{groupId,jdbcType=BIGINT}
+  </update>
+  
+   <!--后台设置活跃小组  -->
+  <update id="activeGroupById" parameterType="java.lang.Long" >
+     update np_group
+     set group_is_active = '1'
+     where group_id = #{groupId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 后台设置活跃小组为一般小组 -->
+  <update id="commonGroupById" parameterType="java.lang.Long" >
+     update np_group
+     set  group_is_active = '0'
+     where group_id = #{groupId,jdbcType=BIGINT}
+  </update>
+  
+   <!--后台设置热门小组  -->
+  <update id="hotGroupById" parameterType="java.lang.Long" >
+     update np_group
+     set group_is_hot = '1'
+     where group_id = #{groupId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 后台设置热门小组为一般小组 -->
+  <update id="cancelhotGroupById" parameterType="java.lang.Long" >
+     update np_group
+     set  group_is_hot = '0'
+     where group_id = #{groupId,jdbcType=BIGINT}
+  </update>
+  
+   <!--后台设置推荐到首页小组  -->
+  <update id="recommendGroupById" parameterType="java.lang.Long" >
+     update np_group
+     set group_recommend = '1'
+     where group_id = #{groupId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 后台设置取消推荐到首页-->
+  <update id="cancelrecommendGroupById" parameterType="java.lang.Long" >
+     update np_group
+     set  group_recommend = '0'
+     where group_id = #{groupId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 后台查询小组分页列表 -->
+   <select id="selectGroupByLimit"  parameterType="java.util.Map" resultMap="GroupVoResultMap">
+   select
+     g.group_id, g.group_type_id, g.group_name,g.group_head, g.group_remark, g.group_create_time,group_recommend,      
+	 g.group_modify_time, g.group_create_author_id, g.group_secret, g.group_dissolve,      
+	 g.group_check_flag, g.group_is_hot,group_is_active, g.group_status,g.group_limit_member,count(*) groupmember,
+    <include refid="GroupVo_Column_List" />
+     from np_group g 
+     left join np_group_type type 
+     on g.group_type_id = type.group_type_id 
+     left join np_customer 
+     on g.group_create_author_id = customer_id
+     left join np_group_customer gc
+     on g.group_id = gc.group_id
+     where 1=1 and g.group_dissolve = '0'  and gc.del_flag='0'
+     <if test="groupCheckFlag != null and groupCheckFlag !='' ">
+     and g.group_check_flag=#{groupCheckFlag,jdbcType=CHAR}
+     </if>
+     <if test="groupSecret != null and groupSecret !='' ">
+     and g.group_secret=#{groupSecret,jdbcType=CHAR}
+     </if>
+      group by gc.group_id
+      order by group_create_time asc
+    limit #{startRowNum},#{endRowNum}
+  </select>
+  
+   <!-- 根据分页条件高级搜索查询小组 -->
+   <select id="selectGroup"  parameterType="java.util.Map" resultMap="GroupVoResultMap">
+   select
+     g.group_id, g.group_type_id, g.group_name,g.group_head,g.group_background,g.group_background_type, g.group_remark, g.group_create_time,      
+	 g.group_modify_time, g.group_create_author_id, g.group_secret, g.group_dissolve,g.group_recommend,      
+	 g.group_check_flag, g.group_is_hot,group_is_active, g.group_status,g.group_limit_member, groupmember,topic_count,
+     gc.customer_power,gc.customer_flag,npc.customer_nickname,npc.customer_img,type.group_type_name,npc.customer_id create_id,
+    <include refid="Permissions_Column_List" />
+     from np_group g 
+     left join np_group_type type 
+     on g.group_type_id = type.group_type_id 
+    <!--  left join np_customer c
+     on g.group_create_author_id = c.customer_id -->
+     left join np_group_permissions p
+     on g.group_id = p.group_id
+     left join
+     (select ngc.customer_id,ngc.group_id,nc.customer_nickname,nc.customer_img 
+     from np_group_customer ngc left join np_customer nc on ngc.customer_id = nc.customer_id where ngc.customer_power='2' and ngc.del_flag='0')npc
+     on g.group_id = npc.group_id 
+     left join 
+     (select group_id, count(*) groupmember from np_group_customer where 1=1 
+     and del_flag='0' group by group_id)gcm
+     on g.group_id = gcm.group_id
+     left join 
+     (SELECT group_id, COUNT(*) topic_count FROM np_group_topic WHERE topic_del_flag ='0' GROUP BY group_id)tp
+     on tp.group_id = g.group_id
+      left join 
+     (select group_id,customer_id customer_flag ,customer_power from np_group_customer where 1=1 
+       and customer_id=#{customerId} 
+     and del_flag='0' group by group_id)gc
+     on g.group_id = gc.group_id
+     where 1=1 and g.group_dissolve = '0'
+     <if test="groupId != null and groupId != '' ">
+      and g.group_id = #{groupId}
+     </if>
+     <if test="groupName != null and groupName != '' ">
+      and g.group_name like CONCAT('%',#{groupName},'%')
+     </if>
+     <if test="groupTypeName != null and groupTypeName != '' ">
+      and type.group_type_name like CONCAT('%',#{groupTypeName},'%')
+     </if>
+     <if test="groupLabel != null and groupLabel != '' ">
+      and g.group_label like CONCAT('%',#{groupLabel},'%')
+     </if>
+     <if test="groupTypeId != null and groupTypeId != '' ">
+      and g.group_type_id=#{groupTypeId}
+     </if>
+     <if test="groupCreateAuthorName != null and groupCreateAuthorName != '' ">
+      and c.customer_nickname like CONCAT('%',#{groupCreateAuthorName},'%')
+     </if>
+     <if test="groupCreateTime != null and groupCreateTime != '' and groupCreateTimeTo != null and groupCreateTimeTo != '' ">
+      and g.group_create_time between #{groupCreateTime} and #{groupCreateTimeTo}
+     </if>
+     <if test="groupCreateTime != null and groupCreateTime != '' and groupCreateTimeTo == null or groupCreateTimeTo == '' ">
+      and  g.group_create_time &gt; #{groupCreateTime}
+     </if>
+     <if test="groupCreateTimeTo != null and groupCreateTimeTo != '' and groupCreateTime == null or groupCreateTime == '' ">
+       and  g.group_create_time &lt; #{groupCreateTimeTo}
+     </if>
+     <if test="groupCheckFlag != null and groupCheckFlag != ''">
+      and g.group_check_flag = #{groupCheckFlag}
+     </if>
+     <if test="groupStatus != null and groupStatus != ''">
+      and g.group_status = #{groupStatus}
+     </if>
+     <if test="groupSecret != null and groupSecret !='' ">
+      and g.group_secret = #{groupSecret}
+     </if>
+     <if test="groupIsHot != null and groupIsHot !='' ">
+      and g.group_is_hot = #{groupIsHot}
+     </if>
+     <if test="groupIsActive != null and groupIsActive !='' ">
+      and g.group_is_active = #{groupIsActive}
+     </if>
+     <if test="customerPower != null and customerPower !='' ">
+      and g.customer_power = #{customerPower}
+     </if>
+       <if test="sort != null">
+		<choose>
+			<when test="sort == ''">
+				order by groupmember  DESC
+			</when>
+			<when test="sort == 1">
+				order by topic_count DESC
+			</when>
+			<when test="sort == 2">
+				order by group_create_time DESC
+			</when>
+			<when test="sort == 3">
+				order by group_create_time 
+			</when>
+		</choose>
+		</if>
+		<if test="sort == null">
+		    order by groupmember DESC
+		</if>
+	  limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  
+  <select id="selectGroupSize" parameterType="java.util.Map" resultType="java.lang.Integer">
+	select count(*)
+     from np_group g
+     left join np_group_type type on g.group_type_id = type.group_type_id 
+     left join np_customer on g.group_create_author_id = customer_id
+     where 1=1 and g.group_dissolve = '0' 
+ 	<if test="groupName != null and groupName != '' ">
+      and g.group_name like CONCAT('%',#{groupName},'%')
+     </if>
+     <if test="groupTypeName != null and groupTypeName != '' ">
+      and type.group_type_name like CONCAT('%',#{groupTypeName},'%')
+     </if>
+      <if test="groupLabel != null and groupLabel != '' ">
+      and g.group_label like CONCAT('%',#{groupLabel},'%')
+     </if>
+      <if test="groupTypeId != null and groupTypeId != '' ">
+      and g.group_type_id=#{groupTypeId}
+     </if>
+     <if test="groupCreateAuthorName != null and groupCreateAuthorName != '' ">
+      and customer_nickname like CONCAT('%',#{groupCreateAuthorName},'%')
+     </if>
+     <if test="groupCreateTime != null and groupCreateTime != '' and groupCreateTimeTo != null and groupCreateTimeTo != '' ">
+      and g.group_create_time between #{groupCreateTime} and #{groupCreateTimeTo}
+     </if>
+     <if test="groupCreateTime != null and groupCreateTime != '' and groupCreateTimeTo == null or groupCreateTimeTo == '' ">
+      and  g.group_create_time &gt; #{groupCreateTime}
+     </if>
+     <if test="groupCreateTimeTo != null and groupCreateTimeTo != '' and groupCreateTime == null or groupCreateTime == '' ">
+       and  g.group_create_time &lt; #{groupCreateTimeTo}
+     </if>
+     <if test="groupCheckFlag != null and groupCheckFlag != ''">
+      and g.group_check_flag = #{groupCheckFlag}
+     </if>
+     <if test="groupStatus != null and groupStatus != ''">
+      and g.group_status = #{groupStatus}
+     </if>
+     <if test="groupSecret != null and groupSecret !='' ">
+      and g.group_secret = #{groupSecret}
+     </if>
+     <if test="groupIsHot != null and groupIsHot !='' ">
+      and g.group_is_hot = #{groupIsHot}
+     </if>
+      <if test="groupIsActive != null and groupIsActive !='' ">
+      and g.group_is_active = #{groupIsActive}
+     </if>
+  </select>
+  
+   <select id="selectGroupVoByGroupId" parameterType="java.lang.Long" resultMap="GroupVoResultMap">
+     select  g.group_id, g.group_type_id, g.group_name,g.group_head,g.group_background,g.group_background_type, g.group_remark, g.group_create_time,      
+	 g.group_modify_time, g.group_create_author_id, g.group_secret, g.group_dissolve,g.group_recommend,      
+	 g.group_check_flag, g.group_is_hot, g.group_status,g.group_limit_member,type.group_type_name,c.customer_nickname,
+	 <include refid="Permissions_Column_List"/>
+     from np_group g
+     left join np_group_type type 
+     on g.group_type_id = type.group_type_id 
+     left join np_customer c
+     on g.group_create_author_id = c.customer_id
+     left join np_group_permissions p
+     on g.group_id = p.group_id 
+     where  g.group_id = #{groupId,jdbcType=BIGINT} 
+   </select>
+   
+    <!-- 前台显示我管理的小组-->
+   <select id="myManagerGroupList" parameterType="com.ningpai.group.vo.GroupVo" resultMap="GroupVoResultMap">	 
+ 	select g.group_id, group_type_id, group_name, group_remark, group_head, group_create_time, 
+    group_modify_time, group_create_author_id, group_secret, group_dissolve, group_background, 
+    group_background_type, group_check_flag, group_is_hot, group_is_active, group_recommend,
+    group_recommend_time,group_status, group_limit_member,groupmember
+	from np_group g
+	left join (select count(*) groupmember, group_id from np_group_customer c where del_flag = '0' group by group_id) c
+     on g.group_id = c.group_id
+ 	 where EXISTS (select * from np_group_customer gc where g.group_id = gc.group_id and customer_id =  #{customerId}  and gc.customer_power in('1','2') and gc.del_flag='0')
+ 	 and g.group_dissolve = '0' and (g.group_check_flag = '1' or g.group_check_flag = '0')
+ 	 <if test="groupName != null and groupName != '' ">
+      and g.group_name like CONCAT('%',#{groupName},'%')
+     </if>
+     <if test="groupTypeId != null and groupTypeId != '' ">
+      and g.group_type_id=#{groupTypeId}
+     </if>
+      order by group_create_time asc
+   </select>
+   
+   <!-- 前台显示我管理的小组分页 -->
+   <select id="myManagerGroupListByPage" parameterType="java.util.Map" resultMap="GroupVoResultMap">	 
+ 	select g.group_id, group_type_id, group_name, group_remark, group_head, group_create_time, 
+    group_modify_time, group_create_author_id, group_secret, group_dissolve, group_background, 
+    group_background_type, group_check_flag, group_is_hot, group_is_active, 
+    group_recommend_time,group_status, group_limit_member,groupmember
+	from np_group g
+	left join (select count(*) groupmember, group_id from np_group_customer c where del_flag = '0' group by group_id) c
+     on g.group_id = c.group_id
+ 	 where EXISTS (select * from np_group_customer gc where g.group_id = gc.group_id and customer_id =  #{customerId}  and gc.customer_power in('1','2') and gc.del_flag='0')
+ 	 and g.group_dissolve = '0' and g.group_check_flag = '1' 
+ 	 <if test="groupName != null and groupName != '' ">
+      and g.group_name like CONCAT('%',#{groupName},'%')
+     </if>
+     <if test="groupTypeId != null and groupTypeId != '' ">
+      and g.group_type_id=#{groupTypeId}
+     </if>
+      order by group_create_time asc
+	  limit #{startRowNum},#{endRowNum}
+   </select>
+   
+   <!-- 前台显示我管理的小组数量 -->
+   <select id="myManagerGroupCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+     select 
+     count(*)
+	 from np_group g
+	 left join np_group_customer c
+     on g.group_id = c.group_id
+ 	 where 1=1 and c.customer_id = #{customerId} 
+ 	 and g.group_dissolve = '0' and g.group_check_flag = '1' and c.customer_power in('1','2')
+ 	  <if test="groupName != null and groupName != '' ">
+      and g.group_name like CONCAT('%',#{groupName},'%')
+     </if>
+     <if test="groupTypeId != null and groupTypeId != '' ">
+      and g.group_type_id=#{groupTypeId}
+     </if>
+   </select>
+   
+   <!-- 前台显示我加入的小组 -->
+   <select id="myJoinedGroupList" parameterType="java.util.Map" resultMap="GroupVoResultMap">
+ 	select g.group_id, group_type_id, group_name, group_remark, group_head, group_create_time, 
+    group_modify_time, group_create_author_id, group_secret, group_dissolve, group_background, 
+    group_background_type, group_check_flag, group_is_hot, group_is_active, 
+    group_recommend_time,group_status, group_limit_member,groupmember
+	 from np_group g
+	 left join (select count(*) groupmember, group_id from np_group_customer c where del_flag = '0' group by group_id) c
+     on g.group_id = c.group_id
+ 	 where EXISTS (select * from np_group_customer gc where g.group_id = gc.group_id and customer_id = #{customerId}  and gc.customer_power ='0' and gc.del_flag = '0')
+ 	 and g.group_dissolve = '0' and g.group_check_flag = '1' 
+ 	 <if test="groupName != null and groupName != '' ">
+      and g.group_name like CONCAT('%',#{groupName},'%')
+     </if>
+     <if test="groupTypeId != null and groupTypeId != '' ">
+      and g.group_type_id=#{groupTypeId}
+     </if>
+      order by group_create_time asc
+	  limit #{startRowNum},#{endRowNum}
+   </select>
+   
+   <!-- 前台显示我加入的小组数量 -->
+   <select id="myJoinedGroupCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+     select 
+     count(*)
+	 from np_group g 
+	 left join np_group_customer c
+     on g.group_id = c.group_id
+ 	 where 1=1 and c.customer_id = #{customerId} and del_flag = '0'
+ 	 and g.group_dissolve = '0' and g.group_check_flag = '1' and c.customer_power = '0'
+ 	  <if test="groupName != null and groupName != '' ">
+      and g.group_name like CONCAT('%',#{groupName},'%')
+     </if>
+     <if test="groupTypeId != null and groupTypeId != '' ">
+      and g.group_type_id=#{groupTypeId}
+     </if>
+   </select>
+   
+   <!-- 前台显示小组数量 -->
+   <select id="groupCount" resultType="java.lang.Long">
+    select count(*) from np_group where group_dissolve='0' and group_check_flag='1' and group_secret='0'
+   </select>
+   
+   <!-- 前台显示小组所有成员数量 -->
+   <select id="groupMember" resultType="java.lang.Long">
+    select count(*) from np_group_customer c
+    left join np_group g
+    on c.group_id = g.group_id
+    where del_flag = '0' and group_check_flag='1' and group_dissolve = '0'  and group_secret='0'
+   </select>
+   
+   <!-- 删除小组背景 -->
+    <update id="editGroupbg"  parameterType="com.ningpai.group.vo.GroupVo" >
+    update np_group set    group_background = '' where group_id = #{groupId,jdbcType=BIGINT}
+    </update>
+    
+    <!-- 根据分类ID查询小组标签  利用存储过程-->
+    <select id="groupLabelByTypeId" parameterType="java.util.Map" resultMap="GroupLabelResultMap" statementType="CALLABLE">
+     <if test="groupTypeId == null or groupTypeId == '' ">
+      {call np_group_label_all()}
+      </if>
+     <if test="groupTypeId != null and groupTypeId != '' ">
+       {call np_group_label_by_type_id(#{groupTypeId})}
+      </if>
+    </select>
+    
+    
+     <!-- 前台显示我加入的小组 -->
+   <select id="joinedGroup" parameterType="java.lang.Long" resultMap="BaseResultMap">
+ 	select g.group_id, group_type_id, group_name, group_remark, group_head, group_create_time, 
+    group_modify_time, group_create_author_id, group_secret, group_dissolve, group_background, 
+    group_background_type, group_check_flag, group_is_hot, group_is_active     
+	from np_group g
+	left join  np_group_customer c
+    on g.group_id = c.group_id
+    where 1=1 and c.customer_id=#{customerId} and c.customer_power='0' and c.del_flag='0' and group_dissolve='0'
+    order by group_create_time desc
+	limit 8
+   </select>
+   
+   
+    <!-- 根据小组标签查询小组 -->
+   <select id="labelGroup"  parameterType="java.util.Map" resultMap="GroupVoResultMap">
+   select
+     g.group_id, g.group_type_id, g.group_name,g.group_head,g.group_background,g.group_background_type, g.group_remark, g.group_create_time,      
+	 g.group_modify_time, g.group_create_author_id, g.group_secret, g.group_dissolve,g.group_recommend,      
+	 g.group_check_flag, g.group_is_hot,group_is_active, g.group_status,g.group_limit_member, groupmember,topic_count,
+     type.group_type_name,l.group_label_id
+     from np_group g 
+     left join np_group_type type 
+     on g.group_type_id = type.group_type_id 
+     left join (select group_id ,group_label_id from np_label_group) l
+     on g.group_id = l.group_id
+     left join np_group_permissions p
+     on g.group_id = p.group_id
+     <!--  left join
+     (select ngc.customer_id,ngc.group_id,nc.customer_nickname,nc.customer_img 
+     from np_group_customer ngc left join np_customer nc on ngc.customer_id = nc.customer_id where ngc.customer_power='2' and ngc.del_flag='0')npc
+     on g.group_id = npc.group_id -->
+     left join 
+     (select group_id, count(*) groupmember from np_group_customer where 1=1 
+     and del_flag='0' group by group_id)gcm
+     on g.group_id = gcm.group_id
+     left join 
+     (SELECT group_id, COUNT(*) topic_count FROM np_group_topic WHERE topic_del_flag ='0' GROUP BY group_id)tp
+     on tp.group_id = g.group_id
+     where 1=1 and g.group_dissolve = '0'
+     <if test="groupId != null and groupId != '' ">
+      and g.group_id = #{groupId}
+     </if>
+     <if test="groupTypeId != null and groupTypeId != '' ">
+      and g.group_type_id=#{groupTypeId}
+     </if>
+     <if test="groupLabelIds != null and groupLabelIds != '' ">
+      and l.group_label_id in
+     <foreach collection="groupLabelIds" item="groupLabelId" open="(" separator="," close=")">
+           (#{groupLabelId})
+	  </foreach>
+     </if>
+     <if test="groupCheckFlag != null and groupCheckFlag != ''">
+      and g.group_check_flag = #{groupCheckFlag}
+     </if>
+     <if test="groupSecret != null and groupSecret !='' ">
+      and g.group_secret = #{groupSecret}
+     </if>
+     group by g.group_id
+       <if test="sort != null">
+		<choose>
+			<when test="sort == ''">
+				order by groupmember  DESC
+			</when>
+			<when test="sort == 1">
+				order by topic_count DESC
+			</when>
+			<when test="sort == 2">
+				order by group_create_time DESC
+			</when>
+			<when test="sort == 3">
+				order by group_create_time 
+			</when>
+		</choose>
+		</if>
+		<if test="sort == null">
+		    order by groupmember DESC
+		</if>
+	  limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  
+  <select id="labelGroupSize" parameterType="java.util.Map" resultType="java.lang.Integer">
+	select count(*)
+     from np_group g
+     left join np_group_type type on g.group_type_id = type.group_type_id 
+     left join (select DISTINCT group_id, group_label_id from np_label_group)l  on g.group_id = l.group_id
+     left join np_customer on g.group_create_author_id = customer_id
+     where 1=1 and g.group_dissolve = '0' 
+ 	<if test="groupName != null and groupName != '' ">
+      and g.group_name like CONCAT('%',#{groupName},'%')
+     </if>
+      <if test="groupTypeId != null and groupTypeId != '' ">
+      and g.group_type_id=#{groupTypeId}
+     </if>
+      <if test="groupLabelIds != null and groupLabelIds != '' ">
+      and l.group_label_id in
+     <foreach collection="groupLabelIds" item="groupLabelId" open="(" separator="," close=")">
+           (#{groupLabelId})
+	  </foreach>
+     </if>
+     <if test="groupCheckFlag != null and groupCheckFlag != ''">
+      and g.group_check_flag = #{groupCheckFlag}
+     </if>
+     <if test="groupStatus != null and groupStatus != ''">
+      and g.group_status = #{groupStatus}
+     </if>
+     <if test="groupSecret != null and groupSecret !='' ">
+      and g.group_secret = #{groupSecret}
+     </if>
+  </select>
+</mapper>

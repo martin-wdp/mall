@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.marketing.dao.MarketingGroupMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.marketing.bean.MarketingGroup" >
+    <id column="group_id" property="groupId" jdbcType="BIGINT" />
+    <result column="preferential_name" property="preferentialName" jdbcType="VARCHAR" />
+    <result column="is_show" property="isShow" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    group_id, preferential_name,is_show
+  </sql>
+  <!-- 按条件查询信息 -->
+  <select id="selectByPrimary" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_marketing_group
+    where 1=1
+    <if test="preferentialName != '' and preferentialName!= null">
+	    and preferential_name like CONCAT(CONCAT('%',#{preferentialName,jdbcType=VARCHAR},'%')) 
+    </if>
+    limit #{start},#{endNo}
+  </select>
+  
+    <!-- 查询列表总数 -->
+  <select id="selectGourpListCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select count(1)
+    from np_marketing_group
+   	where 1=1
+    <if test="preferentialName != '' and preferentialName!= null">
+	    and preferential_name like CONCAT(CONCAT('%',#{preferentialName,jdbcType=VARCHAR},'%')) 
+    </if>
+  </select>
+  
+  <!-- 查询所有的信息 -->
+  <select id="selectAll" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from np_marketing_group
+  </select>
+  
+  <!-- 根据id删除 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_marketing_group
+    where group_id = #{groupId,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" parameterType="com.ningpai.marketing.bean.MarketingGroup" >
+    insert into np_marketing_group (group_id, preferential_name)
+    values (#{groupId,jdbcType=BIGINT}, #{preferentialName,jdbcType=VARCHAR})
+  </insert>
+  
+  <!-- 插入优惠分组 -->
+  <insert id="insertMarketingGroup" parameterType="com.ningpai.marketing.bean.MarketingGroup" >
+    insert into np_marketing_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="groupId != null" >
+        group_id,
+      </if>
+      <if test="preferentialName != null" >
+        preferential_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="groupId != null" >
+        #{groupId,jdbcType=BIGINT},
+      </if>
+      <if test="preferentialName != null" >
+        #{preferentialName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <!-- 查询分组下是否存在规则 -->
+  <select id="delGroupByCodexIs" parameterType="java.lang.Long" resultType="java.lang.Integer">
+		select count(1) from np_codex where codex_status=#{groupId,jdbcType=BIGINT}
+  </select>
+  <!-- 修改优惠分组 -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.marketing.bean.MarketingGroup" >
+    update np_marketing_group
+    <set >
+      <if test="preferentialName != null" >
+        preferential_name = #{preferentialName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    
+    where group_id = #{groupId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.marketing.bean.MarketingGroup" >
+    update np_marketing_group
+    set preferential_name = #{preferentialName,jdbcType=VARCHAR}
+    where group_id = #{groupId,jdbcType=BIGINT}
+  </update>
+</mapper>

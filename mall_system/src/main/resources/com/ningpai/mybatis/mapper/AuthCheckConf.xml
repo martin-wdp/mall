@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+ @Title: 验证设置的mapper映射配置文件
+ @Description:
+ @author NINGPAI_xiaomm
+ @since 2014-03-25 09:58:51
+ @version V1.0
+-->
+<mapper namespace="com.ningpai.system.dao.AuthCheckConfDaoImpl">
+
+	<resultMap id="BaseResultMap" type="com.ningpai.system.bean.AuthCheckConf">
+				<!-- 记录ID -->
+				<id column="CHECK_ID" 
+					jdbcType="BIGINT"
+				 property="checkId" />
+				<!-- 设置方案标题 -->
+				<result column="TITLE"
+					jdbcType="VARCHAR"
+				property="title" />
+				<!-- 设置方案代码 -->
+				<result column="SET_CODE"
+					jdbcType="VARCHAR"
+				property="setCode" />
+				<!-- 邮箱验证 -->
+				<result column="EMAIL_CHECK"
+					jdbcType="VARCHAR"
+				property="emailCheck" />
+				<!-- 手机验证 -->
+				<result column="PHONE_CHECK"
+					jdbcType="VARCHAR"
+				property="phoneCheck" />
+				<!-- 姓名验证 -->
+				<result column="NAME_CHECK"
+					jdbcType="VARCHAR"
+				property="nameCheck" />
+				<!-- 身份证验证 -->
+				<result column="ID_CARD_CHECK"
+					jdbcType="VARCHAR"
+				property="idCardCheck" />
+				<!-- 启用 -->
+				<result column="USED_STATUS"
+					jdbcType="VARCHAR"
+				property="usedStatus" />
+				<!-- 扩展字段1 -->
+				<result column="EXP_FLEID_1"
+					jdbcType="VARCHAR"
+				property="expFleid1" />
+				<!-- 扩展字段2 -->
+				<result column="EXP_FLEID_2"
+					jdbcType="VARCHAR"
+				property="expFleid2" />
+				<!-- 添加人 -->
+				<result column="INSERT_ID"
+					jdbcType="BIGINT"
+				property="insertId" />
+				<!-- 添加时间 -->
+				<result column="INSERT_DATE"
+					jdbcType="DATE"
+				property="insertDate" />
+				<!-- 修改人 -->
+				<result column="MODIFY_ID"
+					jdbcType="BIGINT"
+				property="modifyId" />
+				<!-- 修改时间 -->
+				<result column="MODIFY_DATE"
+					jdbcType="DATE"
+				property="modifyDate" />
+				<!-- 删除标识 -->
+				<result column="DELETE_STATUS"
+					jdbcType="BIGINT"
+				property="deleteStatus" />
+	</resultMap>
+	
+	<sql id="baseSql">
+			CHECK_ID, 
+			TITLE, 
+			SET_CODE, 
+			EMAIL_CHECK, 
+			PHONE_CHECK, 
+			NAME_CHECK, 
+			ID_CARD_CHECK, 
+			USED_STATUS, 
+			EXP_FLEID_1, 
+			EXP_FLEID_2, 
+			INSERT_ID, 
+			INSERT_DATE, 
+			MODIFY_ID, 
+			MODIFY_DATE, 
+			DELETE_STATUS 
+	</sql>
+	<sql id="querySql">
+			CHECK_ID, 
+			TITLE, 
+			SET_CODE, 
+			EMAIL_CHECK, 
+			NAME_CHECK, 
+			ID_CARD_CHECK, 
+			USED_STATUS 
+	</sql>
+	
+	<!-- 保存验证设置 -->	
+	<insert id="saveAuthCheckConf" parameterType="com.ningpai.system.bean.AuthCheckConf">
+		INSERT INTO NP_SYS_AUTH_CHECK_CONF
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+				<!-- 记录ID
+				<if test="checkId != null">
+					CHECK_ID,
+				</if>  -->
+				<!-- 设置方案标题 -->
+				<if test="title != null">
+					TITLE,
+				</if>
+				<!-- 设置方案代码 -->
+				<if test="setCode != null">
+					SET_CODE,
+				</if>
+				<!-- 邮箱验证 -->
+				<if test="emailCheck != null">
+					EMAIL_CHECK,
+				</if>
+				<!-- 手机验证 -->
+				<if test="phoneCheck != null">
+					PHONE_CHECK,
+				</if>
+				<!-- 姓名验证 -->
+				<if test="nameCheck != null">
+					NAME_CHECK,
+				</if>
+				<!-- 身份证验证 -->
+				<if test="idCardCheck != null">
+					ID_CARD_CHECK,
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS,
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1,
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2,
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID,
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE,
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID,
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE,
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS,
+				</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+				<!-- 记录ID 
+						#{checkId,
+								jdbcType=BIGINT
+						}, -->
+				<!-- 设置方案标题 -->
+					<if test="title != null">
+						#{title,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 设置方案代码 -->
+					<if test="setCode != null">
+						#{setCode,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 邮箱验证 -->
+					<if test="emailCheck != null">
+						#{emailCheck,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 手机验证 -->
+					<if test="phoneCheck != null">
+						#{phoneCheck,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 姓名验证 -->
+					<if test="nameCheck != null">
+						#{nameCheck,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 身份证验证 -->
+					<if test="idCardCheck != null">
+						#{idCardCheck,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 启用 -->
+					<if test="usedStatus != null">
+						#{usedStatus,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null">
+						#{expFleid1,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null">
+						#{expFleid2,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						#{insertId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null">
+						#{insertDate,
+								jdbcType=DATE
+						},
+					</if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						#{modifyId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null">
+						#{modifyDate,
+								jdbcType=DATE
+						},
+					</if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						#{deleteStatus,
+								jdbcType=BIGINT
+						},
+					</if>
+		</trim>
+	</insert>
+	<!-- 修改验证设置 -->
+	<update id="updateAuthCheckConf" parameterType="com.ningpai.system.bean.AuthCheckConf">
+		UPDATE NP_SYS_AUTH_CHECK_CONF
+		<set>
+			
+				<!-- 记录ID -->
+				<if test="checkId != null">
+					CHECK_ID = #{checkId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 设置方案标题 -->
+				<if test="title != null">
+					TITLE = #{title,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 设置方案代码 -->
+				<if test="setCode != null">
+					SET_CODE = #{setCode,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 邮箱验证 -->
+				<if test="emailCheck != null">
+					EMAIL_CHECK = #{emailCheck,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 手机验证 -->
+				<if test="phoneCheck != null">
+					PHONE_CHECK = #{phoneCheck,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 姓名验证 -->
+				<if test="nameCheck != null">
+					NAME_CHECK = #{nameCheck,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 身份证验证 -->
+				<if test="idCardCheck != null">
+					ID_CARD_CHECK = #{idCardCheck,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS = #{usedStatus,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1 = #{expFleid1,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2 = #{expFleid2,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID = #{modifyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE = #{modifyDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS = #{deleteStatus,
+							jdbcType=BIGINT
+					},
+				</if>
+		</set>
+		WHERE 
+				CHECK_ID = #{checkId,
+							jdbcType=BIGINT
+					}
+	</update>
+	
+	<!-- 根据验证设置对象的id查询验证设置对象 -->
+	<select id="getAuthCheckConfById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_AUTH_CHECK_CONF 
+		WHERE 
+				CHECK_ID = #{checkId,
+							jdbcType=BIGINT
+					}
+	</select>
+	
+	<!-- 根据验证设置对象的id字符集合查询验证设置对象 -->
+	<select id="getAuthCheckConfByIds" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_AUTH_CHECK_CONF 
+		WHERE 
+				CHECK_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</select>
+	
+	<!-- 根据验证设置对象的id字符集合删除验证设置对象 -->
+	<update id="deleteAuthCheckConf" parameterType="java.util.Map">
+		DELETE FROM NP_SYS_AUTH_CHECK_CONF 
+		WHERE 
+				CHECK_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+		
+	</update>
+	
+	
+	<!-- 更新验证设置对象的单个字段  -->
+	<update id="updateAuthCheckConfFieldById" parameterType="java.util.Map">
+		UPDATE NP_SYS_AUTH_CHECK_CONF
+		<set>
+				<!-- 记录ID -->
+				<if test="checkId != null">
+					CHECK_ID = #{checkId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 设置方案标题 -->
+				<if test="title != null">
+					TITLE = #{title,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 设置方案代码 -->
+				<if test="setCode != null">
+					SET_CODE = #{setCode,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 邮箱验证 -->
+				<if test="emailCheck != null">
+					EMAIL_CHECK = #{emailCheck,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 手机验证 -->
+				<if test="phoneCheck != null">
+					PHONE_CHECK = #{phoneCheck,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 姓名验证 -->
+				<if test="nameCheck != null">
+					NAME_CHECK = #{nameCheck,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 身份证验证 -->
+				<if test="idCardCheck != null">
+					ID_CARD_CHECK = #{idCardCheck,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS = #{usedStatus,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1 = #{expFleid1,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2 = #{expFleid2,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID = #{modifyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE = #{modifyDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS = #{deleteStatus,
+							jdbcType=BIGINT
+					},
+				</if>
+		</set>
+		WHERE 
+				CHECK_ID IN  
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</update>
+	
+	<!-- 根据验证设置对象的单个字段查询验证设置对象信息总数 -->
+	<select id="getAuthCheckConfByFieldTotal" resultType="java.lang.Integer" parameterType="java.util.Map">
+		   SELECT COUNT(CHECK_ID) 
+		   FROM NP_SYS_AUTH_CHECK_CONF D 
+		   WHERE 
+				<!-- 记录ID -->
+					<if test="checkId != null">
+						D.CHECK_ID = #{checkId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 设置方案标题 -->
+					<if test="title != null and title != ''">
+						D.TITLE like CONCAT(CONCAT('%', #{title,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 设置方案代码 -->
+					<if test="setCode != null and setCode != ''">
+						D.SET_CODE like CONCAT(CONCAT('%', #{setCode,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 邮箱验证 -->
+					<if test="emailCheck != null and emailCheck != ''">
+						D.EMAIL_CHECK like CONCAT(CONCAT('%', #{emailCheck,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 手机验证 -->
+					<if test="phoneCheck != null and phoneCheck != ''">
+						D.PHONE_CHECK like CONCAT(CONCAT('%', #{phoneCheck,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 姓名验证 -->
+					<if test="nameCheck != null and nameCheck != ''">
+						D.NAME_CHECK like CONCAT(CONCAT('%', #{nameCheck,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 身份证验证 -->
+					<if test="idCardCheck != null and idCardCheck != ''">
+						D.ID_CARD_CHECK like CONCAT(CONCAT('%', #{idCardCheck,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 启用 -->
+					<if test="usedStatus != null and usedStatus != ''">
+						D.USED_STATUS like CONCAT(CONCAT('%', #{usedStatus,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null and expFleid1 != ''">
+						D.EXP_FLEID_1 like CONCAT(CONCAT('%', #{expFleid1,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null and expFleid2 != ''">
+						D.EXP_FLEID_2 like CONCAT(CONCAT('%', #{expFleid2,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						D.INSERT_ID = #{insertId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null and insertDate !=''" >
+			        	(D.INSERT_DATE between  #{insertDateStart,jdbcType=DATE}  AND  #{insertDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						D.MODIFY_ID = #{modifyId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null and modifyDate !=''" >
+			        	(D.MODIFY_DATE between  #{modifyDateStart,jdbcType=DATE}  AND  #{modifyDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						D.DELETE_STATUS = #{deleteStatus,
+								jdbcType=BIGINT
+						} AND
+					</if>
+        	1=1 
+	</select>
+	
+	<!-- 根据验证设置对象的单个字段查询验证设置对象信息 -->
+	<select id="getAuthCheckConfByField" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM  NP_SYS_AUTH_CHECK_CONF D 
+		   WHERE 
+				<!-- 记录ID -->
+					<if test="checkId != null">
+						D.CHECK_ID = #{checkId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 设置方案标题 -->
+					<if test="title != null and title !=''" >
+						D.TITLE like CONCAT(CONCAT('%', #{title,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 设置方案代码 -->
+					<if test="setCode != null and setCode !=''" >
+						D.SET_CODE like CONCAT(CONCAT('%', #{setCode,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 邮箱验证 -->
+					<if test="emailCheck != null and emailCheck !=''" >
+						D.EMAIL_CHECK like CONCAT(CONCAT('%', #{emailCheck,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 手机验证 -->
+					<if test="phoneCheck != null and phoneCheck !=''" >
+						D.PHONE_CHECK like CONCAT(CONCAT('%', #{phoneCheck,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 姓名验证 -->
+					<if test="nameCheck != null and nameCheck !=''" >
+						D.NAME_CHECK like CONCAT(CONCAT('%', #{nameCheck,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 身份证验证 -->
+					<if test="idCardCheck != null and idCardCheck !=''" >
+						D.ID_CARD_CHECK like CONCAT(CONCAT('%', #{idCardCheck,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 启用 -->
+					<if test="usedStatus != null and usedStatus !=''" >
+						D.USED_STATUS like CONCAT(CONCAT('%', #{usedStatus,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null and expFleid1 !=''" >
+						D.EXP_FLEID_1 like CONCAT(CONCAT('%', #{expFleid1,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null and expFleid2 !=''" >
+						D.EXP_FLEID_2 like CONCAT(CONCAT('%', #{expFleid2,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						D.INSERT_ID = #{insertId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null and insertDate !=''" >
+			        	(D.INSERT_DATE between  #{insertDateStart,jdbcType=DATE}  AND  #{insertDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						D.MODIFY_ID = #{modifyId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null and modifyDate !=''" >
+			        	(D.MODIFY_DATE between  #{modifyDateStart,jdbcType=DATE}  AND  #{modifyDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						D.DELETE_STATUS = #{deleteStatus,
+								jdbcType=BIGINT
+						} AND
+					</if>
+        	1=1 
+		    LIMIT #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询验证设置对象信息总数 -->
+	<select id="queryAuthCheckConfTotal" resultType="java.lang.Integer">
+		SELECT COUNT(CHECK_ID) FROM NP_SYS_AUTH_CHECK_CONF
+	</select>
+	
+	<!-- 分页查询验证设置对象信息 -->
+	<select id="queryAuthCheckConfByPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM NP_SYS_AUTH_CHECK_CONF 
+		LIMIT  #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+</mapper>

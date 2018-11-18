@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.goods.dao.WareHouseMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.WareHouse" >
+    <id column="ware_id" property="wareId" jdbcType="BIGINT" />
+    <result column="ware_name" property="wareName" jdbcType="VARCHAR" />
+    <result column="ware_remark" property="wareRemark" jdbcType="VARCHAR" />
+    <result column="ware_admin" property="wareAdmin" jdbcType="BIGINT" />
+    <result column="ware_address" property="wareAddress" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modified_time" property="modifiedTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="exec_name" property="execName" jdbcType="VARCHAR" />
+    <result column="identify_id" property="identifyId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap type="com.ningpai.goods.vo.WareHouseVo" id="VoResultMap" extends="BaseResultMap">
+  	<association property="distincts" column="ware_id" javaType="java.util.ArrayList"
+  	select="com.ningpai.goods.dao.WareCityMapper.queryAllByWareId"></association>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ware_id, ware_name, ware_remark, ware_admin, ware_address, create_time, modified_time, 
+    del_flag, exec_name,identify_id
+  </sql>
+  
+  <!-- 根据主键查询 -->
+  <select id="selectByPrimaryKey" resultMap="VoResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_warehouse
+    where ware_id = #{wareId,jdbcType=BIGINT}
+  </select>
+  <!-- 删除 -->
+  <update id="deleteByPrimaryKey" parameterType="java.util.Map">
+    update np_warehouse set modified_time=now(),del_flag='1',exec_name=#{adminName}
+    where ware_id = #{wareId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 批量删除 -->
+  <update id="batchDelWare" parameterType="java.util.Map">
+    update np_warehouse set modified_time=now(),del_flag='1',exec_name=#{adminName}
+    where ware_id in 
+    <foreach collection="wareIds" item="wareId" open="(" close=")" separator=",">
+    	#{wareId}
+    </foreach>
+  </update>
+  
+  <select id="identifyIsExist" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select count(1) from np_warehouse where identify_id=#{identifyId} and del_flag='0'
+  </select>
+  
+  <!-- 新建仓库记录 -->
+  <insert id="insertSelective" parameterType="com.ningpai.goods.bean.WareHouse" >
+    insert into np_warehouse
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wareId != null" >
+        ware_id,
+      </if>
+      <if test="wareName != null" >
+        ware_name,
+      </if>
+      <if test="wareRemark != null" >
+        ware_remark,
+      </if>
+      <if test="wareAdmin != null" >
+        ware_admin,
+      </if>
+      <if test="wareAddress != null" >
+        ware_address,
+      </if>
+        create_time,
+      <if test="modifiedTime != null" >
+        modified_time,
+      </if>
+        del_flag,
+      <if test="execName != null" >
+        exec_name,
+      </if>
+      <if test="identifyId != null" >
+        identify_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wareId != null" >
+        #{wareId,jdbcType=BIGINT},
+      </if>
+      <if test="wareName != null" >
+        #{wareName,jdbcType=VARCHAR},
+      </if>
+      <if test="wareRemark != null" >
+        #{wareRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="wareAdmin != null" >
+        #{wareAdmin,jdbcType=BIGINT},
+      </if>
+      <if test="wareAddress != null" >
+        #{wareAddress,jdbcType=VARCHAR},
+      </if>
+        now(),
+      <if test="modifiedTime != null" >
+        #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+        '0',
+      <if test="execName != null" >
+        #{execName,jdbcType=VARCHAR},
+      </if>
+      <if test="identifyId != null" >
+        #{identifyId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <!-- 更新仓库信息 -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.goods.bean.WareHouse" >
+    update np_warehouse
+    <set >
+      <if test="wareName != null" >
+        ware_name = #{wareName,jdbcType=VARCHAR},
+      </if>
+      <if test="wareRemark != null" >
+        ware_remark = #{wareRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="wareAdmin != null" >
+        ware_admin = #{wareAdmin,jdbcType=BIGINT},
+      </if>
+      <if test="wareAddress != null" >
+        ware_address = #{wareAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+        modified_time = now(),
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="execName != null" >
+        exec_name = #{execName,jdbcType=VARCHAR},
+      </if>
+      <if test="identifyId != null" >
+        identify_id = #{identifyId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ware_id = #{wareId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 查询所有的仓库信息 -->
+  <select id="queryAllWareHouse" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/> from np_warehouse where del_flag='0'
+  </select>
+  <!-- 根据参数查询仓库的数量 -->
+  <select id="queryCountByParams" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select count(1) from np_warehouse where del_flag='0'
+  	<if test="condition == 1">
+  		and ware_name like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  	</if>
+  </select>
+  <!-- 根据分页参数查询仓库的集合 -->
+  <select id="queryAllWareHouseByPageBean" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/> from np_warehouse where del_flag='0'
+  	<if test="condition == 1">
+  		and ware_name like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  	</if>
+  	limit #{startRowNum},#{endRowNum}
+  </select>
+  <!-- 根据仓库名称查询数量 -->
+  <select id="queryWareCountByWareName" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select ware_id from np_warehouse where del_flag='0' and ware_name=#{wareName}
+  </select>
+  
+  <!-- 查询最新插入的主键ID -->
+	<select id="selectLastId" resultType="java.lang.Long">
+		select LAST_INSERT_ID()
+	</select>
+    <select id="findWares" resultMap="BaseResultMap">
+      select ware_id,ware_name from np_warehouse where del_flag = '0'
+    </select>
+</mapper>

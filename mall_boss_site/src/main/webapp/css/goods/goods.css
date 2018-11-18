@@ -1,0 +1,17 @@
+@charset "utf-8";
+.auto-style-row{
+    height:40px;
+}
+.btn-auto-style{
+    padding-right: 5px;
+    padding-left: 5px;
+    /*max-width: 150px;*/
+}
+.remove-auto-style{
+    background-image: url("../../images/goods/remove.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    width: 50px;
+    height: 40px;
+    cursor: pointer;
+}

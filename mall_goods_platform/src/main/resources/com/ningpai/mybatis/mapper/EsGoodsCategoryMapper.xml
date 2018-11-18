@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qianmi.web.dao.EsGoodsCategoryMapper">
+	<resultMap id="BaseResultMap" type="com.ningpai.goods.bean.EsGoodsCategory">
+		<id column="cat_id" property="catId" jdbcType="BIGINT" />
+		<result column="cat_name" property="catName" jdbcType="VARCHAR" />
+		<result column="cat_parent_id" property="catParentId" jdbcType="BIGINT" />
+		<result column="type_id" property="typeId" jdbcType="BIGINT" />
+		<result column="cat_sort" property="catSort" jdbcType="INTEGER" />
+		<result column="cat_grade" property="catGrade" jdbcType="INTEGER" />
+		<result column="cat_seo_title" property="catSeoTitle" jdbcType="VARCHAR" />
+		<result column="cat_seo_keyword" property="catSeoKeyword"
+			jdbcType="VARCHAR" />
+		<result column="cat_seo_desc" property="catSeoDesc" jdbcType="VARCHAR" />
+		<result column="cat_is_show" property="catIsShow" jdbcType="CHAR" />
+		<result column="cat_delflag" property="catDelflag" jdbcType="CHAR" />
+		<result column="cat_create_name" property="catCreateName"
+			jdbcType="VARCHAR" />
+		<result column="cat_create_time" property="catCreateTime"
+			jdbcType="TIMESTAMP" />
+		<result column="cat_modified_name" property="catModifiedName"
+			jdbcType="VARCHAR" />
+		<result column="cat_modified_time" property="catModifiedTime"
+			jdbcType="TIMESTAMP" />
+		<result column="cat_del_name" property="catDelName" jdbcType="VARCHAR" />
+		<result column="cat_del_time" property="catDelTime" jdbcType="TIMESTAMP" />
+		<result column="cat_rate" property="catRate" jdbcType="DECIMAL" />
+		<result column="cat_model" property="catModel" jdbcType="CHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		cat_id, cat_name, cat_parent_id, type_id, cat_sort,
+		cat_grade, cat_seo_title,
+		cat_seo_keyword,
+		cat_seo_desc, cat_is_show,
+		cat_delflag, cat_create_name, cat_create_time,
+		cat_modified_name,
+		cat_modified_time, cat_del_name, cat_del_time, cat_rate, cat_model
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		cat_id, cat_name
+		from np_goods_category
+		where
+		FIND_IN_SET(cat_id, getParentList(#{catId,jdbcType=BIGINT}))
+	</select>
+
+	<select id="selectGoodsCateListById" resultMap="BaseResultMap"
+			parameterType="java.lang.Long">
+		select
+		cat_id, cat_name,cat_parent_id 
+		from np_goods_category
+		where cat_id=#{catId,jdbcType=BIGINT}
+	</select>
+
+</mapper>

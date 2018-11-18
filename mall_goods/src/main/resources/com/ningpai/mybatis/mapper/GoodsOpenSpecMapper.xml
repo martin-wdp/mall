@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.goods.dao.GoodsOpenSpecMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsOpenSpec" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="spec_id" property="specId" jdbcType="BIGINT" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap id="VoResultMap" type="com.ningpai.goods.vo.GoodsOpenSpecVo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="spec_id" property="specId" jdbcType="BIGINT" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <association property="spec" column="spec_id" select="com.ningpai.goods.dao.GoodsSpecMapper.selectByPrimaryKey"></association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, goods_id, spec_id, del_flag
+  </sql>
+  <!-- 插入记录 -->
+  <insert id="insertSelective" parameterType="com.ningpai.goods.bean.GoodsOpenSpec" >
+    insert into np_goods_openspec
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="specId != null" >
+        spec_id,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="specId != null" >
+        #{specId,jdbcType=BIGINT},
+      </if>
+      <if test="delFlag != null" >
+        '0',
+      </if>
+    </trim>
+  </insert>
+  <!-- 根据商品ID查询开启的规格的集合 -->
+  <select id="queryOpenSpecListByGoodsId" parameterType="java.lang.Long" resultMap="VoResultMap">
+	  select <include refid="Base_Column_List"/> from np_goods_openspec where del_flag='0' and goods_id = #{goodsId}
+  </select>
+
+    <delete id="deleteByGoodsId" parameterType="java.lang.Long">
+        delete from np_goods_openspec where goods_id = #{goodsId,jdbcType=BIGINT}
+    </delete>
+</mapper>

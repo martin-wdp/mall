@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.OthKeyWord.dao.OthKeyWordMapper" >
+    <resultMap type="com.ningpai.OthKeyWord.bean.OthKeyWord" id="baseMap">
+        <result column="ID"  property="id" jdbcType="BIGINT"/>
+        <result column="keyword"  property="keyWord" jdbcType="VARCHAR"/>
+        <result column="create_time"  property="payTime" jdbcType="TIMESTAMP"/>
+        <result column="keyconver"  property="keyWordConver" jdbcType="DECIMAL"/>
+        <result column="keynotconver" property="keyWordNotConver" jdbcType="VARCHAR" />
+        <result column="createtime" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        c.`ID`,c.`keyconver`,c.`keynotconver`,c.`keyword`,c.`createtime`
+    </sql>
+
+    <select id="selectOthKey" resultMap="baseMap" >
+        select
+        <include refid="Base_Column_List"/>
+        FROM qp_oth_keyword c
+        ORDER BY c.`createtime`
+    </select>
+    <!--<select id="selectNoticeNum" resultType="java.lang.Long" >
+        select
+        count(1)
+        from np_order o
+        where o.del_flag = '0' and order_new_status='0' and
+        <![CDATA[
+		o.create_time>= date_sub(now(), INTERVAL  30 DAY)  AND o.create_time<= now()
+	]]>
+        order by create_time desc
+    </select>
+    <update id="updateNotice">
+        update np_order set order_new_status = '1' WHERE  order_new_status = '0'
+    </update>
+
+    <update id="updateById" parameterType="java.lang.Long">
+        update np_order set order_new_status = '1' where order_id = #{orderId,jdbcType=BIGINT}
+    </update>-->
+
+</mapper>

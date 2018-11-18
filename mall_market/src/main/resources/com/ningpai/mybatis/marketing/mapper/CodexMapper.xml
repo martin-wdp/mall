@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.CodexMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.marketing.bean.Codex" >
+    <id column="codex_id" property="codexId" jdbcType="BIGINT" />
+    <result column="codex_name" property="codexName" jdbcType="VARCHAR" />
+    <result column="codex_des" property="codexDes" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+    <result column="flag" property="flag" jdbcType="CHAR" />
+    <result column="codex_type" property="codexType" jdbcType="CHAR" />
+    <result column="codex_status" property="codexStatus" jdbcType="BIGINT" />
+     <result column="codex_img" property="codexImg" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    codex_id, codex_name, codex_des, create_time, mod_time, flag, codex_type,codex_status,codex_img
+  </sql>
+  
+  <!-- 根据分组查询规则列表 -->
+  <select id="queryCodexListByParam" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_codex
+    where 1=1
+     and codex_status=#{codexStatus}
+     and flag='0'
+  </select>
+  
+  
+  <!-- 查询规则列表 -->
+  <select id="selectCodexList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+      select
+    <include refid="Base_Column_List" />
+    from np_codex
+    where 1=1
+      <if test="codexName != null and codexName !=''" >
+      	and codex_name like CONCAT(CONCAT('%',#{codexName,jdbcType=VARCHAR},'%'))  
+      </if>
+      <if test="flag != null" >
+      and flag = #{flag,jdbcType=CHAR}
+      </if>
+ 	limit #{start},#{number}
+  </select>
+
+    <!-- 根据促销id的集合查询促销属于哪一种类型 -->
+    <select id="queryCodeByMarketingIds" parameterType="java.util.List" resultMap="BaseResultMap">
+        select c.codex_id, c.codex_name, c.codex_des, c.codex_type,c.codex_status,c.codex_img
+        from np_codex c
+        where c.codex_id in
+        (SELECT mc.codex_id from np_marketing_codex mc where mc.marketing_id in
+        <foreach collection="marketingIds" item="marketingIds" open="(" separator="," close=")">
+            #{marketingIds}
+        </foreach>)
+
+    </select>
+  
+  
+    <select id="queryCodexDetail" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_codex where codex_id = #{codexId}
+   
+  </select>
+  
+  
+    <!-- 查询规则列表总数 -->
+  <select id="selectCodexListCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select count(1)
+    from np_codex
+    where 1=1
+      <if test="codexName != null and codexName !=''" >
+      and codex_name like CONCAT(CONCAT('%',#{codexName,jdbcType=VARCHAR},'%'))  
+      </if>
+      <if test="flag != null" >
+      and flag = #{flag,jdbcType=CHAR}
+      </if>
+  </select>
+  
+  
+  
+  
+  <!-- 查询规则列表 -->
+  <select id="selectCodexListUseBox" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_codex
+    where 1=1
+      and flag ='0'
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_codex
+    where codex_id = #{codexId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_codex
+    where codex_id = #{codexId,jdbcType=BIGINT}
+  </delete>
+  
+  
+  
+  <!-- 添加规则 -->
+  <insert id="addCodex" parameterType="com.ningpai.marketing.bean.Codex" >
+    insert into np_codex (codex_id, codex_name, codex_des, 
+      create_time, mod_time, flag, 
+      codex_type)
+    values (#{codexId,jdbcType=BIGINT}, #{codexName,jdbcType=VARCHAR}, #{codexDes,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modTime,jdbcType=TIMESTAMP}, #{flag,jdbcType=CHAR}, 
+      #{codexType,jdbcType=CHAR})
+  </insert>
+  
+  <insert id="insert" parameterType="com.ningpai.marketing.bean.Codex" >
+    insert into np_codex (codex_id, codex_name, codex_des, 
+      create_time, mod_time, flag, 
+      codex_type)
+    values (#{codexId,jdbcType=BIGINT}, #{codexName,jdbcType=VARCHAR}, #{codexDes,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modTime,jdbcType=TIMESTAMP}, #{flag,jdbcType=CHAR}, 
+      #{codexType,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.marketing.bean.Codex" >
+    insert into np_codex
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="codexId != null" >
+        codex_id,
+      </if>
+      <if test="codexName != null" >
+        codex_name,
+      </if>
+      <if test="codexDes != null" >
+        codex_des,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modTime != null" >
+        mod_time,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+      <if test="codexType != null" >
+        codex_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="codexId != null" >
+        #{codexId,jdbcType=BIGINT},
+      </if>
+      <if test="codexName != null" >
+        #{codexName,jdbcType=VARCHAR},
+      </if>
+      <if test="codexDes != null" >
+        #{codexDes,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modTime != null" >
+        #{modTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=CHAR},
+      </if>
+      <if test="codexType != null" >
+        #{codexType,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.marketing.bean.Codex" >
+    update np_codex
+    <set >
+      <if test="codexName != null" >
+        codex_name = #{codexName,jdbcType=VARCHAR},
+      </if>
+      <if test="codexDes != null" >
+        codex_des = #{codexDes,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modTime != null" >
+        mod_time = #{modTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=CHAR},
+      </if>
+      <if test="codexType != null" >
+        codex_type = #{codexType,jdbcType=CHAR},
+      </if>
+    </set>
+    where codex_id = #{codexId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.marketing.bean.Codex" >
+    update np_codex
+    set codex_name = #{codexName,jdbcType=VARCHAR},
+      codex_des = #{codexDes,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      mod_time = #{modTime,jdbcType=TIMESTAMP},
+      flag = #{flag,jdbcType=CHAR},
+      codex_type = #{codexType,jdbcType=CHAR}
+    where codex_id = #{codexId,jdbcType=BIGINT}
+  </update>
+</mapper>

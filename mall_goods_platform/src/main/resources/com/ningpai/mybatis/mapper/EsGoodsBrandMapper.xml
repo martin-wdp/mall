@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qianmi.web.dao.EsGoodsBrandMapper">
+	<resultMap id="BaseResultMap" type="com.ningpai.goods.bean.EsGoodsBrand">
+		<id column="brand_id" property="brandId" jdbcType="BIGINT" />
+		<result column="brand_nickname" property="brandNickname"
+			jdbcType="VARCHAR" />
+		<result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+		<result column="brand_url" property="brandUrl" jdbcType="VARCHAR" />
+		<result column="brand_logo" property="brandLogo" jdbcType="VARCHAR" />
+		<result column="brand_prom_index" property="brandPromIndex"
+			jdbcType="CHAR" />
+		<result column="brand_sort" property="brandSort" jdbcType="INTEGER" />
+		<result column="brand_seo_title" property="brandSeoTitle"
+			jdbcType="VARCHAR" />
+		<result column="brand_seo_keyword" property="brandSeoKeyword"
+			jdbcType="VARCHAR" />
+		<result column="brand_seo_desc" property="brandSeoDesc"
+			jdbcType="VARCHAR" />
+		<result column="brand_delflag" property="brandDelflag"
+			jdbcType="CHAR" />
+		<result column="brand_create_name" property="brandCreateName"
+			jdbcType="VARCHAR" />
+		<result column="brand_create_time" property="brandCreateTime"
+			jdbcType="TIMESTAMP" />
+		<result column="brand_modified_name" property="brandModifiedName"
+			jdbcType="VARCHAR" />
+		<result column="brand_modified_time" property="brandModifiedTime"
+			jdbcType="TIMESTAMP" />
+		<result column="brand_del_name" property="brandDelName"
+			jdbcType="VARCHAR" />
+		<result column="brand_del_time" property="brandDelTime"
+			jdbcType="TIMESTAMP" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.ningpai.goods.bean.EsGoodsBrand"
+		extends="BaseResultMap">
+		<result column="brand_desc" property="brandDesc" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		brand_id, brand_nickname, brand_name, brand_url,
+		brand_logo, brand_prom_index,
+		brand_sort,
+		brand_seo_title,
+		brand_seo_keyword, brand_seo_desc, brand_delflag, brand_create_name,
+		brand_create_time, brand_modified_name, brand_modified_time,
+		brand_del_name, brand_del_time
+	</sql>
+	<sql id="Blob_Column_List">
+		brand_desc
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select brand_id, brand_name
+		from np_goods_brand
+		where
+		brand_id = #{brandId,jdbcType=BIGINT}
+	</select>
+
+</mapper>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.GiftPicMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.gift.bean.GiftPic" >
+    <id column="pic_id" property="picId" jdbcType="BIGINT" />
+    <result column="gift_id" property="giftId" jdbcType="BIGINT" />
+    <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+     <result column="pic_little" property="picLittle" jdbcType="VARCHAR" />
+     <result column="pic_middle" property="picMiddle" jdbcType="VARCHAR" />
+     <result column="pic_big" property="picBig" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    pic_id, gift_id, pic_url, del_flag,pic_little,pic_middle,pic_big
+  </sql>
+  
+ <!-- 查询赠品图片 -->
+  <select id="selectGiftPicByGiftId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_gift_pic
+    where gift_id = #{giftId,jdbcType=BIGINT} and del_flag = '0'
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_gift_pic
+    where pic_id = #{picId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_gift_pic
+    where pic_id = #{picId,jdbcType=BIGINT}
+  </delete>
+  
+  
+    <!-- 批量增加赠品图片 -->
+  <insert id="createGiftPic" parameterType="java.util.List" >
+    insert into np_gift_pic (pic_id, gift_id, pic_url, pic_little,pic_middle,pic_big,
+      del_flag)
+    values 
+      <foreach collection="list" separator="," item="giftpic" index="index" >  
+          (#{giftpic.picId,jdbcType=BIGINT}, #{giftpic.giftId,jdbcType=BIGINT}, #{giftpic.picUrl,jdbcType=VARCHAR}, 
+           #{giftpic.picLittle,jdbcType=VARCHAR},
+            #{giftpic.picMiddle,jdbcType=VARCHAR},
+             #{giftpic.picBig,jdbcType=VARCHAR},
+      #{giftpic.delFlag,jdbcType=CHAR})
+     </foreach>  
+  </insert>
+  
+  
+    <insert id="savePic" parameterType="com.ningpai.gift.bean.GiftPic" >
+    insert into np_gift_pic (pic_id, gift_id, pic_url, pic_little,pic_middle,pic_big, 
+      del_flag)
+    values (#{picId,jdbcType=BIGINT}, #{giftId,jdbcType=BIGINT}, #{picUrl,jdbcType=VARCHAR},
+      #{picLittle,jdbcType=VARCHAR},
+      #{picMiddle,jdbcType=VARCHAR},
+      #{picBig,jdbcType=VARCHAR}, 
+      #{delFlag,jdbcType=CHAR})
+  <selectKey keyProperty="pic_id" resultType="java.lang.Long">
+      		select LAST_INSERT_ID()
+      </selectKey>
+  </insert>
+  <!-- 查询刚刚插入的Id -->
+  <select id="selectLastId" resultType="java.lang.Long" >
+  		select LAST_INSERT_ID()
+  </select>
+  
+  
+  <insert id="insert" parameterType="com.ningpai.gift.bean.GiftPic" >
+    insert into np_gift_pic (pic_id, gift_id, pic_url, 
+      del_flag)
+    values (#{picId,jdbcType=BIGINT}, #{giftId,jdbcType=BIGINT}, #{picUrl,jdbcType=VARCHAR}, 
+      #{delFlag,jdbcType=CHAR})
+  </insert>
+  
+
+  <insert id="insertSelective" parameterType="com.ningpai.gift.bean.GiftPic" >
+    insert into np_gift_pic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="picId != null" >
+        pic_id,
+      </if>
+      <if test="giftId != null" >
+        gift_id,
+      </if>
+      <if test="picUrl != null" >
+        pic_url,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="picId != null" >
+        #{picId,jdbcType=BIGINT},
+      </if>
+      <if test="giftId != null" >
+        #{giftId,jdbcType=BIGINT},
+      </if>
+      <if test="picUrl != null" >
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.gift.bean.GiftPic" >
+    update np_gift_pic
+    <set >
+      <if test="giftId != null" >
+        gift_id = #{giftId,jdbcType=BIGINT},
+      </if>
+      <if test="picUrl != null" >
+        pic_url = #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where pic_id = #{picId,jdbcType=BIGINT}
+  </update>
+  
+  
+  
+  <!-- 根据赠品Id 删除赠品图片 -->
+  <update id="deleteGiftPicByGiftId" parameterType="java.lang.Long" >
+    update np_gift_pic
+    set del_flag = '1'
+    where gift_id = #{giftId,jdbcType=BIGINT}
+  </update>
+  
+  
+  
+    
+  <!-- 根据赠品Id 删除赠品图片 -->
+  <update id="deleteAllGiftPicByGiftId" parameterType="java.util.List" >
+    update np_gift_pic
+    set del_flag = '1'
+    where gift_id in
+    <foreach collection="list" item="giftId" open="(" separator="," close=")">
+     #{giftId,jdbcType=BIGINT}
+   </foreach>
+  </update>
+  
+  
+    <!-- 根据图片Id删除赠品图片 -->
+  <update id="delGiftPicByPicId" parameterType="java.lang.Long" >
+    update np_gift_pic
+    set del_flag = '1'
+    where pic_id = #{picId,jdbcType=BIGINT}
+  </update>
+  
+  
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.gift.bean.GiftPic" >
+    update np_gift_pic
+    set gift_id = #{giftId,jdbcType=BIGINT},
+      pic_url = #{picUrl,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where pic_id = #{picId,jdbcType=BIGINT}
+  </update>
+</mapper>

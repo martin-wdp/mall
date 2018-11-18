@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.comment.dao.InfosettingMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.comment.bean.Infosetting" >
+    <id column="set_id" property="setId" jdbcType="BIGINT" />
+    <result column="default_word" property="defaultWord" jdbcType="VARCHAR" />
+    <result column="audit_word" property="auditWord" jdbcType="VARCHAR" />
+    <result column="success_word" property="successWord" jdbcType="VARCHAR" />
+    <result column="is_check" property="isCheck" jdbcType="CHAR" />
+    <result column="aduit_set" property="aduitSet" jdbcType="CHAR" />
+    <result column="is_consult" property="isConsult" jdbcType="CHAR" />
+    <result column="consult_set" property="consultSet" jdbcType="CHAR" />
+    <result column="is_comment" property="isComment" jdbcType="CHAR" />
+    <result column="ccomment_set" property="ccommentSet" jdbcType="CHAR" />
+    <result column="is_score" property="isScore" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modified_time" property="modifiedTime" jdbcType="TIMESTAMP" />
+    <result column="del_time" property="delTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    set_id, default_word, audit_word, success_word, is_check, aduit_set, is_consult, 
+    consult_set, is_comment, ccomment_set, is_score, create_time, modified_time, del_time, 
+    del_flag
+  </sql>
+   <select id="selectByPrimaryKey" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_infosetting
+    where set_id = 1
+  </select>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.comment.bean.Infosetting" >
+    update np_infosetting
+    <set >
+      <if test="defaultWord != null" >
+        default_word = #{defaultWord,jdbcType=VARCHAR},
+      </if>
+      <if test="auditWord != null" >
+        audit_word = #{auditWord,jdbcType=VARCHAR},
+      </if>
+      <if test="successWord != null" >
+        success_word = #{successWord,jdbcType=VARCHAR},
+      </if>
+      <if test="isCheck != null" >
+        is_check = #{isCheck,jdbcType=CHAR},
+      </if>
+      <if test="aduitSet != null" >
+        aduit_set = #{aduitSet,jdbcType=CHAR},
+      </if>
+      <if test="isConsult != null" >
+        is_consult = #{isConsult,jdbcType=CHAR},
+      </if>
+      <if test="consultSet != null" >
+        consult_set = #{consultSet,jdbcType=CHAR},
+      </if>
+      <if test="isComment != null" >
+        is_comment = #{isComment,jdbcType=CHAR},
+      </if>
+      <if test="ccommentSet != null" >
+        ccomment_set = #{ccommentSet,jdbcType=CHAR},
+      </if>
+      <if test="isScore != null" >
+        is_score = #{isScore,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null" >
+        modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delTime != null" >
+        del_time = #{delTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where set_id = 1
+  </update>
+  
+</mapper>

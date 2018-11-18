@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.topic.mapper.GroupTopicImgMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.topic.bean.GroupTopicImg" >
+    <id column="topic_img_id" property="topicImgId" jdbcType="BIGINT" />
+    <result column="topic_id" property="topicId" jdbcType="BIGINT" />
+    <result column="topic_img_url" property="topicImgUrl" jdbcType="VARCHAR" />
+    <result column="topic_img_del_flag" property="topicImgDelFlag" jdbcType="CHAR" />
+    <result column="topic_img_create_time" property="topicImgCreateTime" jdbcType="TIMESTAMP" />
+    <result column="topic_type" property="topicType" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    topic_img_id, topic_id, topic_img_url, topic_img_del_flag, topic_img_create_time, 
+    topic_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_group_topic_img
+    where topic_img_id = #{topicImgId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_group_topic_img
+    where topic_img_id = #{topicImgId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.topic.bean.GroupTopicImg" useGeneratedKeys="true" keyProperty="topicImgId" >
+    insert into np_group_topic_img (topic_id, topic_img_url, topic_img_del_flag, 
+      topic_img_create_time, topic_type)
+    values (#{topicId,jdbcType=BIGINT}, #{topicImgUrl,jdbcType=VARCHAR}, #{topicImgDelFlag,jdbcType=CHAR}, 
+      #{topicImgCreateTime,jdbcType=TIMESTAMP}, #{topicType,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.topic.bean.GroupTopicImg" useGeneratedKeys="true" keyProperty="topicImgId" >
+    insert into np_group_topic_img
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      topic_id,
+      topic_img_url,
+      topic_img_del_flag,
+      topic_img_create_time,
+      topic_type,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{topicId,jdbcType=BIGINT},
+      #{topicImgUrl,jdbcType=VARCHAR},
+      #{topicImgDelFlag,jdbcType=CHAR},
+      #{topicImgCreateTime,jdbcType=TIMESTAMP},
+      #{topicType,jdbcType=CHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.topic.bean.GroupTopicImg" >
+    update np_group_topic_img
+    <set >
+      <if test="topicId != null" >
+        topic_id = #{topicId,jdbcType=BIGINT},
+      </if>
+      <if test="topicImgUrl != null" >
+        topic_img_url = #{topicImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="topicImgDelFlag != null" >
+        topic_img_del_flag = #{topicImgDelFlag,jdbcType=CHAR},
+      </if>
+      <if test="topicImgCreateTime != null" >
+        topic_img_create_time = #{topicImgCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="topicType != null" >
+        topic_type = #{topicType,jdbcType=CHAR},
+      </if>
+    </set>
+    where topic_img_id = #{topicImgId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.topic.bean.GroupTopicImg" >
+    update np_group_topic_img
+    set topic_id = #{topicId,jdbcType=BIGINT},
+      topic_img_url = #{topicImgUrl,jdbcType=VARCHAR},
+      topic_img_del_flag = #{topicImgDelFlag,jdbcType=CHAR},
+      topic_img_create_time = #{topicImgCreateTime,jdbcType=TIMESTAMP},
+      topic_type = #{topicType,jdbcType=CHAR}
+    where topic_img_id = #{topicImgId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 批量插入小组话题 -->
+  <insert id="insertBatchSelective" parameterType="java.util.List">
+		insert into
+		np_group_topic_img(topic_id, topic_img_url, topic_img_del_flag, 
+        topic_img_create_time, topic_type) values
+		<foreach collection="list" item="item" index="index" separator=",">
+		(#{item.topicId,jdbcType=BIGINT},
+     	 #{item.topicImgUrl,jdbcType=VARCHAR},
+	     #{item.topicImgDelFlag,jdbcType=CHAR},
+	     #{item.topicImgCreateTime,jdbcType=TIMESTAMP},
+      	 #{item.topicType,jdbcType=CHAR}
+		)
+		</foreach>
+  </insert>
+  
+  <!--根据小组话题ID查询话题的相关附件  -->
+  <select id="topicImgList" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_group_topic_img
+    where topic_id = #{topicId,jdbcType=BIGINT} and topic_type='0' and topic_img_del_flag='0'
+    limit 2
+  </select>
+  
+  <!--根据小组话题ID查询话题的相关附件  -->
+  <select id="alltopicImgList" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_group_topic_img
+    where topic_id = #{topicId,jdbcType=BIGINT}  and topic_img_del_flag='0'
+  </select>
+  
+  <!-- 删除 话题相关附件-->
+  <update id="deleteGroupImgById" parameterType="java.lang.Long">
+    update np_group_topic_img
+    set topic_img_del_flag='1'
+    where topic_id=#{topicId,jdbcType=BIGINT}
+  </update>
+</mapper>

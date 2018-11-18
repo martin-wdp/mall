@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.site.customer.dao.OrderComplainMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.site.customer.bean.OrderComplain" >
+    <id column="complain_id" property="complainId" jdbcType="BIGINT" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="complain_type" property="complainType" jdbcType="VARCHAR" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="complain_time" property="complainTime" jdbcType="TIMESTAMP" />
+    <result column="complain_context" property="complainContext" jdbcType="VARCHAR" />
+    <result column="deal_flag" property="dealFlag" jdbcType="CHAR" />
+    <result column="replay_context" property="replayContext" jdbcType="VARCHAR" />
+    <result column="replay_username" property="replayUsername" jdbcType="VARCHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    complain_id, customer_id, complain_type, order_no, complain_time, complain_context, 
+    deal_flag, replay_context, replay_username, del_flag
+  </sql>
+  
+   <!-- 根据会员编号查找收藏记录 -->
+  <select id="selectComplainList"  resultMap="BaseResultMap"  parameterType="java.util.Map"  >
+  	select
+    <include refid="Base_Column_List" />
+    from np_ordercomplain
+    where customer_id = #{customerId,jdbcType=BIGINT} and del_flag='0'
+    order by complain_time desc
+    limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <!-- 根据会员编号查找收藏记录 -->
+  <select id="searchComplainCount" parameterType="java.util.Map" resultType="java.lang.Long">
+  	select
+    count(1)
+    from np_ordercomplain
+    where customer_id = #{customerId,jdbcType=BIGINT} and del_flag='0'
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_ordercomplain
+    where complain_id = #{complainId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_ordercomplain
+    where complain_id = #{complainId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.site.customer.bean.OrderComplain" >
+    insert into np_ordercomplain (complain_id, customer_id, complain_type, 
+      order_no, complain_time, complain_context, 
+      deal_flag, replay_context, replay_username, 
+      create_time, modify_time, del_time, 
+      del_flag)
+    values (#{complainId,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, #{complainType,jdbcType=VARCHAR}, 
+      #{orderNo,jdbcType=VARCHAR}, #{complainTime,jdbcType=TIMESTAMP}, #{complainContext,jdbcType=VARCHAR}, 
+      #{dealFlag,jdbcType=CHAR}, #{replayContext,jdbcType=VARCHAR}, #{replayUsername,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{delTime,jdbcType=TIMESTAMP}, 
+      #{delFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.site.customer.bean.OrderComplain" >
+    insert into np_ordercomplain
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="complainId != null" >
+        complain_id,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="complainType != null" >
+        complain_type,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="complainTime == null" >
+        complain_time,
+      </if>
+      <if test="complainContext != null" >
+        complain_context,
+      </if>
+      <if test="dealFlag != null" >
+        deal_flag,
+      </if>
+      <if test="replayContext != null" >
+        replay_context,
+      </if>
+      <if test="replayUsername != null" >
+        replay_username,
+      </if>
+      <if test="delFlag == null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="complainId != null" >
+        #{complainId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="complainType != null" >
+        #{complainType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="complainTime == null" >
+        SYSDATE(),
+      </if>
+      <if test="complainContext != null" >
+        #{complainContext,jdbcType=VARCHAR},
+      </if>
+      <if test="dealFlag != null" >
+        #{dealFlag,jdbcType=CHAR},
+      </if>
+      <if test="replayContext != null" >
+        #{replayContext,jdbcType=VARCHAR},
+      </if>
+      <if test="replayUsername != null" >
+        #{replayUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag == null" >
+        '0',
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.site.customer.bean.OrderComplain" >
+    update np_ordercomplain
+    <set >
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="complainType != null" >
+        complain_type = #{complainType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="complainTime != null" >
+        complain_time = #{complainTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="complainContext != null" >
+        complain_context = #{complainContext,jdbcType=VARCHAR},
+      </if>
+      <if test="dealFlag != null" >
+        deal_flag = #{dealFlag,jdbcType=CHAR},
+      </if>
+      <if test="replayContext != null" >
+        replay_context = #{replayContext,jdbcType=VARCHAR},
+      </if>
+      <if test="replayUsername != null" >
+        replay_username = #{replayUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delTime != null" >
+        del_time = #{delTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where complain_id = #{complainId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.site.customer.bean.OrderComplain" >
+    update np_ordercomplain
+    set customer_id = #{customerId,jdbcType=BIGINT},
+      complain_type = #{complainType,jdbcType=VARCHAR},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      complain_time = #{complainTime,jdbcType=TIMESTAMP},
+      complain_context = #{complainContext,jdbcType=VARCHAR},
+      deal_flag = #{dealFlag,jdbcType=CHAR},
+      replay_context = #{replayContext,jdbcType=VARCHAR},
+      replay_username = #{replayUsername,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      del_time = #{delTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where complain_id = #{complainId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+ @Title: 系统字典的mapper映射配置文件
+ @Description:
+ @author NINGPAI_xiaomm
+ @since 2014-03-20 11:03:23
+ @version V1.0
+-->
+<mapper namespace="com.ningpai.channel.dao.ChannelSysDictionaryMapper">
+
+	<resultMap id="BaseResultMap" type="com.ningpai.channel.bean.SysDictionary">
+				<!-- 记录ID -->
+				<id column="DIC_ID" 
+					jdbcType="BIGINT"
+				 property="dicId" />
+				<!-- 父节点ID -->
+				<result column="PARENT_ID"
+					jdbcType="BIGINT"
+				property="parentId" />
+				<!-- 字典名称 -->
+				<result column="NAME"
+					jdbcType="VARCHAR"
+				property="name" />
+				<!-- 字典代码 -->
+				<result column="CODE"
+					jdbcType="VARCHAR"
+				property="code" />
+				<!-- 启用状态 -->
+				<result column="STATUS"
+					jdbcType="VARCHAR"
+				property="status" />
+				<!-- 字典类型 -->
+				<result column="TYPE"
+					jdbcType="VARCHAR"
+				property="type" />
+				<!-- 描述信息 -->
+				<result column="DES"
+					jdbcType="VARCHAR"
+				property="des" />
+				<!-- 添加人 -->
+				<result column="INSERT_ID"
+					jdbcType="BIGINT"
+				property="insertId" />
+				<!-- 添加时间 -->
+				<result column="INSERT_DATE"
+					jdbcType="DATE"
+				property="insertDate" />
+				<!-- 修改人 -->
+				<result column="MODIFY_ID"
+					jdbcType="BIGINT"
+				property="modifyId" />
+				<!-- 修改时间 -->
+				<result column="MODIFY_DATE"
+					jdbcType="DATE"
+				property="modifyDate" />
+	</resultMap>
+	
+	<sql id="baseSql">
+			DIC_ID, 
+			PARENT_ID, 
+			NAME, 
+			CODE, 
+			STATUS, 
+			TYPE, 
+			DES, 
+			INSERT_ID, 
+			INSERT_DATE, 
+			MODIFY_ID, 
+			MODIFY_DATE 
+	</sql>
+	<sql id="querySql">
+			DIC_ID, 
+			PARENT_ID, 
+			NAME, 
+			CODE, 
+			STATUS, 
+			TYPE 
+	</sql>
+	
+	<!-- 根据系统字典对象的id查询系统字典对象 -->
+	<select id="getSysDictionaryById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_DIC 
+		WHERE 
+				DIC_ID = #{dicId,
+							jdbcType=BIGINT
+					}
+	</select>
+	
+	<!-- 根据系统字典对象的单个字段查询系统字典对象信息 -->
+	<select id="getSysDictionaryByField" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		SELECT <include refid="querySql"/> FROM  NP_SYS_DIC D 
+		   WHERE D.PARENT_ID = #{parentId,jdbcType=BIGINT}
+		   AND D.NAME not like '%楼层%'
+	</select>
+	
+</mapper>

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.goods.dao.GoodsTypeParamMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsTypeParam" >
+    <id column="param_id" property="paramId" jdbcType="BIGINT" />
+    <result column="type_id" property="typeId" jdbcType="BIGINT" />
+    <result column="param_name" property="paramName" jdbcType="VARCHAR" />
+    <result column="param_nickname" property="paramNickname" jdbcType="VARCHAR" />
+    <result column="param_delflag" property="paramDelflag" jdbcType="CHAR" />
+    <result column="param_create_name" property="paramCreateName" jdbcType="VARCHAR" />
+    <result column="param_create_time" property="paramCreateTime" jdbcType="TIMESTAMP" />
+    <result column="param_modified_name" property="paramModifiedName" jdbcType="VARCHAR" />
+    <result column="param_modified_time" property="paramModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="param_del_name" property="paramDelName" jdbcType="VARCHAR" />
+    <result column="param_del_time" property="paramDelTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    param_id, type_id, param_name, param_nickname, param_delflag, param_create_name, 
+    param_create_time, param_modified_name, param_modified_time, param_del_name, param_del_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_goods_type_param
+    where param_id = #{paramId,jdbcType=BIGINT}
+  </select>
+  <!-- 删除详细参数  实际就是更新字段 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.util.Map" >
+    update np_goods_type_param set param_delflag='1',param_del_name=#{delName},param_del_time=NOW()
+    where param_id = #{paramId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.goods.bean.GoodsTypeParam" >
+    insert into np_goods_type_param (param_id, type_id, param_name, 
+      param_nickname, param_delflag, param_create_name, 
+      param_create_time, param_modified_name, param_modified_time, 
+      param_del_name, param_del_time)
+    values (#{paramId,jdbcType=BIGINT}, #{typeId,jdbcType=BIGINT}, #{paramName,jdbcType=VARCHAR}, 
+      #{paramNickname,jdbcType=VARCHAR}, #{paramDelflag,jdbcType=CHAR}, #{paramCreateName,jdbcType=VARCHAR}, 
+      #{paramCreateTime,jdbcType=TIMESTAMP}, #{paramModifiedName,jdbcType=VARCHAR}, #{paramModifiedTime,jdbcType=TIMESTAMP}, 
+      #{paramDelName,jdbcType=VARCHAR}, #{paramDelTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.goods.bean.GoodsTypeParam" >
+    insert into np_goods_type_param
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="paramId != null" >
+        param_id,
+      </if>
+      <if test="typeId != null" >
+        type_id,
+      </if>
+      <if test="paramName != null" >
+        param_name,
+      </if>
+      <if test="paramNickname != null" >
+        param_nickname,
+      </if>
+      <if test="paramDelflag != null" >
+        param_delflag,
+      </if>
+      <if test="paramCreateName != null" >
+        param_create_name,
+      </if>
+      <if test="paramCreateTime != null" >
+        param_create_time,
+      </if>
+      <if test="paramModifiedName != null" >
+        param_modified_name,
+      </if>
+      <if test="paramModifiedTime != null" >
+        param_modified_time,
+      </if>
+      <if test="paramDelName != null" >
+        param_del_name,
+      </if>
+      <if test="paramDelTime != null" >
+        param_del_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="paramId != null" >
+        #{paramId,jdbcType=BIGINT},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=BIGINT},
+      </if>
+      <if test="paramName != null" >
+        #{paramName,jdbcType=VARCHAR},
+      </if>
+      <if test="paramNickname != null" >
+        #{paramNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="paramDelflag != null" >
+        #{paramDelflag,jdbcType=CHAR},
+      </if>
+      <if test="paramCreateName != null" >
+        #{paramCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="paramCreateTime != null" >
+        #{paramCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paramModifiedName != null" >
+        #{paramModifiedName,jdbcType=VARCHAR},
+      </if>
+      <if test="paramModifiedTime != null" >
+        #{paramModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paramDelName != null" >
+        #{paramDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="paramDelTime != null" >
+        #{paramDelTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.goods.bean.GoodsTypeParam" >
+    update np_goods_type_param
+    <set >
+      <if test="typeId != null" >
+        type_id = #{typeId,jdbcType=BIGINT},
+      </if>
+      <if test="paramName != null" >
+        param_name = #{paramName,jdbcType=VARCHAR},
+      </if>
+      <if test="paramNickname != null" >
+        param_nickname = #{paramNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="paramDelflag != null" >
+        param_delflag = #{paramDelflag,jdbcType=CHAR},
+      </if>
+      <if test="paramCreateName != null" >
+        param_create_name = #{paramCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="paramCreateTime != null" >
+        param_create_time = #{paramCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paramModifiedName != null" >
+        param_modified_name = #{paramModifiedName,jdbcType=VARCHAR},
+      </if>
+      <if test="paramModifiedTime != null" >
+        param_modified_time = #{paramModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paramDelName != null" >
+        param_del_name = #{paramDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="paramDelTime != null" >
+        param_del_time = #{paramDelTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where param_id = #{paramId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.goods.bean.GoodsTypeParam" >
+    update np_goods_type_param
+    set type_id = #{typeId,jdbcType=BIGINT},
+      param_name = #{paramName,jdbcType=VARCHAR},
+      param_nickname = #{paramNickname,jdbcType=VARCHAR},
+      param_delflag = #{paramDelflag,jdbcType=CHAR},
+      param_create_name = #{paramCreateName,jdbcType=VARCHAR},
+      param_create_time = #{paramCreateTime,jdbcType=TIMESTAMP},
+      param_modified_name = #{paramModifiedName,jdbcType=VARCHAR},
+      param_modified_time = #{paramModifiedTime,jdbcType=TIMESTAMP},
+      param_del_name = #{paramDelName,jdbcType=VARCHAR},
+      param_del_time = #{paramDelTime,jdbcType=TIMESTAMP}
+    where param_id = #{paramId,jdbcType=BIGINT}
+  </update>
+  <!-- 根据类型ID查询所有的详细参数 -->
+  <select id="queryTypeParamByTypeId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  	select 
+  		<include refid="Base_Column_List"/>
+  	from np_goods_type_param
+  	where type_id=#{typeId} and param_delflag='0'
+  </select>
+</mapper>

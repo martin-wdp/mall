@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.LimitBuyMarketingMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.marketing.bean.LimitBuyMarketing" >
+    <id column="limit_buy_id" property="limitBuyId" jdbcType="BIGINT" />
+    <result column="marketing_id" property="marketingId" jdbcType="BIGINT" />
+    <result column="limit_count" property="limitCount" jdbcType="BIGINT" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    limit_buy_id, marketing_id, limit_count, del_flag
+  </sql>
+  
+  
+  
+  
+  <select id="selectLimitBuyMarketingByMarketingId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_limit_buy_marketing
+    where marketing_id = #{marketingId,jdbcType=BIGINT} and del_flag = '0'
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_limit_buy_marketing
+    where limit_buy_id = #{limitBuyId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_limit_buy_marketing
+    where limit_buy_id = #{limitBuyId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.marketing.bean.LimitBuyMarketing" >
+    insert into np_limit_buy_marketing (limit_buy_id, marketing_id, limit_count, 
+      del_flag)
+    values (#{limitBuyId,jdbcType=BIGINT}, #{marketingId,jdbcType=BIGINT}, #{limitCount,jdbcType=BIGINT}, 
+      #{delFlag,jdbcType=CHAR})
+  </insert>
+  
+  
+  
+  
+  <insert id="insertLimitBuyMarketing" parameterType="com.ningpai.marketing.bean.LimitBuyMarketing" >
+    insert into np_limit_buy_marketing
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="limitBuyId != null" >
+        limit_buy_id,
+      </if>
+      <if test="marketingId != null" >
+        marketing_id,
+      </if>
+      <if test="limitCount != null" >
+        limit_count,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="limitBuyId != null" >
+        #{limitBuyId,jdbcType=BIGINT},
+      </if>
+      <if test="marketingId != null" >
+        #{marketingId,jdbcType=BIGINT},
+      </if>
+      <if test="limitCount != null" >
+        #{limitCount,jdbcType=BIGINT},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  
+  <insert id="insertSelective" parameterType="com.ningpai.marketing.bean.LimitBuyMarketing" >
+    insert into np_limit_buy_marketing
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="limitBuyId != null" >
+        limit_buy_id,
+      </if>
+      <if test="marketingId != null" >
+        marketing_id,
+      </if>
+      <if test="limitCount != null" >
+        limit_count,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="limitBuyId != null" >
+        #{limitBuyId,jdbcType=BIGINT},
+      </if>
+      <if test="marketingId != null" >
+        #{marketingId,jdbcType=BIGINT},
+      </if>
+      <if test="limitCount != null" >
+        #{limitCount,jdbcType=BIGINT},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.marketing.bean.LimitBuyMarketing" >
+    update np_limit_buy_marketing
+    <set >
+      <if test="marketingId != null" >
+        marketing_id = #{marketingId,jdbcType=BIGINT},
+      </if>
+      <if test="limitCount != null" >
+        limit_count = #{limitCount,jdbcType=BIGINT},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where limit_buy_id = #{limitBuyId,jdbcType=BIGINT}
+  </update>
+  
+  
+  
+  <update id="deleteLimitBuyMarketing" parameterType="java.lang.Long" >
+    update np_limit_buy_marketing
+    set 
+      del_flag = '1'
+    where marketing_id = #{marketingId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.marketing.bean.LimitBuyMarketing" >
+    update np_limit_buy_marketing
+    set marketing_id = #{marketingId,jdbcType=BIGINT},
+      limit_count = #{limitCount,jdbcType=BIGINT},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where limit_buy_id = #{limitBuyId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.manager.mapper.ManagerLoginHistoryMapper">
+	<resultMap id="BaseResultMap" type="com.ningpai.manager.bean.ManagerLoginHistory">
+		<id column="ID" property="id" jdbcType="BIGINT" />
+		<result column="MANAGER_ID" property="managerId" jdbcType="BIGINT" />
+		<result column="LOGIN_DATE" property="loginDate" jdbcType="TIMESTAMP" />
+		<result column="LOGIN_IP" property="loginIP" jdbcType="VARCHAR" />
+		<result column="LOGIN_TYPE" property="loginType" jdbcType="CHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		ID, MANAGER_ID, LOGIN_DATE, LOGIN_IP, LOGIN_TYPE
+	</sql>
+
+	<insert id="insert" parameterType="com.ningpai.manager.bean.ManagerLoginHistory">
+		insert into QP_MANAGER_LOGIN_HIS (MANAGER_ID, LOGIN_DATE,
+		LOGIN_IP, LOGIN_TYPE)
+		values (#{managerId,jdbcType=BIGINT},
+		#{loginDate,jdbcType=TIMESTAMP}, #{loginIP,jdbcType=VARCHAR},
+		#{loginType,jdbcType=CHAR})
+	</insert>
+</mapper>

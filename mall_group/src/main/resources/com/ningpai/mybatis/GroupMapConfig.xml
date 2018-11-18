@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE configuration PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-config.dtd">
+<configuration>
+	
+   
+<mappers>
+		
+	<mapper resource="com/ningpai/mybatis/mapper/GroupBlackMapper.xml"/>
+	<mapper resource="com/ningpai/mybatis/mapper/GroupCustomerMapper.xml"/>
+	<mapper resource="com/ningpai/mybatis/mapper/GroupImgMapper.xml"/>
+	<mapper resource="com/ningpai/mybatis/mapper/GroupMapper.xml"/>
+	<mapper resource="com/ningpai/mybatis/mapper/GroupPermissionsMapper.xml"/>
+	<mapper resource="com/ningpai/mybatis/mapper/GroupTopicImgMapper.xml"/>
+	<mapper resource="com/ningpai/mybatis/mapper/GroupTopicMapper.xml"/>
+	<mapper resource="com/ningpai/mybatis/mapper/GroupTypeMapper.xml"/>
+	<mapper resource="com/ningpai/mybatis/mapper/TopicRecommendMapper.xml"/>
+	<mapper resource="com/ningpai/mybatis/mapper/LabelMapper.xml"/>
+	<mapper resource="com/ningpai/mybatis/mapper/LabelGroupMapper.xml"/>
+    <mapper resource="com/ningpai/mybatis/mapper/MessageCustomerMapper.xml"/>
+	<mapper resource="com/ningpai/mybatis/mapper/MessageMapper.xml"/>
+	<mapper resource="com/ningpai/mybatis/mapper/MessageTemplateMapper.xml"/>
+	<mapper resource="com/ningpai/mybatis/mapper/FansMapper.xml"/>
+	<mapper resource="com/ningpai/mybatis/mapper/CommonMapper.xml"/>
+	<mapper resource="com/ningpai/mybatis/mapper/MoodMapper.xml"/>
+	<mapper resource="com/ningpai/mybatis/mapper/VisitorsMapper.xml"/>
+</mappers>
+</configuration>

@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bbw.web.dao.centaur.GoodsBrandMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.brand.bean.GoodsBrand" >
+    <id column="brand_id" property="brandId" jdbcType="BIGINT" />
+    <result column="brand_nickname" property="brandNickname" jdbcType="VARCHAR" />
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+    <result column="brand_url" property="brandUrl" jdbcType="VARCHAR" />
+    <result column="brand_logo" property="brandLogo" jdbcType="VARCHAR" />
+    <result column="brand_prom_index" property="brandPromIndex" jdbcType="CHAR" />
+    <result column="brand_sort" property="brandSort" jdbcType="INTEGER" />
+    <result column="brand_seo_title" property="brandSeoTitle" jdbcType="VARCHAR" />
+    <result column="brand_seo_keyword" property="brandSeoKeyword" jdbcType="VARCHAR" />
+    <result column="brand_seo_desc" property="brandSeoDesc" jdbcType="VARCHAR" />
+    <result column="brand_delflag" property="brandDelflag" jdbcType="CHAR" />
+    <result column="brand_create_name" property="brandCreateName" jdbcType="VARCHAR" />
+    <result column="brand_create_time" property="brandCreateTime" jdbcType="TIMESTAMP" />
+    <result column="brand_modified_name" property="brandModifiedName" jdbcType="VARCHAR" />
+    <result column="brand_modified_time" property="brandModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="brand_del_name" property="brandDelName" jdbcType="VARCHAR" />
+    <result column="brand_del_time" property="brandDelTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.ningpai.brand.bean.GoodsBrand" extends="BaseResultMap" >
+    <result column="brand_desc" property="brandDesc" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    brand_id, brand_nickname, brand_name, brand_url, brand_logo, brand_prom_index, brand_sort, 
+    brand_seo_title, brand_seo_keyword, brand_seo_desc, brand_delflag, brand_create_name, 
+    brand_create_time, brand_modified_name, brand_modified_time, brand_del_name, brand_del_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    brand_desc
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from np_goods_brand
+    where brand_id = #{brandId,jdbcType=BIGINT}
+  </select>
+  
+  
+   <select id="checkBrand" resultType="java.lang.Integer" parameterType="java.lang.Long" >
+    select count(1)
+    from np_goods_brand
+    where brand_id = #{brandId,jdbcType=BIGINT}
+  </select>
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_goods_brand
+    where brand_id = #{brandId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.brand.bean.GoodsBrand" >
+    insert into np_goods_brand (brand_id, brand_nickname, brand_name, 
+      brand_url, brand_logo, brand_prom_index, 
+      brand_sort, brand_seo_title, brand_seo_keyword, 
+      brand_seo_desc, brand_delflag, brand_create_name, 
+      brand_create_time, brand_modified_name, brand_modified_time, 
+      brand_del_name, brand_del_time, brand_desc
+      )
+    values (#{brandId,jdbcType=BIGINT}, #{brandNickname,jdbcType=VARCHAR}, #{brandName,jdbcType=VARCHAR}, 
+      #{brandUrl,jdbcType=VARCHAR}, #{brandLogo,jdbcType=VARCHAR}, #{brandPromIndex,jdbcType=CHAR}, 
+      #{brandSort,jdbcType=INTEGER}, #{brandSeoTitle,jdbcType=VARCHAR}, #{brandSeoKeyword,jdbcType=VARCHAR}, 
+      #{brandSeoDesc,jdbcType=VARCHAR}, #{brandDelflag,jdbcType=CHAR}, #{brandCreateName,jdbcType=VARCHAR}, 
+      #{brandCreateTime,jdbcType=TIMESTAMP}, #{brandModifiedName,jdbcType=VARCHAR}, #{brandModifiedTime,jdbcType=TIMESTAMP}, 
+      #{brandDelName,jdbcType=VARCHAR}, #{brandDelTime,jdbcType=TIMESTAMP}, #{brandDesc,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.brand.bean.GoodsBrand" >
+    insert into np_goods_brand
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="brandId != null" >
+        brand_id,
+      </if>
+      <if test="brandNickname != null" >
+        brand_nickname,
+      </if>
+      <if test="brandName != null" >
+        brand_name,
+      </if>
+      <if test="brandUrl != null" >
+        brand_url,
+      </if>
+      <if test="brandLogo != null" >
+        brand_logo,
+      </if>
+      <if test="brandPromIndex != null" >
+        brand_prom_index,
+      </if>
+      <if test="brandSort != null" >
+        brand_sort,
+      </if>
+      <if test="brandSeoTitle != null" >
+        brand_seo_title,
+      </if>
+      <if test="brandSeoKeyword != null" >
+        brand_seo_keyword,
+      </if>
+      <if test="brandSeoDesc != null" >
+        brand_seo_desc,
+      </if>
+      <if test="brandDelflag != null" >
+        brand_delflag,
+      </if>
+      <if test="brandCreateName != null" >
+        brand_create_name,
+      </if>
+      <if test="brandCreateTime != null" >
+        brand_create_time,
+      </if>
+      <if test="brandModifiedName != null" >
+        brand_modified_name,
+      </if>
+      <if test="brandModifiedTime != null" >
+        brand_modified_time,
+      </if>
+      <if test="brandDelName != null" >
+        brand_del_name,
+      </if>
+      <if test="brandDelTime != null" >
+        brand_del_time,
+      </if>
+      <if test="brandDesc != null" >
+        brand_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="brandId != null" >
+        #{brandId,jdbcType=BIGINT},
+      </if>
+      <if test="brandNickname != null" >
+        #{brandNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="brandName != null" >
+        #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandUrl != null" >
+        #{brandUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="brandLogo != null" >
+        #{brandLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="brandPromIndex != null" >
+        #{brandPromIndex,jdbcType=CHAR},
+      </if>
+      <if test="brandSort != null" >
+        #{brandSort,jdbcType=INTEGER},
+      </if>
+      <if test="brandSeoTitle != null" >
+        #{brandSeoTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="brandSeoKeyword != null" >
+        #{brandSeoKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="brandSeoDesc != null" >
+        #{brandSeoDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="brandDelflag != null" >
+        #{brandDelflag,jdbcType=CHAR},
+      </if>
+      <if test="brandCreateName != null" >
+        #{brandCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandCreateTime != null" >
+        #{brandCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brandModifiedName != null" >
+        #{brandModifiedName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandModifiedTime != null" >
+        #{brandModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brandDelName != null" >
+        #{brandDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandDelTime != null" >
+        #{brandDelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brandDesc != null" >
+        #{brandDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.brand.bean.GoodsBrand" >
+    update np_goods_brand
+    <set >
+      <if test="brandNickname != null" >
+        brand_nickname = #{brandNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="brandName != null" >
+        brand_name = #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandUrl != null" >
+        brand_url = #{brandUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="brandLogo != null" >
+        brand_logo = #{brandLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="brandPromIndex != null" >
+        brand_prom_index = #{brandPromIndex,jdbcType=CHAR},
+      </if>
+      <if test="brandSort != null" >
+        brand_sort = #{brandSort,jdbcType=INTEGER},
+      </if>
+      <if test="brandSeoTitle != null" >
+        brand_seo_title = #{brandSeoTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="brandSeoKeyword != null" >
+        brand_seo_keyword = #{brandSeoKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="brandSeoDesc != null" >
+        brand_seo_desc = #{brandSeoDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="brandDelflag != null" >
+        brand_delflag = #{brandDelflag,jdbcType=CHAR},
+      </if>
+      <if test="brandCreateName != null" >
+        brand_create_name = #{brandCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandCreateTime != null" >
+        brand_create_time = #{brandCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brandModifiedName != null" >
+        brand_modified_name = #{brandModifiedName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandModifiedTime != null" >
+        brand_modified_time = #{brandModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brandDelName != null" >
+        brand_del_name = #{brandDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandDelTime != null" >
+        brand_del_time = #{brandDelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brandDesc != null" >
+        brand_desc = #{brandDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where brand_id = #{brandId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ningpai.brand.bean.GoodsBrand" >
+    update np_goods_brand
+    set brand_nickname = #{brandNickname,jdbcType=VARCHAR},
+      brand_name = #{brandName,jdbcType=VARCHAR},
+      brand_url = #{brandUrl,jdbcType=VARCHAR},
+      brand_logo = #{brandLogo,jdbcType=VARCHAR},
+      brand_prom_index = #{brandPromIndex,jdbcType=CHAR},
+      brand_sort = #{brandSort,jdbcType=INTEGER},
+      brand_seo_title = #{brandSeoTitle,jdbcType=VARCHAR},
+      brand_seo_keyword = #{brandSeoKeyword,jdbcType=VARCHAR},
+      brand_seo_desc = #{brandSeoDesc,jdbcType=VARCHAR},
+      brand_delflag = #{brandDelflag,jdbcType=CHAR},
+      brand_create_name = #{brandCreateName,jdbcType=VARCHAR},
+      brand_create_time = #{brandCreateTime,jdbcType=TIMESTAMP},
+      brand_modified_name = #{brandModifiedName,jdbcType=VARCHAR},
+      brand_modified_time = #{brandModifiedTime,jdbcType=TIMESTAMP},
+      brand_del_name = #{brandDelName,jdbcType=VARCHAR},
+      brand_del_time = #{brandDelTime,jdbcType=TIMESTAMP},
+      brand_desc = #{brandDesc,jdbcType=LONGVARCHAR}
+    where brand_id = #{brandId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.brand.bean.GoodsBrand" >
+    update np_goods_brand
+    set brand_nickname = #{brandNickname,jdbcType=VARCHAR},
+      brand_name = #{brandName,jdbcType=VARCHAR},
+      brand_url = #{brandUrl,jdbcType=VARCHAR},
+      brand_logo = #{brandLogo,jdbcType=VARCHAR},
+      brand_prom_index = #{brandPromIndex,jdbcType=CHAR},
+      brand_sort = #{brandSort,jdbcType=INTEGER},
+      brand_seo_title = #{brandSeoTitle,jdbcType=VARCHAR},
+      brand_seo_keyword = #{brandSeoKeyword,jdbcType=VARCHAR},
+      brand_seo_desc = #{brandSeoDesc,jdbcType=VARCHAR},
+      brand_delflag = #{brandDelflag,jdbcType=CHAR},
+      brand_create_name = #{brandCreateName,jdbcType=VARCHAR},
+      brand_create_time = #{brandCreateTime,jdbcType=TIMESTAMP},
+      brand_modified_name = #{brandModifiedName,jdbcType=VARCHAR},
+      brand_modified_time = #{brandModifiedTime,jdbcType=TIMESTAMP},
+      brand_del_name = #{brandDelName,jdbcType=VARCHAR},
+      brand_del_time = #{brandDelTime,jdbcType=TIMESTAMP}
+    where brand_id = #{brandId,jdbcType=BIGINT}
+  </update>
+</mapper>

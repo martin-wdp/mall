@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.site.customer.dao.CustomerPointMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.customer.bean.CustomerPoint" >
+    <id column="point_id" property="pointId" jdbcType="BIGINT" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="point_detail" property="pointDetail" jdbcType="VARCHAR" />
+    <result column="point_type" property="pointType" jdbcType="CHAR" />
+    <result column="point" property="point" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    point_id, customer_id, point_detail, point_type, point, create_time, modified_time, 
+    del_time, del_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_customer_point
+    where point_id = #{pointId,jdbcType=BIGINT}
+  </select>
+  <select id="selectByCustomerId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_customer_point
+    where customer_id = #{customerId,jdbcType=BIGINT}
+  </select>
+  <!-- 根据会员编号 查询所有的积分记录条数 -->
+  <select id="queryPointRcCount" resultType="java.lang.Long" parameterType="java.util.Map" >
+    select 
+    count(0)
+   
+		    from np_customer_point
+		    where customer_id = #{customerId,jdbcType=BIGINT} and del_flag = '0' and 
+		    create_time  
+		    <if test="date != 2" >
+		    	<![CDATA[
+		    		>= date_sub(now(), INTERVAL  90 DAY)  AND create_time<= now()
+		    	]]>
+		    </if>
+		    <if test="date == 2">
+		    	<![CDATA[
+		    		<= date_sub(now(), INTERVAL  90 DAY)
+		    	]]>
+		    </if>
+		    order by create_time desc
+		
+  </select>
+  <!-- 根据会员编号 查询所有的积分记录 -->
+  <select id="queryAllPointRc" resultMap="BaseResultMap"  parameterType="java.util.Map" >
+	 	select 
+	    <include refid="Base_Column_List" />
+		    from np_customer_point
+		    where customer_id = #{customerId,jdbcType=BIGINT} and del_flag = '0' and
+		    create_time  
+		    <if test="date != 2" >
+		    	<![CDATA[
+		    		>= date_sub(now(), INTERVAL  90 DAY)  AND create_time<= now()
+		    	]]>
+		    </if>
+		    <if test="date == 2">
+		    	<![CDATA[
+		    		<= date_sub(now(), INTERVAL  90 DAY)
+		    	]]>
+		    </if>
+		    order by create_time desc
+		    limit #{startRowNum},#{endRowNum}
+  </select>
+  <!-- 查询积分总和 -->
+  <select id="selectTotalPointByCid" resultType="java.lang.Long" parameterType="java.util.Map" >
+    select 
+    sum(point)
+    from np_customer_point
+    where customer_id = #{customerId,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_customer_point
+    where point_id = #{pointId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.customer.bean.CustomerPoint" >
+    insert into np_customer_point (point_id, customer_id, point_detail, 
+      point_type, point, create_time, 
+      modified_time, del_time, del_flag
+      )
+    values (#{pointId,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, #{pointDetail,jdbcType=VARCHAR}, 
+      #{pointType,jdbcType=CHAR}, #{point,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifiedTime,jdbcType=TIMESTAMP}, #{delTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.customer.bean.CustomerPoint" >
+    insert into np_customer_point
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pointId != null" >
+        point_id,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="pointDetail != null" >
+        point_detail,
+      </if>
+      <if test="pointType != null" >
+        point_type,
+      </if>
+      <if test="point != null" >
+        point,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifiedTime != null" >
+        modified_time,
+      </if>
+      <if test="delTime != null" >
+        del_time,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pointId != null" >
+        #{pointId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="pointDetail != null" >
+        #{pointDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="pointType != null" >
+        #{pointType,jdbcType=CHAR},
+      </if>
+      <if test="point != null" >
+        #{point,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null" >
+        #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delTime != null" >
+        #{delTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.customer.bean.CustomerPoint" >
+    update np_customer_point
+    <set >
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="pointDetail != null" >
+        point_detail = #{pointDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="pointType != null" >
+        point_type = #{pointType,jdbcType=CHAR},
+      </if>
+      <if test="point != null" >
+        point = #{point,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null" >
+        modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delTime != null" >
+        del_time = #{delTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where point_id = #{pointId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.customer.bean.CustomerPoint" >
+    update np_customer_point
+    set customer_id = #{customerId,jdbcType=BIGINT},
+      point_detail = #{pointDetail,jdbcType=VARCHAR},
+      point_type = #{pointType,jdbcType=CHAR},
+      point = #{point,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      del_time = #{delTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where point_id = #{pointId,jdbcType=BIGINT}
+  </update>
+
+
+    <!--  计算商品总积分，此语句是在会员等级自动升级时用，
+            前期此语句是为了计算所有获得积分总和，
+            后期如果改成按年算可以在此语句上继续扩展无需重新写
+            houyichang 2015/9/25
+     -->
+    <select id="selectPointSum" parameterType="java.lang.Long" resultType="java.lang.Integer">
+        select sum(t.point) from np_customer_point t where t.point_type='1' and t.customer_id=#{customerId,jdbcType=BIGINT}
+    </select>
+
+</mapper>

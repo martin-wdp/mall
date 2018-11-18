@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.marketing.dao.FullbuyPresentMarketingMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.marketing.bean.FullbuyPresentMarketing" >
+    <id column="fullbuy_present_marketing_id" property="fullbuyPresentMarketingId" jdbcType="BIGINT" />
+    <result column="marketing_id" property="marketingId" jdbcType="BIGINT" />
+    <result column="full_price" property="fullPrice" jdbcType="DECIMAL" />
+    <result column="product_id" property="productId" jdbcType="BIGINT" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    fullbuy_present_marketing_id, marketing_id, full_price, product_id, del_flag
+  </sql>
+  
+  
+  
+  <!-- 查询满赠促销信息 -->
+  <select id="selectFullbuyPresentMarketingListByMarketingId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_fullbuy_present_marketing
+    where marketing_id = #{marketingId,jdbcType=BIGINT} and  del_flag =  '0' 
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_fullbuy_present_marketing
+    where fullbuy_present_marketing_id = #{fullbuyPresentMarketingId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_fullbuy_present_marketing
+    where fullbuy_present_marketing_id = #{fullbuyPresentMarketingId,jdbcType=BIGINT}
+  </delete>
+  
+  
+ <!-- 批量插入 -->
+  <insert id="insertFullbuyPresentMarketing" parameterType="java.util.List" >
+    insert into np_fullbuy_present_marketing (fullbuy_present_marketing_id, marketing_id, 
+      full_price, product_id, del_flag
+      )
+    values 
+       <foreach collection="list" separator="," item="fpm" index="index" >  
+         (#{fpm.fullbuyPresentMarketingId,jdbcType=BIGINT}, #{fpm.marketingId,jdbcType=BIGINT}, 
+      #{fpm.fullPrice,jdbcType=DECIMAL}, #{fpm.productId,jdbcType=BIGINT}, #{fpm.delFlag,jdbcType=CHAR}
+      )
+     </foreach>  
+     
+  </insert>
+  
+  <insert id="insert" parameterType="com.ningpai.marketing.bean.FullbuyPresentMarketing" >
+    insert into np_fullbuy_present_marketing (fullbuy_present_marketing_id, marketing_id, 
+      full_price, product_id, del_flag
+      )
+    values (#{fullbuyPresentMarketingId,jdbcType=BIGINT}, #{marketingId,jdbcType=BIGINT}, 
+      #{fullPrice,jdbcType=DECIMAL}, #{productId,jdbcType=BIGINT}, #{delFlag,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.marketing.bean.FullbuyPresentMarketing" >
+    insert into np_fullbuy_present_marketing
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fullbuyPresentMarketingId != null" >
+        fullbuy_present_marketing_id,
+      </if>
+      <if test="marketingId != null" >
+        marketing_id,
+      </if>
+      <if test="fullPrice != null" >
+        full_price,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fullbuyPresentMarketingId != null" >
+        #{fullbuyPresentMarketingId,jdbcType=BIGINT},
+      </if>
+      <if test="marketingId != null" >
+        #{marketingId,jdbcType=BIGINT},
+      </if>
+      <if test="fullPrice != null" >
+        #{fullPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.marketing.bean.FullbuyPresentMarketing" >
+    update np_fullbuy_present_marketing
+    <set >
+      <if test="marketingId != null" >
+        marketing_id = #{marketingId,jdbcType=BIGINT},
+      </if>
+      <if test="fullPrice != null" >
+        full_price = #{fullPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where fullbuy_present_marketing_id = #{fullbuyPresentMarketingId,jdbcType=BIGINT}
+  </update>
+  <update id="updateFullbuyPresentMarketing" parameterType="java.lang.Long" >
+    update np_fullbuy_present_marketing
+    set
+      del_flag = '1'
+    where  marketing_id = #{marketingId,jdbcType=BIGINT}
+  </update>
+</mapper>

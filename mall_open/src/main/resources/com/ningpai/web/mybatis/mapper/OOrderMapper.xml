@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.order.dao.OOrderMappe" >
+  <resultMap id="BaseResultMap" type="com.ningpai.api.bean.OOrder" >
+    <id column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="order_price" property="orderPrice" jdbcType="DECIMAL" />
+    <result column="order_pre_price" property="orderPrePrice" jdbcType="DECIMAL" />
+    <result column="order_old_price" property="orderOldPrice" jdbcType="DECIMAL" />
+    <result column="order_status" property="orderStatus" jdbcType="CHAR" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="send_express_time" property="sendExpressTime" jdbcType="TIMESTAMP" />
+    <result column="get_goods_time" property="getGoodsTime" jdbcType="TIMESTAMP" />
+    <result column="shipping_province" property="shippingProvince" jdbcType="VARCHAR" />
+    <result column="shipping_city" property="shippingCity" jdbcType="VARCHAR" />
+    <result column="shipping_county" property="shippingCounty" jdbcType="VARCHAR" />
+    <result column="shipping_address" property="shippingAddress" jdbcType="VARCHAR" />
+    <result column="shipping_person" property="shippingPerson" jdbcType="VARCHAR" />
+    <result column="shipping_phone" property="shippingPhone" jdbcType="VARCHAR" />
+    <result column="shipping_mobile" property="shippingMobile" jdbcType="VARCHAR" />
+    <result column="shipping_postcode" property="shippingPostcode" jdbcType="VARCHAR" />
+    <result column="invoice_title" property="invoiceTitle" jdbcType="VARCHAR" />
+    <result column="invoice_content" property="invoiceContent" jdbcType="VARCHAR" />
+    <result column="invoice_type" property="invoiceType" jdbcType="CHAR" />
+    <result column="customer_remark" property="customerRemark" jdbcType="VARCHAR" />
+    <result column="pay_id" property="payId" jdbcType="BIGINT" />
+    <result column="order_integral" property="orderIntegral" jdbcType="BIGINT" />
+    <result column="coupon_no" property="couponNo" jdbcType="VARCHAR" />
+    <result column="express_price" property="expressPrice" jdbcType="DECIMAL" />
+    <result column="business_id" property="businessId" jdbcType="BIGINT" /> 
+    <result column="store_name" property="storeName" jdbcType="VARCHAR" />
+     <result column="dealer_type" property="dealerType" jdbcType="CHAR"/>
+     <result column="order_old_code" property="orderOldCode" jdbcType="VARCHAR" />
+     <result column="order_cancel_remark" property="orderCancelRemark" jdbcType="VARCHAR" />
+     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+     <result column="order_cargo_status" property="orderCargoStatus" jdbcType="TIMESTAMP" />
+     <result column="order_express_type" property="orderExpressType" jdbcType="CHAR" />
+  </resultMap>
+
+  <!--订单详情-->
+  <resultMap id="OrderResultMap" type="com.ningpai.api.bean.OOrderAllInfo" extends="BaseResultMap">
+      <collection property="orderGoodses" column="order_id" ofType="com.ningpai.api.bean.OOrderGoods" javaType="ArrayList" select="orderGoods" ></collection>
+  </resultMap>
+
+  <!--订单商品-->
+  <resultMap id="OrderGoodsResultMap" type="com.ningpai.api.bean.OOrderGoods" >
+    <id column="order_goodsId" property="orderGoodsId" jdbcType="BIGINT"/>
+    <result column="order_id" property="orderId" jdbcType="BIGINT"/>
+    <result column="goods_info_num" property="goodsInfoNum" jdbcType="BIGINT"/>
+    <result column="goods_info_sum_price" property="goodsInfoSumPrice" jdbcType="DECIMAL"/>
+    <result column="goods_info_price" property="goodsInfoPrice" jdbcType="DECIMAL"/>
+    <result column="goods_info_name" property="goodsInfoName" jdbcType="VARCHAR"/>
+    <result column="goods_info_id" property="goodsInfod" jdbcType="BIGINT"/>
+  </resultMap>
+
+
+  <select id="orderGoods" resultMap="OrderGoodsResultMap" parameterType="java.lang.Long">
+	select order_goods_id,order_id,goods_info_num,goods_info_sum_price,goods_info_price,goods_info_name,og.goods_info_id from np_order_goods og
+	inner join np_goods_info  goods on goods.goods_info_id=og.goods_info_id
+	where order_id=#{OrderId}
+  </select>
+
+  <!-- 查询订单列表 -->
+  <select id="list" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select order_id, order_code, order_price, order_pre_price, order_old_price, order_status, 
+    customer_id, pay_time, send_express_time, get_goods_time, shipping_province, 
+    shipping_city, shipping_county, shipping_address, shipping_person, shipping_phone, 
+    shipping_mobile, invoice_title, invoice_content, del_flag, invoice_type, customer_remark, 
+    pay_id, order_integral, coupon_no,express_price,shipping_postcode,business_id,dealer_type,create_time,order_cargo_status,order_m_type,order_express_type
+    from np_order
+    where 1=1 
+    <if test="orderStatus!=null and orderStatus!=''">
+         and   order_status=#{orderStatus}
+    </if>
+    and del_flag='0'
+    limit #{start},#{end}
+  </select>
+
+  <select id="count" resultType="java.lang.Integer">
+    select count(1)
+    from np_order
+    where 1=1
+    <if test="orderStatus!=null and orderStatus!=''">
+      and   order_status=#{orderStatus}
+    </if>
+    and del_flag='0'
+  </select>
+  <!-- 查询订单列表 -->
+  <select id="get" resultMap="OrderResultMap" parameterType="java.lang.String">
+    select order_id, order_code, order_price, order_pre_price, order_old_price, order_status,
+    customer_id, pay_time, send_express_time, get_goods_time, shipping_province,
+    shipping_city, shipping_county, shipping_address, shipping_person, shipping_phone,
+    shipping_mobile, invoice_title, invoice_content, del_flag, invoice_type, customer_remark,
+    pay_id, order_integral, coupon_no,express_price,shipping_postcode,business_id,dealer_type,create_time,order_cargo_status,order_m_type,order_express_type
+    from np_order
+    where 1=1
+    and order_code=#{orderCode}
+  </select>
+</mapper>

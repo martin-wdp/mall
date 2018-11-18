@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.information.dao.InformationTemplateMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.information.bean.InformationTemplate" >
+    <id column="info_temp_id" property="infoTempId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="CHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="is_default" property="isDefault" jdbcType="CHAR" />
+    <result column="delflag" property="delflag" jdbcType="CHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    info_temp_id, name, type, url, is_default, delflag, create_user_id, create_date, 
+    update_user_id, update_date
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_information_template
+    where info_temp_id = #{infoTempId,jdbcType=BIGINT}
+  </select>
+  
+  <!-- 查询所有的行数（分页用） -->
+  <select id="queryTotalCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+	select count(info_temp_id) from np_information_template 
+	where delflag = '0'
+  	<if test="searchText != null and searchText != ''">
+  		and name like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  	</if>
+  	<if test="typeId != null and typeId != '' and typeId != '-1'">
+  		and type = #{typeId}; 
+  	</if>
+  </select>
+  <!-- 根据分页参数查询模板列表 -->
+  <select id="queryByPageBean" resultMap="BaseResultMap"
+	parameterType="java.util.Map">
+    select 
+  		<include refid="Base_Column_List" />
+  	from np_information_template 
+  	where delflag = '0'
+  	<if test="searchText != null and searchText != ''">
+  		and name like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  	</if>
+  	<if test="typeId != null and typeId != '' and typeId != '-1'">
+  		and type = #{typeId}; 
+  	</if>
+  	order by update_date desc
+  	limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_information_template
+    where info_temp_id = #{infoTempId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.information.bean.InformationTemplate" >
+    insert into np_information_template (info_temp_id, name, type, 
+      url, is_default, delflag, 
+      create_user_id, create_date, update_user_id, 
+      update_date
+      )
+    values (#{infoTempId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=CHAR}, 
+      #{url,jdbcType=VARCHAR}, #{isDefault,jdbcType=CHAR}, #{delflag,jdbcType=CHAR}, 
+      #{createUserId,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, 
+      #{updateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.information.bean.InformationTemplate" >
+    insert into np_information_template
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="infoTempId != null" >
+        info_temp_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="isDefault != null" >
+        is_default,
+      </if>
+      <if test="delflag != null" >
+        delflag,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="infoTempId != null" >
+        #{infoTempId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="isDefault != null" >
+        #{isDefault,jdbcType=CHAR},
+      </if>
+      <if test="delflag != null" >
+        #{delflag,jdbcType=CHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.information.bean.InformationTemplate" >
+    update np_information_template
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=CHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="isDefault != null" >
+        is_default = #{isDefault,jdbcType=CHAR},
+      </if>
+      <if test="delflag != null" >
+        delflag = #{delflag,jdbcType=CHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      
+    </set>
+    where info_temp_id = #{infoTempId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.information.bean.InformationTemplate" >
+    update np_information_template
+    set name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=CHAR},
+      url = #{url,jdbcType=VARCHAR},
+      is_default = #{isDefault,jdbcType=CHAR},
+      delflag = #{delflag,jdbcType=CHAR},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where info_temp_id = #{infoTempId,jdbcType=BIGINT}
+  </update>
+</mapper>

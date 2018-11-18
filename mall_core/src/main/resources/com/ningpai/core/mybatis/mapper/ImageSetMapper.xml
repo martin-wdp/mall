@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.core.dao.ImageSetMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.manager.bean.ImageSet" >
+    <id column="rule_id" property="ruleId" jdbcType="BIGINT" />
+    <result column="rule_name" property="ruleName" jdbcType="VARCHAR" />
+    <result column="rule_height" property="ruleHeight" jdbcType="VARCHAR" />
+    <result column="rule_width" property="ruleWidth" jdbcType="VARCHAR" />
+    <result column="rule_path" property="rulePath" jdbcType="VARCHAR" />
+    <result column="rule_suffix" property="ruleSuffix" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    rule_id, rule_name, rule_height, rule_width, rule_path, rule_suffix, create_time, 
+    modify_time, del_flag
+  </sql>
+  <select id="selectSetList" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from np_sys_imageset
+    where del_flag= '0'
+  </select>
+ 
+</mapper>

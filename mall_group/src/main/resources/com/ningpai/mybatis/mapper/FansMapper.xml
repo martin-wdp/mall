@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.dao.FansMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.group.bean.Fans" >
+    <id column="fans_id" property="fansId" jdbcType="BIGINT" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="fans_customer_id" property="fansCustomerId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="fans_flag" property="fansFlag" jdbcType="CHAR" />
+     <result column="customer_nickname" property="customerName" jdbcType="VARCHAR" />
+    <result column="province_name" property="proName" jdbcType="VARCHAR" />
+    <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+    <result column="customer_img" property="infoHeadimg" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    fans_id, customer_id, fans_customer_id, create_time, fans_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_fans
+    where fans_id = #{fansId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_fans
+    where fans_id = #{fansId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.group.bean.Fans" useGeneratedKeys="true" keyProperty="fansId" >
+    insert into np_fans (customer_id, fans_customer_id, create_time, 
+      fans_flag)
+    values (#{customerId,jdbcType=BIGINT}, #{fansCustomerId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{fansFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.group.bean.Fans" useGeneratedKeys="true" keyProperty="fansId" >
+    insert into np_fans
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      customer_id,
+      fans_customer_id,
+      create_time,
+      fans_flag,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{customerId,jdbcType=BIGINT},
+      #{fansCustomerId,jdbcType=BIGINT},
+      #{createTime,jdbcType=TIMESTAMP},
+      #{fansFlag,jdbcType=CHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.group.bean.Fans" >
+    update np_fans
+    <set >
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="fansCustomerId != null" >
+        fans_customer_id = #{fansCustomerId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fansFlag != null" >
+        fans_flag = #{fansFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where fans_id = #{fansId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.group.bean.Fans" >
+    update np_fans
+    set customer_id = #{customerId,jdbcType=BIGINT},
+      fans_customer_id = #{fansCustomerId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      fans_flag = #{fansFlag,jdbcType=CHAR}
+    where fans_id = #{fansId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 查询当前两人的粉丝状态 -->
+  <select id="fansFlag" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select  <include refid="Base_Column_List" />
+    from np_fans
+    where customer_id = #{customerId,jdbcType=BIGINT}
+    and fans_customer_id = #{fansCustomerId,jdbcType=BIGINT}
+  </select>
+  
+  <!--修改我的关注状态为2互粉 -->
+  <update id="guanzhu" parameterType="java.util.Map">
+   update np_fans
+   set fans_flag = #{fansFlag,jdbcType=CHAR}
+   where 1=1 and customer_id = #{customerId,jdbcType=BIGINT} and
+      fans_customer_id = #{fansCustomerId,jdbcType=BIGINT}
+  </update>
+  
+  <!--修改粉丝和我的状态为2 互粉  -->
+  <update id="fansi" parameterType="java.util.Map">
+   update np_fans
+   set fans_flag = #{fansFlag,jdbcType=CHAR}
+   where 1=1 and customer_id = #{fansCustomerId,jdbcType=BIGINT} and
+      fans_customer_id =#{customerId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 取消我的关注 互粉状态-->
+  <update id="cancelguanzhu" parameterType="java.util.Map">
+   update np_fans
+   set fans_flag = #{fansFlag,jdbcType=CHAR}
+   where 1=1 and customer_id = #{customerId,jdbcType=BIGINT} and
+     fans_customer_id = #{fansCustomerId,jdbcType=BIGINT}
+  </update>
+  
+   <update id="cancelfansi" parameterType="java.util.Map">
+   update np_fans
+   set fans_flag = #{fansFlag,jdbcType=CHAR}
+   where 1=1 and customer_id = #{fansCustomerId,jdbcType=BIGINT} and
+      fans_customer_id = #{customerId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 取消我的关注 仅仅单方关注-->
+  <delete id="delFans" parameterType="java.util.Map">
+  delete from np_fans
+  where 1=1 and customer_id = #{customerId,jdbcType=BIGINT} and
+     fans_customer_id = #{fansCustomerId,jdbcType=BIGINT}
+  </delete>
+  
+  <delete id="delOFans" parameterType="java.util.Map">
+    delete from np_fans
+    where 1=1 and customer_id = #{fansCustomerId,jdbcType=BIGINT} and
+     fans_customer_id = #{customerId,jdbcType=BIGINT}
+  </delete>
+  
+  <!--他的关注  -->
+  <select id="hisfans" resultMap="BaseResultMap" parameterType="java.util.Map">
+   select c.customer_nickname,c.customer_img,c.customer_id
+   from np_fans f,np_customer c
+   where f.fans_customer_id = c.customer_id
+   and f.fans_flag in('1','2')
+   and f.customer_id= #{customerId}
+   order by f.create_time desc limit #{number}
+  </select>
+  
+  <!-- 相互关注的好友 -->
+  <select id="selectFansByCustomerId" resultMap="BaseResultMap" parameterType="java.util.Map">
+  select f.fans_id, c.customer_nickname,c.customer_img,c.customer_id,province_name,city_name
+   from np_fans f
+   left join np_customer c
+   on f.fans_customer_id = c.customer_id
+   LEFT JOIN  (SELECT cin.customer_id,cin.info_province,cin.info_city ,p.province_name,city.city_name from np_customer_info cin 
+   left join np_sys_province p on cin.info_province = p.province_id LEFT JOIN np_sys_city city on cin.info_city = city.city_id)info
+	on c.customer_id = info.customer_id
+	where 1=1 and  f.fans_flag = '2' and f.customer_id= #{customerId} and c.del_flag='0'
+  <if test="customerName != null and customerName != ''">
+   and c.customer_nickname LIKE CONCAT(CONCAT('%',#{customerName},'%'))
+  </if>
+  limit #{startRowNum},#{endRowNum}
+  </select>
+  
+ <!-- 相互关注的好友 -->
+  <select id="selectFansCountByCustomerId" resultType="java.lang.Integer" parameterType="java.util.Map">
+  select count(1)
+   from np_fans f
+   left join np_customer c
+   on f.fans_customer_id = c.customer_id
+   LEFT JOIN  (SELECT cin.customer_id,cin.info_province,cin.info_city ,p.province_name,city.city_name from np_customer_info cin 
+   left join np_sys_province p on cin.info_province = p.province_id LEFT JOIN np_sys_city city on cin.info_city = city.city_id)info
+	on c.customer_id = info.customer_id
+	where 1=1 and f.fans_flag = '2' and f.customer_id= #{customerId} and c.del_flag='0'
+  <if test="customerName != null and customerName != ''">
+   and c.customer_nickname LIKE CONCAT(CONCAT('%',#{customerName},'%'))
+  </if>
+  </select>  
+  
+  <!--查询用户的关注和用户的粉丝  -->
+  <select id="selectMyMtual" resultMap="BaseResultMap" parameterType="java.util.Map">
+   select  f.fans_id, c.customer_nickname,c.customer_img,c.customer_id,province_name,city_name,nfs.fans_flag
+  from np_fans f
+  left join  np_customer c
+  on f.fans_customer_id = c.customer_id
+   LEFT JOIN  (SELECT cin.customer_id,cin.info_province,cin.info_city ,p.province_name,city.city_name from np_customer_info cin 
+   left join np_sys_province p on cin.info_province = p.province_id LEFT JOIN np_sys_city city on cin.info_city = city.city_id)info
+	on c.customer_id = info.customer_id
+	left join (select nf.fans_id,nf.fans_flag,nf.fans_customer_id from np_fans nf where nf.customer_id = #{customerIdi}) as nfs on nfs.fans_customer_id = f.fans_customer_id
+	where 1=1 and  f.fans_flag in (#{fansFlag},'2') and f.customer_id= #{customerId} and c.del_flag='0'
+  order by f.create_time desc
+  limit #{startRowNum},#{endRowNum}
+  </select>
+  
+   <select id="selectMyMtualCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+  select count(1)
+  from np_fans f
+  left join  np_customer c
+  on f.fans_customer_id = c.customer_id
+   LEFT JOIN  (SELECT cin.customer_id,cin.info_province,cin.info_city ,p.province_name,city.city_name from np_customer_info cin 
+   left join np_sys_province p on cin.info_province = p.province_id LEFT JOIN np_sys_city city on cin.info_city = city.city_id)info
+	on c.customer_id = info.customer_id
+	where 1=1 and  f.fans_flag in (#{fansFlag},'2') and f.customer_id= #{customerId} and c.del_flag='0'
+  </select> 
+  
+  <!-- 我的关注和我的粉丝 不分页 -->
+  <select id="selectFocus" resultMap="BaseResultMap" parameterType="java.util.Map">
+   select  f.fans_id, c.customer_nickname,c.customer_img,c.customer_id,province_name,city_name,f.fans_flag
+   from np_fans f
+   left join  np_customer c
+   on f.fans_customer_id = c.customer_id
+   LEFT JOIN  (SELECT cin.customer_id,cin.info_province,cin.info_city ,p.province_name,city.city_name from np_customer_info cin 
+   left join np_sys_province p on cin.info_province = p.province_id LEFT JOIN np_sys_city city on cin.info_city = city.city_id)info
+   on c.customer_id = info.customer_id
+   where 1=1 and  f.fans_flag in (#{fansFlag},'2') and f.customer_id= #{customerId} and c.del_flag='0'
+   order by f.create_time desc
+   limit #{number}
+  </select>
+  
+  
+</mapper>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.system.dao.InterLoginMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.system.bean.InterLogin" >
+    <id column="login_id" property="loginId" jdbcType="BIGINT" />
+    <result column="login_url" property="loginUrl" jdbcType="VARCHAR" />
+    <result column="three_id" property="threeId" jdbcType="VARCHAR" />
+    <result column="three_token" property="threeToken" jdbcType="VARCHAR" />
+    <result column="backurl" property="backurl" jdbcType="VARCHAR" />
+    <result column="is_open" property="isOpen" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    login_id, login_url, three_id, three_token, backurl, is_open, create_time, modify_time, 
+    del_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_sys_interlogin
+    where login_id = #{loginId,jdbcType=BIGINT}
+  </select>
+  
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    update np_sys_interlogin set del_flag='1' 
+    where login_id = #{loginId,jdbcType=BIGINT}
+  </update>
+  
+  <insert id="insert" parameterType="com.ningpai.system.bean.InterLogin" >
+    insert into np_sys_interlogin (login_id, login_url, three_id, 
+      three_token, backurl, is_open, 
+      create_time, modify_time, del_flag
+      )
+    values (#{loginId,jdbcType=BIGINT}, #{loginUrl,jdbcType=VARCHAR}, #{threeId,jdbcType=VARCHAR}, 
+      #{threeToken,jdbcType=VARCHAR}, #{backurl,jdbcType=VARCHAR}, #{isOpen,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.system.bean.InterLogin" >
+    insert into np_sys_interlogin
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="loginId != null" >
+        login_id,
+      </if>
+      <if test="loginUrl != null" >
+        login_url,
+      </if>
+      <if test="threeId != null" >
+        three_id,
+      </if>
+      <if test="threeToken != null" >
+        three_token,
+      </if>
+      <if test="backurl != null" >
+        backurl,
+      </if>
+      <if test="isOpen != null" >
+        is_open,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="loginId != null" >
+        #{loginId,jdbcType=BIGINT},
+      </if>
+      <if test="loginUrl != null" >
+        #{loginUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="threeId != null" >
+        #{threeId,jdbcType=VARCHAR},
+      </if>
+      <if test="threeToken != null" >
+        #{threeToken,jdbcType=VARCHAR},
+      </if>
+      <if test="backurl != null" >
+        #{backurl,jdbcType=VARCHAR},
+      </if>
+      <if test="isOpen != null" >
+        #{isOpen,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.system.bean.InterLogin" >
+    update np_sys_interlogin
+    <set >
+      <if test="loginUrl != null" >
+        login_url = #{loginUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="threeId != null" >
+        three_id = #{threeId,jdbcType=VARCHAR},
+      </if>
+      <if test="threeToken != null" >
+        three_token = #{threeToken,jdbcType=VARCHAR},
+      </if>
+      <if test="backurl != null" >
+        backurl = #{backurl,jdbcType=VARCHAR},
+      </if>
+      <if test="isOpen != null" >
+        is_open = #{isOpen,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where login_id = #{loginId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.system.bean.InterLogin" >
+    update np_sys_interlogin
+    set login_url = #{loginUrl,jdbcType=VARCHAR},
+      three_id = #{threeId,jdbcType=VARCHAR},
+      three_token = #{threeToken,jdbcType=VARCHAR},
+      backurl = #{backurl,jdbcType=VARCHAR},
+      is_open = #{isOpen,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where login_id = #{loginId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findByPageBean" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select <include refid="Base_Column_List"/> 
+  	from np_sys_interlogin where del_flag='0' limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <select id="findTotalCount" resultType="int">
+  	select count(login_id) from np_sys_interlogin where del_flag='0'
+  </select>
+</mapper>

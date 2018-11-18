@@ -1,0 +1,1 @@
+    [{"promotionLogoId":"1","promotionLogoName":"logo","promotionLogoUrl":"1","createTime":"2015-09-01 11:23:29","modifyTime":"2015-09-01 11:23:29","delFlag":"0","temp1":"","temp2":"","temp3":""}]

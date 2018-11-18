@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qianmi.web.dao.EsExpandparamMapper">
+	<resultMap id="BaseResultMap" type="com.ningpai.goods.bean.EsExpandparam">
+		<id column="rele_expandparam_id" property="releExpandparamId"
+			jdbcType="BIGINT" />
+		<result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+		<result column="expandparam_id" property="expandparamId"
+			jdbcType="BIGINT" />
+		<result column="expandparam_name" property="expandparamName"
+			jdbcType="BIGINT" />
+		<result column="expandparam_value_id" property="expandparamValueId"
+			jdbcType="VARCHAR" />
+		<result column="expandparam_value_name" property="expandparamValueName"
+			jdbcType="VARCHAR" />
+
+	</resultMap>
+	<sql id="Base_Column_List">
+		rele_expandparam_id, goods_id, expandparam_id,
+		expangparam_value_id,
+		expandparam_value_name,
+		rele_expandparam_create_name, rele_expandparam_create_time,
+		rele_expandparam_modified_name,
+		rele_expandparam_modified_time,
+		rele_expandparam_del_name,
+		rele_expandparam_del_time,
+		rele_expandparam_delflag
+	</sql>
+	<select id="selectParamByGoodsId" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select rm.rele_expandparam_id,
+		rm.goods_id,
+		tm.expandparam_id,
+		tm.expandparam_name,
+		vm.expandparam_value_id,
+		vm.expandparam_value_name
+		from np_goods_rele_expandparam rm ,
+		np_goods_type_expandparam
+		tm,np_goods_type_expandparam_value vm
+		where
+		rm.expandparam_id = tm.expandparam_id and rm.expangparam_value_id =
+		vm.expandparam_value_id
+		and goods_id = #{goodsId,jdbcType=BIGINT}
+		and
+		rele_expandparam_delflag = '0'
+	</select>
+
+</mapper>

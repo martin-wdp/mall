@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.salesman.dao.SalesmanMapper">
+    <resultMap id="BaseResultMap" type="com.ningpai.salesman.bean.Salesman">
+        <id column="salesman_id" property="salesmanId" jdbcType="BIGINT"/>
+        <result column="salesman_name" property="salesmanName" jdbcType="VARCHAR"/>
+        <result column="salesman_phone" property="salesmanPhone" jdbcType="VARCHAR"/>
+        <result column="salesman_department" property="salesmanDepartment" jdbcType="VARCHAR"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR"/>
+        <result column="is_enabled" property="isEnabled" jdbcType="CHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    salesman_id, salesman_name, salesman_phone, salesman_department, del_flag, is_enabled, 
+    create_time, modify_time
+  </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from qp_salesman
+        where salesman_id = #{salesmanId,jdbcType=BIGINT}
+    </select>
+    <select id="seletAllEnableSala" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from qp_salesman
+        where del_flag = '0' and is_enabled='0'
+    </select>
+    <select id="selectCountByName" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select
+        COUNT(1)
+        from qp_salesman
+        where salesman_name = #{salesmanName,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+     UPDATE  qp_salesman SET del_flag = '1'
+    where salesman_id = #{salesmanId,jdbcType=BIGINT}
+  </delete>
+
+
+    <insert id="insert" parameterType="com.ningpai.salesman.bean.Salesman">
+    insert into qp_salesman (salesman_id, salesman_name, salesman_phone,
+      salesman_department, del_flag, is_enabled, create_time, modify_time)
+    values (#{salesmanId,jdbcType=BIGINT}, #{salesmanName,jdbcType=VARCHAR}, #{salesmanPhone,jdbcType=VARCHAR},
+      #{salesmanDepartment,jdbcType=VARCHAR}, #{delFlag,jdbcType=CHAR}, #{isEnabled,jdbcType=CHAR},
+      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="com.ningpai.salesman.bean.Salesman">
+        insert into qp_salesman
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="salesmanId != null">
+                salesman_id,
+            </if>
+            <if test="salesmanName != null">
+                salesman_name,
+            </if>
+            <if test="salesmanPhone != null">
+                salesman_phone,
+            </if>
+            <if test="salesmanDepartment != null">
+                salesman_department,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="isEnabled != null">
+                is_enabled,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="modifyTime != null">
+                modify_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="salesmanId != null">
+                #{salesmanId,jdbcType=BIGINT},
+            </if>
+            <if test="salesmanName != null">
+                #{salesmanName,jdbcType=VARCHAR},
+            </if>
+            <if test="salesmanPhone != null">
+                #{salesmanPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="salesmanDepartment != null">
+                #{salesmanDepartment,jdbcType=VARCHAR},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=CHAR},
+            </if>
+            <if test="isEnabled != null">
+                #{isEnabled,jdbcType=CHAR},
+            </if>
+            <if test="createTime != null">
+                SYSDATE(),
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="selectBySalesman" parameterType="Map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from qp_salesman
+        WHERE del_flag= '0'
+        <if test="salesman !=null">
+            <if test="salesman.salesmanId != null and salesman.salesmanId != ''">
+                AND salesman_id= #{salesman.salesmanId,jdbcType=BIGINT}
+            </if>
+            <if test="salesman.salesmanName != null and salesman.salesmanName != ''">
+                AND salesman_name LIKE CONCAT('%',#{salesman.salesmanName,jdbcType=VARCHAR},'%' )
+            </if>
+            <if test="salesman.salesmanPhone != null and salesman.salesmanPhone != ''">
+                AND salesman_phone LIKE CONCAT('%',#{salesman.salesmanPhone,jdbcType=VARCHAR},'%' )
+            </if>
+            <if test="salesman.salesmanDepartment != null and salesman.salesmanDepartment != ''">
+                AND salesman_department LIKE CONCAT('%',#{salesman.salesmanDepartment,jdbcType=VARCHAR},'%' )
+            </if>
+            <if test="salesman.isEnabled != null and salesman.isEnabled != ''">
+                AND is_enabled=#{salesman.isEnabled,jdbcType=CHAR}
+            </if>
+
+            order by create_time DESC
+        </if>
+        limit #{startRowNum},#{endRowNum}
+    </select>
+
+    <select id="selectCountBySalesman" parameterType="com.ningpai.salesman.bean.Salesman" resultType="INTEGER">
+        SELECT
+        COUNT(1)
+        from qp_salesman
+        WHERE del_flag= '0'
+        <if test="salesmanId != null and salesmanId!=''">
+            AND salesman_id= #{salesmanId,jdbcType=BIGINT}
+        </if>
+        <if test="salesmanName != null and salesmanName !=''">
+            AND salesman_name LIKE CONCAT('%',#{salesmanName,jdbcType=VARCHAR},'%' )
+        </if>
+        <if test="salesmanPhone != null and salesmanPhone != ''">
+            AND salesman_phone LIKE CONCAT('%',#{salesmanPhone,jdbcType=VARCHAR},'%' )
+        </if>
+        <if test="salesmanDepartment != null and salesmanDepartment != ''">
+            AND salesman_department LIKE CONCAT('%',{salesmanDepartment,jdbcType=VARCHAR},'%' )
+        </if>
+        <if test="isEnabled != null and isEnabled != ''">
+            AND is_enabled=#{isEnabled,jdbcType=CHAR}
+        </if>
+
+    </select>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.salesman.bean.Salesman">
+        update qp_salesman
+        <set>
+            <if test="salesmanName != null">
+                salesman_name = #{salesmanName,jdbcType=VARCHAR},
+            </if>
+            <if test="salesmanPhone != null">
+                salesman_phone = #{salesmanPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="salesmanDepartment != null">
+                salesman_department = #{salesmanDepartment,jdbcType=VARCHAR},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=CHAR},
+            </if>
+            <if test="isEnabled != null">
+                is_enabled = #{isEnabled,jdbcType=CHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where salesman_id = #{salesmanId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ningpai.salesman.bean.Salesman">
+        update qp_salesman
+            set salesman_name = #{salesmanName,jdbcType=VARCHAR},
+            salesman_phone = #{salesmanPhone,jdbcType=VARCHAR},
+            salesman_department = #{salesmanDepartment,jdbcType=VARCHAR},
+            del_flag = #{delFlag,jdbcType=CHAR},
+            is_enabled = #{isEnabled,jdbcType=CHAR},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+        where salesman_id = #{salesmanId,jdbcType=BIGINT}
+    </update>
+</mapper>

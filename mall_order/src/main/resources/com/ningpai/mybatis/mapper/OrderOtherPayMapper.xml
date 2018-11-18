@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.order.dao.OrderOtherPayMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.order.bean.OrderOtherPay" >
+    <id column="other_pay_id" property="otherPayId" jdbcType="BIGINT" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="order_pay_price" property="orderPayPrice" jdbcType="DECIMAL" />
+    <result column="order_remark" property="orderRemark" jdbcType="VARCHAR" />
+    <result column="order_pay_status" property="orderPayStatus" jdbcType="CHAR" />
+    <result column="order_pay_remark" property="orderPayRemark" jdbcType="VARCHAR" />
+    <result column="order_pay_custId" property="orderPayCustid" jdbcType="BIGINT" />
+    <result column="order_pay_name" property="orderPayName" jdbcType="VARCHAR" />
+    <result column="order_pay_time" property="orderPayTime" jdbcType="TIMESTAMP" />
+    <result column="order_create_time" property="orderCreateTime" jdbcType="TIMESTAMP" />
+    <result column="order_pay_type" property="orderPayType" jdbcType="CHAR" />
+    <result column="order_many_id" property="orderManyId" jdbcType="BIGINT" />
+    <result column="order_pay_code" property="orderPayCode" jdbcType="VARCHAR" />
+    <result column="customer_img" property="customerImg" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    other_pay_id, order_code, order_pay_price, order_remark, order_pay_status, order_pay_remark, 
+    order_pay_custId, order_pay_name, order_pay_time, order_create_time, order_pay_type, 
+    order_many_id,order_pay_code
+  </sql>
+  
+  <!-- 根据订单编号查询代付信息 -->
+ <select id="queryOrderPayByOrderCode" resultMap="BaseResultMap" parameterType="com.ningpai.order.bean.OrderOtherPay">
+	SELECT  other_pay_id, order_code, order_pay_price, order_remark, order_pay_status, order_pay_remark, 
+    order_pay_custId, order_pay_name, order_pay_time, order_create_time, order_pay_type, 
+    order_many_id,order_pay_code,cus.customer_img
+	from np_other_pay pay
+	INNER JOIN np_customer cus on pay.order_pay_custId=cus.customer_id	
+	where order_code =#{orderCode} and order_pay_type=#{orderPayType} 
+ </select>
+ 
+ 
+  <!-- 根据订单编号查询代付信息 -->
+ <select id="queryOrderByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select 
+		 <include refid="Base_Column_List" />
+		from  np_other_pay	
+		where order_pay_code =#{orderPayCode}
+		ORDER BY other_pay_id DESC
+		LIMIT 0,1
+ </select>
+
+ <insert id="insertSelective" parameterType="com.ningpai.order.bean.OrderOtherPay" >
+    insert into np_other_pay
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="otherPayId != null" >
+        other_pay_id,
+      </if>
+      <if test="orderCode != null" >
+        order_code,
+      </if>
+      <if test="orderPayPrice != null" >
+        order_pay_price,
+      </if>
+      <if test="orderRemark != null" >
+        order_remark,
+      </if>
+      <if test="orderPayStatus != null" >
+        order_pay_status,
+      </if>
+      <if test="orderPayRemark != null" >
+        order_pay_remark,
+      </if>
+      <if test="orderPayCustid != null" >
+        order_pay_custId,
+      </if>
+      <if test="orderPayName != null" >
+        order_pay_name,
+      </if>
+      <if test="orderPayTime != null" >
+        order_pay_time,
+      </if>
+      <if test="orderCreateTime != null" >
+        order_create_time,
+      </if>
+      <if test="orderPayType != null" >
+        order_pay_type,
+      </if>
+      <if test="orderManyId != null" >
+        order_many_id,
+      </if>
+      <if test="orderPayCode != null" >
+        order_pay_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="otherPayId != null" >
+        #{otherPayId,jdbcType=BIGINT},
+      </if>
+      <if test="orderCode != null" >
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPayPrice != null" >
+        #{orderPayPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderRemark != null" >
+        #{orderRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPayStatus != null" >
+        #{orderPayStatus,jdbcType=CHAR},
+      </if>
+      <if test="orderPayRemark != null" >
+        #{orderPayRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPayCustid != null" >
+        #{orderPayCustid,jdbcType=BIGINT},
+      </if>
+      <if test="orderPayName != null" >
+        #{orderPayName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPayTime != null" >
+        #{orderPayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCreateTime != null" >
+        #{orderCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderPayType != null" >
+        #{orderPayType,jdbcType=CHAR},
+      </if>
+      <if test="orderManyId != null" >
+        #{orderManyId,jdbcType=BIGINT},
+      </if>
+      <if test="orderPayCode != null" >
+        #{orderPayCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <!-- 根据订单编号修改信息 -->
+  <update id="updateByOrderCodex" parameterType="com.ningpai.order.bean.OrderOtherPay" >
+    update np_other_pay
+    <set >
+      <if test="orderPayPrice != null" >
+        order_pay_price = #{orderPayPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderRemark != null" >
+        order_remark = #{orderRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPayStatus != null" >
+        order_pay_status = #{orderPayStatus,jdbcType=CHAR},
+      </if>
+      <if test="orderPayRemark != null" >
+        order_pay_remark = #{orderPayRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPayCustid != null" >
+        order_pay_custId = #{orderPayCustid,jdbcType=BIGINT},
+      </if>
+      <if test="orderPayName != null" >
+        order_pay_name = #{orderPayName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPayTime != null" >
+        order_pay_time = #{orderPayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCreateTime != null" >
+        order_create_time = #{orderCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderPayType != null" >
+        order_pay_type = #{orderPayType,jdbcType=CHAR},
+      </if>
+      <if test="orderManyId != null" >
+        order_many_id = #{orderManyId,jdbcType=BIGINT},
+      </if>
+      <if test="orderPayCode != null" >
+         order_pay_code = #{orderPayCode,jdbcType=BIGINT},
+      </if>
+    </set>
+    where order_pay_code = #{orderPayCode,jdbcType=VARCHAR}
+  </update>
+  
+  
+
+ 
+  <!-- 根据代付id修改代付信息 -->
+  <update id="updateByOtherPayId" parameterType="com.ningpai.order.bean.OrderOtherPay" >
+    update np_other_pay
+    <set >
+      <if test="orderCode != null" >
+        order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPayPrice != null" >
+        order_pay_price = #{orderPayPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderRemark != null" >
+        order_remark = #{orderRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPayStatus != null" >
+        order_pay_status = #{orderPayStatus,jdbcType=CHAR},
+      </if>
+      <if test="orderPayRemark != null" >
+        order_pay_remark = #{orderPayRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPayCustid != null" >
+        order_pay_custId = #{orderPayCustid,jdbcType=BIGINT},
+      </if>
+      <if test="orderPayName != null" >
+        order_pay_name = #{orderPayName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPayTime != null" >
+        order_pay_time = #{orderPayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCreateTime != null" >
+        order_create_time = #{orderCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderPayType != null" >
+        order_pay_type = #{orderPayType,jdbcType=CHAR},
+      </if>
+      <if test="orderManyId != null" >
+        order_many_id = #{orderManyId,jdbcType=BIGINT},
+      </if>
+      <if test="orderPayCode != null" >
+        order_pay_code = #{orderManyId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where other_pay_id = #{otherPayId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 查看5分钟内的代付信息 -->
+  <select id="queryOrderPayBylately" resultMap="BaseResultMap" parameterType="java.lang.String">
+  		select <include refid="Base_Column_List" />
+  		 from np_other_pay where UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(order_create_time) &lt; 300 and order_pay_status='1'
+  		 and order_code=#{orderCode}
+  </select>
+  
+  <select id="queryOrderPayBySuccess" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT  other_pay_id, order_code, order_pay_price, order_remark, order_pay_status, order_pay_remark, 
+    order_pay_custId, order_pay_name, order_pay_time, order_create_time, order_pay_type, 
+    order_many_id,order_pay_code,cus.customer_img
+	from np_other_pay pay
+	INNER JOIN np_customer cus on pay.order_pay_custId=cus.customer_id
+     where order_code=#{orderCode} and order_pay_status="2"
+  	 and order_pay_type='1'
+  </select>
+  
+  <select id="queryOrderPayRefund" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select order_code,order_many_id,order_pay_code,order_pay_price
+     from np_other_pay where order_code=#{orderCode}  and order_pay_status in ('2','4')
+     and order_pay_type='1'
+  </select>
+</mapper>

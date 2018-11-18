@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.hotsearch.dao.HotSearchMapper" >
+
+	<!-- 热门搜索类字段集合-->
+  <resultMap id="BaseResultMap" type="com.ningpai.hotsearch.bean.HotSearch" >
+    <id column="hot_search_id" property="hotSearchId" jdbcType="BIGINT" />
+    <result column="keyword" property="keyword" jdbcType="VARCHAR" />
+    <result column="tempId" property="tempid" jdbcType="BIGINT" />
+    <result column="channelId" property="channelid" jdbcType="BIGINT" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="create_userId" property="createUserid" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_userId" property="updateUserid" jdbcType="BIGINT" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="temp1" property="temp1" jdbcType="VARCHAR" />
+    <result column="temp2" property="temp2" jdbcType="VARCHAR" />
+    <result column="temp3" property="temp3" jdbcType="VARCHAR" />
+    <result column="temp4" property="temp4" jdbcType="VARCHAR" />
+    <result column="temp5" property="temp5" jdbcType="VARCHAR" />
+  </resultMap>
+  <!-- 热门搜索查询字段集 -->
+  <sql id="Base_Column_List" >
+    hot_search_id, keyword, tempId, channelId, sort, del_flag, create_userId, create_date, 
+    update_userId, update_date, temp1, temp2, temp3, temp4, temp5
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_hot_search
+    where hot_search_id = #{hotSearchId,jdbcType=BIGINT}
+  </select>
+  
+	<!-- 查询热门搜索总条数 -->
+	<select id="selectHotSearchCount"  resultType="java.lang.Integer" parameterType="java.util.Map">
+			select  count(hot_search_id)  from  np_hot_search
+			where del_flag = '0'
+		  	<if test="keyword != null and keyword != '' ">
+  				and keyword  like  CONCAT('%',#{keyword},'%')
+  			</if>
+			<if test="tempid != null and tempid != '' ">
+				and tempId = #{tempid}
+			</if>
+			<if test="channelid != null and channelid != '' ">
+				and channelId = #{channelid}
+			</if>
+	</select>  
+	<!-- 查询热门搜索分页 -->
+  <select id="selectHotBySelectivePageSize" resultMap="BaseResultMap" parameterType="java.util.Map">
+  			select 
+  		 <include refid="Base_Column_List"/>
+  		   from np_hot_search  where del_flag = '0'
+  		 <if test="keyword!=null and keyword!='' ">
+  				and keyword  like  CONCAT('%',#{keyword},'%')
+  		 </if>
+  		 <if test="tempid!=null and tempid!=''">
+  				and tempId = #{tempid,jdbcType=BIGINT}
+  		 </if>
+  		 <if test="channelid!=null and channelid!=''">
+  				and channelId = #{channelid,jdbcType=BIGINT}
+  		 </if>
+  		 order by sort
+  		 LIMIT #{startRowNum},#{endRowNum}
+  </select>
+  <select id="selectHotBySelectiveForSite" resultMap="BaseResultMap" parameterType="java.util.Map">
+  		select 
+  		 <include refid="Base_Column_List"/>
+  		   from np_hot_search  where del_flag = '0'
+  		 <if test="keyword!=null and keyword!='' ">
+  				and keyword  like  CONCAT('%',#{keyword},'%')
+  		 </if>
+  		 <if test="tempid!=null and tempid!=''">
+  				and tempId = #{tempid,jdbcType=BIGINT}
+  		 </if>
+  		 <if test="channelid!=null and channelid!=''">
+  				and channelId = #{channelid,jdbcType=BIGINT}
+  		 </if>
+  		 order by sort
+  </select>
+  
+  <delete id="batchRemoveHotSearch"  parameterType="java.util.List"  >
+  			DELETE  FROM 	np_hot_search  where hot_search_id  in
+  			<foreach collection="list"  item="item" index="index"  open="("  close=")"  separator="," >
+  					#{item}
+  			</foreach>
+  </delete>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_hot_search
+    where hot_search_id = #{hotSearchId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.hotsearch.bean.HotSearch" >
+    insert into np_hot_search (hot_search_id, keyword, tempId, 
+      channelId, sort, del_flag, 
+      create_userId, create_date, update_userId, 
+      update_date, temp1, temp2, 
+      temp3, temp4, temp5
+      )
+    values (#{hotSearchId,jdbcType=BIGINT}, #{keyword,jdbcType=VARCHAR}, #{tempid,jdbcType=BIGINT}, 
+      #{channelid,jdbcType=BIGINT}, #{sort,jdbcType=INTEGER}, #{delFlag,jdbcType=CHAR}, 
+      #{createUserid,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{updateUserid,jdbcType=BIGINT}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{temp1,jdbcType=VARCHAR}, #{temp2,jdbcType=VARCHAR}, 
+      #{temp3,jdbcType=VARCHAR}, #{temp4,jdbcType=VARCHAR}, #{temp5,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.hotsearch.bean.HotSearch"  >
+    insert into np_hot_search
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="hotSearchId != null" >
+        hot_search_id,
+      </if>
+      <if test="keyword != null" >
+        keyword,
+      </if>
+      <if test="tempid != null" >
+        tempId,
+      </if>
+      <if test="channelid != null" >
+        channelId,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="createUserid != null" >
+        create_userId,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateUserid != null" >
+        update_userId,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="temp1 != null" >
+        temp1,
+      </if>
+      <if test="temp2 != null" >
+        temp2,
+      </if>
+      <if test="temp3 != null" >
+        temp3,
+      </if>
+      <if test="temp4 != null" >
+        temp4,
+      </if>
+      <if test="temp5 != null" >
+        temp5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="hotSearchId != null" >
+        #{hotSearchId,jdbcType=BIGINT},
+      </if>
+      <if test="keyword != null" >
+        #{keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="tempid != null" >
+        #{tempid,jdbcType=BIGINT},
+      </if>
+      <if test="channelid != null" >
+        #{channelid,jdbcType=BIGINT},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="createUserid != null" >
+        #{createUserid,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserid != null" >
+        #{updateUserid,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temp1 != null" >
+        #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null" >
+        #{temp2,jdbcType=VARCHAR},
+      </if>
+      <if test="temp3 != null" >
+        #{temp3,jdbcType=VARCHAR},
+      </if>
+      <if test="temp4 != null" >
+        #{temp4,jdbcType=VARCHAR},
+      </if>
+      <if test="temp5 != null" >
+        #{temp5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.hotsearch.bean.HotSearch" >
+    update np_hot_search
+    <set >
+      <if test="keyword != null" >
+        keyword = #{keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="tempid != null" >
+        tempId = #{tempid,jdbcType=BIGINT},
+      </if>
+      <if test="channelid != null" >
+        channelId = #{channelid,jdbcType=BIGINT},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="createUserid != null" >
+        create_userId = #{createUserid,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserid != null" >
+        update_userId = #{updateUserid,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temp1 != null" >
+        temp1 = #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null" >
+        temp2 = #{temp2,jdbcType=VARCHAR},
+      </if>
+      <if test="temp3 != null" >
+        temp3 = #{temp3,jdbcType=VARCHAR},
+      </if>
+      <if test="temp4 != null" >
+        temp4 = #{temp4,jdbcType=VARCHAR},
+      </if>
+      <if test="temp5 != null" >
+        temp5 = #{temp5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where hot_search_id = #{hotSearchId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.hotsearch.bean.HotSearch" >
+    update np_hot_search
+    set keyword = #{keyword,jdbcType=VARCHAR},
+      tempId = #{tempid,jdbcType=BIGINT},
+      channelId = #{channelid,jdbcType=BIGINT},
+      sort = #{sort,jdbcType=INTEGER},
+      del_flag = #{delFlag,jdbcType=CHAR},
+      create_userId = #{createUserid,jdbcType=BIGINT},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_userId = #{updateUserid,jdbcType=BIGINT},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      temp1 = #{temp1,jdbcType=VARCHAR},
+      temp2 = #{temp2,jdbcType=VARCHAR},
+      temp3 = #{temp3,jdbcType=VARCHAR},
+      temp4 = #{temp4,jdbcType=VARCHAR},
+      temp5 = #{temp5,jdbcType=VARCHAR}
+    where hot_search_id = #{hotSearchId,jdbcType=BIGINT}
+  </update>
+</mapper>

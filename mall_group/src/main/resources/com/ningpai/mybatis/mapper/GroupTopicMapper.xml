@@ -1,0 +1,757 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.topic.mapper.GroupTopicMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.topic.bean.GroupTopic" >
+    <id column="topic_id" property="topicId" jdbcType="BIGINT" />
+    <result column="group_id" property="groupId" jdbcType="BIGINT" />
+    <result column="topic_title" property="topicTitle" jdbcType="VARCHAR" />
+    <result column="topic_reply_flag" property="topicReplyFlag" jdbcType="CHAR" />  
+    <result column="topic_hot" property="topicHot" jdbcType="BIGINT" />
+    <result column="topic_essence" property="topicEssence" jdbcType="CHAR" />
+    <result column="topic_fever" property="topicFever" jdbcType="CHAR" />
+    <result column="topic_index_view" property="topicIndexView" jdbcType="CHAR" />
+    <result column="topic_top_view" property="topicTopView" jdbcType="CHAR" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="topic_create_time" property="topicCreateTime" jdbcType="TIMESTAMP" />
+    <result column="topic_modify_time" property="topicModifyTime" jdbcType="TIMESTAMP" />
+    <result column="topic_del_flag" property="topicDelFlag" jdbcType="CHAR" />
+    <result column="customer_nickname" property="customerName" jdbcType="VARCHAR" />
+    <result column="reply_count" property="replyCount" jdbcType="BIGINT" />
+    <result column="customer_img" property="customerHead" jdbcType="VARCHAR" />
+    <result column="topic_recommend" property="topicRecommend" jdbcType="BIGINT" />
+    <result column="group_name" property="groupName" jdbcType="VARCHAR" />
+    <result column="group_secret" property="groupSecret" jdbcType="VARCHAR" />
+    <result column="topic_seo_title" property="topicSeoTitle" jdbcType="VARCHAR" />
+    <result column="topic_seo_keyword" property="topicSeoKeyword" jdbcType="VARCHAR" />
+    <result column="topic_seo_remark" property="topicSeoDescription" jdbcType="VARCHAR" />
+    <result column="topic_recommend_time" property="topicRecommendTime" jdbcType="TIMESTAMP" />
+    <result column="topic_cate_id" property="topicCateId" jdbcType="CHAR" />
+    <result column="topic_del_customerId" property="topicDelCustomerId" jdbcType="BIGINT" />
+    <result column="topic_apply_reason" property="topicApplyReason" jdbcType="VARCHAR" />
+    <result column="topic_apply_refuse_reason" property="topicApplyRefuseReason" jdbcType="VARCHAR" />
+    <result column="topic_del_customerName" property="topicDelCustomerName" jdbcType="VARCHAR" />
+    <result column="topic_apply_flag" property="topicApplyFlag" jdbcType="CHAR" />
+    <result column="topic_is_use" property="topicIsUse" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.ningpai.topic.bean.GroupTopic" extends="BaseResultMap" >
+    <result column="topic_content" property="topicContent" jdbcType="LONGVARCHAR" />
+    <collection property="piclist" column="topic_id" javaType="ArrayList"
+			ofType="com.ningpai.topic.bean.GroupTopicImg" select="com.ningpai.topic.mapper.GroupTopicImgMapper.topicImgList"></collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    topic_id, group_id, topic_title, topic_reply_flag, topic_hot, topic_essence, topic_fever, 
+    topic_index_view, topic_top_view, customer_id, topic_create_time, topic_modify_time, 
+    topic_del_flag,topic_seo_title,topic_seo_keyword,topic_seo_remark,topic_cate_id,
+    topic_del_customerId,topic_apply_reason,topic_apply_refuse_reason,topic_is_use
+  </sql>
+  <sql id="Blob_Column_List" >
+    topic_content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from np_group_topic
+    where topic_id = #{topicId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_group_topic
+    where topic_id = #{topicId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.topic.bean.GroupTopic" useGeneratedKeys="true" keyProperty="topicId" >
+    insert into np_group_topic (group_id, topic_title, topic_reply_flag, 
+      topic_hot, topic_essence, topic_fever, 
+      topic_index_view, topic_top_view, customer_id, 
+      topic_create_time, topic_modify_time, topic_del_flag, 
+      topic_content,topic_seo_title,topic_seo_keyword,topic_seo_remark,topic_cate_id,topic_is_use)
+    values (#{groupId,jdbcType=BIGINT}, #{topicTitle,jdbcType=VARCHAR}, #{topicReplyFlag,jdbcType=CHAR}, 
+      #{topicHot,jdbcType=BIGINT}, #{topicEssence,jdbcType=CHAR}, #{topicFever,jdbcType=CHAR}, 
+      #{topicIndexView,jdbcType=CHAR}, #{topicTopView,jdbcType=CHAR}, #{customerId,jdbcType=BIGINT}, 
+      #{topicCreateTime,jdbcType=TIMESTAMP}, #{topicModifyTime,jdbcType=TIMESTAMP}, #{topicDelFlag,jdbcType=CHAR}, 
+      #{topicContent,jdbcType=LONGVARCHAR},#{topicSeoTitle,jdbcType=VARCHAR},
+      #{topicSeoKeyword,jdbcType=VARCHAR},#{topicSeoDescription,jdbcType=VARCHAR},#{topicCateId,jdbcType=CHAR},#{topicIsUse,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.topic.bean.GroupTopic" useGeneratedKeys="true" keyProperty="topicId" >
+    insert into np_group_topic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      group_id,
+      topic_title,
+      topic_reply_flag,
+      topic_hot,
+      topic_essence,
+      topic_fever,
+      topic_index_view,
+      topic_top_view,
+      customer_id,
+      topic_create_time,
+      topic_modify_time,
+      topic_del_flag,
+      topic_content,
+      topic_seo_title,
+      topic_seo_keyword,
+      topic_seo_remark,
+      topic_cate_id,
+      topic_is_use,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{groupId,jdbcType=BIGINT},
+      #{topicTitle,jdbcType=VARCHAR},
+      #{topicReplyFlag,jdbcType=CHAR},
+      #{topicHot,jdbcType=BIGINT},
+      #{topicEssence,jdbcType=CHAR},
+      #{topicFever,jdbcType=CHAR},
+      #{topicIndexView,jdbcType=CHAR},
+      #{topicTopView,jdbcType=CHAR},
+      #{customerId,jdbcType=BIGINT},
+      #{topicCreateTime,jdbcType=TIMESTAMP},
+      #{topicModifyTime,jdbcType=TIMESTAMP},
+      #{topicDelFlag,jdbcType=CHAR},
+      #{topicContent,jdbcType=LONGVARCHAR},
+      #{topicSeoTitle,jdbcType=VARCHAR},
+      #{topicSeoKeyword,jdbcType=VARCHAR},
+      #{topicSeoDescription,jdbcType=VARCHAR},
+      #{topicCateId,jdbcType=CHAR},
+      #{topicIsUse,jdbcType=CHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.topic.bean.GroupTopic" >
+    update np_group_topic
+    <set >
+      <if test="groupId != null" >
+        group_id = #{groupId,jdbcType=BIGINT},
+      </if>
+      <if test="topicTitle != null" >
+        topic_title = #{topicTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="topicReplyFlag != null" >
+        topic_reply_flag = #{topicReplyFlag,jdbcType=CHAR},
+      </if>
+      <if test="topicHot != null" >
+        topic_hot = #{topicHot,jdbcType=BIGINT},
+      </if>
+      <if test="topicEssence != null" >
+        topic_essence = #{topicEssence,jdbcType=CHAR},
+      </if>
+      <if test="topicFever != null" >
+        topic_fever = #{topicFever,jdbcType=CHAR},
+      </if>
+      <if test="topicIndexView != null" >
+        topic_index_view = #{topicIndexView,jdbcType=CHAR},
+      </if>
+      <if test="topicTopView != null" >
+        topic_top_view = #{topicTopView,jdbcType=CHAR},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="topicCreateTime != null" >
+        topic_create_time = #{topicCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="topicModifyTime != null" >
+        topic_modify_time = #{topicModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="topicRecommendTime != null" >
+        topic_recommend_time = #{topicRecommendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="topicDelFlag != null" >
+        topic_del_flag = #{topicDelFlag,jdbcType=CHAR},
+      </if>
+      <if test="topicContent != null" >
+        topic_content = #{topicContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="topicSeoTitle != null">
+       topic_seo_title =#{topicSeoTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="topicSeoKeyword != null">
+       topic_seo_keyword =#{topicSeoKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="topicSeoDescription != null">
+       topic_seo_remark =#{topicSeoDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="topicCateId != null">
+       topic_cate_id =#{topicCateId,jdbcType=CHAR},
+      </if>
+      <if test="topicDelCustomerId != null">
+       topic_del_customerId = #{topicDelCustomerId,jdbcType=CHAR},
+      </if>
+      <if test="topicApplyReason != null">
+       topic_apply_reason = #{topicApplyReason,jdbcType=CHAR},
+      </if>
+      <if test="topicApplyRefuseReason != null">
+       topic_apply_refuse_reason = #{topicApplyRefuseReason,jdbcType=VARCHAR},
+      </if>
+      <if test="topicApplyFlag != null">
+       topic_apply_flag = #{topicApplyFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where topic_id = #{topicId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ningpai.topic.bean.GroupTopic" >
+    update np_group_topic
+    set group_id = #{groupId,jdbcType=BIGINT},
+      topic_title = #{topicTitle,jdbcType=VARCHAR},
+      topic_reply_flag = #{topicReplyFlag,jdbcType=CHAR},
+      topic_hot = #{topicHot,jdbcType=BIGINT},
+      topic_essence = #{topicEssence,jdbcType=CHAR},
+      topic_fever = #{topicFever,jdbcType=CHAR},
+      topic_index_view = #{topicIndexView,jdbcType=CHAR},
+      topic_top_view = #{topicTopView,jdbcType=CHAR},
+      customer_id = #{customerId,jdbcType=BIGINT},
+      topic_create_time = #{topicCreateTime,jdbcType=TIMESTAMP},
+      topic_modify_time = #{topicModifyTime,jdbcType=TIMESTAMP},
+      topic_recommend_time = #{topicRecommendTime,jdbcType=TIMESTAMP},
+      topic_del_flag = #{topicDelFlag,jdbcType=CHAR},
+      topic_content = #{topicContent,jdbcType=LONGVARCHAR},
+      topic_seo_title =#{topicSeoTitle,jdbcType=VARCHAR}，
+      topic_seo_keyword =#{topicSeoKeyword,jdbcType=VARCHAR},
+      topic_seo_remark =#{topicSeoDescription,jdbcType=VARCHAR},
+      topic_cate_id =#{topicCateId,jdbcType=CHAR},
+      topic_del_customerId = #{topicDelCustomerId,jdbcType=CHAR},
+      topic_apply_reason = #{topicApplyReason,jdbcType=CHAR},
+      topic_apply_refuse_reason = #{topicApplyRefuseReason,jdbcType=VARCHAR},
+      topic_apply_flag = #{topicApplyFlag,jdbcType=VARCHAR}
+    where topic_id = #{topicId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.topic.bean.GroupTopic" >
+    update np_group_topic
+    set group_id = #{groupId,jdbcType=BIGINT},
+      topic_title = #{topicTitle,jdbcType=VARCHAR},
+      topic_reply_flag = #{topicReplyFlag,jdbcType=CHAR},
+      topic_hot = #{topicHot,jdbcType=BIGINT},
+      topic_essence = #{topicEssence,jdbcType=CHAR},
+      topic_fever = #{topicFever,jdbcType=CHAR},
+      topic_index_view = #{topicIndexView,jdbcType=CHAR},
+      topic_top_view = #{topicTopView,jdbcType=CHAR},
+      customer_id = #{customerId,jdbcType=BIGINT},
+      topic_create_time = #{topicCreateTime,jdbcType=TIMESTAMP},
+      topic_modify_time = #{topicModifyTime,jdbcType=TIMESTAMP},
+      topic_recommend_time = #{topicRecommendTime,jdbcType=TIMESTAMP},
+      topic_del_flag = #{topicDelFlag,jdbcType=CHAR},
+      topic_cate_id =#{topicCateId,jdbcType=CHAR},
+      topic_del_customerId = #{topicDelCustomerId,jdbcType=CHAR},
+      topic_apply_reason = #{topicApplyReason,jdbcType=CHAR},
+      topic_apply_refuse_reason = #{topicApplyRefuseReason,jdbcType=VARCHAR},
+      topic_apply_flag = #{topicApplyFlag,jdbcType=VARCHAR} 
+    where topic_id = #{topicId,jdbcType=BIGINT}
+  </update>
+    
+    <!--mysql 获取新增主键的查询  -->
+   <select id="selectLastId" resultType="java.lang.Long" >
+  		select LAST_INSERT_ID()
+  </select>
+  
+  <!-- 根据条件查询话题总数 -->
+  <select id="topicCountByParam" resultType="java.lang.Integer" parameterType="java.util.Map">
+    select count(*) from np_group_topic where 1=1 and topic_del_flag = '0'
+    <if test="topicTitle != null and topicTitle != ''">
+      and topic_title = #{topicTitle,jdbcType=VARCHAR}
+    </if>
+    <if test="customerId != null and customerId != ''">
+      and customer_id = #{customerId,jdbcType=BIGINT}
+    </if>
+    <if test="groupId != null and groupId != ''">
+      and group_id = #{groupId,jdbcType=BIGINT}
+    </if>
+    <if test="topicId != null and topicId != ''">
+       and topic_id != #{topicId,jdbcType=BIGINT}
+    </if>
+  </select>
+  
+  <!-- 根据小组话题Id查询小组详情 -->
+  <select id="groupTopicDetail" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+   select  topic_id, t.group_id, topic_content,topic_title, topic_reply_flag, topic_hot, topic_essence, topic_fever, 
+    topic_index_view, topic_top_view, t.customer_id, topic_create_time, topic_modify_time, customer_nickname,customer_img,
+    topic_del_flag,reply_count,topic_recommend,g.group_name,g.group_secret,topic_seo_title,topic_seo_keyword,topic_seo_remark,topic_cate_id
+    from np_group_topic t
+    left join np_customer c
+    on t.customer_id = c.customer_id
+    left join np_group g
+    on g.group_id = t.group_id
+    left join (select count(*) reply_count,r.reply_ship_id 
+	from np_customer_reply r where r.reply_type='0' and r.reply_del_flag='0'   
+	GROUP BY r.reply_ship_id) re
+    on topic_id = re.reply_ship_id
+    where 1=1 and topic_id = #{topicId,jdbcType=BIGINT} and topic_del_flag='0'
+  </select>
+  
+  <!-- 其他话题 -->
+  <select id="otherGroupTopic" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map">
+   select  topic_id, group_id, topic_content,topic_title, topic_reply_flag, topic_hot, topic_essence, topic_fever, 
+    topic_index_view, topic_top_view, t.customer_id, topic_create_time, topic_modify_time, customer_nickname,
+    topic_del_flag
+    from np_group_topic t
+    left join np_customer c
+    on t.customer_id = c.customer_id
+    where 1=1 and group_id=#{groupId,,jdbcType=BIGINT} and topic_id != #{topicId,jdbcType=BIGINT} and topic_del_flag='0' 
+    order by topic_create_time desc
+    limit #{number}
+  </select>
+  
+  <!-- 话题分类——特别置顶 -->
+  <select id="groupTopicSpecHot" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map">
+    select  topic_id, group_id, topic_content,topic_title, topic_reply_flag, topic_hot, topic_essence, topic_fever, 
+    topic_index_view, topic_top_view, t.customer_id, topic_create_time, topic_modify_time, customer_nickname,reply_count,
+    topic_del_flag,reply_count
+    from np_group_topic t
+    left join np_customer c
+    on t.customer_id = c.customer_id
+    left join (select count(*) reply_count,r.reply_ship_id 
+	from np_customer_reply r where r.reply_type='0' and r.reply_del_flag='0'   
+	GROUP BY r.reply_ship_id) re
+    on topic_id = re.reply_ship_id
+    where 1=1 and topic_del_flag='0' and group_id = #{groupId,jdbcType=BIGINT}
+    <if test="topicTopView != null and topicTopView != ''">
+     and topic_top_view = #{topicTopView,jdbcType=CHAR}
+    </if>
+  </select>
+  
+  <!-- 话题分类——一般置顶 -->
+  <select id="groupTopicCommHot" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map">
+    select  topic_id, group_id, topic_content,topic_title, topic_reply_flag, topic_hot, topic_essence, topic_fever, 
+    topic_index_view, topic_top_view, t.customer_id, topic_create_time, topic_modify_time, customer_nickname,reply_count,
+    topic_del_flag
+    from np_group_topic t
+    left join np_customer c
+    on t.customer_id = c.customer_id
+    left join (select count(*) reply_count,r.reply_ship_id 
+	from np_customer_reply r where r.reply_type='0' and r.reply_del_flag='0' 
+	GROUP BY r.reply_ship_id) re
+    on topic_id = re.reply_ship_id
+    where 1=1 and topic_del_flag='0' and group_id = #{groupId,jdbcType=BIGINT}
+    <if test="topicTopView != null and topicTopView != ''">
+     and topic_top_view = #{topicTopView,jdbcType=CHAR}
+    </if>
+    order by topic_create_time desc
+  </select>
+  
+  <!-- 话题列表 -->
+  <select id="groupTopicList" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map">
+  	select  topic_id, t.group_id, topic_content,topic_title, topic_reply_flag, topic_hot, topic_essence, topic_fever, 
+    topic_index_view, topic_top_view, t.customer_id, topic_create_time, topic_modify_time,customer_nickname,customer_img,reply_count,topic_cate_id,
+    topic_del_flag,g.group_name,g.group_secret,re.reply_time,topic_is_use
+    from np_group_topic t
+    left join np_group g
+    on g.group_id = t.group_id
+    left join np_customer c
+    on t.customer_id = c.customer_id
+    left join (select count(*) reply_count,r.reply_ship_id,r.reply_time
+	from np_customer_reply r where r.reply_type='0' and r.reply_del_flag='0' 
+	GROUP BY r.reply_ship_id) re
+    on topic_id = re.reply_ship_id where 1=1 
+    <if test="groupId != null and groupId != ''">
+     and t.group_id = #{groupId,jdbcType=BIGINT}
+    </if>
+    <if test="groupSecret != null and groupSecret != ''">
+     and g.group_secret = #{groupSecret,jdbcType=CHAR}
+    </if>
+    <if test="groupTypeId != null and groupTypeId != ''">
+     and g.group_type_id = #{groupTypeId,jdbcType=BIGINT}
+    </if>
+    <if test="topicTopView != null and topicTopView != ''">
+     and topic_top_view = #{topicTopView,jdbcType=CHAR}
+    </if>
+    <if test="topicIndexView != null and topicIndexView != ''">
+     and topic_index_view = #{topicIndexView,jdbcType=CHAR}
+    </if>
+    <if test="topicIsUse != null and topicIsUse != ''">
+     and topic_is_use = #{topicIsUse,jdbcType=CHAR}
+    </if>
+    <if test="topicTitle != null and topicTitle != ''">
+     and topic_title like CONCAT('%',#{topicTitle},'%')
+    </if>
+    <if test="topicFever != null and topicFever != ''">
+     and topic_fever =#{topicFever}
+    </if>
+    <if test="topicEssence != null and topicEssence != ''">
+     and topic_essence =#{topicEssence}
+    </if>
+    <if test="topicReplyFlag != null and topicReplyFlag != ''">
+     and topic_reply_flag =#{topicReplyFlag}
+    </if>
+    <if test="topicDelFlag != null and topicDelFlag != ''">
+     and topic_del_flag =#{topicDelFlag}
+    </if>
+    <if test="topicContent != null and topicContent != ''">
+     and topic_content like CONCAT('%',#{topicContent},'%')
+    </if>
+    <if test="customerName != null and customerName != ''">
+     and customer_nickname like CONCAT('%',#{customerName},'%')
+    </if>
+    <if test="customerId != null and customerId != ''">
+     and t.customer_id = #{customerId}
+    </if>
+    <if test="topicHot != null and topicHot != ''">
+     and topic_hot =#{topicHot}
+    </if>
+     <if test="replyCount != null and replyCount != ''">
+     and reply_count = #{replyCount}
+    </if>
+     <if test="topicCateId != null and topicCateId != ''">
+     and topic_cate_id = #{topicCateId}
+    </if>
+     <if test="topicCreateTime != null and topicCreateTime != '' and topicCreateTimeTo != null and topicCreateTimeTo != '' ">
+      and topic_create_time between #{topicCreateTime} and #{topicCreateTimeTo}
+     </if>
+     <if test="topicCreateTime != null and topicCreateTime != '' and groupCreateTimeTo == null or groupCreateTimeTo == '' ">
+      and  topic_create_time &gt; #{topicCreateTime}
+     </if>
+     <if test="groupCreateTimeTo != null and groupCreateTimeTo != '' and topicCreateTime == null or topicCreateTime == '' ">
+       and  topic_create_time &lt; #{topicCreateTimeTo}
+     </if>
+    <if test="sort != null">
+		<choose>
+			<when test="sort == 0">
+				order by topic_create_time DESC
+			</when>
+			<when test="sort == 1">
+				order by re.reply_time DESC 
+			</when>
+		</choose>
+	</if>
+	<if test="sort == null">
+		order by topic_create_time desc
+	</if>
+	LIMIT #{startRunNum},#{endRumNum}
+  </select>
+  
+  
+  <!-- 话题列表 -->
+  <select id="topicList" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map">
+  	select  topic_id, group_id, topic_content,topic_title, topic_reply_flag, topic_hot, topic_essence, topic_fever, 
+    topic_index_view, topic_top_view, t.customer_id, topic_create_time, topic_modify_time, customer_nickname,customer_img,
+    topic_del_flag,topic_is_use
+    from np_group_topic t
+    left join np_customer c
+    on t.customer_id = c.customer_id
+    left join (select count(*) reply_count,r.reply_ship_id,r.reply_time
+	from np_customer_reply r where r.reply_type='0' and r.reply_del_flag='0' 
+	GROUP BY r.reply_ship_id) re
+    on topic_id = re.reply_ship_id
+    where 1=1 and topic_del_flag='0' and group_id = #{groupId,jdbcType=BIGINT}
+    <if test="topicTopView != null and topicTopView != ''">
+     and topic_top_view = #{topicTopView,jdbcType=CHAR}
+    </if>
+    <if test="topicTitle != null and topicTitle != ''">
+     and topic_title like CONCAT('%',#{topicTopTitle},'%')
+    </if>
+    <if test="topicFever != null and topicFever != ''">
+     and topic_fever =#{topicFever}
+    </if>
+    <if test="topicEssence != null and topicEssence != ''">
+     and topic_essence =#{topicEssence}
+    </if>
+     <if test="topicDelFlag != null and topicDelFlag != ''">
+     and topic_del_flag =#{topicDelFlag}
+    </if>
+    <if test="topicIsUse != null and topicIsUse != ''">
+     and topic_is_use = #{topicIsUse,jdbcType=CHAR}
+    </if>
+    <if test="topicCreateTime != null and topicCreateTime != '' and topicCreateTimeTo != null and topicCreateTimeTo != '' ">
+      and topic_create_time between #{topicCreateTime} and #{topicCreateTimeTo}
+     </if>
+     <if test="topicCreateTime != null and topicCreateTime != '' and groupCreateTimeTo == null or groupCreateTimeTo == '' ">
+      and  topic_create_time &gt; #{topicCreateTime}
+     </if>
+     <if test="groupCreateTimeTo != null and groupCreateTimeTo != '' and topicCreateTime == null or topicCreateTime == '' ">
+       and  topic_create_time &lt; #{topicCreateTimeTo}
+     </if>
+    <if test="sort != null">
+		<choose>
+			<when test="sort == 0">
+				order by topic_create_time DESC
+			</when>
+			<when test="sort == 1">
+				order by reply_time DESC 
+			</when>
+		</choose>
+	</if>
+	<if test="sort == null">
+		order by topic_create_time desc
+	</if>
+  </select>
+  
+  <!-- 查询话题总数 -->
+  <select id="groupTopicCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+   select count(1) from np_group_topic t
+    left join np_group g
+    on g.group_id = t.group_id
+     left join np_customer c
+    on t.customer_id = c.customer_id
+     where 1=1 
+     <if test="groupId != null and groupId != ''">
+     and t.group_id = #{groupId,jdbcType=BIGINT}
+    </if>
+    <if test="groupSecret != null and groupSecret != ''">
+     and g.group_secret = #{groupSecret,jdbcType=CHAR}
+    </if>
+     <if test="groupTypeId != null and groupTypeId != ''">
+     and g.group_type_id = #{groupTypeId,jdbcType=BIGINT}
+    </if>
+    <if test="topicTopView != null and topicTopView != ''">
+     and topic_top_view = #{topicTopView,jdbcType=CHAR}
+    </if>
+      <if test="topicIndexView != null and topicIndexView != ''">
+     and topic_index_view = #{topicIndexView,jdbcType=CHAR}
+    </if>
+      <if test="topicIsUse != null and topicIsUse != ''">
+     and topic_is_use = #{topicIsUse,jdbcType=CHAR}
+    </if>
+    <if test="topicTitle != null and topicTitle != ''">
+     and topic_title like CONCAT('%',#{topicTitle},'%')
+    </if>
+    <if test="topicContent != null and topicContent != ''">
+     and topic_content like CONCAT('%',#{topicContent},'%')
+    </if>
+    <if test="topicFever != null and topicFever != ''">
+     and topic_fever =#{topicFever,jdbcType=CHAR}
+    </if>
+    <if test="topicEssence != null and topicEssence != ''">
+     and topic_essence =#{topicEssence,jdbcType=CHAR}
+    </if>
+     <if test="topicReplyFlag != null and topicReplyFlag != ''">
+     and topic_reply_flag =#{topicReplyFlag}
+    </if>
+     <if test="topicDelFlag != null and topicDelFlag != ''">
+     and topic_del_flag =#{topicDelFlag}
+    </if>
+     <if test="customerName != null and customerName != ''">
+     and customer_nickname like CONCAT('%',#{customerName},'%')
+    </if>
+     <if test="customerId != null and customerId != ''">
+     and t.customer_id = #{customerId}
+    </if>
+    <if test="topicHot != null and topicHot != ''">
+     and topic_hot =#{topicHot}
+    </if>
+     <if test="replyCount != null and replyCount != ''">
+     and reply_count = #{replyCount}
+    </if>
+    <if test="topicCateId != null and topicCateId != ''">
+     and topic_cate_id = #{topicCateId}
+    </if>
+    <if test="topicCreateTime != null and topicCreateTime != '' and topicCreateTimeTo != null and topicCreateTimeTo != '' ">
+      and topic_create_time between #{topicCreateTime} and #{topicCreateTimeTo}
+     </if>
+     <if test="topicCreateTime != null and topicCreateTime != '' and topicCreateTimeTo == null or topicCreateTimeTo == '' ">
+      and  topic_create_time &gt; #{topicCreateTime}
+     </if>
+     <if test="topicCreateTimeTo != null and topicCreateTimeTo != '' and topicCreateTime == null or topicCreateTime == '' ">
+       and  topic_create_time &lt; #{topicCreateTimeTo}
+     </if>
+  </select>
+  
+  <!--查询 在该小组发布的话题总数-->
+  <select id="topicCountBySave" resultType="java.lang.Integer" parameterType="java.util.Map">
+   select count(*) from np_group_topic 
+   where 1=1 and  topic_del_flag='0'
+   <if test="customerId != null and customerId !=''">
+       and customer_id = #{customerId,jdbcType=BIGINT}
+   </if>
+   <if test="topicTitle != null and topicTitle !=''">
+		and topic_title =#{topicTitle,jdbcType=VARCHAR}
+	</if>
+	<if test="groupId != null and groupId !=''">
+		and group_id =#{groupId,jdbcType=BIGINT}	
+	</if>
+	<if test="sysday != null and sysday !=''">
+       and TO_DAYS(topic_create_time) = TO_DAYS(NOW())
+     </if> 	
+  </select>
+  
+  
+  <!-- 把特别置顶改为不置顶 -->
+  <select id="noTopTopic" parameterType="com.ningpai.topic.bean.GroupTopic" resultType="java.lang.Integer">
+    update np_group_topic set topic_top_view = '0'
+    where topic_id != #{topicId,jdbcType=BIGINT} and group_id = #{groupId,jdbcType=BIGINT} and topic_top_view ='2'
+  </select>
+  
+  <!-- 把特别置顶改为不置顶 -->
+  <select id="updateTopicRecommend" parameterType="com.ningpai.topic.bean.GroupTopic" resultType="java.lang.Integer">
+    update np_group_topic set topic_recommend = #{topicRecommend}
+    where topic_id = #{topicId,jdbcType=BIGINT} 
+  </select>
+  
+   <!-- 我的最新话题 -->
+   <select id="myLatestGroupTopic" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map">
+  	select  topic_id, t.group_id, topic_content,topic_title, topic_reply_flag, topic_hot, topic_essence, topic_fever, 
+    topic_index_view, topic_top_view, t.customer_id, topic_create_time, topic_modify_time, customer_nickname,reply_count,
+    topic_del_flag,g.group_name
+    from np_group_topic t
+    left join np_group g
+    on g.group_id = t.group_id
+    left join np_customer c
+    on t.customer_id = c.customer_id
+    left join (select count(*) reply_count,r.reply_ship_id,r.reply_time
+	from np_customer_reply r where r.reply_type='0' and r.reply_del_flag='0' 
+	GROUP BY r.reply_ship_id) re
+    on topic_id = re.reply_ship_id where 1=1 
+    <if test="topicDelFlag != null and topicDelFlag != ''">
+     and topic_del_flag =#{topicDelFlag}
+    </if>
+    <if test="customerId != null and customerId != ''">
+     and t.customer_id = #{customerId}
+    </if>
+		order by topic_create_time desc
+	LIMIT #{number}
+  </select>
+  
+  
+  <!-- 查看所有精选热门话题 -->
+  <select id="topicEssenceList" parameterType="java.util.Map" resultMap="ResultMapWithBLOBs"> 
+    select  topic_id, t.group_id, topic_content,topic_title, topic_reply_flag, topic_hot, topic_essence, topic_fever, 
+    topic_index_view, topic_top_view, t.customer_id, topic_create_time, topic_modify_time, customer_nickname,customer_img,reply_count,
+    topic_del_flag,g.group_name
+    from np_group_topic t
+    left join np_group g
+    on g.group_id = t.group_id
+    left join np_customer c
+    on t.customer_id = c.customer_id
+    left join (select count(*) reply_count,r.reply_ship_id,r.reply_time
+	from np_customer_reply r where r.reply_type='0' and r.reply_del_flag='0' 
+	GROUP BY r.reply_ship_id) re
+    on topic_id = re.reply_ship_id where 1=1 and topic_del_flag='0' and g.group_secret='0' 
+    <if test="topicFever != null and topicFever != ''">
+     and (topic_fever =#{topicFever}
+    </if>
+    <if test="topicEssence != null and topicEssence != ''">
+     or topic_essence =#{topicEssence})
+    </if>
+     order by topic_create_time desc
+    LIMIT #{startRunNum},#{endRumNum}
+  </select>
+  
+  <select id="topicEssenceListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select count(1)
+    from np_group_topic t
+    left join np_group g
+    on g.group_id = t.group_id
+    left join np_customer c
+    on t.customer_id = c.customer_id
+    left join (select count(*) reply_count,r.reply_ship_id,r.reply_time
+	from np_customer_reply r where r.reply_type='0' and r.reply_del_flag='0' 
+	GROUP BY r.reply_ship_id) re
+    on topic_id = re.reply_ship_id where 1=1 and topic_del_flag='0' and g.group_secret='0'
+    <if test="topicFever != null and topicFever != ''">
+     and (topic_fever =#{topicFever}
+    </if>
+    <if test="topicEssence != null and topicEssence != ''">
+     or topic_essence =#{topicEssence})
+    </if>
+  </select>
+  
+  <update id="deleteByTopicId" parameterType="java.lang.Long">
+   update np_group_topic 
+   set topic_del_flag='1'
+   where topic_id = #{topicId,jdbcType=BIGINT} 
+  </update>
+  
+  <update id="updateToIndex" parameterType="com.ningpai.topic.bean.GroupTopic">
+   update np_group_topic 
+   set topic_index_view = #{topicIndexView,jdbcType=CHAR},
+       topic_recommend_time = #{topicRecommendTime}
+   where topic_id = #{topicId,jdbcType=BIGINT} 
+  </update>
+  
+  <!--首页显示精华 热帖  -->
+  <select id="selectIndexTopic" parameterType="java.util.Map" resultMap="ResultMapWithBLOBs">
+    select  topic_id, t.group_id, topic_content,topic_title, topic_reply_flag, topic_hot, topic_essence, topic_fever, 
+    topic_index_view, topic_top_view, t.customer_id, topic_create_time, topic_modify_time, customer_nickname,customer_img,reply_count,
+    topic_del_flag,g.group_name
+    from np_group_topic t
+    left join np_group g
+    on g.group_id = t.group_id
+    left join np_customer c
+    on t.customer_id = c.customer_id
+    left join (select count(*) reply_count,r.reply_ship_id,r.reply_time
+	from np_customer_reply r where r.reply_type='0' and r.reply_del_flag='0' 
+	GROUP BY r.reply_ship_id) re
+    on topic_id = re.reply_ship_id where 1=1 and topic_del_flag='0' and topic_index_view= '2' and g.group_secret='0'
+    <if test="topicFever != null and topicFever != ''">
+     and topic_fever =#{topicFever}
+    </if>
+    <if test="topicEssence != null and topicEssence != ''">
+    and topic_essence =#{topicEssence}
+    </if>
+    order by topic_create_time desc
+    LIMIT #{number}
+  </select>
+  
+   <!-- 根据小组话题Id查询申请恢复小组详情 -->
+  <select id="applyTopicDetail" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+   select  topic_id, t.group_id, topic_content,topic_title, topic_reply_flag, topic_hot, topic_essence, topic_fever, 
+    topic_index_view, topic_top_view, t.customer_id, topic_create_time, topic_modify_time, c.customer_nickname,customer_img,
+    topic_del_flag,reply_count,topic_recommend,g.group_name,topic_del_customerId,topic_apply_reason,nc.customer_nickname topic_del_customerName,
+    g.group_secret,topic_seo_title,topic_seo_keyword,topic_seo_remark
+    from np_group_topic t
+    left join np_customer c
+    on t.customer_id = c.customer_id
+    left join (select customer_nickname,customer_id from np_customer )nc
+    on nc.customer_id = topic_del_customerId
+    left join np_group g
+    on g.group_id = t.group_id
+    left join (select count(*) reply_count,r.reply_ship_id 
+	from np_customer_reply r where r.reply_type='0' and r.reply_del_flag='0'   
+	GROUP BY r.reply_ship_id) re
+    on topic_id = re.reply_ship_id
+    where 1=1 and topic_id = #{topicId,jdbcType=BIGINT} 
+  </select>
+  
+  <!-- 话题总数 -->
+  <select id="topicCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+   select count(1) from np_group_topic t
+    left join np_group g
+    on g.group_id = t.group_id
+     where 1=1 
+    <if test="groupSecret != null and groupSecret != ''">
+     and g.group_secret = #{groupSecret,jdbcType=CHAR}
+    </if>
+     <if test="topicDelFlag != null and topicDelFlag != ''">
+     and topic_del_flag =#{topicDelFlag}
+    </if>
+  </select>
+  
+  <!-- 设置为使用心得 -->
+  <update id="updateToUse" parameterType="com.ningpai.topic.bean.GroupTopic">
+   update np_group_topic 
+   set topic_is_use = #{topicIsUse,jdbcType=CHAR},
+       topic_modify_time = #{topicModifyTime}
+   where topic_id = #{topicId,jdbcType=BIGINT} 
+  </update>
+  
+  <select id="myCommunityList" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map" >
+    select 
+     topic.topic_id,topic.group_id,topic.topic_title,topic.topic_reply_flag,topic.topic_hot,topic.topic_essence,topic.topic_fever, 
+   topic.topic_index_view,topic.topic_top_view,topic.customer_id,topic.topic_create_time,topic.topic_modify_time, 
+   topic.topic_del_flag,topic.topic_recommend,topic.topic_recommend_time,topic.topic_content,gp.group_name,re.reply_count
+     from np_group_topic topic 
+     left join (select count(*) reply_count,r.reply_ship_id 
+	from np_customer_reply r where r.reply_type='0' and r.reply_del_flag='0'   
+	GROUP BY r.reply_ship_id) re
+    on topic_id = re.reply_ship_id
+    left join np_group gp 
+    on topic.group_id =gp.group_id
+    where 1=1 
+        <if test="customerId !=null and customerId !=''">
+    	and topic.customer_id = #{customerId,jdbcType=BIGINT}
+    </if> 
+    <if test="topicDelFlag !=null and topicDelFlag !=''">
+    	and topic_del_flag = #{topicDelFlag,jdbcType=CHAR}
+    </if> 
+    order by topic.topic_create_time desc
+    limit #{start},#{number}
+  </select>
+  
+    
+  <select id="myCommunityListCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select count(*)
+    from np_group_topic topic , np_group gp 
+    where topic.group_id =gp.group_id
+    <if test="customerId !=null and customerId !=''">
+    	and topic.customer_id = #{customerId,jdbcType=BIGINT}
+    </if> 
+    <if test="topicDelFlag !=null and topicDelFlag !=''">
+    	and topic_del_flag = #{topicDelFlag,jdbcType=CHAR}
+    </if> 
+  </select>
+</mapper>

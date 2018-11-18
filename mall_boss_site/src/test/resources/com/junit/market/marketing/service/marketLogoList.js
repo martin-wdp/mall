@@ -1,0 +1,1 @@
+    [{"marketLogoId":"1","marketingId":"1","promotionLogoId":"1","delFlag":"0","levelName":"qpmall","promotionLogoName":"logpName","promotionLogoUrl":"1"}]

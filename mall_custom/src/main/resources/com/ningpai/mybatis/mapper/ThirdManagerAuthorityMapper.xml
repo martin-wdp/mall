@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ningpai.thirdaudit.mapper.ThirdManagerAuthorityMapper">
+  <resultMap id="BaseResultMap" type="com.ningpai.thirdaudit.bean.ThirdManagerAuthority">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="manager_id" jdbcType="BIGINT" property="managerId" />
+    <result column="authority_id" jdbcType="BIGINT" property="authorityId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="mod_time" jdbcType="TIMESTAMP" property="modTime" />
+    <result column="flag" jdbcType="CHAR" property="flag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, manager_id, authority_id, create_time, mod_time, flag
+  </sql>
+	<insert id="addRecord" parameterType="java.util.Map">
+	    insert into np_third_manager_authority
+	    <trim prefix="(" suffix=")" suffixOverrides=",">
+	      <if test="storeId != null">
+	        manager_id,
+	      </if>
+	        authority_id,
+	        create_time,
+	        mod_time,
+	        flag,
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides=",">
+	      <if test="storeId != null">
+	        (select s.customerId from np_third_store_info s where s.store_id =#{storeId ,jdbcType=BIGINT}),
+	      </if>
+	        (select id from np_third_authority where designation = '管理员' and  flag = '0' limit 1),
+	        SYSDATE(),
+	        SYSDATE(),
+	        '0',
+	    </trim>
+  	</insert>
+  
+    <!-- 查询刚刚插入的Id -->
+    <select id="selectLastId" resultType="java.lang.Long" >
+        select LAST_INSERT_ID()
+    </select>
+    <update id="delmanagerauthority" parameterType="java.lang.Long">
+    	update np_third_manager_authority set flag = '1' where manager_id = #{managerId}
+    </update>
+  
+    <insert id="insertPageList" parameterType="java.util.Map">
+         insert into np_third_authority_page ( authority_id, page_id, flag, type )
+         values
+         <foreach collection="list" item="item" index="index"  separator="," >
+	          ( #{storeId}, #{item}, '0', (select type from np_third_page where id =#{item} ) ) 
+         </foreach>
+    </insert>
+  
+  
+    <!-- 为店铺插入新职位 -->
+  	<insert id="insertAuthority" parameterType="java.util.Map">
+  	     insert into np_third_authority ( store_id, designation, flag )
+  	     values ( #{storeId}, #{desName}, '0' ) ;
+  	</insert>
+  	
+  	<select id="selectAllThirdPageId" resultType="java.lang.Long">
+  	     select id from np_third_page
+  	</select>
+  	
+  
+</mapper>

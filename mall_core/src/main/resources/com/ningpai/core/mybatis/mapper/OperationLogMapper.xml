@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.logcore.mapper.OperaLogMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.logcore.bean.OperationLog" >
+    <id column="op_id" property="opId" jdbcType="BIGINT" />
+    <result column="op_name" property="opName" jdbcType="VARCHAR" />
+    <result column="op_time" property="opTime" jdbcType="TIMESTAMP" />
+    <result column="op_ip" property="opIp" jdbcType="VARCHAR" />
+    <result column="op_code" property="opCode" jdbcType="VARCHAR" />
+    <result column="op_content" property="opContent" jdbcType="VARCHAR" />
+    <result column="op_is_seller" property="opIsSeller" jdbcType="CHAR" />
+    <result column="third_id" property="thirdId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    op_id, op_name, op_time, op_ip, op_code, op_content, op_is_seller, third_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_operation_log
+    where op_id = #{opId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_operation_log
+    where op_id = #{opId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.logcore.bean.OperationLog" >
+    insert into np_operation_log (op_id, op_name, op_time, 
+      op_ip, op_code, op_content, 
+      op_is_seller, third_id)
+    values (#{opId,jdbcType=BIGINT}, #{opName,jdbcType=VARCHAR}, #{opTime,jdbcType=TIMESTAMP}, 
+      #{opIp,jdbcType=VARCHAR}, #{opCode,jdbcType=VARCHAR}, #{opContent,jdbcType=VARCHAR}, 
+      #{opIsSeller,jdbcType=CHAR}, #{thirdId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.logcore.bean.OperationLog" >
+    insert into np_operation_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="opId != null" >
+        op_id,
+      </if>
+      <if test="opName != null" >
+        op_name,
+      </if>
+      <if test="opTime != null" >
+        op_time,
+      </if>
+      <if test="opIp != null" >
+        op_ip,
+      </if>
+      <if test="opCode != null" >
+        op_code,
+      </if>
+      <if test="opContent != null" >
+        op_content,
+      </if>
+      <if test="opIsSeller != null" >
+        op_is_seller,
+      </if>
+      <if test="thirdId != null" >
+        third_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="opId != null" >
+        #{opId,jdbcType=BIGINT},
+      </if>
+      <if test="opName != null" >
+        #{opName,jdbcType=VARCHAR},
+      </if>
+      <if test="opTime != null" >
+        #{opTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="opIp != null" >
+        #{opIp,jdbcType=VARCHAR},
+      </if>
+      <if test="opCode != null" >
+        #{opCode,jdbcType=VARCHAR},
+      </if>
+      <if test="opContent != null" >
+        #{opContent,jdbcType=VARCHAR},
+      </if>
+      <if test="opIsSeller != null" >
+        #{opIsSeller,jdbcType=CHAR},
+      </if>
+      <if test="thirdId != null" >
+        #{thirdId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.logcore.bean.OperationLog" >
+    update np_operation_log
+    <set >
+      <if test="opName != null" >
+        op_name = #{opName,jdbcType=VARCHAR},
+      </if>
+      <if test="opTime != null" >
+        op_time = #{opTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="opIp != null" >
+        op_ip = #{opIp,jdbcType=VARCHAR},
+      </if>
+      <if test="opCode != null" >
+      
+        op_code = #{opCode,jdbcType=VARCHAR},
+      </if>
+      <if test="opContent != null" >
+        op_content = #{opContent,jdbcType=VARCHAR},
+      </if>
+      <if test="opIsSeller != null" >
+        op_is_seller = #{opIsSeller,jdbcType=CHAR},
+      </if>
+      <if test="thirdId != null" >
+        third_id = #{thirdId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where op_id = #{opId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.logcore.bean.OperationLog" >
+    update np_operation_log
+    set op_name = #{opName,jdbcType=VARCHAR},
+      op_time = #{opTime,jdbcType=TIMESTAMP},
+      op_ip = #{opIp,jdbcType=VARCHAR},
+      op_code = #{opCode,jdbcType=VARCHAR},
+      op_content = #{opContent,jdbcType=VARCHAR},
+      op_is_seller = #{opIsSeller,jdbcType=CHAR},
+      third_id = #{thirdId,jdbcType=BIGINT}
+    where op_id = #{opId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectOperaSize" resultType="java.lang.Long"  parameterType="com.ningpai.logcore.bean.OperationLog">
+  	 select 
+     count(1)
+     from np_operation_log
+     where 1= 1
+  </select>
+   <select id="selectAllOpera" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	 select 
+     <include refid="Base_Column_List" />
+     from np_operation_log
+     order by op_time desc
+     limit #{startRowNum},#{endRowNum}
+  </select>
+   <select id="selectLogListByDays" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	 select 
+     <include refid="Base_Column_List" />
+     from np_operation_log
+     where  1=1 
+     	<if test="days != null  " >
+     		<if test="days != 0">
+     			<![CDATA[ and op_time >= date_sub(now(), INTERVAL  #{days} DAY)  AND op_time <= now()  ]]>
+     		</if>
+     	</if>
+     order by op_time desc
+  </select>
+  
+  <update id="deleteLog" parameterType="java.util.Map">
+  		delete from np_operation_log
+		where op_id in
+		<foreach item="item" index="index" collection="opIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+  </update>
+</mapper>

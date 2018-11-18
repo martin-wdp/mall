@@ -1,0 +1,1162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
+        "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+<urlrewrite>
+	<rule>
+		<note>
+			首页
+		</note>
+		<from>^/$</from>
+		<to type="forward">/customer/login.htm</to>
+	</rule>
+	<rule>
+		<note>
+        	首页
+        </note> 
+        <from>^/index(.html)?$</from> 
+        <to type="forward">/third/index.htm</to> 
+	</rule>
+	
+	<rule>
+		<note>
+        	登录
+        </note>
+        <from>^/login(.html)?$</from> 
+        <to type="forward">/customer/login.htm</to> 
+	</rule>
+	
+	<rule>
+		<note>
+        	出库
+        </note>
+        <from>^/thirdorderdeliverys(.html)?$</from> 
+        <to type="forward">/thirdorderdeliverys.htm</to> 
+	</rule>
+	
+    <!-- 拣货开始 -->
+	<rule>
+		<note>
+        	拣货开始
+        </note>
+        <from>^/thirdorderpicking(.html)?$</from> 
+        <to type="forward">/thirdorderpicking.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	拣货结束
+        </note> 
+        <from>^/thirdchangeorderpicking(.html)?$</from> 
+        <to type="forward">/thirdchangeorderpicking.htm</to>
+    </rule>
+    <!-- 拣货结束 -->
+	<rule>
+		<note>
+        	发货
+        </note>
+        <from>^/thirdordersendgoods(.html)?$</from> 
+        <to type="forward">/thirdordersendgoods.htm</to> 
+	</rule>
+	
+	<rule>
+		<note>
+        	退出
+        </note> 
+        <from>^/logout(.html)?$</from> 
+        <to type="forward">/customer/logout.htm</to> 
+	</rule>
+	<!--<rule>-->
+		<!--<note>-->
+        	<!--验证登录-->
+        <!--</note>-->
+		<!--<from>^/checklogin-([_a-zA-Z0-9@\.]+)-([\w\W]+)-?([\w\W]+.html)?([0-9]?)(.html)?$</from>-->
+        <!--<to type="forward">/checklogin.htm?username=$1&amp;password=$2&amp;url=$3&amp;type=$4</to> -->
+	<!--</rule>-->
+	<rule>
+		<note>
+        	我的店铺
+        </note> 
+        <from>^/sellerinfo(.html)?$</from> 
+        <to type="forward">/third/sellerinfo.htm</to> 
+	</rule>
+    <rule>
+        <note>
+            点击店铺头部logo 根据店铺情况进行跳转
+        </note>
+        <from>^/sellerinfos(.html)?$</from>
+        <to type="forward">/third/sellerinfos.htm</to>
+    </rule>
+	<rule>
+		<note>
+        	修改我的店铺信息
+        </note> 
+        <from>^/updateseller(.html)?$</from> 
+        <to type="forward">/third/updateseller.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	验证银行信息
+        </note> 
+        <from>^/bankcheck(.html)?$</from> 
+        <to type="forward">/third/bankcheck.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	验证银行信息
+        </note> 
+        <from>^/tobankcheck(.html)?$</from> 
+        <to type="forward">/third/tobankcheck.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	跳转已支付
+        </note> 
+        <from>^/paytoboss(.html)?$</from> 
+        <to type="forward">/third/paytoboss.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	跳转已支付
+        </note> 
+        <from>^/massreceive(.html)?$</from> 
+        <to type="forward">/third/massreceive.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	开店提醒
+        </note> 
+        <from>^/storetip(.html)?$</from> 
+        <to type="forward">/third/storetip.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	显示协议
+        </note> 
+        <from>^/showprotocol(.html)?$</from> 
+        <to type="forward">/third/showprotocol.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	公司经营信息
+        </note> 
+        <from>^/engageinfo(.html)?$</from> 
+        <to type="forward">/third/engageinfo.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	欲经营信息
+        </note> 
+        <from>^/wantengageinfo(.html)?$</from> 
+        <to type="forward">/third/wantengageinfo.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	资质页面
+        </note> 
+        <from>^/aptitude(.html)?$</from> 
+        <to type="forward">/third/aptitude.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	税务页面
+        </note> 
+        <from>^/fillTax(.html)?$</from> 
+        <to type="forward">/third/filltax.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	入驻信息 成功提交
+        </note> 
+        <from>^/auditsubmit(.html)?$</from> 
+        <to type="forward">/third/auditsubmit.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	等待商家验证
+        </note> 
+        <from>^/waitaudit(.html)?$</from> 
+        <to type="forward">/third/waitaudit.htm</to> 
+	</rule>
+
+    <rule>
+        <note>
+            拒绝店铺申请
+        </note>
+        <from>^/waitauditcheck(.html)?$</from>
+        <to type="forward">/third/waitauditcheck.htm</to>
+    </rule>
+	
+	<rule>
+		<note>
+        	商品促销
+        </note> 
+        <from>^/thirdproductmarketing(.html)?$</from> 
+        <to type="forward">/thirdproductmarketing.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	商品复制列表
+        </note> 
+        <from>^/thirdcopylist(.html)?$</from> 
+        <to type="forward">/thirdcopylist.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	商品复制
+        </note> 
+        <from>^/copygoodsbygoodsids(.html)?$</from> 
+        <to type="forward">/copygoodsbygoodsids.htm</to> 
+	</rule>
+		<rule>
+		<note>
+        	订单促销
+        </note> 
+        <from>^/thirdordermarketing(.html)?$</from> 
+        <to type="forward">/thirdordermarketing.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	优惠券促销
+        </note> 
+        <from>^/thirdcouponlist(.html)?$</from> 
+        <to type="forward">/thirdcouponlist.htm</to> 
+	</rule>
+	
+	
+	<rule>
+		<note>
+        	角色管理
+        </note> 
+        <from>^/managerlist(.html)?$</from> 
+        <to type="forward">/third/managerlist.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	角色管理
+        </note> 
+        <from>^/employeelist(.html)?$</from> 
+        <to type="forward">/third/employeelist.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	图片管理
+        </note> 
+        <from>^/imageListManager(.html)?$</from> 
+        <to type="forward">/third/imageListManager.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	添加权限角色
+        </note> 
+        <from>^/addauthority(.html)?$</from> 
+        <to type="forward">/third/addauthority.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	删除权限角色
+        </note> 
+        <from>^/delauthority(.html)?$</from> 
+        <to type="forward">/third/delauthority.htm</to> 
+	</rule>
+	<rule>
+		<note>
+         	验证权限角色存在
+        </note> 
+        <from>^/checkauthorityexist(.html)?$</from> 
+        <to type="forward">/third/checkauthorityexist.htm</to> 
+	</rule>
+	<rule>
+		<note>
+         	验证权限角色存在
+        </note> 
+        <from>^/loadallauthority(.html)?$</from> 
+        <to type="forward">/third/loadallauthority.htm</to> 
+	</rule>
+	<rule>
+		<note>
+         	验证权限角色存在
+        </note> 
+        <from>^/addemp(.html)?$</from> 
+        <to type="forward">toaddemp.htm</to> 
+	</rule>
+	
+	
+	<rule>
+		<note>
+        	在售商品管理
+        </note> 
+        <from>^/thirdgoodsmanager(.html)?$</from> 
+        <to type="forward">/thirdgoodsmanager.htm</to> 
+	</rule>
+	
+	<rule>
+		<note>
+        	待售商品管理
+        </note> 
+        <from>^/waitSaleThirdGoods(.html)?$</from> 
+        <to type="forward">/waitSaleThirdGoods.htm</to> 
+	</rule>
+	
+	<rule>
+		<note>
+        	分类管理
+        </note> 
+        <from>^/cateManager(.html)?$</from> 
+        <to type="forward">/cateManager.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	上传商品
+        </note> 
+        <from>^/upthirdgoods(.html)?$</from> 
+        <to type="forward">/upthirdgoods.htm</to> 
+	</rule>
+	
+	<rule>
+		<note>
+        	去修改商品
+        </note> 
+        <from>^/toModifiedThirdGoods(.html)?$</from> 
+        <to type="forward">/toModifiedThirdGoods.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	删除商品
+        </note> 
+        <from>^/delThirdGoods(.html)?$</from> 
+        <to type="forward">/delThirdGoods.htm</to> 
+	</rule>
+	
+	<rule>
+		<note>
+        	上架商品
+        </note> 
+        <from>^/batchUploadThirdGoods(.html)?$</from> 
+        <to type="forward">/batchUploadThirdGoods.htm</to> 
+	</rule>
+	
+	<rule>
+		<note>
+        	下架商品
+        </note> 
+        <from>^/batchDownThirdGoods(.html)?$</from> 
+        <to type="forward">/batchDownThirdGoods.htm</to> 
+	</rule>
+	
+	<rule>
+		<note>
+        	生成商品
+        </note> 
+        <from>^/thirdcreateproduct(.html)?$</from> 
+        <to type="forward">/thirdCreateProduct.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	商品组合管理
+        </note> 
+        <from>^/thirdGoodsGroupManager(.html)?$</from> 
+        <to type="forward">/thirdGoodsGroupManager.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	商品导入
+        </note> 
+        <from>^/thirdImport(.html)?$</from> 
+        <to type="forward">/thirdImport.htm</to> 
+	</rule>
+	
+	<rule>
+		<note>
+        	商品导入发布
+        </note> 
+        <from>^/thirdtopubimportgoods(.html)?$</from> 
+        <to type="forward">/thirdToPubImportGoods.htm</to> 
+	</rule>
+	
+	<rule>
+		<note>
+        	查询组合信息
+        </note> 
+        <from>^/tomodithirdgroupbygroupid(.html)?$</from> 
+        <to type="forward">/toModiThirdGroupByGroupId.htm</to> 
+	</rule>
+	
+	<rule>
+		<note>
+        	货品管理
+        </note> 
+        <from>^/thirdProductManager(.html)?$</from> 
+        <to type="forward">/thirdProductManager.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	订单管理
+        </note> 
+        <from>^/queryThirdOrderList(.html)?$</from> 
+        <to type="forward">/queryThirdOrderList.htm</to> 
+	</rule>
+    <rule>
+		<note>
+        	打开移动版
+        </note>
+        <from>^/setThirdMobHomePage(.html)?$</from>
+        <to type="forward">/setThirdMobHomePage.htm</to>
+	</rule>
+    <rule>
+		<note>
+        	保存移动版
+        </note>
+        <from>^/saveAllThirdMod(.html)?$</from>
+        <to type="forward">/saveAllThirdMod.htm</to>
+	</rule>
+    <rule>
+		<note>
+        	移动版第三方商品列表
+        </note>
+        <from>^/queryThirdMobProductForGoods(.html)?$</from>
+        <to type="forward">/queryThirdMobProductForGoods.htm</to>
+	</rule>
+    <rule>
+		<note>
+        	根据第三方店铺id查询所有上线的商品
+        </note>
+        <from>^/ajaxQueryThirdMobProduct(.html)?$</from>
+        <to type="forward">/ajaxQueryThirdMobProduct.htm</to>
+	</rule>
+    <rule>
+		<note>
+        	编辑移动端店铺信息
+        </note>
+        <from>^/updateThirdMobHomePageSet(.html)?$</from>
+        <to type="forward">/updateThirdMobHomePageSet.htm</to>
+	</rule>
+	<rule>
+		<note>
+        	物流管理
+        </note> 
+        <from>^/expresslist(.html)?$</from> 
+        <to type="forward">/third/selectexpress.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	添加物流
+        </note> 
+        <from>^/addexpress(.html)?$</from> 
+        <to type="forward">/third/addexpressinfo.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	修改物流
+        </note> 
+        <from>^/updatexpress(.html)?$</from> 
+        <to type="forward">/third/updateexpress.htm</to> 
+	</rule>
+	<rule>
+		<note>
+			验证物流编号是否相等
+		</note>
+		<from>^/checkExpressNo(.html)?$</from>
+		<to type="forward">/third/checkExpressNo.htm</to>
+	</rule>
+	<rule>
+		<note>
+        	删除物流
+        </note> 
+        <from>^/delexpress(.html)?$</from> 
+        <to type="forward">/third/deleteexpress.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	退单管理
+        </note> 
+        <from>^/queryThirdBackOrderList(.html)?$</from> 
+        <to type="forward">/queryThirdBackOrderList.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	订单详情
+        </note> 
+        <from>^/tothirdorderdetail(.html)?$</from> 
+        <to type="forward">/toThirdOrderDetail.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	退单详情
+        </note> 
+        <from>^/toexambackorder(.html)?$</from> 
+        <to type="forward">/toExamBackOrder.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	出库列表
+        </note> 
+        <from>^/querythirdoutstock(.html)?$</from> 
+        <to type="forward">/querythirdoutstock.htm</to> 
+	</rule>
+	
+	<rule>
+		<note>
+        	新增装箱单
+        </note> 
+        <from>^/thirdaddcontainer(.html)?$</from> 
+        <to type="forward">/thirdaddcontainer.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	更改包裹
+        </note> 
+        <from>^/thirdupdatecontainer(.html)?$</from> 
+        <to type="forward">/thirdupdatecontainer.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	删除包裹
+        </note> 
+        <from>^/thirddelrelationbyid(.html)?$</from> 
+        <to type="forward">/thirddelrelationbyid.htm</to> 
+	</rule>
+	<!-- 资讯 -->
+	<rule>
+		<note>
+        	文章栏目管理
+        </note> 
+        <from>^/infotypelist(.html)?$</from> 
+        <to type="forward">/jumpForThirdInfoTypeView.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	文章管理
+        </note> 
+        <from>^/infolist(.html)?$</from> 
+        <to type="forward">/queryThirdInfoVoList.htm</to> 
+	</rule><!-- 资讯end -->
+	<!-- 模板 -->
+	<rule>
+		<note>
+        	模板列表
+        </note> 
+        <from>^/templist(.html)?$</from> 
+        <to type="forward">/queryThirdTempByType.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	查看模板信息
+        </note> 
+        <from>^/showtemp(.html)?$</from> 
+        <to type="forward">/showThirdTempInfo.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	去修改模板
+        </note> 
+        <from>^/toupdatetemp(.html)?$</from> 
+        <to type="forward">/toUpdateThirdTempInfo.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	修改模板
+        </note> 
+        <from>^/updatetemp(.html)?$</from> 
+        <to type="forward">/updateThirdTempInfo.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	页面导航管理
+        </note> 
+        <from>^/tempbarlist(.html)?$</from> 
+        <to type="forward">/queryThirdTempBarByPageBean.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	广告管理
+        </note> 
+        <from>^/tempadvertlist(.html)?$</from> 
+        <to type="forward">/queryThirdTempAdverByPageBean.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	品牌管理
+        </note> 
+        <from>^/tempbrandlist(.html)?$</from> 
+        <to type="forward">/queryThirdTempTrademarkByPageBean.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	分类导航管理
+        </note> 
+        <from>^/tempclassifybarlist(.html)?$</from> 
+        <to type="forward">/jumpForThirdTempClassifyBarView.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	新闻公告管理
+        </note> 
+        <from>^/toupdatetempnews(.html)?$</from> 
+        <to type="forward">/toUpdateThirdTempInfoType.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	更改新闻公告
+        </note> 
+        <from>^/updatetempnews(.html)?$</from> 
+        <to type="forward">/updateThirdTempInfoType.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	楼层管理
+        </note> 
+        <from>^/tempstoreylist(.html)?$</from> 
+        <to type="forward">/queryThirdTempStoreyByPageBean.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	楼层商品管理
+        </note> 
+        <from>^/tempstoreygoodslist(.html)?$</from> 
+        <to type="forward">/queryThirdTemplStoreyGoodsByPageBean.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	楼层广告管理
+        </note> 
+        <from>^/tempstoreyadvertlist(.html)?$</from> 
+        <to type="forward">/queryThirdTempStoreyAdverByPageBean.htm</to> 
+	</rule>
+	<!-- 模板end -->
+	<!-- 换货单详情 -->
+	<rule>
+		<note>
+        	换货单详情
+        </note> 
+        <from>^/queryThirdBarterLists(.html)?$</from> 
+        <to type="forward">/queryThirdBarterLists.htm</to> 
+	</rule>
+	<!-- 换货单详情end -->
+	<!-- 品牌授权管理 -->
+	<rule>
+		<note>
+        	品牌授权管理
+        </note> 
+        <from>^/queryThirdGrandBrandLists(.html)?$</from> 
+        <to type="forward">/queryThirdGrandBrandLists.htm</to> 
+	</rule>
+	<!-- 品牌授权管理end -->
+	<rule>
+		<note>
+        	退单管理
+        </note> 
+        <from>^/queryThirdBackOrderList(.html)?$</from> 
+        <to type="forward">/queryThirdBackOrderList.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	订单详情
+        </note> 
+        <from>^/tothirdorderdetail(.html)?$</from> 
+        <to type="forward">/toThirdOrderDetail.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	退单详情
+        </note> 
+        <from>^/toexambackorder(.html)?$</from> 
+        <to type="forward">/toExamBackOrder.htm</to> 
+	</rule>
+	<!-- 资讯 -->
+	<rule>
+		<note>
+        	文章栏目管理
+        </note> 
+        <from>^/infotypelist(.html)?$</from> 
+        <to type="forward">/jumpForThirdInfoTypeView.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	文章管理
+        </note> 
+        <from>^/infolist(.html)?$</from> 
+        <to type="forward">/queryThirdInfoVoList.htm</to> 
+	</rule><!-- 资讯end -->
+	<!-- 模板 -->
+	<rule>
+		<note>
+        	模板列表
+        </note> 
+        <from>^/templist(.html)?$</from> 
+        <to type="forward">/queryThirdTempByType.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	查看模板信息
+        </note> 
+        <from>^/showtemp(.html)?$</from> 
+        <to type="forward">/showThirdTempInfo.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	去修改模板
+        </note> 
+        <from>^/toupdatetemp(.html)?$</from> 
+        <to type="forward">/toUpdateThirdTempInfo.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	修改模板
+        </note> 
+        <from>^/updatetemp(.html)?$</from> 
+        <to type="forward">/updateThirdTempInfo.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	页面导航管理
+        </note> 
+        <from>^/tempbarlist(.html)?$</from> 
+        <to type="forward">/queryThirdTempBarByPageBean.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	广告管理
+        </note> 
+        <from>^/tempadvertlist(.html)?$</from> 
+        <to type="forward">/queryThirdTempAdverByPageBean.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	品牌管理
+        </note> 
+        <from>^/tempbrandlist(.html)?$</from> 
+        <to type="forward">/queryThirdTempTrademarkByPageBean.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	分类导航管理
+        </note> 
+        <from>^/tempclassifybarlist(.html)?$</from> 
+        <to type="forward">/jumpForThirdTempClassifyBarView.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	新闻公告管理
+        </note> 
+        <from>^/toupdatetempnews(.html)?$</from> 
+        <to type="forward">/toUpdateThirdTempInfoType.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	更改新闻公告
+        </note> 
+        <from>^/updatetempnews(.html)?$</from> 
+        <to type="forward">/updateThirdTempInfoType.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	楼层管理
+        </note> 
+        <from>^/tempstoreylist(.html)?$</from> 
+        <to type="forward">/queryThirdTempStoreyByPageBean.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	楼层商品管理
+        </note> 
+        <from>^/tempstoreygoodslist(.html)?$</from> 
+        <to type="forward">/queryThirdTemplStoreyGoodsByPageBean.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	楼层广告管理
+        </note> 
+        <from>^/tempstoreyadvertlist(.html)?$</from> 
+        <to type="forward">/queryThirdTempStoreyAdverByPageBean.htm</to> 
+	</rule>
+	<!-- 模板end -->
+	<!-- 换货单详情 -->
+	<rule>
+		<note>
+        	换货单详情
+        </note> 
+        <from>^/queryThirdBarterLists(.html)?$</from> 
+        <to type="forward">/queryThirdBarterLists.htm</to> 
+	</rule>
+	<!-- 换货单详情end -->
+	<!-- 品牌授权管理 -->
+	<rule>
+		<note>
+        	品牌授权管理
+        </note> 
+        <from>^/queryThirdGrandBrandLists(.html)?$</from> 
+        <to type="forward">/queryThirdGrandBrandLists.htm</to> 
+	</rule>
+	<!-- 品牌授权管理end -->
+	<rule>
+		<note>
+        	url设置
+        </note> 
+        <from>^/showDomainByCustId-([0-9]+)(.html)?$</from> 
+        <to type="forward">/showdomainbycustid.htm?thirdId=$1</to> 
+	</rule>
+	
+	
+	    <rule>
+		<note>
+        	预警修改
+        </note> 
+        <from>^/selectstock(.html)?$</from> 
+        <to type="forward">/selectstock.htm</to> 
+	</rule>
+	
+	<rule>
+	<note>
+        	预警货品
+        </note> 
+        <from>^/selectwarngoods(.html)?$</from> 
+        <to type="forward">/selectwarngoods.htm</to> 
+	</rule>
+	
+	
+	<rule>
+        <note>
+                                        商家爱对账报表列表
+        </note> 
+        <from>^/queryCheckReport(.html)?$</from> 
+        <to type="forward">/queryCheckReport.htm</to> 
+    </rule>
+    <rule>
+        <note>
+                                        商家爱对账报表详情
+        </note> 
+        <from>^/thirdreportdetail(.html)?$</from> 
+        <to type="forward">/thirdReportDetail.htm</to> 
+    </rule>
+    
+    <!-- 运费模板 -->
+    
+    
+      <rule>
+        <note>
+                                   模板列表
+        </note> 
+        <from>^/freighttemplatelistthird(.html)?$</from> 
+        <to type="forward">/freighttemplatelistthird.htm</to> 
+    </rule>
+          <rule>
+        <note>
+                                   复制模板
+        </note> 
+        <from>^/copyfreighttemplatethird(.html)?$</from> 
+        <to type="forward">/copyfreighttemplatethird.htm</to> 
+    </rule>
+      
+      <rule>
+        <note>
+                                   删除模板
+        </note> 
+        <from>^/deletefreighttemplatethird(.html)?$</from> 
+        <to type="forward">/deletefreighttemplatethird.htm</to> 
+    </rule>
+      
+         <rule>
+        <note>
+                                   设置默认
+        </note> 
+        <from>^/defaultfreighttemplatethird(.html)?$</from> 
+        <to type="forward">/defaultfreighttemplatethird.htm</to> 
+    </rule>  
+      
+             <rule>
+        <note>
+                                   查询模板详细
+        </note> 
+        <from>^/toupdatefreighttemplatethird(.html)?$</from> 
+        <to type="forward">/toupdatefreighttemplatethird.htm</to> 
+    </rule>  
+          
+      <rule>
+        <note>
+                                   保存模板
+        </note> 
+        <from>^/savefreightthird(.html)?$</from> 
+        <to type="forward">/savefreightthird.htm</to> 
+    </rule>         
+          
+               <rule>
+        <note>
+                                   准备添加模板
+        </note> 
+        <from>^/toAddFreightTemplatethird(.html)?$</from> 
+        <to type="forward">/toAddFreightTemplatethird.htm</to> 
+    </rule>         
+          
+    <rule>
+        <note>
+                                添加模板
+        </note> 
+        <from>^/addFreightthird(.html)?$</from> 
+        <to type="forward">/addFreightthird.htm</to> 
+    </rule> 
+    
+    <rule>
+        <note>
+                                专题列表
+        </note> 
+        <from>^/queryProjectList(.html)?$</from> 
+        <to type="forward">/queryProjectList.htm</to> 
+    </rule>
+    
+    <rule>
+        <note>
+                              准备添加 专题
+        </note> 
+        <from>^/toAddThirdProject(.html)?$</from> 
+        <to type="forward">/toAddThirdProject.htm</to> 
+    </rule>  
+    
+    <rule>
+        <note>
+                              准备修改 专题
+        </note> 
+        <from>^/toUpdateThirdProject(.html)?$</from> 
+        <to type="forward">/toUpdateThirdProject.htm</to> 
+    </rule>       
+    <rule>
+        <note>
+                              自定义品牌
+        </note> 
+        <from>^/queryapplybrand-([\d]+)(.html)?$</from> 
+        <to type="forward">third/queryapplybrand.htm?applyStatus=$1</to> 
+    </rule>      
+    <rule>
+        <note>
+                              自定义品牌
+        </note> 
+        <from>^/queryapplybrand(.html)?$</from> 
+        <to type="forward">third/queryapplybrand.htm</to> 
+    </rule>
+
+    <rule>
+        <note>
+            去申请品牌
+        </note>
+        <from>^/goapplybrand(.html)?$</from>
+        <to type="forward">third/goapplybrand.htm</to>
+    </rule>
+
+    <rule>
+        <note>
+                              自定义品牌批量删除
+        </note> 
+        <from>^/deleteapplybrands(.html)?$</from> 
+        <to type="forward">third/deleteapplybrands.htm</to> 
+    </rule> 
+    <rule>
+        <note>
+                              自定义品牌删除
+        </note> 
+        <from>^/deleteapplybrand(.html)?$</from> 
+        <to type="forward">third/deleteapplybrand.htm</to> 
+    </rule> 
+    
+     <rule>
+        <note>
+                              热销货品                 
+        </note> 
+        <from>^/tempstoreyhotgoods(.html)?$</from> 
+        <to type="forward">/querythirdchannelgoods.htm</to> 
+    </rule>       
+      
+     <!-- 添加热销货品 -->
+     <rule>
+        <note>
+                             添加 热销货品                 
+        </note> 
+        <from>^/showthirdhotgoods-([0-9]+)(.html)?$</from> 
+        <to type="forward">/showthirdhotgoods.htm?tempId=$1</to> 
+    </rule> 
+         
+     <rule>
+        <note>
+                              修改热销货品                 
+        </note> 
+        <from>^/showthirdhotgoods-([0-9]+)-([0-9]+)(.html)?$</from> 
+        <to type="forward">/showthirdhotgoods.htm?goodsProductId=$1&amp;tempId=$2</to> 
+    </rule>    
+    <rule>
+        <note>
+                              修改员工角色                 
+        </note> 
+        <from>^/updatebycustid(.html)?$</from> 
+        <to type="forward">/updatebycustid.htm</to> 
+    </rule>
+    <rule>
+        <note>
+           	  发货                          
+        </note> 
+        <from>^/thirdsubsendgoodsorder(.html)?$</from> 
+        <to type="forward">/thirdsubsendgoodsorder.htm</to> 
+    </rule>
+    <rule>
+        <note>
+           	处罚记录列表                        
+        </note> 
+        <from>^/queryPunishRecord(.html)?$</from> 
+        <to type="forward">/queryPunishRecord.htm</to> 
+    </rule>
+    <rule>
+		<note>
+        	跳转充值
+        </note> 
+        <from>^/jumpRecharge(.html)?$</from> 
+        <to type="forward">/jumpRecharge.htm</to> 
+	</rule>
+	<rule>
+		<note>
+        	充值
+        </note> 
+        <from>^/recharge(.html)?$</from> 
+        <to type="forward">/recharge.htm</to> 
+	</rule>
+    
+    <rule>
+		<note>
+        	商家订单
+        </note> 
+        <from>^/buyThirdOrderList(.html)?$</from> 
+        <to type="forward">/buyThirdOrderList.htm</to> 
+	</rule>
+    <rule>
+		<note>
+        	支付宝前台通知
+        </note> 
+        <from>^/paysuccess(.html)?$</from> 
+        <to type="forward">/thirdPaysuccess.htm</to> 
+	</rule>
+
+    <rule>
+        <note>
+            跳转注册
+        </note>
+        <from>^/register(.html)?$</from>
+        <to type="forward">/customer/register.htm</to>
+    </rule>
+
+    <rule>
+        <note>
+            注册成功 跳转到进入页
+        </note>
+        <from>^/goenterpage(.html)?$</from>
+        <to type="forward">/index/goenterpage.htm</to>
+    </rule>
+    
+    
+    <rule>
+        <note>
+            审核商品列表
+        </note>
+        <from>^/auditgoodslist(.html)?$</from>
+        <to type="forward">/auditgoodslist.htm</to>
+    </rule>
+    
+    <rule>
+        <note>
+           添加单品促销
+        </note>
+        <from>^/adddpmarketing(.html)?$</from>
+        <to type="forward">/adddpmarketing.htm</to>
+    </rule>
+	
+    <rule>
+        <note>
+            根据父分类id和分类名称查询分类信息
+        </note>
+        <from>^/queryThirdSonCateByCateIdAndName(.html)?$</from>
+        <to type="forward">/queryThirdSonCateByCateIdAndName.htm</to>
+    </rule>
+
+    <rule>
+        <note>
+         折扣促销列表
+        </note>
+        <from>^/createzkmarketing(.html)?$</from>
+        <to type="forward">/createzkmarketing.htm</to>
+    </rule>
+    
+    <rule>
+        <note>
+         包邮促销列表
+        </note>
+        <from>^/createbymarketing(.html)?$</from>
+        <to type="forward">/createbymarketing.htm</to>
+    </rule>
+    
+    <rule>
+        <note>
+         满减促销列表
+        </note>
+        <from>^/createmjomarketing(.html)?$</from>
+        <to type="forward">/createmjomarketing.htm</to>
+    </rule>
+    
+    <rule>
+        <note>
+         满件促销列表
+        </note>
+        <from>^/createmjpmarketing(.html)?$</from>
+        <to type="forward">/createmjpmarketing.htm</to>
+    </rule>
+    
+    <rule>
+        <note>
+           添加折扣促销
+        </note>
+        <from>^/addzkmarketing(.html)?$</from>
+        <to type="forward">/addzkmarketing.htm</to>
+    </rule>
+    
+    <rule>
+        <note>
+           添加包邮促销
+        </note>
+        <from>^/addbymarketing(.html)?$</from>
+        <to type="forward">/addbymarketing.htm</to>
+    </rule>
+    
+    <rule>
+        <note>
+           满减包邮促销
+        </note>
+        <from>^/addmjomarketing(.html)?$</from>
+        <to type="forward">/addmjomarketing.htm</to>
+    </rule>
+    
+    <rule>
+        <note>
+           满件包邮促销
+        </note>
+        <from>^/addmjpmarketing(.html)?$</from>
+        <to type="forward">/addmjpmarketing.htm</to>
+    </rule>
+
+    <rule>
+        <note>
+                              修改促销          
+        </note> 
+        <from>^/neweditmarketing(.html)?$</from> 
+        <to type="forward">/neweditmarketing.htm</to> 
+    </rule>
+
+    <rule>
+        <note>
+            店铺街
+        </note>
+        <from>^/storeStreet(.html)?$</from>
+        <to type="forward">/storeStreetthird.htm</to>
+    </rule>
+    
+    <rule>
+        <note>
+            添加优惠券
+        </note>
+        <from>^/toaddcouponthird(.html)?$</from>
+        <to type="forward">/toaddcouponthird.htm</to>
+    </rule>
+
+</urlrewrite> 

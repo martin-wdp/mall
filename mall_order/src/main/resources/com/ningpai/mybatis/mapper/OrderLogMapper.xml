@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.order.dao.OrderLogMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.order.bean.OrderLog" >
+    <id column="order_log_id" property="orderLogId" jdbcType="BIGINT" />
+    <result column="order_log_reason" property="orderLogReason" jdbcType="VARCHAR" />
+    <result column="order_log_person" property="orderLogPerson" jdbcType="VARCHAR" />
+    <result column="order_log_status" property="orderLogStatus" jdbcType="CHAR" />
+    <result column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="order_log_time" property="orderLogTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    order_log_id, order_log_reason, order_log_person, order_log_status, order_id, order_log_time
+  </sql>
+
+  <!-- 根据订单id查询订单操作记录 -->
+  <select id="selectOrderLogByParam" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  		select  order_log_id, order_log_reason, order_log_person, order_log_status, order_id, order_log_time 
+  		FROM np_order_log where order_id =#{orderId}
+  		order by order_log_time desc
+  </select>
+  <!-- 订单记录表插入 -->
+  <insert id="insertSelective" parameterType="com.ningpai.order.bean.OrderLog" >
+    insert into np_order_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderLogId != null" >
+        order_log_id,
+      </if>
+      <if test="orderLogReason != null" >
+        order_log_reason,
+      </if>
+      <if test="orderLogPerson != null" >
+        order_log_person,
+      </if>
+      <if test="orderLogStatus != null" >
+        order_log_status,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="orderLogTime != null" >
+        order_log_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderLogId != null" >
+        #{orderLogId,jdbcType=BIGINT},
+      </if>
+      <if test="orderLogReason != null" >
+        #{orderLogReason,jdbcType=VARCHAR},
+      </if>
+      <if test="orderLogPerson != null" >
+        #{orderLogPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="orderLogStatus != null" >
+        #{orderLogStatus,jdbcType=CHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="orderLogTime != null" >
+        #{orderLogTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.order.bean.OrderLog" >
+    update np_order_log
+    <set >
+      <if test="orderLogReason != null" >
+        order_log_reason = #{orderLogReason,jdbcType=VARCHAR},
+      </if>
+      <if test="orderLogPerson != null" >
+        order_log_person = #{orderLogPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="orderLogStatus != null" >
+        order_log_status = #{orderLogStatus,jdbcType=CHAR},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="orderLogTime != null" >
+        order_log_time = #{orderLogTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where order_log_id = #{orderLogId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.order.bean.OrderLog" >
+    update np_order_log
+    set order_log_reason = #{orderLogReason,jdbcType=VARCHAR},
+      order_log_person = #{orderLogPerson,jdbcType=VARCHAR},
+      order_log_status = #{orderLogStatus,jdbcType=CHAR},
+      order_id = #{orderId,jdbcType=BIGINT},
+      order_log_time = #{orderLogTime,jdbcType=TIMESTAMP}
+    where order_log_id = #{orderLogId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.OrderContainerMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.order.bean.OrderContainer" >
+    <id column="container_id" property="containerId" jdbcType="BIGINT" />
+    <result column="goods_info_id" property="goodsInfoId" jdbcType="BIGINT" />
+    <result column="goods_num" property="goodsNum" jdbcType="BIGINT" />
+    <result column="container_status" property="containerStatus" jdbcType="BIGINT" />
+    <result column="relation_id" property="relationId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    container_id, goods_info_id, goods_num,container_status,relation_id
+  </sql>
+  <!-- 查询包裹下的所有商品 -->
+  <select id="queryContainerByRelationId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  	SELECT container_id, goods_info_id, goods_num,container_status,relation_id
+   from np_order_container where relation_id=#{relation_id}
+  </select>
+  <!-- 插入信息 -->
+  <insert id="insertSelective" parameterType="com.ningpai.order.bean.OrderContainer" >
+    insert into np_order_container
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="containerId != null" >
+        container_id,
+      </if>
+      <if test="goodsInfoId != null" >
+        goods_info_id,
+      </if>
+      <if test="goodsNum != null" >
+        goods_num,
+      </if>
+      <if test="relationId != null" >
+        relation_id,
+      </if>
+        <if test="containerStatus != null" >
+            container_Status,
+        </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="containerId != null" >
+        #{containerId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsInfoId != null" >
+        #{goodsInfoId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsNum != null" >
+        #{goodsNum,jdbcType=BIGINT},
+      </if>
+      <if test="relationId != null" >
+        #{relationId,jdbcType=BIGINT},
+      </if>
+        <if test="containerStatus != null" >
+            #{containerStatus},
+        </if>
+    </trim>
+  </insert>
+  
+  <!-- 批量插入 -->
+  <insert id="insertContainers" parameterType="java.util.List">
+  	insert into np_order_container(container_id,goods_info_id,goods_num,relation_id,container_status)  values 
+    <foreach collection="list" separator="," item="con" index="index" >  
+          (0, #{con.goodsInfoId,jdbcType=BIGINT}, #{con.goodsNum,jdbcType=BIGINT}, 
+    	  #{con.relationId,jdbcType=BIGINT},#{con.containerStatus})
+     </foreach>
+  </insert>
+  
+  <update id="updateRelation" parameterType="com.ningpai.order.bean.OrderContainer">
+		update np_order_container SET relation_id=#{relationId}
+		 <if test="goodsNum!=null and goodsNum!=''">
+            , goods_num=#{goodsNum}
+         </if>
+		 where container_id=#{containerId}
+  </update>
+  <!-- 查询包裹下是否有商品存在 -->
+  <select id="verifyCount" parameterType="java.lang.Long" resultType="java.lang.Long">
+  	select count(*) from np_order_container where relation_id=#{relationId}
+  </select>
+  
+  <!-- 根据包裹内商品id查询包裹内商品的详细信息 -->
+  <select id="queryGoodsInfosByParam" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  	select  container_id, goods_info_id, goods_num,container_status,relation_id 
+  	 from np_order_container
+  	 where  container_id=#{containerId}
+  </select>
+    <!-- 根据包裹内商品id查询包裹内商品的详细信息 -->
+    <select id="queryOrderContainerByGoodInfoId" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select  container_id, goods_info_id, goods_num,container_status,relation_id
+        from np_order_container
+        where goods_info_id=#{goodInfoId} and relation_id=#{rId}
+        limit 0,1
+    </select>
+  <!-- 修改包裹下商品的数量 -->
+   <update id="updateGoodsNum" parameterType="com.ningpai.order.bean.OrderContainer">
+  		update np_order_container set goods_num =#{goodsNum} where container_id = #{containerId}
+  </update>  
+  
+</mapper>

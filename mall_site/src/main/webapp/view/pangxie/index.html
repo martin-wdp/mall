@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<title>螃蟹首页</title>
+<link rel="stylesheet" href="css/jquery.fullPage.css">
+<style>
+.section {text-align: center; font: 84px "font-family:Microsoft JhengHei", "microsoft YaHei"; color: #fff; position:relative;}
+.section1 {background:url(images/imgs_01.jpg) no-repeat center center;}
+.section2 {background:url(images/imgs_02.jpg) no-repeat center center;}
+.section3 {background:url(images/imgs_03.jpg) no-repeat center center;}
+.section1 p {position:relative;}
+.section2 p {position: relative; left: -120%; font-size:18px; color:#000; line-height:180%;}
+.section2 h3, .section3 h3 {font-size:60px; color:#000; font-weight:500; margin-bottom:20px;}
+.section2 .tableCell {vertical-align:top;}
+.buy_now {display:block; width:180px; height:50px; text-align:center; line-height:50px; margin:0 auto; background:#e16434; color:#fff; font-size:18px; position:relative; text-decoration:none;}
+.mask {background:rgba(0,0,0,.6); width:100%; height:100%; position:absolute; top:0; left:0;}
+.img_list {text-align:center; height:210px; overflow:hidden;}
+.img_list li {display:inline-block; zoom:1; *display:inline; margin:0 10px; position: relative; bottom:-300px;}
+</style>
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="js/jquery-ui-1.10.3.min.js"></script>
+<script src="js/jquery.fullPage.min.js"></script>
+<script>
+$(document).ready(function() {
+	$.fn.fullpage({
+		slidesColor: ['#fff', '#fafafa', '#d4dcd4'],
+		anchors: ['page1', 'page2', 'page3'],
+		navigation: true,
+		afterLoad: function(anchorLink, index){
+			if(index == 1){
+				$('.section1').find('p, .mask').delay(2000).fadeOut();
+			}
+			if(index == 2){
+				$('.section2').find('p').delay(500).animate({
+					left: '0'
+				}, 1500, 'easeOutExpo');
+			}
+			if(index == 3){
+				var _n = $(".img_list li").length;
+				var _d = 500;
+				for(var i=0;i<_n;i++) {
+					$(".img_list li:eq("+i+")").delay(_d).animate({
+						bottom: 0
+					});
+					_d+=50;
+				};
+			}
+		},
+		onLeave: function(index, direction){
+			if(index == '1'){
+				$('.section1').find('p, .mask').delay(500).fadeIn();
+			}
+			if(index == '2'){
+				$('.section2').find('p').delay(500).animate({
+					left: '-120%'
+				}, 1500, 'easeOutExpo');
+			}
+			if(index == '3'){
+				$('.section3').find('.img_list li').delay(500).animate({
+					bottom: '-120%'
+				}, 1500, 'easeOutExpo');
+			}
+		}
+	});
+
+	$('.section1').find('p, .mask').delay(2000).fadeOut();
+});
+</script>
+</head>
+
+<body>
+<div class="section section1">
+	<div class="mask"></div>
+	<p>固城湖大闸蟹上市啦！</p>
+</div>
+<div class="section section2">
+
+	<h3>养殖基地</h3>
+	<p>固城湖大闸蟹生长环境优良我们选择了最优质的固城湖水域<br />湖水清澈见底，水草覆盖率达70%以上</p>
+</div>
+<div class="section section3">
+
+	<h3>我们专注每一个细节</h3>
+	<ul class="img_list">
+		<li><img alt="" src="images/p_01.png" /></li>
+		<li><img alt="" src="images/p_02.png" /></li>
+		<li><img alt="" src="images/p_03.png" /></li>
+		<li><img alt="" src="images/p_04.png" /></li>
+		<li><img alt="" src="images/p_05.png" /></li>
+		<li><img alt="" src="images/p_06.png" /></li>
+		<li><img alt="" src="images/p_07.png" /></li>
+	</ul>
+	<a class="buy_now" href="main.html">立即购买</a>
+</div>
+
+</body>
+</html>

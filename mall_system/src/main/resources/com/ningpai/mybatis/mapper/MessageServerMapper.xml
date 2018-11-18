@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ningpai.system.dao.MessageServerMapper">
+  <resultMap id="BaseResultMap" type="com.ningpai.system.bean.MessageServer">
+    <id column="sms_id" jdbcType="BIGINT" property="smsId" />
+    <result column="sms_url" jdbcType="VARCHAR" property="smsUrl" />
+      <result column="sms_address" jdbcType="VARCHAR" property="smsAddress"/>
+      <result column="sms_provider" jdbcType="VARCHAR" property="smsProvider"/>
+    <result column="sms_name" jdbcType="VARCHAR" property="smsName" />
+    <result column="sms_pass" jdbcType="VARCHAR" property="smsPass" />
+    <result column="sms_gateway" jdbcType="VARCHAR" property="smsGateway" />
+    <result column="is_open" jdbcType="CHAR" property="isOpen" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+      sms_id, sms_url, sms_name, sms_pass, sms_gateway, is_open, create_time, modify_time,sms_provider,sms_address
+  </sql>
+<!-- 查询开始 -->  
+  <!-- 根据ID查询 -->  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_sys_sms 
+    where sms_id = #{smsId,jdbcType=BIGINT}
+  </select>
+  <!-- 查询所有短信接口数量 -->  
+  <select id="selectAllCount" resultType="java.lang.Integer">
+    select count(sms_id)
+    from np_sys_sms
+  </select>
+  <!-- 分页查询所有短信接口 -->  
+  <select id="selectAllByPb" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_sys_sms 
+    LIMIT #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+  </select>
+<!-- 查询结束 -->  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from np_sys_sms
+    where sms_id = #{smsId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.system.bean.MessageServer">
+    insert into np_sys_sms (sms_id, sms_url, sms_name, 
+      sms_pass, sms_gateway, is_open, 
+      create_time, modify_time)
+    values (#{smsId,jdbcType=BIGINT}, #{smsUrl,jdbcType=VARCHAR}, #{smsName,jdbcType=VARCHAR}, 
+      #{smsPass,jdbcType=VARCHAR}, #{smsGateway,jdbcType=VARCHAR}, #{isOpen,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.system.bean.MessageServer">
+    insert into np_sys_sms
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="smsId != null">
+        sms_id,
+      </if>
+      <if test="smsUrl != null">
+        sms_url,
+      </if>
+      <if test="smsName != null">
+        sms_name,
+      </if>
+      <if test="smsPass != null">
+        sms_pass,
+      </if>
+      <if test="smsGateway != null">
+        sms_gateway,
+      </if>
+      <if test="isOpen != null">
+        is_open,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="smsId != null">
+        #{smsId,jdbcType=BIGINT},
+      </if>
+      <if test="smsUrl != null">
+        #{smsUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="smsName != null">
+        #{smsName,jdbcType=VARCHAR},
+      </if>
+      <if test="smsPass != null">
+        #{smsPass,jdbcType=VARCHAR},
+      </if>
+      <if test="smsGateway != null">
+        #{smsGateway,jdbcType=VARCHAR},
+      </if>
+      <if test="isOpen != null">
+        #{isOpen,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.system.bean.MessageServer">
+    update np_sys_sms
+    <set>
+
+        <if test="smsAddress != null">
+            sms_address = #{smsAddress,jdbcType=VARCHAR},
+        </if>
+        <if test="smsProvider != null">
+            sms_provider = #{smsProvider,jdbcType=VARCHAR},
+        </if>
+        <if test="smsUrl != null">
+        sms_url = #{smsUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="smsName != null">
+        sms_name = #{smsName,jdbcType=VARCHAR},
+      </if>
+      <if test="smsPass != null">
+        sms_pass = #{smsPass,jdbcType=VARCHAR},
+      </if>
+      <if test="smsGateway != null">
+        sms_gateway = #{smsGateway,jdbcType=VARCHAR},
+      </if>
+      <if test="isOpen != null">
+        is_open = #{isOpen,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where sms_id = #{smsId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.system.bean.MessageServer">
+    update np_sys_sms
+    set sms_url = #{smsUrl,jdbcType=VARCHAR},
+      sms_name = #{smsName,jdbcType=VARCHAR},
+      sms_pass = #{smsPass,jdbcType=VARCHAR},
+      sms_gateway = #{smsGateway,jdbcType=VARCHAR},
+      is_open = #{isOpen,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+    where sms_id = #{smsId,jdbcType=BIGINT}
+  </update>
+  <update id="closeAll">
+    update np_sys_sms
+    set is_open = '0'
+  </update>
+</mapper>

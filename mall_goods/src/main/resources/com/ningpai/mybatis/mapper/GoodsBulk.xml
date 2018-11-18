@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ningpai.third.goods.mapper.GoodsBulkMapper">
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsBulk">
+    <id column="np_goods_bulk_id" jdbcType="BIGINT" property="bulkId" />
+    <result column="goods_info_id" jdbcType="BIGINT" property="gooodsInfoId" />
+    <result column="third_id" jdbcType="BIGINT" property="thirdId" />
+    <result column="np_goods_bulk_start" jdbcType="BIGINT" property="bulkStart" />
+    <result column="np_goods_bulk_end" jdbcType="BIGINT" property="bulkEnd" />
+    <result column="np_goods_bulk_price" jdbcType="DECIMAL" property="bulkPrice" />
+    <result column="np_goods_bulk_delflag" jdbcType="VARCHAR" property="delFlag" />
+    <result column="np_goods_bulk_create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="np_goods_bulk_modified_time" jdbcType="TIMESTAMP" property="modifideTime" />
+  </resultMap>
+
+    <sql id="Base_Column_List" >
+        np_goods_bulk_id, goods_info_id, third_id, np_goods_bulk_start, np_goods_bulk_end,
+        np_goods_bulk_price, np_goods_bulk_delflag, np_goods_bulk_create_time, np_goods_bulk_modified_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        from np_goods_bulk
+        where np_goods_bulk_id = #{bulkId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from np_goods_bulk
+        where np_goods_bulk_id = #{bulkId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.ningpai.goods.bean.GoodsBulk" >
+        insert into np_goods_bulk (np_goods_bulk_id, goods_info_id, third_id,
+        np_goods_bulk_start, np_goods_bulk_end, np_goods_bulk_price,
+        np_goods_bulk_delflag, np_goods_bulk_create_time,
+        np_goods_bulk_modified_time)
+        values (#{bulkId,jdbcType=BIGINT}, #{goodsInfoId,jdbcType=BIGINT}, #{thirdId,jdbcType=BIGINT},
+        #{bulkStart,jdbcType=BIGINT}, #{bulkEnd,jdbcType=BIGINT}, #{bulkPrice,jdbcType=DECIMAL},
+        #{delFlag,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP},
+        #{modifiedTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.ningpai.goods.bean.GoodsBulk" >
+        insert into np_goods_bulk
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="bulkId != null" >
+                np_goods_bulk_id,
+            </if>
+            <if test="goodsInfoId != null" >
+                goods_info_id,
+            </if>
+            <if test="thirdId != null" >
+                third_id,
+            </if>
+            <if test="bulkStart != null" >
+                np_goods_bulk_start,
+            </if>
+            <if test="bulkEnd != null" >
+                np_goods_bulk_end,
+            </if>
+            <if test="bulkPrice != null" >
+                np_goods_bulk_price,
+            </if>
+            <if test="delFlag != null" >
+                np_goods_bulk_delflag,
+            </if>
+            <if test="createTime != null" >
+                np_goods_bulk_create_time,
+            </if>
+            <if test="modifiedTime != null" >
+                np_goods_bulk_modified_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="bulkId != null" >
+                #{bulkId,jdbcType=BIGINT},
+            </if>
+            <if test="goodsInfoId != null" >
+                #{goodsInfoId,jdbcType=BIGINT},
+            </if>
+            <if test="thirdId != null" >
+                #{thirdId,jdbcType=BIGINT},
+            </if>
+            <if test="bulkStart != null" >
+                #{bulkStart,jdbcType=BIGINT},
+            </if>
+            <if test="bulkEnd != null" >
+                #{bulkEnd,jdbcType=BIGINT},
+            </if>
+            <if test="bulkPrice != null" >
+                #{bulkPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="delFlag != null" >
+                #{delflag,jdbcType=CHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifiedTime != null" >
+                #{modifiedTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.goods.bean.GoodsBulk" >
+        update np_goods_bulk
+        <set >
+            <if test="goodsInfoId != null" >
+                goods_info_id = #{goodsInfoId,jdbcType=BIGINT},
+            </if>
+            <if test="thirdId != null" >
+                third_id = #{thirdId,jdbcType=BIGINT},
+            </if>
+            <if test="bulkStart != null" >
+                np_goods_bulk_start = #{bulkStart,jdbcType=BIGINT},
+            </if>
+            <if test="bulkEnd != null" >
+                np_goods_bulk_end = #{bulkEnd,jdbcType=BIGINT},
+            </if>
+            <if test="bulkPrice != null" >
+                np_goods_bulk_price = #{bulkPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="delFlag != null" >
+                np_goods_bulk_delflag = #{delFlag,jdbcType=CHAR},
+            </if>
+            <if test="createTime != null" >
+                np_goods_bulk_create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifiedTime != null" >
+                np_goods_bulk_modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where np_goods_bulk_id = #{bulkId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ningpai.goods.bean.GoodsBulk" >
+        update np_goods_bulk
+        set goods_info_id = #{goodsInfoId,jdbcType=BIGINT},
+        third_id = #{thirdId,jdbcType=BIGINT},
+        np_goods_bulk_start = #{bulkStart,jdbcType=BIGINT},
+        np_goods_bulk_end = #{bulkEnd,jdbcType=BIGINT},
+        np_goods_bulk_price = #{bulkPrice,jdbcType=DECIMAL},
+        np_goods_bulk_delflag = #{delFlag,jdbcType=CHAR},
+        np_goods_bulk_create_time = #{createTime,jdbcType=TIMESTAMP},
+        np_goods_bulk_modified_time = #{modifiedTime,jdbcType=TIMESTAMP}
+        where np_goods_bulk_id = #{bulkId,jdbcType=BIGINT}
+    </update>
+</mapper>

@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.marketing.dao.MarketingScopeMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.marketing.bean.MarketingScope" >
+    <id column="marketing_scope_id" property="marketingScopeId" jdbcType="BIGINT" />
+    <result column="marketing_id" property="marketingId" jdbcType="BIGINT" />
+    <result column="scope_id" property="scopeId" jdbcType="BIGINT" />
+    <result column="scope_type" property="scopeType" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+    <result column="flag" property="flag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    marketing_scope_id, marketing_id, scope_id, scope_type, create_time, mod_time, flag
+  </sql>
+  
+  
+  
+  <!-- 查询范围信息 -->
+    <select id="selectMarketingScope" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_marketing_scope
+    where marketing_id = #{marketingId,jdbcType=BIGINT} and  scope_type = #{scopeType,jdbcType=CHAR} and flag = '0'
+  </select>
+  
+   <!-- 查询货品参加的订单促销 -->
+   <select id="selectOrderMarketScopeByMap" resultMap="BaseResultMap" parameterType="java.util.Map" >
+	    SELECT 
+	 scope.marketing_scope_id, scope.marketing_id, scope.scope_id, scope.scope_type, scope.create_time, scope.mod_time, scope.flag
+	FROM np_marketing_scope scope,np_marketing mar WHERE mar.marketing_id = scope.marketing_id and mar.marketing_type='0' and  scope.flag = '0' AND   (scope.scope_id = #{goodsInfoId} AND scope_type = '2') OR  (scope.scope_id = #{brandId} AND scope_type = '1') OR  (scope.scope_id = #{cateId} AND scope.scope_type = '0') GROUP BY marketing_id 
+
+  </select>
+  	
+  
+  <!-- 查询货品参加的促销 -->
+   <select id="selectMarketScopeByMap" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    SELECT 
+ scope.marketing_scope_id, scope.marketing_id, scope.scope_id, scope.scope_type, scope.create_time, scope.mod_time, scope.flag
+FROM np_marketing_scope scope,np_marketing mar WHERE mar.marketing_id = scope.marketing_id and mar.marketing_type='0' and  scope.flag = '0' AND   (scope.scope_id = #{goodsInfoId} AND scope_type = '2') OR  (scope.scope_id = #{brandId} AND scope_type = '1') OR  (scope.scope_id = #{cateId} AND scope.scope_type = '0') GROUP BY marketing_id 
+
+  </select>
+  
+    <!-- 查询货品参加的可用促销 -->
+   <select id="selectMarketScopeByMapMay" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    SELECT 
+ 	scope.marketing_scope_id, scope.marketing_id, scope.scope_id, scope.scope_type, scope.create_time, scope.mod_time, scope.flag
+	FROM np_marketing_scope scope,np_marketing mar WHERE mar.marketing_id = scope.marketing_id  
+	and  <![CDATA[ mar.marketing_begin <= now() and  mar.marketing_end   > now() ]]>
+	and mar.marketing_type='0' and  scope.flag = '0' and mar.flag = '0'
+	AND   ((scope.scope_id = #{goodsInfoId} AND scope.scope_type = '2') OR  (scope.scope_id = #{brandId} AND scope.scope_type = '1') OR  (scope.scope_id = #{cateId} AND scope.scope_type = '0')) GROUP BY scope.marketing_id 
+   </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_marketing_scope
+    where marketing_scope_id = #{marketingScopeId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_marketing_scope
+    where marketing_scope_id = #{marketingScopeId,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insertMarketingScope" parameterType="java.util.List" >
+    insert into np_marketing_scope (marketing_scope_id, marketing_id, scope_id, 
+      scope_type, create_time, mod_time, 
+      flag)
+    values
+      <foreach collection="list" separator="," item="ms" index="index" >  
+	     (#{ms.marketingScopeId,jdbcType=BIGINT}, #{ms.marketingId,jdbcType=BIGINT}, #{ms.scopeId,jdbcType=BIGINT}, 
+	      #{ms.scopeType,jdbcType=CHAR}, #{ms.createTime,jdbcType=TIMESTAMP}, #{ms.modTime,jdbcType=TIMESTAMP}, 
+	      #{ms.flag,jdbcType=CHAR})
+      </foreach>
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.ningpai.marketing.bean.MarketingScope" >
+    insert into np_marketing_scope
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="marketingScopeId != null" >
+        marketing_scope_id,
+      </if>
+      <if test="marketingId != null" >
+        marketing_id,
+      </if>
+      <if test="scopeId != null" >
+        scope_id,
+      </if>
+      <if test="scopeType != null" >
+        scope_type,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modTime != null" >
+        mod_time,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="marketingScopeId != null" >
+        #{marketingScopeId,jdbcType=BIGINT},
+      </if>
+      <if test="marketingId != null" >
+        #{marketingId,jdbcType=BIGINT},
+      </if>
+      <if test="scopeId != null" >
+        #{scopeId,jdbcType=BIGINT},
+      </if>
+      <if test="scopeType != null" >
+        #{scopeType,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modTime != null" >
+        #{modTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.marketing.bean.MarketingScope" >
+    update np_marketing_scope
+    <set >
+      <if test="marketingId != null" >
+        marketing_id = #{marketingId,jdbcType=BIGINT},
+      </if>
+      <if test="scopeId != null" >
+        scope_id = #{scopeId,jdbcType=BIGINT},
+      </if>
+      <if test="scopeType != null" >
+        scope_type = #{scopeType,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modTime != null" >
+        mod_time = #{modTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=CHAR},
+      </if>
+    </set>
+    where marketing_scope_id = #{marketingScopeId,jdbcType=BIGINT}
+  </update>
+  <update id="deleteMarketingScope" parameterType="java.lang.Long" >
+    update np_marketing_scope
+    set
+      flag = '1'
+    where  marketing_id = #{marketingId,jdbcType=BIGINT}
+  </update>
+
+    <select id="queryMarketingScope" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select  <include refid="Base_Column_List" /> from np_marketing_scope where marketing_id = #{marketingId,jdbcType=BIGINT} and flag = '0'
+    </select>
+
+    <select id="queryScopeByMarketingIdAndScopeId" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1) from np_marketing_scope where marketing_id = #{marketingId,jdbcType=BIGINT} and scope_id = #{scopeId,jdbcType=BIGINT} and flag = '0'
+    </select>
+
+    <update id="modifyMarketingScope" parameterType="com.ningpai.marketing.bean.MarketingScope">
+        update np_marketing_scope
+        <set>
+            <if test="modTime != null">
+                mod_time = #{modTime,jdbcType=TIMESTAMP}
+            </if>
+        </set>
+        where marketing_id = #{marketingId,jdbcType=BIGINT} and scope_id = #{scopeId,jdbcType=BIGINT} and flag='0'
+    </update>
+
+    <insert id="insertMarketingScopeSingle" parameterType="com.ningpai.marketing.bean.MarketingScope">
+        insert into np_marketing_scope
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="marketingScopeId != null" >
+                marketing_scope_id,
+            </if>
+            <if test="marketingId != null" >
+                marketing_id,
+            </if>
+            <if test="scopeId != null" >
+                scope_id,
+            </if>
+            <if test="scopeType != null" >
+                scope_type,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="modTime != null" >
+                mod_time,
+            </if>
+            <if test="flag != null" >
+                flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="marketingScopeId != null" >
+                #{marketingScopeId,jdbcType=BIGINT},
+            </if>
+            <if test="marketingId != null" >
+                #{marketingId,jdbcType=BIGINT},
+            </if>
+            <if test="scopeId != null" >
+                #{scopeId,jdbcType=BIGINT},
+            </if>
+            <if test="scopeType != null" >
+                #{scopeType,jdbcType=CHAR},
+            </if>
+            <if test="createTime != null" >
+               NOW(),
+            </if>
+            <if test="modTime != null" >
+                NOW(),
+            </if>
+            <if test="flag != null" >
+                #{flag,jdbcType=CHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="countGoodsByMidAndGid" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1) from np_marketing_scope where marketing_id = #{marketingId,jdbcType=BIGINT} and scope_id = #{goodsId,jdbcType=BIGINT}
+    </select>
+
+    <update id="removeGoodsByMidAndGid" parameterType="java.util.Map">
+        update np_marketing_scope set flag = '1' where marketing_id = #{marketingId,jdbcType=BIGINT} and scope_id = #{goodsId,jdbcType=BIGINT}
+    </update>
+</mapper>

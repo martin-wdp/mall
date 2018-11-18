@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.system.dao.DeliveryPointMapper">
+	<resultMap id="BaseResultMap" type="com.ningpai.system.bean.DeliveryPoint">
+		<id column="delivery_point_id" property="deliveryPointId" jdbcType="BIGINT" />
+		<result column="district_id" property="districtId" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="linkman" property="linkman" jdbcType="VARCHAR" />
+		<result column="telephone" property="telephone" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="is_userd" property="isUserd" jdbcType="CHAR" />
+		<result column="delflag" property="delflag" jdbcType="CHAR" />
+		<result column="create_user_id" property="createUserId"
+			jdbcType="BIGINT" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="update_user_id" property="updateUserId"
+			jdbcType="BIGINT" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="temp1" property="temp1" jdbcType="VARCHAR" />
+		<result column="temp2" property="temp2" jdbcType="VARCHAR" />
+		<result column="temp3" property="temp3" jdbcType="VARCHAR" />
+		<result column="temp4" property="temp4" jdbcType="VARCHAR" />
+		<result column="temp5" property="temp5" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		delivery_point_id, district_id, name,linkman,telephone, address, is_userd, delflag, create_user_id,
+		create_date, update_user_id, update_date, temp1, temp2, temp3, temp4,
+		temp5
+	</sql>
+	<!-- 查询开始 -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from np_sys_deliverypoint
+		where delivery_point_id = #{deliveryPointId,jdbcType=BIGINT}
+	</select>
+	<!-- 根据区县ID查询所有未删除的数量-分页用 -->
+	<select id="selectAllCount" resultType="java.lang.Integer"
+		parameterType="java.util.Map">
+		select count(delivery_point_id)
+		from np_sys_deliverypoint
+		where delflag = '0' 
+		<if test="districtId != null">
+			and district_id = #{districtId,jdbcType=BIGINT}
+		</if>
+	</select>
+	<!-- 根据区县ID分页查询所有未删除的-分页 -->
+	<select id="selectAllByPb" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select <include refid="Base_Column_List" />
+		from np_sys_deliverypoint
+		where delflag = '0'
+		<if test="districtId != null">
+			and district_id = #{districtId,jdbcType=BIGINT}
+		</if>
+		limit #{startRowNum},#{endRowNum}
+	</select>
+	<!-- 根据区县ID查询未删除、已启用的自提点-前台用 -->
+	<select id="selectByDistrictIdForSite" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select <include refid="Base_Column_List" />
+		from np_sys_deliverypoint
+		where delflag = '0' and is_userd = '1'
+		<if test="districtId != null">
+			and district_id = #{districtId,jdbcType=BIGINT}
+		</if>
+	</select>
+
+    <select id="selectDeliveryPointBydistrictIds" resultMap="BaseResultMap"
+		parameterType="java.util.List">
+		select <include refid="Base_Column_List" />
+		from np_sys_deliverypoint
+		where delflag = '0' and is_userd = '1'
+			and district_id  in
+        <foreach collection="list" item="disvo" open="(" close=")" separator=",">
+            #{disvo.districtId}
+        </foreach>
+	</select>
+	<!-- 查询结束 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from np_sys_deliverypoint
+		where delivery_point_id = #{deliveryPointId,jdbcType=BIGINT}
+	</delete>
+	<!-- 批量删除 -->
+	<delete id="batchDeleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from np_sys_deliverypoint
+		where delivery_point_id in
+		<foreach collection="array" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+	<insert id="insert" parameterType="com.ningpai.system.bean.DeliveryPoint">
+		insert into np_sys_deliverypoint (delivery_point_id, district_id,
+		name,
+		address, is_userd, delflag,
+		create_user_id, create_date, update_user_id,
+		update_date, temp1, temp2,
+		temp3, temp4, temp5
+		)
+		values (#{deliveryPointId,jdbcType=BIGINT}, #{districtId,jdbcType=BIGINT},
+		#{name,jdbcType=VARCHAR},
+		#{address,jdbcType=VARCHAR}, #{isUserd,jdbcType=CHAR}, #{delflag,jdbcType=CHAR},
+		#{createUserId,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP},
+		#{updateUserId,jdbcType=BIGINT},
+		#{updateDate,jdbcType=TIMESTAMP}, #{temp1,jdbcType=VARCHAR}, #{temp2,jdbcType=VARCHAR},
+		#{temp3,jdbcType=VARCHAR}, #{temp4,jdbcType=VARCHAR},
+		#{temp5,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.ningpai.system.bean.DeliveryPoint">
+		insert into np_sys_deliverypoint
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="deliveryPointId != null">
+				delivery_point_id,
+			</if>
+			<if test="districtId != null">
+				district_id,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+            <if test="linkman != null">
+                linkman,
+			</if>
+            <if test="telephone != null">
+                telephone,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="isUserd != null">
+				is_userd,
+			</if>
+			<if test="delflag != null">
+				delflag,
+			</if>
+			<if test="createUserId != null">
+				create_user_id,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateUserId != null">
+				update_user_id,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="temp1 != null">
+				temp1,
+			</if>
+			<if test="temp2 != null">
+				temp2,
+			</if>
+			<if test="temp3 != null">
+				temp3,
+			</if>
+			<if test="temp4 != null">
+				temp4,
+			</if>
+			<if test="temp5 != null">
+				temp5,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="deliveryPointId != null">
+				#{deliveryPointId,jdbcType=BIGINT},
+			</if>
+			<if test="districtId != null">
+				#{districtId,jdbcType=BIGINT},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+            <if test="linkman != null">
+                #{linkman,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                #{telephone,jdbcType=VARCHAR},
+            </if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="isUserd != null">
+				#{isUserd,jdbcType=CHAR},
+			</if>
+			<if test="delflag != null">
+				#{delflag,jdbcType=CHAR},
+			</if>
+			<if test="createUserId != null">
+				#{createUserId,jdbcType=BIGINT},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUserId != null">
+				#{updateUserId,jdbcType=BIGINT},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="temp1 != null">
+				#{temp1,jdbcType=VARCHAR},
+			</if>
+			<if test="temp2 != null">
+				#{temp2,jdbcType=VARCHAR},
+			</if>
+			<if test="temp3 != null">
+				#{temp3,jdbcType=VARCHAR},
+			</if>
+			<if test="temp4 != null">
+				#{temp4,jdbcType=VARCHAR},
+			</if>
+			<if test="temp5 != null">
+				#{temp5,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.ningpai.system.bean.DeliveryPoint">
+		update np_sys_deliverypoint
+		<set>
+			<if test="districtId != null">
+				district_id = #{districtId,jdbcType=BIGINT},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+            <if test="linkman != null">
+                linkman = #{linkman,jdbcType=VARCHAR},
+			</if>
+            <if test="telephone != null">
+                telephone = #{telephone,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				address = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="isUserd != null">
+				is_userd = #{isUserd,jdbcType=CHAR},
+			</if>
+			<if test="delflag != null">
+				delflag = #{delflag,jdbcType=CHAR},
+			</if>
+			<if test="createUserId != null">
+				create_user_id = #{createUserId,jdbcType=BIGINT},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUserId != null">
+				update_user_id = #{updateUserId,jdbcType=BIGINT},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="temp1 != null">
+				temp1 = #{temp1,jdbcType=VARCHAR},
+			</if>
+			<if test="temp2 != null">
+				temp2 = #{temp2,jdbcType=VARCHAR},
+			</if>
+			<if test="temp3 != null">
+				temp3 = #{temp3,jdbcType=VARCHAR},
+			</if>
+			<if test="temp4 != null">
+				temp4 = #{temp4,jdbcType=VARCHAR},
+			</if>
+			<if test="temp5 != null">
+				temp5 = #{temp5,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where delivery_point_id = #{deliveryPointId,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.ningpai.system.bean.DeliveryPoint">
+		update np_sys_deliverypoint
+		set district_id = #{districtId,jdbcType=BIGINT},
+		name = #{name,jdbcType=VARCHAR},
+		address = #{address,jdbcType=VARCHAR},
+		is_userd = #{isUserd,jdbcType=CHAR},
+		delflag = #{delflag,jdbcType=CHAR},
+		create_user_id = #{createUserId,jdbcType=BIGINT},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		update_user_id = #{updateUserId,jdbcType=BIGINT},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		temp1 = #{temp1,jdbcType=VARCHAR},
+		temp2 = #{temp2,jdbcType=VARCHAR},
+		temp3 = #{temp3,jdbcType=VARCHAR},
+		temp4 = #{temp4,jdbcType=VARCHAR},
+		temp5 = #{temp5,jdbcType=VARCHAR}
+		where delivery_point_id = #{deliveryPointId,jdbcType=BIGINT}
+	</update>
+</mapper>

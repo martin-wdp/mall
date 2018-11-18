@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.system.dao.FastDFSInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.fastdfs.bean.FastDFSInfo" >
+    <id column="fastdfs_id" property="fastdfsId" jdbcType="BIGINT" />
+    <result column="server_path" property="serverPath" jdbcType="VARCHAR" />
+    <result column="http_port" property="httpPort" jdbcType="INTEGER" />
+    <result column="result_path" property="resultPath" jdbcType="VARCHAR" />
+    <result column="userd" property="userd" jdbcType="CHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="temp1" property="temp1" jdbcType="VARCHAR" />
+    <result column="temp2" property="temp2" jdbcType="VARCHAR" />
+    <result column="temp3" property="temp3" jdbcType="VARCHAR" />
+    <result column="temp4" property="temp4" jdbcType="VARCHAR" />
+    <result column="temp5" property="temp5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    fastdfs_id, server_path, http_port, result_path, userd, create_date, update_date, 
+    temp1, temp2, temp3, temp4, temp5
+  </sql>
+<!-- 查询开始 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_sys_fastdfs
+    where fastdfs_id = #{fastdfsId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAllFastDFS" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_sys_fastdfs
+  </select>
+<!-- 查询结束 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_sys_fastdfs
+    where fastdfs_id = #{fastdfsId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.fastdfs.bean.FastDFSInfo" >
+    insert into np_sys_fastdfs (fastdfs_id, server_path, http_port, 
+      result_path, userd, create_date, 
+      update_date, temp1, temp2, 
+      temp3, temp4, temp5
+      )
+    values (#{fastdfsId,jdbcType=BIGINT}, #{serverPath,jdbcType=VARCHAR}, #{httpPort,jdbcType=INTEGER}, 
+      #{resultPath,jdbcType=VARCHAR}, #{userd,jdbcType=CHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{temp1,jdbcType=VARCHAR}, #{temp2,jdbcType=VARCHAR}, 
+      #{temp3,jdbcType=VARCHAR}, #{temp4,jdbcType=VARCHAR}, #{temp5,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.fastdfs.bean.FastDFSInfo" >
+    insert into np_sys_fastdfs
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fastdfsId != null" >
+        fastdfs_id,
+      </if>
+      <if test="serverPath != null" >
+        server_path,
+      </if>
+      <if test="httpPort != null" >
+        http_port,
+      </if>
+      <if test="resultPath != null" >
+        result_path,
+      </if>
+      <if test="userd != null" >
+        userd,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="temp1 != null" >
+        temp1,
+      </if>
+      <if test="temp2 != null" >
+        temp2,
+      </if>
+      <if test="temp3 != null" >
+        temp3,
+      </if>
+      <if test="temp4 != null" >
+        temp4,
+      </if>
+      <if test="temp5 != null" >
+        temp5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fastdfsId != null" >
+        #{fastdfsId,jdbcType=BIGINT},
+      </if>
+      <if test="serverPath != null" >
+        #{serverPath,jdbcType=VARCHAR},
+      </if>
+      <if test="httpPort != null" >
+        #{httpPort,jdbcType=INTEGER},
+      </if>
+      <if test="resultPath != null" >
+        #{resultPath,jdbcType=VARCHAR},
+      </if>
+      <if test="userd != null" >
+        #{userd,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temp1 != null" >
+        #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null" >
+        #{temp2,jdbcType=VARCHAR},
+      </if>
+      <if test="temp3 != null" >
+        #{temp3,jdbcType=VARCHAR},
+      </if>
+      <if test="temp4 != null" >
+        #{temp4,jdbcType=VARCHAR},
+      </if>
+      <if test="temp5 != null" >
+        #{temp5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.fastdfs.bean.FastDFSInfo" >
+    update np_sys_fastdfs
+    <set >
+      <if test="serverPath != null" >
+        server_path = #{serverPath,jdbcType=VARCHAR},
+      </if>
+      <if test="httpPort != null" >
+        http_port = #{httpPort,jdbcType=INTEGER},
+      </if>
+      <if test="resultPath != null" >
+        result_path = #{resultPath,jdbcType=VARCHAR},
+      </if>
+      <if test="userd != null" >
+        userd = #{userd,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temp1 != null" >
+        temp1 = #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null" >
+        temp2 = #{temp2,jdbcType=VARCHAR},
+      </if>
+      <if test="temp3 != null" >
+        temp3 = #{temp3,jdbcType=VARCHAR},
+      </if>
+      <if test="temp4 != null" >
+        temp4 = #{temp4,jdbcType=VARCHAR},
+      </if>
+      <if test="temp5 != null" >
+        temp5 = #{temp5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where fastdfs_id = #{fastdfsId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.fastdfs.bean.FastDFSInfo" >
+    update np_sys_fastdfs
+    set server_path = #{serverPath,jdbcType=VARCHAR},
+      http_port = #{httpPort,jdbcType=INTEGER},
+      result_path = #{resultPath,jdbcType=VARCHAR},
+      userd = #{userd,jdbcType=CHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      temp1 = #{temp1,jdbcType=VARCHAR},
+      temp2 = #{temp2,jdbcType=VARCHAR},
+      temp3 = #{temp3,jdbcType=VARCHAR},
+      temp4 = #{temp4,jdbcType=VARCHAR},
+      temp5 = #{temp5,jdbcType=VARCHAR}
+    where fastdfs_id = #{fastdfsId,jdbcType=BIGINT}
+  </update>
+</mapper>

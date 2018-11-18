@@ -1,0 +1,767 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+ @Title: 购物设置的mapper映射配置文件
+ @Description:
+ @author NINGPAI_xiaomm
+ @since 2014-03-24 17:58:48
+ @version V1.0
+-->
+<mapper namespace="com.ningpai.system.dao.ShopConfDaoImpl">
+
+	<resultMap id="BaseResultMap" type="com.ningpai.system.bean.ShopConf">
+				<!-- 记录ID -->
+				<id column="SHOP_ID" 
+					jdbcType="BIGINT"
+				 property="shopId" />
+				<!-- 设置方案标题 -->
+				<result column="TITLE"
+					jdbcType="VARCHAR"
+				property="title" />
+				<!-- 设置方案代码 -->
+				<result column="SET_CODE"
+					jdbcType="VARCHAR"
+				property="setCode" />
+				<!-- 登录购买 -->
+				<result column="LOGIN_SHOP"
+					jdbcType="VARCHAR"
+				property="loginShop" />
+				<!-- 离线购物车 -->
+				<result column="OFF_LINE_SHOP"
+					jdbcType="VARCHAR"
+				property="offLineShop" />
+				<!-- 非会员购物 -->
+				<result column="NO_MEMBER_SHOP"
+					jdbcType="VARCHAR"
+				property="noMemberShop" />
+				<!-- 含税价格 -->
+				<result column="CONTAIN_TALLAGE_PRICE"
+					jdbcType="VARCHAR"
+				property="containTallagePrice" />
+				<!-- 税率 -->
+				<result column="TAX_RATE"
+					jdbcType="DOUBLE"
+				property="taxRate" />
+				<!-- 邮编填写项 -->
+				<result column="POSTCODE_INPUT"
+					jdbcType="VARCHAR"
+				property="postcodeInput" />
+				<!-- 配送时间 -->
+				<result column="DELIVERY_TIME"
+					jdbcType="VARCHAR"
+				property="deliveryTime" />
+				<!-- 启用 -->
+				<result column="USED_STATUS"
+					jdbcType="VARCHAR"
+				property="usedStatus" />
+				<!-- 扩展字段1 -->
+				<result column="EXP_FLEID_1"
+					jdbcType="VARCHAR"
+				property="expFleid1" />
+				<!-- 扩展字段2 -->
+				<result column="EXP_FLEID_2"
+					jdbcType="VARCHAR"
+				property="expFleid2" />
+				<!-- 添加人 -->
+				<result column="INSERT_ID"
+					jdbcType="BIGINT"
+				property="insertId" />
+				<!-- 添加时间 -->
+				<result column="INSERT_DATE"
+					jdbcType="DATE"
+				property="insertDate" />
+				<!-- 修改人 -->
+				<result column="MODIFY_ID"
+					jdbcType="BIGINT"
+				property="modifyId" />
+				<!-- 修改时间 -->
+				<result column="MODIFY_DATE"
+					jdbcType="DATE"
+				property="modifyDate" />
+				<!-- 删除标识 -->
+				<result column="DELETE_STATUS"
+					jdbcType="BIGINT"
+				property="deleteStatus" />
+	</resultMap>
+	
+	<sql id="baseSql">
+			SHOP_ID, 
+			TITLE, 
+			SET_CODE, 
+			LOGIN_SHOP, 
+			OFF_LINE_SHOP, 
+			NO_MEMBER_SHOP, 
+			CONTAIN_TALLAGE_PRICE, 
+			TAX_RATE, 
+			POSTCODE_INPUT, 
+			DELIVERY_TIME, 
+			USED_STATUS, 
+			EXP_FLEID_1, 
+			EXP_FLEID_2, 
+			INSERT_ID, 
+			INSERT_DATE, 
+			MODIFY_ID, 
+			MODIFY_DATE, 
+			DELETE_STATUS 
+	</sql>
+	<sql id="querySql">
+			SHOP_ID, 
+			TITLE, 
+			SET_CODE, 
+			LOGIN_SHOP, 
+			USED_STATUS 
+	</sql>
+	
+	<!-- 保存购物设置 -->	
+	<insert id="saveShopConf" parameterType="com.ningpai.system.bean.ShopConf">
+		INSERT INTO NP_SYS_SHOP_CONF
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+				<!-- 记录ID
+				<if test="shopId != null">
+					SHOP_ID,
+				</if>  -->
+				<!-- 设置方案标题 -->
+				<if test="title != null">
+					TITLE,
+				</if>
+				<!-- 设置方案代码 -->
+				<if test="setCode != null">
+					SET_CODE,
+				</if>
+				<!-- 登录购买 -->
+				<if test="loginShop != null">
+					LOGIN_SHOP,
+				</if>
+				<!-- 离线购物车 -->
+				<if test="offLineShop != null">
+					OFF_LINE_SHOP,
+				</if>
+				<!-- 非会员购物 -->
+				<if test="noMemberShop != null">
+					NO_MEMBER_SHOP,
+				</if>
+				<!-- 含税价格 -->
+				<if test="containTallagePrice != null">
+					CONTAIN_TALLAGE_PRICE,
+				</if>
+				<!-- 税率 -->
+				<if test="taxRate != null">
+					TAX_RATE,
+				</if>
+				<!-- 邮编填写项 -->
+				<if test="postcodeInput != null">
+					POSTCODE_INPUT,
+				</if>
+				<!-- 配送时间 -->
+				<if test="deliveryTime != null">
+					DELIVERY_TIME,
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS,
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1,
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2,
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID,
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE,
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID,
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE,
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS,
+				</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+				<!-- 记录ID 
+						#{shopId,
+								jdbcType=BIGINT
+						}, -->
+				<!-- 设置方案标题 -->
+					<if test="title != null">
+						#{title,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 设置方案代码 -->
+					<if test="setCode != null">
+						#{setCode,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 登录购买 -->
+					<if test="loginShop != null">
+						#{loginShop,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 离线购物车 -->
+					<if test="offLineShop != null">
+						#{offLineShop,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 非会员购物 -->
+					<if test="noMemberShop != null">
+						#{noMemberShop,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 含税价格 -->
+					<if test="containTallagePrice != null">
+						#{containTallagePrice,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 税率 -->
+					<if test="taxRate != null">
+						#{taxRate,
+								jdbcType=DOUBLE
+						},
+					</if>
+				<!-- 邮编填写项 -->
+					<if test="postcodeInput != null">
+						#{postcodeInput,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 配送时间 -->
+					<if test="deliveryTime != null">
+						#{deliveryTime,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 启用 -->
+					<if test="usedStatus != null">
+						#{usedStatus,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null">
+						#{expFleid1,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null">
+						#{expFleid2,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						#{insertId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null">
+						#{insertDate,
+								jdbcType=DATE
+						},
+					</if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						#{modifyId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null">
+						#{modifyDate,
+								jdbcType=DATE
+						},
+					</if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						#{deleteStatus,
+								jdbcType=BIGINT
+						},
+					</if>
+		</trim>
+	</insert>
+	<!-- 修改购物设置 -->
+	<update id="updateShopConf" parameterType="com.ningpai.system.bean.ShopConf">
+		UPDATE NP_SYS_SHOP_CONF
+		<set>
+			
+				<!-- 记录ID -->
+				<if test="shopId != null">
+					SHOP_ID = #{shopId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 设置方案标题 -->
+				<if test="title != null">
+					TITLE = #{title,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 设置方案代码 -->
+				<if test="setCode != null">
+					SET_CODE = #{setCode,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 登录购买 -->
+				<if test="loginShop != null">
+					LOGIN_SHOP = #{loginShop,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 离线购物车 -->
+				<if test="offLineShop != null">
+					OFF_LINE_SHOP = #{offLineShop,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 非会员购物 -->
+				<if test="noMemberShop != null">
+					NO_MEMBER_SHOP = #{noMemberShop,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 含税价格 -->
+				<if test="containTallagePrice != null">
+					CONTAIN_TALLAGE_PRICE = #{containTallagePrice,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 税率 -->
+				<if test="taxRate != null">
+					TAX_RATE = #{taxRate,
+							jdbcType=DOUBLE
+					},
+				</if>
+				<!-- 邮编填写项 -->
+				<if test="postcodeInput != null">
+					POSTCODE_INPUT = #{postcodeInput,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 配送时间 -->
+				<if test="deliveryTime != null">
+					DELIVERY_TIME = #{deliveryTime,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS = #{usedStatus,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1 = #{expFleid1,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2 = #{expFleid2,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID = #{modifyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE = #{modifyDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS = #{deleteStatus,
+							jdbcType=BIGINT
+					},
+				</if>
+		</set>
+		WHERE 
+				SHOP_ID = #{shopId,
+							jdbcType=BIGINT
+					}
+	</update>
+	
+	<!-- 根据购物设置对象的id查询购物设置对象 -->
+	<select id="getShopConfById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_SHOP_CONF 
+		WHERE 
+				SHOP_ID = #{shopId,
+							jdbcType=BIGINT
+					}
+	</select>
+	
+	<!-- 根据购物设置对象的id字符集合查询购物设置对象 -->
+	<select id="getShopConfByIds" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_SHOP_CONF 
+		WHERE 
+				SHOP_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</select>
+	
+	<!-- 根据购物设置对象的id字符集合删除购物设置对象 -->
+	<update id="deleteShopConf" parameterType="java.util.Map">
+		DELETE FROM NP_SYS_SHOP_CONF 
+		WHERE 
+				SHOP_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+		
+	</update>
+	
+	
+	<!-- 更新购物设置对象的单个字段  -->
+	<update id="updateShopConfFieldById" parameterType="java.util.Map">
+		UPDATE NP_SYS_SHOP_CONF
+		<set>
+				<!-- 记录ID -->
+				<if test="shopId != null">
+					SHOP_ID = #{shopId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 设置方案标题 -->
+				<if test="title != null">
+					TITLE = #{title,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 设置方案代码 -->
+				<if test="setCode != null">
+					SET_CODE = #{setCode,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 登录购买 -->
+				<if test="loginShop != null">
+					LOGIN_SHOP = #{loginShop,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 离线购物车 -->
+				<if test="offLineShop != null">
+					OFF_LINE_SHOP = #{offLineShop,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 非会员购物 -->
+				<if test="noMemberShop != null">
+					NO_MEMBER_SHOP = #{noMemberShop,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 含税价格 -->
+				<if test="containTallagePrice != null">
+					CONTAIN_TALLAGE_PRICE = #{containTallagePrice,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 税率 -->
+				<if test="taxRate != null">
+					TAX_RATE = #{taxRate,
+							jdbcType=DOUBLE
+					},
+				</if>
+				<!-- 邮编填写项 -->
+				<if test="postcodeInput != null">
+					POSTCODE_INPUT = #{postcodeInput,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 配送时间 -->
+				<if test="deliveryTime != null">
+					DELIVERY_TIME = #{deliveryTime,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS = #{usedStatus,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1 = #{expFleid1,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2 = #{expFleid2,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID = #{modifyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE = #{modifyDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS = #{deleteStatus,
+							jdbcType=BIGINT
+					},
+				</if>
+		</set>
+		WHERE 
+				SHOP_ID IN  
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</update>
+	
+	<!-- 根据购物设置对象的单个字段查询购物设置对象信息总数 -->
+	<select id="getShopConfByFieldTotal" resultType="java.lang.Integer" parameterType="java.util.Map">
+		   SELECT COUNT(SHOP_ID) 
+		   FROM NP_SYS_SHOP_CONF D 
+		   WHERE 
+				<!-- 记录ID -->
+					<if test="shopId != null">
+						D.SHOP_ID = #{shopId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 设置方案标题 -->
+					<if test="title != null and title != ''">
+						D.TITLE like CONCAT(CONCAT('%', #{title,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 设置方案代码 -->
+					<if test="setCode != null and setCode != ''">
+						D.SET_CODE like CONCAT(CONCAT('%', #{setCode,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 登录购买 -->
+					<if test="loginShop != null and loginShop != ''">
+						D.LOGIN_SHOP like CONCAT(CONCAT('%', #{loginShop,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 离线购物车 -->
+					<if test="offLineShop != null and offLineShop != ''">
+						D.OFF_LINE_SHOP like CONCAT(CONCAT('%', #{offLineShop,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 非会员购物 -->
+					<if test="noMemberShop != null and noMemberShop != ''">
+						D.NO_MEMBER_SHOP like CONCAT(CONCAT('%', #{noMemberShop,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 含税价格 -->
+					<if test="containTallagePrice != null and containTallagePrice != ''">
+						D.CONTAIN_TALLAGE_PRICE like CONCAT(CONCAT('%', #{containTallagePrice,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 税率 -->
+					<if test="taxRate != null">
+						D.TAX_RATE = #{taxRate,
+								jdbcType=DOUBLE
+						} AND
+					</if>
+				<!-- 邮编填写项 -->
+					<if test="postcodeInput != null and postcodeInput != ''">
+						D.POSTCODE_INPUT like CONCAT(CONCAT('%', #{postcodeInput,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 配送时间 -->
+					<if test="deliveryTime != null and deliveryTime != ''">
+						D.DELIVERY_TIME like CONCAT(CONCAT('%', #{deliveryTime,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 启用 -->
+					<if test="usedStatus != null and usedStatus != ''">
+						D.USED_STATUS like CONCAT(CONCAT('%', #{usedStatus,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null and expFleid1 != ''">
+						D.EXP_FLEID_1 like CONCAT(CONCAT('%', #{expFleid1,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null and expFleid2 != ''">
+						D.EXP_FLEID_2 like CONCAT(CONCAT('%', #{expFleid2,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						D.INSERT_ID = #{insertId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null and insertDate !=''" >
+			        	(D.INSERT_DATE between  #{insertDateStart,jdbcType=DATE}  AND  #{insertDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						D.MODIFY_ID = #{modifyId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null and modifyDate !=''" >
+			        	(D.MODIFY_DATE between  #{modifyDateStart,jdbcType=DATE}  AND  #{modifyDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						D.DELETE_STATUS = #{deleteStatus,
+								jdbcType=BIGINT
+						} AND
+					</if>
+        	1=1 
+	</select>
+	
+	<!-- 根据购物设置对象的单个字段查询购物设置对象信息 -->
+	<select id="getShopConfByField" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM  NP_SYS_SHOP_CONF D 
+		   WHERE 
+				<!-- 记录ID -->
+					<if test="shopId != null">
+						D.SHOP_ID = #{shopId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 设置方案标题 -->
+					<if test="title != null and title !=''" >
+						D.TITLE like CONCAT(CONCAT('%', #{title,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 设置方案代码 -->
+					<if test="setCode != null and setCode !=''" >
+						D.SET_CODE like CONCAT(CONCAT('%', #{setCode,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 登录购买 -->
+					<if test="loginShop != null and loginShop !=''" >
+						D.LOGIN_SHOP like CONCAT(CONCAT('%', #{loginShop,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 离线购物车 -->
+					<if test="offLineShop != null and offLineShop !=''" >
+						D.OFF_LINE_SHOP like CONCAT(CONCAT('%', #{offLineShop,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 非会员购物 -->
+					<if test="noMemberShop != null and noMemberShop !=''" >
+						D.NO_MEMBER_SHOP like CONCAT(CONCAT('%', #{noMemberShop,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 含税价格 -->
+					<if test="containTallagePrice != null and containTallagePrice !=''" >
+						D.CONTAIN_TALLAGE_PRICE like CONCAT(CONCAT('%', #{containTallagePrice,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 税率 -->
+					<if test="taxRate != null">
+						D.TAX_RATE = #{taxRate,
+								jdbcType=DOUBLE
+						} AND
+					</if>
+				<!-- 邮编填写项 -->
+					<if test="postcodeInput != null and postcodeInput !=''" >
+						D.POSTCODE_INPUT like CONCAT(CONCAT('%', #{postcodeInput,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 配送时间 -->
+					<if test="deliveryTime != null and deliveryTime !=''" >
+						D.DELIVERY_TIME like CONCAT(CONCAT('%', #{deliveryTime,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 启用 -->
+					<if test="usedStatus != null and usedStatus !=''" >
+						D.USED_STATUS like CONCAT(CONCAT('%', #{usedStatus,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null and expFleid1 !=''" >
+						D.EXP_FLEID_1 like CONCAT(CONCAT('%', #{expFleid1,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null and expFleid2 !=''" >
+						D.EXP_FLEID_2 like CONCAT(CONCAT('%', #{expFleid2,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						D.INSERT_ID = #{insertId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null and insertDate !=''" >
+			        	(D.INSERT_DATE between  #{insertDateStart,jdbcType=DATE}  AND  #{insertDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						D.MODIFY_ID = #{modifyId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null and modifyDate !=''" >
+			        	(D.MODIFY_DATE between  #{modifyDateStart,jdbcType=DATE}  AND  #{modifyDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						D.DELETE_STATUS = #{deleteStatus,
+								jdbcType=BIGINT
+						} AND
+					</if>
+        	1=1 
+		    LIMIT #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询购物设置对象信息总数 -->
+	<select id="queryShopConfTotal" resultType="java.lang.Integer">
+		SELECT COUNT(SHOP_ID) FROM NP_SYS_SHOP_CONF
+	</select>
+	
+	<!-- 分页查询购物设置对象信息 -->
+	<select id="queryShopConfByPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM NP_SYS_SHOP_CONF 
+		LIMIT  #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+</mapper>

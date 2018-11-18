@@ -1,0 +1,1220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+ @Title: 又拍云设置的mapper映射配置文件
+ @Description:
+ @author NINGPAI_xiaomm
+ @since 2014-03-24 15:44:09
+ @version V1.0
+-->
+<mapper namespace="com.ningpai.system.dao.UpyunConfDaoImpl">
+
+	<resultMap id="BaseResultMap" type="com.ningpai.system.bean.UpyunConf">
+				<!-- 记录ID -->
+				<id column="UPYUN_ID" 
+					jdbcType="BIGINT"
+				 property="upyunId" />
+				<!-- 设置方案标题 -->
+				<result column="TITLE"
+					jdbcType="VARCHAR"
+				property="title" />
+				<!-- 设置方案代码 -->
+				<result column="SET_CODE"
+					jdbcType="VARCHAR"
+				property="setCode" />
+				<!-- 空间名 -->
+				<result column="BUCKET_NAME"
+					jdbcType="VARCHAR"
+				property="bucketName" />
+				<!-- 用户名 -->
+				<result column="USER_NAME"
+					jdbcType="VARCHAR"
+				property="userName" />
+				<!-- 密码 -->
+				<result column="PASS_WORD"
+					jdbcType="VARCHAR"
+				property="passWord" />
+				<!-- 空间地址 -->
+				<result column="URL_PATH"
+					jdbcType="VARCHAR"
+				property="urlPath" />
+				<!-- 链接时间 -->
+				<result column="CONNECT_TIME"
+					jdbcType="BIGINT"
+				property="connectTime" />
+				<!-- debug模式 -->
+				<result column="DEBUG"
+					jdbcType="VARCHAR"
+				property="debug" />
+				<!-- 缩略图 -->
+				<result column="GMKERL"
+					jdbcType="VARCHAR"
+				property="gmkerl" />
+				<!-- 旋转 -->
+				<result column="ROTATE"
+					jdbcType="VARCHAR"
+				property="rotate" />
+				<!-- 裁剪 -->
+				<result column="CROP"
+					jdbcType="VARCHAR"
+				property="crop" />
+				<!-- 操作类型 -->
+				<result column="OPTION_TYPE"
+					jdbcType="BIGINT"
+				property="optionType" />
+				<!-- ContentMD5 -->
+				<result column="CONTENT_MD5"
+					jdbcType="VARCHAR"
+				property="contentMd5" />
+				<!-- 访问密钥 -->
+				<result column="VISIT_SECRET_KEY"
+					jdbcType="VARCHAR"
+				property="visitSecretKey" />
+				<!-- 缩略图类型 -->
+				<result column="THUMBNAIL_TYPE"
+					jdbcType="VARCHAR"
+				property="thumbnailType" />
+				<!-- 缩略图参数值 -->
+				<result column="THUMBNAIL_NUMBER"
+					jdbcType="VARCHAR"
+				property="thumbnailNumber" />
+				<!-- 缩略图质量 -->
+				<result column="THUMBNAIL_QUALITY"
+					jdbcType="BIGINT"
+				property="thumbnailQuality" />
+				<!-- 缩略图锐化 -->
+				<result column="THUMBNAIL_SHARPEN"
+					jdbcType="VARCHAR"
+				property="thumbnailSharpen" />
+				<!-- 缩略图版本名称 -->
+				<result column="THUMBNAIL_VERSION"
+					jdbcType="VARCHAR"
+				property="thumbnailVersion" />
+				<!-- 图片旋转 -->
+				<result column="IMAGE_ROTATION"
+					jdbcType="VARCHAR"
+				property="imageRotation" />
+				<!-- 图片裁剪 -->
+				<result column="IMAGE_TAILOR"
+					jdbcType="VARCHAR"
+				property="imageTailor" />
+				<!-- 启用 -->
+				<result column="USED_STATUS"
+					jdbcType="VARCHAR"
+				property="usedStatus" />
+				<!-- 扩展字段1 -->
+				<result column="EXP_FLEID_1"
+					jdbcType="VARCHAR"
+				property="expFleid1" />
+				<!-- 扩展字段2 -->
+				<result column="EXP_FLEID_2"
+					jdbcType="VARCHAR"
+				property="expFleid2" />
+				<!-- 添加人 -->
+				<result column="INSERT_ID"
+					jdbcType="BIGINT"
+				property="insertId" />
+				<!-- 添加时间 -->
+				<result column="INSERT_DATE"
+					jdbcType="DATE"
+				property="insertDate" />
+				<!-- 修改人 -->
+				<result column="MODIFY_ID"
+					jdbcType="BIGINT"
+				property="modifyId" />
+				<!-- 修改时间 -->
+				<result column="MODIFY_DATE"
+					jdbcType="DATE"
+				property="modifyDate" />
+				<!-- 删除标识 -->
+				<result column="DELETE_STATUS"
+					jdbcType="BIGINT"
+				property="deleteStatus" />
+	</resultMap>
+	
+	<sql id="baseSql">
+			UPYUN_ID, 
+			TITLE, 
+			SET_CODE, 
+			BUCKET_NAME, 
+			USER_NAME, 
+			PASS_WORD, 
+			URL_PATH, 
+			CONNECT_TIME, 
+			DEBUG, 
+			GMKERL, 
+			ROTATE, 
+			CROP, 
+			OPTION_TYPE, 
+			CONTENT_MD5, 
+			VISIT_SECRET_KEY, 
+			THUMBNAIL_TYPE, 
+			THUMBNAIL_NUMBER, 
+			THUMBNAIL_QUALITY, 
+			THUMBNAIL_SHARPEN, 
+			THUMBNAIL_VERSION, 
+			IMAGE_ROTATION, 
+			IMAGE_TAILOR, 
+			USED_STATUS, 
+			EXP_FLEID_1, 
+			EXP_FLEID_2, 
+			INSERT_ID, 
+			INSERT_DATE, 
+			MODIFY_ID, 
+			MODIFY_DATE, 
+			DELETE_STATUS 
+	</sql>
+	<sql id="querySql">
+			UPYUN_ID, 
+			TITLE, 
+			SET_CODE, 
+			BUCKET_NAME, 
+			USER_NAME, 
+			PASS_WORD, 
+			URL_PATH, 
+			CONNECT_TIME, 
+			DEBUG, 
+			GMKERL, 
+			ROTATE, 
+			CROP, 
+			OPTION_TYPE, 
+			CONTENT_MD5, 
+			VISIT_SECRET_KEY, 
+			THUMBNAIL_TYPE, 
+			THUMBNAIL_NUMBER, 
+			THUMBNAIL_QUALITY, 
+			THUMBNAIL_SHARPEN, 
+			THUMBNAIL_VERSION, 
+			IMAGE_ROTATION, 
+			IMAGE_TAILOR, 
+			USED_STATUS, 
+			EXP_FLEID_1, 
+			EXP_FLEID_2, 
+			INSERT_ID, 
+			INSERT_DATE, 
+			MODIFY_ID, 
+			MODIFY_DATE, 
+			DELETE_STATUS 
+	</sql>
+	
+	<!-- 保存又拍云设置 -->	
+	<insert id="saveUpyunConf" parameterType="com.ningpai.system.bean.UpyunConf">
+		INSERT INTO NP_SYS_UPYUN_CONF
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+				<!-- 记录ID 
+				<if test="upyunId != null">
+					UPYUN_ID,
+				</if> -->
+				<!-- 设置方案标题 -->
+				<if test="title != null">
+					TITLE,
+				</if>
+				<!-- 设置方案代码 -->
+				<if test="setCode != null">
+					SET_CODE,
+				</if>
+				<!-- 空间名 -->
+				<if test="bucketName != null">
+					BUCKET_NAME,
+				</if>
+				<!-- 用户名 -->
+				<if test="userName != null">
+					USER_NAME,
+				</if>
+				<!-- 密码 -->
+				<if test="passWord != null">
+					PASS_WORD,
+				</if>
+				<!-- 空间地址 -->
+				<if test="urlPath != null">
+					URL_PATH,
+				</if>
+				<!-- 链接时间 -->
+				<if test="connectTime != null">
+					CONNECT_TIME,
+				</if>
+				<!-- debug模式 -->
+				<if test="debug != null">
+					DEBUG,
+				</if>
+				<!-- 缩略图 -->
+				<if test="gmkerl != null">
+					GMKERL,
+				</if>
+				<!-- 旋转 -->
+				<if test="rotate != null">
+					ROTATE,
+				</if>
+				<!-- 裁剪 -->
+				<if test="crop != null">
+					CROP,
+				</if>
+				<!-- 操作类型 -->
+				<if test="optionType != null">
+					OPTION_TYPE,
+				</if>
+				<!-- ContentMD5 -->
+				<if test="contentMd5 != null">
+					CONTENT_MD5,
+				</if>
+				<!-- 访问密钥 -->
+				<if test="visitSecretKey != null">
+					VISIT_SECRET_KEY,
+				</if>
+				<!-- 缩略图类型 -->
+				<if test="thumbnailType != null">
+					THUMBNAIL_TYPE,
+				</if>
+				<!-- 缩略图参数值 -->
+				<if test="thumbnailNumber != null">
+					THUMBNAIL_NUMBER,
+				</if>
+				<!-- 缩略图质量 -->
+				<if test="thumbnailQuality != null">
+					THUMBNAIL_QUALITY,
+				</if>
+				<!-- 缩略图锐化 -->
+				<if test="thumbnailSharpen != null">
+					THUMBNAIL_SHARPEN,
+				</if>
+				<!-- 缩略图版本名称 -->
+				<if test="thumbnailVersion != null">
+					THUMBNAIL_VERSION,
+				</if>
+				<!-- 图片旋转 -->
+				<if test="imageRotation != null">
+					IMAGE_ROTATION,
+				</if>
+				<!-- 图片裁剪 -->
+				<if test="imageTailor != null">
+					IMAGE_TAILOR,
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS,
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1,
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2,
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID,
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE,
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID,
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE,
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS,
+				</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+				<!-- 记录ID 
+						#{upyunId,
+								jdbcType=BIGINT
+						}, -->
+				<!-- 设置方案标题 -->
+					<if test="title != null">
+						#{title,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 设置方案代码 -->
+					<if test="setCode != null">
+						#{setCode,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 空间名 -->
+					<if test="bucketName != null">
+						#{bucketName,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 用户名 -->
+					<if test="userName != null">
+						#{userName,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 密码 -->
+					<if test="passWord != null">
+						#{passWord,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 空间地址 -->
+					<if test="urlPath != null">
+						#{urlPath,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 链接时间 -->
+					<if test="connectTime != null">
+						#{connectTime,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- debug模式 -->
+					<if test="debug != null">
+						#{debug,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 缩略图 -->
+					<if test="gmkerl != null">
+						#{gmkerl,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 旋转 -->
+					<if test="rotate != null">
+						#{rotate,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 裁剪 -->
+					<if test="crop != null">
+						#{crop,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 操作类型 -->
+					<if test="optionType != null">
+						#{optionType,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- ContentMD5 -->
+					<if test="contentMd5 != null">
+						#{contentMd5,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 访问密钥 -->
+					<if test="visitSecretKey != null">
+						#{visitSecretKey,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 缩略图类型 -->
+					<if test="thumbnailType != null">
+						#{thumbnailType,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 缩略图参数值 -->
+					<if test="thumbnailNumber != null">
+						#{thumbnailNumber,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 缩略图质量 -->
+					<if test="thumbnailQuality != null">
+						#{thumbnailQuality,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 缩略图锐化 -->
+					<if test="thumbnailSharpen != null">
+						#{thumbnailSharpen,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 缩略图版本名称 -->
+					<if test="thumbnailVersion != null">
+						#{thumbnailVersion,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 图片旋转 -->
+					<if test="imageRotation != null">
+						#{imageRotation,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 图片裁剪 -->
+					<if test="imageTailor != null">
+						#{imageTailor,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 启用 -->
+					<if test="usedStatus != null">
+						#{usedStatus,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null">
+						#{expFleid1,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null">
+						#{expFleid2,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						#{insertId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null">
+						#{insertDate,
+								jdbcType=DATE
+						},
+					</if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						#{modifyId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null">
+						#{modifyDate,
+								jdbcType=DATE
+						},
+					</if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						#{deleteStatus,
+								jdbcType=BIGINT
+						},
+					</if>
+		</trim>
+	</insert>
+	<!-- 修改又拍云设置 -->
+	<update id="updateUpyunConf" parameterType="com.ningpai.system.bean.UpyunConf">
+		UPDATE NP_SYS_UPYUN_CONF
+		<set>
+			
+				<!-- 记录ID -->
+				<if test="upyunId != null">
+					UPYUN_ID = #{upyunId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 设置方案标题 -->
+				<if test="title != null">
+					TITLE = #{title,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 设置方案代码 -->
+				<if test="setCode != null">
+					SET_CODE = #{setCode,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 空间名 -->
+				<if test="bucketName != null">
+					BUCKET_NAME = #{bucketName,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 用户名 -->
+				<if test="userName != null">
+					USER_NAME = #{userName,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 密码 -->
+				<if test="passWord != null">
+					PASS_WORD = #{passWord,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 空间地址 -->
+				<if test="urlPath != null">
+					URL_PATH = #{urlPath,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 链接时间 -->
+				<if test="connectTime != null">
+					CONNECT_TIME = #{connectTime,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- debug模式 -->
+				<if test="debug != null">
+					DEBUG = #{debug,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 缩略图 -->
+				<if test="gmkerl != null">
+					GMKERL = #{gmkerl,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 旋转 -->
+				<if test="rotate != null">
+					ROTATE = #{rotate,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 裁剪 -->
+				<if test="crop != null">
+					CROP = #{crop,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 操作类型 -->
+				<if test="optionType != null">
+					OPTION_TYPE = #{optionType,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- ContentMD5 -->
+				<if test="contentMd5 != null">
+					CONTENT_MD5 = #{contentMd5,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 访问密钥 -->
+				<if test="visitSecretKey != null">
+					VISIT_SECRET_KEY = #{visitSecretKey,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 缩略图类型 -->
+				<if test="thumbnailType != null">
+					THUMBNAIL_TYPE = #{thumbnailType,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 缩略图参数值 -->
+				<if test="thumbnailNumber != null">
+					THUMBNAIL_NUMBER = #{thumbnailNumber,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 缩略图质量 -->
+				<if test="thumbnailQuality != null">
+					THUMBNAIL_QUALITY = #{thumbnailQuality,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 缩略图锐化 -->
+				<if test="thumbnailSharpen != null">
+					THUMBNAIL_SHARPEN = #{thumbnailSharpen,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 缩略图版本名称 -->
+				<if test="thumbnailVersion != null">
+					THUMBNAIL_VERSION = #{thumbnailVersion,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 图片旋转 -->
+				<if test="imageRotation != null">
+					IMAGE_ROTATION = #{imageRotation,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 图片裁剪 -->
+				<if test="imageTailor != null">
+					IMAGE_TAILOR = #{imageTailor,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS = #{usedStatus,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1 = #{expFleid1,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2 = #{expFleid2,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID = #{modifyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE = #{modifyDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS = #{deleteStatus,
+							jdbcType=BIGINT
+					},
+				</if>
+		</set>
+		WHERE 
+				UPYUN_ID = #{upyunId,
+							jdbcType=BIGINT
+					}
+	</update>
+	
+	<!-- 根据又拍云设置对象的id查询又拍云设置对象 -->
+	<select id="getUpyunConfById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_UPYUN_CONF 
+		WHERE 
+				UPYUN_ID = #{upyunId,
+							jdbcType=BIGINT
+					}
+	</select>
+	
+	<!-- 根据又拍云设置对象的id字符集合查询又拍云设置对象 -->
+	<select id="getUpyunConfByIds" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_UPYUN_CONF 
+		WHERE 
+				UPYUN_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</select>
+	
+	<!-- 根据又拍云设置对象的id字符集合删除又拍云设置对象 -->
+	<update id="deleteUpyunConf" parameterType="java.util.Map">
+		DELETE FROM NP_SYS_UPYUN_CONF 
+		WHERE 
+				UPYUN_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+		
+	</update>
+	
+	
+	<!-- 更新又拍云设置对象的单个字段  -->
+	<update id="updateUpyunConfFieldById" parameterType="java.util.Map">
+		UPDATE NP_SYS_UPYUN_CONF
+		<set>
+				<!-- 记录ID -->
+				<if test="upyunId != null">
+					UPYUN_ID = #{upyunId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 设置方案标题 -->
+				<if test="title != null">
+					TITLE = #{title,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 设置方案代码 -->
+				<if test="setCode != null">
+					SET_CODE = #{setCode,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 空间名 -->
+				<if test="bucketName != null">
+					BUCKET_NAME = #{bucketName,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 用户名 -->
+				<if test="userName != null">
+					USER_NAME = #{userName,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 密码 -->
+				<if test="passWord != null">
+					PASS_WORD = #{passWord,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 空间地址 -->
+				<if test="urlPath != null">
+					URL_PATH = #{urlPath,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 链接时间 -->
+				<if test="connectTime != null">
+					CONNECT_TIME = #{connectTime,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- debug模式 -->
+				<if test="debug != null">
+					DEBUG = #{debug,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 缩略图 -->
+				<if test="gmkerl != null">
+					GMKERL = #{gmkerl,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 旋转 -->
+				<if test="rotate != null">
+					ROTATE = #{rotate,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 裁剪 -->
+				<if test="crop != null">
+					CROP = #{crop,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 操作类型 -->
+				<if test="optionType != null">
+					OPTION_TYPE = #{optionType,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- ContentMD5 -->
+				<if test="contentMd5 != null">
+					CONTENT_MD5 = #{contentMd5,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 访问密钥 -->
+				<if test="visitSecretKey != null">
+					VISIT_SECRET_KEY = #{visitSecretKey,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 缩略图类型 -->
+				<if test="thumbnailType != null">
+					THUMBNAIL_TYPE = #{thumbnailType,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 缩略图参数值 -->
+				<if test="thumbnailNumber != null">
+					THUMBNAIL_NUMBER = #{thumbnailNumber,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 缩略图质量 -->
+				<if test="thumbnailQuality != null">
+					THUMBNAIL_QUALITY = #{thumbnailQuality,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 缩略图锐化 -->
+				<if test="thumbnailSharpen != null">
+					THUMBNAIL_SHARPEN = #{thumbnailSharpen,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 缩略图版本名称 -->
+				<if test="thumbnailVersion != null">
+					THUMBNAIL_VERSION = #{thumbnailVersion,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 图片旋转 -->
+				<if test="imageRotation != null">
+					IMAGE_ROTATION = #{imageRotation,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 图片裁剪 -->
+				<if test="imageTailor != null">
+					IMAGE_TAILOR = #{imageTailor,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS = #{usedStatus,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段1 -->
+				<if test="expFleid1 != null">
+					EXP_FLEID_1 = #{expFleid1,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 扩展字段2 -->
+				<if test="expFleid2 != null">
+					EXP_FLEID_2 = #{expFleid2,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID = #{modifyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE = #{modifyDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS = #{deleteStatus,
+							jdbcType=BIGINT
+					},
+				</if>
+		</set>
+		WHERE 
+				UPYUN_ID IN  
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</update>
+	
+	<!-- 根据又拍云设置对象的单个字段查询又拍云设置对象信息总数 -->
+	<select id="getUpyunConfByFieldTotal" resultType="java.lang.Integer" parameterType="java.util.Map">
+		   SELECT COUNT(UPYUN_ID) 
+		   FROM NP_SYS_UPYUN_CONF D 
+		   WHERE 
+				<!-- 记录ID -->
+					<if test="upyunId != null">
+						D.UPYUN_ID = #{upyunId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 设置方案标题 -->
+					<if test="title != null and title != ''">
+						D.TITLE like CONCAT(CONCAT('%', #{title,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 设置方案代码 -->
+					<if test="setCode != null and setCode != ''">
+						D.SET_CODE like CONCAT(CONCAT('%', #{setCode,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 空间名 -->
+					<if test="bucketName != null and bucketName != ''">
+						D.BUCKET_NAME like CONCAT(CONCAT('%', #{bucketName,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 用户名 -->
+					<if test="userName != null and userName != ''">
+						D.USER_NAME like CONCAT(CONCAT('%', #{userName,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 密码 -->
+					<if test="passWord != null and passWord != ''">
+						D.PASS_WORD like CONCAT(CONCAT('%', #{passWord,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 空间地址 -->
+					<if test="urlPath != null and urlPath != ''">
+						D.URL_PATH like CONCAT(CONCAT('%', #{urlPath,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 链接时间 -->
+					<if test="connectTime != null">
+						D.CONNECT_TIME = #{connectTime,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- debug模式 -->
+					<if test="debug != null and debug != ''">
+						D.DEBUG like CONCAT(CONCAT('%', #{debug,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 缩略图 -->
+					<if test="gmkerl != null and gmkerl != ''">
+						D.GMKERL like CONCAT(CONCAT('%', #{gmkerl,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 旋转 -->
+					<if test="rotate != null and rotate != ''">
+						D.ROTATE like CONCAT(CONCAT('%', #{rotate,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 裁剪 -->
+					<if test="crop != null and crop != ''">
+						D.CROP like CONCAT(CONCAT('%', #{crop,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 操作类型 -->
+					<if test="optionType != null">
+						D.OPTION_TYPE = #{optionType,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- ContentMD5 -->
+					<if test="contentMd5 != null and contentMd5 != ''">
+						D.CONTENT_MD5 like CONCAT(CONCAT('%', #{contentMd5,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 访问密钥 -->
+					<if test="visitSecretKey != null and visitSecretKey != ''">
+						D.VISIT_SECRET_KEY like CONCAT(CONCAT('%', #{visitSecretKey,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 缩略图类型 -->
+					<if test="thumbnailType != null and thumbnailType != ''">
+						D.THUMBNAIL_TYPE like CONCAT(CONCAT('%', #{thumbnailType,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 缩略图参数值 -->
+					<if test="thumbnailNumber != null and thumbnailNumber != ''">
+						D.THUMBNAIL_NUMBER like CONCAT(CONCAT('%', #{thumbnailNumber,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 缩略图质量 -->
+					<if test="thumbnailQuality != null">
+						D.THUMBNAIL_QUALITY = #{thumbnailQuality,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 缩略图锐化 -->
+					<if test="thumbnailSharpen != null and thumbnailSharpen != ''">
+						D.THUMBNAIL_SHARPEN like CONCAT(CONCAT('%', #{thumbnailSharpen,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 缩略图版本名称 -->
+					<if test="thumbnailVersion != null and thumbnailVersion != ''">
+						D.THUMBNAIL_VERSION like CONCAT(CONCAT('%', #{thumbnailVersion,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 图片旋转 -->
+					<if test="imageRotation != null and imageRotation != ''">
+						D.IMAGE_ROTATION like CONCAT(CONCAT('%', #{imageRotation,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 图片裁剪 -->
+					<if test="imageTailor != null and imageTailor != ''">
+						D.IMAGE_TAILOR like CONCAT(CONCAT('%', #{imageTailor,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 启用 -->
+					<if test="usedStatus != null and usedStatus != ''">
+						D.USED_STATUS like CONCAT(CONCAT('%', #{usedStatus,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null and expFleid1 != ''">
+						D.EXP_FLEID_1 like CONCAT(CONCAT('%', #{expFleid1,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null and expFleid2 != ''">
+						D.EXP_FLEID_2 like CONCAT(CONCAT('%', #{expFleid2,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						D.INSERT_ID = #{insertId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null and insertDate !=''" >
+			        	(D.INSERT_DATE between  #{insertDateStart,jdbcType=DATE}  AND  #{insertDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						D.MODIFY_ID = #{modifyId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null and modifyDate !=''" >
+			        	(D.MODIFY_DATE between  #{modifyDateStart,jdbcType=DATE}  AND  #{modifyDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						D.DELETE_STATUS = #{deleteStatus,
+								jdbcType=BIGINT
+						} AND
+					</if>
+        	1=1 
+	</select>
+	
+	<!-- 根据又拍云设置对象的单个字段查询又拍云设置对象信息 -->
+	<select id="getUpyunConfByField" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM  NP_SYS_UPYUN_CONF D 
+		   WHERE 
+				<!-- 记录ID -->
+					<if test="upyunId != null">
+						D.UPYUN_ID = #{upyunId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 设置方案标题 -->
+					<if test="title != null and title !=''" >
+						D.TITLE like CONCAT(CONCAT('%', #{title,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 设置方案代码 -->
+					<if test="setCode != null and setCode !=''" >
+						D.SET_CODE like CONCAT(CONCAT('%', #{setCode,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 空间名 -->
+					<if test="bucketName != null and bucketName !=''" >
+						D.BUCKET_NAME like CONCAT(CONCAT('%', #{bucketName,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 用户名 -->
+					<if test="userName != null and userName !=''" >
+						D.USER_NAME like CONCAT(CONCAT('%', #{userName,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 密码 -->
+					<if test="passWord != null and passWord !=''" >
+						D.PASS_WORD like CONCAT(CONCAT('%', #{passWord,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 空间地址 -->
+					<if test="urlPath != null and urlPath !=''" >
+						D.URL_PATH like CONCAT(CONCAT('%', #{urlPath,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 链接时间 -->
+					<if test="connectTime != null">
+						D.CONNECT_TIME = #{connectTime,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- debug模式 -->
+					<if test="debug != null and debug !=''" >
+						D.DEBUG like CONCAT(CONCAT('%', #{debug,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 缩略图 -->
+					<if test="gmkerl != null and gmkerl !=''" >
+						D.GMKERL like CONCAT(CONCAT('%', #{gmkerl,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 旋转 -->
+					<if test="rotate != null and rotate !=''" >
+						D.ROTATE like CONCAT(CONCAT('%', #{rotate,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 裁剪 -->
+					<if test="crop != null and crop !=''" >
+						D.CROP like CONCAT(CONCAT('%', #{crop,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 操作类型 -->
+					<if test="optionType != null">
+						D.OPTION_TYPE = #{optionType,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- ContentMD5 -->
+					<if test="contentMd5 != null and contentMd5 !=''" >
+						D.CONTENT_MD5 like CONCAT(CONCAT('%', #{contentMd5,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 访问密钥 -->
+					<if test="visitSecretKey != null and visitSecretKey !=''" >
+						D.VISIT_SECRET_KEY like CONCAT(CONCAT('%', #{visitSecretKey,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 缩略图类型 -->
+					<if test="thumbnailType != null and thumbnailType !=''" >
+						D.THUMBNAIL_TYPE like CONCAT(CONCAT('%', #{thumbnailType,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 缩略图参数值 -->
+					<if test="thumbnailNumber != null and thumbnailNumber !=''" >
+						D.THUMBNAIL_NUMBER like CONCAT(CONCAT('%', #{thumbnailNumber,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 缩略图质量 -->
+					<if test="thumbnailQuality != null">
+						D.THUMBNAIL_QUALITY = #{thumbnailQuality,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 缩略图锐化 -->
+					<if test="thumbnailSharpen != null and thumbnailSharpen !=''" >
+						D.THUMBNAIL_SHARPEN like CONCAT(CONCAT('%', #{thumbnailSharpen,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 缩略图版本名称 -->
+					<if test="thumbnailVersion != null and thumbnailVersion !=''" >
+						D.THUMBNAIL_VERSION like CONCAT(CONCAT('%', #{thumbnailVersion,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 图片旋转 -->
+					<if test="imageRotation != null and imageRotation !=''" >
+						D.IMAGE_ROTATION like CONCAT(CONCAT('%', #{imageRotation,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 图片裁剪 -->
+					<if test="imageTailor != null and imageTailor !=''" >
+						D.IMAGE_TAILOR like CONCAT(CONCAT('%', #{imageTailor,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 启用 -->
+					<if test="usedStatus != null and usedStatus !=''" >
+						D.USED_STATUS like CONCAT(CONCAT('%', #{usedStatus,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 扩展字段1 -->
+					<if test="expFleid1 != null and expFleid1 !=''" >
+						D.EXP_FLEID_1 like CONCAT(CONCAT('%', #{expFleid1,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 扩展字段2 -->
+					<if test="expFleid2 != null and expFleid2 !=''" >
+						D.EXP_FLEID_2 like CONCAT(CONCAT('%', #{expFleid2,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						D.INSERT_ID = #{insertId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null and insertDate !=''" >
+			        	(D.INSERT_DATE between  #{insertDateStart,jdbcType=DATE}  AND  #{insertDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						D.MODIFY_ID = #{modifyId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null and modifyDate !=''" >
+			        	(D.MODIFY_DATE between  #{modifyDateStart,jdbcType=DATE}  AND  #{modifyDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						D.DELETE_STATUS = #{deleteStatus,
+								jdbcType=BIGINT
+						} AND
+					</if>
+        	1=1 
+		    LIMIT #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询又拍云设置对象信息总数 -->
+	<select id="queryUpyunConfTotal" resultType="java.lang.Integer">
+		SELECT COUNT(UPYUN_ID) FROM NP_SYS_UPYUN_CONF
+	</select>
+	
+	<!-- 分页查询又拍云设置对象信息 -->
+	<select id="queryUpyunConfByPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM NP_SYS_UPYUN_CONF 
+		LIMIT  #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+</mapper>

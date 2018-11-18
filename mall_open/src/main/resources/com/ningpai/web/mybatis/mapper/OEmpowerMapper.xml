@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.OEmpowerMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.api.bean.OEmpower" >
+    <id column="app_id" property="appId" jdbcType="INTEGER" />
+    <result column="app_key" property="appKey" jdbcType="VARCHAR" />
+    <result column="app_username" property="appUserName" jdbcType="VARCHAR" />
+    <result column="begin_time" property="beginTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="token" property="token" jdbcType="VARCHAR" />
+    <result  column="token_time"  property="tokenTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    app_id, app_key,app_username,begin_time,end_time,token,token_time
+  </sql>
+
+  <!--根据用户名获取用户信息 lih 2015年09月15日10:28:48-->
+  <select id="get" resultMap="BaseResultMap" parameterType="java.lang.String">
+      select <include refid="Base_Column_List"/> from np_empower where app_username=#{appUserName} and status='0' and del_flag='0'
+      <![CDATA[ and begin_time<= now()  and end_time> now()]]>
+  </select>
+
+  <!--修改开放接口权限-->
+  <update id="updateEmpower" parameterType="java.util.Map">
+    update np_empower set token=#{token},token_time=SYSDATE()
+    where app_username=#{appUserName}
+  </update>
+
+
+
+</mapper>

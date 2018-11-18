@@ -1,0 +1,3 @@
+[{"pointId":"1","customerId":"1","pointDetail":"test","pointType":"1","point":"2","createTime":"2015-02-01 01:01:01","delFlag":"0","endTime":"2015-03-01 01:01:01"},
+ {"pointId":"2","customerId":"1","pointDetail":"test","pointType":"1","point":"2","createTime":"2015-02-01 01:01:01","delFlag":"0"},
+ {"pointId":"3","customerId":"1","pointDetail":"test","pointType":"1","point":"2","createTime":"2015-02-01 01:01:01","delFlag":"0"}]

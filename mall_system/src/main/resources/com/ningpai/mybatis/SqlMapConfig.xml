@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE configuration PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.ningpai.system.bean.EmailServer" alias="emailserver"/>
+		<typeAlias type="com.ningpai.system.bean.MessageServer" alias="messageserver"/>
+		<typeAlias type="com.ningpai.system.bean.InterLogin" alias="interlogin"/>
+		<typeAlias type="com.ningpai.system.bean.PointSet" alias="pointset"/>
+		<typeAlias type="com.ningpai.system.bean.BasicSet" alias="basicset"/>
+		<typeAlias type="com.ningpai.system.bean.ImageSet" alias="imageset"/>
+		<typeAlias type="com.ningpai.system.bean.FriendLink" alias="friendlink"/>
+		<typeAlias type="com.ningpai.system.bean.Express" alias="express"/>
+		<typeAlias type="com.ningpai.system.bean.Pay" alias="pay"/>
+		<typeAlias type="com.ningpai.system.bean.Bar" alias="bar"/>
+		<typeAlias type="com.ningpai.system.bean.HelpCate" alias="helpcate"/>
+		<typeAlias type="com.ningpai.system.bean.HelpCenter" alias="helpcenter"/>
+        <typeAlias type="com.ningpai.system.bean.Receivables" alias="receivables"/>
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="com/ningpai/mybatis/mapper/EmailServerMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/MessageServerMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/InterLoginMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/PointSetMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/BasicSetMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/ImageSetMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/FriendLinkMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/ExpressMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/PayMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/BarMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/HelpCateMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/HelpCenterMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/ProvinceMapper.xml"/>
+		<mapper resource="com/ningpai/core/mybatis/mapper/ManagerMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/LogisticsSingleMapper.xml"/>
+        <mapper resource="com/ningpai/mybatis/mapper/ReceivablesMapper.xml"/>
+	</mappers>
+</configuration>

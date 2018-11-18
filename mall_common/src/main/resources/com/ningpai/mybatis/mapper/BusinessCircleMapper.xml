@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bbw.web.dao.BusinessCircleMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.businesscircle.bean.BusinessCircle" >
+    <id column="business_circle_id" property="businessCircleId" jdbcType="BIGINT" />
+    <result column="business_circle_name" property="businessCircleName" jdbcType="VARCHAR" />
+    <result column="business_circle_province_id" property="businessCircleProvinceId" jdbcType="BIGINT" />
+    <result column="business_circle_city_id" property="businessCircleCityId" jdbcType="BIGINT" />
+    <result column="business_circle_third_id" property="businessCircleThirdId" jdbcType="BIGINT" />
+    <result column="business_circle_remark" property="businessCircleRemark" jdbcType="VARCHAR" />
+    <result column="business_circle_create_time" property="businessCircleCreateTime" jdbcType="TIMESTAMP" />
+    <result column="business_circle_modify_time" property="businessCircleModifyTime" jdbcType="TIMESTAMP" />
+    <result column="business_circle_del_flag" property="businessCircleDelFlag" jdbcType="CHAR" />
+    <result column="business_circle_is_open" property="businessCircleIsOpen" jdbcType="CHAR" />
+    <result column="store_name" property="storeName" jdbcType="VARCHAR" />
+    <result column="province_name" property="provinceName" jdbcType="VARCHAR" />
+    <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    business_circle_id, business_circle_name, business_circle_province_id, business_circle_city_id, 
+    business_circle_third_id, business_circle_remark, business_circle_create_time, business_circle_modify_time, 
+    business_circle_del_flag, business_circle_is_open
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_business_circle
+    where business_circle_id = #{businessCircleId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_business_circle
+    where business_circle_id = #{businessCircleId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.businesscircle.bean.BusinessCircle" >
+    insert into np_business_circle (business_circle_id, business_circle_name, 
+      business_circle_province_id, business_circle_city_id, 
+      business_circle_third_id, business_circle_remark, 
+      business_circle_create_time, business_circle_modify_time, 
+      business_circle_del_flag, business_circle_is_open)
+    values (#{businessCircleId,jdbcType=BIGINT}, #{businessCircleName,jdbcType=VARCHAR}, 
+      #{businessCircleProvinceId,jdbcType=BIGINT}, #{businessCircleCityId,jdbcType=BIGINT}, 
+      #{businessCircleThirdId,jdbcType=BIGINT}, #{businessCircleRemark,jdbcType=VARCHAR}, 
+      #{businessCircleCreateTime,jdbcType=TIMESTAMP}, #{businessCircleModifyTime,jdbcType=TIMESTAMP}, 
+      #{businessCircleDelFlag,jdbcType=CHAR}, #{businessCircleIsOpen,jdbcType=CHAR})
+  </insert>
+   <!--添加商圈-->
+  <insert id="insertSelective" parameterType="com.ningpai.businesscircle.bean.BusinessCircle" >
+    insert into np_business_circle
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="businessCircleId != null" >
+        business_circle_id,
+      </if>
+      <if test="businessCircleName != null" >
+        business_circle_name,
+      </if>
+      <if test="businessCircleProvinceId != null" >
+        business_circle_province_id,
+      </if>
+      <if test="businessCircleCityId != null" >
+        business_circle_city_id,
+      </if>
+      <if test="businessCircleThirdId != null" >
+        business_circle_third_id,
+      </if>
+      <if test="businessCircleRemark != null" >
+        business_circle_remark,
+      </if>
+      <if test="businessCircleCreateTime != null" >
+        business_circle_create_time,
+      </if>
+      <if test="businessCircleModifyTime != null" >
+        business_circle_modify_time,
+      </if>
+      <if test="businessCircleDelFlag != null" >
+        business_circle_del_flag,
+      </if>
+      <if test="businessCircleIsOpen != null" >
+        business_circle_is_open,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="businessCircleId != null" >
+        #{businessCircleId,jdbcType=BIGINT},
+      </if>
+      <if test="businessCircleName != null" >
+        #{businessCircleName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessCircleProvinceId != null" >
+        #{businessCircleProvinceId,jdbcType=BIGINT},
+      </if>
+      <if test="businessCircleCityId != null" >
+        #{businessCircleCityId,jdbcType=BIGINT},
+      </if>
+      <if test="businessCircleThirdId != null" >
+        #{businessCircleThirdId,jdbcType=BIGINT},
+      </if>
+      <if test="businessCircleRemark != null" >
+        #{businessCircleRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="businessCircleCreateTime != null" >
+        #{businessCircleCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="businessCircleModifyTime != null" >
+        #{businessCircleModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="businessCircleDelFlag != null" >
+        #{businessCircleDelFlag,jdbcType=CHAR},
+      </if>
+      <if test="businessCircleIsOpen != null" >
+        #{businessCircleIsOpen,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+   <!--删除商圈-->
+  <delete id="deleteBusinessCircleById" parameterType="java.lang.Long" >
+    update  np_business_circle
+    set business_circle_del_flag ='1'
+    where business_circle_id = #{businessCircleId,jdbcType=BIGINT}
+  </delete>
+   <!--修改没有绑定商家的商圈 -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.businesscircle.bean.BusinessCircle" >
+    update np_business_circle
+    <set >
+      <if test="businessCircleName != null" >
+        business_circle_name = #{businessCircleName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessCircleProvinceId != null" >
+        business_circle_province_id = #{businessCircleProvinceId,jdbcType=BIGINT},
+      </if>
+      <if test="businessCircleCityId != null" >
+        business_circle_city_id = #{businessCircleCityId,jdbcType=BIGINT},
+      </if>
+      <if test="businessCircleThirdId != null" >
+        business_circle_third_id = #{businessCircleThirdId,jdbcType=BIGINT},
+      </if>
+      <if test="businessCircleRemark != null" >
+        business_circle_remark = #{businessCircleRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="businessCircleCreateTime != null" >
+        business_circle_create_time = #{businessCircleCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="businessCircleModifyTime != null" >
+        business_circle_modify_time = #{businessCircleModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="businessCircleDelFlag != null" >
+        business_circle_del_flag = #{businessCircleDelFlag,jdbcType=CHAR},
+      </if>
+      <if test="businessCircleIsOpen != null" >
+        business_circle_is_open = #{businessCircleIsOpen,jdbcType=CHAR},
+      </if>
+    </set>
+    where business_circle_id = #{businessCircleId,jdbcType=BIGINT}  
+  </update>
+  	<!--修改开启状态-->
+    <update id="updatebusinessCircleIsOpen" parameterType="com.ningpai.businesscircle.bean.BusinessCircle" >
+    update np_business_circle
+    <set >
+       <if test="businessCircleIsOpen != null" >
+        business_circle_is_open = #{businessCircleIsOpen,jdbcType=CHAR},
+      </if>
+    </set>
+    where business_circle_id = #{businessCircleId,jdbcType=BIGINT} 
+  </update>
+   <!--修改所有的 -->
+    <update id="updateAll" parameterType="com.ningpai.businesscircle.bean.BusinessCircle" >
+    update np_business_circle
+    <set >
+      <if test="businessCircleName != null" >
+        business_circle_name = #{businessCircleName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessCircleProvinceId != null" >
+        business_circle_province_id = #{businessCircleProvinceId,jdbcType=BIGINT},
+      </if>
+      <if test="businessCircleCityId != null" >
+        business_circle_city_id = #{businessCircleCityId,jdbcType=BIGINT},
+      </if>
+      <if test="1 == 1" >
+        business_circle_third_id = #{businessCircleThirdId,jdbcType=BIGINT},
+      </if>
+      <if test="businessCircleRemark != null" >
+        business_circle_remark = #{businessCircleRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="businessCircleCreateTime != null" >
+        business_circle_create_time = #{businessCircleCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="businessCircleModifyTime != null" >
+        business_circle_modify_time = #{businessCircleModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="businessCircleDelFlag != null" >
+        business_circle_del_flag = #{businessCircleDelFlag,jdbcType=CHAR},
+      </if>
+      <if test="businessCircleIsOpen != null" >
+        business_circle_is_open = #{businessCircleIsOpen,jdbcType=CHAR},
+      </if>
+    </set>
+    where business_circle_id = #{businessCircleId,jdbcType=BIGINT} 
+  </update>
+  
+  
+  <!--查询个数  -->
+  <select id="selectBusinessCirclesCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+        select  count(1)
+      from np_business_circle bc 
+      where business_circle_del_flag ='0' 
+      <if test="businessCircleIsOpen !=null"> 
+       and   business_circle_is_open = #{businessCircleIsOpen,jdbcType=CHAR}
+      </if>
+    
+       <if test="businessCircleThirdId != null" >
+           
+         and  business_circle_third_id is null
+   
+       </if>
+  </select>
+   <!--根据商家Id查询开启状态的商圈 -->
+  <select id="findBusinessCircleById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+      select  <include refid="Base_Column_List" />,store_name,city_name,province_name 
+      from np_business_circle bc 
+      Left join np_third_store_info ts on ts.store_id=bc.business_circle_third_id
+      left JOIN  np_sys_province  np ON bc.business_circle_province_id=np.province_id 
+      left JOIN  np_sys_city nc ON nc.city_id=bc.business_circle_city_id
+      where business_circle_del_flag ='0' and bc.business_circle_third_id=#{thirdId,jdbcType=BIGINT}
+      and business_circle_is_open = '1'
+  </select>
+   <!--根据商圈Id查询商圈信息 -->
+  <select id="findBusinessCircleByBusinessCircleId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+      select  <include refid="Base_Column_List" />,store_name,city_name,province_name 
+      from np_business_circle bc 
+      Left join np_third_store_info ts on ts.store_id=bc.business_circle_third_id
+      left JOIN  np_sys_province  np ON bc.business_circle_province_id=np.province_id 
+      left JOIN  np_sys_city nc ON nc.city_id=bc.business_circle_city_id
+      where business_circle_del_flag ='0' and bc.business_circle_id=#{id,jdbcType=BIGINT}
+     
+  </select>
+   <!--根据商圈名称查询商圈信息 -->
+  <select id="findBusinessCircleByBusinessCircleName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+      select  <include refid="Base_Column_List" />,store_name,city_name,province_name 
+      from np_business_circle bc
+       Left join np_third_store_info ts on ts.store_id=bc.business_circle_third_id
+       left JOIN  np_sys_province  np ON bc.business_circle_province_id=np.province_id 
+       left JOIN  np_sys_city nc ON nc.city_id=bc.business_circle_city_id
+      where business_circle_del_flag ='0' and bc.business_circle_name=#{name,jdbcType=BIGINT}
+     
+  </select>
+   <!--根据条件分页查询商圈 -->
+  <select id="selectBusinessCircles" resultMap="BaseResultMap" parameterType="java.util.Map" >
+      select  <include refid="Base_Column_List" />,store_name,city_name,province_name 
+      from np_business_circle bc 
+      Left join np_third_store_info ts on ts.store_id=bc.business_circle_third_id
+      left JOIN  np_sys_province  np ON bc.business_circle_province_id=np.province_id 
+      left JOIN  np_sys_city nc ON nc.city_id=bc.business_circle_city_id
+      where business_circle_del_flag ='0' 
+      <if test="businessCircleName !=null"> 
+       and  business_circle_name like #{businessCircleName,jdbcType=VARCHAR}
+      </if>
+      <if test="provinceName !=null"> 
+       and  province_name like #{provinceName,jdbcType=VARCHAR}
+      </if>
+      <if test="storeName !=null"> 
+       and  city_name like #{cityName,jdbcType=VARCHAR}
+      </if>
+      
+      
+       limit #{startRowNum},#{endRowNum}    
+  </select>
+   <!--根据条件查询商圈 -->
+  <select id="selectBusinessCirclesByMap" resultMap="BaseResultMap" parameterType="java.util.Map" >
+      select  <include refid="Base_Column_List" />,store_name,city_name,province_name 
+      from np_business_circle bc 
+      Left join np_third_store_info ts on ts.store_id=bc.business_circle_third_id
+      Left JOIN  np_sys_province  np ON bc.business_circle_province_id=np.province_id 
+      Left JOIN  np_sys_city nc ON nc.city_id=bc.business_circle_city_id
+      where business_circle_del_flag ='0' 
+      <if test="businessCircleIsOpen !=null"> 
+       and   business_circle_is_open = #{businessCircleIsOpen,jdbcType=CHAR}
+      </if>
+    
+       <if test="businessCircleThirdId != null" >
+           
+         and  business_circle_third_id is null
+   
+       </if>
+      
+  </select>
+</mapper>

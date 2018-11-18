@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.imagemanage.dao.InfoImageClassifyMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.imagemanage.bean.InfoImageClassify" >
+    <id column="classify_id" property="classifyId" jdbcType="BIGINT" />
+    <result column="classify_name" property="classifyName" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    <result column="grade" property="grade" jdbcType="INTEGER" />
+    <result column="is_has_img" property="isHasImg" jdbcType="CHAR" />
+    <result column="is_sys" property="isSys" jdbcType="CHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="delflag" property="delflag" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap id="VoResultMap" type="com.ningpai.imagemanage.vo.InfoImageClassifyVo" >
+    <id column="classify_id" property="classifyId" jdbcType="BIGINT" />
+    <result column="classify_name" property="classifyName" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    <result column="grade" property="grade" jdbcType="INTEGER" />
+    <result column="is_has_img" property="isHasImg" jdbcType="CHAR" />
+    <result column="is_sys" property="isSys" jdbcType="CHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="delflag" property="delflag" jdbcType="CHAR" />
+    <association column="classify_id" property="childs" 
+			select="com.ningpai.imagemanage.dao.InfoImageClassifyMapper.selectByParentId"></association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    classify_id, classify_name, parent_id, grade, is_has_img, is_sys,create_date, update_date, delflag
+  </sql>
+  <!-- 查询开始 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_information_image_classify
+    where classify_id = #{classifyId,jdbcType=BIGINT}
+  </select>
+  <!-- 根据分类ID查询所有子分类 -->
+  <select id="selectByParentId" resultMap="VoResultMap" parameterType="java.lang.Long">
+    select 
+    <include refid="Base_Column_List" />
+    from np_information_image_classify
+    where delflag = '0' and parent_id = #{classifyId,jdbcType=BIGINT}
+  </select>
+  <!-- 查询图片管理分类总行数 -->
+  <select id="selectImageClassifyCountByParam" resultType="java.lang.Integer">
+    select count(classify_id) from np_information_image_classify
+    where delflag = '0' and parent_id=-1
+  </select>
+  <!-- 查询图片管理分类 -->
+  <select id="selectImageClassifyByParam" resultMap="VoResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_information_image_classify
+    where delflag = '0' and parent_id=-1
+	LIMIT #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+  </select>
+  <!-- 查询所有图片管理分类-分类管理选择父分类 -->
+  <select id="selectAllImageClassify" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_information_image_classify
+    where delflag = '0' 
+  </select>
+  <!-- 查询所有图片管理分类-上传图片选择分类用 -->
+  <select id="selectAllImageClassifyForImg" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_information_image_classify
+    where delflag = '0' and is_has_img = '1'
+  </select>
+  
+  <!-- 查询结束 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_information_image_classify
+    where classify_id = #{classifyId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.imagemanage.bean.InfoImageClassify" >
+    insert into np_information_image_classify (classify_id, classify_name, parent_id, grade, is_has_img, is_sys, create_date, 
+      update_date, delflag)
+    values (#{classifyId,jdbcType=BIGINT}, #{classifyName,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, 
+      #{grade,jdbcType=INTEGER}, #{isHasImg,jdbcType=CHAR}, #{isSys,jdbcType=CHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{delflag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.imagemanage.bean.InfoImageClassify" >
+    insert into np_information_image_classify
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="classifyId != null" >
+        classify_id,
+      </if>
+      <if test="classifyName != null" >
+        classify_name,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="grade != null" >
+        grade,
+      </if>
+      <if test="isHasImg != null" >
+        is_has_img,
+      </if>
+      <if test="isSys != null" >
+        is_sys,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="delflag != null" >
+        delflag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="classifyId != null" >
+        #{classifyId,jdbcType=BIGINT},
+      </if>
+      <if test="classifyName != null" >
+        #{classifyName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=INTEGER},
+      </if>
+      <if test="isHasImg != null" >
+        #{isHasImg,jdbcType=CHAR},
+      </if>
+      <if test="isSys != null" >
+        #{isSys,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delflag != null" >
+        #{delflag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.imagemanage.bean.InfoImageClassify" >
+    update np_information_image_classify
+    <set >
+      <if test="classifyName != null" >
+        classify_name = #{classifyName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=INTEGER},
+      </if>
+      <if test="isHasImg != null" >
+        is_has_img = #{isHasImg,jdbcType=CHAR},
+      </if>
+      <if test="isSys != null" >
+        is_sys = #{isSys,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delflag != null" >
+        delflag = #{delflag,jdbcType=CHAR},
+      </if>
+    </set>
+    where classify_id = #{classifyId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.imagemanage.bean.InfoImageClassify" >
+    update np_information_image_classify
+    set classify_name = #{classifyName,jdbcType=VARCHAR},
+        parent_id = #{parentId,jdbcType=BIGINT},
+        grade = #{grade,jdbcType=INTEGER},
+        is_has_img = #{isHasImg,jdbcType=CHAR},
+        is_sys = #{isSys,jdbcType=CHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      delflag = #{delflag,jdbcType=CHAR}
+    where classify_id = #{classifyId,jdbcType=BIGINT}
+  </update>
+</mapper>

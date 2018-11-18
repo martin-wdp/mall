@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.message.mapper.MessageCustomerMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.message.bean.MessageCustomer" >
+    <id column="message_customer_id" property="messageCustomerId" jdbcType="BIGINT" />
+    <result column="message_id" property="messageId" jdbcType="BIGINT" />
+    <result column="message_rec_customer_id" property="messageRecCustomerId" jdbcType="BIGINT" />
+    <result column="message_flag" property="messageFlag" jdbcType="CHAR" />
+    <result column="message_read_time" property="messageReadTime" jdbcType="TIMESTAMP" />
+    <result column="message_del_flag" property="messageDelFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    message_customer_id, message_id, message_rec_customer_id, message_flag, message_read_time, 
+    message_del_flag,
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_message_customer
+    where message_customer_id = #{messageCustomerId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_message_customer
+    where message_customer_id = #{messageCustomerId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.message.bean.MessageCustomer" useGeneratedKeys="true" keyProperty="messageCustomerId" >
+    insert into np_message_customer (message_id, message_rec_customer_id, message_flag, 
+      message_read_time, message_del_flag)
+    values (#{messageId,jdbcType=BIGINT}, #{messageRecCustomerId,jdbcType=BIGINT}, #{messageFlag,jdbcType=CHAR}, 
+      #{messageReadTime,jdbcType=TIMESTAMP}, #{messageDelFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.message.bean.MessageCustomer" useGeneratedKeys="true" keyProperty="messageCustomerId" >
+    insert into np_message_customer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      message_id,
+      message_rec_customer_id,
+      message_flag,
+      message_read_time,
+      message_del_flag,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{messageId,jdbcType=BIGINT},
+      #{messageRecCustomerId,jdbcType=BIGINT},
+      #{messageFlag,jdbcType=CHAR},
+      #{messageReadTime,jdbcType=TIMESTAMP},
+      #{messageDelFlag,jdbcType=CHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.message.bean.MessageCustomer" >
+    update np_message_customer
+    <set >
+      <if test="messageId != null" >
+        message_id = #{messageId,jdbcType=BIGINT},
+      </if>
+      <if test="messageRecCustomerId != null" >
+        message_rec_customer_id = #{messageRecCustomerId,jdbcType=BIGINT},
+      </if>
+      <if test="messageFlag != null" >
+        message_flag = #{messageFlag,jdbcType=CHAR},
+      </if>
+      <if test="messageReadTime != null" >
+        message_read_time = #{messageReadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="messageDelFlag != null" >
+        message_del_flag = #{messageDelFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where message_customer_id = #{messageCustomerId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.message.bean.MessageCustomer" >
+    update np_message_customer
+    set message_id = #{messageId,jdbcType=BIGINT},
+      message_rec_customer_id = #{messageRecCustomerId,jdbcType=BIGINT},
+      message_flag = #{messageFlag,jdbcType=CHAR},
+      message_read_time = #{messageReadTime,jdbcType=TIMESTAMP},
+      message_del_flag = #{messageDelFlag,jdbcType=CHAR},
+    where message_customer_id = #{messageCustomerId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 批量修改消息为删除状态 -->
+   <update id="deleteMessage" parameterType="java.lang.Long">
+   update  np_message_customer
+   set  message_del_flag = '1'
+    where 
+    <foreach collection="array" separator="or"  item="messageCustomerId" index="index" >  
+             (message_customer_id = #{messageCustomerId,jdbcType=BIGINT})
+     </foreach> 
+  </update>
+  
+  <!-- 批量修改消息为已读状态 -->
+   <update id="readMessage" parameterType="java.lang.Long">
+   update  np_message_customer
+   set  message_flag = '1', message_read_time = now()
+    where 
+    <foreach collection="array" separator="or"  item="messageCustomerId" index="index" >  
+             (message_customer_id = #{messageCustomerId,jdbcType=BIGINT})
+     </foreach> 
+  </update>
+  
+  <select id="mssagecount" parameterType="java.util.Map" resultType="java.lang.Integer">
+   select count(1) from np_message_customer nmc
+   left join np_message nm
+   on nmc.message_id = nm.message_id
+   where 1=1 and nmc.message_flag='0' 
+   and nmc.message_del_flag='0' and nm.message_del_flag='0'
+   and nmc.message_rec_customer_id=#{messageRecCustomerId}
+   <if test="messageType != null and messageType != ''">
+    AND nm.message_type=#{messageType}
+   </if>
+  </select>
+</mapper>

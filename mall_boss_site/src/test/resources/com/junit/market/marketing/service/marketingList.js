@@ -1,0 +1,1 @@
+    [{"marketingId":1,"marketingName":"qianmi","marketingDes":"qpmall","marketingType":"1","marketingBegin":"2015-01-01 12:22:01","marketingEnd":"2015-01-02 12:22:01","createTime":"2015-01-02 12:22:01","modTime":"2015-01-02 12:22:01","flag":"0","codexName":"test","businessId":1}]

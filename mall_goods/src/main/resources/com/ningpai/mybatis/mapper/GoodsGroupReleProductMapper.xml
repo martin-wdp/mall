@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.goods.dao.GoodsGroupReleProductMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsGroupReleProduct" >
+    <id column="rele_productid" property="releProductid" jdbcType="BIGINT" />
+    <result column="group_id" property="groupId" jdbcType="BIGINT" />
+    <result column="product_id" property="productId" jdbcType="BIGINT" />
+    <result column="rele_product_delflag" property="releProductDelflag" jdbcType="CHAR" />
+  </resultMap>
+  <!-- VoresultMap -->
+  <resultMap type="com.ningpai.goods.vo.GoodsGroupReleProductVo" id="VoResultMap">
+  	<id column="rele_productid" property="releProductid" jdbcType="BIGINT" />
+      <result column="product_id" property="productId" jdbcType="BIGINT" />
+    <result column="group_id" property="groupId" jdbcType="BIGINT" />
+    <association property="productDetail" column="product_id" select="com.ningpai.goods.dao.GoodsProductMapper.queryDetailProductByPrimaryKey"></association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    rele_productid, group_id, product_id, rele_product_delflag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_goods_group_rele_product
+    where rele_productid = #{releProductid,jdbcType=BIGINT}
+  </select>
+  <!-- 标记删除 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.util.Map" >
+    update np_goods_group_rele_product set rele_product_delflag='1'
+    where rele_productid = #{releProductid,jdbcType=BIGINT}
+  </delete>
+  <!-- 插入记录 -->
+  <insert id="insertSelective" parameterType="com.ningpai.goods.bean.GoodsGroupReleProduct" >
+    insert into np_goods_group_rele_product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="releProductid != null" >
+        rele_productid,
+      </if>
+      <if test="groupId != null" >
+        group_id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="releProductDelflag != null" >
+        rele_product_delflag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="releProductid != null" >
+        #{releProductid,jdbcType=BIGINT},
+      </if>
+      <if test="groupId != null" >
+        #{groupId,jdbcType=BIGINT},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=BIGINT},
+      </if>
+        '0',
+    </trim>
+  </insert>
+  <!-- 更新记录 -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.goods.bean.GoodsGroupReleProduct" >
+    update np_goods_group_rele_product
+    <set >
+      <if test="groupId != null" >
+        group_id = #{groupId,jdbcType=BIGINT},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="releProductDelflag != null" >
+        rele_product_delflag = #{releProductDelflag,jdbcType=CHAR},
+      </if>
+    </set>
+    where rele_productid = #{releProductid,jdbcType=BIGINT}
+  </update>
+  <!-- 根据组合ID和选中的货品ID删除未被选中的 -->
+  <update id="batchDelWithCheckProductId" parameterType="java.util.Map">
+  	update np_goods_group_rele_product set rele_product_delflag='1'
+    where rele_productid = #{releProductid,jdbcType=BIGINT} and 
+    product_id not in 
+    <foreach collection="productIds" item="product" open="(" close=")" separator=",">
+    	#{product}
+    </foreach>
+  </update>
+  <!-- 根据商品组合ID查询所有的关联记录 -->
+  <select id="queryListByGoodsGroupId" parameterType="java.lang.Long" resultMap="VoResultMap">
+  	select <include refid="Base_Column_List" />
+    from np_goods_group_rele_product where group_id=#{groupId} and rele_product_delflag='0'
+  </select>
+  
+  <!-- 根据组合ID和货品ID查询对象 -->
+  <select id="queryGroupReleProductByGroupIdAndProductId" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List" />
+    from np_goods_group_rele_product where group_id=#{groupId} and product_id=#{productId}
+  </select>
+</mapper>

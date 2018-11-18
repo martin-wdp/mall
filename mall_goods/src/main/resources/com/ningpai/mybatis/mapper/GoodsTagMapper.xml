@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.goods.dao.GoodsTagMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsTag" >
+    <id column="tag_id" property="tagId" jdbcType="BIGINT" />
+    <result column="tag_name" property="tagName" jdbcType="VARCHAR" />
+    <result column="tag_img" property="tagImg" jdbcType="VARCHAR"/>
+    <result column="tag_delflag" property="tagDelflag" jdbcType="CHAR" />
+    <result column="tag_create_name" property="tagCreateName" jdbcType="VARCHAR" />
+    <result column="tag_create_time" property="tagCreateTime" jdbcType="TIMESTAMP" />
+    <result column="tag_modified_name" property="tagModifiedName" jdbcType="VARCHAR" />
+    <result column="tag_modified_time" property="tagModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="tag_del_name" property="tagDelName" jdbcType="VARCHAR" />
+    <result column="tag_del_time" property="tagDelTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    tag_id, tag_name,tag_img, tag_delflag, tag_create_name, tag_create_time, tag_modified_name, 
+    tag_modified_time, tag_del_name, tag_del_time
+  </sql>
+  <sql id="Delflag">
+  	tag_delflag='0'
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_goods_tag
+    where tag_id = #{tagId,jdbcType=BIGINT} and 
+    <include refid="Delflag"/>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.util.Map" >
+    update np_goods_tag set tag_delflag='1',tag_del_name=#{del_name},tag_del_time=NOW()
+    where tag_id=#{tagId}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.goods.bean.GoodsTag" >
+    insert into np_goods_tag (tag_id, tag_name, tag_delflag, 
+      tag_create_name, tag_create_time, tag_modified_name, 
+      tag_modified_time, tag_del_name, tag_del_time
+      )
+    values (#{tagId,jdbcType=BIGINT}, #{tagName,jdbcType=VARCHAR}, #{tagDelflag,jdbcType=CHAR}, 
+      #{tagCreateName,jdbcType=VARCHAR}, #{tagCreateTime,jdbcType=TIMESTAMP}, #{tagModifiedName,jdbcType=VARCHAR}, 
+      #{tagModifiedTime,jdbcType=TIMESTAMP}, #{tagDelName,jdbcType=VARCHAR}, #{tagDelTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.goods.bean.GoodsTag" >
+    insert into np_goods_tag
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tagId != null" >
+        tag_id,
+      </if>
+      <if test="tagName != null" >
+        tag_name,
+      </if>
+      <if test="tagImg != null" >
+        tag_img,
+      </if>
+      <if test="tagDelflag != null" >
+        tag_delflag,
+      </if>
+      <if test="tagCreateName != null" >
+        tag_create_name,
+      </if>
+      <if test="tagCreateTime != null" >
+        tag_create_time,
+      </if>
+      <if test="tagModifiedName != null" >
+        tag_modified_name,
+      </if>
+      <if test="tagModifiedTime != null" >
+        tag_modified_time,
+      </if>
+      <if test="tagDelName != null" >
+        tag_del_name,
+      </if>
+      <if test="tagDelTime != null" >
+        tag_del_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tagId != null" >
+        #{tagId,jdbcType=BIGINT},
+      </if>
+      <if test="tagName != null" >
+        #{tagName,jdbcType=VARCHAR},
+      </if>
+      <if test="tagImg != null" >
+        #{tagImg,jdbcType=VARCHAR},
+      </if>
+      <if test="tagDelflag != null" >
+        #{tagDelflag,jdbcType=CHAR},
+      </if>
+      <if test="tagCreateName != null" >
+        #{tagCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="tagCreateTime != null" >
+        #{tagCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tagModifiedName != null" >
+        #{tagModifiedName,jdbcType=VARCHAR},
+      </if>
+      <if test="tagModifiedTime != null" >
+        #{tagModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tagDelName != null" >
+        #{tagDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="tagDelTime != null" >
+        #{tagDelTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.goods.bean.GoodsTag" >
+    update np_goods_tag
+    <set >
+      <if test="tagName != null" >
+        tag_name = #{tagName,jdbcType=VARCHAR},
+      </if>
+      <if test="tagImg != null" >
+        tag_img = #{tagImg,jdbcType=VARCHAR},
+      </if>
+      <if test="tagDelflag != null" >
+        tag_delflag = #{tagDelflag,jdbcType=CHAR},
+      </if>
+      <if test="tagCreateName != null" >
+        tag_create_name = #{tagCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="tagCreateTime != null" >
+        tag_create_time = #{tagCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tagModifiedName != null" >
+        tag_modified_name = #{tagModifiedName,jdbcType=VARCHAR},
+      </if>
+        tag_modified_time = NOW(),
+      <if test="tagDelName != null" >
+        tag_del_name = #{tagDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="tagDelTime != null" >
+        tag_del_time = #{tagDelTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where tag_id = #{tagId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.goods.bean.GoodsTag" >
+    update np_goods_tag
+    set tag_name = #{tagName,jdbcType=VARCHAR},
+      tag_delflag = #{tagDelflag,jdbcType=CHAR},
+      tag_create_name = #{tagCreateName,jdbcType=VARCHAR},
+      tag_create_time = #{tagCreateTime,jdbcType=TIMESTAMP},
+      tag_modified_name = #{tagModifiedName,jdbcType=VARCHAR},
+      tag_modified_time = #{tagModifiedTime,jdbcType=TIMESTAMP},
+      tag_del_name = #{tagDelName,jdbcType=VARCHAR},
+      tag_del_time = #{tagDelTime,jdbcType=TIMESTAMP}
+    where tag_id = #{tagId,jdbcType=BIGINT}
+  </update>
+  <select id="selectAllTag" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select 
+  		<include refid="Base_Column_List"/>
+  	from np_goods_tag where  
+  		<include refid="Delflag"/> 
+  		
+  		<if test="condition == 1">
+  			and tag_name like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  		</if>
+  	limit #{startRowNum},#{endRowNum}
+  </select>
+  <select id="queryTagByParam" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select 
+  		<include refid="Base_Column_List"/>
+  	from np_goods_tag where tag_name like #{paramvalue} and
+  		<include refid="Delflag"/>
+  </select>
+  <select id="queryTotalCount" resultType="java.lang.Integer"  parameterType="com.ningpai.goods.util.SelectBean">
+  	select count(1) from np_goods_tag where 
+  		<include refid="Delflag"/>
+  		<if test="condition == 1">
+  			and tag_name like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  		</if>
+  </select>
+  <!-- 查询所有的标签，已删除的也算 -->
+  <select id="queryAllTag" resultMap="BaseResultMap">
+  	select 
+  		<include refid="Base_Column_List"/>
+  	from np_goods_tag
+  </select>
+  <!-- 根据标签名称查询行数 -->
+  <select id="queryByTagName" parameterType="java.lang.String" resultType="java.lang.Integer">
+  	select count(1) from np_goods_tag where tag_name=#{tagName} and tag_delflag='0'
+  </select>
+</mapper>

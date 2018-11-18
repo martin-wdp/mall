@@ -1,0 +1,72 @@
+/* 消息中心 */
+.msg_wp {border:1px solid #d6d6d6; border-radius:5px; background:#f8f8f8; overflow:hidden;}
+.msg_left {width:214px;}
+.msg_right {width:1040px; background:#fff;padding-bottom:50px; min-height:500px;}
+.msg_left h3 {margin:10px 0 20px 10px;}
+.inbox, .outbox, .set_box {margin-left:24px;}
+.inbox h4 {background:url(../images/inbox_bg.gif) no-repeat; width:190px; height:29px; font-size:14px; color:#333; line-height:29px; text-indent:35px;}
+.outbox h4 {background:url(../images/outbox_bg.gif) no-repeat; width:190px; height:29px; font-size:14px; color:#333; line-height:29px; text-indent:35px;}
+.msg_menu {margin:10px 0 0 35px;}
+.msg_menu li {line-height:25px;}
+.msg_menu .cur a {color:#336699; font-weight:700;}
+.operate_wp {padding-bottom:10px; border-bottom:1px solid #ccc;}
+.operate_wp .rowElem {width:60px;}
+.operate_wp span.jqTransformCheckboxWrapper {margin-top:-2px;}
+.opBt { height:22px; line-height:22px; padding:0 10px; border:1px solid #e3e3e3; border-right-color:#a7a7a7; border-bottom-color:#a7a7a7; border-radius:2px;}
+.msg_list li {padding:13px 0; border-bottom:1px dotted #ccc;}
+.smsg_cont {width:1000px;}
+.smsg_cont span{ float:right; color:#666666;}
+.smsg_word {width:550px;}
+.msg_det, .msg_reply {display:none;}
+.msg_det a{ color:#336699; margin-left:20px;}
+.msg_dl dt {float:left; width:60px; line-height:30px; font-size:14px; text-align:right;}
+.msg_dl dd {margin-bottom:20px;}
+.cmt_list .smsg_cont {width:900px;}
+.set_box h4 {width:190px; height:29px; font-size:14px; color:#333; line-height:29px; text-indent:35px;}
+.set_01 h4 {background:url(../images/set_01.gif) no-repeat;}
+.set_02 h4 {background:url(../images/set_02.gif) no-repeat;}
+.set_03 h4 {background:url(../images/set_03.gif) no-repeat;}
+.set_04 h4 {background:url(../images/set_04.gif) no-repeat;}
+.pinfo_setting {font-size:14px; margin-left:60px;}
+.pinfo_setting dt {float:left; line-height:30px; width:80px; text-align:right;}
+.pinfo_setting dd {margin-bottom:20px; margin-left:90px; line-height:30px;}
+.pinfo_setting dt em {color:#ff0000;}
+.st_text {width:100px;}
+.lg_text {width:360px;}
+.p_des {width:360px; height:170px;}
+.pinfo_setting dd .change_psw {font-size:12px;}
+.save_change {background:url(../images/button_bg.gif) no-repeat; width:105px; height:34px; border:none; color:#fefefe; font-weight:700; font-size:14px; cursor:pointer;}
+.tagsList {padding-top:2px; width:380px;}
+.tagsList li {float:left; height:23px; line-height:23px; background:#eff8ff; border:1px solid #1e70af; padding:0 20px 0 8px; margin:0 10px 10px 0; position:relative;}
+.tag_close {background:url(../images/tags_close.gif) no-repeat; width:8px; height:7px; position:absolute; right:5px; top:8px;}
+.cars_list {width:350px;}
+.cars_list li {width:85px; float:left; margin-bottom:10px;}
+.cars_wp em {color:#ff9900; font-weight:700; width:30px;}
+@-moz-document url-prefix(http),url-prefix(file){
+	.jqTransformInputInner div input {padding:0;}
+}
+.date_choose {width:180px;}
+.date_cal {background:url(../images/date_choose.gif) no-repeat; width:22px; height:22px; border:none; cursor:pointer; margin:4px 0 0 -25px; position:relative; z-index:99;}
+#calendarDiv {width:250px;}
+#calendarDiv .todaysDate {width:247px;}
+.cimg_wp {width:190px; height:190px; border:1px solid #dfdfdf; padding:5px;}
+.cimg_info h4 {font-size:14px; color:#333;}
+.cimg_info p {line-height:150%; margin-top:10px;}
+.chg_psw {margin:20px 0 0 70px;}
+.chg_psw dt {float:left; width:80px; line-height:30px; text-align:right;}
+.chg_psw dd {margin-left:90px; margin-bottom:20px;}
+.psw_txt {width:230px;}
+.blk {display:block; width:50px; height:90px;}
+.blk img {margin-bottom:5px;}
+.black_cont li {float:left; margin-right:40px; margin-bottom:20px;}
+.mgroup_setting h4, .letter_setting h4 {font-size:14px; color:#333; font-weight:700;}
+.mgroup_setting .rowElem {width:90px; margin-right:30px;}
+.letter_setting .rowElem {width:150px; margin-right:30px;}
+.auth_dl {margin:30px 0 0 70px;}
+.auth_dl dt {float:left; line-height:30px; width:80px; text-align:right;}
+.auth_dl dd {margin-bottom:15px; margin-left:90px; line-height:30px;}
+.p_num {color:#0dc931; font-weight:700; margin:0 10px;}
+.phone_num {width:230px;}
+.code_text {width:120px;}
+.cimg_info .upload_bg {background:url(../images/upload_background.gif) no-repeat; width:127px; height:41px; margin-top:50px;}
+.noread .smsg_word {font-weight:700;}

@@ -1,0 +1,133 @@
+package com.ningpai.third.auth.bean;
+
+import java.util.Date;
+
+/**
+ * <p>
+ * 第三方权限页面
+ * </p>
+ * 
+ * @author zhanghl
+ * @since 20150730
+ * @version 2.0
+ */
+public class ThirdAuthorityPage {
+    /**
+     * 权限页面编号
+     */
+    private Long id;
+    /**
+     * 权限编号
+     */
+    private Long authorityId;
+    /**
+     * 页面编号
+     */
+    private Long pageId;
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+    /**
+     * 修改时间
+     */
+    private Date modTime;
+    /**
+     * 删除标记
+     */
+    private String flag;
+    /**
+     * 页面类型 0节点 1页面
+     */
+    private String type;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getAuthorityId() {
+        return authorityId;
+    }
+
+    public void setAuthorityId(Long authorityId) {
+        this.authorityId = authorityId;
+    }
+
+    public Long getPageId() {
+        return pageId;
+    }
+
+    public void setPageId(Long pageId) {
+        this.pageId = pageId;
+    }
+
+    /**
+     * 获取创建日期
+     * @return
+     */
+    public Date getCreateTime() {
+        if (this.createTime != null) {
+            return new Date(this.createTime.getTime());
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * 设置创建日期
+     * @param createTime
+     */
+    public void setCreateTime(Date createTime) {
+        if (createTime != null) {
+            Date tEmp = (Date) createTime.clone();
+            if (tEmp != null) {
+                this.createTime = tEmp;
+            }
+        }
+    }
+
+    /**
+     * 获取修改日期
+     * @return
+     */
+    public Date getModTime() {
+        if (this.modTime != null) {
+            return new Date(this.modTime.getTime());
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * 设置修改日期
+     * @param modTime
+     */
+    public void setModTime(Date modTime) {
+        if (modTime != null) {
+            Date tEmp = (Date) modTime.clone();
+            if (tEmp != null) {
+                this.modTime = tEmp;
+            }
+        }
+    }
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+}

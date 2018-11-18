@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.customer.dao.InsideLetterMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.customer.bean.InsideLetter" >
+    <id column="letter_id" property="letterId" jdbcType="BIGINT" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="receive_customer_id" property="receiveCustomerId" jdbcType="BIGINT" />
+    <result column="letter_title" property="letterTitle" jdbcType="VARCHAR" />
+    <result column="letter_content" property="letterContent" jdbcType="VARCHAR" />
+    <result column="letter_ip" property="letterIp" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="del_time" property="delTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="is_read" property="isRead" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap extends="BaseResultMap"  id="ResultMapVo" type="com.ningpai.customer.vo.InsideLetterVo">
+  	 <result column="is_del" property="isDel" jdbcType="CHAR" />
+   	 <result column="rela_id" property="relaId" jdbcType="BIGINT" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    letter_id, customer_id, receive_customer_id, letter_title, letter_content, letter_ip, 
+    parent_id, create_time, del_time, del_flag, is_read
+  </sql>
+  <sql id="Column_List">
+  	ci.letter_id,ci.customer_id,ci.receive_customer_id,ci.letter_title,ci.letter_content,
+  	ci.parent_id,ci.create_time,ci.del_flag,ci.is_read,cr.rela_id,cr.is_del
+  </sql>
+  <!-- 根据customerId查询全部站内信 -->
+  <select id="selectList"  resultMap="ResultMapVo"  parameterType="java.util.Map"  >
+      select *
+      FROM
+      (
+      select
+      <include refid="Column_List"/>
+      from np_customer_insideletter ci
+      left JOIN np_cust_letter_rela cr on cr.letter_id = ci.letter_id and cr.customer_id = #{customerId,jdbcType=BIGINT}
+      where ci.customer_id = #{customerId,jdbcType=BIGINT} AND ci.receive_customer_id is null
+      ) t
+      where t.is_del = '0' or t.is_del is null and  <![CDATA[ (SELECT create_time FROM np_customer WHERE customer_id = #{customerId,jdbcType=BIGINT}) <= t.create_time
+        ]]>
+      order by t.letter_id DESC
+      limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <!-- 根据customerId查询全部站内信个数 -->
+  <select id="selectInsideCount" parameterType="java.lang.Long" resultType="java.lang.Long">
+    select
+      COUNT(1)
+    FROM
+    (
+    select
+    <include refid="Column_List"/>
+    from np_customer_insideletter ci
+    left JOIN np_cust_letter_rela cr on cr.letter_id = ci.letter_id and cr.customer_id = #{customerId,jdbcType=BIGINT}
+    where ci.customer_id = #{customerId,jdbcType=BIGINT} AND ci.receive_customer_id is null
+    ) t
+    where t.is_del = '0' or t.is_del is null and  <![CDATA[ (SELECT create_time FROM np_customer WHERE customer_id = #{customerId,jdbcType=BIGINT}) <= t.create_time
+        ]]>
+    order by t.letter_id DESC
+  </select>
+
+    <!-- 根据customerId查询未查看的站内信个数 -->
+    <select id="findInsideCount" parameterType="java.lang.Long" resultType="java.lang.Long">
+        select
+        COUNT(1)
+        FROM
+        (
+        select
+        <include refid="Column_List"/>
+        from np_customer_insideletter ci
+        left JOIN np_cust_letter_rela cr on cr.letter_id = ci.letter_id and cr.customer_id = #{customerId,jdbcType=BIGINT}
+        where ci.customer_id = #{customerId,jdbcType=BIGINT} AND ci.receive_customer_id is null
+        ) t
+        where (t.is_del = '0'  or t.is_del is null) and t.rela_id is null and  <![CDATA[ (SELECT create_time FROM np_customer WHERE customer_id = #{customerId,jdbcType=BIGINT}) <= t.create_time
+        ]]>
+
+    </select>
+  
+  <!-- 根据customerId和letterId判断是否已读 -->
+  <select id="selectisread" resultType="java.lang.Long" parameterType="java.util.Map">
+  	select count(1) from np_cust_letter_rela
+	where customer_id=#{customerId,jdbcType=BIGINT} and letter_id=#{letterId,jdbcType=BIGINT}
+  </select>
+  
+  <!-- 已读删除 -->
+  <update id="deleteByrelaId" parameterType="java.lang.Long">
+  	update np_cust_letter_rela
+  	set is_del='1'
+  	where rela_id=#{relaId,jdbcType=BIGINT}
+  </update>
+
+  <!-- 根据customerId和letterId删除 -->
+  <update id="deleteByletterIdCustId" parameterType="java.util.Map">
+  	update np_cust_letter_rela
+  	set is_del='1'
+  	where customer_id=#{customerId,jdbcType=BIGINT} and letter_id=#{letterId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 标记为已读 -->
+  <insert id="readed" parameterType="com.ningpai.customer.vo.InsideLetterVo">
+  	insert into np_cust_letter_rela
+  	 <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="relaId != null" >
+        rela_id,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="letterId != null" >
+        letter_id,
+      </if>
+      <if test="isDel == null" >
+        is_del,
+      </if>
+  	</trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="relaId != null" >
+        #{relaId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="letterId != null" >
+        #{letterId,jdbcType=BIGINT},
+      </if>
+      <if test="isDel == null" >
+        '0',
+      </if>
+     </trim>
+  </insert>
+  
+  <!-- 未读删除 -->
+  <insert id="deleteRead" parameterType="com.ningpai.customer.vo.InsideLetterVo">
+  	insert into np_cust_letter_rela
+  	 <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="relaId != null" >
+        rela_id,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="letterId != null" >
+        letter_id,
+      </if>
+      <if test="isDel == null" >
+        is_del,
+      </if>
+  	</trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="relaId != null" >
+        #{relaId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="letterId != null" >
+        #{letterId,jdbcType=BIGINT},
+      </if>
+      <if test="isDel == null" >
+        '1',
+      </if>
+     </trim>
+  </insert>
+  
+  <!-- 根据letterId查找站内信-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_customer_insideletter
+    where letter_id = #{letterId,jdbcType=BIGINT}
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_customer_insideletter
+    where letter_id = #{letterId,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" parameterType="com.ningpai.customer.bean.InsideLetter" >
+    insert into np_customer_insideletter (letter_id, customer_id, receive_customer_id, 
+      letter_title, letter_content, letter_ip, 
+      parent_id, create_time, del_time, 
+      del_flag, is_read)
+    values (#{letterId,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, #{receiveCustomerId,jdbcType=BIGINT}, 
+      #{letterTitle,jdbcType=VARCHAR}, #{letterContent,jdbcType=VARCHAR}, #{letterIp,jdbcType=VARCHAR}, 
+      #{parentId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{delTime,jdbcType=TIMESTAMP}, 
+      #{delFlag,jdbcType=CHAR}, #{isRead,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.customer.bean.InsideLetter" >
+    insert into np_customer_insideletter
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="letterId != null" >
+        letter_id,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="receiveCustomerId != null" >
+        receive_customer_id,
+      </if>
+      <if test="letterTitle != null" >
+        letter_title,
+      </if>
+      <if test="letterContent != null" >
+        letter_content,
+      </if>
+      <if test="letterIp != null" >
+        letter_ip,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="createTime == null" >
+        create_time,
+      </if>
+      <if test="delTime != null" >
+        del_time,
+      </if>
+      <if test="delFlag == null" >
+        del_flag,
+      </if>
+      <if test="isRead != null" >
+        is_read,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="letterId != null" >
+        #{letterId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="receiveCustomerId != null" >
+        #{receiveCustomerId,jdbcType=BIGINT},
+      </if>
+      <if test="letterTitle != null" >
+        #{letterTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="letterContent != null" >
+        #{letterContent,jdbcType=VARCHAR},
+      </if>
+      <if test="letterIp != null" >
+        #{letterIp,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime == null" >
+        SYSDATE(),
+      </if>
+      <if test="delTime != null" >
+        #{delTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag == null" >
+        '0',
+      </if>
+      <if test="isRead != null" >
+        #{isRead,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+
+    <!--批量插入消息通知-->
+    <insert id="insertNotices" parameterType="com.ningpai.customer.bean.InsideLetter">
+        insert into np_customer_insideletter
+        (customer_id,
+        letter_title,
+        letter_content,
+        create_time,
+        del_flag)
+        VALUES
+        <foreach collection="list" separator="," item="item" index="index">
+            (
+            #{item.customerId,jdbcType=BIGINT},
+            #{item.letterTitle,jdbcType=VARCHAR},
+            #{item.letterContent,jdbcType=VARCHAR},
+            SYSDATE(),
+            '0'
+            )
+        </foreach>
+
+    </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.customer.bean.InsideLetter" >
+    update np_customer_insideletter
+    <set >
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="receiveCustomerId != null" >
+        receive_customer_id = #{receiveCustomerId,jdbcType=BIGINT},
+      </if>
+      <if test="letterTitle != null" >
+        letter_title = #{letterTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="letterContent != null" >
+        letter_content = #{letterContent,jdbcType=VARCHAR},
+      </if>
+      <if test="letterIp != null" >
+        letter_ip = #{letterIp,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delTime != null" >
+        del_time = #{delTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="isRead != null" >
+        is_read = #{isRead,jdbcType=CHAR},
+      </if>
+    </set>
+    where letter_id = #{letterId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.customer.bean.InsideLetter" >
+    update np_customer_insideletter
+    set customer_id = #{customerId,jdbcType=BIGINT},
+      receive_customer_id = #{receiveCustomerId,jdbcType=BIGINT},
+      letter_title = #{letterTitle,jdbcType=VARCHAR},
+      letter_content = #{letterContent,jdbcType=VARCHAR},
+      letter_ip = #{letterIp,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      del_time = #{delTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR},
+      is_read = #{isRead,jdbcType=CHAR}
+    where letter_id = #{letterId,jdbcType=BIGINT}
+  </update>
+</mapper>

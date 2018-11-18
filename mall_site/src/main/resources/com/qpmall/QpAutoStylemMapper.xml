@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qpmall.dao.QpAutoStyleMapper" >
+
+    <resultMap id="BaseResultMap2" type="com.qpmall.bean.QpAutoStyleBean" >
+        <result column="auto_style_id_LiYang_ID" property="autoStyleIdLiyangId" jdbcType="VARCHAR" />
+        <result column="auto_style_id_LiYangYaSuo_ID" property="autoStyleIdLiyangyasuoId" jdbcType="VARCHAR" />
+        <result column="auto_style_make" property="autoStyleMake" jdbcType="VARCHAR" />
+        <result column="auto_style_brand_make" property="autoStyleBrandMake" jdbcType="VARCHAR" />
+        <result column="goods_brand_ID" property="goodsBrandId" jdbcType="BIGINT" />
+        <result column="goods_brand_name" property="goodsBrandName" jdbcType="VARCHAR" />
+        <result column="auto_style_system" property="autoStyleSystem" jdbcType="VARCHAR" />
+        <result column="auto_style_type" property="autoStyleType" jdbcType="VARCHAR" />
+        <result column="auto_style_upgrade" property="autoStyleUpgrade" jdbcType="VARCHAR" />
+        <result column="auto_style_chassis" property="autoStyleChassis" jdbcType="VARCHAR" />
+        <result column="auto_style_year" property="autoStyleYear" jdbcType="VARCHAR" />
+        <result column="auto_style_stop_production" property="autoStyleStopProduction" jdbcType="VARCHAR" />
+        <result column="auto_style_engine" property="autoStyleEngine" jdbcType="VARCHAR" />
+        <result column="auto_style_swept_volume" property="autoStyleSweptVolume" jdbcType="VARCHAR" />
+        <result column="auto_style_fuel" property="autoStyleFuel" jdbcType="VARCHAR" />
+        <result column="auto_style_power" property="autoStylePower" jdbcType="VARCHAR" />
+        <result column="auto_style_gearbox" property="autoStyleGearbox" jdbcType="VARCHAR" />
+        <result column="auto_style_drive" property="autoStyleDrive" jdbcType="VARCHAR" />
+        <result column="auto_style_createtime" property="autoStyleCreatetime" jdbcType="TIMESTAMP" />
+        <result column="auto_style_isdel" property="autoStyleIsdel" jdbcType="INTEGER" />
+        <result column="auto_style_productive_year" property="autoStyleProductiveYear" jdbcType="VARCHAR" />
+        <result column="auto_style_sales_name" property="autoStyleSalesName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="BaseResultMap3" type="com.qpmall.bean.QpGoodsAutoStyleBean" >
+        <id column="goods_auto_style_id" property="goodsAutoStyleId" jdbcType="BIGINT" />
+        <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+        <result column="auto_style_id" property="autoStyleId" jdbcType="BIGINT" />
+        <result column="goods_auto_style_delflag" property="goodsAutoStyleDelflag" jdbcType="CHAR" />
+        <result column="goods_auto_style_create_name" property="goodsAutoStyleCreateName" jdbcType="VARCHAR" />
+        <result column="goods_auto_style_create_time" property="goodsAutoStyleCreateTime" jdbcType="TIMESTAMP" />
+        <result column="goods_auto_style_modified_name" property="goodsAutoStyleModifiedName" jdbcType="VARCHAR" />
+        <result column="goods_auto_style_modified_time" property="goodsAutoStyleModifiedTime" jdbcType="TIMESTAMP" />
+        <result column="goods_auto_style_del_name" property="goodsAutoStyleDelName" jdbcType="VARCHAR" />
+        <result column="goods_auto_style_del_time" property="goodsAutoStyleDelTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+    <resultMap id="BaseResultMap" type="com.qpmall.vo.BrandBean">
+        <result column="goods_brand_name" jdbcType="VARCHAR" property="goods_brand_name" />
+        <result column="auto_style_year" jdbcType="VARCHAR" property="auto_style_year" />
+        <result column="brand_logo" jdbcType="TIMESTAMP" property="brand_logo" />
+        <result column="brand_name_initial" jdbcType="VARCHAR" property="brand_name_initial" />
+    </resultMap>
+    <resultMap id="BaseResultMap4" type="com.qpmall.vo.AutoCarTypeVo">
+        <result column="goods_brand_name" jdbcType="VARCHAR" property="goodsBrandName" />
+        <result column="auto_style_system" jdbcType="VARCHAR" property="autoStyleSystem" />
+        <result column="auto_style_type" jdbcType="TIMESTAMP" property="autoStyleType" />
+        <result column="auto_style_engine" jdbcType="VARCHAR" property="autoStyleEngine" />
+        <result column="auto_style_gearbox" jdbcType="VARCHAR" property="autoStyleGearbox" />
+        <result column="auto_style_productive_year" jdbcType="VARCHAR" property="autoStyleProductiveYear" />
+    </resultMap>
+
+    <sql id="Base_Column_List3" >
+        goods_auto_style_id, goods_id, auto_style_id, goods_auto_style_delflag, goods_auto_style_create_name,
+        goods_auto_style_create_time, goods_auto_style_modified_name, goods_auto_style_modified_time,
+        goods_auto_style_del_name, goods_auto_style_del_time,auto_style_productive_year
+    </sql>
+
+    <select id="findAllList" resultMap="BaseResultMap2">
+        /*SELECT * FROM qp_auto_style ORDER BY goods_brand_name ASC,auto_style_system ASC, auto_style_type ASC,auto_style_gearbox ASC, auto_style_productive_year DESC*/
+        SELECT DISTINCT auto_style_id_LiYangYaSuo_ID,auto_style_brand_make,goods_brand_name,auto_style_system,auto_style_type,auto_style_engine,auto_style_gearbox,      auto_style_productive_year,auto_style_sales_name FROM qp_auto_style
+      GROUP BY goods_brand_name,auto_style_brand_make,auto_style_system,auto_style_type,auto_style_engine,auto_style_gearbox,auto_style_productive_year
+      ORDER BY goods_brand_name ASC,auto_style_system ASC, auto_style_type ASC,auto_style_gearbox ASC, auto_style_productive_year DESC
+    </select>
+    <select id="findObjByAutoID" resultMap="BaseResultMap2">
+        SELECT * FROM qp_auto_style WHERE auto_style_id_LiYangYaSuo_ID=#{autoId,jdbcType=VARCHAR}
+    </select>
+    <select id="findVoObjByAutoID" resultMap="BaseResultMap4">
+        SELECT DISTINCT goods_brand_name,auto_style_system,auto_style_type,auto_style_engine,auto_style_gearbox,auto_style_productive_year FROM qp_auto_style WHERE auto_style_id_LiYang_ID in
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="findListByYear" resultType="java.util.Map">
+        SELECT DISTINCT auto_style_year FROM qp_auto_style ORDER BY auto_style_year
+    </select>
+    <select id="findListByType" resultType="java.util.Map">
+        SELECT * FROM qp_auto_style WHERE 1=1
+        <if test="autoStyleEngine!=null and autoStyleEngine!=''">
+            and  auto_style_engine = #{autoStyleEngine,jdbcType=VARCHAR}
+        </if>
+        <if test="autoStyleGearbox!=null and autoStyleGearbox!=''">
+            and  auto_style_gearbox = #{autoStyleGearbox,jdbcType=VARCHAR}
+        </if>
+        <if test="goodsBrandName!=null and goodsBrandName!=''">
+            and  goods_brand_name = #{goodsBrandName,jdbcType=VARCHAR}
+        </if>
+        <if test="autoStyleSystem!=null and autoStyleSystem!=''">
+            and  auto_style_system = #{autoStyleSystem,jdbcType=VARCHAR}
+        </if>
+        <if test="autoStyleType!=null and autoStyleType!=''">
+            and  auto_style_type = #{autoStyleType,jdbcType=VARCHAR}
+        </if>
+        ORDER BY goods_brand_name ASC,auto_style_system ASC, auto_style_type ASC,auto_style_gearbox ASC, auto_style_productive_year DESC
+    </select>
+    <select id="findAutoStyleByBrand" parameterType="java.lang.String" resultMap="BaseResultMap">
+       SELECT DISTINCT c.`goods_brand_name`,d.`brand_logo`,d.`brand_name_initial`
+       FROM qp_auto_style c JOIN np_goods_brand d ON c.`goods_brand_name`=d.`brand_name`
+        WHERE d.`brand_delflag`='0'
+        ORDER BY d.`brand_name_initial`,goods_brand_name
+    </select>
+
+    <select id="selectGoodsAutoStyleByGoodsId" parameterType="java.lang.Integer" resultMap="BaseResultMap3">
+        SELECT * FROM `qp_goods_auto_style` c WHERE c.`goods_id`=#{goodsId,jdbcType=BIGINT}
+    </select>
+</mapper>

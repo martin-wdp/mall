@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ningpai.information.dao.InformationMapper">
+  <resultMap id="BaseResultMap" type="com.ningpai.information.bean.Information">
+    <id column="info_id" jdbcType="BIGINT" property="infoId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="short_title" jdbcType="VARCHAR" property="shortTitle" />
+    <result column="user_defined" jdbcType="VARCHAR" property="userDefined" />
+    <result column="tag" jdbcType="VARCHAR" property="tag" />
+    <result column="img_src" jdbcType="VARCHAR" property="imgSrc" />
+    <result column="source" jdbcType="VARCHAR" property="source" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="info_type_id" jdbcType="BIGINT" property="infoTypeId" />
+    <result column="keyword" jdbcType="VARCHAR" property="keyword" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="browseable" jdbcType="BIGINT" property="browseable" />
+    <result column="hits" jdbcType="BIGINT" property="hits" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="is_show" jdbcType="CHAR" property="isShow" />
+    <result column="delflag" jdbcType="CHAR" property="delflag" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="temp1" property="temp1" jdbcType="VARCHAR"/>
+    <result column="temp2" property="temp2" jdbcType="VARCHAR"/>
+  </resultMap>
+  <resultMap id="BaseResultMapVo" type="com.ningpai.information.vo.InformationVo">
+    <id column="info_id" jdbcType="BIGINT" property="infoId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="short_title" jdbcType="VARCHAR" property="shortTitle" />
+    <result column="user_defined" jdbcType="VARCHAR" property="userDefined" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="img_src" jdbcType="VARCHAR" property="imgSrc" />
+    <result column="hits" jdbcType="BIGINT" property="hits" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="is_show" jdbcType="CHAR" property="isShow" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="info_type_id" jdbcType="BIGINT" property="infoTypeId" />
+    <result column="temp1" property="temp1" jdbcType="VARCHAR"/>
+    <result column="temp2" property="temp2" jdbcType="VARCHAR"/>
+    <association column="info_type_id" property="infoType" 
+			select="com.ningpai.third.information.dao.ThirdInforTypeMapper.selectByPrimaryKey"></association>
+  </resultMap>
+  <resultMap id="infoVo" type="com.ningpai.information.vo.InformationVo">
+    <id column="info_id" jdbcType="BIGINT" property="infoId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="short_title" jdbcType="VARCHAR" property="shortTitle" />
+    <result column="user_defined" jdbcType="VARCHAR" property="userDefined" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="img_src" jdbcType="VARCHAR" property="imgSrc" />
+    <result column="hits" jdbcType="BIGINT" property="hits" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="is_show" jdbcType="CHAR" property="isShow" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="info_type_id" jdbcType="BIGINT" property="infoTypeId" />
+    <result column="temp1" property="temp1" jdbcType="VARCHAR"/>
+    <result column="temp2" property="temp2" jdbcType="VARCHAR"/>
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.ningpai.information.bean.Information">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    info_id, title, url, short_title, user_defined, tag, img_src, source, author, info_type_id, keyword, description, 
+    browseable, hits, sort, is_show, delflag, create_user_id, create_date, update_user_id, update_date,temp1,temp2
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from np_information
+    where info_id = #{infoId,jdbcType=BIGINT}
+  </select>
+  <!-- 根据栏目查询文章 -->
+  <select id="selectByInfoType" parameterType="java.lang.Long" resultMap="infoVo">
+    select 
+    <include refid="Base_Column_List" />
+    from np_information
+    where info_type_id = #{infoTypeId,jdbcType=BIGINT} and is_show = '1'
+  </select>
+  <!-- 查找所有资讯 -->
+  <select id="selectAll" resultMap="BaseResultMapVo" parameterType="java.lang.Long">
+    select 
+    <include refid="Base_Column_List" />
+    from np_information
+    where delflag = '0'
+    <if test="_parameter != null and _parameter != ''">
+  		and temp2 = #{_parameter}
+  	</if>
+  	and temp1 = '1' 
+  </select>
+  <!-- 根据资讯类型编号查找资讯数量 -->
+  <select id="selectInfoCountByTypeId" resultType="java.lang.Integer" parameterType="java.lang.Long" >
+    select count(info_id) from np_information
+    where info_type_id = #{infoTypeId,jdbcType=BIGINT}
+    and delflag = '0'
+  </select>
+  <!-- 根据文章标题查找文章数量  -->
+  <select id="selectInfoCountByTitle" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select count(info_id) from np_information
+    where title = #{title,jdbcType=VARCHAR}
+    and delflag = '0'
+    <if test="temp2 != null and temp2 != ''">
+  		and temp2 = #{temp2}
+  	</if>
+  	and temp1 = '1' 
+  </select>
+  <!-- 查询所有的行数（分页用） -->
+  <select id="queryTotalCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+	select count(info_id) from np_information where
+  	delflag = '0'
+  	<if test="condition!=null and condition!='' and condition==1">
+  		and title like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  	</if>
+  	<if test="typeId != null and typeId !='' and typeId != -1">
+  		and info_type_id = #{typeId}
+  	</if>
+  	<if test="temp2 != null and temp2 != ''">
+  		and temp2 = #{temp2}
+  	</if>
+  	and temp1 = '1' 
+  </select>
+  <!-- 根据分页参数查询资讯列表 -->
+  <select id="queryByPageBean" resultMap="BaseResultMapVo"
+	parameterType="java.util.Map">
+    select 
+  		<include refid="Base_Column_List" />,
+  		(
+  			select point_level_name from np_customer_point_level
+		    where point_lelvel_id = info.browseable and del_flag='0'
+  		) browseableValue
+  	from np_information info where 
+  	delflag = '0'
+  	<if test="searchText != null and searchText != ''">
+  		and title like  CONCAT(CONCAT('%', #{searchText},'%')) 
+  	</if>
+  	<if test="typeId != null and typeId !='' and typeId != -1">
+  		and info_type_id = #{typeId}
+  	</if>
+  	<if test="temp2 != null and temp2 != ''">
+  		and temp2 = #{temp2}
+  	</if>
+  	and temp1 = '1' 
+  	order by create_date desc,update_date desc
+  	limit #{startRowNum},#{endRowNum}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from np_information
+    where info_id = #{infoId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.information.bean.Information">
+    insert into np_information (info_id, title, url, short_title, user_defined, tag, img_src, source, author, info_type_id, 
+    keyword, description, browseable, hits, sort, is_show, delflag, create_user_id, create_date, update_user_id, update_date,
+    content,temp1,temp2)
+    values (#{infoId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{shortTitle,jdbcType=VARCHAR},  
+      #{userDefined,jdbcType=VARCHAR}, #{tag,jdbcType=VARCHAR}, #{imgSrc,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR},
+      #{author,jdbcType=VARCHAR}, #{infoTypeId,jdbcType=BIGINT}, #{keyword,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{browseable,jdbcType=BIGINT}, #{hits,jdbcType=BIGINT}, #{sort,jdbcType=INTEGER}, #{isShow,jdbcType=CHAR}, 
+      #{delflag,jdbcType=CHAR}, #{createUserId,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT}, #{updateDate,jdbcType=TIMESTAMP},#{content,jdbcType=LONGVARCHAR},
+      #{temp1,jdbcType=VARCHAR},#{temp2,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.information.bean.Information">
+    insert into np_information
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="infoId != null">
+        info_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="shortTitle != null">
+        short_title,
+      </if>
+      <if test="userDefined != null">
+        user_defined,
+      </if>
+      <if test="tag != null">
+        tag,
+      </if>
+      <if test="imgSrc != null">
+        img_src,
+      </if>
+      <if test="source != null">
+        source,
+      </if>
+      <if test="author != null">
+        author,
+      </if>
+      <if test="infoTypeId != null">
+        info_type_id,
+      </if>
+      <if test="keyword != null">
+        keyword,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="browseable != null">
+        browseable,
+      </if>
+      <if test="hits != null">
+        hits,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="isShow != null">
+        is_show,
+      </if>
+      <if test="delflag != null">
+        delflag,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="temp1 != null">
+        temp1,
+      </if>
+      <if test="temp2 != null">
+        temp2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="infoId != null">
+        #{infoId,jdbcType=BIGINT},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="shortTitle != null">
+        #{shortTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="userDefined != null">
+        #{userDefined,jdbcType=VARCHAR},
+      </if>
+      <if test="tag != null">
+        #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="imgSrc != null">
+        #{imgSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null">
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="infoTypeId != null">
+        #{infoTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="keyword != null">
+        #{keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="browseable != null">
+        #{browseable,jdbcType=BIGINT},
+      </if>
+      <if test="hits != null">
+        #{hits,jdbcType=BIGINT},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="isShow != null">
+        #{isShow,jdbcType=CHAR},
+      </if>
+      <if test="delflag != null">
+        #{delflag,jdbcType=CHAR},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="temp1 != null">
+        #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null">
+        #{temp2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.information.bean.Information">
+    update np_information
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="shortTitle != null">
+        short_title = #{shortTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="userDefined != null">
+        user_defined = #{userDefined,jdbcType=VARCHAR},
+      </if>
+      <if test="tag != null">
+        tag = #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="imgSrc != null">
+        img_src = #{imgSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null">
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="infoTypeId != null">
+        info_type_id = #{infoTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="keyword != null">
+        keyword = #{keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="browseable != null">
+        browseable = #{browseable,jdbcType=BIGINT},
+      </if>
+      <if test="hits != null">
+        hits = #{hits,jdbcType=BIGINT},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="isShow != null">
+        is_show = #{isShow,jdbcType=CHAR},
+      </if>
+      <if test="delflag != null">
+        delflag = #{delflag,jdbcType=CHAR},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="temp1 != null">
+        temp1 = #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null">
+        temp2 = #{temp2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where info_id = #{infoId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ningpai.information.bean.Information">
+    update np_information
+    set title = #{title,jdbcType=VARCHAR},
+   	  url = #{url,jdbcType=VARCHAR},
+      short_title = #{shortTitle,jdbcType=VARCHAR},
+      user_defined = #{userDefined,jdbcType=VARCHAR},
+      tag = #{tag,jdbcType=VARCHAR},
+      img_src = #{imgSrc,jdbcType=VARCHAR},
+      source = #{source,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      info_type_id = #{infoTypeId,jdbcType=BIGINT},
+      keyword = #{keyword,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      browseable = #{browseable,jdbcType=BIGINT},
+      hits = #{hits,jdbcType=BIGINT},
+      sort = #{sort,jdbcType=INTEGER},
+      is_show = #{isShow,jdbcType=CHAR},
+      delflag = #{delflag,jdbcType=CHAR},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR},
+      temp1 = #{temp1,jdbcType=VARCHAR},
+      temp2 = #{temp2,jdbcType=VARCHAR}
+    where info_id = #{infoId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.information.bean.Information">
+    update np_information
+    set title = #{title,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      short_title = #{shortTitle,jdbcType=VARCHAR},
+      user_defined = #{userDefined,jdbcType=VARCHAR},
+      tag = #{tag,jdbcType=VARCHAR},
+      img_src = #{imgSrc,jdbcType=VARCHAR},
+      source = #{source,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      info_type_id = #{infoTypeId,jdbcType=BIGINT},
+      keyword = #{keyword,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      browseable = #{browseable,jdbcType=BIGINT},
+      hits = #{hits,jdbcType=BIGINT},
+      sort = #{sort,jdbcType=INTEGER},
+      is_show = #{isShow,jdbcType=CHAR},
+      delflag = #{delflag,jdbcType=CHAR},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      temp1 = #{temp1,jdbcType=VARCHAR},
+      temp2 = #{temp2,jdbcType=VARCHAR}
+    where info_id = #{infoId,jdbcType=BIGINT}
+  </update>
+  
+</mapper>

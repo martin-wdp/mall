@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ningpai.customer.dao.CustomerPointLevelMapper">
+  <resultMap id="BaseResultMap" type="com.ningpai.customer.bean.CustomerPointLevel">
+    <id column="point_lelvel_id" jdbcType="BIGINT" property="pointLelvelId" />
+    <result column="point_level_name" jdbcType="VARCHAR" property="pointLevelName" />
+    <result column="point_need" jdbcType="VARCHAR" property="pointNeed" />
+    <result column="point_discount" jdbcType="DECIMAL" property="pointDiscount" />
+    <result column="is_default" jdbcType="CHAR" property="isDefault" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
+    <result column="del_time" jdbcType="TIMESTAMP" property="delTime" />
+    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    point_lelvel_id, point_level_name, point_need, point_discount, is_default, create_time, 
+    modified_time, del_time, del_flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_customer_point_level
+    where point_lelvel_id = #{pointLelvelId,jdbcType=BIGINT} and del_flag='0'
+  </select>
+  <select id="selectByName" parameterType="java.lang.String" resultType="java.lang.Long">
+    select 
+    count(1)
+    from np_customer_point_level
+    where point_level_name = #{pointLelvelName}
+  </select>
+  <select id="selectAll"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_customer_point_level
+    where del_flag='0'
+  </select>
+  <select id="selectAllCount"  resultType="java.lang.Integer">
+    select 
+    count(1)
+    from np_customer_point_level
+    where del_flag='0'
+  </select>
+  <!-- 分页查询会员等级详细信息 -->
+  <select id="selectPointLevelByLimit"  resultMap="BaseResultMap"  parameterType="java.util.Map">
+    select 
+    <include refid="Base_Column_List" />
+    from np_customer_point_level
+    where del_flag='0'
+    limit #{startRowNum,jdbcType=BIGINT},#{endRowNum,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectDefaultPointLevel" resultType="java.lang.Long">
+    select 
+    count(p.is_default)
+    from np_customer_point_level p
+    where p.is_default ='1'
+  </select>
+  
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    update np_customer_point_level set del_flag='1',del_time=SYSDATE() 
+    where point_lelvel_id = #{pointLelvelId,jdbcType=BIGINT}
+  </update>
+  <!-- 批量删除 -->
+  <update id="deletePointLevelByIds" parameterType="java.util.Map">
+    update np_customer_point_level set del_flag='1',del_time=SYSDATE() 
+    where point_lelvel_id in 
+	<foreach item="item" index="index" collection="pointLevelIds" open="(" separator="," close=")">
+        #{item}
+    </foreach>
+  </update>
+  
+  <insert id="insert" parameterType="com.ningpai.customer.bean.CustomerPointLevel">
+    insert into np_customer_point_level (point_lelvel_id, point_level_name, point_need, 
+      point_discount, is_default, create_time, 
+      modified_time, del_time, del_flag
+      )
+    values (#{pointLelvelId,jdbcType=BIGINT}, #{pointLevelName,jdbcType=VARCHAR}, #{pointNeed,jdbcType=INTEGER}, 
+      #{pointDiscount,jdbcType=DECIMAL}, #{isDefault,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifiedTime,jdbcType=TIMESTAMP}, #{delTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.customer.bean.CustomerPointLevel">
+    insert into np_customer_point_level
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pointLelvelId != null">
+        point_lelvel_id,
+      </if>
+      <if test="pointLevelName != null">
+        point_level_name,
+      </if>
+      <if test="pointNeed != null">
+        point_need,
+      </if>
+      <if test="pointDiscount != null">
+        point_discount,
+      </if>
+      <if test="isDefault != null">
+        is_default,
+      </if>
+      <if test="createTime == null">
+        create_time,
+      </if>
+      <if test="modifiedTime != null">
+        modified_time,
+      </if>
+      <if test="delTime == null">
+        del_time,
+      </if>
+      <if test="delFlag == null">
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pointLelvelId != null">
+        #{pointLelvelId,jdbcType=BIGINT},
+      </if>
+      <if test="pointLevelName != null">
+        #{pointLevelName,jdbcType=VARCHAR},
+      </if>
+      <if test="pointNeed != null">
+        #{pointNeed,jdbcType=INTEGER},
+      </if>
+      <if test="pointDiscount != null">
+        #{pointDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="isDefault != null">
+        #{isDefault,jdbcType=CHAR},
+      </if>
+      <if test="createTime == null">
+       SYSDATE(),
+      </if>
+      <if test="modifiedTime != null">
+        #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delTime == null">
+       SYSDATE(),
+      </if>
+      <if test="delFlag == null">
+       '0',
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.customer.bean.CustomerPointLevel">
+    update np_customer_point_level
+    <set>
+      <if test="pointLevelName != null">
+        point_level_name = #{pointLevelName,jdbcType=VARCHAR},
+      </if>
+      <if test="pointNeed != null">
+        point_need = #{pointNeed,jdbcType=INTEGER},
+      </if>
+      <if test="pointDiscount != null">
+        point_discount = #{pointDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="isDefault != null">
+        is_default = #{isDefault,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime == null">
+        modified_time = SYSDATE(),
+      </if>
+      <if test="delTime != null">
+        del_time = #{delTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where point_lelvel_id = #{pointLelvelId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.customer.bean.CustomerPointLevel">
+    update np_customer_point_level
+    set point_level_name = #{pointLevelName,jdbcType=VARCHAR},
+      point_need = #{pointNeed,jdbcType=INTEGER},
+      point_discount = #{pointDiscount,jdbcType=DECIMAL},
+      is_default = #{isDefault,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      del_time = #{delTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where point_lelvel_id = #{pointLelvelId,jdbcType=BIGINT}
+  </update>
+  <update id="cancelBeforeDefault">
+   	update np_customer_point_level set is_default = '0'
+    where is_default = '1'
+  </update>
+  
+ <select id="selectCustomerLevelById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select point_discount from 
+    np_customer_point_level
+    where point_lelvel_id =  (select point_level_id from np_customer_info where customer_id=#{customerId})
+ </select>
+  
+  <select id="selectDefaultCustomerLevel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_customer_point_level p
+    where p.is_default = '1'
+  </select>
+
+    <select id="selectIsDefaultCount" resultType="java.lang.Integer">
+        select count(1) from np_customer_point_level where is_default = '1'
+    </select>
+</mapper>

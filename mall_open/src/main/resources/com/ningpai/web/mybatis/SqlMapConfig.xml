@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE configuration PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-config.dtd">
+<configuration>
+	
+	 <mappers>
+		<mapper resource="com/ningpai/web/mybatis/mapper/OGoodsProductMapper.xml"/>
+		<mapper resource="com/ningpai/web/mybatis/mapper/OCustomerMapper.xml"/>
+		<mapper resource="com/ningpai/web/mybatis/mapper/OOrderMapper.xml"/>
+		<mapper resource="com/ningpai/web/mybatis/mapper/OEmpowerMapper.xml"/>
+		<mapper resource="com/ningpai/web/mybatis/mapper/OGoodsBrandMapper.xml"/>
+		<mapper resource="com/ningpai/web/mybatis/mapper/OGoodsCategoryMapper.xml"/>
+		<mapper resource="com/ningpai/web/mybatis/mapper/OProductWareMapper.xml"/>
+		<mapper resource="com/ningpai/web/mybatis/mapper/OEmpowerLogMapper.xml"/>
+	</mappers>
+</configuration>

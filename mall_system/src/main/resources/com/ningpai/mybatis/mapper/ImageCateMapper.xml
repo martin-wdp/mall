@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.system.dao.ImageCateMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.system.bean.ImageCate" >
+    <id column="imgcate_id" property="imgcateId" jdbcType="BIGINT" />
+    <result column="imgcate_name" property="imgcateName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    imgcate_id, imgcate_name, create_time, modify_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_sys_imagecate
+    where imgcate_id = #{imgcateId,jdbcType=BIGINT}
+  </select>
+  <select id="findCateAll" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from np_sys_imagecate
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_sys_imagecate
+    where imgcate_id = #{imgcateId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.system.bean.ImageCate" >
+    insert into np_sys_imagecate (imgcate_id, imgcate_name, create_time, 
+      modify_time)
+    values (#{imgcateId,jdbcType=BIGINT}, #{imgcateName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifyTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.system.bean.ImageCate" >
+    insert into np_sys_imagecate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="imgcateId != null" >
+        imgcate_id,
+      </if>
+      <if test="imgcateName != null" >
+        imgcate_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="imgcateId != null" >
+        #{imgcateId,jdbcType=BIGINT},
+      </if>
+      <if test="imgcateName != null" >
+        #{imgcateName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.system.bean.ImageCate" >
+    update np_sys_imagecate
+    <set >
+      <if test="imgcateName != null" >
+        imgcate_name = #{imgcateName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where imgcate_id = #{imgcateId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.system.bean.ImageCate" >
+    update np_sys_imagecate
+    set imgcate_name = #{imgcateName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+    where imgcate_id = #{imgcateId,jdbcType=BIGINT}
+  </update>
+</mapper>

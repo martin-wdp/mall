@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.marketing.dao.FullbuyNoCountMarketingMapper" >
+	<resultMap id="BaseResultMap" type="com.ningpai.marketing.bean.FullbuyNoCountMarketing" >
+		<id column="fullbuy_no_count_marketing_id" property="fullbuyNoCountMarketingId" jdbcType="BIGINT" />
+		<result column="marketing_id" property="marketingId" jdbcType="BIGINT" />
+		<result column="count_no" property="countNo" jdbcType="BIGINT" />
+		<result column="count_money" property="countMoney" jdbcType="DECIMAL" />
+		<result column="del_flag" property="delFlag" jdbcType="VARCHAR" />
+		<result column="count_condition" property="countCondition" jdbcType="BIGINT"/>
+	</resultMap>
+	<sql id="Base_Column_List" >
+    	fullbuy_no_count_marketing_id, marketing_id, count_no, count_money, del_flag,count_condition
+    </sql>
+    
+    <insert id="insert" parameterType="com.ningpai.marketing.bean.FullbuyNoCountMarketing">
+    	insert np_full_reduce_count
+    	<trim prefix="(" suffix=")" suffixOverrides="," >
+    		<if test="fullbuyNoCountMarketingId != null">
+    			fullbuy_no_count_marketing_id,
+    		</if>
+    		<if test="marketingId != null">
+    			marketing_id,
+    		</if>
+    		<if test="countNo != null">
+    			count_no,
+    		</if>
+    		<if test="countMoney != null">
+    			count_money,
+    		</if>
+    		<if test="delFlag != null">
+    			del_flag,
+    		</if>
+    	</trim>
+    	<trim prefix="values (" suffix=")" suffixOverrides="," >
+    		<if test="fullbuyNoCountMarketingId != null">
+    			#{fullbuyNoCountMarketingId,jdbcType=BIGINT},
+    		</if>
+    		<if test="marketingId != null">
+    			#{marketingId,jdbcType=BIGINT},
+    		</if>
+    		<if test="countNo != null">
+    			#{countNo,jdbcType=BIGINT},
+    		</if>
+    		<if test="countMoney != null">
+    			#{countMoney,jdbcType=DECIMAL},
+    		</if>
+    		<if test="delFlag != null">
+    			#{delFlag,jdbcType=VARCHAR},
+    		</if>
+    	</trim>
+    </insert>
+    
+    <select id="selectByMarketId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    	select <include refid="Base_Column_List" /> from np_full_reduce_count 
+    	where 1=1 and del_flag='0' and marketing_id = #{marketingId,jdbcType=BIGINT}
+    </select>
+    
+    <update id="insertCountConditionByMarketing" parameterType="java.util.Map">
+    	update np_full_reduce_count set count_condition = #{countCondition,jdbcType=BIGINT}
+    	where marketing_id = #{marketingId,jdbcType=BIGINT}
+    </update>
+    
+    <update id="update">
+    	update np_full_reduce_count set count_condition = '0'
+    </update>
+
+    <update id="modifySelective" parameterType="com.ningpai.marketing.bean.FullbuyNoCountMarketing">
+        update np_full_reduce_count
+        <set>
+            <if test="countNo != null">
+                count_no = #{countNo,jdbcType=BIGINT},
+            </if>
+            <if test="countMoney != null">
+                count_money = #{countMoney,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where marketing_id = #{marketingId,jdbcType=BIGINT}
+    </update>
+    
+    <update id="delFullbuyNoCountByMarketingId" parameterType="java.lang.Long">
+        update np_full_reduce_count
+        <set>
+           del_flag='1'
+        </set>
+        where marketing_id = #{marketingId,jdbcType=BIGINT}
+    </update>
+    
+</mapper>	
+
+
+
+
+
+
+
+
+
+
+
+

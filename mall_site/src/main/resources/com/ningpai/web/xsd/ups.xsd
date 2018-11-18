@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ups="http://www.lianft.com/project/ups" xmlns:upsb="http://www.lianft.com/project/ups/base" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://www.lianft.com/project/ups" elementFormDefault="qualified" version="0.1">
+	<xs:import namespace="http://www.lianft.com/project/ups/base" schemaLocation="ups-base-datatype.xsd"/>
+	<xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="lianft-xmldsig-financial.xsd"/>
+	<xs:element name="UPS">
+		<xs:complexType>
+			<xs:choice>
+				<xs:group ref="ups:RequestGroup"/>
+				<xs:group ref="ups:ResponseGroup"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:group name="RequestGroup">
+		<xs:sequence>
+			<xs:element ref="ups:Request"/>
+			<xs:element ref="ds:Signature" minOccurs="0"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="ResponseGroup">
+		<xs:sequence>
+			<xs:element ref="ups:Response"/>
+			<xs:element ref="ds:Signature" minOccurs="0"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:element name="Request">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ups:Version"/>
+				<xs:element ref="ups:TxType"/>
+				<xs:element ref="ups:TxInfo" minOccurs="0"/>
+				<xs:element ref="ups:Bank" minOccurs="0"/>
+				<xs:element ref="ups:Merchant" minOccurs="0"/>
+				<xs:element ref="ups:Account" minOccurs="0"/>
+				<xs:element ref="ups:Payer" minOccurs="0"/>
+				<xs:element ref="ups:Payee" minOccurs="0"/>
+				<xs:element ref="ups:Order" minOccurs="0"/>
+				<xs:element ref="ups:Bill" minOccurs="0"/>
+				<xs:element ref="ups:Installments" minOccurs="0"/>
+				<xs:element ref="ups:Enterprise" minOccurs="0"/>
+				<xs:element ref="ups:Person"/>
+				<xs:element ref="ups:Auth"/>
+			</xs:sequence>
+			<xs:attribute name="id" type="upsb:T_ID" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Response">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ups:Version"/>
+				<xs:element ref="ups:TxType"/>
+				<xs:element ref="ups:ResponseInfo"/>
+				<xs:element ref="ups:TxInfo" minOccurs="0"/>
+				<xs:element ref="ups:Bank" minOccurs="0"/>
+				<xs:element ref="ups:Merchant" minOccurs="0"/>
+				<xs:element ref="ups:Account" minOccurs="0"/>
+				<xs:element ref="ups:Order" minOccurs="0"/>
+				<xs:element ref="ups:TxRecords" minOccurs="0"/>
+				<xs:element ref="ups:Enterprise" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="id" type="upsb:T_ID" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Version" type="upsb:T_Version"/>
+	<xs:element name="TxType" type="upsb:T_TxType"/>
+	<xs:element name="TxInfo" type="ups:T_TxInfo"/>
+	<xs:element name="Bank" type="ups:T_Bank"/>
+	<xs:element name="Merchant" type="ups:T_Merchant"/>
+	<xs:element name="Account" type="ups:T_Account"/>
+	<xs:element name="Payer" type="ups:T_Payer"/>
+	<xs:element name="Payee" type="ups:T_Payee"/>
+	<xs:element name="Order" type="ups:T_Order"/>
+	<xs:element name="Bill" type="ups:T_Bill"/>
+	<xs:element name="Installments" type="ups:T_Installments"/>
+	<xs:element name="ResponseInfo" type="ups:T_ResponseInfo"/>
+	<xs:element name="TxRecords" type="ups:T_TxRecords"/>
+	<xs:element name="Enterprise" type="ups:T_Enterprise"/>
+	<xs:element name="Person" type="ups:T_Person"/>
+	<xs:element name="Auth" type="ups:T_Auth"/>
+	<xs:complexType name="T_TxInfo">
+		<xs:sequence>
+			<xs:element name="TxTraceNo" type="upsb:T_TxTraceNo" minOccurs="0"/>
+			<xs:element name="OrgTxTraceNo" type="upsb:T_TxTraceNo" minOccurs="0"/>
+			<xs:element name="BankTxTraceNo" type="upsb:T_TxTraceNo" minOccurs="0"/>
+			<xs:element name="OrgBankTxTraceNo" type="upsb:T_TxTraceNo" minOccurs="0"/>
+			<xs:element name="TxTotalAmount" type="upsb:T_MoneyFen" minOccurs="0"/>
+			<xs:element name="TxAmount" type="upsb:T_MoneyFen" minOccurs="0"/>
+			<xs:element name="MartFee" type="upsb:T_FeeFen" minOccurs="0"/>
+			<xs:element name="PaymentFee" type="upsb:T_FeeFen" minOccurs="0"/>
+			<xs:element name="MerchantTxTime" type="upsb:T_DateTime14" minOccurs="0"/>
+			<xs:element name="EndMerchantTxTime" type="upsb:T_DateTime14" minOccurs="0"/>
+			<xs:element name="TxTime" type="upsb:T_DateTime14" minOccurs="0"/>
+			<xs:element name="TxStatus" type="upsb:T_Status" minOccurs="0"/>
+			<xs:element name="Role" type="upsb:T_Role" minOccurs="0"/>
+			<xs:element name="UsageType" type="upsb:T_UsageType" minOccurs="0"/>
+			<xs:element name="UsageDesc" type="upsb:T_UsageDesc" minOccurs="0"/>
+			<xs:element name="TxPayEndDate" type="upsb:T_DateTime14" minOccurs="0"/>
+			<xs:element name="PayerProtestEndDays" type="upsb:T_PayerProtestEndDays" minOccurs="0"/>
+			<xs:element name="CompareDate" type="upsb:T_Date8" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="T_Bank">
+		<xs:sequence>
+			<xs:element name="BankID" type="upsb:T_BankID"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="T_Merchant">
+		<xs:sequence>
+			<xs:element name="MerchantID" type="upsb:T_MerchantID"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="T_Account">
+		<xs:sequence>
+			<xs:element name="AccountNo" type="upsb:T_AccountNo" minOccurs="0"/>
+			<xs:element name="AccountName" type="upsb:T_AccountName" minOccurs="0"/>
+			<xs:element name="Balance" type="upsb:T_MoneyFen" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="T_Payer">
+		<xs:sequence>
+			<xs:element name="PayerBankID" type="upsb:T_BankID" minOccurs="0"/>
+			<xs:element name="PayerAccountNo" type="upsb:T_AccountNo" minOccurs="0"/>
+			<xs:element name="PayerAccountName" type="upsb:T_AccountName" minOccurs="0"/>
+			<xs:element name="PayerAccountType" type="upsb:T_AccountType" minOccurs="0"/>
+			<xs:element name="ReceiveBankID" type="upsb:T_BankID" minOccurs="0"/>
+
+			<xs:element name="ReceiveAccountNo" type="upsb:T_AccountNo" minOccurs="0"/>
+			<xs:element name="ReceiveAccountName" type="upsb:T_AccountName" minOccurs="0"/>
+			<xs:element name="PayerEntID" type="upsb:T_UPSEntID" minOccurs="0"/>
+			<xs:element name="HasEntID" type="upsb:T_AccountType"/>
+			<xs:element name="PayerAccountBranch" type="upsb:T_AccountInfo" minOccurs="0"/>
+			<xs:element name="ReceiveAccountProvince" type="upsb:T_AccountInfo" minOccurs="0"/>
+			<xs:element name="ReceiveAccountCity" type="upsb:T_AccountInfo" minOccurs="0"/>			
+			<xs:element name="PayerCustNO"  type="upsb:T_AccountInfo" minOccurs="0"/>
+			<xs:element name="PayerCustOperNO" type="upsb:T_AccountInfo" minOccurs="0"/>
+			<xs:element name="BuyerCorporationName" type="upsb:T_AccountInfo" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="T_Payee">
+		<xs:sequence>
+			<xs:element name="PayeeBankID" type="upsb:T_BankID" minOccurs="0"/>
+			<xs:element name="PayeeBankAddr" type="upsb:T_BankAddr" minOccurs="0"/>
+			<xs:element name="PayeeBranchID" type="upsb:T_BranchID" minOccurs="0"/>
+			<xs:element name="PayeeAccountNo" type="upsb:T_AccountNo" minOccurs="0"/>
+			<xs:element name="PayeeAccountName" type="upsb:T_AccountName" minOccurs="0"/>
+			<xs:element name="PayeeAccountType" type="upsb:T_AccountType" minOccurs="0"/>
+			<xs:element name="PayeeEntID" type="upsb:T_UPSEntID" minOccurs="0"/>
+			<xs:element name="HasEntID" type="upsb:T_AccountType"/>
+			<xs:element name="PayeeAccountProvince" type="upsb:T_AccountInfo" minOccurs="0"/>
+			<xs:element name="PayeeAccountCity" type="upsb:T_AccountInfo" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="T_Order">
+		<xs:sequence>
+			<xs:element name="OrderNo" type="upsb:T_OrderNo" minOccurs="0"/>
+			<xs:element name="BankOrderNo" type="upsb:T_OrderNo" minOccurs="0"/>
+			<xs:element name="OrderAmount" type="upsb:T_MoneyFen" minOccurs="0"/>
+			<xs:element name="OrderTime" type="upsb:T_DateTime14" minOccurs="0"/>
+			<xs:element name="OrderDesc" type="upsb:T_OrderDesc" minOccurs="0"/>
+			<xs:element name="OrderStatus" type="upsb:T_Status" minOccurs="0"/>
+			<xs:element name="SettleType" type="upsb:T_SettleType" minOccurs="0"/>
+			<xs:element name="BuyerEntID" type="upsb:T_UPSEntID" minOccurs="0"/>
+			<xs:element name="SellerEntID" type="upsb:T_UPSEntID" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="T_Bill">
+		<xs:sequence>
+			<xs:element name="BillNo" type="upsb:T_BillNo" minOccurs="0"/>
+			<xs:element name="BillAmount" type="upsb:T_MoneyFen" minOccurs="0"/>
+			<xs:element name="BillTime" type="upsb:T_DateTime14" minOccurs="0"/>
+			<xs:element name="BillType" type="upsb:T_BillType" minOccurs="0"/>
+			<xs:element name="BillKey" type="upsb:T_BillKey" minOccurs="0"/>
+			<xs:element name="BillDesc" type="upsb:T_BillDesc" minOccurs="0"/>
+			<xs:element name="BillPayEndDate" type="upsb:T_Date8" minOccurs="0"/>
+			<xs:element name="SettleType" type="upsb:T_SettleType" minOccurs="0"/>
+			<xs:element name="BuyerEntID" type="upsb:T_UPSEntID" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="T_Installments">
+		<xs:sequence>
+			<xs:element name="Installment" type="ups:T_Installment" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="T_Installment">
+		<xs:sequence>
+			<xs:element name="TxTraceNo" type="upsb:T_TxTraceNo"/>
+			<xs:element name="InstallmentSN" type="upsb:T_InstallmentSN"/>
+			<xs:element name="PayOffDate" type="upsb:T_Date8"/>
+			<xs:element name="TxTotalAmount" type="upsb:T_MoneyFen"/>
+			
+			<xs:element name="PayeeEntID" type="upsb:T_UPSEntID" minOccurs="0"/>
+			<xs:element name="PayeeBankID" type="upsb:T_BankID"/>
+			<xs:element name="PayeeAccountNo" type="upsb:T_AccountNo"/>
+			<xs:element name="PayeeAccountName" type="upsb:T_AccountName"/>
+			<xs:element name="Field1" type="upsb:T_Expansion" minOccurs="0"/>
+			<xs:element name="Field2" type="upsb:T_Expansion" minOccurs="0"/>
+			<xs:element name="Field3" type="upsb:T_Expansion" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="T_ResponseInfo">
+		<xs:sequence>
+			<xs:element name="ResponseCode" type="upsb:T_ResponseCode"/>
+			<xs:element name="ResponseDesc" type="upsb:T_ResponseDesc" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="T_TxRecords">
+		<xs:sequence>
+			<xs:element name="TxRecord" type="ups:T_TxRecord" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="T_TxRecord">
+		<xs:sequence>
+			<xs:element name="TxTraceNo" type="upsb:T_TxTraceNo" minOccurs="0"/>
+			<xs:element name="BankTxTraceNo" type="upsb:T_TxTraceNo" minOccurs="0"/>
+			<xs:element name="TxTotalAmount" type="upsb:T_MoneyFen" minOccurs="0"/>
+			<xs:element name="TxTime" type="upsb:T_DateTime14" minOccurs="0"/>
+			<xs:element name="TxStatus" type="upsb:T_Status" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="T_Enterprise">
+		<xs:sequence>
+			<xs:element name="EntName" type="upsb:T_EntName" minOccurs="0"/>
+			<xs:element name="OrgCode" type="upsb:T_OrgCode" minOccurs="0"/>
+			<xs:element name="Email" type="upsb:T_Email" minOccurs="0"/>
+			<xs:element name="Contact" type="upsb:T_Contact" minOccurs="0"/>
+			<xs:element name="Phone" type="upsb:T_Phone" minOccurs="0"/>
+			<xs:element name="Address" type="upsb:T_Address" minOccurs="0"/>
+			<xs:element name="PostCode" type="upsb:T_PostCode" minOccurs="0"/>
+			<xs:element name="Password" type="upsb:T_Password" minOccurs="0"/>
+			<xs:element name="EnterpriseID" type="upsb:T_EnterpriseID" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="T_Person">
+		<xs:sequence>
+			<xs:element name="Email" type="upsb:T_Email"/>
+			<xs:element name="PsnName" type="upsb:T_AccountName"/>
+			<xs:element name="CertType" type="upsb:T_CertType"/>
+			<xs:element name="CertNum" type="upsb:T_CertNum"/>
+			<xs:element name="Sex" type="upsb:T_Sex"/>
+			<xs:element name="Mobile" type="upsb:T_Phone"/>
+			<xs:element name="LoginPwd" type="upsb:T_Password"/>
+			<xs:element name="HintMsg" type="upsb:T_HintMsg"/>
+			<xs:element name="PwdQuesid" type="upsb:T_PwdQuesid"/>
+			<xs:element name="PwdQuesans" type="upsb:T_PwdQuesans"/>
+			<xs:element name="Address" type="upsb:T_Address"/>
+			<xs:element name="Zipcode" type="upsb:T_PostCode"/>
+			<xs:element name="Remark" type="upsb:T_Remark"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="T_Auth">
+		<xs:sequence>
+			<xs:element name="PsnName" type="upsb:T_AccountName"/>
+			<xs:element name="CertType" type="upsb:T_CertType"/>
+			<xs:element name="CertNum" type="upsb:T_CertNum"/>
+			<xs:element name="Mobile" type="upsb:T_Phone"/>
+			<xs:element name="Pan" type="upsb:T_AccountNo"/>
+			<xs:element name="BankIdent" type="upsb:T_BankID"/>
+			<xs:element name="OrgCode" type="upsb:T_OrgCode"/>
+			<xs:element name="BusiLicen" type="upsb:T_BusiLicen"/>
+			<xs:element name="CustType" type="upsb:T_CustType"/>
+			<xs:element name="Remark" type="upsb:T_Remark"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

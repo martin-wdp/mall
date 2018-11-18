@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.util.site.goods.dao.GoodsTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsType" >
+    <id column="type_id" property="typeId" jdbcType="BIGINT" />
+    <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+    <result column="type_nickname" property="typeNickname" jdbcType="VARCHAR" />
+    <result column="type_isreal" property="typeIsreal" jdbcType="CHAR" />
+    <result column="type_delflag" property="typeDelflag" jdbcType="CHAR" />
+    <result column="type_create_name" property="typeCreateName" jdbcType="VARCHAR" />
+    <result column="type_create_time" property="typeCreateTime" jdbcType="TIMESTAMP" />
+    <result column="type_modified_name" property="typeModifiedName" jdbcType="VARCHAR" />
+    <result column="type_modified_time" property="typeModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="type_del_name" property="typeDelName" jdbcType="VARCHAR" />
+    <result column="type_del_time" property="typeDelTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap type="com.ningpai.goods.site.goods.vo.GoodsTypeVo" id="VoResultMap">
+  	<id column="type_id" property="typeId" jdbcType="BIGINT" />
+  	<result column="type_name" property="typeName" jdbcType="VARCHAR" />
+    <result column="type_nickname" property="typeNickname" jdbcType="VARCHAR" />
+    <result column="type_isreal" property="typeIsreal" jdbcType="CHAR" />
+    <!-- 关联的品牌Vo的集合 -->
+    <collection property="brands" column="type_id" javaType="ArrayList" ofType="com.ningpai.site.goods.vo.GoodsTypeBrandVo"
+    select="com.ningpai.util.site.goods.dao.GoodsTypeBrandMapper.queryAllTypeBrand"></collection>
+    <!-- 关联的扩展参数Vo的集合 -->
+    <collection property="expandParams" column="type_id" javaType="ArrayList" ofType="com.ningpai.site.goods.vo.GoodsTypeExpandParamVo"
+    select="com.ningpai.util.site.goods.dao.GoodsTypeExpandParamMapper.queryAllExpandParam"></collection>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    type_id, type_name, type_nickname, type_isreal, type_delflag, type_create_name, type_create_time, type_modified_name, 
+    type_modified_time, type_del_name, type_del_time
+  </sql>
+  <!-- 根据主键ID查询Vo信息 -->
+  <select id="queryTypeVoByCatId" resultMap="VoResultMap" parameterType="java.lang.Long">
+  	select <include refid="Base_Column_List"/> from np_goods_type 
+  	where type_id = (select type_id from np_goods_category where cat_id=#{catId})
+  </select>
+  
+</mapper>

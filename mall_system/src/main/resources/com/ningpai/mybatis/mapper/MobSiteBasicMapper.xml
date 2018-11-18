@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.system.mobile.dao.MobSiteBasicMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.system.mobile.bean.MobSiteBasic" >
+    <id column="site_basic_id" property="siteBasicId" jdbcType="BIGINT" />
+    <result column="site_address" property="siteAddress" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="ename" property="ename" jdbcType="VARCHAR" />
+    <result column="technical_support" property="technicalSupport" jdbcType="VARCHAR" />
+    <result column="backgroud_color" property="backgroudColor" jdbcType="VARCHAR" />
+    <result column="backgroud_image" property="backgroudImage" jdbcType="VARCHAR" />
+    <result column="copyright" property="copyright" jdbcType="VARCHAR" />
+    <result column="is_show_buffer" property="isShowBuffer" jdbcType="CHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="temp1" property="temp1" jdbcType="VARCHAR" />
+    <result column="temp2" property="temp2" jdbcType="VARCHAR" />
+    <result column="temp3" property="temp3" jdbcType="VARCHAR" />
+    <result column="temp4" property="temp4" jdbcType="VARCHAR" />
+    <result column="temp5" property="temp5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    site_basic_id, site_address, name, ename, technical_support, backgroud_color, backgroud_image, 
+    copyright, is_show_buffer, create_date, update_date, temp1, temp2, temp3, temp4, 
+    temp5
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_mob_site_basic
+    where site_basic_id = #{siteBasicId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectCurr" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_mob_site_basic
+    limit 1
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_mob_site_basic
+    where site_basic_id = #{siteBasicId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.system.mobile.bean.MobSiteBasic" >
+    insert into np_mob_site_basic (site_basic_id, site_address, name, 
+      ename, technical_support, backgroud_color, 
+      backgroud_image, copyright, is_show_buffer, 
+      create_date, update_date, temp1, 
+      temp2, temp3, temp4, 
+      temp5)
+    values (#{siteBasicId,jdbcType=BIGINT}, #{siteAddress,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{ename,jdbcType=VARCHAR}, #{technicalSupport,jdbcType=VARCHAR}, #{backgroudColor,jdbcType=VARCHAR}, 
+      #{backgroudImage,jdbcType=VARCHAR}, #{copyright,jdbcType=VARCHAR}, #{isShowBuffer,jdbcType=CHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{temp1,jdbcType=VARCHAR}, 
+      #{temp2,jdbcType=VARCHAR}, #{temp3,jdbcType=VARCHAR}, #{temp4,jdbcType=VARCHAR}, 
+      #{temp5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.system.mobile.bean.MobSiteBasic" >
+    insert into np_mob_site_basic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="siteBasicId != null" >
+        site_basic_id,
+      </if>
+      <if test="siteAddress != null" >
+        site_address,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="ename != null" >
+        ename,
+      </if>
+      <if test="technicalSupport != null" >
+        technical_support,
+      </if>
+      <if test="backgroudColor != null" >
+        backgroud_color,
+      </if>
+      <if test="backgroudImage != null" >
+        backgroud_image,
+      </if>
+      <if test="copyright != null" >
+        copyright,
+      </if>
+      <if test="isShowBuffer != null" >
+        is_show_buffer,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="temp1 != null" >
+        temp1,
+      </if>
+      <if test="temp2 != null" >
+        temp2,
+      </if>
+      <if test="temp3 != null" >
+        temp3,
+      </if>
+      <if test="temp4 != null" >
+        temp4,
+      </if>
+      <if test="temp5 != null" >
+        temp5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="siteBasicId != null" >
+        #{siteBasicId,jdbcType=BIGINT},
+      </if>
+      <if test="siteAddress != null" >
+        #{siteAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="ename != null" >
+        #{ename,jdbcType=VARCHAR},
+      </if>
+      <if test="technicalSupport != null" >
+        #{technicalSupport,jdbcType=VARCHAR},
+      </if>
+      <if test="backgroudColor != null" >
+        #{backgroudColor,jdbcType=VARCHAR},
+      </if>
+      <if test="backgroudImage != null" >
+        #{backgroudImage,jdbcType=VARCHAR},
+      </if>
+      <if test="copyright != null" >
+        #{copyright,jdbcType=VARCHAR},
+      </if>
+      <if test="isShowBuffer != null" >
+        #{isShowBuffer,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temp1 != null" >
+        #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null" >
+        #{temp2,jdbcType=VARCHAR},
+      </if>
+      <if test="temp3 != null" >
+        #{temp3,jdbcType=VARCHAR},
+      </if>
+      <if test="temp4 != null" >
+        #{temp4,jdbcType=VARCHAR},
+      </if>
+      <if test="temp5 != null" >
+        #{temp5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.system.mobile.bean.MobSiteBasic" >
+    update np_mob_site_basic
+    <set >
+      <if test="siteAddress != null" >
+        site_address = #{siteAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="ename != null" >
+        ename = #{ename,jdbcType=VARCHAR},
+      </if>
+      <if test="technicalSupport != null" >
+        technical_support = #{technicalSupport,jdbcType=VARCHAR},
+      </if>
+      <if test="backgroudColor != null" >
+        backgroud_color = #{backgroudColor,jdbcType=VARCHAR},
+      </if>
+      <if test="backgroudImage != null" >
+        backgroud_image = #{backgroudImage,jdbcType=VARCHAR},
+      </if>
+      <if test="copyright != null" >
+        copyright = #{copyright,jdbcType=VARCHAR},
+      </if>
+      <if test="isShowBuffer != null" >
+        is_show_buffer = #{isShowBuffer,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temp1 != null" >
+        temp1 = #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null" >
+        temp2 = #{temp2,jdbcType=VARCHAR},
+      </if>
+      <if test="temp3 != null" >
+        temp3 = #{temp3,jdbcType=VARCHAR},
+      </if>
+      <if test="temp4 != null" >
+        temp4 = #{temp4,jdbcType=VARCHAR},
+      </if>
+      <if test="temp5 != null" >
+        temp5 = #{temp5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where site_basic_id = #{siteBasicId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.system.mobile.bean.MobSiteBasic" >
+    update np_mob_site_basic
+    set site_address = #{siteAddress,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      ename = #{ename,jdbcType=VARCHAR},
+      technical_support = #{technicalSupport,jdbcType=VARCHAR},
+      backgroud_color = #{backgroudColor,jdbcType=VARCHAR},
+      backgroud_image = #{backgroudImage,jdbcType=VARCHAR},
+      copyright = #{copyright,jdbcType=VARCHAR},
+      is_show_buffer = #{isShowBuffer,jdbcType=CHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      temp1 = #{temp1,jdbcType=VARCHAR},
+      temp2 = #{temp2,jdbcType=VARCHAR},
+      temp3 = #{temp3,jdbcType=VARCHAR},
+      temp4 = #{temp4,jdbcType=VARCHAR},
+      temp5 = #{temp5,jdbcType=VARCHAR}
+    where site_basic_id = #{siteBasicId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,615 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+ @Title: 物流公司设置的mapper映射配置文件
+ @Description:
+ @author NINGPAI_xiaomm
+ @since 2014-03-21 17:55:21
+ @version V1.0
+-->
+<mapper namespace="com.ningpai.system.dao.LogisticsCompanyDaoImpl">
+
+	<resultMap id="BaseResultMap" type="com.ningpai.system.bean.LogisticsCompany">
+				<!-- 记录ID -->
+				<id column="LOG_COM_ID" 
+					jdbcType="BIGINT"
+				 property="logComId" />
+				<!-- 物流公司名称 -->
+				<result column="NAME"
+					jdbcType="VARCHAR"
+				property="name" />
+				<!-- 物流公司代码 -->
+				<result column="CODE"
+					jdbcType="VARCHAR"
+				property="code" />
+				<!-- 快递100物流公司代码 -->
+				<result column="KUAIDI100_CODE"
+					jdbcType="VARCHAR"
+				property="kuaidi100Code" />
+				<!-- 网址 -->
+				<result column="COM_URL"
+					jdbcType="VARCHAR"
+				property="comUrl" />
+				<!-- 询件网址 -->
+				<result column="QUERY_URL"
+					jdbcType="VARCHAR"
+				property="queryUrl" />
+				<!-- 排序 -->
+				<result column="SORT"
+					jdbcType="BIGINT"
+				property="sort" />
+				<!-- 启用 -->
+				<result column="USED_STATUS"
+					jdbcType="VARCHAR"
+				property="usedStatus" />
+				<!-- 添加人 -->
+				<result column="INSERT_ID"
+					jdbcType="BIGINT"
+				property="insertId" />
+				<!-- 添加时间 -->
+				<result column="INSERT_DATE"
+					jdbcType="DATE"
+				property="insertDate" />
+				<!-- 修改人 -->
+				<result column="MODIFY_ID"
+					jdbcType="BIGINT"
+				property="modifyId" />
+				<!-- 修改时间 -->
+				<result column="MODIFY_DATE"
+					jdbcType="DATE"
+				property="modifyDate" />
+				<!-- 删除标识 -->
+				<result column="DELETE_STATUS"
+					jdbcType="BIGINT"
+				property="deleteStatus" />
+	</resultMap>
+	
+	<sql id="baseSql">
+			LOG_COM_ID, 
+			NAME, 
+			CODE, 
+			KUAIDI100_CODE, 
+			COM_URL, 
+			QUERY_URL, 
+			SORT, 
+			USED_STATUS, 
+			INSERT_ID, 
+			INSERT_DATE, 
+			MODIFY_ID, 
+			MODIFY_DATE, 
+			DELETE_STATUS 
+	</sql>
+	<sql id="querySql">
+			LOG_COM_ID, 
+			NAME, 
+			CODE, 
+			KUAIDI100_CODE, 
+			COM_URL, 
+			QUERY_URL, 
+			SORT, 
+			USED_STATUS, 
+			INSERT_ID, 
+			INSERT_DATE, 
+			MODIFY_ID, 
+			MODIFY_DATE, 
+			DELETE_STATUS 
+	</sql>
+	
+	<!-- 保存物流公司设置 -->	
+	<insert id="saveLogisticsCompany" parameterType="com.ningpai.system.bean.LogisticsCompany">
+		INSERT INTO NP_SYS_LOGISTICS_COMPANY
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+				<!-- 记录ID 
+				<if test="logComId != null">
+					LOG_COM_ID,
+				</if> -->
+				<!-- 物流公司名称 -->
+				<if test="name != null">
+					NAME,
+				</if>
+				<!-- 物流公司代码 -->
+				<if test="code != null">
+					CODE,
+				</if>
+				<!-- 快递100物流公司代码 -->
+				<if test="kuaidi100Code != null">
+					KUAIDI100_CODE,
+				</if>
+				<!-- 网址 -->
+				<if test="comUrl != null">
+					COM_URL,
+				</if>
+				<!-- 询件网址 -->
+				<if test="queryUrl != null">
+					QUERY_URL,
+				</if>
+				<!-- 排序 -->
+				<if test="sort != null">
+					SORT,
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS,
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID,
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE,
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID,
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE,
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS,
+				</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+				<!-- 记录ID 
+						#{logComId,
+								jdbcType=BIGINT
+						}, -->
+				<!-- 物流公司名称 -->
+					<if test="name != null">
+						#{name,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 物流公司代码 -->
+					<if test="code != null">
+						#{code,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 快递100物流公司代码 -->
+					<if test="kuaidi100Code != null">
+						#{kuaidi100Code,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 网址 -->
+					<if test="comUrl != null">
+						#{comUrl,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 询件网址 -->
+					<if test="queryUrl != null">
+						#{queryUrl,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 排序 -->
+					<if test="sort != null">
+						#{sort,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 启用 -->
+					<if test="usedStatus != null">
+						#{usedStatus,
+								jdbcType=VARCHAR
+						},
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						#{insertId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null">
+						#{insertDate,
+								jdbcType=DATE
+						},
+					</if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						#{modifyId,
+								jdbcType=BIGINT
+						},
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null">
+						#{modifyDate,
+								jdbcType=DATE
+						},
+					</if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						#{deleteStatus,
+								jdbcType=BIGINT
+						},
+					</if>
+		</trim>
+	</insert>
+	<!-- 修改物流公司设置 -->
+	<update id="updateLogisticsCompany" parameterType="com.ningpai.system.bean.LogisticsCompany">
+		UPDATE NP_SYS_LOGISTICS_COMPANY
+		<set>
+			
+				<!-- 记录ID -->
+				<if test="logComId != null">
+					LOG_COM_ID = #{logComId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 物流公司名称 -->
+				<if test="name != null">
+					NAME = #{name,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 物流公司代码 -->
+				<if test="code != null">
+					CODE = #{code,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 快递100物流公司代码 -->
+				<if test="kuaidi100Code != null">
+					KUAIDI100_CODE = #{kuaidi100Code,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 网址 -->
+				<if test="comUrl != null">
+					COM_URL = #{comUrl,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 询件网址 -->
+				<if test="queryUrl != null">
+					QUERY_URL = #{queryUrl,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 排序 -->
+				<if test="sort != null">
+					SORT = #{sort,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS = #{usedStatus,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID = #{modifyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE = #{modifyDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS = #{deleteStatus,
+							jdbcType=BIGINT
+					},
+				</if>
+		</set>
+		WHERE 
+				LOG_COM_ID = #{logComId,
+							jdbcType=BIGINT
+					}
+	</update>
+	
+	<!-- 根据物流公司设置对象的id查询物流公司设置对象 -->
+	<select id="getLogisticsCompanyById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_LOGISTICS_COMPANY 
+		WHERE 
+				LOG_COM_ID = #{logComId,
+							jdbcType=BIGINT
+					}
+	</select>
+	
+	<select id="getThirdLogisticsCompanyById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT 
+			shore_exp_id as LOG_COM_ID,exp_name as NAME
+		FROM np_third_shore_express 
+		WHERE 
+				shore_exp_id = #{logComId,
+							jdbcType=BIGINT
+					}
+	</select>
+	
+	<!-- 根据物流公司设置对象的id字符集合查询物流公司设置对象 -->
+	<select id="getLogisticsCompanyByIds" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="baseSql"/>
+		FROM NP_SYS_LOGISTICS_COMPANY 
+		WHERE 
+				LOG_COM_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</select>
+	
+	<!-- 根据物流公司设置对象的id字符集合删除物流公司设置对象 -->
+	<update id="deleteLogisticsCompany" parameterType="java.util.Map">
+		DELETE FROM NP_SYS_LOGISTICS_COMPANY 
+		WHERE 
+				LOG_COM_ID IN 
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+		
+	</update>
+	
+	
+	<!-- 更新物流公司设置对象的单个字段  -->
+	<update id="updateLogisticsCompanyFieldById" parameterType="java.util.Map">
+		UPDATE NP_SYS_LOGISTICS_COMPANY
+		<set>
+				<!-- 记录ID -->
+				<if test="logComId != null">
+					LOG_COM_ID = #{logComId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 物流公司名称 -->
+				<if test="name != null">
+					NAME = #{name,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 物流公司代码 -->
+				<if test="code != null">
+					CODE = #{code,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 快递100物流公司代码 -->
+				<if test="kuaidi100Code != null">
+					KUAIDI100_CODE = #{kuaidi100Code,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 网址 -->
+				<if test="comUrl != null">
+					COM_URL = #{comUrl,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 询件网址 -->
+				<if test="queryUrl != null">
+					QUERY_URL = #{queryUrl,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 排序 -->
+				<if test="sort != null">
+					SORT = #{sort,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 启用 -->
+				<if test="usedStatus != null">
+					USED_STATUS = #{usedStatus,
+							jdbcType=VARCHAR
+					},
+				</if>
+				<!-- 添加人 -->
+				<if test="insertId != null">
+					INSERT_ID = #{insertId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 添加时间 -->
+				<if test="insertDate != null">
+					INSERT_DATE = #{insertDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 修改人 -->
+				<if test="modifyId != null">
+					MODIFY_ID = #{modifyId,
+							jdbcType=BIGINT
+					},
+				</if>
+				<!-- 修改时间 -->
+				<if test="modifyDate != null">
+					MODIFY_DATE = #{modifyDate,
+							jdbcType=DATE
+					},
+				</if>
+				<!-- 删除标识 -->
+				<if test="deleteStatus != null">
+					DELETE_STATUS = #{deleteStatus,
+							jdbcType=BIGINT
+					},
+				</if>
+		</set>
+		WHERE 
+				LOG_COM_ID IN  
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+	</update>
+	
+	<!-- 根据物流公司设置对象的单个字段查询物流公司设置对象信息总数 -->
+	<select id="getLogisticsCompanyByFieldTotal" resultType="java.lang.Integer" parameterType="java.util.Map">
+		   SELECT COUNT(LOG_COM_ID) 
+		   FROM NP_SYS_LOGISTICS_COMPANY D 
+		   WHERE 
+				<!-- 记录ID -->
+					<if test="logComId != null">
+						D.LOG_COM_ID = #{logComId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 物流公司名称 -->
+					<if test="name != null and name != ''">
+						D.NAME like CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 物流公司代码 -->
+					<if test="code != null and code != ''">
+						D.CODE like CONCAT(CONCAT('%', #{code,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 网址 -->
+					<if test="comUrl != null and comUrl != ''">
+						D.COM_URL like CONCAT(CONCAT('%', #{comUrl,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 询件网址 -->
+					<if test="queryUrl != null and queryUrl != ''">
+						D.QUERY_URL like CONCAT(CONCAT('%', #{queryUrl,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 排序 -->
+					<if test="sort != null">
+						D.SORT = #{sort,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 启用 -->
+					<if test="usedStatus != null and usedStatus != ''">
+						D.USED_STATUS like CONCAT(CONCAT('%', #{usedStatus,jdbcType=VARCHAR}),'%') AND
+					</if> 
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						D.INSERT_ID = #{insertId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null and insertDate !=''" >
+			        	(D.INSERT_DATE between  #{insertDateStart,jdbcType=DATE}  AND  #{insertDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						D.MODIFY_ID = #{modifyId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null and modifyDate !=''" >
+			        	(D.MODIFY_DATE between  #{modifyDateStart,jdbcType=DATE}  AND  #{modifyDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						D.DELETE_STATUS = #{deleteStatus,
+								jdbcType=BIGINT
+						} AND
+					</if>
+        	1=1 
+	</select>
+	
+	<!-- 根据物流公司设置对象的单个字段查询物流公司设置对象信息 -->
+	<select id="getLogisticsCompanyByField" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM  NP_SYS_LOGISTICS_COMPANY D 
+		   WHERE 
+				<!-- 记录ID -->
+					<if test="logComId != null">
+						D.LOG_COM_ID = #{logComId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 物流公司名称 -->
+					<if test="name != null and name !=''" >
+						D.NAME like CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 物流公司代码 -->
+					<if test="code != null and code !=''" >
+						D.CODE like CONCAT(CONCAT('%', #{code,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 网址 -->
+					<if test="comUrl != null and comUrl !=''" >
+						D.COM_URL like CONCAT(CONCAT('%', #{comUrl,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 询件网址 -->
+					<if test="queryUrl != null and queryUrl !=''" >
+						D.QUERY_URL like CONCAT(CONCAT('%', #{queryUrl,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 排序 -->
+					<if test="sort != null">
+						D.SORT = #{sort,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 启用 -->
+					<if test="usedStatus != null and usedStatus !=''" >
+						D.USED_STATUS like CONCAT(CONCAT('%', #{usedStatus,jdbcType=VARCHAR}),'%') AND
+					</if>
+				<!-- 添加人 -->
+					<if test="insertId != null">
+						D.INSERT_ID = #{insertId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 添加时间 -->
+					<if test="insertDate != null and insertDate !=''" >
+			        	(D.INSERT_DATE between  #{insertDateStart,jdbcType=DATE}  AND  #{insertDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 修改人 -->
+					<if test="modifyId != null">
+						D.MODIFY_ID = #{modifyId,
+								jdbcType=BIGINT
+						} AND
+					</if>
+				<!-- 修改时间 -->
+					<if test="modifyDate != null and modifyDate !=''" >
+			        	(D.MODIFY_DATE between  #{modifyDateStart,jdbcType=DATE}  AND  #{modifyDateEnd,jdbcType=DATE}) and
+			        </if>
+				<!-- 删除标识 -->
+					<if test="deleteStatus != null">
+						D.DELETE_STATUS = #{deleteStatus,
+								jdbcType=BIGINT
+						} AND
+					</if>
+        	1=1
+        ORDER BY D.sort
+		    LIMIT #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 查询物流公司设置对象信息总数 -->
+	<select id="queryLogisticsCompanyTotal" resultType="java.lang.Integer">
+		SELECT COUNT(LOG_COM_ID) FROM NP_SYS_LOGISTICS_COMPANY
+	</select>
+	
+	<!-- 分页查询物流公司设置对象信息 -->
+	<select id="queryLogisticsCompanyByPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="querySql"/> FROM NP_SYS_LOGISTICS_COMPANY 
+		LIMIT  #{startRowNum,jdbcType=BIGINT} , #{endRowNum,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 获得物流公司当前最大排序值 -->
+	<select id="getLogisticsCompanyMaxSort" resultType="java.lang.Integer">
+		SELECT MAX(SORT) FROM NP_SYS_LOGISTICS_COMPANY
+	</select>
+	
+	<!-- 查询所有未删除、已启用的物流公司对象信息 -->
+	<select id="queryAllLogisticsCompany" resultMap="BaseResultMap">
+		SELECT <include refid="querySql"/> FROM NP_SYS_LOGISTICS_COMPANY 
+		WHERE USED_STATUS = '1'
+		AND DELETE_STATUS = '0'
+	</select>
+	
+</mapper>

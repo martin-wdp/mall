@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bbw.web.dao.centaur.GoodsCategoryMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.category.bean.GoodsCategory" >
+    <id column="cat_id" property="catId" jdbcType="BIGINT" />
+    <result column="cat_name" property="catName" jdbcType="VARCHAR" />
+    <result column="cat_parent_id" property="catParentId" jdbcType="BIGINT" />
+    <result column="type_id" property="typeId" jdbcType="BIGINT" />
+    <result column="cat_sort" property="catSort" jdbcType="INTEGER" />
+    <result column="cat_grade" property="catGrade" jdbcType="INTEGER" />
+    <result column="cat_seo_title" property="catSeoTitle" jdbcType="VARCHAR" />
+    <result column="cat_seo_keyword" property="catSeoKeyword" jdbcType="VARCHAR" />
+    <result column="cat_seo_desc" property="catSeoDesc" jdbcType="VARCHAR" />
+    <result column="cat_is_show" property="catIsShow" jdbcType="CHAR" />
+    <result column="cat_delflag" property="catDelflag" jdbcType="CHAR" />
+    <result column="cat_create_name" property="catCreateName" jdbcType="VARCHAR" />
+    <result column="cat_create_time" property="catCreateTime" jdbcType="TIMESTAMP" />
+    <result column="cat_modified_name" property="catModifiedName" jdbcType="VARCHAR" />
+    <result column="cat_modified_time" property="catModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="cat_del_name" property="catDelName" jdbcType="VARCHAR" />
+    <result column="cat_del_time" property="catDelTime" jdbcType="TIMESTAMP" />
+    <result column="cat_rate" property="catRate" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    cat_id, cat_name, cat_parent_id, type_id, cat_sort, cat_grade, cat_seo_title, cat_seo_keyword, 
+    cat_seo_desc, cat_is_show, cat_delflag, cat_create_name, cat_create_time, cat_modified_name, 
+    cat_modified_time, cat_del_name, cat_del_time, cat_rate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_goods_category
+    where cat_id = #{catId,jdbcType=BIGINT}
+  </select>
+  
+  
+    <select id="checkCate" resultType="java.lang.Integer" parameterType="java.lang.Long" >
+    select count(*)
+    from np_goods_category
+    where cat_id = #{catId,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_goods_category
+    where cat_id = #{catId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.category.bean.GoodsCategory" >
+    insert into np_goods_category (cat_id, cat_name, cat_parent_id, 
+      type_id, cat_sort, cat_grade, 
+      cat_seo_title, cat_seo_keyword, cat_seo_desc, 
+      cat_is_show, cat_delflag, cat_create_name, 
+      cat_create_time, cat_modified_name, cat_modified_time, 
+      cat_del_name, cat_del_time, cat_rate
+      )
+    values (#{catId,jdbcType=BIGINT}, #{catName,jdbcType=VARCHAR}, #{catParentId,jdbcType=BIGINT}, 
+      #{typeId,jdbcType=BIGINT}, #{catSort,jdbcType=INTEGER}, #{catGrade,jdbcType=INTEGER}, 
+      #{catSeoTitle,jdbcType=VARCHAR}, #{catSeoKeyword,jdbcType=VARCHAR}, #{catSeoDesc,jdbcType=VARCHAR}, 
+      #{catIsShow,jdbcType=CHAR}, #{catDelflag,jdbcType=CHAR}, #{catCreateName,jdbcType=VARCHAR}, 
+      #{catCreateTime,jdbcType=TIMESTAMP}, #{catModifiedName,jdbcType=VARCHAR}, #{catModifiedTime,jdbcType=TIMESTAMP}, 
+      #{catDelName,jdbcType=VARCHAR}, #{catDelTime,jdbcType=TIMESTAMP}, #{catRate,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.category.bean.GoodsCategory" >
+    insert into np_goods_category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="catId != null" >
+        cat_id,
+      </if>
+      <if test="catName != null" >
+        cat_name,
+      </if>
+      <if test="catParentId != null" >
+        cat_parent_id,
+      </if>
+      <if test="typeId != null" >
+        type_id,
+      </if>
+      <if test="catSort != null" >
+        cat_sort,
+      </if>
+      <if test="catGrade != null" >
+        cat_grade,
+      </if>
+      <if test="catSeoTitle != null" >
+        cat_seo_title,
+      </if>
+      <if test="catSeoKeyword != null" >
+        cat_seo_keyword,
+      </if>
+      <if test="catSeoDesc != null" >
+        cat_seo_desc,
+      </if>
+      <if test="catIsShow != null" >
+        cat_is_show,
+      </if>
+      <if test="catDelflag != null" >
+        cat_delflag,
+      </if>
+      <if test="catCreateName != null" >
+        cat_create_name,
+      </if>
+      <if test="catCreateTime != null" >
+        cat_create_time,
+      </if>
+      <if test="catModifiedName != null" >
+        cat_modified_name,
+      </if>
+      <if test="catModifiedTime != null" >
+        cat_modified_time,
+      </if>
+      <if test="catDelName != null" >
+        cat_del_name,
+      </if>
+      <if test="catDelTime != null" >
+        cat_del_time,
+      </if>
+      <if test="catRate != null" >
+        cat_rate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="catId != null" >
+        #{catId,jdbcType=BIGINT},
+      </if>
+      <if test="catName != null" >
+        #{catName,jdbcType=VARCHAR},
+      </if>
+      <if test="catParentId != null" >
+        #{catParentId,jdbcType=BIGINT},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=BIGINT},
+      </if>
+      <if test="catSort != null" >
+        #{catSort,jdbcType=INTEGER},
+      </if>
+      <if test="catGrade != null" >
+        #{catGrade,jdbcType=INTEGER},
+      </if>
+      <if test="catSeoTitle != null" >
+        #{catSeoTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="catSeoKeyword != null" >
+        #{catSeoKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="catSeoDesc != null" >
+        #{catSeoDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="catIsShow != null" >
+        #{catIsShow,jdbcType=CHAR},
+      </if>
+      <if test="catDelflag != null" >
+        #{catDelflag,jdbcType=CHAR},
+      </if>
+      <if test="catCreateName != null" >
+        #{catCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="catCreateTime != null" >
+        #{catCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="catModifiedName != null" >
+        #{catModifiedName,jdbcType=VARCHAR},
+      </if>
+      <if test="catModifiedTime != null" >
+        #{catModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="catDelName != null" >
+        #{catDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="catDelTime != null" >
+        #{catDelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="catRate != null" >
+        #{catRate,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.category.bean.GoodsCategory" >
+    update np_goods_category
+    <set >
+      <if test="catName != null" >
+        cat_name = #{catName,jdbcType=VARCHAR},
+      </if>
+      <if test="catParentId != null" >
+        cat_parent_id = #{catParentId,jdbcType=BIGINT},
+      </if>
+      <if test="typeId != null" >
+        type_id = #{typeId,jdbcType=BIGINT},
+      </if>
+      <if test="catSort != null" >
+        cat_sort = #{catSort,jdbcType=INTEGER},
+      </if>
+      <if test="catGrade != null" >
+        cat_grade = #{catGrade,jdbcType=INTEGER},
+      </if>
+      <if test="catSeoTitle != null" >
+        cat_seo_title = #{catSeoTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="catSeoKeyword != null" >
+        cat_seo_keyword = #{catSeoKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="catSeoDesc != null" >
+        cat_seo_desc = #{catSeoDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="catIsShow != null" >
+        cat_is_show = #{catIsShow,jdbcType=CHAR},
+      </if>
+      <if test="catDelflag != null" >
+        cat_delflag = #{catDelflag,jdbcType=CHAR},
+      </if>
+      <if test="catCreateName != null" >
+        cat_create_name = #{catCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="catCreateTime != null" >
+        cat_create_time = #{catCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="catModifiedName != null" >
+        cat_modified_name = #{catModifiedName,jdbcType=VARCHAR},
+      </if>
+      <if test="catModifiedTime != null" >
+        cat_modified_time = #{catModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="catDelName != null" >
+        cat_del_name = #{catDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="catDelTime != null" >
+        cat_del_time = #{catDelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="catRate != null" >
+        cat_rate = #{catRate,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where cat_id = #{catId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.category.bean.GoodsCategory" >
+    update np_goods_category
+    set cat_name = #{catName,jdbcType=VARCHAR},
+      cat_parent_id = #{catParentId,jdbcType=BIGINT},
+      type_id = #{typeId,jdbcType=BIGINT},
+      cat_sort = #{catSort,jdbcType=INTEGER},
+      cat_grade = #{catGrade,jdbcType=INTEGER},
+      cat_seo_title = #{catSeoTitle,jdbcType=VARCHAR},
+      cat_seo_keyword = #{catSeoKeyword,jdbcType=VARCHAR},
+      cat_seo_desc = #{catSeoDesc,jdbcType=VARCHAR},
+      cat_is_show = #{catIsShow,jdbcType=CHAR},
+      cat_delflag = #{catDelflag,jdbcType=CHAR},
+      cat_create_name = #{catCreateName,jdbcType=VARCHAR},
+      cat_create_time = #{catCreateTime,jdbcType=TIMESTAMP},
+      cat_modified_name = #{catModifiedName,jdbcType=VARCHAR},
+      cat_modified_time = #{catModifiedTime,jdbcType=TIMESTAMP},
+      cat_del_name = #{catDelName,jdbcType=VARCHAR},
+      cat_del_time = #{catDelTime,jdbcType=TIMESTAMP},
+      cat_rate = #{catRate,jdbcType=DECIMAL}
+    where cat_id = #{catId,jdbcType=BIGINT}
+  </update>
+</mapper>

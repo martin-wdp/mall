@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.GiftCateMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.gift.bean.GiftCate" >
+    <id column="gift_cate_id" property="giftCateId" jdbcType="BIGINT" />
+    <result column="gift_cate_name" property="giftCateName" jdbcType="VARCHAR" />
+    <result column="gift_cate_remark" property="giftCateRemark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="busniess_id" property="busniessId" jdbcType="BIGINT" />
+     <result column="gift_parent_id" property="giftParentId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    gift_cate_id, gift_cate_name, gift_cate_remark, create_time, modify_time, del_flag, 
+    busniess_id,gift_parent_id
+  </sql>
+  
+  
+   
+  <!-- 查询全部赠品分类列表 作为下拉菜单 -->
+  <select id="selectGiftListUseSelect" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_gift_cate
+    where del_flag ='0'
+  </select>
+  
+  
+  
+  
+  
+  
+  <!-- 查询赠品分类列表 -->
+  <select id="searchGiftCateAllList" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from np_gift_cate
+    where  1=1 
+   
+        and del_flag ='0'
+      
+  </select>
+
+
+  <!-- 编辑查询赠品分类列表-->
+  <select id="searchGiftCateListnew" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from np_gift_cate
+    where  1=1
+    and del_flag ='0'
+    <![CDATA[
+      and gift_cate_id <> #{giftCateId,jdbcType=BIGINT}
+    ]]>
+
+
+  </select>
+  
+  
+  
+  
+  <!-- 查询赠品分类列表 -->
+  <select id="searchGiftCateList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_gift_cate
+    where  1=1 and gift_parent_id  = '0'
+    <if test="giftCateId != null" >
+        and gift_cate_id = #{giftCateId,jdbcType=BIGINT}
+      </if>
+      <if test="giftCateName != null and giftCateName!=''" >
+        and gift_cate_name like CONCAT(CONCAT('%',#{giftCateName,jdbcType=VARCHAR},'%'))
+      </if>
+      <if test="giftCateRemark != null" >
+         and gift_cate_remark like CONCAT(CONCAT('%',#{giftCateRemark,jdbcType=VARCHAR},'%'))
+      </if>
+       <if test="delFlag != null" >
+        and del_flag = #{delFlag,jdbcType=CHAR}
+      </if>
+      <if test="busniessId != null" >
+        and busniess_id = #{busniessId,jdbcType=BIGINT}
+      </if>
+      <if test="start !=null and number!=null">
+      limit #{start},#{number}
+      </if>
+  </select>
+  
+    <!-- 查询赠品分类总数-->
+  <select id="searchGiftCateListCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select count(*)
+    from np_gift_cate  
+    where  1=1 and gift_parent_id = '0' 
+     and del_flag = '0'
+    <if test="giftCateId != null" >
+        and gift_cate_id = #{giftCateId,jdbcType=BIGINT}
+      </if>
+      <if test="giftCateName != null and giftCateName!=''" >
+        and gift_cate_name like CONCAT(CONCAT('%',#{giftCateName,jdbcType=VARCHAR},'%'))
+      </if>
+      <if test="giftCateRemark != null" >
+         and gift_cate_remark like CONCAT(CONCAT('%',#{giftCateRemark,jdbcType=VARCHAR},'%'))
+      </if>
+      <if test="busniessId != null" >
+        and busniess_id = #{busniessId,jdbcType=BIGINT}
+      </if>
+  </select>
+  
+  
+  
+  <!-- 查询赠品详细信息 -->
+  <select id="searchGiftCateById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_gift_cate
+    where gift_cate_id = #{giftCateId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_gift_cate
+    where gift_cate_id = #{giftCateId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_gift_cate
+    where gift_cate_id = #{giftCateId,jdbcType=BIGINT}
+  </delete>
+  
+  
+  <!-- 添加赠品分类 -->
+  <insert id="addGiftCate" parameterType="com.ningpai.gift.bean.GiftCate" >
+    insert into np_gift_cate (gift_cate_id, gift_cate_name, gift_cate_remark, 
+      create_time, modify_time, del_flag, 
+      busniess_id,gift_parent_id)
+    values (#{giftCateId,jdbcType=BIGINT}, #{giftCateName,jdbcType=VARCHAR}, #{giftCateRemark,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR}, 
+      #{busniessId,jdbcType=BIGINT},#{giftParentId,jdbcType=BIGINT})
+  </insert>
+  
+  <insert id="insert" parameterType="com.ningpai.gift.bean.GiftCate" >
+    insert into np_gift_cate (gift_cate_id, gift_cate_name, gift_cate_remark, 
+      create_time, modify_time, del_flag, 
+      busniess_id)
+    values (#{giftCateId,jdbcType=BIGINT}, #{giftCateName,jdbcType=VARCHAR}, #{giftCateRemark,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR}, 
+      #{busniessId,jdbcType=BIGINT})
+  </insert>
+  
+
+  <insert id="insertSelective" parameterType="com.ningpai.gift.bean.GiftCate" >
+    insert into np_gift_cate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="giftCateId != null" >
+        gift_cate_id,
+      </if>
+      <if test="giftCateName != null" >
+        gift_cate_name,
+      </if>
+      <if test="giftCateRemark != null" >
+        gift_cate_remark,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="busniessId != null" >
+        busniess_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="giftCateId != null" >
+        #{giftCateId,jdbcType=BIGINT},
+      </if>
+      <if test="giftCateName != null" >
+        #{giftCateName,jdbcType=VARCHAR},
+      </if>
+      <if test="giftCateRemark != null" >
+        #{giftCateRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="busniessId != null" >
+        #{busniessId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  
+    
+  <!-- 修改赠品分类 -->
+  <update id="updateGiftCate" parameterType="com.ningpai.gift.bean.GiftCate" >
+    update np_gift_cate
+    <set >
+      <if test="giftCateName != null" >
+        gift_cate_name = #{giftCateName,jdbcType=VARCHAR},
+      </if>
+      <if test="giftCateRemark != null" >
+        gift_cate_remark = #{giftCateRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="busniessId != null" >
+        busniess_id = #{busniessId,jdbcType=BIGINT},
+      </if>
+       <if test="giftParentId != null" >
+        gift_parent_id = #{giftParentId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where gift_cate_id = #{giftCateId,jdbcType=BIGINT}
+  </update>
+    
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.gift.bean.GiftCate" >
+    update np_gift_cate
+    <set >
+      <if test="giftCateName != null" >
+        gift_cate_name = #{giftCateName,jdbcType=VARCHAR},
+      </if>
+      <if test="giftCateRemark != null" >
+        gift_cate_remark = #{giftCateRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="busniessId != null" >
+        busniess_id = #{busniessId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where gift_cate_id = #{giftCateId,jdbcType=BIGINT}
+  </update>
+  
+  
+  <!-- 删除赠品分类 -->
+  <update id="delGiftCate" parameterType="java.lang.Long" >
+    update np_gift_cate
+    set del_flag = '1'
+    where gift_cate_id = #{giftCateId,jdbcType=BIGINT}
+  </update>
+  
+  
+    <!-- 批量删除赠品分类 -->
+  <update id="delAllGiftCate" parameterType="java.util.List" >
+    update np_gift_cate
+    set del_flag = '1'
+    where gift_cate_id in
+     <foreach collection="list" item="giftCateId" open="(" separator="," close=")">
+       #{giftCateId,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  
+  
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.gift.bean.GiftCate" >
+    update np_gift_cate
+    set gift_cate_name = #{giftCateName,jdbcType=VARCHAR},
+      gift_cate_remark = #{giftCateRemark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR},
+      busniess_id = #{busniessId,jdbcType=BIGINT}
+    where gift_cate_id = #{giftCateId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 根据父分类Id查询子分类个数 -->
+  <select id="querygiftCateByCateId" resultType="java.lang.Integer" parameterType="java.lang.Long">
+    select count(1) from np_gift_cate
+    where 1=1 and gift_parent_id = #{cateId} and del_flag='0'
+  </select>
+</mapper>

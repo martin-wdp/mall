@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.goods.dao.GetOnOffMapper" >
+	<resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GetOnOff" >
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="flag" property="flag" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="BIGINT" />
+	</resultMap>
+	
+	<sql id="Base_Column_List" >
+    	id,flag,type
+  	</sql>
+  	
+  	<select id="getOnOffFlag" resultType="java.lang.String">
+  		select flag from np_on_off where type='1'
+  	</select>
+  	
+  	<update id="updateOnOffFlag" parameterType="java.lang.String">
+  		update np_on_off set flag=#{isThirdAuditUsed,jdbcType=VARCHAR} where type='1'
+  	</update>
+</mapper>

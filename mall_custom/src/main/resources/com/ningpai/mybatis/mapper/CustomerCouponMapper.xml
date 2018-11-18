@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ningpai.customer.dao.CustomerCouponMapper">
+  <resultMap id="BaseResultMap" type="com.ningpai.customer.bean.CustomerCoupon">
+    <id column="coupon_id" jdbcType="BIGINT" property="couponId" />
+    <result column="customer_id" jdbcType="BIGINT" property="customerId" />
+    <result column="coupon_type" jdbcType="INTEGER" property="couponType" />
+    <result column="coupon_no" jdbcType="VARCHAR" property="couponNo" />
+    <result column="is_used" jdbcType="CHAR" property="isUsed" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
+    <result column="del_time" jdbcType="TIMESTAMP" property="delTime" />
+    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="coupon_money" jdbcType="DECIMAL" property="couponMoney" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    coupon_id, customer_id, coupon_type, coupon_no, is_used, create_time, modified_time, 
+    del_time, del_flag,coupon_money
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_customer_coupon
+    where coupon_id = #{couponId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectCouponsByOrderNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select
+    <include refid="Base_Column_List" />
+    from np_customer_coupon
+    where order_no = #{orderNo,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from np_customer_coupon
+    where coupon_id = #{couponId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.customer.bean.CustomerCoupon">
+    insert into np_customer_coupon (coupon_id, customer_id, coupon_type, 
+      coupon_no, is_used, create_time, 
+      modified_time, del_time, del_flag
+      )
+    values (#{couponId,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, #{couponType,jdbcType=INTEGER}, 
+      #{couponNo,jdbcType=VARCHAR}, #{isUsed,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifiedTime,jdbcType=TIMESTAMP}, #{delTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.customer.bean.CustomerCoupon">
+    insert into np_customer_coupon
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="couponId != null">
+        coupon_id,
+      </if>
+      <if test="customerId != null">
+        customer_id,
+      </if>
+      <if test="couponType != null">
+        coupon_type,
+      </if>
+      <if test="couponNo != null">
+        coupon_no,
+      </if>
+      <if test="isUsed != null">
+        is_used,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifiedTime != null">
+        modified_time,
+      </if>
+      <if test="delTime != null">
+        del_time,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="couponId != null">
+        #{couponId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null">
+        #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="couponType != null">
+        #{couponType,jdbcType=INTEGER},
+      </if>
+      <if test="couponNo != null">
+        #{couponNo,jdbcType=VARCHAR},
+      </if>
+      <if test="isUsed != null">
+        #{isUsed,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null">
+        #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delTime != null">
+        #{delTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.customer.bean.CustomerCoupon">
+    update np_customer_coupon
+    <set>
+      <if test="customerId != null">
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="couponType != null">
+        coupon_type = #{couponType,jdbcType=INTEGER},
+      </if>
+      <if test="couponNo != null">
+        coupon_no = #{couponNo,jdbcType=VARCHAR},
+      </if>
+      <if test="isUsed != null">
+        is_used = #{isUsed,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null">
+        modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delTime != null">
+        del_time = #{delTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where coupon_id = #{couponId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.customer.bean.CustomerCoupon">
+    update np_customer_coupon
+    set customer_id = #{customerId,jdbcType=BIGINT},
+      coupon_type = #{couponType,jdbcType=INTEGER},
+      coupon_no = #{couponNo,jdbcType=VARCHAR},
+      is_used = #{isUsed,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      del_time = #{delTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where coupon_id = #{couponId,jdbcType=BIGINT}
+  </update>
+ 
+</mapper>

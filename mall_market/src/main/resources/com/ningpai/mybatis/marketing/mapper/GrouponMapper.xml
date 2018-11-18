@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.GrouponMapper">
+    <resultMap id="BaseResultMap" type="com.ningpai.marketing.bean.Groupon">
+        <id column="groupon_id" property="grouponId" jdbcType="BIGINT"/>
+        <result column="participate_number" property="participateNumber" jdbcType="BIGINT"/>
+        <result column="groupon_discount" property="grouponDiscount" jdbcType="DECIMAL"/>
+        <result column="participate_count" property="participateCount" jdbcType="BIGINT"/>
+        <result column="groupon_status" property="grouponStatus" jdbcType="CHAR"/>
+        <result column="groupon_time" property="grouponTime" jdbcType="TIMESTAMP"/>
+        <result column="flag" property="flag" jdbcType="CHAR"/>
+        <result column="market_id" property="marketId" jdbcType="BIGINT"/>
+        <result column="temp1" property="temp1" jdbcType="VARCHAR"/>
+        <result column="temp2" property="temp2" jdbcType="VARCHAR"/>
+        <result column="groupon_vip_discount" property="grouponVipDiscount" jdbcType="DECIMAL"/>
+        <result column="groupon_vip_price" property="grouponVipPrice" jdbcType="DECIMAL"/>
+        <result column="groupon_price" property="grouponPrice" jdbcType="DECIMAL"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    groupon_id, participate_number, groupon_discount, participate_count, groupon_status, 
+    groupon_time, flag ,market_id,temp1,temp2,groupon_vip_discount,groupon_vip_price,groupon_price
+  </sql>
+
+    <!-- 修改当前参与人数 -->
+    <update id="updateCountByMarkertId" parameterType="java.lang.Long">
+		update np_groupon set participate_count=participate_count+1
+		where market_id=#{marketId}
+  </update>
+
+    <select id="selectByMarketId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from np_groupon
+        where market_id = #{marketId,jdbcType=BIGINT} AND flag = '0'
+    </select>
+
+    <insert id="insertSelective" parameterType="com.ningpai.marketing.bean.Groupon">
+        insert into np_groupon
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="grouponId != null">
+                groupon_id,
+            </if>
+            <if test="participateNumber != null">
+                participate_number,
+            </if>
+            <if test="grouponDiscount != null">
+                groupon_discount,
+            </if>
+            <if test="participateCount != null">
+                participate_count,
+            </if>
+            <if test="grouponStatus != null">
+                groupon_status,
+            </if>
+            <if test="grouponTime != null">
+                groupon_time,
+            </if>
+            <if test="flag != null">
+                flag,
+            </if>
+            <if test="marketId != null">
+                market_id,
+            </if>
+            <if test="grouponVipDiscount != null">
+                groupon_vip_discount,
+            </if>
+            <if test="grouponVipPrice != null">
+                groupon_vip_price,
+            </if>
+            <if test="grouponPrice != null">
+                groupon_price,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="grouponId != null">
+                #{grouponId,jdbcType=BIGINT},
+            </if>
+            <if test="participateNumber != null">
+                #{participateNumber,jdbcType=BIGINT},
+            </if>
+            <if test="grouponDiscount != null">
+                #{grouponDiscount,jdbcType=DECIMAL},
+            </if>
+            <if test="participateCount != null">
+                #{participateCount,jdbcType=BIGINT},
+            </if>
+            <if test="grouponStatus != null">
+                #{grouponStatus,jdbcType=CHAR},
+            </if>
+            <if test="grouponTime != null">
+                #{grouponTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="flag != null">
+                #{flag,jdbcType=CHAR},
+            </if>
+            <if test="marketId != null">
+                #{marketId,jdbcType=CHAR},
+            </if>
+            <if test="grouponVipDiscount != null">
+                #{grouponVipDiscount,jdbcType=DECIMAL},
+            </if>
+            <if test="grouponVipPrice != null">
+                #{grouponVipPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="grouponPrice != null">
+                #{grouponPrice,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="deleteGroupMarketing" parameterType="java.lang.Long">
+        update np_groupon
+        set flag = '1'
+        where market_id = #{marketId,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.marketing.bean.Groupon">
+        update np_groupon
+        <set>
+            <if test="participateNumber != null">
+                participate_number = #{participateNumber,jdbcType=BIGINT},
+            </if>
+            <if test="grouponDiscount != null">
+                groupon_discount = #{grouponDiscount,jdbcType=DECIMAL},
+            </if>
+            <if test="participateCount != null">
+                participate_count = #{participateCount,jdbcType=BIGINT},
+            </if>
+            <if test="grouponStatus != null">
+                groupon_status = #{grouponStatus,jdbcType=CHAR},
+            </if>
+            <if test="grouponTime != null">
+                groupon_time = #{grouponTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="flag != null">
+                flag = #{flag,jdbcType=CHAR},
+            </if>
+            <if test="marketId != null">
+                market_id=#{marketId,jdbcType=CHAR},
+            </if>
+            <if test="grouponVipDiscount != null">
+                groupon_vip_discount = #{grouponVipDiscount,jdbcType=DECIMAL},
+            </if>
+            <if test="grouponVipPrice != null">
+                groupon_vip_price = #{grouponVipPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="grouponPrice != null">
+                groupon_price = #{grouponPrice,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where groupon_id = #{grouponId,jdbcType=BIGINT}
+    </update>
+</mapper>

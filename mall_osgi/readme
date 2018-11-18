@@ -1,0 +1,1 @@
+该模块是提供每个bundle在maven中引入使用，包括公用依赖包，公用接口，以及Activator，

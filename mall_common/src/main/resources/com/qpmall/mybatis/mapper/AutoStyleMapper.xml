@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qpmall.web.dao.AutoStyleMapper">
+    <resultMap id="AutoBrandMap" type="com.qpmall.auto.bean.AutoBrandBean">
+        <result column="goods_brand_name" property="autoBrandName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="AutoSystemMap" type="com.qpmall.auto.bean.AutoSystemBean">
+        <result column="goods_brand_name" property="autoBrandName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_AutoBrand_Column_List">
+      goods_brand_name
+    </sql>
+
+    <sql id="Base_AutoSystem_Column_List">
+        auto_style_brand_make, auto_style_system
+    </sql>
+
+    <select id="getAllAutoBrand" resultMap="AutoBrandMap" >
+        select DISTINCT <include refid="Base_AutoBrand_Column_List" />
+        from qp_auto_style a
+        where auto_style_isdel ='0'
+    </select>
+
+    <select id="getBrandMakeAndSystem" resultMap="AutoSystemMap" parameterType="java.lang.String">
+        select DISTINCT <include refid="Base_AutoSystem_Column_List" />
+        from qp_auto_style a
+        where auto_style_isdel ='0' and a.goods_brand_name=#{goodsBrandName,jdbcType=BIGINT}
+    </select>
+</mapper>

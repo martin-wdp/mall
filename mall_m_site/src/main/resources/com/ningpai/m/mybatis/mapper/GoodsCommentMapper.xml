@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.m.customer.mapper.GoodsCommentMapper" >
+   <resultMap type="com.ningpai.m.customer.vo.GoodsBean" id="goodsMap">
+  	<result column="goods_info_id"  property="goodsId" jdbcType="BIGINT"/>
+  	<result column="goods_info_name"  property="goodsName" jdbcType="VARCHAR"/>
+ 	<result column="goods_info_prefer_price"  property="goodsPrice" jdbcType="DECIMAL"/>
+ 	<result column="goods_info_img_id"  property="goodsImg" jdbcType="VARCHAR"/>
+ 	<result column="goods_info_stock"  property="goodStock" jdbcType="BIGINT"/>
+ 	<result column="comment_count"  property="commentCount" jdbcType="BIGINT"/>
+ 	<result column="consult_count"  property="consultCount" jdbcType="BIGINT"/>
+ 	<result column="order_goods_id"  property="orderGoodsId" jdbcType="BIGINT"/>
+ 	<result column="comment_id"  property="commentId" jdbcType="BIGINT"/>
+ 	<result column="goods_info_market_price"  property="goodsMarketPrice" jdbcType="VARCHAR"/>
+ 	<result column="goods_info_item_no"  property="goodsNo" jdbcType="VARCHAR"/>
+ 	<result column="comment_tag"  property="commentTag" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="goodsSql">
+  	g.goods_info_name,g.goods_info_prefer_price,g.goods_info_img_id,goods_info_market_price,g.goods_info_stock
+  </sql>
+  <select id="selectOrderGoods" resultMap="goodsMap" parameterType="java.util.Map">
+  	SELECT
+	i.goods_info_name,i.goods_info_id,g.order_goods_id,g.comment_id,i.goods_info_item_no,c.comment_tag
+	from np_order o
+	INNER JOIN np_order_goods g on g.order_id = o.order_id
+	INNER JOIN np_goods_info i on i.goods_info_id = g.goods_info_id
+	inner join np_comment c on c.comment_id = g.comment_id
+	where o.customer_id = #{customerId,jdbcType=BIGINT} and i.goods_info_id = #{goodsId,jdbcType=BIGINT} and o.order_id =#{orderId,jdbcType=BIGINT}
+  </select>
+  <select id="selectOrderGoodsToComment" resultMap="goodsMap" parameterType="java.util.Map">
+  	SELECT
+	i.goods_info_name,i.goods_info_id,g.order_goods_id,g.comment_id,i.goods_info_item_no
+	from np_order o
+	INNER JOIN np_order_goods g on g.order_id = o.order_id
+	INNER JOIN np_goods_info i on i.goods_info_id = g.goods_info_id
+	where o.customer_id = #{customerId,jdbcType=BIGINT} and i.goods_info_id = #{goodsId,jdbcType=BIGINT} and o.order_id =#{orderId,jdbcType=BIGINT}
+  </select>
+  
+  <update id="updateOrderGoods" parameterType="com.ningpai.m.customer.vo.GoodsBean">
+  	update np_order_goods
+    <set>
+      <if test="commentId != null">
+        comment_id = #{commentId,jdbcType=BIGINT},
+      </if>
+      <if test="evaluateFlag != null">
+        evaluate_flag = #{evaluateFlag,jdbcType=BIGINT},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=BIGINT} and goods_info_id  = #{goodsId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="checkCommGoodFlag" resultType="java.lang.Long"  parameterType="java.util.Map">
+	SELECT
+	count(1)
+	from np_order_goods
+	WHERE order_id =#{orderId,jdbcType=BIGINT}  and goods_info_id = #{goodsId,jdbcType=BIGINT} and evaluate_flag = '1'
+  </select>
+</mapper>

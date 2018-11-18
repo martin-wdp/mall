@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ningpai.third.mybatis.mapper.CustomerConsumeMapper">
+  <resultMap id="BaseResultMap" type="com.ningpai.third.auth.bean.CustomerConsume">
+    <id column="balance_id" jdbcType="BIGINT" property="balanceId" />
+    <result column="customer_id" jdbcType="BIGINT" property="customerId" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="balance_num" jdbcType="DECIMAL" property="balanceNum" />
+    <result column="balance_remark" jdbcType="VARCHAR" property="balanceRemark" />
+    <result column="balance_type" jdbcType="CHAR" property="balanceType" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
+    <result column="del_time" jdbcType="TIMESTAMP" property="delTime" />
+    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
+    <result column="is_seller" jdbcType="CHAR" property="isSeller" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    balance_id, customer_id, order_no, balance_num, balance_remark, balance_type, create_time, 
+    modified_time, del_time, del_flag,is_seller
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from np_customer_consume
+    where balance_id = #{balanceId,jdbcType=BIGINT}
+  </select>
+  <!-- 根据会员编号 查询所有的消费记录条数 -->
+  <select id="queryConsumeByCidCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select 
+    count(0)
+   
+		    from np_customer_consume
+		    where customer_id = #{customerId,jdbcType=BIGINT} and del_flag = '0' and 
+		    create_time  
+		    <if test="date != 2" >
+		    	<![CDATA[
+		    		>= date_sub(now(), INTERVAL  90 DAY)  AND create_time<= now()
+		    	]]>
+		    </if>
+		    <if test="date == 2">
+		    	<![CDATA[
+		    		<= date_sub(now(), INTERVAL  90 DAY)
+		    	]]>
+		    </if>
+		    order by create_time desc
+		
+  </select>
+  <!-- 根据会员编号 查询所有的消费记录 -->
+  <select id="queryAllConsumeByCid" resultMap="BaseResultMap"  parameterType="java.util.Map" >
+	 	select 
+	    <include refid="Base_Column_List" />
+		    from np_customer_consume
+		    where customer_id = #{customerId,jdbcType=BIGINT} and del_flag = '0' and
+		    create_time  
+		    <if test="date != 2" >
+		    	<![CDATA[
+		    		>= date_sub(now(), INTERVAL  90 DAY)  AND create_time<= now()
+		    	]]>
+		    </if>
+		    <if test="date == 2">
+		    	<![CDATA[
+		    		<= date_sub(now(), INTERVAL  90 DAY)
+		    	]]>
+		    </if>
+		    order by create_time desc
+		    limit #{startRowNum},#{endRowNum}
+  </select>
+  <!-- 根据会员ID查询消费总和 -->
+  <select id="selectTotalNumByCid" resultType="java.math.BigDecimal" parameterType="java.lang.Long" >
+    select ( 
+		(SELECT case 
+		when sum(balance_num) is null THEN 0 else sum(balance_num) end
+		from np_customer_consume WHERE customer_id=#{customerId,jdbcType=BIGINT}
+		 and balance_type='1')
+	-
+		(SELECT case 
+		when sum(balance_num) is null THEN 0 else sum(balance_num) end
+		from np_customer_consume WHERE customer_id=#{customerId,jdbcType=BIGINT}
+		 and balance_type='3')
+	)
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from np_customer_consume
+    where balance_id = #{balanceId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.third.auth.bean.CustomerConsume">
+    insert into np_customer_consume (balance_id, customer_id, order_no, balance_num, 
+      balance_remark, balance_type, create_time, 
+      modified_time, del_time, del_flag
+      )
+    values (#{balanceId,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, #{orderNo,jdbcType=VARCHAR}, #{balanceNum,jdbcType=DECIMAL}, 
+      #{balanceRemark,jdbcType=VARCHAR}, #{balanceType,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifiedTime,jdbcType=TIMESTAMP}, #{delTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.third.auth.bean.CustomerConsume">
+    insert into np_customer_consume
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="balanceId != null">
+        balance_id,
+      </if>
+      <if test="customerId != null">
+        customer_id,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="balanceNum != null">
+        balance_num,
+      </if>
+      <if test="balanceRemark != null">
+        balance_remark,
+      </if>
+      <if test="balanceType != null">
+        balance_type,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifiedTime != null">
+        modified_time,
+      </if>
+      <if test="delTime != null">
+        del_time,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="isSeller != null">
+        is_seller,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="balanceId != null">
+        #{balanceId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null">
+        #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="balanceNum != null">
+        #{balanceNum,jdbcType=DECIMAL},
+      </if>
+      <if test="balanceRemark != null">
+        #{balanceRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="balanceType != null">
+        #{balanceType,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null">
+        #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delTime != null">
+        #{delTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="isSeller != null">
+        #{isSeller,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.third.auth.bean.CustomerConsume">
+    update np_customer_consume
+    <set>
+      <if test="customerId != null">
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="balanceNum != null">
+        balance_num = #{balanceNum,jdbcType=DECIMAL},
+      </if>
+      <if test="balanceRemark != null">
+        balance_remark = #{balanceRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="balanceType != null">
+        balance_type = #{balanceType,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null">
+        modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delTime != null">
+        del_time = #{delTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where balance_id = #{balanceId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.third.auth.bean.CustomerConsume">
+    update np_customer_consume
+    set customer_id = #{customerId,jdbcType=BIGINT},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      balance_num = #{balanceNum,jdbcType=DECIMAL},
+      balance_remark = #{balanceRemark,jdbcType=VARCHAR},
+      balance_type = #{balanceType,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      del_time = #{delTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where balance_id = #{balanceId,jdbcType=BIGINT}
+  </update>
+ 
+</mapper>

@@ -1,0 +1,26 @@
+*{margin: 0;padding: 0;}
+body{background: #efefef;}
+body,button,input{font-family:Microsoft YaHei;}
+a{text-decoration:none;}
+.dis{display:none;}
+.enroll{width:94%;margin:20px auto;background: #FFFFFF;border:1px solid #CDCDCD;border-radius: 4px;}
+.enroll p{height:60px;line-height:60px; width: 100%;border-top:1px solid #CDCDCD;}
+.enroll p label{display: inline-block; text-align: right; width:90px;}
+.enroll p input{width:70%;height:30px;text-indent: 10px; color: #969696;border:none;outline:none;}
+.enroll p input.en-inp{width: 40%;}
+.enroll p button{float: right;margin: 15px 3px 0 0;height:30px;width:90px;border:none;background: #efefef;color: #FFF;text-align: center;border-radius: 3px;outline:none;}
+.check{height:60px;line-height:60px;width:94%;margin:0 3%;}
+.check input{margin-right: 5px;outline:none;}
+.check a{margin-left: 5px;color: #f6403d;}
+.btn{background: #FA5F5F;font-size:18px;color:#FFF; width:94%;margin:0 3%;height:50px;line-height: 50px;border-radius:4px;text-align: center;border:none;outline:none;}
+.w-suc{position:fixed;top:0; left:0;width:100%;height:100%;background:rgba(0,0,0,.6);}
+.suc{width:84%;height:300px; margin:24% 8%; border:1px solid #878787; background: #FFF;position: fixed;top:0;z-index: 9;}
+.suc img{display: block;width:50px; height:50px;margin:30px auto 15px auto;}
+.suc h3{font-size: 18px;color: #f3ab00;text-align: center;}
+.suc p{text-align: center;width:80%;margin:10px 10%;}
+.suc .suc-btn{width:84%;height:40px;margin:50px 8%;}
+.suc .suc-btn .btn-left{float: left; height:40px; line-height: 40px; width:46%; border-radius:4px;border:1px solid #cdcdcd;color:#000; background: #FFFFFF; text-align: center;}
+.suc .suc-btn .btn-right{float: right; height:40px; line-height: 40px; width:46%;border-radius:4px; background: #f53f3e;color:#FFF;border:none; text-align: center;}
+.must{position:relative;}
+code{position:absolute;left:100px;bottom:2px;line-height:16px;font-size:12px;color:red;}
+

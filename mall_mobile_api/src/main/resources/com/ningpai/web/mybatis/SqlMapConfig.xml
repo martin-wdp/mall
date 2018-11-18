@@ -1,0 +1,209 @@
+﻿
+<!DOCTYPE configuration PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<!--会员模块 -->
+		<typeAlias type="com.ningpai.customer.bean.Customer" alias="customer"/>
+		<typeAlias type="com.ningpai.other.bean.CustomerAllInfo" alias="customerAllInfo"/>
+		<typeAlias type="com.ningpai.comment.bean.Comment" alias="comment"/>
+		<typeAlias type="com.ningpai.comment.bean.CommentReplay" alias="replay"/>
+	</typeAliases>
+	<mappers>
+		
+		<mapper resource="com/ningpai/mybatis/mapper/BasicSetMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/OperationLogMapper.xml"/>
+		<!-- SEO设置 -->
+		<mapper resource="com/ningpai/mybatis/mapper/SeoConf.xml"/>
+		<!-- 配送方式设置 -->
+		<mapper resource="com/ningpai/mybatis/mapper/ExpressConf.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/DeliveryPointMapper.xml"/>
+		<!-- 物流公司设置 -->
+		<mapper resource="com/ningpai/mybatis/mapper/LogisticsCompany.xml"/>
+		<!-- 地区设置 -->
+		<mapper resource="com/ningpai/mybatis/mapper/AreaPackage.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/DistrictMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/ProvinceDefaultMapper.xml" />
+		<!-- 首页变更token设置 -->
+		<mapper resource="com/ningpai/temp/mapper/TempTokenMapper.xml"/>
+		<!-- 统计代码 -->
+		<mapper resource="com/ningpai/mybatis/mapper/StatisticsCode.xml"/>
+		<mapper resource="com/ningpai/information/mapper/InformationTypeMapper.xml"/>
+		<mapper resource="com/ningpai/information/mapper/InformationMapper.xml"/>
+		
+		<!-- 会员模块 -->
+		<mapper resource="com/ningpai/m/mybatis/mapper/CustomerMapper.xml" />
+		<mapper resource="com/ningpai/m/mybatis/mapper/CustomerAddressMapper.xml" />
+		<mapper resource="com/ningpai/m/mybatis/mapper/SmsMapper.xml" />
+		<!--<mapper resource="com/ningpai/site/mybatis/mapper/CustomerPointMapper.xml" />
+		<mapper resource="com/ningpai/site/mybatis/mapper/BrowserecordMapper.xml" />
+		<mapper resource="com/ningpai/site/mybatis/mapper/CustomerFollowMapper.xml" />
+		<mapper resource="com/ningpai/site/mybatis/mapper/CustomerConsumeMapper.xml" />
+		<mapper resource="com/ningpai/site/mybatis/mapper/OrderComplainMapper.xml" />
+		<mapper resource="com/ningpai/site/mybatis/mapper/EmailServerMapper.xml" />
+		<mapper resource="com/ningpai/site/mybatis/mapper/SmsMapper.xml" />-->
+		<mapper resource="com/ningpai/m/mybatis/mapper/GoodsCommentMapper.xml" />
+		<mapper resource="com/ningpai/m/mybatis/mapper/WXGroupMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/CustomerConsumeMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/CustomerMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/CommentMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/CommentReplayMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/CustomerMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/CustomerInfoMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/IntegralSet.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/CustomerAddressMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/CustomerPointMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/CustomerPointLevelMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/StoreInfoMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/ShareMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/ShareImgMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/ShareReplyMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/EducationinfoMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/VocationinfoMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/InsideLetterMapper.xml" />
+		<!-- 会员模块end -->
+		
+		<!-- 微信 -->
+		<mapper resource="com/ningpai/m/mybatis/mapper/ThreePartMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/AuthInfoMapper.xml"/>
+		<!-- 微信end -->
+		
+		
+		<!-- 促销 -->
+		<mapper resource="com/ningpai/mybatis/marketing/mapper/CodexMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/marketing/mapper/MarketingCodexMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/marketing/mapper/MarketingMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/marketing/mapper/MarketingScopeMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/marketing/mapper/PriceOffMarketingMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/marketing/mapper/PresentationMarketingMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/marketing/mapper/CouponMarketingMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/marketing/mapper/DiscountMarketingMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/marketing/mapper/FullbuyReduceMarketingMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/marketing/mapper/FullbuyPresentMarketingMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/marketing/mapper/FullbuyCouponMarketingMapper.xml"/> 
+		<mapper resource="com/ningpai/mybatis/marketing/mapper/FullbuyDiscountMarketingMapper.xml"/> 
+		<mapper resource="com/ningpai/mybatis/marketing/mapper/MarketingGroupMapper.xml"/> 
+		<mapper resource="com/ningpai/mybatis/marketing/mapper/LimitBuyMarketingMapper.xml"/> 
+		<mapper resource="com/ningpai/mybatis/marketing/mapper/GrouponMapper.xml"/> 
+		<mapper resource="com/ningpai/mybatis/marketing/mapper/FullbuyNoDiscountMarketingMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/marketing/mapper/FullbuyNoCountMarketingMapper.xml"/>
+		
+		
+		<!-- 促销 -->
+		
+		<!-- 优惠券 -->
+		<mapper resource="com/ningpai/mybatis/mapper/CouponMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/CouponNoMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/CouponRangeMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/CouponFullReductionMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/CouponStraightDownMapper.xml"/>
+		
+		<!-- 购物车 -->
+		<mapper resource="com/ningpai/m/mybatis/mapper/ShoppingCartMapper.xml"/>
+		
+		
+		<!-- 前台模块商品 -->
+		<mapper resource="com/ningpai/m/mybatis/mapper/GoodsBrandMapper.xml" />
+		<mapper resource="com/ningpai/m/mybatis/mapper/GoodsCateMapper.xml" />
+		<mapper resource="com/ningpai/m/mybatis/mapper/GoodsImageMapper.xml" />
+		<mapper resource="com/ningpai/m/mybatis/mapper/GoodsMapper.xml" />
+		<mapper resource="com/ningpai/m/mybatis/mapper/GoodsProductMapper.xml" />
+		<mapper resource="com/ningpai/m/mybatis/mapper/GoodsProductReleSpecMapper.xml" />
+		<mapper resource="com/ningpai/m/mybatis/mapper/GoodsReleExpandParamMapper.xml" />
+		<mapper resource="com/ningpai/m/mybatis/mapper/GoodsReleParamMapper.xml" />
+		<mapper resource="com/ningpai/m/mybatis/mapper/GoodsSpecDetailMapper.xml" />
+		<mapper resource="com/ningpai/m/mybatis/mapper/GoodsSpecMapper.xml" />
+		<mapper resource="com/ningpai/m/mybatis/mapper/GoodsTypeBrandMapper.xml" />
+		<mapper resource="com/ningpai/m/mybatis/mapper/GoodsTypeExpandParamMapper.xml" />
+		<mapper resource="com/ningpai/m/mybatis/mapper/GoodsTypeExpandParamValueMapper.xml" />
+		<mapper resource="com/ningpai/m/mybatis/mapper/GoodsTypeMapper.xml" />
+		<mapper resource="com/ningpai/m/mybatis/mapper/GoodsTypeParamMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/GoodsTagMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/GoodsBrandMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/GoodsCateMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/GoodsLackRegisterMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/GoodsSpecDetailMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/GoodsSpecMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/GoodsTypeBrandMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/GoodsTypeExpandParamMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/GoodsTypeExpandParamValueMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/GoodsTypeMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/GoodsTypeParamMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/GoodsMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/GoodsReleExpandParamMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/GoodsReleParamMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/GoodsReleTagMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/GoodsTypeSpecMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/GoodsRelatedGoodsMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/GoodsProductMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/GoodsProductReleSpecMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/GoodsGroupMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/GoodsGroupReleProductMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/GoodsImageMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/GoodsAtteMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/GoodsOpenSpecMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/GoodsOpenSpecValueMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/GoodsProductSuppMapper.xml" />
+		<!-- End -->
+		<!-- 仓库 -->
+		<mapper resource="com/ningpai/mybatis/mapper/WareHouseMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/WareCityMapper.xml" />
+		<mapper resource="com/ningpai/mybatis/mapper/ProductWareMapper.xml" />
+		<!-- end -->
+		
+		<!-- 订单 -->
+		<mapper resource="com/ningpai/mybatis/mapper/OrderCouponMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/OrderExpressMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/OrderGiftMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/OrderGoodsInfoCouponMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/OrderGoodsInfoGiftMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/OrderGoodsMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/OrderMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/OrderMarketingMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/OrderContainerRelationMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/OrderContainerMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/OrderOtherPayMapper.xml"/>
+		
+		<!-- 移动版 -->
+		<mapper resource="com/ningpai/mobile/MobCateBarMapper.xml"/>
+		<mapper resource="com/ningpai/mobile/MobAdverMapper.xml"/>
+		<mapper resource="com/ningpai/mobile/MobStoreyMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/MobSiteBasicMapper.xml"/>
+		<!-- 移动版end -->
+		<!-- 支付 -->
+		<mapper resource="com/ningpai/mybatis/mapper/PayMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/OrderOtherPayScheduleMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/PaymentMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/OrderLogMapper.xml"/>
+		<!-- 支付end -->
+		<!-- 新移动版首页 -->
+		<mapper resource="com/ningpai/mobile/MobHomePageMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/marketing/mapper/PreDiscountMarketingMapper.xml"/>
+        <!-- 促销LOGO -->
+        <mapper resource="com/ningpai/mybatis/marketing/mapper/PromotionLogoMapper.xml"/>
+        <mapper resource="com/ningpai/mybatis/marketing/mapper/MarketLelvelMapper.xml"/>
+        <mapper resource="com/ningpai/mybatis/marketing/mapper/MarketLogoMapper.xml"/>
+
+        <!-- 店铺街 -->
+        <mapper resource="com/ningpai/m/mybatis/mapper/StoreListMapper.xml"/>
+        <mapper resource="com/ningpai/mybatis/mapper/storecommon/GoodsCateGoryMapper.xml"/>
+
+        <!-- 运费模板 -->
+
+        <mapper resource="com/ningpai/mybatis/mapper/FreightTemplateMapper.xml"/>
+        <mapper resource="com/ningpai/mybatis/mapper/FreightExpressMapper.xml"/>
+        <mapper resource="com/ningpai/mybatis/mapper/FreightExpressAllMapper.xml"/>
+        <mapper resource="com/ningpai/mybatis/mapper/SysLogisticsCompanyMapper.xml"/>
+        <mapper resource="com/ningpai/mybatis/mapper/SysCityMapper.xml"/>
+        <mapper resource="com/ningpai/mybatis/mapper/SysProvinceMapper.xml"/>
+        <mapper resource="com/ningpai/mybatis/mapper/SysDistrictMapper.xml"/>
+        <mapper resource="com/ningpai/mybatis/mapper/ExpressInfoThirdMapper.xml"/>
+		<mapper resource="com/ningpai/mybatis/mapper/EsThirdCateMapper.xml"/>
+
+        <!--店铺街-->
+        <mapper resource="com/ningpai/channel/mapper/ChannelAdverMapper.xml"/>
+
+		<mapper resource="com/ningpai/m/mybatis/mapper/DirectShopMapperM.xml" />
+		<mapper resource="com/ningpai/m/mybatis/mapper/CustomerPointMapper.xml" />
+	</mappers>
+</configuration>
+	

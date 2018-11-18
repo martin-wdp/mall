@@ -1,0 +1,893 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.web.dao.BackOrderMapper" >
+
+    <!--货品信息映射-->
+    <resultMap id="BaseResultMapGoodsInfo" type="com.ningpai.goods.vo.GoodsProductVo" >
+        <id column="goods_info_id" property="goodsInfoId" jdbcType="BIGINT" />
+        <result column="goods_info_name" property="goodsInfoName" jdbcType="VARCHAR" />
+        <result column="goods_info_img_id" property="goodsInfoImgId" jdbcType="VARCHAR"/>
+        <result column="goods_info_prefer_price" property="goodsInfoPreferPrice" jdbcType="VARCHAR"/>
+        <result column="goods_info_cost_price" property="goodsInfoCostPrice" jdbcType="VARCHAR"/>
+        <result column="goods_info_market_price" property="goodsInfoMarketPrice" jdbcType="VARCHAR"/>
+        <result column="goods_info_item_no" property="goodsInfoItemNo" jdbcType="VARCHAR"/>
+        <collection property="specVo" column="goods_info_id" javaType="ArrayList" ofType="com.ningpai.goods.vo.GoodsProductReleSpecVo"
+                    select="com.ningpai.goods.dao.GoodsProductReleSpecMapper.queryAllByProductId"
+                ></collection>
+    </resultMap>
+
+
+	<!--退单的物流信息  -->
+	<resultMap type="com.ningpai.order.bean.BackOrderGeneral" id="generalMap">
+		<id column="np_logistics_id" property="ogisticsId" jdbcType="BIGINT"/>
+		<result column="np_logistics_no" property="ogisticsNo" jdbcType="VARCHAR"/>
+		<result column="np_logistics_name" property="ogisticsName" jdbcType="VARCHAR"/>
+		<result column="createtime" property="creatTime" jdbcType="TIMESTAMP"/>
+		<result column="back_order_Id" property="backOrderId" jdbcType="BIGINT"/>
+		<result column="temp" property="temp" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+
+
+  <resultMap id="BaseResultMap" type="com.ningpai.order.bean.BackOrder" >
+    <id column="back_order_id" property="backOrderId" jdbcType="BIGINT" />
+    <result column="back_order_code" property="backOrderCode" jdbcType="VARCHAR" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="back_time" property="backTime" jdbcType="TIMESTAMP" />
+    <result column="back_remark" property="backRemark" jdbcType="VARCHAR" />
+    <result column="back_price" property="backPrice" jdbcType="DECIMAL" />
+    <result column="back_check" property="backCheck" jdbcType="CHAR" />
+    <result column="back_del_flag" property="backDelFlag" jdbcType="CHAR" />
+     <result column="back_real_name" property="backRealName" jdbcType="VARCHAR" />
+      <result column="back_bank_name" property="backBankName" jdbcType="VARCHAR" />
+       <result column="back_bank_account" property="backBankAccount" jdbcType="VARCHAR" />
+    <result column="order_goods_id" property="orderGoodsId" jdbcType="BIGINT" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="goods_info_id" property="goodsInfoId" jdbcType="BIGINT" />
+    <result column="goods_info_num" property="goodsInfoNum" jdbcType="BIGINT" />
+    <result column="goods_info_old_price" property="goodsInfoOldPrice" jdbcType="DECIMAL" />
+    <result column="goods_info_price" property="goodsInfoPrice" jdbcType="DECIMAL" />
+    <result column="goods_coupon_price" property="goodsCouponPrice" jdbcType="DECIMAL" />
+    <result column="goods_info_sum_price" property="goodsInfoSumPrice" jdbcType="DECIMAL" />
+    <result column="have_gift_status" property="haveGiftStatus" jdbcType="CHAR" />
+    <result column="have_coupon_status" property="haveCouponStatus" jdbcType="CHAR" />
+    <result column="goods_marketing_id" property="goodsMarketingId" jdbcType="BIGINT" />
+    <result column="buy_time" property="buyTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="evaluate_flag" property="evaluateFlag" jdbcType="CHAR" />
+    <result column="is_back" property="isBack" jdbcType="VARCHAR" />
+    <result column="back_reason" property="backReason" jdbcType="VARCHAR" />
+    <result column="apply_credentials" property="applyCredentials" jdbcType="VARCHAR" />
+    <result column="upload_documents" property="uploadDocuments" jdbcType="VARCHAR" />
+    <result column="back_way" property="backWay" jdbcType="VARCHAR" />
+    <result column="back_gid_gsum" property="backGoodsIdAndSum" jdbcType="VARCHAR" />
+      <result column="order_price" property="orderPrice" jdbcType="DECIMAL" />
+    <result column="order_pre_price" property="orderPrePrice" jdbcType="DECIMAL" />
+    <result column="order_old_price" property="orderOldPrice" jdbcType="DECIMAL" />
+    <result column="order_status" property="orderStatus" jdbcType="CHAR" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="send_express_time" property="sendExpressTime" jdbcType="TIMESTAMP" />
+    <result column="get_goods_time" property="getGoodsTime" jdbcType="TIMESTAMP" />
+    <result column="shopping_addr_id" property="shoppingAddrId" jdbcType="BIGINT" />
+    <result column="shipping_province" property="shippingProvince" jdbcType="VARCHAR" />
+    <result column="shipping_city" property="shippingCity" jdbcType="VARCHAR" />
+    <result column="shipping_county" property="shippingCounty" jdbcType="VARCHAR" />
+    <result column="shipping_address" property="shippingAddress" jdbcType="VARCHAR" />
+    <result column="shipping_person" property="shippingPerson" jdbcType="VARCHAR" />
+    <result column="shipping_phone" property="shippingPhone" jdbcType="VARCHAR" />
+    <result column="shipping_mobile" property="shippingMobile" jdbcType="VARCHAR" />
+     <result column="shipping_postcode" property="shippingPostcode" jdbcType="VARCHAR" />
+    <result column="invoice_title" property="invoiceTitle" jdbcType="VARCHAR" />
+    <result column="invoice_content" property="invoiceContent" jdbcType="VARCHAR" />
+    <result column="invoice_type" property="invoiceType" jdbcType="CHAR" />
+    <result column="customer_remark" property="customerRemark" jdbcType="VARCHAR" />
+    <result column="pay_id" property="payId" jdbcType="BIGINT" />
+    <result column="order_integral" property="orderIntegral" jdbcType="BIGINT" />
+    <result column="coupon_no" property="couponNo" jdbcType="VARCHAR" />
+    <result column="express_price" property="expressPrice" jdbcType="DECIMAL" />
+    <result column="business_id" property="businessId" jdbcType="BIGINT"/>
+     <result column="dealer_type" property="dealerType" jdbcType="CHAR"/>
+     <result column="order_id" property="orderId" jdbcType="BIGINT"/>
+      <result column="author_name" property="authorName" jdbcType="VARCHAR"/>
+       <result column="author_time" property="authorTime" jdbcType="TIMESTAMP"/>
+        <result column="author_log" property="authorLog" jdbcType="VARCHAR"/>
+      <collection property="orderGoodsList" column="order_id" javaType="ArrayList" ofType="com.ningpai.order.bean.OrderGoods" select="com.ningpai.web.dao.OrderGoodsMapper.selectOrderGoodsList"/>
+  </resultMap>
+
+
+
+    <resultMap id="BaseResultMapnew" type="com.ningpai.order.bean.BackOrder" >
+        <id column="back_order_id" property="backOrderId" jdbcType="BIGINT" />
+        <result column="back_order_code" property="backOrderCode" jdbcType="VARCHAR" />
+        <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+        <result column="back_time" property="backTime" jdbcType="TIMESTAMP" />
+        <result column="back_remark" property="backRemark" jdbcType="VARCHAR" />
+        <result column="back_price" property="backPrice" jdbcType="DECIMAL" />
+        <result column="back_check" property="backCheck" jdbcType="CHAR" />
+        <result column="back_del_flag" property="backDelFlag" jdbcType="CHAR" />
+        <result column="back_real_name" property="backRealName" jdbcType="VARCHAR" />
+        <result column="back_bank_name" property="backBankName" jdbcType="VARCHAR" />
+        <result column="back_bank_account" property="backBankAccount" jdbcType="VARCHAR" />
+        <result column="order_goods_id" property="orderGoodsId" jdbcType="BIGINT" />
+        <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+        <result column="goods_info_id" property="goodsInfoId" jdbcType="BIGINT" />
+        <result column="goods_info_num" property="goodsInfoNum" jdbcType="BIGINT" />
+        <result column="goods_info_old_price" property="goodsInfoOldPrice" jdbcType="DECIMAL" />
+        <result column="goods_info_price" property="goodsInfoPrice" jdbcType="DECIMAL" />
+        <result column="goods_coupon_price" property="goodsCouponPrice" jdbcType="DECIMAL" />
+        <result column="goods_info_sum_price" property="goodsInfoSumPrice" jdbcType="DECIMAL" />
+        <result column="have_gift_status" property="haveGiftStatus" jdbcType="CHAR" />
+        <result column="have_coupon_status" property="haveCouponStatus" jdbcType="CHAR" />
+        <result column="goods_marketing_id" property="goodsMarketingId" jdbcType="BIGINT" />
+        <result column="buy_time" property="buyTime" jdbcType="TIMESTAMP" />
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+        <result column="evaluate_flag" property="evaluateFlag" jdbcType="CHAR" />
+        <result column="is_back" property="isBack" jdbcType="VARCHAR" />
+        <result column="back_reason" property="backReason" jdbcType="VARCHAR" />
+        <result column="apply_credentials" property="applyCredentials" jdbcType="VARCHAR" />
+        <result column="upload_documents" property="uploadDocuments" jdbcType="VARCHAR" />
+        <result column="back_way" property="backWay" jdbcType="VARCHAR" />
+        <result column="back_gid_gsum" property="backGoodsIdAndSum" jdbcType="VARCHAR" />
+        <result column="order_price" property="orderPrice" jdbcType="DECIMAL" />
+        <result column="order_pre_price" property="orderPrePrice" jdbcType="DECIMAL" />
+        <result column="order_old_price" property="orderOldPrice" jdbcType="DECIMAL" />
+        <result column="order_status" property="orderStatus" jdbcType="CHAR" />
+        <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+        <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+        <result column="send_express_time" property="sendExpressTime" jdbcType="TIMESTAMP" />
+        <result column="get_goods_time" property="getGoodsTime" jdbcType="TIMESTAMP" />
+        <result column="shopping_addr_id" property="shoppingAddrId" jdbcType="BIGINT" />
+        <result column="shipping_province" property="shippingProvince" jdbcType="VARCHAR" />
+        <result column="shipping_city" property="shippingCity" jdbcType="VARCHAR" />
+        <result column="shipping_county" property="shippingCounty" jdbcType="VARCHAR" />
+        <result column="shipping_address" property="shippingAddress" jdbcType="VARCHAR" />
+        <result column="shipping_person" property="shippingPerson" jdbcType="VARCHAR" />
+        <result column="shipping_phone" property="shippingPhone" jdbcType="VARCHAR" />
+        <result column="shipping_mobile" property="shippingMobile" jdbcType="VARCHAR" />
+        <result column="shipping_postcode" property="shippingPostcode" jdbcType="VARCHAR" />
+        <result column="invoice_title" property="invoiceTitle" jdbcType="VARCHAR" />
+        <result column="invoice_content" property="invoiceContent" jdbcType="VARCHAR" />
+        <result column="invoice_type" property="invoiceType" jdbcType="CHAR" />
+        <result column="customer_remark" property="customerRemark" jdbcType="VARCHAR" />
+        <result column="pay_id" property="payId" jdbcType="BIGINT" />
+        <result column="order_integral" property="orderIntegral" jdbcType="BIGINT" />
+        <result column="coupon_no" property="couponNo" jdbcType="VARCHAR" />
+        <result column="express_price" property="expressPrice" jdbcType="DECIMAL" />
+        <result column="business_id" property="businessId" jdbcType="BIGINT"/>
+        <result column="dealer_type" property="dealerType" jdbcType="CHAR"/>
+        <result column="order_id" property="orderId" jdbcType="BIGINT"/>
+        <result column="author_name" property="authorName" jdbcType="VARCHAR"/>
+        <result column="author_time" property="authorTime" jdbcType="TIMESTAMP"/>
+        <result column="author_log" property="authorLog" jdbcType="VARCHAR"/>
+        <!--add by luyong start-->
+        <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+        <result column="salesman_name" property="salesmanName" jdbcType="VARCHAR" />
+        <result column="salesman_phone" property="salesmanPhone" jdbcType="VARCHAR" />
+        <result column="salesman_department" property="salesmanDepartment" jdbcType="VARCHAR" />
+        <result column="isEnterprise" property="isEnterprise" jdbcType="CHAR" />
+        <result column="salesman_id"  property="salesmanId" jdbcType="BIGINT" />
+        <!--add by luyong  end-->
+        <collection
+                property="order"
+                column="order_code"
+                javaType="com.ningpai.order.bean.Order"
+                ofType="com.ningpai.order.bean.Order"
+                select="com.ningpai.web.dao.BackOrderMapper.selectOrderOne"
+                />
+    </resultMap>
+
+	<!--  交易明细表-->
+	 <resultMap type="com.ningpai.order.bean.Order" id="orderMap">
+ 	 	<result column="order_id"  property="orderId" jdbcType="BIGINT"/>
+ 	 	<result column="customer_id"  property="customerId" jdbcType="BIGINT"/>
+ 	 	<result column="order_code"  property="orderCode" jdbcType="VARCHAR"/>
+ 	 	<result column="order_price"  property="orderPrice" jdbcType="DECIMAL"/>
+ 	 	<result column="business_id" property="businessId" jdbcType="BIGINT" />
+ 	 	<result column="order_status"  property="orderStatus" jdbcType="VARCHAR"/>
+ 	 	<result column="back_price" property="backPrice" jdbcType="DECIMAL"/>
+        <result column="shipping_person"  property="shippingPerson" jdbcType="VARCHAR"/>
+        <result column="shipping_mobile"  property="shippingMobile" jdbcType="VARCHAR"/>
+        <result column="order_line_pay" property="orderLinePay" jdbcType="CHAR"/>
+	  </resultMap>
+  
+   <!-- 第三方商店 -->
+   <resultMap type="com.ningpai.order.bean.BackOrder" id="storeInfoMap" extends="BaseResultMap">
+   		<association property="storeInfo" column="business_id" select="com.ningpai.thirdaudit.mapper.StoreInfoMapper.selectByPrimaryKey"></association>
+   		<collection property="order" column="order_id" ofType="com.ningpai.order.bean.Order" select="com.ningpai.web.dao.OrderMapper.orderDetail"/>
+   </resultMap>
+  
+  
+  <!--退单详情-->
+  <sql id="Base_Column_List" >
+    back_order_id, back_order_code, order_code, back_time, back_remark, back_price, back_check, 
+    back_del_flag,dealer_type,author_name,author_time,author_log,is_back,back_reason,apply_credentials,upload_documents,back_way,back_gid_gsum
+  </sql>
+ 	 <!--退单的物流信息  -->
+	<sql id="selectlogistics">
+		np_logistics_id,np_logistics_no,np_logistics_name,createtime,back_order_Id,temp
+	</sql>
+	
+  	<!-- 更新交易记录的状态  记录的状态  退单的金额 -->
+	<update id="updateOrder" parameterType="com.ningpai.order.bean.Order" >
+		update 
+		   np_order
+		set
+            <if test="null != orderStatus and null != backPrice"  >
+                order_status = #{orderStatus,jdbcType=VARCHAR},
+                back_price = #{backPrice,jdbcType=DECIMAL}
+            </if>
+			<if test="null != backPrice and  null == orderStatus">
+                back_price = #{backPrice,jdbcType=DECIMAL}
+            </if>
+            <if test="null == backPrice and  null != orderStatus">
+                order_status = #{orderStatus,jdbcType=VARCHAR}
+            </if>
+		where 
+			order_id = #{orderId,jdbcType=BIGINT}
+	</update >
+	
+	<!--根据ID获取单个退单对象  -->
+  <select id="selectbackOrderOne" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  	 select <include refid="Base_Column_List"/> 
+  	 	from  np_back_order where back_order_id = #{backOrderId,jdbcType=BIGINT}
+  
+  </select>
+  
+  <!-- 订单号查询交易对象 -->
+  <select id="selectOrderOne" parameterType="java.lang.String" resultMap="orderMap">
+		select
+		order_id,order_code,shipping_person,shipping_mobile,back_price,order_line_pay
+		 from np_order where order_code = #{orderCode,jdbcType=VARCHAR}
+  </select>
+  <!--  -->
+  <select id="searchBackOrderList" resultMap="storeInfoMap" parameterType="java.util.Map" >
+      select 
+		bo.business_id,bo.back_order_id,ors.order_id, bo.back_order_code, bo.order_code, bo.back_time, bo.back_remark, bo.back_price, bo.back_check, 
+    bo.back_del_flag,ors.shipping_person,ors.shipping_mobile,bo.back_gid_gsum,
+     goods.order_goods_id, goods.goods_id, goods.goods_info_id, goods.goods_info_num, goods.goods_info_old_price, 
+    goods.goods_info_price, goods.goods_coupon_price, goods.goods_info_sum_price, goods.have_gift_status, goods.have_coupon_status, 
+    goods.goods_marketing_id, goods.buy_time, goods.del_flag, goods.evaluate_flag,back_real_name,back_bank_name,back_bank_account,author_name,
+	author_time,author_log,ors.pay_time,ors.get_goods_time
+	 FROM np_back_order bo,np_order ors , np_order_goods goods
+    WHERE bo.order_code = (select ors.order_code from np_order ors where ors.order_id = goods.order_id) AND ors.order_id = goods.order_id
+    and bo.back_del_flag='0'
+    <if test="backOrderCode !=null and backOrderCode !=''">
+    	 and bo.back_order_code =  #{backOrderCode,jdbcType=VARCHAR}
+    </if>
+     <if test="backCheck !=null and backCheck !=''">
+    	 and bo.back_check =  #{backCheck,jdbcType=CHAR}
+    </if>
+    <if test="shippingMobile !=null and shippingMobile !=''">
+    	 and ors.shipping_mobile like CONCAT(CONCAT('%',#{shippingMobile,jdbcType=VARCHAR},'%'))  
+    </if>
+     <if test="shippingPerson !=null and shippingPerson !=''">
+    	 and ors.shipping_person  like  CONCAT(CONCAT('%',#{shippingPerson,jdbcType=VARCHAR},'%'))  
+    </if>
+    <if test="businessId !=null">
+    	and ors.business_id = #{businessId,jdbcType=BIGINT}
+    </if>
+    <if test="startTime != null and startTime != ''">
+      <![CDATA[ AND bo.back_time  >= #{startTime} ]]>
+    </if>
+    <if test="endTime != null and endTime != ''">
+      <![CDATA[ AND bo.back_time  <= #{endTime } '23:59:59']]>
+    </if>
+    /*只输入起始价格  就查大于这个价格的所有订单*/
+    <if test="startprice != null and endprice==null">
+      and bo.back_price  &gt; #{startprice}
+    </if>
+
+    /*只输入结束价格  就查小于这个价格的所有订单*/
+    <if test="endprice != null and startprice==null">
+      and bo.back_price &lt; #{endprice}
+    </if>
+
+    /*两个价格都有 就差两者价格之间的*/
+    <if test="startprice != null and endprice != null " >
+      and bo.back_price  BETWEEN #{startprice} and #{endprice}
+    </if>
+      group by bo.back_order_code
+     order by  bo.back_time desc
+     limit #{start},#{number}
+  </select>
+
+
+
+
+
+    <!--查询商家自己的退单信息的数据条数  -->
+    <select id="searchBackOrderThirdCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+        select
+        COUNT(1)
+        FROM
+        np_back_order bo
+        left join  np_order orders on bo.order_code = orders.order_code
+        where
+        bo.back_del_flag='0'
+        <if test="backOrderCode !=null and backOrderCode !=''">
+            and bo.back_order_code =  #{backOrderCode,jdbcType=VARCHAR}
+        </if>
+        <if test="businessId !=null">
+            and bo.business_id = #{businessId,jdbcType=BIGINT}
+        </if>
+
+        <if test="backCheck !=null and backCheck !=''">
+            and bo.back_check =  #{backCheck,jdbcType=CHAR}
+        </if>
+        <if test="startTime != null and startTime != ''">
+            <![CDATA[ AND bo.back_time  >= #{startTime} ]]>
+        </if>
+        <if test="endTime != null and endTime != ''">
+            <![CDATA[ AND bo.back_time  <= #{endTime } '23:59:59']]>
+        </if>
+        /*只输入起始价格  就查大于这个价格的所有订单*/
+        <if test="startprice != null and endprice==null">
+            and bo.back_price  &gt; #{startprice}
+        </if>
+
+        /*只输入结束价格  就查小于这个价格的所有订单*/
+        <if test="endprice != null and startprice==null">
+            and bo.back_price &lt; #{endprice}
+        </if>
+
+        /*两个价格都有 就差两者价格之间的*/
+        <if test="startprice != null and endprice != null " >
+            and bo.back_price  BETWEEN #{startprice} and #{endprice}
+        </if>
+         <if test="shippingMobile !=null and shippingMobile !=''">
+    	 and orders.shipping_mobile like CONCAT(CONCAT('%',#{shippingMobile,jdbcType=VARCHAR},'%'))  
+        </if>
+	     <if test="shippingPerson !=null and shippingPerson !=''">
+	    	 and orders.shipping_person  like  CONCAT(CONCAT('%',#{shippingPerson,jdbcType=VARCHAR},'%'))
+	    </if>
+        <if test="salesmanId != null and salesmanId != '' and salesmanId != 0" >
+	    	 and bo.salesman_id = #{salesmanId}
+	    </if>
+    </select>
+
+
+    <!--根据商家信息查询自己的退单信息   -->
+    <select id="searchBackOrderLisThird" resultMap="BaseResultMapnew" parameterType="java.util.Map" >
+        select
+        bo.business_id,bo.back_order_id,bo.back_order_code, bo.order_code, bo.back_time, bo.back_remark, bo.back_price, bo.back_check,
+        bo.back_del_flag,bo.back_gid_gsum,is_back,
+        cus.customer_username,cus.customer_nickname,cus.isEnterprise,sala.salesman_id,salesman_name,salesman_phone,
+        (select en.company_name from qp_enterprise_certification_info en WHERE en.customerId=orders.customer_id AND en.check_status='1') AS  company_name
+        FROM
+        np_back_order bo
+        left join  np_order orders on bo.order_code = orders.order_code
+        left join  np_customer cus on bo.customer_id = cus.customer_id
+        left join  qp_salesman sala on bo.salesman_id = sala.salesman_id
+        where
+        bo.back_del_flag='0'
+        <if test="backOrderCode !=null and backOrderCode !=''">
+            and bo.back_order_code =  #{backOrderCode,jdbcType=VARCHAR}
+        </if>
+        <if test="businessId !=null">
+            and bo.business_id = #{businessId,jdbcType=BIGINT}
+        </if>
+
+        <if test="backCheck !=null and backCheck !=''">
+            and bo.back_check =  #{backCheck,jdbcType=CHAR}
+        </if>
+        <if test="startTime != null and startTime != ''">
+            <![CDATA[ AND bo.back_time  >= #{startTime} ]]>
+        </if>
+        <if test="endTime != null and endTime != ''">
+            <![CDATA[ AND bo.back_time  <= #{endTime } '23:59:59']]>
+        </if>
+        /*只输入起始价格  就查大于这个价格的所有订单*/
+        <if test="startprice != null and endprice==null">
+            and bo.back_price  &gt; #{startprice}
+        </if>
+
+        /*只输入结束价格  就查小于这个价格的所有订单*/
+        <if test="endprice != null and startprice==null">
+            and bo.back_price &lt; #{endprice}
+        </if>
+
+        /*两个价格都有 就差两者价格之间的*/
+        <if test="startprice != null and endprice != null " >
+            and bo.back_price  BETWEEN #{startprice} and #{endprice}
+        </if>
+        <if test="shippingMobile !=null and shippingMobile !=''">
+    	 and orders.shipping_mobile like CONCAT(CONCAT('%',#{shippingMobile,jdbcType=VARCHAR},'%'))  
+        </if>
+	     <if test="shippingPerson !=null and shippingPerson !=''">
+	    	 and orders.shipping_person  like  CONCAT(CONCAT('%',#{shippingPerson,jdbcType=VARCHAR},'%'))  
+	    </if>
+        <if test="salesmanId != null and salesmanId != '' and salesmanId != 0" >
+            and bo.salesman_id = #{salesmanId}
+        </if>
+        group by bo.back_order_code
+        order by  bo.back_time desc
+        limit #{start},#{number}
+    </select>
+
+
+
+
+
+    <!--新写的查询所有退单-->
+    <select id="searchBackOrderListnew" resultMap="BaseResultMapnew" parameterType="java.util.Map" >
+        select
+            bo.business_id,bo.back_order_id,bo.back_order_code, bo.order_code, bo.back_time, bo.back_remark, bo.back_price, bo.back_check,
+            bo.back_del_flag,bo.back_gid_gsum,is_back
+        FROM
+            np_back_order bo
+        where
+          bo.back_del_flag='0'
+        <if test="backOrderCode !=null and backOrderCode !=''">
+            and bo.back_order_code =  #{backOrderCode,jdbcType=VARCHAR}
+        </if>
+        <choose>
+            <when test="businessId !=null and businessId !='' and businessId==1">
+                and bo.business_id != 0
+            </when>
+            <otherwise>
+                and bo.business_id = 0
+            </otherwise>
+        </choose>
+        <if test="backCheck !=null and backCheck !=''">
+            and bo.back_check =  #{backCheck,jdbcType=CHAR}
+        </if>
+        <if test="startTime != null and startTime != ''">
+            <![CDATA[ AND bo.back_time  >= #{startTime} ]]>
+        </if>
+        <if test="endTime != null and endTime != ''">
+            <![CDATA[ AND bo.back_time  <= #{endTime } '23:59:59']]>
+        </if>
+        /*只输入起始价格  就查大于这个价格的所有订单*/
+        <if test="startprice != null and endprice==null">
+            and bo.back_price  &gt; #{startprice}
+        </if>
+
+        /*只输入结束价格  就查小于这个价格的所有订单*/
+        <if test="endprice != null and startprice==null">
+            and bo.back_price &lt; #{endprice}
+        </if>
+
+        /*两个价格都有 就差两者价格之间的*/
+        <if test="startprice != null and endprice != null " >
+            and bo.back_price  BETWEEN #{startprice} and #{endprice}
+        </if>
+        group by bo.back_order_code
+        order by  bo.back_time desc
+        limit #{start},#{number}
+    </select>
+
+
+    <!--搜索退单的数据条数-->
+    <select id="searchBackOrderCountnew" resultType="java.lang.Integer" parameterType="java.util.Map" >
+        select
+           COUNT(1)
+        from np_back_order bo
+        where
+        bo.back_del_flag='0'
+        <if test="backOrderCode !=null and backOrderCode !=''">
+            and bo.back_order_code =  #{backOrderCode,jdbcType=VARCHAR}
+        </if>
+        <if test="backCheck !=null and backCheck !=''">
+            and bo.back_check =  #{backCheck,jdbcType=CHAR}
+        </if>
+        <choose>
+            <when test="businessId !=null and businessId !='' and businessId==1">
+                and bo.business_id != 0
+            </when>
+            <otherwise>
+                and bo.business_id = 0
+            </otherwise>
+        </choose>
+        <if test="startTime != null and startTime != ''">
+            <![CDATA[ AND bo.back_time  >= #{startTime} ]]>
+        </if>
+        <if test="endTime != null and endTime != ''">
+            <![CDATA[ AND bo.back_time  <= #{endTime } '23:59:59']]>
+        </if>
+        /*只输入起始价格  就查大于这个价格的所有订单*/
+        <if test="startprice != null and endprice==null">
+            and bo.back_price  &gt; #{startprice}
+        </if>
+
+        /*只输入结束价格  就查小于这个价格的所有订单*/
+        <if test="endprice != null and startprice==null">
+            and bo.back_price &lt; #{endprice}
+        </if>
+
+        /*两个价格都有 就差两者价格之间的*/
+        <if test="startprice != null and endprice != null " >
+            and bo.back_price  BETWEEN #{startprice} and #{endprice}
+        </if>
+
+    </select>
+
+
+  <!-- 根据ID查询单个的退单对象 -->
+   <select id="selectBackOrderDetail" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+	bo.back_order_id,ors.order_id, bo.back_order_code, bo.order_code, bo.back_time, bo.back_remark, bo.back_price, bo.back_check, 
+    bo.back_del_flag,ors.shipping_person,ors.shipping_mobile,bo.back_gid_gsum,
+    back_real_name,back_bank_name,
+    back_bank_account,author_name,author_time
+	 FROM np_back_order bo,np_order ors
+    WHERE bo.order_code = ors.order_code
+     and bo.back_del_flag='0'
+     and bo.back_order_id =  #{backOrderId,jdbcType=BIGINT}
+  </select>
+
+  <!--根据ID查询退单信息 用于商家详细信息的展示-->
+  <select id="selectBackOrderDetailnew" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List"/>
+        FROM np_back_order
+        where  back_del_flag='0'
+        and back_order_id =  #{backOrderId,jdbcType=BIGINT}
+  </select>
+
+
+    <select id="searchBackOrderCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+     select count(*)
+	 FROM np_back_order bo,np_order ors , np_order_goods goods 
+    WHERE bo.back_order_code = goods.back_order_code AND ors.order_id = goods.order_id
+    and bo.back_del_flag='0'
+    <if test="backOrderCode !=null and backOrderCode !=''">
+    	 and bo.back_order_code =  #{backOrderCode,jdbcType=VARCHAR}
+    </if>
+     <if test="backCheck !=null and backCheck !=''">
+    </if>
+      <if test="shippingMobile !=null and shippingMobile !=''">
+    	 and ors.shipping_mobile like CONCAT(CONCAT('%',#{shippingMobile,jdbcType=VARCHAR},'%'))  
+    </if>
+     <if test="shippingPerson !=null and shippingPerson !=''">
+    	 and ors.shipping_person like  CONCAT(CONCAT('%',#{shippingPerson,jdbcType=VARCHAR},'%'))  
+    </if>
+     <if test="businessId !=null">
+     	<if test="businessId == 0">
+    	and ors.business_id = #{businessId,jdbcType=BIGINT}
+    	</if>
+    	<if test="businessId != 0">
+    	and ors.business_id != 0
+    	</if>
+    </if>
+      <if test="businessId !=null">
+    	and ors.business_id = #{businessId,jdbcType=BIGINT}
+    </if>
+  </select>
+  
+  
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_back_order
+    where back_order_id = #{backOrderId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from np_back_order
+    where back_order_id = #{backOrderId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.order.bean.BackOrder" >
+      insert into np_back_order (back_order_id, back_order_code, order_code, 
+      back_time, back_remark, back_price, 
+      back_check, back_del_flag)
+       values (#{backOrderId,jdbcType=BIGINT}, #{backOrderCode,jdbcType=VARCHAR}, #{orderCode,jdbcType=VARCHAR}, 
+      #{backTime,jdbcType=TIMESTAMP}, #{backRemark,jdbcType=VARCHAR}, #{backPrice,jdbcType=DECIMAL}, 
+      #{backCheck,jdbcType=CHAR}, #{backDelFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective"  parameterType="com.ningpai.order.bean.BackOrder" >
+    insert into np_back_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="customerId != null" >
+          customer_id,
+      </if>
+      <if test="backOrderId != null" >
+        back_order_id,
+      </if>
+      <if test="backOrderCode != null" >
+        back_order_code,
+      </if>
+      <if test="orderCode != null" >
+        order_code,
+      </if>
+      <if test="backTime != null" >
+        back_time,
+      </if>
+      <if test="backRemark != null" >
+        back_remark,
+      </if>
+      <if test="backPrice != null" >
+        back_price,
+      </if>
+      <if test="backCheck != null" >
+        back_check,
+      </if>
+      <if test="backDelFlag != null" >
+        back_del_flag,
+      </if>
+        <if test="businessId != null">
+            business_id,
+        </if>
+        <if test="isBack != null">
+            is_back,
+        </if>
+        <if test="backReason != null">
+            back_reason,
+        </if>
+        <if test="applyCredentials != null">
+            apply_credentials,
+        </if>
+        <if test="uploadDocuments != null">
+            upload_documents,
+        </if>
+        <if test="backWay != null">
+            back_way,
+        </if>
+        <if test="backGoodsIdAndSum != null">
+            back_gid_gsum,
+        </if>
+        <if test="salesmanId != null">
+            salesman_id,
+        </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="customerId != null" >
+          #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="backOrderId != null" >
+        #{backOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="backOrderCode != null" >
+        #{backOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCode != null" >
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="backTime != null" >
+        #{backTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="backRemark != null" >
+        #{backRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="backPrice != null" >
+        #{backPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="backCheck != null" >
+        #{backCheck,jdbcType=CHAR},
+      </if>
+      <if test="backDelFlag != null" >
+        #{backDelFlag,jdbcType=CHAR},
+      </if>
+        <if test="businessId != null">
+            #{businessId,jdbcType=BIGINT},
+        </if>
+        <if test="isBack != null">
+            #{isBack,jdbcType=VARCHAR},
+        </if>
+        <if test="backReason != null">
+            #{backReason,jdbcType=VARCHAR},
+        </if>
+        <if test="applyCredentials != null">
+            #{applyCredentials,jdbcType=VARCHAR},
+        </if>
+        <if test="uploadDocuments != null">
+            #{uploadDocuments,jdbcType=VARCHAR},
+        </if>
+        <if test="backWay != null">
+            #{backWay,jdbcType=VARCHAR},
+        </if>
+        <if test="backGoodsIdAndSum != null">
+            #{backGoodsIdAndSum,jdbcType=VARCHAR},
+        </if>
+        <if test="salesmanId != null">
+            #{salesmanId,jdbcType=BIGINT},
+        </if>
+    </trim>
+      <!--返回刚刚插入成功的 退单ID-->
+      <selectKey keyProperty="backOrderId" resultType="java.lang.Long">
+          select LAST_INSERT_ID()
+      </selectKey>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.order.bean.BackOrder" >
+    update np_back_order
+    <set >
+      <if test="backOrderCode != null" >
+        back_order_code = #{backOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCode != null" >
+        order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="backTime != null" >
+        back_time = #{backTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="backRemark != null" >
+        back_remark = #{backRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="backPrice != null" >
+        back_price = #{backPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="backCheck != null" >
+        back_check = #{backCheck,jdbcType=CHAR},
+      </if>
+      <if test="backDelFlag != null" >
+        back_del_flag = #{backDelFlag,jdbcType=CHAR},
+      </if>
+       <if test="authorName!=null">
+      	author_name = #{authorName,jdbcType=VARCHAR},
+      </if>
+      <if test="authorTime!=null">
+      	author_time = #{authorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authorLog!=null">
+      	author_log = #{authorLog,jdbcType=VARCHAR},
+      </if>
+      <if test="isBack != null">
+          is_back = #{isBack,jdbcType=VARCHAR},
+      </if>
+      <if test="backReason != null">
+          back_reason = #{backReason,jdbcType=VARCHAR},
+      </if>
+      <if test="applyCredentials != null">
+          apply_credentials = #{applyCredentials,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadDocuments != null">
+          upload_documents = #{uploadDocuments,jdbcType=VARCHAR},
+      </if>
+      <if test="backWay != null">
+          back_way = #{backWay,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where back_order_id = #{backOrderId,jdbcType=BIGINT}
+  </update>
+    <!--修改第三方后台订单审核-->
+    <update id="updateByThirdId" parameterType="com.ningpai.order.bean.BackOrder" >
+        update np_back_order
+        <set >
+            <if test="backOrderCode != null" >
+                back_order_code = #{backOrderCode,jdbcType=VARCHAR},
+            </if>
+            <if test="orderCode != null" >
+                order_code = #{orderCode,jdbcType=VARCHAR},
+            </if>
+            <if test="backTime != null" >
+                back_time = #{backTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="backRemark != null" >
+                back_remark = #{backRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="backPrice != null" >
+                back_price = #{backPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="backCheck != null" >
+                back_check = #{backCheck,jdbcType=CHAR},
+            </if>
+            <if test="backDelFlag != null" >
+                back_del_flag = #{backDelFlag,jdbcType=CHAR},
+            </if>
+            <if test="authorName!=null">
+                author_name = #{authorName,jdbcType=VARCHAR},
+            </if>
+            <if test="authorTime!=null">
+                author_time = #{authorTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="authorLog!=null">
+                author_log = #{authorLog,jdbcType=VARCHAR},
+            </if>
+            <if test="isBack != null">
+                is_back = #{isBack,jdbcType=VARCHAR},
+            </if>
+            <if test="backReason != null">
+                back_reason = #{backReason,jdbcType=VARCHAR},
+            </if>
+            <if test="applyCredentials != null">
+                apply_credentials = #{applyCredentials,jdbcType=VARCHAR},
+            </if>
+            <if test="uploadDocuments != null">
+                upload_documents = #{uploadDocuments,jdbcType=VARCHAR},
+            </if>
+            <if test="backWay != null">
+                back_way = #{backWay,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where back_order_id = #{backOrderId,jdbcType=BIGINT}
+        and business_id = #{businessId,jdbcType=BIGINT}
+    </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.order.bean.BackOrder" >
+	update np_back_order
+	set back_order_code = #{backOrderCode,jdbcType=VARCHAR},
+	order_code = #{orderCode,jdbcType=VARCHAR},
+	back_time = #{backTime,jdbcType=TIMESTAMP},
+	back_remark = #{backRemark,jdbcType=VARCHAR},
+	back_price = #{backPrice,jdbcType=DECIMAL},
+	back_check = #{backCheck,jdbcType=CHAR},
+	back_del_flag = #{backDelFlag,jdbcType=CHAR},
+	author_name = #{authorName,jdbcType=VARCHAR},
+	author_time =
+	#{authorTime,jdbcType=TIMESTAMP},
+	author_log =
+	#{authorLog,jdbcType=VARCHAR}
+	where back_order_id = #{backOrderId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 查询退款的订单数量 -->
+  <select id="queryBackOrderCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+      	select count(*) from np_back_order where back_del_flag = '0'
+      	and back_check in ('0','1') 
+      	and order_code in (select order_code from np_order where business_id=#{thirdId})
+  </select>
+  <!-- 查询退款的订单数量（已买） -->
+  <select id="queryBackOrderCountBuy" parameterType="java.util.Map" resultType="java.lang.Integer">
+      	select count(*) from np_back_order where back_del_flag = '0'
+      	and back_check in ('0','1') 
+      	and order_code in (select a.order_code from np_order a ,np_third_store_info b 
+	where a.customer_id=#{customerId} and a.customer_id=b.customerId 
+	and b.is_supplier='0' and a.del_flag='0')
+  </select>
+  
+  <!--根据退单ID获取退单物流信息  -->
+  <select id="selectGeneralByBackOrderId" resultMap="generalMap" parameterType="java.lang.Long">
+  	select <include refid="selectlogistics"/> from np_logistics where back_order_id = #{backOrderId}
+  </select>
+
+    <select id="selectBackOrderByBackOrderId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select <include refid="Base_Column_List"/> from np_back_order where back_order_id = #{backOrderId,jdbcType=BIGINT}
+    </select>
+
+
+
+    <select id="selectBackOrderCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+        select count(*)
+        FROM np_back_order bo,np_order ors , np_order_goods goods
+        WHERE bo.back_order_code = goods.back_order_code AND ors.order_id = goods.order_id
+        and bo.back_del_flag='0'
+        <if test="backOrderCode !=null and backOrderCode !=''">
+            and bo.back_order_code =  #{backOrderCode,jdbcType=VARCHAR}
+        </if>
+        <if test="backCheck !=null and backCheck !=''">
+            and bo.back_check =  #{backCheck,jdbcType=CHAR}
+        </if>
+        <if test="shippingMobile !=null and shippingMobile !=''">
+            and ors.shipping_mobile like CONCAT(CONCAT('%',#{shippingMobile,jdbcType=VARCHAR},'%'))
+        </if>
+        <if test="shippingPerson !=null and shippingPerson !=''">
+            and ors.shipping_person like  CONCAT(CONCAT('%',#{shippingPerson,jdbcType=VARCHAR},'%'))
+        </if>
+        <if test="businessId !=null">
+            and ors.business_id = #{businessId,jdbcType=BIGINT}
+        </if>
+    </select>
+    <!-- 根据订单编号获取退单信息 -->
+    <select id="queryBackOrderByOrderCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select <include refid="Base_Column_List"/> from np_back_order where order_code = #{orderNo,jdbcType=VARCHAR}
+    </select>
+    <!-- 根据退单号查询物流 -->
+    <select id="queryBackOrderGeneral" parameterType="java.lang.Long" resultMap="generalMap">
+        select np_logistics_id,np_logistics_no,np_logistics_name,createtime,back_order_Id,temp from np_logistics where back_order_id = #{backOrderId,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectGoodsById" resultMap="BaseResultMapGoodsInfo" parameterType="java.util.Map" >
+        SELECT
+            goods_info_prefer_price,
+            goods_info_cost_price,
+            goods_info_market_price,
+            goods_info_item_no,
+            goods_info_id,
+            goods_info_name,
+            goods_info_img_id
+        FROM
+            np_goods_info
+        WHERE
+            goods_info_id = #{goodsInfoId,jdbcType=BIGINT}
+    </select>
+
+    <!--删除订单里面的退货成功的商品-->
+    <select id="deleteBackGoodsById" parameterType="java.lang.Long">
+        DELETE
+        FROM
+            np_order_goods
+        WHERE
+            goods_info_id =
+
+    </select>
+</mapper>

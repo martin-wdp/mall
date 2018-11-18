@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ningpai.goods.dao.GoodsRelatedGoodsMapper" >
+  <resultMap id="BaseResultMap" type="com.ningpai.goods.bean.GoodsRelatedGoods" >
+    <id column="related_id" property="relatedId" jdbcType="BIGINT" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <result column="rela_goods_id" property="relaGoodsId" jdbcType="BIGINT" />
+    <result column="rela_create_name" property="relaCreateName" jdbcType="VARCHAR" />
+    <result column="rela_create_time" property="relaCreateTime" jdbcType="TIMESTAMP" />
+    <result column="rela_del_name" property="relaDelName" jdbcType="VARCHAR" />
+    <result column="rela_del_time" property="relaDelTime" jdbcType="TIMESTAMP" />
+    <result column="rela_delflag" property="relaDelflag" jdbcType="CHAR" />
+  </resultMap>
+  <!-- VoResultMap -->
+  <resultMap type="com.ningpai.goods.vo.GoodsRelatedGoodsVo" id="VoResultMap">
+  	<id column="related_id" property="relatedId" jdbcType="BIGINT" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
+    <collection property="releatedGoods" column="rela_goods_id" javaType="ArrayList" ofType="com.ningpai.goods.vo.GoodsListVo"
+  		select="com.ningpai.goods.dao.GoodsMapper.queryGoodsByGoodsId"
+  	></collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    related_id, goods_id, rela_goods_id, rela_create_name, rela_create_time, rela_del_name, 
+    rela_del_time, rela_delflag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from np_goods_related
+    where related_id = #{relatedId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.util.Map" >
+    update np_goods_related set rela_delflag='1',rela_del_name=#{delName},rela_del_time=NOW()
+    where related_id = #{relatedId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ningpai.goods.bean.GoodsRelatedGoods" >
+    insert into np_goods_related (related_id, goods_id, rela_goods_id, 
+      rela_create_name, rela_create_time, rela_del_name, 
+      rela_del_time, rela_delflag)
+    values (#{relatedId,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, #{relaGoodsId,jdbcType=BIGINT}, 
+      #{relaCreateName,jdbcType=VARCHAR}, #{relaCreateTime,jdbcType=TIMESTAMP}, #{relaDelName,jdbcType=VARCHAR}, 
+      #{relaDelTime,jdbcType=TIMESTAMP}, #{relaDelflag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ningpai.goods.bean.GoodsRelatedGoods" >
+    insert into np_goods_related
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="relatedId != null" >
+        related_id,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="relaGoodsId != null" >
+        rela_goods_id,
+      </if>
+      <if test="relaCreateName != null" >
+        rela_create_name,
+      </if>
+        rela_create_time,
+      <if test="relaDelName != null" >
+        rela_del_name,
+      </if>
+      <if test="relaDelTime != null" >
+        rela_del_time,
+      </if>
+        rela_delflag,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="relatedId != null" >
+        #{relatedId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="relaGoodsId != null" >
+        #{relaGoodsId,jdbcType=BIGINT},
+      </if>
+      <if test="relaCreateName != null" >
+        #{relaCreateName,jdbcType=VARCHAR},
+      </if>
+        NOW(),
+      <if test="relaDelName != null" >
+        #{relaDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="relaDelTime != null" >
+        #{relaDelTime,jdbcType=TIMESTAMP},
+      </if>
+        '0',
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningpai.goods.bean.GoodsRelatedGoods" >
+    update np_goods_related
+    <set >
+      <if test="goodsId != null" >
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="relaGoodsId != null" >
+        rela_goods_id = #{relaGoodsId,jdbcType=BIGINT},
+      </if>
+      <if test="relaCreateName != null" >
+        rela_create_name = #{relaCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="relaCreateTime != null" >
+        rela_create_time = #{relaCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="relaDelName != null" >
+        rela_del_name = #{relaDelName,jdbcType=VARCHAR},
+      </if>
+      <if test="relaDelTime != null" >
+        rela_del_time = #{relaDelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="relaDelflag != null" >
+        rela_delflag = #{relaDelflag,jdbcType=CHAR},
+      </if>
+    </set>
+    where related_id = #{relatedId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ningpai.goods.bean.GoodsRelatedGoods" >
+    update np_goods_related
+    set goods_id = #{goodsId,jdbcType=BIGINT},
+      rela_goods_id = #{relaGoodsId,jdbcType=BIGINT},
+      rela_create_name = #{relaCreateName,jdbcType=VARCHAR},
+      rela_create_time = #{relaCreateTime,jdbcType=TIMESTAMP},
+      rela_del_name = #{relaDelName,jdbcType=VARCHAR},
+      rela_del_time = #{relaDelTime,jdbcType=TIMESTAMP},
+      rela_delflag = #{relaDelflag,jdbcType=CHAR}
+    where related_id = #{relatedId,jdbcType=BIGINT}
+  </update>
+  <!-- 根据商品ID查询所有的关联记录 -->
+  <select id="queryAllByGoodsId" parameterType="java.lang.Long" resultMap="VoResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from np_goods_related
+    where goods_id=#{goodsId} and rela_delflag='0'
+  </select>
+  <!-- 根据商品ID删除所有的关联商品记录 -->
+  <update id="delAllRelaGoodsByGoodsId" parameterType="java.util.Map">
+  	update np_goods_related set rela_delflag='1',rela_del_name=#{delName},rela_del_time=NOW()
+    where goods_id=#{goodsId}
+  </update>
+  <!-- 根据商品ID和关联的商品ID -->
+  <select id="queryByGoodsIdAndRelaGoodsIdIncludeDel" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from np_goods_related
+    where goods_id=#{goodsId} and rela_goods_id=#{relaGoodsId}
+  </select>
+  <!-- 根据商品ID和选中的关联商品ID数组删除未被选中的 -->
+  <update id="delGoodsRelaGoods" parameterType="java.util.Map">
+  	update np_goods_related set rela_delflag='1',rela_del_name=#{delName},rela_del_time=NOW()
+    where goods_id=#{goodsId}
+      <!--添加and relaGoodsIds.length>0判断 ADD BY LY 15-11-09-->
+    <if test="relaGoodsIds != null and relaGoodsIds.length>0" >
+    	and rela_goods_id not in 
+	    <foreach collection="relaGoodsIds" item="ralaGoodsId" open="(" separator="," close=")">  
+	        #{ralaGoodsId}
+	    </foreach>
+    </if>
+  </update>
+  <!--根据商品ID和商品关联ID删除关联商品-->
+  <delete id="deleteRelatedProduct" parameterType="java.util.Map" >
+      delete from np_goods_related
+        where  goods_id = #{relatedId,jdbcType=BIGINT}
+        and  rela_goods_id = #{relatedProductId,jdbcType=BIGINT}
+  </delete>
+</mapper>

@@ -1,0 +1,1 @@
+    [{"id":"1","managerId":"1","authorityId":"1","createTime":"2015-01-01 01:01:01","modTime":"2015-01-01 01:01:01","flag":"0"}]
