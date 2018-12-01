@@ -39,6 +39,21 @@ public class SysDistrict {
      */
     private String delFlag;
 
+    /**
+     *国家代码 1:中国 2:日本
+     */
+    private int countryCode;
+
+    /**
+     *英文字母排序标签
+     */
+    private String label;
+
+    /**
+     * 英文名称
+     */
+    private String englishName;
+
     public Long getDistrictId() {
         return districtId;
     }
@@ -101,5 +116,29 @@ public class SysDistrict {
 
     public void setDelFlag(String delFlag) {
         this.delFlag = delFlag;
+    }
+
+    public int getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(int countryCode) {
+        this.countryCode = countryCode;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public String getEnglishName() {
+        return englishName;
+    }
+
+    public void setEnglishName(String englishName) {
+        this.englishName = englishName;
     }
 }

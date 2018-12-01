@@ -1,26 +1,33 @@
 package com.ningpai.m.main.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.ningpai.customer.service.InsideLetterServiceMapper;
 import com.ningpai.m.main.vo.MainInfo;
 import com.ningpai.m.main.vo.MobStoreyInfo;
+import com.ningpai.m.util.AuthUtil;
 import com.ningpai.m.util.IndexStaticizeUtil;
 import com.ningpai.mobile.bean.MobHomePage;
 import com.ningpai.mobile.bean.MobStorey;
 import com.ningpai.mobile.service.MobAdverService;
+import com.ningpai.mobile.service.MobCateBarService;
 import com.ningpai.mobile.service.MobHomePageService;
 import com.ningpai.mobile.service.MobStoreyService;
 import com.ningpai.system.bean.SeoConf;
 import com.ningpai.system.mobile.bean.MobSiteBasic;
 import com.ningpai.system.mobile.service.MobSiteBasicService;
 import com.ningpai.system.service.BasicSetService;
+import com.ningpai.system.service.CityService;
 import com.ningpai.system.service.ISeoConfBiz;
 import com.ningpai.system.service.IStatisticsCodeBiz;
 import com.ningpai.temp.bean.TempToken;
 import com.ningpai.temp.service.TempTokenService;
 import com.ningpai.util.MyLogger;
+import com.ningpai.util.PageBean;
 import com.ningpai.util.xml.XmlElementUtil;
 import com.ningpai.util.xml.XmlUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
@@ -104,90 +111,131 @@ public class MobMainSiteController {
     @Resource(name = "MobSiteBasicService")
     private MobSiteBasicService mobSiteBasicService;
 
+    @Resource(name = "MobCateBarService")
+    private MobCateBarService mobCateBarService;
+
     /* 新首页业务接口 */
     @Resource(name = "MobHomePageService")
     private MobHomePageService mobHomePageService;
 
+    @Resource(name = "CityService")
+    private CityService cityService;
+    @Resource(name = "authUtil")
+    private AuthUtil authUtil;
+    @Resource(name = "insideLetterServiceMapper")
+    private InsideLetterServiceMapper insiderLetterService;
 
-    @RequestMapping("/banners")
-    public Map getBanners(){
 
-        Map response = new ConcurrentHashMap();
+    @RequestMapping(value = "/banners",produces="html/text;charset=UTF-8")
+    @ResponseBody
+    public String getBanners(HttpServletRequest request){
+
+        Map result = new ConcurrentHashMap();
 
         try{
-            response.put("code",0);
-            response.put("msg","success");
-            response.put("data",mobAdverService.selectByStoreyIdForSite(48L));
+            if(authUtil.isPassAuth(request)){
+                result.put("code",0);
+                result.put("msg","success");
+                result.put("data",mobCateBarService.selectStoreListImage("1"));
+            }else{
+                result.put("code",100);
+                result.put("msg","appcode不合法");
+            }
+
         }catch (Exception e){
-            response.put("code",-1);
-            response.put("msg","查询异常");
+            result.put("code",-1);
+            result.put("msg","查询异常");
             LOGGER.error(Arrays.asList(e.getStackTrace()).toString());
-            response.put("data",null);
+            result.put("data",null);
         }
 
-        return response;
+        return JSONObject.toJSONString(result);
     }
 
-    @RequestMapping("/travel/top5")
-    public Map getTop5Travel(){
+    @RequestMapping(value = "/travel/top5",produces="html/text;charset=UTF-8")
+    @ResponseBody
+    public String getTop5Travel(HttpServletRequest request){
 
-        Map response = new ConcurrentHashMap();
+        Map result = new ConcurrentHashMap();
 
         try{
-            response.put("code",0);
-            response.put("msg","success");
-//            response.put("data",travelService.queryCityByProvinceId(48L));
+            if(authUtil.isPassAuth(request)){
+                result.put("code",0);
+                result.put("msg","success");
+//            result.put("data",travelService.queryCityByProvinceId(48L));
+            }else{
+                result.put("code",100);
+                result.put("msg","appcode不合法");
+            }
+
         }catch (Exception e){
-            response.put("code",-1);
-            response.put("msg","查询异常");
+            result.put("code",-1);
+            result.put("msg","查询异常");
             LOGGER.error(Arrays.asList(e.getStackTrace()).toString());
-            response.put("data",null);
+            result.put("data",null);
         }
 
-        return response;
+        return JSONObject.toJSONString(result);
     }
 
 
-    @RequestMapping("/stationletter")
-    public Map getStationletter(){
+    @RequestMapping(value = "/stationletter",produces="html/text;charset=UTF-8")
+    @ResponseBody
+    public String getStationletter(HttpServletRequest request){
 
-        Map response = new ConcurrentHashMap();
+        Map result = new ConcurrentHashMap();
 
         try{
-            response.put("code",0);
-            response.put("msg","success");
-            response.put("data",cityService.queryCityByProvinceId(48L));
+            if(authUtil.isPassAuth(request)){
+                result.put("code",0);
+                result.put("msg","success");
+                PageBean pageBean = new PageBean();
+                Map<String, Object> paramMap = new ConcurrentHashMap();
+                paramMap.put("customerId",2031L);
+                result.put("data",insiderLetterService.queryInsideLetter(paramMap,pageBean));
+            }else{
+                result.put("code",100);
+                result.put("msg","appcode不合法");
+            }
+
         }catch (Exception e){
-            response.put("code",-1);
-            response.put("msg","查询异常");
+            result.put("code",-1);
+            result.put("msg","查询异常");
             LOGGER.error(Arrays.asList(e.getStackTrace()).toString());
-            response.put("data",null);
+            result.put("data",null);
         }
 
-        return response;
+        return JSONObject.toJSONString(result);
     }
 
     /**
      * 附近免税店铺
      * @return
      */
-    @RequestMapping("/shop/near/top5")
-    public Map getTop5NearShop(){
+    @RequestMapping(value = "/shop/near/top5",produces="html/text;charset=UTF-8")
+    @ResponseBody
+    public String getTop5NearShop(HttpServletRequest request){
 
-        Map response = new ConcurrentHashMap();
+        Map result = new ConcurrentHashMap();
 
         try{
-            response.put("code",0);
-            response.put("msg","success");
-            response.put("data",cityService.queryCityByProvinceId(48L));
+            if(authUtil.isPassAuth(request)){
+                result.put("code",0);
+                result.put("msg","success");
+                result.put("data",cityService.queryCityByProvinceId(48L));
+            }else{
+                result.put("code",100);
+                result.put("msg","appcode不合法");
+            }
+
         }catch (Exception e){
-            response.put("code",-1);
-            response.put("msg","查询异常");
+            result.put("code",-1);
+            result.put("msg","查询异常");
             LOGGER.error(Arrays.asList(e.getStackTrace()).toString());
-            response.put("data",null);
+            result.put("data",null);
         }
 
-        return response;
+        return JSONObject.toJSONString(result);
     }
 
 
@@ -195,66 +243,95 @@ public class MobMainSiteController {
      * 附近人气商品
      * @return
      */
-    @RequestMapping("/goods/near/top5")
-    public Map getTop5NearGoods(){
+    @RequestMapping(value = "/goods/near/top5",produces="html/text;charset=UTF-8")
+    @ResponseBody
+    public String getTop5NearGoods(HttpServletRequest request){
 
-        Map response = new ConcurrentHashMap();
+        Map result = new ConcurrentHashMap();
 
         try{
-            response.put("code",0);
-            response.put("msg","success");
-            response.put("data",cityService.queryCityByProvinceId(48L));
+
+            if(authUtil.isPassAuth(request)){
+                result.put("code",0);
+                result.put("msg","success");
+                result.put("data",cityService.queryCityByProvinceId(48L));
+            }else{
+                result.put("code",100);
+                result.put("msg","appcode不合法");
+            }
+
         }catch (Exception e){
-            response.put("code",-1);
-            response.put("msg","查询异常");
+            result.put("code",-1);
+            result.put("msg","查询异常");
             LOGGER.error(Arrays.asList(e.getStackTrace()).toString());
-            response.put("data",null);
+            result.put("data",null);
         }
 
-        return response;
+        return JSONObject.toJSONString(result);
     }
 
     /**
      * 热搜词top5
      * @return
      */
-    @RequestMapping("/search/keywords/top5")
-    public Map getTop5SearchKeywords(){
+    @RequestMapping(value = "/search/keywords/top5",produces="html/text;charset=UTF-8")
+    @ResponseBody
+    public String getTop5SearchKeywords(HttpServletRequest request){
 
-        Map response = new ConcurrentHashMap();
-
-        try{
-            response.put("code",0);
-            response.put("msg","success");
-            response.put("data",sear.queryCityByProvinceId(48L));
-        }catch (Exception e){
-            response.put("code",-1);
-            response.put("msg","查询异常");
-            LOGGER.error(Arrays.asList(e.getStackTrace()).toString());
-            response.put("data",null);
-        }
-
-        return response;
-    }
-
-    @RequestMapping("/travel/his")
-    public Map getMyHisTravel(){
-
-        Map response = new ConcurrentHashMap();
+        Map result = new ConcurrentHashMap();
 
         try{
-            response.put("code",0);
-            response.put("msg","success");
-            response.put("data",cityService.queryCityByProvinceId(48L));
+
+            if(authUtil.isPassAuth(request)){
+                result.put("code",0);
+                result.put("msg","success");
+                result.put("data",cityService.queryCityByProvinceId(48L));
+            }else{
+                result.put("code",100);
+                result.put("msg","appcode不合法");
+            }
+
+
         }catch (Exception e){
-            response.put("code",-1);
-            response.put("msg","查询异常");
+            result.put("code",-1);
+            result.put("msg","查询异常");
             LOGGER.error(Arrays.asList(e.getStackTrace()).toString());
-            response.put("data",null);
+            result.put("data",null);
         }
 
-        return response;
+        return JSONObject.toJSONString(result);
     }
+
+    @RequestMapping(value = "/travel/his",produces="html/text;charset=UTF-8")
+    @ResponseBody
+    public String getMyHisTravel(HttpServletRequest request){
+
+        Map result = new ConcurrentHashMap();
+
+        try{
+
+            if(authUtil.isPassAuth(request)){
+                result.put("code",0);
+                result.put("msg","success");
+                result.put("data",cityService.queryCityByProvinceId(48L));
+            }else{
+                result.put("code",100);
+                result.put("msg","appcode不合法");
+            }
+
+
+        }catch (Exception e){
+            result.put("code",-1);
+            result.put("msg","查询异常");
+            LOGGER.error(Arrays.asList(e.getStackTrace()).toString());
+            result.put("data",null);
+        }
+
+        return JSONObject.toJSONString(result);
+    }
+
+
+
 
     /**
      * 第三方店铺首页
@@ -262,7 +339,7 @@ public class MobMainSiteController {
      * @param request
      * @return
      */
-    @RequestMapping("/thirdStoreIndex")
+    @RequestMapping(value = "/thirdStoreIndex")
     public ModelAndView thirdStoreIndex(HttpServletRequest request, Long storeId) throws Exception {
         ModelAndView mav = new ModelAndView();
         // 获取移动版站点设置

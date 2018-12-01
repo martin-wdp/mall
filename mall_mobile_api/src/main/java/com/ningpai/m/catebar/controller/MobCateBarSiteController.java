@@ -8,12 +8,16 @@
 package com.ningpai.m.catebar.controller;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
+import com.alibaba.fastjson.JSONObject;
 import com.ningpai.m.goods.service.GoodsService;
 import com.ningpai.m.main.controller.MobMainSiteController;
+import com.ningpai.m.util.AuthUtil;
 import com.ningpai.util.MyLogger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ningpai.m.common.service.SeoService;
@@ -41,29 +45,37 @@ public class MobCateBarSiteController {
     private SeoService seoService;
     @Resource(name = "HsiteGoodsService")
     private GoodsService goodsService;
-
+    @Resource(name = "authUtil")
+    private AuthUtil authUtil;
 
     /**
      * 推荐分类
      * @return
      */
-    @RequestMapping("/cates/recommend")
-    public Map getRecommendCates(){
+    @RequestMapping(value = "/cates/recommend",produces="html/text;charset=UTF-8")
+    @ResponseBody
+    public String getRecommendCates(HttpServletRequest request){
 
-        Map response = new ConcurrentHashMap();
+        Map result = new ConcurrentHashMap();
 
         try{
-            response.put("code",0);
-            response.put("msg","success");
-            response.put("data",mobCateBarService.selectMobCateBarForMobChoose());
+            if(authUtil.isPassAuth(request)){
+                result.put("code",0);
+                result.put("msg","success");
+                result.put("data",mobCateBarService.selectMobCateBarForMobChoose());
+
+            }else{
+                result.put("code",100);
+                result.put("msg","appcode不合法");
+            }
         }catch (Exception e){
-            response.put("code",-1);
-            response.put("msg","查询异常");
+            result.put("code",-1);
+            result.put("msg","查询异常");
             LOGGER.error(Arrays.asList(e.getStackTrace()).toString());
-            response.put("data",null);
+            result.put("data",null);
         }
 
-        return response;
+        return JSONObject.toJSONString(result);
     }
 
     /**
@@ -73,20 +85,20 @@ public class MobCateBarSiteController {
 //    @RequestMapping("/cates/first")
 //    public Map getFirstCates(){
 //
-//        Map response = new ConcurrentHashMap();
+//        Map result = new ConcurrentHashMap();
 //
 //        try{
-//            response.put("code",0);
-//            response.put("msg","success");
-//            response.put("data",mobAdverService.selectByStoreyIdForSite(48L));
+//            result.put("code",0);
+//            result.put("msg","success");
+//            result.put("data",mobAdverService.selectByStoreyIdForSite(48L));
 //        }catch (Exception e){
-//            response.put("code",-1);
-//            response.put("msg","查询异常");
+//            result.put("code",-1);
+//            result.put("msg","查询异常");
 //            LOGGER.error(Arrays.asList(e.getStackTrace()).toString());
-//            response.put("data",null);
+//            result.put("data",null);
 //        }
 //
-//        return response;
+//        return result;
 //    }
 
     /**
@@ -96,20 +108,20 @@ public class MobCateBarSiteController {
 //    @RequestMapping("/cates/second")
 //    public Map getSecondCates(){
 //
-//        Map response = new ConcurrentHashMap();
+//        Map result = new ConcurrentHashMap();
 //
 //        try{
-//            response.put("code",0);
-//            response.put("msg","success");
-//            response.put("data",mobAdverService.selectByStoreyIdForSite(48L));
+//            result.put("code",0);
+//            result.put("msg","success");
+//            result.put("data",mobAdverService.selectByStoreyIdForSite(48L));
 //        }catch (Exception e){
-//            response.put("code",-1);
-//            response.put("msg","查询异常");
+//            result.put("code",-1);
+//            result.put("msg","查询异常");
 //            LOGGER.error(Arrays.asList(e.getStackTrace()).toString());
-//            response.put("data",null);
+//            result.put("data",null);
 //        }
 //
-//        return response;
+//        return result;
 //    }
 
     /**
@@ -117,22 +129,28 @@ public class MobCateBarSiteController {
      * @param catId
      * @return
      */
-    @RequestMapping("/cates/second/goods/top10")
-    public Map getTop10SecondGoods(Long catId){
+    @RequestMapping(value = "/cates/second/goods/top10",produces="html/text;charset=UTF-8")
+    @ResponseBody
+    public String getTop10SecondGoods(HttpServletRequest request,Long catId){
 
-        Map response = new ConcurrentHashMap();
+        Map result = new ConcurrentHashMap();
 
         try{
-            response.put("code",0);
-            response.put("msg","success");
-            response.put("data",goodsService.queryTopThreeNew(catId));
+            if(authUtil.isPassAuth(request)){
+                result.put("code",0);
+                result.put("msg","success");
+                result.put("data",goodsService.queryTopThreeNew(catId));
+            }else{
+                result.put("code",100);
+                result.put("msg","appcode不合法");
+            }
         }catch (Exception e){
-            response.put("code",-1);
-            response.put("msg","查询异常");
+            result.put("code",-1);
+            result.put("msg","查询异常");
             LOGGER.error(Arrays.asList(e.getStackTrace()).toString());
-            response.put("data",null);
+            result.put("data","");
         }
 
-        return response;
+        return JSONObject.toJSONString(result);
     }
 }

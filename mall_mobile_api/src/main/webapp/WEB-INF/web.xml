@@ -1,19 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
-  <display-name>qpmall_m_site</display-name>
-   <context-param> 
-		<param-name>webAppRootKey</param-name> 
-		<param-value>qpmall_m_site.root</param-value> 
-	</context-param>
-  <context-param>
-    <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:/com/ningpai/web/config/ApplicationContext.xml</param-value>
-  </context-param>
+  <display-name>mall_mobile_api</display-name>
+    <context-param>
+        <param-name>webAppRootKey</param-name>
+        <param-value>mall_mobile_api.root</param-value>
+    </context-param>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:/com/ningpai/web/config/ApplicationContext.xml</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>log4jConfigLocation</param-name>
+        <param-value>classpath:/com/ningpai/web/config/log4j.properties</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>log4jRefreshInterval</param-name>
+        <param-value>60000</param-value>
+    </context-param>
   
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
-
+  <!-- 自动注入请求上下文 -->
+  <listener>
+    <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+  </listener>
+  <listener>
+    <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+  </listener>
 
     <filter>
         <filter-name>DruidWebStatFilter</filter-name>
@@ -43,6 +59,8 @@
         <filter-name>DruidWebStatFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+
     <!-- 配置 Druid 监控信息显示页面 -->
     <servlet>
         <servlet-name>DruidStatView</servlet-name>
@@ -68,11 +86,22 @@
         <url-pattern>/druid/*</url-pattern>
     </servlet-mapping>
 
-    <!-- 自动注入请求上下文 -->
-  <listener>
-        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
- </listener>
- 
+    <!-- 配置 servlet拦截器 -->
+    <servlet>
+        <servlet-name>dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:/com/ningpai/web/config/dispatcher-servlet.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>dispatcher</servlet-name>
+        <url-pattern>*.htm</url-pattern>
+    </servlet-mapping>
+
+  <!-- 重定向过滤器 -->
   <filter> 
 	    <filter-name>UrlRewriteFilter</filter-name> 
 	    <filter-class> 
@@ -83,6 +112,9 @@
 	   <filter-name>UrlRewriteFilter</filter-name> 
 	   <url-pattern>/*</url-pattern> 
   </filter-mapping>
+
+
+  <!-- 中文过滤器 -->
   <filter>
     <filter-name>encodingFilter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -91,46 +123,15 @@
       <param-value>UTF-8</param-value>
     </init-param>
   </filter>
-  
   <filter-mapping>
     <filter-name>encodingFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
   
-  <context-param>
-    <param-name>log4jConfigLocation</param-name>
-    <param-value>classpath:/com/ningpai/web/config/log4j.properties</param-value>
-  </context-param>
-  
-  <context-param>
-    <param-name>log4jRefreshInterval</param-name>
-    <param-value>60000</param-value>
-  </context-param>
-  
-  <listener>
-    <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
-  </listener>
-  
-  <servlet>
-    <servlet-name>dispatcher</servlet-name>
-    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    <init-param>
-      <param-name>contextConfigLocation</param-name>
-      <param-value>classpath:/com/ningpai/web/config/dispatcher-servlet.xml</param-value>
-    </init-param>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>dispatcher</servlet-name>
-    <url-pattern>*.htm</url-pattern>
-  </servlet-mapping>
-  
 
   <welcome-file-list>
   	<welcome-file>initMain.htm</welcome-file>
   </welcome-file-list>
-
 
 
 </web-app>

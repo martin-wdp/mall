@@ -24,7 +24,7 @@ public interface CityService {
     /**
      * 保存城市信息
      * 
-     * @param city
+     * @param cityName
      *            需要保存的城市实体
      * @return 返回插入的行数
      */

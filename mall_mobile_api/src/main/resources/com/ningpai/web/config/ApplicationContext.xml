@@ -19,6 +19,7 @@
 						
 	<import resource="spring-jcaptcha.xml" />
     <!-- jdbc.properties文件路径,es-hosts配置  -->
+    <context:property-placeholder ignore-unresolvable="true" location="classpath:/com/ningpai/web/config/auth.properties" />
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>

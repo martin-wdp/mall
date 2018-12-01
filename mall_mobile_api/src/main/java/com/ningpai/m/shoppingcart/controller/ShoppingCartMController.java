@@ -5,12 +5,19 @@
 package com.ningpai.m.shoppingcart.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ningpai.m.util.AuthUtil;
+import com.ningpai.marketing.bean.MarketingGroup;
+import com.ningpai.util.MyLogger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,8 +39,13 @@ import com.ningpai.util.ShoppingCartConstants;
  *
  */
 @Controller
+@RequestMapping("/cart")
 public class ShoppingCartMController {
 
+    /**
+     * 日志
+     * */
+    public final MyLogger LOGGER = new MyLogger(ShoppingCartMController.class);
     @Resource(name = "ShoppingCartService")
     private ShoppingCartService shoppingCartService;
 
@@ -43,26 +55,46 @@ public class ShoppingCartMController {
     @Resource(name = "SeoService")
     private SeoService seoService;
 
+    @Resource(name = "authUtil")
+    private AuthUtil authUtil;
+
     /**
-     * 查询购物车
-     * 
-     * @return ModelAndView
+     *
+     * @param request
+     * @param pageBean
+     * @param response
+     * @return
      */
-    @RequestMapping("myshoppingmcart")
-    public ModelAndView shoppingCart(HttpServletRequest request, PageBean pageBean, HttpServletResponse response) {
-        ShoppingCartWareUtil wareUtil = null;
-        ModelAndView mav = null;
-        request.getSession().setAttribute("tok", UUID.randomUUID().toString());
+    @RequestMapping("/goodslist")
+    @ResponseBody
+    public Map shoppingCart(HttpServletRequest request, PageBean pageBean, HttpServletResponse response) {
+        Map result = new ConcurrentHashMap();
         try {
-            // 获取地址信息
-            wareUtil = shoppingCartService.selectPNameByParam(request);
-            mav = new ModelAndView(ShoppingCartConstants.SHOPPINGMCARTLIST).addObject("pb", shoppingCartService.selectShoppingCart(request, wareUtil, pageBean, response))
-                    .addObject("pro", marketingService.selectAll()).addObject("sx", request.getSession().getAttribute("tok").toString());
-            return seoService.getCurrSeo(mav);
-        } finally {
-            wareUtil = null;
-            mav = null;
+            if(authUtil.isPassAuth(request)){
+                request.getSession().setAttribute("tok", UUID.randomUUID().toString());
+                 // 获取地址信息
+                ShoppingCartWareUtil wareUtil = shoppingCartService.selectPNameByParam(request);
+                PageBean pageBean1 = shoppingCartService.selectShoppingCart(request, wareUtil, pageBean, response);
+                List<MarketingGroup> marketingGroups =  marketingService.selectAll();
+
+                result.put("code",0);
+                result.put("msg","success");
+                result.put("data",pageBean1);
+             }else{
+                result.put("code",-1);
+                result.put("msg","appcode不合法");
+                result.put("data","");
+            }
+        }catch (Exception e){
+            result.put("code",200);
+            result.put("msg","查询异常");
+            e.printStackTrace();
+            LOGGER.error(Arrays.asList(e.getStackTrace()).toString());
+            result.put("data","");
         }
+
+        return result;
+
     }
 
     /**

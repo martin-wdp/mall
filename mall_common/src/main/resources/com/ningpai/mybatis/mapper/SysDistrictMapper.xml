@@ -9,9 +9,12 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
     <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="country_code" property="countryCode" jdbcType="TINYINT" />
+    <result column="label" property="label" jdbcType="VARCHAR" />
+    <result column="english_name" property="englishName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    district_id, district_name, district_sort, city_id, create_time, modify_time, del_flag
+    district_id, district_name, district_sort, city_id, create_time, modify_time, del_flag,country_code,label,english_name
   </sql>
   
   <!-- 查询区县列表 -->

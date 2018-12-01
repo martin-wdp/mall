@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
-        "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+		"http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
 <urlrewrite>
 	<!--<rule>
 		<name>隐藏 URL SessionID </name>
@@ -22,6 +22,92 @@
 		<from>^/login(.html)?$</from>
 		<to type="forward">/customer/login.htm</to>
 	</rule>
+
+
+	<!-- 接口拦截 -->
+	<rule>
+		<note>
+			首页banners
+		</note>
+		<from>^/mapi/home/banners(.htm)?$</from>
+		<to type="forward">/mapi/home/banners.htm</to>
+	</rule>
+	<rule>
+		<note>
+			首页travel top5
+		</note>
+		<from>^/mapi/home/travel/top5(.htm)?$</from>
+		<to type="forward">/mapi/home/travel/top5.htm</to>
+	</rule>
+	<rule>
+		<note>
+			首页stationletter
+		</note>
+		<from>^/mapi/home/stationletter(.htm)?$</from>
+		<to type="forward">/mapi/home/stationletter.htm</to>
+	</rule>
+	<rule>
+		<note>
+			首页附近商铺
+		</note>
+		<from>^/mapi/home/shop/near/top5(.htm)?$</from>
+		<to type="forward">/mapi/home/shop/near/top5.htm</to>
+	</rule>
+	<rule>
+		<note>
+			首页附近人气商品
+		</note>
+		<from>^/mapi/home/goods/near/top5(.htm)?$</from>
+		<to type="forward">/mapi/home/goods/near/top5.htm</to>
+	</rule>
+	<rule>
+		<note>
+			首页热搜词top5
+		</note>
+		<from>^/mapi/home/search/keywords/top5(.htm)?$</from>
+		<to type="forward">/mapi/home/search/keywords/top5.htm</to>
+	</rule>
+	<rule>
+		<note>
+			我的行程
+		</note>
+		<from>^/mapi/home/travel/his(.htm)?$</from>
+		<to type="forward">/mapi/home/travel/his.htm</to>
+	</rule>
+
+	<rule>
+		<note>
+			推荐分类
+		</note>
+		<from>^/mapi/cates/recommend(.htm)?$</from>
+		<to type="forward">/mapi/home/cates/recommend.htm</to>
+	</rule>
+	<rule>
+		<note>
+			当前分类下推荐的商品
+		</note>
+		<from>^/mapi/cates/second/goods/top10(.htm)?$</from>
+		<to type="forward">/mapi/home/cates/second/goods/top10.htm</to>
+	</rule>
+	<rule>
+		<note>
+			获取省份
+		</note>
+		<from>^/mapi/pcd/citys(.htm)?$</from>
+		<to type="forward">/mapi/pcd/citys.htm</to>
+	</rule>
+	<rule>
+		<note>
+			获取县区
+		</note>
+		<from>^/mapi/pcd/districts(.htm)?$</from>
+		<to type="forward">/mapi/pcd/districts.htm</to>
+	</rule>
+
+
+
+
+
 	<rule>
 		<note>
 			注册
@@ -246,149 +332,149 @@
 	</rule>
 	<rule>
 		<note>
-        	立即支付
-        </note> 
-        <from>^/orderdetailpay-(\d+)((.html)?)$</from>
-        <to type="forward">/orderdetailpay.htm?orderId=$1</to> 
+			立即支付
+		</note>
+		<from>^/orderdetailpay-(\d+)((.html)?)$</from>
+		<to type="forward">/orderdetailpay.htm?orderId=$1</to>
 	</rule>
-	
-	<rule>
-		<note>
-        	多人代付
-        </note> 
-        <from>^/otherpay-(\d+)((.html)?)$</from>
-        <to type="forward">/otherpaypromptly.htm?orderId=$1</to> 
-	</rule>
-	
-	<rule>
-		<note>
-        	多人代付2
-        </note> 
-        <from>^/gomultipay-(\d+)((.html)?)$</from>
-        <to type="forward">/gomultipay.htm?orderId=$1</to> 
-	</rule>
-	
-	<rule>
-		<note>
-        	单人代付
-        </note> 
-        <from>^/otherpaysingle-(\d+)((.html)?)$</from>
-        <to type="forward">/otherPay.htm?orderId=$1</to> 
-	</rule>
-	
-	<rule>
-		<note>
-        	微信告警接口
-        </note> 
-        <from>^/wxerr((.html)?)$</from>
-        <to type="forward">/wxerr.htm</to> 
-	</rule>
-	<rule>
-		<note>
-        	微信维权接口
-        </note> 
-        <from>^/help((.html)?)$</from>
-        <to type="forward">/help.htm</to> 
-	</rule>
-	<rule> 
-        <note>
-        	删除购物车商品
-        </note> 
-        <from>^/delshoppingcartbyid/(\d+)-(\w+)$</from> 
-        <to type="forward">/delshoppingcartbyid.htm?shoppingCartId=$1&amp;goodsInfoId=$2</to> 
-    </rule>
-    <rule> 
-        <note>
-        	文章列表
-        </note> 
-        <from>^/inforlist((/)|(.html))?$</from> 
-        <to type="forward">/queryMobInfoList.htm</to> 
-    </rule>
-    <rule> 
-        <note>
-        	文章列表
-        </note> 
-        <from>^/inforlist/(\d+)(.html)?$</from> 
-        <to type="forward">/queryMobInfoList.htm?pageNo=$1</to> 
-    </rule>
-    <rule> 
-        <note>
-        	文章详情
-        </note> 
-        <from>^/infordetail/(\d+)(.html)?$</from> 
-        <to type="forward">/showMobInfo.htm?infoId=$1</to> 
-    </rule>
-    
-    <rule> 
-        <note>
-            咨询报价
-        </note> 
-        <from>^/xqlReg((.html)?)$</from>
-        <to type="forward">/consultMoney.htm</to>
-    </rule>
 
-    <rule>
-        <note>
-            店铺街
-        </note>
-        <from>^/storeliststreet(.html)?$</from>
-        <to type="forward">/storeliststreet.htm</to>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-    </rule>
 	<rule>
-        <note>
-            我的账户
-        </note>
-        <from>^/myaccount(.html)?$</from>
-        <to type="forward">/myaccount.htm</to>
-    </rule>
-    <rule>
-        <note>
-            跳到修改昵称页面
-        </note>
-        <from>^/changenickname(.html)?$</from>
-        <to type="forward">/changenickname.htm</to>
-    </rule>
-    <rule>
-        <note>
-            修改昵称
-        </note>
-        <from>^/savenickname(.html)?$</from>
-        <to type="forward">/savenickname.htm</to>
-    </rule>
-    <rule>
-        <note>
-            跳到修改姓名页面
-        </note>
-        <from>^/changename(.html)?$</from>
-        <to type="forward">/changename.htm</to>
-    </rule>
-    <rule>
-        <note>
-            修改姓名
-        </note>
-        <from>^/savename(.html)?$</from>
-        <to type="forward">/savename.htm</to>
-    </rule>
-    <rule>
-        <note>
-            修改性别
-        </note>
-        <from>^/savename(.html)?$</from>
-        <to type="forward">/savename.htm</to>
-    </rule>
+		<note>
+			多人代付
+		</note>
+		<from>^/otherpay-(\d+)((.html)?)$</from>
+		<to type="forward">/otherpaypromptly.htm?orderId=$1</to>
+	</rule>
+
 	<rule>
-        <note>
-        	我的积分
-        </note> 
-        <from>^/customer/myintegral-([0-9]+)(.html)?$</from> 
-        <to type="forward">/myintegral.htm?type=$1&amp;pageNo=1&amp;date=1</to> 
-    </rule>
-    
+		<note>
+			多人代付2
+		</note>
+		<from>^/gomultipay-(\d+)((.html)?)$</from>
+		<to type="forward">/gomultipay.htm?orderId=$1</to>
+	</rule>
+
 	<rule>
-        <note>
-        	我的积分
-        </note> 
-        <from>^/customer/myintegral(.html)?$</from> 
-        <to type="forward">/myintegral.htm?pageNo=1&amp;date=1</to> 
-    </rule>
+		<note>
+			单人代付
+		</note>
+		<from>^/otherpaysingle-(\d+)((.html)?)$</from>
+		<to type="forward">/otherPay.htm?orderId=$1</to>
+	</rule>
+
+	<rule>
+		<note>
+			微信告警接口
+		</note>
+		<from>^/wxerr((.html)?)$</from>
+		<to type="forward">/wxerr.htm</to>
+	</rule>
+	<rule>
+		<note>
+			微信维权接口
+		</note>
+		<from>^/help((.html)?)$</from>
+		<to type="forward">/help.htm</to>
+	</rule>
+	<rule>
+		<note>
+			删除购物车商品
+		</note>
+		<from>^/delshoppingcartbyid/(\d+)-(\w+)$</from>
+		<to type="forward">/delshoppingcartbyid.htm?shoppingCartId=$1&amp;goodsInfoId=$2</to>
+	</rule>
+	<rule>
+		<note>
+			文章列表
+		</note>
+		<from>^/inforlist((/)|(.html))?$</from>
+		<to type="forward">/queryMobInfoList.htm</to>
+	</rule>
+	<rule>
+		<note>
+			文章列表
+		</note>
+		<from>^/inforlist/(\d+)(.html)?$</from>
+		<to type="forward">/queryMobInfoList.htm?pageNo=$1</to>
+	</rule>
+	<rule>
+		<note>
+			文章详情
+		</note>
+		<from>^/infordetail/(\d+)(.html)?$</from>
+		<to type="forward">/showMobInfo.htm?infoId=$1</to>
+	</rule>
+
+	<rule>
+		<note>
+			咨询报价
+		</note>
+		<from>^/xqlReg((.html)?)$</from>
+		<to type="forward">/consultMoney.htm</to>
+	</rule>
+
+	<rule>
+		<note>
+			店铺街
+		</note>
+		<from>^/storeliststreet(.html)?$</from>
+		<to type="forward">/storeliststreet.htm</to>
+	</rule>
+	<rule>
+		<note>
+			我的账户
+		</note>
+		<from>^/myaccount(.html)?$</from>
+		<to type="forward">/myaccount.htm</to>
+	</rule>
+	<rule>
+		<note>
+			跳到修改昵称页面
+		</note>
+		<from>^/changenickname(.html)?$</from>
+		<to type="forward">/changenickname.htm</to>
+	</rule>
+	<rule>
+		<note>
+			修改昵称
+		</note>
+		<from>^/savenickname(.html)?$</from>
+		<to type="forward">/savenickname.htm</to>
+	</rule>
+	<rule>
+		<note>
+			跳到修改姓名页面
+		</note>
+		<from>^/changename(.html)?$</from>
+		<to type="forward">/changename.htm</to>
+	</rule>
+	<rule>
+		<note>
+			修改姓名
+		</note>
+		<from>^/savename(.html)?$</from>
+		<to type="forward">/savename.htm</to>
+	</rule>
+	<rule>
+		<note>
+			修改性别
+		</note>
+		<from>^/savename(.html)?$</from>
+		<to type="forward">/savename.htm</to>
+	</rule>
+	<rule>
+		<note>
+			我的积分
+		</note>
+		<from>^/customer/myintegral-([0-9]+)(.html)?$</from>
+		<to type="forward">/myintegral.htm?type=$1&amp;pageNo=1&amp;date=1</to>
+	</rule>
+
+	<rule>
+		<note>
+			我的积分
+		</note>
+		<from>^/customer/myintegral(.html)?$</from>
+		<to type="forward">/myintegral.htm?pageNo=1&amp;date=1</to>
+	</rule>
 </urlrewrite> 

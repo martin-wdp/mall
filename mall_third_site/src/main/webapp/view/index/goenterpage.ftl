@@ -23,16 +23,16 @@
                     <div class="user-info clearfix">
                         <span class="avatar" style="background-image:url(../images/avatar.png);"></span>
                         <div class="user-info-content">
-                            <strong class="user-name"><#if objectMap.customer??>${objectMap.customer.customerNickname}<#else></#if></strong>
+                            <strong class="user-name"><#if objectMap.customer??>${objectMap.customer.customerNickname!!}<#else>${objectMap.customer.customerUsername!!}</#if></strong>
                             <p class="extra-info">
-                                <span>账号：<#if objectMap.customer??>${objectMap.customer.customerUsername}<#else></#if></span>
+                                <span>账号：<#if objectMap.customer??>${objectMap.customer.customerUsername!!}<#else></#if></span>
                             <#--<a href="javascript:;">设置</a>-->
                             </p>
                             <div class="store-operation">
                             <#if objectMap.status??>
                                 <#if (objectMap.status==0||objectMap.status==3)>
                                     <a href="showprotocol.html" >创建新店铺</a>
-                                </#if>
+                                </#if>`
                             </#if>
                             </div>
                         </div>

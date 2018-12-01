@@ -9,6 +9,9 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
     <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="country_code" property="countryCode" jdbcType="VARCHAR" />
+    <result column="label" property="label" jdbcType="VARCHAR" />
+    <result column="english_name" property="englishName" jdbcType="VARCHAR" />
   </resultMap>
   <!-- voResultMap -->
   <resultMap type="com.ningpai.system.vo.CityVo" id="voResultMap">
@@ -19,6 +22,9 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
     <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="country_code" property="countryCode" jdbcType="VARCHAR" />
+    <result column="label" property="label" jdbcType="VARCHAR" />
+    <result column="english_name" property="englishName" jdbcType="VARCHAR" />
     <!-- <collection property="districtvos" column="city_id" javaType="ArrayList"
              ofType="com.ningpai.system.vo.DistrictVo" select="com.ningpai.system.dao.DistrictMapper.queryDistrictListByCityId"></collection> -->
    </resultMap>
@@ -31,6 +37,9 @@
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
         <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
         <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+        <result column="country_code" property="countryCode" jdbcType="VARCHAR" />
+        <result column="label" property="label" jdbcType="VARCHAR" />
+        <result column="english_name" property="englishName" jdbcType="VARCHAR" />
         <collection property="districtvos" column="city_id" javaType="ArrayList"
                     ofType="com.ningpai.system.vo.DistrictVo" select="com.ningpai.system.dao.DistrictMapper.queryDistrictListByCityIdNew"></collection>
     </resultMap>
@@ -43,7 +52,7 @@
   	<result column="street_name" property="streetName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    city_id, city_name,city_sort, province_id, create_time, modify_time, del_flag
+    city_id, city_name,city_sort, province_id, create_time, modify_time, del_flag,country_code,label,english_name
   </sql>
   <!-- 根据主键查询 -->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >

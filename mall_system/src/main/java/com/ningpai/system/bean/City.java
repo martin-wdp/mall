@@ -39,6 +39,21 @@ public class City {
      */
     private String delFlag;
 
+    /**
+     *国家代码 1:中国 2:日本
+     */
+    private String countryCode;
+
+    /**
+     *英文字母排序标签
+     */
+    private String lable;
+
+    /**
+     * 英文名称
+     */
+    private String englishName;
+
     public Long getCityId() {
         return cityId;
     }
@@ -125,4 +140,27 @@ public class City {
         this.citySort = citySort;
     }
 
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+
+    public String getLable() {
+        return lable;
+    }
+
+    public void setLable(String lable) {
+        this.lable = lable;
+    }
+
+    public String getEnglishName() {
+        return englishName;
+    }
+
+    public void setEnglishName(String englishName) {
+        this.englishName = englishName;
+    }
 }
